@@ -40,8 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonValueType.cs" />
     <Compile Include="FloatValueType.cs" />
+    <Compile Include="HumanFriendlyNameAttribute.cs" />
     <Compile Include="IAction.cs" />
+    <Compile Include="ImageValueType.cs" />
+    <Compile Include="InfoValueType.cs" />
+    <Compile Include="OnlyExecuteAttribute.cs" />
+    <Compile Include="OnlyGetValueAttribute.cs" />
+    <Compile Include="ReflectionHelper.cs" />
+    <Compile Include="StateValueType.cs" />
     <Compile Include="ToggleValueType.cs" />
     <Compile Include="ValueType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

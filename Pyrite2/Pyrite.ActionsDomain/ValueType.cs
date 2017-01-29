@@ -4,7 +4,7 @@ namespace Pyrite.ActionsDomain
 {
     public abstract class ValueType
     {
-        private string[] _acceptedValues;
+        protected string[] _acceptedValues;
         public string[] AcceptedValues {
             get {
                 return _acceptedValues;

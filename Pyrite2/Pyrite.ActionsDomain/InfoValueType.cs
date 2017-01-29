@@ -6,19 +6,20 @@ using System.Threading.Tasks;
 
 namespace Pyrite.ActionsDomain
 {
-    [HumanFriendlyName("Переключатель")]
-    public class ToggleValueType: ValueType
+    [OnlyGetValue]
+    [HumanFriendlyName("Информация")]
+    public class InfoValueType : ValueType
     {
-        public ToggleValueType()
+        public InfoValueType()
         {
-            _acceptedValues = new string[] { "ON", "OFF" };
+            _acceptedValues = new[] { "INFO" };
         }
 
         public override string HumanFriendlyName
         {
             get
             {
-                return "Переключатель";
+                return "Информация";
             }
         }
     }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pyrite2
+namespace Pyrite.ActionsDomain
 {
-    public class Class1
+    public class OnlyExecuteAttribute: Attribute
     {
     }
 }

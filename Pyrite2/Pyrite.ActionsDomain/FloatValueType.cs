@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace Pyrite.ActionsDomain
 {
+    [HumanFriendlyName("Число")]
     public class FloatValueType: ValueType
     {
+        public FloatValueType()
+        {
+            base.AcceptedValues = new string[] { int.MinValue.ToString(), int.MaxValue.ToString() };
+        }
+
         public override bool CanBeModified
         {
             get
@@ -21,6 +27,14 @@ namespace Pyrite.ActionsDomain
             get
             {
                 return true;
+            }
+        }
+
+        public override string HumanFriendlyName
+        {
+            get
+            {
+                return "Число";
             }
         }
     }
