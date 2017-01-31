@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.ActionsDomain", "Pyr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Tests", "Pyrite.Tests\Pyrite.Tests.csproj", "{9F3DE701-C654-41EE-A055-AF50364D308A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.MainDomain", "Pyrite.MainDomain\Pyrite.MainDomain.csproj", "{BFE566B1-16C3-45E9-A7D6-6140E5B4B6D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9F3DE701-C654-41EE-A055-AF50364D308A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F3DE701-C654-41EE-A055-AF50364D308A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F3DE701-C654-41EE-A055-AF50364D308A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFE566B1-16C3-45E9-A7D6-6140E5B4B6D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFE566B1-16C3-45E9-A7D6-6140E5B4B6D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFE566B1-16C3-45E9-A7D6-6140E5B4B6D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFE566B1-16C3-45E9-A7D6-6140E5B4B6D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
