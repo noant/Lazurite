@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BFE566B1-16C3-45E9-A7D6-6140E5B4B6D3}</ProjectGuid>
+    <ProjectGuid>{B2A13BB5-F6BE-44FC-8615-65BEB6C7D702}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pyrite.MainDomain</RootNamespace>
-    <AssemblyName>Pyrite.MainDomain</AssemblyName>
+    <RootNamespace>Pyrite.IOC</RootNamespace>
+    <AssemblyName>Pyrite.IOC</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,26 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ScenarioBase.cs" />
+    <Compile Include="SingletonResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Pyrite.ActionsDomain\Pyrite.ActionsDomain.csproj">
-      <Project>{e2d9eb49-eeda-4c19-a784-e4e6523d5118}</Project>
-      <Name>Pyrite.ActionsDomain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyrite.Data\Pyrite.Data.csproj">
-      <Project>{9cb9ace4-f6c0-4445-a555-d82530f5dd93}</Project>
-      <Name>Pyrite.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyrite.Exceptions\Pyrite.Exceptions.csproj">
-      <Project>{570389b3-62b6-4a3c-88e6-54088ccc6746}</Project>
-      <Name>Pyrite.Exceptions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyrite.IOC\Pyrite.IOC.csproj">
-      <Project>{b2a13bb5-f6be-44fc-8615-65beb6c7d702}</Project>
-      <Name>Pyrite.IOC</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
