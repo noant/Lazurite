@@ -12,13 +12,13 @@ namespace Pyrite.Ex
     public abstract class ScenarioBase
     {
         public readonly IExceptionsHandler ExceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
-        public ISavior Savior { get; private set; }
+        public readonly ISavior Savior = Singleton.Resolve<ISavior>();
         private List<ScenarioStateChangedEvent> _events = new List<ScenarioStateChangedEvent>();
 
         /// <summary>
         /// Scenario id
         /// </summary>
-        public string Id { get; private set; } //guid
+        public string Id { get; set; } //guid
 
         /// <summary>
         /// Type of returning value
@@ -77,6 +77,14 @@ namespace Pyrite.Ex
                 if (@event.OnlyOnce)
                     _events.Remove(@event);
             }
+        }
+
+        /// <summary>
+        /// Save by ISavior
+        /// </summary>
+        public void Save()
+        {
+            Savior.Set(this.Id, this);
         }
 
         private struct ScenarioStateChangedEvent
