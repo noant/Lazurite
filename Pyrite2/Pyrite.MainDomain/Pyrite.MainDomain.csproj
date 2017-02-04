@@ -40,10 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IClientFactory.cs" />
+    <Compile Include="IServer.cs" />
     <Compile Include="ScenarioBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScenarioPackage.cs" />
     <Compile Include="SecuritySettingsBase.cs" />
     <Compile Include="UserBase.cs" />
+    <Compile Include="UserGroupBase.cs" />
+    <Compile Include="VisualSettingsBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pyrite.ActionsDomain\Pyrite.ActionsDomain.csproj">

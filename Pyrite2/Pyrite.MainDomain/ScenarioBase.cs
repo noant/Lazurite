@@ -7,12 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pyrite.Ex
+namespace Pyrite.MainDomain
 {
     public abstract class ScenarioBase
     {
-        public readonly IExceptionsHandler ExceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
-        public readonly ISavior Savior = Singleton.Resolve<ISavior>();
         private List<ScenarioStateChangedEvent> _events = new List<ScenarioStateChangedEvent>();
 
         /// <summary>
@@ -26,6 +24,11 @@ namespace Pyrite.Ex
         public ValueType ValueType { get; set; }
 
         /// <summary>
+        /// Security settings
+        /// </summary>
+        public SecuritySettingsBase SecuritySettings { get; set; }
+
+        /// <summary>
         /// Time when LastValue was changed last time
         /// </summary>
         public DateTime DateTimeScenarioChanged { get; private set; }
@@ -35,17 +38,8 @@ namespace Pyrite.Ex
         /// </summary>
         public string LastValue { get; private set; }
 
-        public abstract void ExecuteBase(string param);
-
-        /// <summary>
-        /// Begin execute scenario
-        /// </summary>
-        /// <param name="param"></param>
-        public void Execute(string param)
-        {
-            ExceptionsHandler.Handle(this, () => ExecuteBase(param));
-        }
-
+        public abstract void Execute(string param);
+        
         /// <summary>
         /// Set event on state changed
         /// </summary>
@@ -78,15 +72,7 @@ namespace Pyrite.Ex
                     _events.Remove(@event);
             }
         }
-
-        /// <summary>
-        /// Save by ISavior
-        /// </summary>
-        public void Save()
-        {
-            Savior.Set(this.Id, this);
-        }
-
+        
         private struct ScenarioStateChangedEvent
         {
             public ScenarioStateChangedEvent(bool onlyOnce, Action<ScenarioBase> action)
