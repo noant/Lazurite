@@ -1,5 +1,4 @@
-﻿using Pyrite.Data;
-using Pyrite.Exceptions;
+﻿using Pyrite.Exceptions;
 using Pyrite.IOC;
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,8 @@ namespace Pyrite.MainDomain
     public abstract class ScenarioBase
     {
         private List<ScenarioStateChangedEvent> _events = new List<ScenarioStateChangedEvent>();
+
+        private readonly IExceptionsHandler _exceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
 
         /// <summary>
         /// Scenario id
@@ -67,7 +68,7 @@ namespace Pyrite.MainDomain
             for (int i = 0; i <= _events.Count; i++)
             {
                 var @event = _events[i];
-                ExceptionsHandler.Handle(this, ()=> @event.Action(this));
+                _exceptionsHandler.Handle(this, ()=> @event.Action(this));
                 if (@event.OnlyOnce)
                     _events.Remove(@event);
             }

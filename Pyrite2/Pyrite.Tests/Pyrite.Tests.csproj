@@ -54,16 +54,6 @@
     <Compile Include="ReflectionHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Pyrite.ActionsDomain\Pyrite.ActionsDomain.csproj">
-      <Project>{e2d9eb49-eeda-4c19-a784-e4e6523d5118}</Project>
-      <Name>Pyrite.ActionsDomain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyrite.IOC\Pyrite.IOC.csproj">
-      <Project>{b2a13bb5-f6be-44fc-8615-65beb6c7d702}</Project>
-      <Name>Pyrite.IOC</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

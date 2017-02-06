@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // Общие сведения о сборке определяются следующим 
 // набором атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные с этой сборкой.
-[assembly: AssemblyTitle("Pyrite.ActionsDomain")]
+[assembly: AssemblyTitle("Pyrite.CoreActions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Pyrite.ActionsDomain")]
+[assembly: AssemblyProduct("Pyrite.CoreActions")]
 [assembly: AssemblyCopyright("©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
