@@ -54,6 +54,32 @@
     <Compile Include="ReflectionHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pyrite.ActionsDomain\Pyrite.ActionsDomain.csproj">
+      <Project>{e6be3954-3d6f-447a-91bf-04d892a1c025}</Project>
+      <Name>Pyrite.ActionsDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.CoreActions\Pyrite.CoreActions.csproj">
+      <Project>{cb9ec852-4c16-4a34-98ab-ec569c35398c}</Project>
+      <Name>Pyrite.CoreActions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Data\Pyrite.Data.csproj">
+      <Project>{47c6bac6-34d8-4013-9739-2c0f6dcb6ffa}</Project>
+      <Name>Pyrite.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Exceptions\Pyrite.Exceptions.csproj">
+      <Project>{1f4412d0-f16d-4d36-a28d-cb52c9732cde}</Project>
+      <Name>Pyrite.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.IOC\Pyrite.IOC.csproj">
+      <Project>{a002f2fb-6791-46a2-9061-38bbe59e1618}</Project>
+      <Name>Pyrite.IOC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.MainDomain\Pyrite.MainDomain.csproj">
+      <Project>{dcd8e6af-a435-4556-ad74-84444b1dd816}</Project>
+      <Name>Pyrite.MainDomain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

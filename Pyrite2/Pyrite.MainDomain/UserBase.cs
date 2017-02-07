@@ -1,7 +1,4 @@
-﻿using Pyrite.Data;
-using Pyrite.IOC;
-
-namespace Pyrite.MainDomain
+﻿namespace Pyrite.MainDomain
 {
     public class UserBase
     {

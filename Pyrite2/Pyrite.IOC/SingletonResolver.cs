@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,8 @@ namespace Pyrite.IOC
 
         public static T Resolve<T>()
         {
-            return (T)_object.Single(x => x.GetType().Equals(typeof(T)) || typeof(T).IsAssignableFrom(x.GetType()));
+            var typeInfo = typeof(T).GetTypeInfo();
+            return (T)_object.Single(x => x.GetType().Equals(typeof(T)) || typeInfo.IsAssignableFrom(x.GetType().GetTypeInfo()));
         }
     }
 }

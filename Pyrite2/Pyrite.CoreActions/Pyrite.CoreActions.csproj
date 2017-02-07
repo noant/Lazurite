@@ -35,8 +35,23 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\Pyrite.ActionsDomain\Pyrite.ActionsDomain.csproj">
+      <Project>{e6be3954-3d6f-447a-91bf-04d892a1c025}</Project>
+      <Name>Pyrite.ActionsDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.IOC\Pyrite.IOC.csproj">
+      <Project>{a002f2fb-6791-46a2-9061-38bbe59e1618}</Project>
+      <Name>Pyrite.IOC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.MainDomain\Pyrite.MainDomain.csproj">
+      <Project>{dcd8e6af-a435-4556-ad74-84444b1dd816}</Project>
+      <Name>Pyrite.MainDomain</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoreActions\ICoreAction.cs" />
+    <Compile Include="CoreActions\RunExistingScenarioAction.cs" />
+    <Compile Include="IMultipleAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
