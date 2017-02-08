@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Pyrite.MainDomain
@@ -12,6 +13,7 @@ namespace Pyrite.MainDomain
     {
         private List<ScenarioStateChangedEvent> _events = new List<ScenarioStateChangedEvent>();
 
+        private Task _executionTask;
         private readonly IExceptionsHandler _exceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
 
         /// <summary>
@@ -38,6 +40,13 @@ namespace Pyrite.MainDomain
         /// Last result of scenarion executing
         /// </summary>
         public string LastValue { get; private set; }
+
+        public void ExecuteAsync(string param)
+        {
+            if (_executionTask != null && !_executionTask.IsCompleted)
+                _executionTask.A
+            new Task(() => Execute(param));
+        }
 
         public abstract void Execute(string param);
         

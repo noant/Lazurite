@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="CoreActions\ICoreAction.cs" />
     <Compile Include="CoreActions\RunExistingScenarioAction.cs" />
+    <Compile Include="CoreActions\SetReturnValueAction.cs" />
     <Compile Include="IMultipleAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
