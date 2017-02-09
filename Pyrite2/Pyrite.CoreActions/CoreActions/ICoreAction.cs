@@ -10,6 +10,6 @@ namespace Pyrite.CoreActions.CoreActions
     public interface ICoreAction
     {
         string TargetScenarioId { get; }
-        IScenarioRepository ScenarioRepository { get; }
+        ScenarioBase TargetScenario { get; set; }
     }
 }

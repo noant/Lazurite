@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 
 namespace Pyrite.MainDomain
 {
-    public abstract class ScenarioBase
+    public abstract class ScenarioBase : ISupportsCancellation
     {
         private List<ScenarioStateChangedEvent> _events = new List<ScenarioStateChangedEvent>();
-
-        private Task _executionTask;
+        
         private readonly IExceptionsHandler _exceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
+
+        private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
         /// <summary>
         /// Scenario id
@@ -41,14 +42,31 @@ namespace Pyrite.MainDomain
         /// </summary>
         public string LastValue { get; private set; }
 
-        public void ExecuteAsync(string param)
+        /// <summary>
+        /// Токен отмена операции
+        /// </summary>
+        public CancellationToken CancellationToken
         {
-            if (_executionTask != null && !_executionTask.IsCompleted)
-                _executionTask.A
-            new Task(() => Execute(param));
+            get;
+            set;
         }
 
-        public abstract void Execute(string param);
+        public void ExecuteAsync(string param, CancellationToken cancelToken)
+        {
+            _tokenSource.Cancel();
+            var task = new Task(() => {
+                Execute(param, cancelToken);
+            }, cancelToken);
+            task.Start();
+        }
+
+        public void ExecuteAsync(string param)
+        {
+            var cancelToken = _tokenSource.Token;
+            ExecuteAsync(param, cancelToken);
+        }
+
+        public abstract void Execute(string param, CancellationToken cancelToken);
         
         /// <summary>
         /// Set event on state changed

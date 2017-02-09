@@ -3,20 +3,13 @@ using Pyrite.MainDomain;
 using Pyrite.IOC;
 using Pyrite.ActionsDomain;
 using Pyrite.CoreActions.CoreActions;
+using System;
+using System.Threading;
 
 namespace Pyrite.CoreActions.CoreAction
 {
-    public class RunExistingScenarioAction : ICoreAction, IAction
+    public class RunExistingScenarioAction : ICoreAction, IAction, ISupportsCancellation
     {
-        private IScenarioRepository _scenarioRepository = Singleton.Resolve<IScenarioRepository>();
-        public IScenarioRepository ScenarioRepository
-        {
-            get
-            {
-                return _scenarioRepository;
-            }
-        }
-
         public string TargetScenarioId
         {
             get; set;
@@ -28,11 +21,11 @@ namespace Pyrite.CoreActions.CoreAction
         {
             get
             {
-                var scenario = _scenarioRepository.Scenarios.FirstOrDefault(x => x.Id.Equals(TargetScenarioId));
+                var scenario = TargetScenario;
                 scenario.OnStateChanged(x => {
-                        
+                    
                 }, true);
-                scenario.Execute(InputValue.Value);
+                scenario.ExecuteAsync(InputValue.Value, CancellationToken);
             }
             set
             {
@@ -54,6 +47,18 @@ namespace Pyrite.CoreActions.CoreAction
             {
                 return InputValue.ValueType;
             }
+        }
+
+        public ScenarioBase TargetScenario
+        {
+            get;
+            set;
+        }
+
+        public CancellationToken CancellationToken
+        {
+            get;
+            set;
         }
 
         public void Initialize()
