@@ -1,0 +1,98 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Pyrite.ActionsDomain;
+using Pyrite.CoreActions;
+using Pyrite.CoreActions.CheckerLogicalOperators;
+using Pyrite.CoreActions.ComparisonTypes;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Pyrite.Tests
+{
+    [TestClass]
+    public class ComplexCheckerActionTest
+    {
+        public class TestAction : IAction
+        {
+            public string Caption
+            {
+                get
+                {
+                    return "test float action";
+                }
+            }
+
+            public string Value
+            {
+                get;
+                set;
+            }
+
+            public ActionsDomain.ValueType ValueType
+            {
+                get
+                {
+                    return new FloatValueType();
+                }
+                set
+                {
+
+                }
+            }
+
+            public void Initialize()
+            {
+                //
+            }
+
+            public void UserInitialize()
+            {
+                //
+            }
+        }
+
+        [TestMethod]
+        public void TestCheckerAction()
+        {
+            var checkerAction = new ComplexCheckerAction();
+            checkerAction.CheckerOperations.Add(new CheckerOperatorPair() //true
+            {
+                Operator = LogicalOperator.Or,
+                Checker = new CheckerAction()
+                {
+                    ComparisonType = new MoreOrEqualComparisonType(),
+                    TargetAction1 = new TestAction() { Value = 5.ToString() },
+                    TargetAction2 = new TestAction() { Value = 5.ToString() }
+                },
+            });
+            checkerAction.CheckerOperations.Add(new CheckerOperatorPair() //false
+            {
+                Operator = LogicalOperator.And,
+                Checker = new ComplexCheckerAction()
+                {
+                    CheckerOperations = new List<CheckerOperatorPair>() {
+                            new CheckerOperatorPair()
+                            {
+                                Checker = new CheckerAction()
+                                {
+                                    ComparisonType = new EqualityComparisonType(),
+                                    TargetAction1 = new TestAction() { Value = "5" },
+                                    TargetAction2 = new TestAction() { Value = "6" },
+                                }
+                            }
+                        }
+                }
+            });
+
+            var result = checkerAction.Value;
+
+            Debug.WriteLine(result);
+
+            if (result != ToggleValueType.ValueOFF)
+                throw new Exception();
+        }
+    }
+}

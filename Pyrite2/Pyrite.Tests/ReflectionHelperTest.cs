@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pyrite.ActionsDomain;
 using System.Diagnostics;
+using Pyrite.MainDomain;
 
 namespace Pyrite.Tests
 {
@@ -44,6 +45,14 @@ namespace Pyrite.Tests
             isOnlyGet = ReflectionHelper.IsOnlyGetValue(@var.GetType());
             if (!isOnlyGet)
                 throw new Exception();
+        }
+
+        [TestMethod]
+        public void GetAllComparisonTypesTest()
+        {
+            var list = CoreActions.Utils.GetComparisonTypes();
+            foreach (var type in list)
+                Debug.WriteLine(type.Caption+" "+type.OnlyForNumbers);
         }
     }
 }

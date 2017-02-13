@@ -59,6 +59,7 @@
     <Compile Include="SecuritySettingsBase.cs" />
     <Compile Include="UserBase.cs" />
     <Compile Include="UserGroupBase.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="VisualSettingsBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

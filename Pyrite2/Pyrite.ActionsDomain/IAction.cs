@@ -10,7 +10,8 @@ namespace Pyrite.ActionsDomain
     {
         string Value { get; set; }
         string Caption { get; }
-        ValueType ValueType { get; }
+        ValueType ValueType { get; set; }
         void Initialize();
+        void UserInitialize();
     }
 }

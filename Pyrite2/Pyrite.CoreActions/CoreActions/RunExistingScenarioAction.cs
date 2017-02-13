@@ -8,11 +8,24 @@ using System.Threading;
 
 namespace Pyrite.CoreActions.CoreAction
 {
+    [VisualInitialization]
+    [OnlyGetValue]
     public class RunExistingScenarioAction : ICoreAction, IAction, ISupportsCancellation
     {
         public string TargetScenarioId
         {
             get; set;
+        }
+
+        private ScenarioBase _scenario;
+        public void SetTargetScenario(ScenarioBase scenario)
+        {
+            _scenario = scenario;
+        }
+
+        public ScenarioBase GetTargetScenario()
+        {
+            return _scenario;
         }
 
         public IAction InputValue { get; set; }
@@ -22,14 +35,16 @@ namespace Pyrite.CoreActions.CoreAction
             get
             {
                 var scenario = TargetScenario;
-                scenario.OnStateChanged(x => {
-                    
-                }, true);
+                string outer = null;
+                scenario.OnStateChanged(x => outer = x.LastValue, true);
                 scenario.ExecuteAsync(InputValue.Value, CancellationToken);
+                while (outer == null || !CancellationToken.IsCancellationRequested)
+                    MainDomain.Utils.Sleep();
+                return outer;
             }
             set
             {
-                
+                //do nothing
             }
         }
 
@@ -37,7 +52,7 @@ namespace Pyrite.CoreActions.CoreAction
         {
             get
             {
-                return "Вернуть значение";
+                return "Запуск сценария";
             }
         }
 
@@ -46,6 +61,10 @@ namespace Pyrite.CoreActions.CoreAction
             get
             {
                 return InputValue.ValueType;
+            }
+            set
+            {
+                //
             }
         }
 
@@ -62,6 +81,11 @@ namespace Pyrite.CoreActions.CoreAction
         }
 
         public void Initialize()
+        {
+            //do nothing
+        }
+
+        public void UserInitialize()
         {
             //do nothing
         }

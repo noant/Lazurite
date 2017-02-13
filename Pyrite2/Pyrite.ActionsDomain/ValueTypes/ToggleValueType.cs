@@ -11,7 +11,7 @@ namespace Pyrite.ActionsDomain
     {
         public ToggleValueType()
         {
-            _acceptedValues = new string[] { "ON", "OFF" };
+            _acceptedValues = new string[] { ValueON, ValueOFF  };
         }
 
         public override string HumanFriendlyName
@@ -19,6 +19,22 @@ namespace Pyrite.ActionsDomain
             get
             {
                 return "Переключатель";
+            }
+        }
+
+        public static string ValueON
+        {
+            get
+            {
+                return "ON";
+            }
+        }
+
+        public static string ValueOFF
+        {
+            get
+            {
+                return "OFF";
             }
         }
     }

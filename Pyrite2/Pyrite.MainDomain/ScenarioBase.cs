@@ -17,6 +17,8 @@ namespace Pyrite.MainDomain
 
         private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
+        private string _lastValue;
+
         /// <summary>
         /// Scenario id
         /// </summary>
@@ -25,7 +27,7 @@ namespace Pyrite.MainDomain
         /// <summary>
         /// Type of returning value
         /// </summary>
-        public ValueType ValueType { get; set; }
+        public ActionsDomain.ValueType ValueType { get; set; }
 
         /// <summary>
         /// Security settings
@@ -40,7 +42,15 @@ namespace Pyrite.MainDomain
         /// <summary>
         /// Last result of scenarion executing
         /// </summary>
-        public string LastValue { get; private set; }
+        public string LastValue {
+            get {
+                return _lastValue;
+            }
+            set {
+                _lastValue = value;
+                RaiseEvents();
+            }
+        }
 
         /// <summary>
         /// Токен отмена операции
