@@ -1,4 +1,5 @@
 ﻿using Pyrite.ActionsDomain;
+using Pyrite.ActionsDomain.ValueTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,20 @@ using System.Threading.Tasks;
 namespace Pyrite.CoreActions
 {
     [OnlyExecute]
+    [VisualInitialization]
+    [HumanFriendlyName("Выполнить")]
     public class ExecuteAction : IMultipleAction, IAction
     {
         public string Caption
         {
             get
             {
-                return "Выполнить";
+                return ReflectionHelper.ExtractHumanFriendlyName(Action.GetType()) + " " + Action.Caption + " = " +
+                    ReflectionHelper.ExtractHumanFriendlyName(InputValue.GetType()) + " " + InputValue.Caption;
+            }
+            set
+            {
+                //
             }
         }
 
@@ -30,8 +38,8 @@ namespace Pyrite.CoreActions
             }
         }
 
-        private ActionsDomain.ValueType _valueType = new ButtonValueType();
-        public ActionsDomain.ValueType ValueType
+        private ButtonValueType _valueType = new ButtonValueType();
+        public ActionsDomain.ValueTypes.ValueType ValueType
         {
             get
             {

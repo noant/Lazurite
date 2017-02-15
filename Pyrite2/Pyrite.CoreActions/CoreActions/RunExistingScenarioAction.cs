@@ -8,6 +8,7 @@ using System.Threading;
 
 namespace Pyrite.CoreActions.CoreAction
 {
+    [HumanFriendlyName("ЗапускСценария")]
     [VisualInitialization]
     [OnlyGetValue]
     public class RunExistingScenarioAction : ICoreAction, IAction, ISupportsCancellation
@@ -52,11 +53,15 @@ namespace Pyrite.CoreActions.CoreAction
         {
             get
             {
-                return "Запуск сценария";
+                return TargetScenario.Name + "(" + ReflectionHelper.ExtractHumanFriendlyName(InputValue.GetType())+ " " + InputValue.Caption + ")";
+            }
+            set
+            {
+                //
             }
         }
 
-        public ActionsDomain.ValueType ValueType
+        public ActionsDomain.ValueTypes.ValueType ValueType
         {
             get
             {

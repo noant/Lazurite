@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pyrite.ActionsDomain
+namespace Pyrite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Переключатель")]
     public class ToggleValueType: ValueType

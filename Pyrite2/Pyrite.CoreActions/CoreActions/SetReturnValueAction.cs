@@ -10,6 +10,7 @@ namespace Pyrite.CoreActions.CoreActions
 {
     [OnlyExecute]
     [VisualInitialization]
+    [HumanFriendlyName("ВернутьЗначение")]
     public class SetReturnValueAction : ICoreAction, IAction, IMultipleAction
     {
         private ScenarioBase _scenario;
@@ -27,7 +28,11 @@ namespace Pyrite.CoreActions.CoreActions
         {
             get
             {
-                return "Вернуть значение";
+                return ReflectionHelper.ExtractHumanFriendlyName(InputValue.GetType()) + " " + InputValue.Caption;
+            }
+            set
+            {
+                //
             }
         }
 
@@ -50,7 +55,7 @@ namespace Pyrite.CoreActions.CoreActions
             }
         }
 
-        public ActionsDomain.ValueType ValueType
+        public ActionsDomain.ValueTypes.ValueType ValueType
         {
             get
             {

@@ -6,27 +6,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using Pyrite.ActionsDomain.ValueTypes;
 
 namespace Pyrite.CoreActions
 {
-    [OnlyExecute]
     [VisualInitialization]
-    [HumanFriendlyName("СложноеДействие")]
-    public class ComplexAction : IAction, IMultipleAction, ISupportsCancellation
+    [OnlyExecute]
+    public class WhileAction : IAction, IMultipleAction, ISupportsCancellation
     {
-        public ComplexAction()
+        public CancellationToken CancellationToken
         {
-            Actions = new List<IAction>();
+            get;
+            set;
         }
 
-        public List<IAction> Actions { get; set; }
+        public ComplexAction Action { get; set; }
+        public ComplexCheckerAction Checker { get; set; }
 
         public string Caption
         {
             get
             {
-                return string.Empty;
+                return "ПОКА";
             }
             set
             {
@@ -42,19 +42,21 @@ namespace Pyrite.CoreActions
             }
             set
             {
-                foreach (var action in Actions)
+                Action.CancellationToken =
+                    Checker.CancellationToken =
+                    this.CancellationToken;
+
+                while (Checker.Evaluate())
                 {
                     if (CancellationToken.IsCancellationRequested)
                         break;
-                    if (action is ISupportsCancellation)
-                        ((ISupportsCancellation)action).CancellationToken = this.CancellationToken;
-                    action.Value = string.Empty;
+                    Action.Value = string.Empty;
                 }
             }
         }
 
         private ButtonValueType _valueType = new ButtonValueType();
-        public ActionsDomain.ValueTypes.ValueType ValueType
+        public ActionsDomain.ValueType ValueType
         {
             get
             {
@@ -66,29 +68,22 @@ namespace Pyrite.CoreActions
             }
         }
 
-        public CancellationToken CancellationToken
-        {
-            get;
-            set;
-        }
-
         public IAction[] GetAllActionsFlat()
         {
-            return Actions
-                .Union(
-                Actions
-                .Where(x => x is IMultipleAction)
-                .Select(x => ((IMultipleAction)x).GetAllActionsFlat()).SelectMany(x => x)).ToArray();
+            return new[] { Action, Action }
+            .Union(Action.GetAllActionsFlat())
+            .Union(Checker.GetAllActionsFlat())
+            .ToArray();
         }
 
         public void Initialize()
         {
-            //do nothing
+            //
         }
 
         public void UserInitialize()
         {
-            //do nothing
+            //
         }
     }
 }

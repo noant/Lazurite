@@ -9,8 +9,8 @@ namespace Pyrite.ActionsDomain
     public interface IAction
     {
         string Value { get; set; }
-        string Caption { get; }
-        ValueType ValueType { get; set; }
+        string Caption { get; set; }
+        ValueTypes.ValueType ValueType { get; set; }
         void Initialize();
         void UserInitialize();
     }

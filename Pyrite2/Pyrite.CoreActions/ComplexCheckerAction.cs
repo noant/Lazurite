@@ -1,16 +1,19 @@
 ﻿using Pyrite.ActionsDomain;
 using Pyrite.CoreActions.CheckerLogicalOperators;
+using Pyrite.MainDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Pyrite.CoreActions
 {
     [VisualInitialization]
     [OnlyGetValue]
-    public class ComplexCheckerAction : IMultipleAction, IAction, IChecker
+    [HumanFriendlyName("СложноеУсловие")]
+    public class ComplexCheckerAction : IMultipleAction, IAction, IChecker, ISupportsCancellation
     {
         public ComplexCheckerAction()
         {
@@ -21,7 +24,11 @@ namespace Pyrite.CoreActions
         {
             get
             {
-                return "Комплексная проверка";
+                return string.Empty;
+            }
+            set
+            {
+                //
             }
         }
 
@@ -34,6 +41,10 @@ namespace Pyrite.CoreActions
 
                 foreach (var operation in CheckerOperations)
                 {
+                    if (CancellationToken.IsCancellationRequested)
+                        break;
+                    if (operation.Checker is ISupportsCancellation)
+                        ((ISupportsCancellation)operation.Checker).CancellationToken = this.CancellationToken;
                     switch (operation.Operator)
                     {
                         case (LogicalOperator.And):
@@ -86,6 +97,12 @@ namespace Pyrite.CoreActions
         }
 
         public List<CheckerOperatorPair> CheckerOperations { get; set; }
+
+        public CancellationToken CancellationToken
+        {
+            get;
+            set;
+        }
 
         public IAction[] GetAllActionsFlat()
         {

@@ -10,6 +10,6 @@ namespace Pyrite.CoreActions.ComparisonTypes
     {
         string Caption { get; set; }
         bool OnlyForNumbers { get; }
-        bool Calculate(string val1, string val2);
+        bool Calculate(ActionsDomain.IAction val1, ActionsDomain.IAction val2);
     }
 }

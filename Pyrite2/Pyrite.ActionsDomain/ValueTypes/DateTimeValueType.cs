@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Pyrite.ActionsDomain.ValueTypes
 {
-    [HumanFriendlyName("Статус")]
-    public class StateValueType : ValueType
+    [HumanFriendlyName("Дата и время")]
+    public class DateTimeValueType: ValueType
     {
-        public override bool CanBeModified
+        public override bool SupportsNumericalComparisons
         {
             get
             {
@@ -17,11 +17,11 @@ namespace Pyrite.ActionsDomain.ValueTypes
             }
         }
 
-        public override string HumanFriendlyName
+        public override bool CanBeModified
         {
             get
             {
-                return "Статус";
+                return false;
             }
         }
     }

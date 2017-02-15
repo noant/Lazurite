@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pyrite.ActionsDomain
+namespace Pyrite.ActionsDomain.ValueTypes
 {
     public abstract class ValueType
     {

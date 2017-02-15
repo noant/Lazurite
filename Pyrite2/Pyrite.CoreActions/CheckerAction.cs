@@ -1,4 +1,5 @@
 ﻿using Pyrite.ActionsDomain;
+using Pyrite.ActionsDomain.ValueTypes;
 using Pyrite.CoreActions.ComparisonTypes;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace Pyrite.CoreActions
 {
     [OnlyGetValue]
     [VisualInitialization]
+    [HumanFriendlyName("Условие")]
     public class CheckerAction : IAction, IMultipleAction, IChecker
     {
         public IAction TargetAction1 { get; set; }
@@ -20,7 +22,11 @@ namespace Pyrite.CoreActions
         {
             get
             {
-                return "Логическое действие";
+                return string.Empty;
+            }
+            set
+            {
+                //
             }
         }
 
@@ -28,7 +34,7 @@ namespace Pyrite.CoreActions
         {
             get
             {
-                return ComparisonType.Calculate(TargetAction1.Value, TargetAction2.Value) ? ToggleValueType.ValueON : ToggleValueType.ValueOFF;
+                return ComparisonType.Calculate(TargetAction1, TargetAction2) ? ToggleValueType.ValueON : ToggleValueType.ValueOFF;
             }
             set
             {
@@ -37,7 +43,7 @@ namespace Pyrite.CoreActions
         }
 
         private ToggleValueType _valueType = new ToggleValueType();
-        public ActionsDomain.ValueType ValueType
+        public ActionsDomain.ValueTypes.ValueType ValueType
         {
             get
             {

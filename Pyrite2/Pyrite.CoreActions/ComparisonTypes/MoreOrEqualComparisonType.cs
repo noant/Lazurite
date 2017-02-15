@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Pyrite.ActionsDomain;
+using Pyrite.ActionsDomain.ValueTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,9 +30,11 @@ namespace Pyrite.CoreActions.ComparisonTypes
             }
         }
         
-        public bool Calculate(string val1, string val2)
+        public bool Calculate(IAction val1, IAction val2)
         {
-            return decimal.Parse(val1) >= decimal.Parse(val2);
+            return val1.ValueType is DateTimeValueType ?
+                DateTime.Parse(val1.Value) >= DateTime.Parse(val2.Value) :
+                decimal.Parse(val1.Value) >= decimal.Parse(val2.Value);
         }
     }
 }

@@ -20,6 +20,11 @@ namespace Pyrite.MainDomain
         private string _lastValue;
 
         /// <summary>
+        /// Scenario name
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Scenario id
         /// </summary>
         public string Id { get; set; } //guid
@@ -27,7 +32,7 @@ namespace Pyrite.MainDomain
         /// <summary>
         /// Type of returning value
         /// </summary>
-        public ActionsDomain.ValueType ValueType { get; set; }
+        public ActionsDomain.ValueTypes.ValueType ValueType { get; set; }
 
         /// <summary>
         /// Security settings

@@ -23,6 +23,10 @@ namespace Pyrite.Tests
                 {
                     return "test float action";
                 }
+                set
+                {
+                    //
+                }
             }
 
             public string Value

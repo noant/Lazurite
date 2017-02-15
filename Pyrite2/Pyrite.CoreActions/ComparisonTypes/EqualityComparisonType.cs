@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pyrite.ActionsDomain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,9 +29,9 @@ namespace Pyrite.CoreActions.ComparisonTypes
             }
         }
 
-        public bool Calculate(string val1, string val2)
+        public bool Calculate(IAction val1, IAction val2)
         {
-            return val1.Equals(val2);
+            return val1.Value.Equals(val2.Value);
         }
     }
 }
