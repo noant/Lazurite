@@ -47,7 +47,7 @@
     <Compile Include="Attributes\OnlyExecuteAttribute.cs" />
     <Compile Include="Attributes\OnlyGetValueAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionHelper.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="ValueTypes\StateValueType.cs" />
     <Compile Include="ValueTypes\ToggleValueType.cs" />
     <Compile Include="ValueTypes\ValueType.cs" />

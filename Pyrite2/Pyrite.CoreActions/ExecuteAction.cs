@@ -17,8 +17,8 @@ namespace Pyrite.CoreActions
         {
             get
             {
-                return ReflectionHelper.ExtractHumanFriendlyName(Action.GetType()) + " " + Action.Caption + " = " +
-                    ReflectionHelper.ExtractHumanFriendlyName(InputValue.GetType()) + " " + InputValue.Caption;
+                return ActionsDomain.Utils.ExtractHumanFriendlyName(Action.GetType()) + " " + Action.Caption + " = " +
+                    ActionsDomain.Utils.ExtractHumanFriendlyName(InputValue.GetType()) + " " + InputValue.Caption;
             }
             set
             {
@@ -39,7 +39,7 @@ namespace Pyrite.CoreActions
         }
 
         private ButtonValueType _valueType = new ButtonValueType();
-        public ActionsDomain.ValueTypes.ValueType ValueType
+        public ActionsDomain.ValueTypes.AbstractValueType ValueType
         {
             get
             {

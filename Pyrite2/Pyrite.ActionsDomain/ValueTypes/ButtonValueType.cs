@@ -8,7 +8,7 @@ namespace Pyrite.ActionsDomain.ValueTypes
 {
     [OnlyExecute]
     [HumanFriendlyName("Кнопка")]
-    public class ButtonValueType : ValueType
+    public class ButtonValueType : AbstractValueType
     {
         public ButtonValueType() {
             _acceptedValues = new[] { "PRESS" };

@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ComplexCheckerActionTest.cs" />
     <Compile Include="DelayTest.cs" />
+    <Compile Include="FileSaviorTest.cs" />
     <Compile Include="IOCTest.cs" />
     <Compile Include="ReflectionHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +81,10 @@
     <ProjectReference Include="..\Pyrite.MainDomain\Pyrite.MainDomain.csproj">
       <Project>{dcd8e6af-a435-4556-ad74-84444b1dd816}</Project>
       <Name>Pyrite.MainDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Utils\Pyrite.Utils.csproj">
+      <Project>{d4fdb9f4-f897-4f15-85fc-26e8d933af6d}</Project>
+      <Name>Pyrite.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

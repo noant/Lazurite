@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Pyrite.ActionsDomain
 {
-    public static class ReflectionHelper
+    public static class Utils
     {
         public static string ExtractHumanFriendlyName(Type type)
         {

@@ -32,7 +32,7 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
         }
 
         private StateValueType _valueType;
-        public ActionsDomain.ValueTypes.ValueType ValueType
+        public AbstractValueType ValueType
         {
             get
             {
@@ -40,7 +40,7 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
             }
             set
             {
-                _valueType = value;
+                _valueType = (StateValueType)value;
             }
         }
 

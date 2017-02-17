@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using Pyrite.ActionsDomain.ValueTypes;
 
 namespace Pyrite.CoreActions
 {
@@ -56,7 +57,7 @@ namespace Pyrite.CoreActions
         }
 
         private ButtonValueType _valueType = new ButtonValueType();
-        public ActionsDomain.ValueType ValueType
+        public ActionsDomain.ValueTypes.AbstractValueType ValueType
         {
             get
             {

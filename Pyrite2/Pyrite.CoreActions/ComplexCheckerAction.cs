@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using Pyrite.ActionsDomain.ValueTypes;
 
 namespace Pyrite.CoreActions
 {
@@ -83,8 +84,8 @@ namespace Pyrite.CoreActions
             return result.Value;
         }
 
-        private ActionsDomain.ValueType _valueType = new ToggleValueType();
-        public ActionsDomain.ValueType ValueType
+        private ToggleValueType _valueType = new ToggleValueType();
+        public ActionsDomain.ValueTypes.AbstractValueType ValueType
         {
             get
             {

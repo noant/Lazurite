@@ -31,8 +31,8 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
             set;
         }
 
-        private InfoValueType _valueType;
-        public ActionsDomain.ValueTypes.ValueType ValueType
+        private InfoValueType _valueType = new InfoValueType();
+        public ActionsDomain.ValueTypes.AbstractValueType ValueType
         {
             get
             {

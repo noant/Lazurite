@@ -47,6 +47,10 @@
       <Project>{dcd8e6af-a435-4556-ad74-84444b1dd816}</Project>
       <Name>Pyrite.MainDomain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Utils\Pyrite.Utils.csproj">
+      <Project>{D4FDB9F4-F897-4F15-85FC-26E8D933AF6D}</Project>
+      <Name>Pyrite.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheckerAction.cs" />

@@ -53,7 +53,7 @@ namespace Pyrite.CoreActions.CoreAction
         {
             get
             {
-                return TargetScenario.Name + "(" + ReflectionHelper.ExtractHumanFriendlyName(InputValue.GetType())+ " " + InputValue.Caption + ")";
+                return TargetScenario.Name + "(" + ActionsDomain.Utils.ExtractHumanFriendlyName(InputValue.GetType())+ " " + InputValue.Caption + ")";
             }
             set
             {
@@ -61,7 +61,7 @@ namespace Pyrite.CoreActions.CoreAction
             }
         }
 
-        public ActionsDomain.ValueTypes.ValueType ValueType
+        public ActionsDomain.ValueTypes.AbstractValueType ValueType
         {
             get
             {

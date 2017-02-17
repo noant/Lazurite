@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pyrite.ActionsDomain;
+using Pyrite.ActionsDomain.ValueTypes;
 using Pyrite.CoreActions;
 using Pyrite.CoreActions.CheckerLogicalOperators;
 using Pyrite.CoreActions.ComparisonTypes;
@@ -35,7 +36,7 @@ namespace Pyrite.Tests
                 set;
             }
 
-            public ActionsDomain.ValueType ValueType
+            public AbstractValueType ValueType
             {
                 get
                 {

@@ -6,11 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using Pyrite.ActionsDomain.ValueTypes;
 
 namespace Pyrite.CoreActions
 {
     [VisualInitialization]
     [OnlyExecute]
+    [HumanFriendlyName("Пока")]
     public class WhileAction : IAction, IMultipleAction, ISupportsCancellation
     {
         public CancellationToken CancellationToken
@@ -26,7 +28,7 @@ namespace Pyrite.CoreActions
         {
             get
             {
-                return "ПОКА";
+                return string.Empty;
             }
             set
             {
@@ -56,7 +58,7 @@ namespace Pyrite.CoreActions
         }
 
         private ButtonValueType _valueType = new ButtonValueType();
-        public ActionsDomain.ValueType ValueType
+        public ActionsDomain.ValueTypes.AbstractValueType ValueType
         {
             get
             {

@@ -3,6 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Pyrite.ActionsDomain;
 using System.Diagnostics;
 using Pyrite.MainDomain;
+using Pyrite.ActionsDomain.ValueTypes;
+using Pyrite.Utils;
+using System.Reflection;
 
 namespace Pyrite.Tests
 {
@@ -13,7 +16,7 @@ namespace Pyrite.Tests
         public void HumanFriendlyName()
         {
             var @var = new ToggleValueType();
-            var name = ReflectionHelper.ExtractHumanFriendlyName(@var.GetType());
+            var name = ActionsDomain.Utils.ExtractHumanFriendlyName(var.GetType());
             Debug.WriteLine(name);
             if (name != "Переключатель")
                 throw new Exception();
@@ -22,13 +25,13 @@ namespace Pyrite.Tests
         [TestMethod]
         public void IsOnlyExecute()
         {
-            ActionsDomain.ValueType @var = new ButtonValueType();
-            var isOnlyExec = ReflectionHelper.IsOnlyExecute(@var.GetType());
+            AbstractValueType @var = new ButtonValueType();
+            var isOnlyExec = ActionsDomain.Utils.IsOnlyExecute(var.GetType());
             if (!isOnlyExec)
                 throw new Exception();
 
             @var = new InfoValueType();
-            isOnlyExec = ReflectionHelper.IsOnlyExecute(@var.GetType());
+            isOnlyExec = ActionsDomain.Utils.IsOnlyExecute(var.GetType());
             if (isOnlyExec)
                 throw new Exception();
         }
@@ -36,13 +39,13 @@ namespace Pyrite.Tests
         [TestMethod]
         public void IsOnlyGetValue()
         {
-            ActionsDomain.ValueType @var = new ButtonValueType();
-            var isOnlyGet = ReflectionHelper.IsOnlyGetValue(@var.GetType());
+            AbstractValueType @var = new ButtonValueType();
+            var isOnlyGet = ActionsDomain.Utils.IsOnlyGetValue(var.GetType());
             if (isOnlyGet)
                 throw new Exception();
 
             @var = new InfoValueType();
-            isOnlyGet = ReflectionHelper.IsOnlyGetValue(@var.GetType());
+            isOnlyGet = ActionsDomain.Utils.IsOnlyGetValue(var.GetType());
             if (!isOnlyGet)
                 throw new Exception();
         }
@@ -53,6 +56,15 @@ namespace Pyrite.Tests
             var list = CoreActions.Utils.GetComparisonTypes();
             foreach (var type in list)
                 Debug.WriteLine(type.Caption+" "+type.OnlyForNumbers);
+        }
+
+        [TestMethod]
+        public void GetCurrentAssemblies()
+        {
+            foreach (var assm in ReflectionUtils.GetEntireAssemblies())
+                Debug.WriteLine(assm.FullName);
+            Debug.WriteLine("////");
+            Debug.WriteLine(ReflectionUtils.GetExecutingAssembly().FullName);            
         }
     }
 }

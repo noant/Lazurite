@@ -9,6 +9,6 @@ namespace Pyrite.Data
     public interface ISavior
     {
         T Get<T>(string key);
-        void Set(string key, object data);
+        void Set<T>(string key, T data);
     }
 }

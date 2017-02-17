@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pyrite.ActionsDomain.ValueTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Pyrite.MainDomain
 
         public string LastValue { get; set; }
 
-        public ActionsDomain.ValueType ValueType { get; set; }
+        public AbstractValueType ValueType { get; set; }
 
         public VisualSettingsBase VisualSettings { get; set; }
     }

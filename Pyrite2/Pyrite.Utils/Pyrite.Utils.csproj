@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</ProjectGuid>
+    <ProjectGuid>{D4FDB9F4-F897-4F15-85FC-26E8D933AF6D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pyrite.Data</RootNamespace>
-    <AssemblyName>Pyrite.Data</AssemblyName>
+    <RootNamespace>Pyrite.Utils</RootNamespace>
+    <AssemblyName>Pyrite.Utils</AssemblyName>
     <DefaultLanguage>ru-RU</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -34,23 +34,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FileSavior.cs" />
-    <Compile Include="ISavior.cs" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ReflectionUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="HierarchicalData">
-      <HintPath>..\..\Libs\HierarchicalData.dll</HintPath>
-    </Reference>
-    <Reference Include="Polenter.SharpSerializer">
-      <HintPath>..\..\Libs\Polenter.SharpSerializer.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Pyrite.Utils\Pyrite.Utils.csproj">
-      <Project>{d4fdb9f4-f897-4f15-85fc-26e8d933af6d}</Project>
-      <Name>Pyrite.Utils</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

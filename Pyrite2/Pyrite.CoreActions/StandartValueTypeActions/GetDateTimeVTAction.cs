@@ -31,8 +31,8 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
             set;
         }
 
-        private DateTimeValueType _valueType;
-        public ActionsDomain.ValueTypes.ValueType ValueType
+        private DateTimeValueType _valueType = new DateTimeValueType();
+        public AbstractValueType ValueType
         {
             get
             {

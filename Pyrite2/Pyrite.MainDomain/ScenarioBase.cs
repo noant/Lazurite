@@ -32,7 +32,7 @@ namespace Pyrite.MainDomain
         /// <summary>
         /// Type of returning value
         /// </summary>
-        public ActionsDomain.ValueTypes.ValueType ValueType { get; set; }
+        public ActionsDomain.ValueTypes.AbstractValueType ValueType { get; set; }
 
         /// <summary>
         /// Security settings

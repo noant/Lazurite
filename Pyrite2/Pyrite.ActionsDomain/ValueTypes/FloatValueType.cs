@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Pyrite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Число")]
-    public class FloatValueType: ValueType
+    public class FloatValueType: AbstractValueType
     {
         public FloatValueType()
         {

@@ -31,7 +31,7 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
         }
 
         private FloatValueType _valueType;
-        public ActionsDomain.ValueTypes.ValueType ValueType
+        public ActionsDomain.ValueTypes.AbstractValueType ValueType
         {
             get
             {

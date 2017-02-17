@@ -28,7 +28,7 @@ namespace Pyrite.CoreActions.CoreActions
         {
             get
             {
-                return ReflectionHelper.ExtractHumanFriendlyName(InputValue.GetType()) + " " + InputValue.Caption;
+                return ActionsDomain.Utils.ExtractHumanFriendlyName(InputValue.GetType()) + " " + InputValue.Caption;
             }
             set
             {
@@ -55,7 +55,7 @@ namespace Pyrite.CoreActions.CoreActions
             }
         }
 
-        public ActionsDomain.ValueTypes.ValueType ValueType
+        public ActionsDomain.ValueTypes.AbstractValueType ValueType
         {
             get
             {

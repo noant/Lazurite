@@ -47,6 +47,10 @@
       <Project>{a002f2fb-6791-46a2-9061-38bbe59e1618}</Project>
       <Name>Pyrite.IOC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Utils\Pyrite.Utils.csproj">
+      <Project>{d4fdb9f4-f897-4f15-85fc-26e8d933af6d}</Project>
+      <Name>Pyrite.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IClientFactory.cs" />

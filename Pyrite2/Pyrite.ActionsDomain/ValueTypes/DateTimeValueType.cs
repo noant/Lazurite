@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Pyrite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Дата и время")]
-    public class DateTimeValueType: ValueType
+    public class DateTimeValueType: AbstractValueType
     {
         public override bool SupportsNumericalComparisons
         {
