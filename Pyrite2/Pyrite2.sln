@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.IOC", "Pyrite.IOC\Py
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Utils", "Pyrite.Utils\Pyrite.Utils.csproj", "{D4FDB9F4-F897-4F15-85FC-26E8D933AF6D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Windows.Data", "Pyrite.Windows.Data\Pyrite.Windows.Data.csproj", "{E71F185A-B90F-4145-BD38-97EB30D129FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{D4FDB9F4-F897-4F15-85FC-26E8D933AF6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4FDB9F4-F897-4F15-85FC-26E8D933AF6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4FDB9F4-F897-4F15-85FC-26E8D933AF6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E71F185A-B90F-4145-BD38-97EB30D129FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E71F185A-B90F-4145-BD38-97EB30D129FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E71F185A-B90F-4145-BD38-97EB30D129FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E71F185A-B90F-4145-BD38-97EB30D129FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

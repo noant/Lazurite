@@ -56,15 +56,6 @@ namespace Pyrite.Tests
             var list = CoreActions.Utils.GetComparisonTypes();
             foreach (var type in list)
                 Debug.WriteLine(type.Caption+" "+type.OnlyForNumbers);
-        }
-
-        [TestMethod]
-        public void GetCurrentAssemblies()
-        {
-            foreach (var assm in ReflectionUtils.GetEntireAssemblies())
-                Debug.WriteLine(assm.FullName);
-            Debug.WriteLine("////");
-            Debug.WriteLine(ReflectionUtils.GetExecutingAssembly().FullName);            
-        }
+        }        
     }
 }

@@ -86,6 +86,10 @@
       <Project>{d4fdb9f4-f897-4f15-85fc-26e8d933af6d}</Project>
       <Name>Pyrite.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Windows.Data\Pyrite.Windows.Data.csproj">
+      <Project>{e71f185a-b90f-4145-bd38-97eb30d129fe}</Project>
+      <Name>Pyrite.Windows.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

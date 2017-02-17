@@ -2,6 +2,7 @@
 using Pyrite.Data;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,12 @@ namespace Pyrite.Tests
             var testObj = new FileSavior().Get<TestSave>("test");
             if (testObj.A != 222 || testObj.B != "333")
                 throw new Exception();
+        }
+
+        [TestMethod]
+        public void RemoveByKeyTest()
+        {
+            new FileSavior().Clear("test");
         }
     }
 }
