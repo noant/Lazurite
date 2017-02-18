@@ -58,7 +58,7 @@ namespace Pyrite.MainDomain
         }
 
         /// <summary>
-        /// Токен отмена операции
+        /// CancellationToken
         /// </summary>
         public CancellationToken CancellationToken
         {
@@ -66,6 +66,11 @@ namespace Pyrite.MainDomain
             set;
         }
 
+        /// <summary>
+        /// Execute scenario in other thread
+        /// </summary>
+        /// <param name="param"></param>
+        /// <param name="cancelToken"></param>
         public void ExecuteAsync(string param, CancellationToken cancelToken)
         {
             _tokenSource.Cancel();
@@ -75,14 +80,29 @@ namespace Pyrite.MainDomain
             task.Start();
         }
 
+        /// <summary>
+        /// xecute scenario in other thread
+        /// </summary>
+        /// <param name="param"></param>
         public void ExecuteAsync(string param)
         {
             var cancelToken = _tokenSource.Token;
             ExecuteAsync(param, cancelToken);
         }
 
+        /// <summary>
+        /// Execute scenario in current thread
+        /// </summary>
+        /// <param name="param"></param>
+        /// <param name="cancelToken"></param>
         public abstract void Execute(string param, CancellationToken cancelToken);
-        
+
+        /// <summary>
+        /// Get all types, used in scenario and derived from IAction
+        /// </summary>
+        /// <returns></returns>
+        public abstract Type[] GetAllUsedActionTypes();
+
         /// <summary>
         /// Set event on state changed
         /// </summary>

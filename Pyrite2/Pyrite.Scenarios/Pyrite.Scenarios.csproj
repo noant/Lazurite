@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DCD8E6AF-A435-4556-AD74-84444B1DD816}</ProjectGuid>
+    <ProjectGuid>{EE271212-1572-4525-BC27-B2F283238740}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pyrite.MainDomain</RootNamespace>
-    <AssemblyName>``````</AssemblyName>
+    <RootNamespace>Pyrite.Scenarios</RootNamespace>
+    <AssemblyName>Pyrite.Scenarios</AssemblyName>
     <DefaultLanguage>ru-RU</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,36 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Pyrite.ActionsDomain\Pyrite.ActionsDomain.csproj">
-      <Project>{e6be3954-3d6f-447a-91bf-04d892a1c025}</Project>
-      <Name>Pyrite.ActionsDomain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyrite.Exceptions\Pyrite.Exceptions.csproj">
-      <Project>{1f4412d0-f16d-4d36-a28d-cb52c9732cde}</Project>
-      <Name>Pyrite.Exceptions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyrite.IOC\Pyrite.IOC.csproj">
-      <Project>{a002f2fb-6791-46a2-9061-38bbe59e1618}</Project>
-      <Name>Pyrite.IOC</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyrite.Utils\Pyrite.Utils.csproj">
-      <Project>{d4fdb9f4-f897-4f15-85fc-26e8d933af6d}</Project>
-      <Name>Pyrite.Utils</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IClientFactory.cs" />
-    <Compile Include="ScenariosRepositoryBase.cs" />
-    <Compile Include="IServer.cs" />
-    <Compile Include="ISupportsCancellation.cs" />
+    <Compile Include="ScenariosRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScenarioBase.cs" />
-    <Compile Include="ScenarioPackage.cs" />
-    <Compile Include="SecuritySettingsBase.cs" />
-    <Compile Include="UserBase.cs" />
-    <Compile Include="UserGroupBase.cs" />
-    <Compile Include="Utils.cs" />
-    <Compile Include="VisualSettingsBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
