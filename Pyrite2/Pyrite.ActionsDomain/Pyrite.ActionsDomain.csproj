@@ -34,9 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="Attributes\InheritsValueTypeParamsAttribute.cs" />
+    <Compile Include="Attributes\SuitableValueTypesAttribute.cs" />
     <Compile Include="ValueTypes\ButtonValueType.cs" />
     <Compile Include="ValueTypes\DateTimeValueType.cs" />
     <Compile Include="ValueTypes\FloatValueType.cs" />
@@ -50,7 +49,7 @@
     <Compile Include="Utils.cs" />
     <Compile Include="ValueTypes\StateValueType.cs" />
     <Compile Include="ValueTypes\ToggleValueType.cs" />
-    <Compile Include="ValueTypes\ValueType.cs" />
+    <Compile Include="ValueTypes\AbstractValueType.cs" />
     <Compile Include="Attributes\VisualInitializationAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

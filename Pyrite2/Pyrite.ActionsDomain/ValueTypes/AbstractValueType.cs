@@ -12,7 +12,6 @@ namespace Pyrite.ActionsDomain.ValueTypes
             set {
                 if (CanBeModified)
                     _acceptedValues = value;
-                else throw new MemberAccessException();
             }
         }
 
@@ -42,6 +41,7 @@ namespace Pyrite.ActionsDomain.ValueTypes
 
         public bool IsCompatibleWith(AbstractValueType valueType)
         {
+            if (valueType.GetType() != this.GetType()) return false;
             if (valueType.SupportsNumericalComparisons.Equals(this.SupportsNumericalComparisons) && valueType.AcceptedValues.Length.Equals(this.AcceptedValues.Length))
             {
                 for (int i = 0; i < valueType.AcceptedValues.Length; i++)

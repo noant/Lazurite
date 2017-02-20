@@ -5,12 +5,15 @@ using Pyrite.ActionsDomain;
 using Pyrite.CoreActions.CoreActions;
 using System;
 using System.Threading;
+using Pyrite.ActionsDomain.Attributes;
+using Pyrite.ActionsDomain.ValueTypes;
 
 namespace Pyrite.CoreActions.CoreAction
 {
     [HumanFriendlyName("ЗапускСценария")]
     [VisualInitialization]
     [OnlyGetValue]
+    [SuitableValueTypes(true)]
     public class RunExistingScenarioAction : ICoreAction, IAction, ISupportsCancellation
     {
         public string TargetScenarioId
@@ -61,7 +64,7 @@ namespace Pyrite.CoreActions.CoreAction
             }
         }
 
-        public ActionsDomain.ValueTypes.AbstractValueType ValueType
+        public AbstractValueType ValueType
         {
             get
             {
@@ -89,8 +92,8 @@ namespace Pyrite.CoreActions.CoreAction
         {
             //do nothing
         }
-
-        public void UserInitialize()
+        
+        public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //do nothing
         }

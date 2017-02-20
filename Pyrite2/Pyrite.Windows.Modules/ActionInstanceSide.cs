@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pyrite.ActionsDomain.Attributes
+namespace Pyrite.Windows.Modules
 {
-    public class OnlyExecuteAttribute: Attribute
+    public enum ActionInstanceSide
     {
+        OnlyRight,
+        OnlyLeft,
+        Both
     }
 }

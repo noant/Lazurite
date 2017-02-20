@@ -1,4 +1,5 @@
 ﻿using Pyrite.ActionsDomain;
+using Pyrite.ActionsDomain.Attributes;
 using Pyrite.ActionsDomain.ValueTypes;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
     [OnlyGetValue]
     [VisualInitialization]
     [HumanFriendlyName("Переключатель")]
+    [SuitableValueTypes(typeof(ToggleValueType))]
+    [InheritsValueTypeParams]
     public class GetToggleVTAction : IAction
     {
         public string Caption
@@ -32,7 +35,7 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
         }
 
         private ToggleValueType _valueType = new ToggleValueType();
-        public ActionsDomain.ValueTypes.AbstractValueType ValueType
+        public AbstractValueType ValueType
         {
             get
             {
@@ -48,8 +51,8 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
         {
             //
         }
-
-        public void UserInitialize()
+        
+        public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //
         }

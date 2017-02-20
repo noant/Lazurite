@@ -1,4 +1,5 @@
 ﻿using Pyrite.ActionsDomain;
+using Pyrite.ActionsDomain.Attributes;
 using Pyrite.ActionsDomain.ValueTypes;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
 {
     [OnlyGetValue]
     [VisualInitialization]
+    [InheritsValueTypeParams]
+    [SuitableValueTypes(typeof(FloatValueType))]
     public class GetFloatVTAction : IAction
     {
         public string Caption
@@ -47,8 +50,8 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
         {
             //
         }
-
-        public void UserInitialize()
+        
+        public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //
         }

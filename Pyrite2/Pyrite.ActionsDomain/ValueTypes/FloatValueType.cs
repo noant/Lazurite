@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pyrite.ActionsDomain.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 namespace Pyrite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Число")]
+    [SuitableValueTypes(typeof(FloatValueType))]
     public class FloatValueType: AbstractValueType
     {
         public FloatValueType()

@@ -52,8 +52,8 @@ namespace Pyrite.Tests
             {
                 //
             }
-
-            public void UserInitialize()
+            
+            public void UserInitializeWith<T>() where T : AbstractValueType
             {
                 //
             }

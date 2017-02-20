@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pyrite.ActionsDomain.ValueTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,8 @@ namespace Pyrite.ActionsDomain
     {
         string Value { get; set; }
         string Caption { get; set; }
-        ValueTypes.AbstractValueType ValueType { get; set; }
+        AbstractValueType ValueType { get; set; }
         void Initialize();
-        void UserInitialize();
+        void UserInitializeWith<T>() where T : AbstractValueType;
     }
 }

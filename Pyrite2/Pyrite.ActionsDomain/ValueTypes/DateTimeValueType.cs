@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pyrite.ActionsDomain.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,14 @@ using System.Threading.Tasks;
 
 namespace Pyrite.ActionsDomain.ValueTypes
 {
-    [HumanFriendlyName("Дата и время")]
+    [HumanFriendlyName("ДатаВремя")]
     public class DateTimeValueType: AbstractValueType
     {
+        public DateTimeValueType()
+        {
+            _acceptedValues = new string[] { };
+        }
+
         public override bool SupportsNumericalComparisons
         {
             get

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AB2D5750-1D05-4963-8445-EFCE54616D8F}</ProjectGuid>
+    <ProjectGuid>{D7502351-5266-4FD3-B36C-F6CC7480B166}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pyrite.Windows.Modules</RootNamespace>
-    <AssemblyName>Pyrite.Windows.Modules</AssemblyName>
+    <RootNamespace>Pyrite2TestModules</RootNamespace>
+    <AssemblyName>Pyrite2TestModules</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Pyrite.ActionsDomain">
+      <HintPath>..\..\..\Pyrite2\Pyrite.ActionsDomain\bin\Debug\Pyrite.ActionsDomain.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,29 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionInstanceSide.cs" />
-    <Compile Include="CanAddLibraryResult.cs" />
-    <Compile Include="CanRemoveLibraryResult.cs" />
-    <Compile Include="ModuleAlreadyExistsExeption.cs" />
-    <Compile Include="ModulesManager.cs" />
+    <Compile Include="TestAction1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pyrite.ActionsDomain\Pyrite.ActionsDomain.csproj">
-      <Project>{E6BE3954-3D6F-447A-91BF-04D892A1C025}</Project>
-      <Name>Pyrite.ActionsDomain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyrite.Data\Pyrite.Data.csproj">
-      <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
-      <Name>Pyrite.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyrite.IOC\Pyrite.IOC.csproj">
-      <Project>{a002f2fb-6791-46a2-9061-38bbe59e1618}</Project>
-      <Name>Pyrite.IOC</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyrite.MainDomain\Pyrite.MainDomain.csproj">
-      <Project>{dcd8e6af-a435-4556-ad74-84444b1dd816}</Project>
-      <Name>Pyrite.MainDomain</Name>
+    <ProjectReference Include="..\TestLib\TestLib.csproj">
+      <Project>{e59e7909-9238-43e4-81bc-755ccea5a719}</Project>
+      <Name>TestLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

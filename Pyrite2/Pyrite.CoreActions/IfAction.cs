@@ -7,11 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Pyrite.ActionsDomain.ValueTypes;
+using Pyrite.ActionsDomain.Attributes;
 
 namespace Pyrite.CoreActions
 {
     [VisualInitialization]
     [OnlyExecute]
+    [SuitableValueTypes(typeof(ButtonValueType))]
     public class IfAction : IAction, IMultipleAction, ISupportsCancellation
     {
         public CancellationToken CancellationToken
@@ -57,7 +59,7 @@ namespace Pyrite.CoreActions
         }
 
         private ButtonValueType _valueType = new ButtonValueType();
-        public ActionsDomain.ValueTypes.AbstractValueType ValueType
+        public AbstractValueType ValueType
         {
             get
             {
@@ -82,8 +84,8 @@ namespace Pyrite.CoreActions
         {
             //
         }
-
-        public void UserInitialize()
+        
+        public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //
         }

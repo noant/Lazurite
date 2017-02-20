@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pyrite.ActionsDomain.Attributes
+namespace TestLib
 {
-    public class OnlyExecuteAttribute: Attribute
+    public class DateTimeExt
     {
+        public DateTime Value { get; set; }
     }
 }

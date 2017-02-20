@@ -7,11 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Pyrite.ActionsDomain.ValueTypes;
+using Pyrite.ActionsDomain.Attributes;
 
 namespace Pyrite.CoreActions
 {
     [VisualInitialization]
     [OnlyExecute]
+    [SuitableValueTypes(typeof(ButtonValueType))]
     [HumanFriendlyName("Пока")]
     public class WhileAction : IAction, IMultipleAction, ISupportsCancellation
     {
@@ -82,8 +84,8 @@ namespace Pyrite.CoreActions
         {
             //
         }
-
-        public void UserInitialize()
+        
+        public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //
         }

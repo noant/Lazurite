@@ -1,4 +1,5 @@
 ﻿using Pyrite.ActionsDomain;
+using Pyrite.ActionsDomain.Attributes;
 using Pyrite.ActionsDomain.ValueTypes;
 using Pyrite.CoreActions.ComparisonTypes;
 using System;
@@ -12,6 +13,7 @@ namespace Pyrite.CoreActions
     [OnlyGetValue]
     [VisualInitialization]
     [HumanFriendlyName("Условие")]
+    [SuitableValueTypes(typeof(ToggleValueType))]
     public class CheckerAction : IAction, IMultipleAction, IChecker
     {
         public IAction TargetAction1 { get; set; }
@@ -63,9 +65,9 @@ namespace Pyrite.CoreActions
         public void Initialize()
         {
             //do nothing
-        }
+        }        
 
-        public void UserInitialize()
+        public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //do nothing
         }

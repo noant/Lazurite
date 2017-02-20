@@ -1,26 +1,21 @@
 ﻿using Pyrite.ActionsDomain;
-using Pyrite.ActionsDomain.Attributes;
-using Pyrite.ActionsDomain.ValueTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Pyrite.ActionsDomain.ValueTypes;
+using TestLib;
 
-namespace Pyrite.CoreActions.StandartValueTypeActions
+namespace Pyrite2TestModules
 {
-    [OnlyGetValue]
-    [VisualInitialization]
-    [InheritsValueTypeParams]
-    [HumanFriendlyName("Изображение")]
-    [SuitableValueTypes(typeof(ImageValueType))]
-    public class GetImageVTAction : IAction
+    public class TestAction1 : IAction
     {
         public string Caption
         {
             get
             {
-                return "Изображение";
+                return "TestAction1";
             }
             set
             {
@@ -28,19 +23,27 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
             }
         }
 
+        private DateTimeExt _currentValue = new DateTimeExt() { Value = DateTime.Now };
         public string Value
         {
-            get;
-            set;
+            get
+            {
+                return _currentValue.Value.ToString();
+            }
+            set
+            {
+                _currentValue = new DateTimeExt() { Value = DateTime.Parse(value) };
+            }
         }
 
-        private ToggleValueType _valueType = new ToggleValueType();
-        public ActionsDomain.ValueTypes.AbstractValueType ValueType
+        private DateTimeValueType _valueType = new DateTimeValueType();
+        public AbstractValueType ValueType
         {
             get
             {
                 return _valueType;
             }
+
             set
             {
                 //

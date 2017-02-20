@@ -54,6 +54,7 @@
     <Compile Include="DelayTest.cs" />
     <Compile Include="FileSaviorTest.cs" />
     <Compile Include="IOCTest.cs" />
+    <Compile Include="ModulesManagerTest.cs" />
     <Compile Include="ReflectionHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -89,6 +90,10 @@
     <ProjectReference Include="..\Pyrite.Windows.Data\Pyrite.Windows.Data.csproj">
       <Project>{e71f185a-b90f-4145-bd38-97eb30d129fe}</Project>
       <Name>Pyrite.Windows.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Windows.Modules\Pyrite.Windows.Modules.csproj">
+      <Project>{AB2D5750-1D05-4963-8445-EFCE54616D8F}</Project>
+      <Name>Pyrite.Windows.Modules</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

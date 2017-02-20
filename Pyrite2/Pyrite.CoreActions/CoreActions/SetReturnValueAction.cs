@@ -5,12 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Pyrite.MainDomain;
+using Pyrite.ActionsDomain.ValueTypes;
+using Pyrite.ActionsDomain.Attributes;
 
 namespace Pyrite.CoreActions.CoreActions
 {
     [OnlyExecute]
     [VisualInitialization]
     [HumanFriendlyName("ВернутьЗначение")]
+    [SuitableValueTypes(true)]
     public class SetReturnValueAction : ICoreAction, IAction, IMultipleAction
     {
         private ScenarioBase _scenario;
@@ -76,8 +79,8 @@ namespace Pyrite.CoreActions.CoreActions
         {
             return new[] { InputValue };
         }
-
-        public void UserInitialize()
+        
+        public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //do nothing
         }

@@ -1,4 +1,5 @@
 ﻿using Pyrite.ActionsDomain;
+using Pyrite.ActionsDomain.Attributes;
 using Pyrite.ActionsDomain.ValueTypes;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Pyrite.CoreActions
     [OnlyExecute]
     [VisualInitialization]
     [HumanFriendlyName("Выполнить")]
+    [SuitableValueTypes(typeof(ButtonValueType))]
     public class ExecuteAction : IMultipleAction, IAction
     {
         public string Caption
@@ -39,7 +41,7 @@ namespace Pyrite.CoreActions
         }
 
         private ButtonValueType _valueType = new ButtonValueType();
-        public ActionsDomain.ValueTypes.AbstractValueType ValueType
+        public AbstractValueType ValueType
         {
             get
             {
@@ -66,7 +68,39 @@ namespace Pyrite.CoreActions
             //do nothing
         }
 
-        public IAction Action { get; set; }
-        public IAction InputValue { get; set; }
+        public void UserInitializeWith<T>() where T : AbstractValueType
+        {
+            //do nothing
+        }
+
+        private IAction _action;
+        public IAction Action {
+            get
+            {
+                return _action;
+            }
+            set
+            {
+                if (_inputValue != null && !_action.ValueType.IsCompatibleWith(_inputValue.ValueType))
+                    _inputValue = null;
+                _action = value;
+            }
+        }
+
+        private IAction _inputValue;
+        public IAction InputValue {
+            get
+            {
+                return _inputValue;
+            }
+            set
+            {
+                if (_action == null)
+                    throw new InvalidOperationException("Cannot set InputValue if Action is null");
+                if (!_action.ValueType.IsCompatibleWith(value.ValueType))
+                    throw new InvalidOperationException("Action ValueType is not compatible with installing value ValueType");
+                _inputValue = value;
+            }
+        }
     }
 }

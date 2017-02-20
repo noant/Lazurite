@@ -40,9 +40,14 @@ namespace Pyrite.Data
             File.Delete(ResolvePath(key));
         }
 
+        public bool Has(string key)
+        {
+            return File.Exists(ResolvePath(key));
+        }
+
         private string ResolvePath(string key)
         {
-            return Path.Combine(_baseDir,_dir, key + ".xml");
+            return Path.Combine(_baseDir,_dir, key + _extension);
         }
     }
 }

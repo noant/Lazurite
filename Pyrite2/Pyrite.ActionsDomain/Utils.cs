@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Pyrite.ActionsDomain.Attributes;
+using System;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Pyrite.ActionsDomain
 {
@@ -28,6 +26,16 @@ namespace Pyrite.ActionsDomain
         public static bool IsCoreVisualInitialization(Type type)
         {
             return type.GetTypeInfo().GetCustomAttribute<VisualInitializationAttribute>() != null;
+        }
+
+        public static bool IsComparableWithValueType(Type type, Type valueType)
+        {
+            return type.GetTypeInfo().GetCustomAttribute<SuitableValueTypesAttribute>().Types.Contains(valueType);
+        }
+
+        public static bool IsInhertisValueTypeParams(Type type)
+        {
+            return type.GetTypeInfo().GetCustomAttribute<InheritsValueTypeParamsAttribute>() != null;
         }
     }
 }

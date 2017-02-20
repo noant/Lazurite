@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pyrite.ActionsDomain.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Pyrite.ActionsDomain.ValueTypes
     public class ButtonValueType : AbstractValueType
     {
         public ButtonValueType() {
-            _acceptedValues = new[] { "PRESS" };
+            _acceptedValues = new string[] { };
         }
 
         public override string HumanFriendlyName

@@ -7,11 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Pyrite.ActionsDomain.ValueTypes;
+using Pyrite.ActionsDomain.Attributes;
 
 namespace Pyrite.CoreActions
 {
     [OnlyExecute]
     [VisualInitialization]
+    [SuitableValueTypes(typeof(ButtonValueType))]
     [HumanFriendlyName("СложноеДействие")]
     public class ComplexAction : IAction, IMultipleAction, ISupportsCancellation
     {
@@ -85,8 +87,8 @@ namespace Pyrite.CoreActions
         {
             //do nothing
         }
-
-        public void UserInitialize()
+        
+        public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //do nothing
         }

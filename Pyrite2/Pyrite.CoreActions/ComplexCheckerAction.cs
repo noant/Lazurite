@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Pyrite.ActionsDomain.ValueTypes;
+using Pyrite.ActionsDomain.Attributes;
 
 namespace Pyrite.CoreActions
 {
     [VisualInitialization]
     [OnlyGetValue]
     [HumanFriendlyName("СложноеУсловие")]
+    [SuitableValueTypes(typeof(ToggleValueType))]
     public class ComplexCheckerAction : IMultipleAction, IAction, IChecker, ISupportsCancellation
     {
         public ComplexCheckerAction()
@@ -120,15 +122,15 @@ namespace Pyrite.CoreActions
         {
             //do nothing
         }
-
-        public void UserInitialize()
-        {
-            //do nothing
-        }
-
+        
         public bool Evaluate()
         {
             return Value == ToggleValueType.ValueON;
+        }
+
+        public void UserInitializeWith<T>() where T : AbstractValueType
+        {
+            //do nothing
         }
     }
 }

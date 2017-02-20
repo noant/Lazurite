@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pyrite.ActionsDomain.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Pyrite.ActionsDomain.ValueTypes
     {
         public InfoValueType()
         {
-            _acceptedValues = new[] { "INFO" };
+            _acceptedValues = new string[] { };
         }
 
         public override string HumanFriendlyName

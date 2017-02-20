@@ -1,4 +1,5 @@
 ﻿using Pyrite.ActionsDomain;
+using Pyrite.ActionsDomain.Attributes;
 using Pyrite.ActionsDomain.ValueTypes;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,9 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
 {
     [OnlyGetValue]
     [VisualInitialization]
+    [InheritsValueTypeParams]
     [HumanFriendlyName("Статус")]
+    [SuitableValueTypes(typeof(StateValueType))]
     public class GetStateVTAction : IAction
     {
         public string Caption
@@ -48,8 +51,8 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
         {
             //
         }
-
-        public void UserInitialize()
+        
+        public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //
         }
