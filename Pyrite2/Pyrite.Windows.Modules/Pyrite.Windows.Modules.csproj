@@ -30,8 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,11 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionInstanceSide.cs" />
-    <Compile Include="CanAddLibraryResult.cs" />
-    <Compile Include="CanRemoveLibraryResult.cs" />
-    <Compile Include="ModuleAlreadyExistsExeption.cs" />
-    <Compile Include="ModulesManager.cs" />
+    <Compile Include="AssemblyTargetTypes.cs" />
+    <Compile Include="CanAddPluginResult.cs" />
+    <Compile Include="CanRemovePluginResult.cs" />
+    <Compile Include="PluginInfo.cs" />
+    <Compile Include="PluginsCreator.cs" />
+    <Compile Include="PluginsManager.cs" />
+    <Compile Include="PluginTypeInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pyrite.ActionsDomain\Pyrite.ActionsDomain.csproj">
@@ -64,6 +73,9 @@
       <Project>{dcd8e6af-a435-4556-ad74-84444b1dd816}</Project>
       <Name>Pyrite.MainDomain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

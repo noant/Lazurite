@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Pyrite.Windows.Modules
 {
-    public class CanRemoveLibraryResult
+    public class CanRemovePluginResult
     {
-        public CanRemoveLibraryResult(bool can, string message = null)
+        public CanRemovePluginResult(bool can, string message = null)
         {
             CanRemove = can;
             Message = message;

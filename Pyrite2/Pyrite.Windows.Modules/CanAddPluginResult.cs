@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Pyrite.Windows.Modules
 {
-    public class CanAddLibraryResult
+    public class CanAddPluginResult
     {
-        public CanAddLibraryResult(bool can, string message = null, int targetTypesCount=0)
+        public CanAddPluginResult(bool can, string message = null, int targetTypesCount=0)
         {
             CanAdd = can;
             Message = message;

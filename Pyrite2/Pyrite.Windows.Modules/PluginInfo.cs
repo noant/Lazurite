@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Pyrite.Windows.Modules
 {
-    public class ModuleAlreadyExistsException : Exception
+    public class PluginInfo
     {
-        public ModuleAlreadyExistsException(string message) : base(message) { } 
+        public string Name { get; set; }
+        public string[] TargetLibraries { get; set; }
     }
 }
