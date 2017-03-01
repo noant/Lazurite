@@ -55,5 +55,12 @@ namespace Pyrite.Windows.Modules
             var zip = new FastZip();
             zip.ExtractZip(filePath, destinationFolder, string.Empty);
         }
+
+        public static string GetAssemblyPath(Assembly assembly)
+        {
+            string codeBase = assembly.CodeBase;
+            UriBuilder uri = new UriBuilder(codeBase);
+            return Uri.UnescapeDataString(uri.Path);
+        }
     }
 }

@@ -17,11 +17,11 @@ namespace Pyrite.Windows.Modules
     {
         public PluginsManager()
         {
-            //get executing assembly path
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
-            _baseDir = Path.Combine(Path.GetDirectoryName(path), "plugins");
+            _baseDir = Path.Combine(
+                Path.GetDirectoryName(
+                    Utils.GetAssemblyPath(
+                        Assembly.GetExecutingAssembly())),
+                "plugins");
             if (!Directory.Exists(_baseDir))
                 Directory.CreateDirectory(_baseDir);
 
@@ -51,11 +51,11 @@ namespace Pyrite.Windows.Modules
             //init target types
             foreach (var plugin in _plugins)
             {
-                foreach (var assemblyPath in plugin.TargetLibraries.Select(x=>Path.Combine(_baseDir, x))
+                foreach (var assemblyPath in plugin.TargetLibraries.Select(x=>Path.Combine(_baseDir, x)))
                 {
                     var assembly = Assembly.LoadFrom(assemblyPath);
                     var types = GetTargetTypes(assembly);
-                    _allTypes.AddRange(types.Select(x=>new PluginTypeInfo() {
+                    _allTypes.AddRange(types.Select(x => new PluginTypeInfo() {
                         Plugin = plugin,
                         Type = x
                     }));
@@ -92,7 +92,7 @@ namespace Pyrite.Windows.Modules
                 rightSide = (side == ActionInstanceSide.Both) ||
                     (side == ActionInstanceSide.OnlyLeft) ||
                     (side == ActionInstanceSide.OnlyRight 
-                    && ActionsDomain.Utils.IsOnlyGetValue(type) 
+                    && ActionsDomain.Utils.IsOnlyGetValue(type)
                     && !ActionsDomain.Utils.IsOnlyExecute(type));
 
                 if (rightSide && isValueTypeSupport)
@@ -102,10 +102,10 @@ namespace Pyrite.Windows.Modules
         }
 
         /// <summary>
-        /// Get all libraries array
+        /// Get all libraries as array
         /// </summary>
         /// <returns></returns>
-        public PluginInfo[] GetAllLibraries()
+        public PluginInfo[] GetPlugins()
         {
             return _plugins.ToArray();
         }
@@ -113,11 +113,11 @@ namespace Pyrite.Windows.Modules
         /// <summary>
         /// Remove plugin
         /// </summary>
-        /// <param name="library"></param>
+        /// <param name="Unique name of plugin"></param>
         public void RemovePlugin(string pluginName)
         {
             var plugin = _plugins.Single(x => x.Name.Equals(pluginName));
-            var canRemoveResult = CanRemoveLibrary(pluginName);
+            var canRemoveResult = CanRemovePlugin(pluginName);
             if (!canRemoveResult.CanRemove)
                 throw new InvalidOperationException(canRemoveResult.Message);
             _allTypes.RemoveAll(x => x.Plugin.Equals(plugin));
@@ -128,99 +128,61 @@ namespace Pyrite.Windows.Modules
         }
 
         /// <summary>
-        /// Add IAction types of library or just add dependent library to root path
+        /// Append plugin
         /// </summary>
-        /// <param name="libraryPath"></param>
-        public void AddLibrary(string libraryPath, out bool loadedFileIsNotLibrary)
+        /// <param name="pluginPath"></param>
+        public void AddPlugin(string pluginPath)
         {
-            var fileName = Path.GetFileName(libraryPath);
-            var destFilePath = Path.Combine(_baseDir, fileName);
-            try
-            {
-                var canAddLibResult = CanAddLibrary(libraryPath);
-                if (!canAddLibResult.CanAdd)
-                {
-                    //if (canAddLibResult.Message.Equals("Cannot add library. File already exists."))
-                    //    throw new ModuleAlreadyExistsException(canAddLibResult.Message);
-                    //else throw new Exception(canAddLibResult.Message);
-                }
-                File.Copy(libraryPath, destFilePath);
-                _libraries.Add(fileName);
-                _allTypes.AddRange(GetTargetTypes(Assembly.LoadFrom(destFilePath)));
-                _savior.Set(_saviorKey, _libraries);
-                loadedFileIsNotLibrary = false;
-            }
-            //catch (ModuleAlreadyExistsException e)
-            //{ 
-            //    throw e;
-            //}
-            catch (BadImageFormatException e)
-            {
-                loadedFileIsNotLibrary = true;
-                //do nothing, just add file
-            }
-            catch (Exception e) {
-                if (File.Exists(destFilePath))
-                    File.Delete(destFilePath);
-                throw e;
-            }
+            var fileName = Path.GetFileNameWithoutExtension(pluginPath);
+            var destDirectoryPath = Path.Combine(_baseDir, fileName);
+            var canAddLibResult = CanAddPlugin(pluginPath);
+            if (!canAddLibResult.CanAdd)
+                throw new Exception(canAddLibResult.Message);
+            if (!Directory.Exists(destDirectoryPath))
+                Directory.CreateDirectory(destDirectoryPath);
+            Utils.UnpackFile(pluginPath, destDirectoryPath);
+            var assembliesAndTypes = Utils.GetAssembliesWithType(typeof(IAction), destDirectoryPath);
+            var plugin = new PluginInfo() {
+                Name = fileName,
+                TargetLibraries = assembliesAndTypes
+                    .Select(x => Utils.GetAssemblyPath(x.Assembly).Substring(_baseDir.Length)).ToArray()
+            };
+            _plugins.Add(plugin);
+            _allTypes.AddRange(
+                assembliesAndTypes
+                .SelectMany(x=>x.Types)
+                .Select(x=>new PluginTypeInfo() { Plugin = plugin, Type = x })
+                );
+            _savior.Set(_saviorKey, _plugins);
         }
         
         /// <summary>
         /// Determines where library can be removed
         /// </summary>
-        /// <param name="library"></param>
+        /// <param name="pluginName"></param>
         /// <returns></returns>
-        public CanRemovePluginResult CanRemoveLibrary(string library)
+        public CanRemovePluginResult CanRemovePlugin(string pluginName)
         {
-            var destFilePath = Path.Combine(_baseDir, library);
-            try
+            var libraryTypes = _allTypes.Where(x => x.Plugin.Name.Equals(pluginName)).Select(x=>x.Type).ToArray();
+            //determines dependent scenarios
+            //var dependentScenarios = _scenarioRepository.GetDependentScenarios(libraryTypes);
+            var dependentScenarios = _scenarioRepository != null ? _scenarioRepository.GetDependentScenarios(libraryTypes) : new ScenarioBase[0];
+            if (dependentScenarios.Any())
             {
-                var assembly = Assembly.LoadFrom(destFilePath);
-                var libraryTypes = GetTargetTypes(assembly);
-                // var dependentScenarios = _scenarioRepository.GetDependentScenarios(libraryTypes);
-                var dependentScenarios = _scenarioRepository != null ? _scenarioRepository.GetDependentScenarios(libraryTypes) : new ScenarioBase[0];
-                //determines dependent scenarios
-                if (dependentScenarios.Any())
-                {
-                    var allDependentScenariosNames = dependentScenarios
-                            .Select(x => x.Name)
-                            .Aggregate((x1, x2) => x1 + ";\r\n" + x2);
-                    return new CanRemovePluginResult(false,
-                        "Cannot remove library, because there is some scenarios referenced on it:\r\n" +
-                        allDependentScenariosNames);
-                }
-                else
-                {
-                    //determines referenced libraries
-                    var referencedLibraries = _libraries
-                        .Select(x => Assembly.LoadFrom(Path.Combine(_baseDir, x)))
-                        .Where(x => x.GetReferencedAssemblies()
-                        .Any(z => z.FullName.Equals(assembly.FullName))).ToArray();
-                    if (referencedLibraries.Any())
-                    {
-                        var allReferencedLibrariesNames = referencedLibraries
-                            .Select(x => x.FullName)
-                            .Aggregate((x1, x2) => x1 + ";\r\n" + x2);
-                        return new CanRemovePluginResult(false,
-                            "Cannot remove library, because there is some libraries referenced on it:\r\n" +
-                            allReferencedLibrariesNames);
-                    }
-                }
-                return new CanRemovePluginResult(true);
+                var allDependentScenariosNames = dependentScenarios
+                        .Select(x => x.Name)
+                        .Aggregate((x1, x2) => x1 + ";\r\n" + x2);
+                return new CanRemovePluginResult(false,
+                    "Cannot remove library, because there is some scenarios referenced on it:\r\n" +
+                    allDependentScenariosNames);
             }
-            catch (BadImageFormatException e)
-            {
-                //then is not just dll or dll is corrupted
-                return new CanRemovePluginResult(true);
-            }
+            return new CanRemovePluginResult(true);
         }
 
-        public CanAddPluginResult CanAddLibrary(string libraryPath)
+        public CanAddPluginResult CanAddPlugin(string pluginPath)
         {
-            var fileName = Path.GetFileName(libraryPath);
-            var destFilePath = Path.Combine(_baseDir, fileName);
-            if (_libraries.Contains(fileName) || File.Exists(destFilePath))
+            var fileName = Path.GetFileNameWithoutExtension(pluginPath);
+            if (_plugins.Any(x=>x.Name.Equals(fileName)))
                 return new CanAddPluginResult(false, "Cannot add library. File already exists.");
             else return new CanAddPluginResult(true);
         }

@@ -21,18 +21,7 @@ namespace Pyrite.Tests
         public void ModulesTest()
         {
             Singleton.Add(new FileSavior());
-
             var modulesManager = new PluginsManager();
-            bool isNotLib = false;
-            modulesManager.AddLibrary(@"D:\Temporary\auto.txt", out isNotLib);
-            if (!isNotLib)
-                throw new Exception();
-            modulesManager.AddLibrary(@"D:\Programming\Pyrite_2\Pyrite2TestModules\Pyrite2TestModules\Pyrite2TestModules\bin\Debug\TestLib.dll", out isNotLib);
-            modulesManager.AddLibrary(@"D:\Programming\Pyrite_2\Pyrite2TestModules\Pyrite2TestModules\Pyrite2TestModules\bin\Debug\Pyrite2TestModules.dll", out isNotLib);
-
-            if (!modulesManager.GetModules().Any(x => x.Name.Equals("TestAction1"))) {
-                throw new Exception();
-            }
         }
 
         [TestMethod]
@@ -40,15 +29,6 @@ namespace Pyrite.Tests
         {
             Singleton.Add(new FileSavior());
             var modulesManager = new PluginsManager();
-
-            modulesManager.RemovePlugin("auto.txt");
-            modulesManager.RemovePlugin("Pyrite2TestModules.dll");
-            modulesManager.RemovePlugin("TestLib.dll");
-
-            if (modulesManager.GetModules().Any(x => x.Name.Equals("TestAction1")))
-            {
-                throw new Exception();
-            }
         }
 
         [TestMethod]
@@ -57,12 +37,6 @@ namespace Pyrite.Tests
             var savior = new FileSavior();
             Singleton.Add(savior);
             var modulesManager = new PluginsManager();
-            bool isNotLib = false;
-            modulesManager.AddLibrary(@"D:\Programming\Pyrite_2\Pyrite2TestModules\Pyrite2TestModules\Pyrite2TestModules\bin\Debug\TestLib.dll", out isNotLib);
-            modulesManager.AddLibrary(@"D:\Programming\Pyrite_2\Pyrite2TestModules\Pyrite2TestModules\Pyrite2TestModules\bin\Debug\Pyrite2TestModules.dll", out isNotLib);
-            var testAction = modulesManager.CreateInstanceOf(modulesManager.GetModules().First());
-            testAction.Value = DateTime.Now.ToString();
-            savior.Set("testAction", testAction);
         }
 
         [TestMethod]
