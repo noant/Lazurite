@@ -17,9 +17,7 @@ namespace Pyrite.Data
 
         public FileSavior()
         {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
+            var path = new UriBuilder(Assembly.GetExecutingAssembly().CodeBase).Path;
             _baseDir = Path.GetDirectoryName(path);
         }
 

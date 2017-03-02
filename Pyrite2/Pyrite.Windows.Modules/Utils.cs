@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@ namespace Pyrite.Windows.Modules
             {
                 try
                 {
-                    var assembly = Assembly.LoadFrom(file);
+                    var assembly = LoadAssembly(file);
                     var types = assembly.DefinedTypes.Where(x => type.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract).ToArray();
                     if (types.Any())
                         result.Add(new AssemblyTargetTypes()
@@ -60,7 +61,12 @@ namespace Pyrite.Windows.Modules
         {
             string codeBase = assembly.CodeBase;
             UriBuilder uri = new UriBuilder(codeBase);
-            return Uri.UnescapeDataString(uri.Path);
+            return Path.GetFullPath(Uri.UnescapeDataString(uri.Path));
         }
+
+        public static Assembly LoadAssembly(string path)
+        {
+            return Assembly.UnsafeLoadFrom(path);
+        }        
     }
 }
