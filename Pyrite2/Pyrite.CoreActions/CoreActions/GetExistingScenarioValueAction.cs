@@ -2,6 +2,7 @@
 using Pyrite.MainDomain;
 using Pyrite.IOC;
 using Pyrite.ActionsDomain;
+using Pyrite.CoreActions.CoreActions;
 using System;
 using System.Threading;
 using Pyrite.ActionsDomain.Attributes;
@@ -9,11 +10,11 @@ using Pyrite.ActionsDomain.ValueTypes;
 
 namespace Pyrite.CoreActions.CoreActions
 {
-    [HumanFriendlyName("ЗапускСценария")]
+    [HumanFriendlyName("ПолучитьЗначениеСценария")]
     [VisualInitialization]
-    [OnlyExecute]
-    [SuitableValueTypes(typeof(ButtonValueType))]
-    public class RunExistingScenarioAction : ICoreAction, IAction
+    [OnlyGetValue]
+    [SuitableValueTypes(true)]
+    public class GetExistingScenarioValueAction : ICoreAction, IAction
     {
         public string TargetScenarioId
         {
@@ -30,14 +31,12 @@ namespace Pyrite.CoreActions.CoreActions
         {
             return _scenario;
         }
-
-        public IAction InputValue { get; set; }
         
         public string Caption
         {
             get
             {
-                return _scenario.Name + "(" + ActionsDomain.Utils.ExtractHumanFriendlyName(InputValue.GetType())+ " " + InputValue.Caption + ")";
+                return _scenario.Name;
             }
             set
             {
@@ -57,12 +56,6 @@ namespace Pyrite.CoreActions.CoreActions
             }
         }
         
-        public RunExistingScenarioMode Mode
-        {
-            get;
-            set;
-        }
-
         public void Initialize()
         {
             //do nothing
@@ -75,17 +68,12 @@ namespace Pyrite.CoreActions.CoreActions
 
         public string GetValue(ExecutionContext context)
         {
-            return string.Empty;
+            return _scenario.CalculateCurrentValue();
         }
 
         public void SetValue(ExecutionContext context, string value)
         {
-            if (Mode == RunExistingScenarioMode.Asynchronously)
-                _scenario.ExecuteAsyncParallel(value, context.CancellationToken);
-            else if (Mode == RunExistingScenarioMode.Synchronously)
-                _scenario.Execute(value, context.CancellationToken);
-            else if (Mode == RunExistingScenarioMode.MainExecutionContext)
-                _scenario.ExecuteAsync(value);
+            //
         }
     }
 }

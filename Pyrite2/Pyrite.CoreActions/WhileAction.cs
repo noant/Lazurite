@@ -15,14 +15,8 @@ namespace Pyrite.CoreActions
     [OnlyExecute]
     [SuitableValueTypes(typeof(ButtonValueType))]
     [HumanFriendlyName("Пока")]
-    public class WhileAction : IAction, IMultipleAction, ISupportsCancellation
+    public class WhileAction : IAction, IMultipleAction
     {
-        public CancellationToken CancellationToken
-        {
-            get;
-            set;
-        }
-
         public ComplexAction Action { get; set; }
         public ComplexCheckerAction Checker { get; set; }
 
@@ -37,28 +31,7 @@ namespace Pyrite.CoreActions
                 //
             }
         }
-
-        public string Value
-        {
-            get
-            {
-                return string.Empty;
-            }
-            set
-            {
-                Action.CancellationToken =
-                    Checker.CancellationToken =
-                    this.CancellationToken;
-
-                while (Checker.Evaluate())
-                {
-                    if (CancellationToken.IsCancellationRequested)
-                        break;
-                    Action.Value = string.Empty;
-                }
-            }
-        }
-
+        
         private ButtonValueType _valueType = new ButtonValueType();
         public ActionsDomain.ValueTypes.AbstractValueType ValueType
         {
@@ -88,6 +61,21 @@ namespace Pyrite.CoreActions
         public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //
+        }
+
+        public string GetValue(ExecutionContext context)
+        {
+            return string.Empty;
+        }
+
+        public void SetValue(ExecutionContext context, string value)
+        {
+            while (Checker.Evaluate(context))
+            {
+                if (context.CancellationToken.IsCancellationRequested)
+                    break;
+                Action.SetValue(context, string.Empty);
+            }
         }
     }
 }

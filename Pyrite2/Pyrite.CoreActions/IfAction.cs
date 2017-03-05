@@ -14,14 +14,8 @@ namespace Pyrite.CoreActions
     [VisualInitialization]
     [OnlyExecute]
     [SuitableValueTypes(typeof(ButtonValueType))]
-    public class IfAction : IAction, IMultipleAction, ISupportsCancellation
+    public class IfAction : IAction, IMultipleAction
     {
-        public CancellationToken CancellationToken
-        {
-            get;
-            set;
-        }
-
         public ComplexAction ActionIf { get; set; }
         public ComplexAction ActionElse { get; set; }
         public ComplexCheckerAction Checker { get; set; }
@@ -37,27 +31,7 @@ namespace Pyrite.CoreActions
                 //
             }
         }
-
-        public string Value
-        {
-            get
-            {
-                return string.Empty;
-            }
-            set
-            {
-                ActionIf.CancellationToken =
-                    ActionElse.CancellationToken =
-                    Checker.CancellationToken =
-                    this.CancellationToken;
-
-                if (Checker.Evaluate())
-                    ActionIf.Value = string.Empty;
-                else
-                    ActionElse.Value = string.Empty;
-            }
-        }
-
+        
         private ButtonValueType _valueType = new ButtonValueType();
         public AbstractValueType ValueType
         {
@@ -88,6 +62,19 @@ namespace Pyrite.CoreActions
         public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //
+        }
+
+        public string GetValue(ExecutionContext context)
+        {
+            return string.Empty;
+        }
+
+        public void SetValue(ExecutionContext context, string value)
+        {
+            if (Checker.Evaluate(context))
+                ActionIf.SetValue(context, string.Empty);
+            else
+                ActionElse.SetValue(context, string.Empty);
         }
     }
 }

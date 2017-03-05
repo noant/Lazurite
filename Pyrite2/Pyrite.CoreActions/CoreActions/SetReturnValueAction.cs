@@ -45,20 +45,8 @@ namespace Pyrite.CoreActions.CoreActions
         {
             get; set;
         }
-
-        public string Value
-        {
-            get
-            {
-                return string.Empty;
-            }
-            set
-            {
-                _scenario.LastValue = InputValue.Value;
-            }
-        }
-
-        public ActionsDomain.ValueTypes.AbstractValueType ValueType
+        
+        public AbstractValueType ValueType
         {
             get
             {
@@ -83,6 +71,16 @@ namespace Pyrite.CoreActions.CoreActions
         public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //do nothing
+        }
+
+        public string GetValue(ExecutionContext context)
+        {
+            return string.Empty;
+        }
+
+        public void SetValue(ExecutionContext context, string value)
+        {
+            context.OutputChanged.Execute(InputValue.GetValue(context));
         }
     }
 }

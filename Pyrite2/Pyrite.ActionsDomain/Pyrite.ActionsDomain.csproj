@@ -36,6 +36,8 @@
   <ItemGroup>
     <Compile Include="Attributes\InheritsValueTypeParamsAttribute.cs" />
     <Compile Include="Attributes\SuitableValueTypesAttribute.cs" />
+    <Compile Include="ExecutionContext.cs" />
+    <Compile Include="OutputChangedDelegates.cs" />
     <Compile Include="ValueTypes\ButtonValueType.cs" />
     <Compile Include="ValueTypes\DateTimeValueType.cs" />
     <Compile Include="ValueTypes\FloatValueType.cs" />

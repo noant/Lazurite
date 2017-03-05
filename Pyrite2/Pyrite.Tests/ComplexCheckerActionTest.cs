@@ -48,11 +48,21 @@ namespace Pyrite.Tests
                 }
             }
 
+            public string GetValue(ExecutionContext context)
+            {
+                throw new NotImplementedException();
+            }
+
             public void Initialize()
             {
                 //
             }
-            
+
+            public void SetValue(ExecutionContext context, string value)
+            {
+                throw new NotImplementedException();
+            }
+
             public void UserInitializeWith<T>() where T : AbstractValueType
             {
                 //
@@ -92,7 +102,7 @@ namespace Pyrite.Tests
                 }
             });
 
-            var result = checkerAction.Value;
+            var result = checkerAction.GetValue(null);
 
             Debug.WriteLine(result);
 

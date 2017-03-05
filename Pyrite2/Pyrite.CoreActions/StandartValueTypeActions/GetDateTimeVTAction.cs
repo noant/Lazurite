@@ -33,7 +33,7 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
             get;
             set;
         }
-
+        
         private DateTimeValueType _valueType = new DateTimeValueType();
         public AbstractValueType ValueType
         {
@@ -55,6 +55,16 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
         public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //
+        }
+
+        public string GetValue(ExecutionContext context)
+        {
+            return Value;
+        }
+
+        public void SetValue(ExecutionContext context, string value)
+        {
+            Value = value;
         }
     }
 }

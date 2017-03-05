@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pyrite.ActionsDomain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Pyrite.CoreActions
 {
     public interface IChecker
     {
-        bool Evaluate();
+        bool Evaluate(ExecutionContext context);
     }
 }

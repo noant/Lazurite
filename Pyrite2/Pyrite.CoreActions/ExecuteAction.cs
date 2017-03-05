@@ -27,19 +27,7 @@ namespace Pyrite.CoreActions
                 //
             }
         }
-
-        public string Value
-        {
-            get
-            {
-                return string.Empty;
-            }
-            set
-            {
-                Action.Value = InputValue.Value;
-            }
-        }
-
+        
         private ButtonValueType _valueType = new ButtonValueType();
         public AbstractValueType ValueType
         {
@@ -71,6 +59,16 @@ namespace Pyrite.CoreActions
         public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //do nothing
+        }
+
+        public string GetValue(ExecutionContext context)
+        {
+            return string.Empty;
+        }
+
+        public void SetValue(ExecutionContext context, string value)
+        {
+            Action.SetValue(context, InputValue.GetValue(context));
         }
 
         private IAction _action;

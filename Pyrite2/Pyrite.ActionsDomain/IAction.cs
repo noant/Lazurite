@@ -9,7 +9,8 @@ namespace Pyrite.ActionsDomain
 {
     public interface IAction
     {
-        string Value { get; set; }
+        string GetValue(ExecutionContext context);
+        void SetValue(ExecutionContext context, string value);
         string Caption { get; set; }
         AbstractValueType ValueType { get; set; }
         void Initialize();

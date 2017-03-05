@@ -31,21 +31,19 @@ namespace Pyrite.CoreActions
                 //
             }
         }
-
-        public string Value
+                
+        public string GetValue(ExecutionContext context)
         {
-            get
-            {
-                return ComparisonType.Calculate(TargetAction1, TargetAction2) ? ToggleValueType.ValueON : ToggleValueType.ValueOFF;
-            }
-            set
-            {
-                //
-            }
+            return ComparisonType.Calculate(TargetAction1, TargetAction2, context) ? ToggleValueType.ValueON : ToggleValueType.ValueOFF;
+        }
+
+        public void SetValue(ExecutionContext context, string value)
+        {
+            //
         }
 
         private ToggleValueType _valueType = new ToggleValueType();
-        public ActionsDomain.ValueTypes.AbstractValueType ValueType
+        public AbstractValueType ValueType
         {
             get
             {
@@ -72,9 +70,9 @@ namespace Pyrite.CoreActions
             //do nothing
         }
 
-        public bool Evaluate()
+        public bool Evaluate(ExecutionContext context)
         {
-            return Value == ToggleValueType.ValueON;
+            return GetValue(context) == ToggleValueType.ValueON;
         }
     }
 }

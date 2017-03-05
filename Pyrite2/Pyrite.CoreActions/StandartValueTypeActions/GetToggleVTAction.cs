@@ -56,5 +56,15 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
         {
             //
         }
+
+        public string GetValue(ExecutionContext context)
+        {
+            return Value;
+        }
+
+        public void SetValue(ExecutionContext context, string value)
+        {
+            Value = value;
+        }
     }
 }

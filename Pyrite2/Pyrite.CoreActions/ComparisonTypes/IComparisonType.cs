@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pyrite.ActionsDomain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,6 @@ namespace Pyrite.CoreActions.ComparisonTypes
     {
         string Caption { get; set; }
         bool OnlyForNumbers { get; }
-        bool Calculate(ActionsDomain.IAction val1, ActionsDomain.IAction val2);
+        bool Calculate(IAction val1, IAction val2, ExecutionContext context);
     }
 }

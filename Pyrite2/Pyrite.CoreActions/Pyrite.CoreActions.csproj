@@ -63,8 +63,11 @@
     <Compile Include="ComparisonTypes\EqualityComparisonType.cs" />
     <Compile Include="ComplexAction.cs" />
     <Compile Include="ComplexCheckerAction.cs" />
+    <Compile Include="CoreActions\GetInputValueAction.cs" />
     <Compile Include="CoreActions\ICoreAction.cs" />
+    <Compile Include="CoreActions\GetExistingScenarioValueAction.cs" />
     <Compile Include="CoreActions\RunExistingScenarioAction.cs" />
+    <Compile Include="CoreActions\RunExistingScenarioMode.cs" />
     <Compile Include="CoreActions\SetReturnValueAction.cs" />
     <Compile Include="ExecuteAction.cs" />
     <Compile Include="ComparisonTypes\IComparisonType.cs" />

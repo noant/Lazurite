@@ -15,7 +15,7 @@ namespace Pyrite.CoreActions
     [VisualInitialization]
     [SuitableValueTypes(typeof(ButtonValueType))]
     [HumanFriendlyName("СложноеДействие")]
-    public class ComplexAction : IAction, IMultipleAction, ISupportsCancellation
+    public class ComplexAction : IAction, IMultipleAction
     {
         public ComplexAction()
         {
@@ -44,14 +44,7 @@ namespace Pyrite.CoreActions
             }
             set
             {
-                foreach (var action in Actions)
-                {
-                    if (CancellationToken.IsCancellationRequested)
-                        break;
-                    if (action is ISupportsCancellation)
-                        ((ISupportsCancellation)action).CancellationToken = this.CancellationToken;
-                    action.Value = string.Empty;
-                }
+                
             }
         }
 
@@ -91,6 +84,21 @@ namespace Pyrite.CoreActions
         public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //do nothing
+        }
+
+        public string GetValue(ExecutionContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(ExecutionContext context, string value)
+        {
+            foreach (var action in Actions)
+            {
+                if (context.CancellationToken.IsCancellationRequested)
+                    break;
+                action.SetValue(context, string.Empty);
+            }
         }
     }
 }

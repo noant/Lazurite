@@ -1,4 +1,6 @@
-﻿using Pyrite.Exceptions;
+﻿using Pyrite.ActionsDomain;
+using Pyrite.ActionsDomain.ValueTypes;
+using Pyrite.Exceptions;
 using Pyrite.IOC;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Pyrite.MainDomain
 {
-    public abstract class ScenarioBase : ISupportsCancellation
+    public abstract class ScenarioBase
     {
         private List<ScenarioStateChangedEvent> _events = new List<ScenarioStateChangedEvent>();
         
@@ -17,7 +19,10 @@ namespace Pyrite.MainDomain
 
         private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
-        private string _lastValue;
+        /// <summary>
+        /// Scenario category
+        /// </summary>
+        public string Category { get; set; }
 
         /// <summary>
         /// Scenario name
@@ -32,7 +37,7 @@ namespace Pyrite.MainDomain
         /// <summary>
         /// Type of returning value
         /// </summary>
-        public ActionsDomain.ValueTypes.AbstractValueType ValueType { get; set; }
+        public abstract AbstractValueType ValueType { get; set; }
 
         /// <summary>
         /// Security settings
@@ -45,49 +50,65 @@ namespace Pyrite.MainDomain
         public DateTime DateTimeScenarioChanged { get; private set; }
 
         /// <summary>
-        /// Last result of scenarion executing
+        /// Current value of scenario execution
         /// </summary>
-        public string LastValue {
-            get {
-                return _lastValue;
-            }
-            set {
-                _lastValue = value;
-                RaiseEvents();
-            }
-        }
+        public abstract string CalculateCurrentValue();
 
         /// <summary>
-        /// CancellationToken
+        /// Get cached result of scenario execution
         /// </summary>
-        public CancellationToken CancellationToken
-        {
-            get;
-            set;
-        }
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public abstract string GetCurrentValue();
+
+        /// <summary>
+        /// Set result of scenario execution
+        /// </summary>
+        public abstract void SetCurrentValueInternal(string value);
+
+        /// <summary>
+        /// Method runs after creating of all scenario parameters
+        /// </summary>
+        public abstract void Initialize();
 
         /// <summary>
         /// Execute scenario in other thread
         /// </summary>
         /// <param name="param"></param>
         /// <param name="cancelToken"></param>
-        public void ExecuteAsync(string param, CancellationToken cancelToken)
+        public void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
-            _tokenSource.Cancel();
-            var task = new Task(() => {
-                Execute(param, cancelToken);
-            }, cancelToken);
+            var task = new Task(() =>
+                Execute(param, cancelToken)
+            , cancelToken);
             task.Start();
         }
 
         /// <summary>
-        /// xecute scenario in other thread
+        /// Execute scenario in main execution context
         /// </summary>
         /// <param name="param"></param>
         public void ExecuteAsync(string param)
         {
-            var cancelToken = _tokenSource.Token;
-            ExecuteAsync(param, cancelToken);
+            _tokenSource.Cancel();
+            var token = _tokenSource.Token;
+            var task = new Task(() =>
+                Execute(param, token)
+            , token);
+            task.Start();
+        }
+
+        /// <summary>
+        /// Execute in current thread
+        /// </summary>
+        /// <param name="param"></param>
+        /// <param name="cancelToken"></param>
+        public void Execute(string param, CancellationToken cancelToken)
+        {
+            var output = new OutputChangedDelegates();
+            output.Add(val => SetCurrentValueInternal(val));
+            var context = new ExecutionContext(param, output, cancelToken);
+            ExecuteInternal(context);
         }
 
         /// <summary>
@@ -95,7 +116,7 @@ namespace Pyrite.MainDomain
         /// </summary>
         /// <param name="param"></param>
         /// <param name="cancelToken"></param>
-        public abstract void Execute(string param, CancellationToken cancelToken);
+        public abstract void ExecuteInternal(ExecutionContext context);
 
         /// <summary>
         /// Get all types, used in scenario and derived from IAction
@@ -121,11 +142,11 @@ namespace Pyrite.MainDomain
         {
             _events.Add(new ScenarioStateChangedEvent(onlyOnce, action));
         }
-
+                
         /// <summary>
         /// Raise events when state changed
         /// </summary>
-        private void RaiseEvents()
+        public void RaiseEvents()
         {
             for (int i = 0; i <= _events.Count; i++)
             {

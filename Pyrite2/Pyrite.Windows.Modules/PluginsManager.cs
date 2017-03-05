@@ -179,14 +179,14 @@ namespace Pyrite.Windows.Modules
             };
             _plugins.Add(plugin);
             _allTypes.AddRange(
-                assembliesAndTypes
-                .SelectMany(x => x.Types.Select(z =>
-                    new PluginTypeInfo()
-                    {
-                        Plugin = plugin,
-                        Type = z,
-                        Assembly = x.Assembly
-                    })
+                assembliesAndTypes.SelectMany(x => 
+                    x.Types.Select(z =>
+                        new PluginTypeInfo()
+                        {
+                            Plugin = plugin,
+                            Type = z,
+                            Assembly = x.Assembly
+                        })
                 )
             );
             _savior.Set(_saviorKey, _plugins);

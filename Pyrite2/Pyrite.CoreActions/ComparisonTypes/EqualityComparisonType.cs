@@ -29,9 +29,9 @@ namespace Pyrite.CoreActions.ComparisonTypes
             }
         }
 
-        public bool Calculate(IAction val1, IAction val2)
+        public bool Calculate(IAction val1, IAction val2, ExecutionContext context)
         {
-            return val1.Value.Equals(val2.Value);
+            return val1.GetValue(context).Equals(val2.GetValue(context));
         }
     }
 }

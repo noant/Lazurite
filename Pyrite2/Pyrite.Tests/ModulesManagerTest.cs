@@ -54,7 +54,7 @@ namespace Pyrite.Tests
             Singleton.Add(savior);
             var manager = new PluginsManager();
             IAction testAction = manager.CreateInstanceOf(manager.GetModules().First());
-            testAction.Value = DateTime.Now.ToString();
+            testAction.SetValue(null, DateTime.Now.ToString());
             savior.Set("testAction", testAction);
         }
 
@@ -65,7 +65,7 @@ namespace Pyrite.Tests
             Singleton.Add(savior);
             var modulesManager = new PluginsManager();
             IAction testAction = savior.Get<IAction>("testAction");
-            Debug.WriteLine(testAction.Value);
+            Debug.WriteLine(testAction.GetValue(null));
             if (!testAction.GetType().Equals(modulesManager.GetModules().First()))
                 throw new Exception();
         }        

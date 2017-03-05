@@ -56,7 +56,6 @@
     <Compile Include="IClientFactory.cs" />
     <Compile Include="ScenariosRepositoryBase.cs" />
     <Compile Include="IServer.cs" />
-    <Compile Include="ISupportsCancellation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScenarioBase.cs" />
     <Compile Include="ScenarioPackage.cs" />

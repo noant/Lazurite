@@ -16,7 +16,7 @@ namespace Pyrite.CoreActions
     [OnlyGetValue]
     [HumanFriendlyName("СложноеУсловие")]
     [SuitableValueTypes(typeof(ToggleValueType))]
-    public class ComplexCheckerAction : IMultipleAction, IAction, IChecker, ISupportsCancellation
+    public class ComplexCheckerAction : IMultipleAction, IAction, IChecker
     {
         public ComplexCheckerAction()
         {
@@ -34,45 +34,7 @@ namespace Pyrite.CoreActions
                 //
             }
         }
-
-        public string Value
-        {
-            get
-            {
-                //calculate summary value
-                bool? result = null;
-
-                foreach (var operation in CheckerOperations)
-                {
-                    if (CancellationToken.IsCancellationRequested)
-                        break;
-                    if (operation.Checker is ISupportsCancellation)
-                        ((ISupportsCancellation)operation.Checker).CancellationToken = this.CancellationToken;
-                    switch (operation.Operator)
-                    {
-                        case (LogicalOperator.And):
-                            result = IncrementBool(result, operation.Checker.Evaluate(), false);
-                            break;
-                        case (LogicalOperator.AndNot):
-                            result = IncrementBool(result, !operation.Checker.Evaluate(), false);
-                            break;
-                        case (LogicalOperator.Or):
-                            result = IncrementBool(result, operation.Checker.Evaluate(), true);
-                            break;
-                        case (LogicalOperator.OrNot):
-                            result = IncrementBool(result, !operation.Checker.Evaluate(), true);
-                            break;
-                    }
-                }
-
-                return  result == null || !result.Value ? ToggleValueType.ValueOFF : ToggleValueType.ValueON;
-            }
-            set
-            {
-                //do nothing
-            }
-        }
-
+        
         private bool IncrementBool(bool? result, bool value, bool or)
         {
             if (result == null)
@@ -123,14 +85,47 @@ namespace Pyrite.CoreActions
             //do nothing
         }
         
-        public bool Evaluate()
+        public bool Evaluate(ExecutionContext context)
         {
-            return Value == ToggleValueType.ValueON;
+            return GetValue(context) == ToggleValueType.ValueON;
         }
 
         public void UserInitializeWith<T>() where T : AbstractValueType
         {
             //do nothing
+        }
+
+        public string GetValue(ExecutionContext context)
+        {
+            bool? result = null;
+
+            foreach (var operation in CheckerOperations)
+            {
+                if (context.CancellationToken.IsCancellationRequested)
+                    break;
+                switch (operation.Operator)
+                {
+                    case (LogicalOperator.And):
+                        result = IncrementBool(result, operation.Checker.Evaluate(context), false);
+                        break;
+                    case (LogicalOperator.AndNot):
+                        result = IncrementBool(result, !operation.Checker.Evaluate(context), false);
+                        break;
+                    case (LogicalOperator.Or):
+                        result = IncrementBool(result, operation.Checker.Evaluate(context), true);
+                        break;
+                    case (LogicalOperator.OrNot):
+                        result = IncrementBool(result, !operation.Checker.Evaluate(context), true);
+                        break;
+                }
+            }
+
+            return result == null || !result.Value ? ToggleValueType.ValueOFF : ToggleValueType.ValueON;
+        }
+
+        public void SetValue(ExecutionContext context, string value)
+        {
+            //
         }
     }
 }
