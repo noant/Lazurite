@@ -1,6 +1,8 @@
 ﻿using Pyrite.ActionsDomain;
 using Pyrite.ActionsDomain.Attributes;
 using Pyrite.ActionsDomain.ValueTypes;
+using Pyrite.CoreActions.CoreActions;
+using Pyrite.IOC;
 using Pyrite.MainDomain;
 using System;
 using System.Collections.Generic;
@@ -57,7 +59,12 @@ namespace Pyrite.Scenarios.ScenarioTypes
 
         public override void Initialize()
         {
-            //
+            if (this.TargetAction is ICoreAction)
+            {
+                var repository = Singleton.Resolve<ScenariosRepositoryBase>();
+                ((ICoreAction)TargetAction)
+                    .SetTargetScenario(repository.Scenarios.SingleOrDefault(x=>x.Id.Equals(((ICoreAction)TargetAction).TargetScenarioId)));
+            }
         }
     }
 }

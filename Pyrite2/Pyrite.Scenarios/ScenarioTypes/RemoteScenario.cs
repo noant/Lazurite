@@ -7,13 +7,20 @@ using System.Threading.Tasks;
 using Pyrite.ActionsDomain;
 using Pyrite.ActionsDomain.ValueTypes;
 using Pyrite.IOC;
+using System.Threading;
+using Pyrite.ActionsDomain.Attributes;
 
 namespace Pyrite.Scenarios.ScenarioTypes
 {
+    [HumanFriendlyName("Сценарий другой машины")]
     public class RemoteScenario : ScenarioBase
     {
         private IClientFactory _clientFactory;
         private IServer _server;
+        private AbstractValueType _valueType;
+        private ScenarioInfo _scenarioInfo;
+        private string _currentValue;
+        private CancellationTokenSource _cancellationTokenSource;
 
         /// <summary>
         /// Target server ip or name
@@ -34,50 +41,87 @@ namespace Pyrite.Scenarios.ScenarioTypes
         /// Target server password
         /// </summary>
         public string Password { get; set; }
+        
+        /// <summary>
+        /// Remote scenario guid
+        /// </summary>
+        public string RemoteScenarioId { get; set; }
 
-
+        /// <summary>
+        /// Value type of remote scenario
+        /// </summary>
         public override AbstractValueType ValueType
         {
             get
             {
-                throw new NotImplementedException();
+                return _valueType;
             }
-
             set
             {
-                throw new NotImplementedException();
+                //
             }
         }
 
         public override string CalculateCurrentValue()
         {
-            throw new NotImplementedException();
+            _currentValue = _server.CalculateScenarioValue(RemoteScenarioId);
+            return _currentValue;
         }
 
         public override void ExecuteInternal(ExecutionContext context)
         {
-            throw new NotImplementedException();
+            //
+        }
+
+        public override void Execute(string param, CancellationToken cancelToken)
+        {
+            _server.ExecuteScenario(RemoteScenarioId, param);
+        }
+
+        public override void ExecuteAsync(string param)
+        {
+            _server.ExecuteScenarioAsync(RemoteScenarioId, param);
+        }
+
+        public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
+        {
+            _server.ExecuteScenarioAsyncParallel(RemoteScenarioId, param);
         }
 
         public override Type[] GetAllUsedActionTypes()
         {
-            throw new NotImplementedException();
+            return new Type[] { };
         }
 
         public override string GetCurrentValue()
         {
-            throw new NotImplementedException();
+            return _currentValue;
         }
 
         public override void SetCurrentValueInternal(string value)
         {
-            throw new NotImplementedException();
+            _currentValue = value;
+            RaiseEvents();
         }
 
         public override void Initialize()
         {
+            _cancellationTokenSource = new CancellationTokenSource();
             _clientFactory = Singleton.Resolve<IClientFactory>();
             _server = _clientFactory.GetServer(AddressHost, Port, UserLogin, Password);
+            _scenarioInfo = _server.GetScenarioInfo(RemoteScenarioId);
+            _valueType = _scenarioInfo.ValueType;
+            //changes listener
+            var task = new Task(() => {
+                while (!_cancellationTokenSource.IsCancellationRequested)
+                {
+                    if (_server.IsScenarioValueChanged(RemoteScenarioId, _currentValue))
+                        SetCurrentValueInternal(_server.GetScenarioValue(RemoteScenarioId));
+                    Task.Delay(2000);
+                }
+            },
+            _cancellationTokenSource.Token, 
+            TaskCreationOptions.LongRunning);
         }
     }
 }

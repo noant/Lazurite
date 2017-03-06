@@ -8,7 +8,7 @@ namespace Pyrite.MainDomain
 {
     public abstract class ScenariosRepositoryBase
     {
-        public ScenarioBase[] Scenarios { get; set; }
+        public abstract ScenarioBase[] Scenarios { get; }
         public ScenarioBase[] GetDependentScenarios(Type[] types)
         {
             return Scenarios

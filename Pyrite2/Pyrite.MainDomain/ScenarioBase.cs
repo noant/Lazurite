@@ -76,7 +76,7 @@ namespace Pyrite.MainDomain
         /// </summary>
         /// <param name="param"></param>
         /// <param name="cancelToken"></param>
-        public void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
+        public virtual void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
             var task = new Task(() =>
                 Execute(param, cancelToken)
@@ -88,7 +88,7 @@ namespace Pyrite.MainDomain
         /// Execute scenario in main execution context
         /// </summary>
         /// <param name="param"></param>
-        public void ExecuteAsync(string param)
+        public virtual void ExecuteAsync(string param)
         {
             _tokenSource.Cancel();
             var token = _tokenSource.Token;
@@ -103,7 +103,7 @@ namespace Pyrite.MainDomain
         /// </summary>
         /// <param name="param"></param>
         /// <param name="cancelToken"></param>
-        public void Execute(string param, CancellationToken cancelToken)
+        public virtual void Execute(string param, CancellationToken cancelToken)
         {
             var output = new OutputChangedDelegates();
             output.Add(val => SetCurrentValueInternal(val));

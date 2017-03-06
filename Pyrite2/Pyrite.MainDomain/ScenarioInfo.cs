@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Pyrite.MainDomain
 {
-    public class ScenarioPackage
+    public class ScenarioInfo
     {
         public string ScenarioId { get; set; } //guid
 
-        public string LastValue { get; set; }
+        public string CurrentValue { get; set; }
 
         public AbstractValueType ValueType { get; set; }
 

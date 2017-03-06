@@ -201,8 +201,7 @@ namespace Pyrite.Windows.Modules
         {
             var libraryTypes = _allTypes.Where(x => x.Plugin.Name.Equals(pluginName)).Select(x=>x.Type).ToArray();
             //determines dependent scenarios
-            //var dependentScenarios = _scenarioRepository.GetDependentScenarios(libraryTypes);
-            var dependentScenarios = _scenarioRepository != null ? _scenarioRepository.GetDependentScenarios(libraryTypes) : new ScenarioBase[0];
+            var dependentScenarios = _scenarioRepository.GetDependentScenarios(libraryTypes);
             if (dependentScenarios.Any())
             {
                 var allDependentScenariosNames = dependentScenarios

@@ -43,6 +43,10 @@
       <Project>{CB9EC852-4C16-4A34-98AB-EC569C35398C}</Project>
       <Name>Pyrite.CoreActions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Data\Pyrite.Data.csproj">
+      <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
+      <Name>Pyrite.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pyrite.IOC\Pyrite.IOC.csproj">
       <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
       <Name>Pyrite.IOC</Name>
