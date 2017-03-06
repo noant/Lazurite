@@ -50,7 +50,7 @@ namespace Pyrite.Tests
 
             public string GetValue(ExecutionContext context)
             {
-                throw new NotImplementedException();
+                return Value;
             }
 
             public void Initialize()
@@ -60,7 +60,8 @@ namespace Pyrite.Tests
 
             public void SetValue(ExecutionContext context, string value)
             {
-                throw new NotImplementedException();
+                Value = value;
+                Console.WriteLine(value);
             }
 
             public void UserInitializeWith<T>() where T : AbstractValueType

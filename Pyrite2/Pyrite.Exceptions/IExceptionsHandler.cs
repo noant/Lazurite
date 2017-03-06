@@ -8,6 +8,6 @@ namespace Pyrite.Exceptions
 {
     public interface IExceptionsHandler
     {
-        void Handle(object sender, Action action);
+        void Handle(object sender, Action action, bool warning=false);
     }
 }

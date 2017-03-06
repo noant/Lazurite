@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Pyrite.Exceptions
 {
-    public class ExceptionsHandler
+    public class ExceptionsHandler: IExceptionsHandler
     {
-        public void Handle(object sender, Action action)
+        public void Handle(object sender, Action action, bool warning=false)
         {
             try
             {
@@ -16,13 +16,14 @@ namespace Pyrite.Exceptions
             }
             catch(Exception e)
             {
-                if (ExceptionThrown!=null)
-                {
-                    ExceptionThrown(sender, e);
-                }
+                ExceptionThrown?.Invoke(sender, e, warning);
+#if DEBUG
+                if (!warning)
+                    throw e;
+#endif
             }
         }
 
-        public event Action<object, Exception> ExceptionThrown;
+        public event Action<object, Exception, bool> ExceptionThrown;
     }
 }

@@ -47,6 +47,10 @@
       <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
       <Name>Pyrite.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Exceptions\Pyrite.Exceptions.csproj">
+      <Project>{1f4412d0-f16d-4d36-a28d-cb52c9732cde}</Project>
+      <Name>Pyrite.Exceptions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pyrite.IOC\Pyrite.IOC.csproj">
       <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
       <Name>Pyrite.IOC</Name>

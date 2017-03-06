@@ -75,17 +75,17 @@ namespace Pyrite.Scenarios.ScenarioTypes
 
         public override void Execute(string param, CancellationToken cancelToken)
         {
-            _server.ExecuteScenario(RemoteScenarioId, param);
+            ExceptionsHandler.Handle(this, () => _server.ExecuteScenario(RemoteScenarioId, param));
         }
 
         public override void ExecuteAsync(string param)
         {
-            _server.ExecuteScenarioAsync(RemoteScenarioId, param);
+            ExceptionsHandler.Handle(this, () => _server.ExecuteScenarioAsync(RemoteScenarioId, param));
         }
 
         public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
-            _server.ExecuteScenarioAsyncParallel(RemoteScenarioId, param);
+            ExceptionsHandler.Handle(this, () => _server.ExecuteScenarioAsyncParallel(RemoteScenarioId, param));
         }
 
         public override Type[] GetAllUsedActionTypes()
@@ -112,11 +112,20 @@ namespace Pyrite.Scenarios.ScenarioTypes
             _scenarioInfo = _server.GetScenarioInfo(RemoteScenarioId);
             _valueType = _scenarioInfo.ValueType;
             //changes listener
-            var task = new Task(() => {
+            var task = new Task(() => {                
                 while (!_cancellationTokenSource.IsCancellationRequested)
                 {
-                    if (_server.IsScenarioValueChanged(RemoteScenarioId, _currentValue))
-                        SetCurrentValueInternal(_server.GetScenarioValue(RemoteScenarioId));
+                    var exceptionThrown = true;
+                    ExceptionsHandler.Handle(this, () =>
+                    {
+                        if (_server.IsScenarioValueChanged(RemoteScenarioId, _currentValue))
+                            SetCurrentValueInternal(_server.GetScenarioValue(RemoteScenarioId));
+                        exceptionThrown = false;
+                    }, 
+                    true);
+                    //if connection was failed
+                    if (exceptionThrown)
+                        Task.Delay(200000);
                     Task.Delay(2000);
                 }
             },

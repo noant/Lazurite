@@ -15,7 +15,7 @@ namespace Pyrite.MainDomain
     {
         private List<ScenarioStateChangedEvent> _events = new List<ScenarioStateChangedEvent>();
         
-        private readonly IExceptionsHandler _exceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
+        public readonly IExceptionsHandler ExceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
 
         private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
@@ -108,7 +108,7 @@ namespace Pyrite.MainDomain
             var output = new OutputChangedDelegates();
             output.Add(val => SetCurrentValueInternal(val));
             var context = new ExecutionContext(param, output, cancelToken);
-            ExecuteInternal(context);
+            ExceptionsHandler.Handle(this, () => ExecuteInternal(context));
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Pyrite.MainDomain
             for (int i = 0; i <= _events.Count; i++)
             {
                 var @event = _events[i];
-                _exceptionsHandler.Handle(this, ()=> @event.Action(this));
+                ExceptionsHandler.Handle(this, ()=> @event.Action(this));
                 if (@event.OnlyOnce)
                     _events.Remove(@event);
             }

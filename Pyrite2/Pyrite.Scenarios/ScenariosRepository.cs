@@ -40,6 +40,8 @@ namespace Pyrite.Scenarios
 
         public void AddScenario(ScenarioBase scenario)
         {
+            if (string.IsNullOrEmpty(scenario.Id))
+                scenario.Id = Guid.NewGuid().ToString();
             if (_scenariosIds.Contains(scenario.Id))
                 throw new InvalidOperationException("Scenario with same id already exist");
             _scenarios.Add(scenario);
