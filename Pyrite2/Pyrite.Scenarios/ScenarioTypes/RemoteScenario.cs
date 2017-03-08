@@ -104,7 +104,7 @@ namespace Pyrite.Scenarios.ScenarioTypes
             RaiseEvents();
         }
 
-        public override void Initialize()
+        public override void Initialize(ScenariosRepositoryBase repository)
         {
             _cancellationTokenSource = new CancellationTokenSource();
             _clientFactory = Singleton.Resolve<IClientFactory>();

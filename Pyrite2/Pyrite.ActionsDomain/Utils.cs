@@ -10,6 +10,8 @@ namespace Pyrite.ActionsDomain
         public static string ExtractHumanFriendlyName(Type type)
         {
             var attr = type.GetTypeInfo().GetCustomAttribute<HumanFriendlyNameAttribute>();
+            if (attr == null)
+                return string.Empty;
             return attr.Value;
         }
 

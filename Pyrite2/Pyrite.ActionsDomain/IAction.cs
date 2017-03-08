@@ -14,6 +14,6 @@ namespace Pyrite.ActionsDomain
         string Caption { get; set; }
         AbstractValueType ValueType { get; set; }
         void Initialize();
-        void UserInitializeWith<T>() where T : AbstractValueType;
+        void UserInitializeWith(AbstractValueType valueType);
     }
 }

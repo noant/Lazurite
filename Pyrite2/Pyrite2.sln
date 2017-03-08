@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Windows.Modules", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Scenarios", "Pyrite.Scenarios\Pyrite.Scenarios.csproj", "{EE271212-1572-4525-BC27-B2F283238740}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Security", "Pyrite.Security\Pyrite.Security.csproj", "{3ACF6EAC-A7BE-4AFE-AA9C-80259157AE71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{EE271212-1572-4525-BC27-B2F283238740}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE271212-1572-4525-BC27-B2F283238740}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE271212-1572-4525-BC27-B2F283238740}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ACF6EAC-A7BE-4AFE-AA9C-80259157AE71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ACF6EAC-A7BE-4AFE-AA9C-80259157AE71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ACF6EAC-A7BE-4AFE-AA9C-80259157AE71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ACF6EAC-A7BE-4AFE-AA9C-80259157AE71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -72,7 +72,7 @@ namespace Pyrite.CoreActions.CoreActions
             //
         }
 
-        public void UserInitializeWith<T>() where T : AbstractValueType
+        public void UserInitializeWith(AbstractValueType valueType)
         {
             //
         }

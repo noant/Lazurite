@@ -10,6 +10,6 @@ namespace Pyrite.MainDomain
     {
         public string Name { get; set; }
 
-        public UserBase[] Users { get; set; }
+        public List<UserBase> Users { get; set; }
     }
 }

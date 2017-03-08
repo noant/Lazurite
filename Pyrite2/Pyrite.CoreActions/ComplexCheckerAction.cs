@@ -14,7 +14,7 @@ namespace Pyrite.CoreActions
 {
     [VisualInitialization]
     [OnlyGetValue]
-    [HumanFriendlyName("СложноеУсловие")]
+    [HumanFriendlyName("Сложное условие")]
     [SuitableValueTypes(typeof(ToggleValueType))]
     public class ComplexCheckerAction : IMultipleAction, IAction, IChecker
     {
@@ -62,13 +62,7 @@ namespace Pyrite.CoreActions
         }
 
         public List<CheckerOperatorPair> CheckerOperations { get; set; }
-
-        public CancellationToken CancellationToken
-        {
-            get;
-            set;
-        }
-
+        
         public IAction[] GetAllActionsFlat()
         {
             return CheckerOperations
@@ -90,7 +84,7 @@ namespace Pyrite.CoreActions
             return GetValue(context) == ToggleValueType.ValueON;
         }
 
-        public void UserInitializeWith<T>() where T : AbstractValueType
+        public void UserInitializeWith(AbstractValueType valueType)
         {
             //do nothing
         }

@@ -14,6 +14,7 @@ namespace Pyrite.CoreActions
     [VisualInitialization]
     [OnlyExecute]
     [SuitableValueTypes(typeof(ButtonValueType))]
+    [HumanFriendlyName("Если")]
     public class IfAction : IAction, IMultipleAction
     {
         public ComplexAction ActionIf { get; set; }
@@ -59,7 +60,7 @@ namespace Pyrite.CoreActions
             //
         }
         
-        public void UserInitializeWith<T>() where T : AbstractValueType
+        public void UserInitializeWith(AbstractValueType valueType)
         {
             //
         }

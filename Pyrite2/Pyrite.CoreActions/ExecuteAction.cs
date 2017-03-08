@@ -19,8 +19,15 @@ namespace Pyrite.CoreActions
         {
             get
             {
-                return ActionsDomain.Utils.ExtractHumanFriendlyName(Action.GetType()) + " " + Action.Caption + " = " +
-                    ActionsDomain.Utils.ExtractHumanFriendlyName(InputValue.GetType()) + " " + InputValue.Caption;
+                if (InputValue != null)
+                {
+                    return ActionsDomain.Utils.ExtractHumanFriendlyName(Action.GetType()) + " " + Action.Caption + " = " +
+                        ActionsDomain.Utils.ExtractHumanFriendlyName(InputValue.GetType()) + " " + InputValue.Caption;
+                }
+                else
+                {
+                    return ActionsDomain.Utils.ExtractHumanFriendlyName(Action.GetType()) + " " + Action.Caption;
+                }
             }
             set
             {
@@ -56,7 +63,7 @@ namespace Pyrite.CoreActions
             //do nothing
         }
 
-        public void UserInitializeWith<T>() where T : AbstractValueType
+        public void UserInitializeWith(AbstractValueType valueType)
         {
             //do nothing
         }
@@ -68,7 +75,7 @@ namespace Pyrite.CoreActions
 
         public void SetValue(ExecutionContext context, string value)
         {
-            Action.SetValue(context, InputValue.GetValue(context));
+            Action.SetValue(context, InputValue != null ? InputValue.GetValue(context) : string.Empty);
         }
 
         private IAction _action;

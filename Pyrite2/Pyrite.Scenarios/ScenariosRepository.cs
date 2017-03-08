@@ -27,7 +27,7 @@ namespace Pyrite.Scenarios
 
             //initialize scenarios
             foreach (var scenario in _scenarios)
-                scenario.Initialize();
+                scenario.Initialize(this);
         }
 
         public override ScenarioBase[] Scenarios

@@ -17,7 +17,7 @@ namespace Pyrite.MainDomain
         
         public readonly IExceptionsHandler ExceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
 
-        private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
         /// <summary>
         /// Scenario category
@@ -45,9 +45,9 @@ namespace Pyrite.MainDomain
         public SecuritySettingsBase SecuritySettings { get; set; }
 
         /// <summary>
-        /// Time when LastValue was changed last time
+        /// Time when CurrentValue was changed last time
         /// </summary>
-        public DateTime DateTimeScenarioChanged { get; private set; }
+        public DateTime LastChange { get; private set; }
 
         /// <summary>
         /// Current value of scenario execution
@@ -69,7 +69,7 @@ namespace Pyrite.MainDomain
         /// <summary>
         /// Method runs after creating of all scenario parameters
         /// </summary>
-        public abstract void Initialize();
+        public abstract void Initialize(ScenariosRepositoryBase repository);
 
         /// <summary>
         /// Execute scenario in other thread
@@ -78,10 +78,7 @@ namespace Pyrite.MainDomain
         /// <param name="cancelToken"></param>
         public virtual void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
-            var task = new Task(() =>
-                Execute(param, cancelToken)
-            , cancelToken);
-            task.Start();
+            Task.Factory.StartNew(() => Execute(param, cancelToken), cancelToken);
         }
 
         /// <summary>
@@ -91,13 +88,11 @@ namespace Pyrite.MainDomain
         public virtual void ExecuteAsync(string param)
         {
             _tokenSource.Cancel();
+            _tokenSource = new CancellationTokenSource();
             var token = _tokenSource.Token;
-            var task = new Task(() =>
-                Execute(param, token)
-            , token);
-            task.Start();
+            Task.Factory.StartNew(() => Execute(param, token), token);
         }
-
+        
         /// <summary>
         /// Execute in current thread
         /// </summary>
@@ -109,6 +104,13 @@ namespace Pyrite.MainDomain
             output.Add(val => SetCurrentValueInternal(val));
             var context = new ExecutionContext(param, output, cancelToken);
             ExceptionsHandler.Handle(this, () => ExecuteInternal(context));
+        }
+
+        public bool CanExecute(UserBase user, ScenarioStartupSource source)
+        {
+            if (SecuritySettings == null)
+                return true;
+            return SecuritySettings.IsAvailableForUser(user, source);
         }
 
         /// <summary>
@@ -148,6 +150,7 @@ namespace Pyrite.MainDomain
         /// </summary>
         public void RaiseEvents()
         {
+            LastChange = DateTime.Now;
             for (int i = 0; i <= _events.Count; i++)
             {
                 var @event = _events[i];

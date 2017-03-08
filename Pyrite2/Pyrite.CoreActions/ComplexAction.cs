@@ -14,7 +14,7 @@ namespace Pyrite.CoreActions
     [OnlyExecute]
     [VisualInitialization]
     [SuitableValueTypes(typeof(ButtonValueType))]
-    [HumanFriendlyName("СложноеДействие")]
+    [HumanFriendlyName("Составное действие")]
     public class ComplexAction : IAction, IMultipleAction
     {
         public ComplexAction()
@@ -49,7 +49,7 @@ namespace Pyrite.CoreActions
         }
 
         private ButtonValueType _valueType = new ButtonValueType();
-        public ActionsDomain.ValueTypes.AbstractValueType ValueType
+        public AbstractValueType ValueType
         {
             get
             {
@@ -81,14 +81,14 @@ namespace Pyrite.CoreActions
             //do nothing
         }
         
-        public void UserInitializeWith<T>() where T : AbstractValueType
+        public void UserInitializeWith(AbstractValueType valueType)
         {
             //do nothing
         }
 
         public string GetValue(ExecutionContext context)
         {
-            throw new NotImplementedException();
+            return string.Empty;
         }
 
         public void SetValue(ExecutionContext context, string value)

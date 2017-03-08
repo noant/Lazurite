@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Pyrite.MainDomain
 {
-    public abstract class SecuritySettingsBase
+    public enum ScenarioStartupSource
     {
-        public abstract bool IsAvailableForUser(UserBase user, ScenarioStartupSource source);
+        OtherScenario,
+        RemoteScenario,
+        ServerUI,
+        RemoteUI
     }
 }
