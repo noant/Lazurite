@@ -132,5 +132,10 @@ namespace Pyrite.Scenarios.ScenarioTypes
             _cancellationTokenSource.Token, 
             TaskCreationOptions.LongRunning);
         }
+
+        public override IAction[] GetAllActionsFlat()
+        {
+            return new IAction[0];
+        }
     }
 }

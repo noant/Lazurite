@@ -23,5 +23,16 @@ namespace Pyrite.MainDomain
                 && (valueType == null || valueType.IsCompatibleWith(x.ValueType))
                 && (!rightPart || !(x.ValueType is ButtonValueType))).ToArray();
         }
+
+        public abstract void AddScenario(ScenarioBase scenario);
+        public abstract void RemoveScenario(ScenarioBase scenario);
+        public abstract void SaveScenario(ScenarioBase scenario);
+
+        protected void RaiseOnScenarioRemoved(ScenarioBase scenario)
+        {
+            OnScenarioRemoved?.Invoke(scenario);
+        }
+
+        public Action<ScenarioBase> OnScenarioRemoved { get; set; }
     }
 }

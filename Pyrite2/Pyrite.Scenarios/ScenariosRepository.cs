@@ -1,4 +1,5 @@
-﻿using Pyrite.Data;
+﻿using Pyrite.CoreActions.CoreActions;
+using Pyrite.Data;
 using Pyrite.IOC;
 using Pyrite.MainDomain;
 using System;
@@ -38,7 +39,7 @@ namespace Pyrite.Scenarios
             }
         }
 
-        public void AddScenario(ScenarioBase scenario)
+        public override void AddScenario(ScenarioBase scenario)
         {
             if (string.IsNullOrEmpty(scenario.Id))
                 scenario.Id = Guid.NewGuid().ToString();
@@ -50,15 +51,25 @@ namespace Pyrite.Scenarios
             _savior.Set(_scenariosIdsKey, _scenariosIds);
         }
 
-        public void RemoveScenario(ScenarioBase scenario)
+        public override void RemoveScenario(ScenarioBase scenario)
         {
+            var linkedScenarios = _scenarios.Except(new[] { scenario })
+                .Where(x => x.GetAllActionsFlat()
+                    .Any(z => (z is ICoreAction) && ((ICoreAction)z).TargetScenarioId.Equals(scenario.Id))).ToArray();
+
+            if (linkedScenarios.Any())
+            {
+                throw new InvalidOperationException("Cannot remove scenario, because other scenarios has reference on it: " 
+                    + linkedScenarios.Select(x => x.Name).Aggregate((z, y) => z + "; " + y));
+            }
+
             _scenariosIds.Remove(scenario.Id);
             _scenarios.RemoveAll(x => x.Id.Equals(scenario.Id));
             _savior.Set(_scenariosIdsKey, _scenariosIds);
             _savior.Clear(scenario.Id);
         }
 
-        public void SaveScenario(ScenarioBase scenario)
+        public override void SaveScenario(ScenarioBase scenario)
         {
             _savior.Set(scenario.Id, scenario);
         }

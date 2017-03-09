@@ -127,6 +127,12 @@ namespace Pyrite.MainDomain
         public abstract Type[] GetAllUsedActionTypes();
 
         /// <summary>
+        /// Get all actions used in scenario
+        /// </summary>
+        /// <returns></returns>
+        public abstract IAction[] GetAllActionsFlat();
+
+        /// <summary>
         /// Set event on state changed
         /// </summary>
         /// <param name="action"></param>
@@ -148,7 +154,7 @@ namespace Pyrite.MainDomain
         /// <summary>
         /// Raise events when state changed
         /// </summary>
-        public void RaiseEvents()
+        protected void RaiseEvents()
         {
             LastChange = DateTime.Now;
             for (int i = 0; i <= _events.Count; i++)

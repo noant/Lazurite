@@ -65,5 +65,10 @@ namespace Pyrite.Scenarios.ScenarioTypes
                     .SetTargetScenario(repository.Scenarios.SingleOrDefault(x=>x.Id.Equals(((ICoreAction)TargetAction).TargetScenarioId)));
             }
         }
+
+        public override IAction[] GetAllActionsFlat()
+        {
+            return new[] { TargetAction };
+        }
     }
 }

@@ -15,5 +15,10 @@ namespace Pyrite.MainDomain
         public int PositionX { get; set; }
 
         public int PositionY { get; set; }
+
+        public virtual bool SameAs(VisualSettingsBase settings) {
+            return settings.GetType().Equals(this.GetType()) 
+                && settings.ScenarioId.Equals(settings.ScenarioId);
+        }
     }
 }

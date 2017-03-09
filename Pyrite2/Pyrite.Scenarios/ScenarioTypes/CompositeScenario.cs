@@ -39,7 +39,7 @@ namespace Pyrite.Scenarios.ScenarioTypes
         {
             return TargetAction.GetAllActionsFlat().Select(x => x.GetType()).Distinct().ToArray();
         }
-        
+
         private string _currentValue;
         public override void SetCurrentValueInternal(string value)
         {
@@ -57,6 +57,11 @@ namespace Pyrite.Scenarios.ScenarioTypes
             foreach (ICoreAction coreAction in this.TargetAction.GetAllActionsFlat().Where(x => x is ICoreAction))
                 coreAction.SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
             ExecuteAsync(InitializeWithValue);
+        }
+
+        public override IAction[] GetAllActionsFlat()
+        {
+            return TargetAction.GetAllActionsFlat();
         }
 
         public string InitializeWithValue { get; set; }
