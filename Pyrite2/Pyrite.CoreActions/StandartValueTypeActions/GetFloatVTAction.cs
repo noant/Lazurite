@@ -65,5 +65,7 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
         {
             Value = value;
         }
+
+        public ValueChangedDelegate ValueChanged { get; set; }
     }
 }

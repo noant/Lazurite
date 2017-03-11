@@ -107,5 +107,7 @@ namespace Pyrite.CoreActions
                 _inputValue = value;
             }
         }
+
+        public ValueChangedDelegate ValueChanged { get; set; }
     }
 }

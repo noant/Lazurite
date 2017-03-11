@@ -68,6 +68,8 @@ namespace Pyrite.Tests
             {
                 //
             }
+
+            public ValueChangedDelegate ValueChanged { get; set; }
         }
 
         [TestMethod]

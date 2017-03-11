@@ -62,6 +62,7 @@
     <Compile Include="ScenarioInfo.cs" />
     <Compile Include="ScenarioStartupSource.cs" />
     <Compile Include="SecuritySettingsBase.cs" />
+    <Compile Include="TriggerBase.cs" />
     <Compile Include="UserBase.cs" />
     <Compile Include="UserGroupBase.cs" />
     <Compile Include="UsersRepositoryBase.cs" />

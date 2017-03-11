@@ -13,7 +13,7 @@ namespace Pyrite.MainDomain
 {
     public abstract class ScenarioBase
     {
-        private List<ScenarioStateChangedEvent> _events = new List<ScenarioStateChangedEvent>();
+        private List<Action<ScenarioBase>> _events = new List<Action<ScenarioBase>>();
         
         public readonly IExceptionsHandler ExceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
 
@@ -131,26 +131,26 @@ namespace Pyrite.MainDomain
         /// </summary>
         /// <returns></returns>
         public abstract IAction[] GetAllActionsFlat();
+        
 
         /// <summary>
         /// Set event on state changed
         /// </summary>
         /// <param name="action"></param>
-        public void OnStateChanged(Action<ScenarioBase> action)
+        public void SetOnStateChanged(Action<ScenarioBase> action)
         {
-            OnStateChanged(action, false);
+            _events.Add(action);
         }
 
         /// <summary>
-        /// Set event on state changed
+        /// Remove event on state changed
         /// </summary>
         /// <param name="action"></param>
-        /// <param name="onlyOnce"></param>
-        public void OnStateChanged(Action<ScenarioBase> action, bool onlyOnce)
+        public void RemoveOnStateChanged(Action<ScenarioBase> action)
         {
-            _events.Add(new ScenarioStateChangedEvent(onlyOnce, action));
+            _events.Remove(action);
         }
-                
+
         /// <summary>
         /// Raise events when state changed
         /// </summary>
@@ -160,22 +160,8 @@ namespace Pyrite.MainDomain
             for (int i = 0; i <= _events.Count; i++)
             {
                 var @event = _events[i];
-                ExceptionsHandler.Handle(this, ()=> @event.Action(this));
-                if (@event.OnlyOnce)
-                    _events.Remove(@event);
+                ExceptionsHandler.Handle(this, ()=> @event(this));
             }
-        }
-        
-        private struct ScenarioStateChangedEvent
-        {
-            public ScenarioStateChangedEvent(bool onlyOnce, Action<ScenarioBase> action)
-            {
-                OnlyOnce = onlyOnce;
-                Action = action;
-            }
-
-            public bool OnlyOnce { get; private set; }
-            public Action<ScenarioBase> Action { get; private set; }
-        } 
+        }        
     }
 }

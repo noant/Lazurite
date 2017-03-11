@@ -15,5 +15,6 @@ namespace Pyrite.ActionsDomain
         AbstractValueType ValueType { get; set; }
         void Initialize();
         void UserInitializeWith(AbstractValueType valueType);
+        ValueChangedDelegate ValueChanged { get; set; }
     }
 }

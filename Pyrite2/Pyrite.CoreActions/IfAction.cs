@@ -77,5 +77,7 @@ namespace Pyrite.CoreActions
             else
                 ActionElse.SetValue(context, string.Empty);
         }
+
+        public ValueChangedDelegate ValueChanged { get; set; }
     }
 }

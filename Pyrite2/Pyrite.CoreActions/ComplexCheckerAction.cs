@@ -121,5 +121,7 @@ namespace Pyrite.CoreActions
         {
             //
         }
+
+        public ValueChangedDelegate ValueChanged { get; set; }
     }
 }

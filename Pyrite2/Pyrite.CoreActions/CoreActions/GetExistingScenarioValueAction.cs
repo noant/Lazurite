@@ -22,6 +22,9 @@ namespace Pyrite.CoreActions.CoreActions
         }
 
         private ScenarioBase _scenario;
+
+        public ValueChangedDelegate ValueChanged { get; set; }
+
         public void SetTargetScenario(ScenarioBase scenario)
         {
             _scenario = scenario;

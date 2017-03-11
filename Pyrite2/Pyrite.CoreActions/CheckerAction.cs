@@ -74,5 +74,7 @@ namespace Pyrite.CoreActions
         {
             return GetValue(context) == ToggleValueType.ValueON;
         }
+
+        public ValueChangedDelegate ValueChanged { get; set; }
     }
 }

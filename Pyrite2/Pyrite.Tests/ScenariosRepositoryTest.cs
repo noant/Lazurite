@@ -144,6 +144,8 @@ namespace Pyrite.Tests
             {
                 //
             }
+
+            public ValueChangedDelegate ValueChanged { get; set; }
         }
         public class GetCurrentDateTimeAction: IAction
         {
@@ -191,6 +193,8 @@ namespace Pyrite.Tests
             {
                 //
             }
+
+            public ValueChangedDelegate ValueChanged { get; set; }
         }
         public class WriteDataAction : IAction
         {
@@ -239,6 +243,8 @@ namespace Pyrite.Tests
             {
                 //
             }
+
+            public ValueChangedDelegate ValueChanged { get; set; }
         }
         public class AlwaysOnAction : IAction
         {
@@ -287,6 +293,8 @@ namespace Pyrite.Tests
             {
                 //
             }
+
+            public ValueChangedDelegate ValueChanged { get; set; }
         }
     }
 }

@@ -76,5 +76,7 @@ namespace Pyrite.CoreActions.CoreActions
         {
             //
         }
+
+        public ValueChangedDelegate ValueChanged { get; set; }
     }
 }

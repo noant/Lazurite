@@ -87,5 +87,7 @@ namespace Pyrite.CoreActions.CoreActions
             else if (Mode == RunExistingScenarioMode.MainExecutionContext)
                 _scenario.ExecuteAsync(value);
         }
+
+        public ValueChangedDelegate ValueChanged { get; set; }
     }
 }

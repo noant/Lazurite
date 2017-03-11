@@ -82,5 +82,7 @@ namespace Pyrite.CoreActions.CoreActions
         {
             context.OutputChanged.Execute(InputValue.GetValue(context));
         }
+
+        public ValueChangedDelegate ValueChanged { get; set; }
     }
 }
