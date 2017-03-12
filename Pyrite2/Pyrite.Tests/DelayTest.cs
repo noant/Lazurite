@@ -22,7 +22,7 @@ namespace Pyrite.Tests
                 throw new Exception();
 
             dt1 = DateTime.Now;
-            MainDomain.Utils.Sleep(5);
+            MainDomain.Utils.Sleep(5, new System.Threading.CancellationToken());
             result = DateTime.Now - dt1;
             Debug.WriteLine(result);
             if (result < TimeSpan.FromMilliseconds(500))

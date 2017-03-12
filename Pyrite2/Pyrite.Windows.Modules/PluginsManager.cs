@@ -200,16 +200,19 @@ namespace Pyrite.Windows.Modules
         public CanRemovePluginResult CanRemovePlugin(string pluginName)
         {
             var libraryTypes = _allTypes.Where(x => x.Plugin.Name.Equals(pluginName)).Select(x=>x.Type).ToArray();
-            //determines dependent scenarios
+            //determine dependent scenarios
             var dependentScenarios = _scenarioRepository.GetDependentScenarios(libraryTypes);
-            if (dependentScenarios.Any())
+            var dependentTriggers = _scenarioRepository.GetDependentTriggers(libraryTypes);
+            if (dependentScenarios.Any() || dependentTriggers.Any())
             {
-                var allDependentScenariosNames = dependentScenarios
+                var allDependentNames = dependentScenarios
                         .Select(x => x.Name)
+                        .Union(dependentTriggers.Select(x=>x.Name))
                         .Aggregate((x1, x2) => x1 + ";\r\n" + x2);
+
                 return new CanRemovePluginResult(false,
-                    "Cannot remove library, because there is some scenarios referenced on it:\r\n" +
-                    allDependentScenariosNames);
+                    "Cannot remove plugin, because there is some scenarios or triggers referenced on it:\r\n" +
+                    allDependentNames);
             }
             return new CanRemovePluginResult(true);
         }

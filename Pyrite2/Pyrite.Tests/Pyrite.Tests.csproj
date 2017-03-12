@@ -58,6 +58,7 @@
     <Compile Include="ReflectionHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScenariosRepositoryTest.cs" />
+    <Compile Include="TriggerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pyrite.ActionsDomain\Pyrite.ActionsDomain.csproj">

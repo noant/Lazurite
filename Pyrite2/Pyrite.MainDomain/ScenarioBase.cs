@@ -13,11 +13,10 @@ namespace Pyrite.MainDomain
 {
     public abstract class ScenarioBase
     {
-        private List<Action<ScenarioBase>> _events = new List<Action<ScenarioBase>>();
-        
+        private List<Action<ScenarioBase>> _events = new List<Action<ScenarioBase>>();        
         public readonly IExceptionsHandler ExceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
-
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private string _id = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Scenario category
@@ -32,7 +31,17 @@ namespace Pyrite.MainDomain
         /// <summary>
         /// Scenario id
         /// </summary>
-        public string Id { get; set; } //guid
+        public string Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+            }
+        }
 
         /// <summary>
         /// Type of returning value
@@ -103,7 +112,12 @@ namespace Pyrite.MainDomain
             var output = new OutputChangedDelegates();
             output.Add(val => SetCurrentValueInternal(val));
             var context = new ExecutionContext(param, output, cancelToken);
+#if DEBUG
+            ExecuteInternal(context);
+#endif
+#if !DEBUG
             ExceptionsHandler.Handle(this, () => ExecuteInternal(context));
+#endif
         }
 
         public bool CanExecute(UserBase user, ScenarioStartupSource source)
@@ -157,10 +171,10 @@ namespace Pyrite.MainDomain
         protected void RaiseEvents()
         {
             LastChange = DateTime.Now;
-            for (int i = 0; i <= _events.Count; i++)
+            for (int i = 0; i < _events.Count; i++)
             {
                 var @event = _events[i];
-                ExceptionsHandler.Handle(this, ()=> @event(this));
+                ExceptionsHandler.Handle(this, () => @event(this));
             }
         }        
     }

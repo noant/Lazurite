@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZWavePlugin", "ZWavePlugin\ZWavePlugin.csproj", "{7A2BD3C4-FB70-463D-9D48-A1C052D0FB33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZWave", "ZWave\ZWave.csproj", "{1BA774F0-101D-4C35-94E5-B311904FEE5B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A2BD3C4-FB70-463D-9D48-A1C052D0FB33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A2BD3C4-FB70-463D-9D48-A1C052D0FB33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A2BD3C4-FB70-463D-9D48-A1C052D0FB33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A2BD3C4-FB70-463D-9D48-A1C052D0FB33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BA774F0-101D-4C35-94E5-B311904FEE5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BA774F0-101D-4C35-94E5-B311904FEE5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BA774F0-101D-4C35-94E5-B311904FEE5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BA774F0-101D-4C35-94E5-B311904FEE5B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

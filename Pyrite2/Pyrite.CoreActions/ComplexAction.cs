@@ -60,13 +60,7 @@ namespace Pyrite.CoreActions
                 //
             }
         }
-
-        public CancellationToken CancellationToken
-        {
-            get;
-            set;
-        }
-
+        
         public IAction[] GetAllActionsFlat()
         {
             return Actions

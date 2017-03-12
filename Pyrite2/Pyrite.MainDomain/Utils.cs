@@ -9,7 +9,7 @@ namespace Pyrite.MainDomain
 {
     public static class Utils
     {
-        private static int DelayMS = 100;
+        private static int DelayMS = 300;
 
         /// <summary>
         /// Delay
@@ -29,10 +29,12 @@ namespace Pyrite.MainDomain
         /// <returns>
         /// The milliseconds sleeps totally
         /// </returns>
-        public static int Sleep(int multiplier)
+        public static int Sleep(int multiplier, CancellationToken cancelToken)
         {
-            Task.Delay(DelayMS*multiplier).Wait();
-            return DelayMS*multiplier;
+            var totalSleep = 0;
+            for (int i = 0; i < multiplier && !cancelToken.IsCancellationRequested; i++)
+                totalSleep += Sleep();
+            return totalSleep;
         }
     }
 }

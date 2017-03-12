@@ -102,8 +102,6 @@ namespace Pyrite.CoreActions
             {
                 if (_action == null)
                     throw new InvalidOperationException("Cannot set InputValue if Action is null");
-                if (!_action.ValueType.IsCompatibleWith(value.ValueType))
-                    throw new InvalidOperationException("Action ValueType is not compatible with installing value ValueType");
                 _inputValue = value;
             }
         }

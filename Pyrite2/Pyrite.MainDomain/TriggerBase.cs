@@ -14,12 +14,24 @@ namespace Pyrite.MainDomain
     {
         public readonly IExceptionsHandler ExceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
-        private bool _isRunning;
+        private string _id = Guid.NewGuid().ToString();
+
+        /// <summary>
+        /// Trigger category
+        /// </summary>
+        public string Category { get; set; }
 
         /// <summary>
         /// Trigger id
         /// </summary>
-        public string Id { get; set; }
+        public string Id {
+            get {
+                return _id;
+            }
+            set {
+                _id = value;
+            }
+        }
 
         /// <summary>
         /// Trigger name
@@ -42,13 +54,10 @@ namespace Pyrite.MainDomain
         public void Stop()
         {
             _tokenSource.Cancel();
-            _isRunning = false;
+            Enabled = false;
         }
 
-        public bool IsRunning()
-        {
-            return _isRunning;
-        }
+        public bool Enabled { get; set; }
 
         private ScenarioBase _scenario;
 
@@ -77,19 +86,19 @@ namespace Pyrite.MainDomain
         /// <summary>
         /// Runs on load
         /// </summary>
-        public abstract void Initialize();
+        public abstract void Initialize(ScenariosRepositoryBase scenariosRepository);
 
         /// <summary>
         /// Begin execute
         /// </summary>
         protected void Run()
         {
-            _isRunning = true;
+            Enabled = true;
             _tokenSource.Cancel();
             _tokenSource = new CancellationTokenSource();
             var cancellationToken = _tokenSource.Token;
             Task.Factory.StartNew(() => {
-                RunInternal(cancellationToken);
+                ExceptionsHandler.Handle(this, () => RunInternal(cancellationToken));
             }, cancellationToken);
         }
 

@@ -13,8 +13,11 @@ namespace Pyrite.Scenarios
     {
         private ISavior _savior;
         private List<string> _scenariosIds;
+        private List<string> _triggersIds;
         private List<ScenarioBase> _scenarios;
+        private List<TriggerBase> _triggers;
         private readonly string _scenariosIdsKey = "scenariosRepository";
+        private readonly string _triggersIdsKey = "triggersRepository";
 
         public ScenariosRepository()
         {
@@ -24,11 +27,20 @@ namespace Pyrite.Scenarios
                 _scenariosIds = _savior.Get<List<string>>(_scenariosIdsKey);
             else _scenariosIds = new List<string>();
 
+            if (_savior.Has(_triggersIdsKey))
+                _triggersIds = _savior.Get<List<string>>(_triggersIdsKey);
+            else _triggersIds = new List<string>();
+
             _scenarios = _scenariosIds.Select(x => _savior.Get<ScenarioBase>(x)).ToList();
+            _triggers = _triggersIds.Select(x => _savior.Get<TriggerBase>(x)).ToList();
 
             //initialize scenarios
             foreach (var scenario in _scenarios)
                 scenario.Initialize(this);
+
+            //initialize triggers
+            foreach (var trigger in _triggers)
+                trigger.Initialize(this);
         }
 
         public override ScenarioBase[] Scenarios
@@ -39,10 +51,16 @@ namespace Pyrite.Scenarios
             }
         }
 
+        public override TriggerBase[] Triggers
+        {
+            get
+            {
+                return _triggers.ToArray();
+            }
+        }
+
         public override void AddScenario(ScenarioBase scenario)
         {
-            if (string.IsNullOrEmpty(scenario.Id))
-                scenario.Id = Guid.NewGuid().ToString();
             if (_scenariosIds.Contains(scenario.Id))
                 throw new InvalidOperationException("Scenario with same id already exist");
             _scenarios.Add(scenario);
@@ -72,6 +90,29 @@ namespace Pyrite.Scenarios
         public override void SaveScenario(ScenarioBase scenario)
         {
             _savior.Set(scenario.Id, scenario);
+        }
+
+        public override void AddTrigger(TriggerBase trigger)
+        {
+            if (_triggersIds.Contains(trigger.Id))
+                throw new InvalidOperationException("Trigger with same id already exist");
+            _triggers.Add(trigger);
+            _triggersIds.Add(trigger.Id);
+            _savior.Set(_triggersIdsKey, _triggersIds);
+            _savior.Set(trigger.Id, trigger);
+        }
+
+        public override void RemoveTrigger(TriggerBase trigger)
+        {
+            _triggersIds.Remove(trigger.Id);
+            _triggers.RemoveAll(x => x.Id.Equals(trigger.Id));
+            _savior.Set(_triggersIdsKey, _triggersIds);
+            _savior.Clear(trigger.Id);
+        }
+
+        public override void SaveTrigger(TriggerBase trigger)
+        {
+            _savior.Set(trigger.Id, trigger);
         }
     }
 }

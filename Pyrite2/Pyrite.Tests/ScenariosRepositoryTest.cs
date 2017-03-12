@@ -137,7 +137,7 @@ namespace Pyrite.Tests
 
             public void SetValue(ActionsDomain.ExecutionContext context, string value)
             {
-                Thread.Sleep(2000);
+                Thread.Sleep(8000);
             }
 
             public void UserInitializeWith(AbstractValueType valueType)

@@ -29,9 +29,13 @@ namespace Pyrite.Scenarios.TriggerTypes
             return GetAllActionsFlat().Select(x => x.GetType()).Distinct().ToArray();
         }
 
-        public override void Initialize()
+        public override void Initialize(ScenariosRepositoryBase scenariosRepository)
         {
-
+            SetScenario(scenariosRepository.Scenarios.Single(x=>x.Id.Equals(this.TargetScenarioId)));
+            if (Enabled)
+                Run();
+            else
+                Stop();
         }
 
         protected override void RunInternal(CancellationToken cancellationToken)
@@ -59,6 +63,21 @@ namespace Pyrite.Scenarios.TriggerTypes
                     Task.Factory.StartNew(() => action.SetValue(executionContext, string.Empty));
                 };
                 scenario.SetOnStateChanged(_lastSubscribe);
+            }
+            else
+            {
+                var lastVal = string.Empty;
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    var curVal = scenario.CalculateCurrentValue();
+                    if (!lastVal.Equals(curVal))
+                    {
+                        lastVal = curVal;
+                        var executionContext = new ExecutionContext(curVal, new OutputChangedDelegates(), cancellationToken);
+                        Task.Factory.StartNew(() => TargetAction.SetValue(executionContext, string.Empty));
+                    }
+                    MainDomain.Utils.Sleep(10, cancellationToken);
+                }
             }
         }
     }
