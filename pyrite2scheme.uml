@@ -5232,7 +5232,7 @@ VisualCore
 <XPD:REF name="Model">QCMtGGR590mmoPkyTA2S0AAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="sR1igWBnNUedhcu7z8FlIgAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="KisvaV5I8UC6hm4xpiPEZgAA">
-<XPD:ATTR name="Text" type="string">Pyrite.Wcf</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">Pyrite.Windows.Wcf</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="IbPperzOs0avpbha1zi9swAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -10959,12 +10959,6 @@ VisualCore
 <XPD:ATTR name="#Associations" type="integer">2</XPD:ATTR>
 <XPD:REF name="Associations[0]">LnWanbW/uE29axLNUUjMKAAA</XPD:REF>
 <XPD:REF name="Associations[1]">u8ePWsPJuEq22odBgTUD8QAA</XPD:REF>
-<XPD:ATTR name="#Attributes" type="integer">1</XPD:ATTR>
-<XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="Cl85AQRYsUqPHVZ5jdUspgAA">
-<XPD:ATTR name="Name" type="string">ScenarioStateChanged</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">Action&lt;ScenarioPackage&gt;</XPD:ATTR>
-<XPD:REF name="Owner">qsciA6ceP0+tBIr4omBkIAAA</XPD:REF>
-</XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[5]" type="UMLClass" guid="RLwikkc9p0OdLQF0oimj6AAA">
 <XPD:ATTR name="Name" type="string">ScenarioInfo</XPD:ATTR>
@@ -12029,7 +12023,7 @@ VisualCore
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[117]" type="UMLPackage" guid="QCMtGGR590mmoPkyTA2S0AAA">
-<XPD:ATTR name="Name" type="string">Pyrite.Wcf</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">Pyrite.Windows.Wcf</XPD:ATTR>
 <XPD:REF name="Namespace">BfeRh8Ef20eeL8ynMv5G+AAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">1</XPD:ATTR>
 <XPD:REF name="Views[0]">Xl2c3QJI3E+FR24xW+NUVgAA</XPD:REF>

@@ -57,16 +57,14 @@ namespace Pyrite.Windows.Modules
             zip.ExtractZip(filePath, destinationFolder, string.Empty);
         }
 
-        public static string GetAssemblyPath(Assembly assembly)
-        {
-            string codeBase = assembly.CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            return Path.GetFullPath(Uri.UnescapeDataString(uri.Path));
-        }
-
         public static Assembly LoadAssembly(string path)
         {
             return Assembly.UnsafeLoadFrom(path);
-        }        
+        }
+
+        public static string GetAssemblyPath(Assembly assembly)
+        {
+            return Pyrite.Windows.Utils.Utils.GetAssemblyPath(assembly);
+        }
     }
 }

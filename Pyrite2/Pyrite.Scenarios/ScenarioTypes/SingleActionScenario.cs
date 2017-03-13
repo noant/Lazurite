@@ -42,7 +42,11 @@ namespace Pyrite.Scenarios.ScenarioTypes
 
         public override string CalculateCurrentValue()
         {
-            return TargetAction.GetValue(new ExecutionContext(string.Empty, new OutputChangedDelegates(), new CancellationToken()));
+            //if action not send some info when falue changed then calculate value
+            if (TargetAction.ValueChanged == null)
+                return TargetAction.GetValue(new ExecutionContext(string.Empty, new OutputChangedDelegates(), new CancellationToken()));
+            //else - cached value is fresh always
+            return GetCurrentValue();
         }
 
         private string _currentValue;

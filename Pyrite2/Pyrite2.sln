@@ -29,6 +29,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Security", "Pyrite.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Visual", "Pyrite.Visual\Pyrite.Visual.csproj", "{E8AA2173-58F5-474B-AFF7-EB66D077CACD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Windows.Wcf", "Pyrite.Windows.Wcf\Pyrite.Windows.Wcf.csproj", "{76BFDDE3-4535-4AA0-9E66-D35101BA18B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Windows.Utils", "Pyrite.Windows.Utils\Pyrite.Windows.Utils.csproj", "{09BE5F23-3903-4547-9D56-12CAE326C5CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Windows.Logging", "Pyrite.Windows.Logging\Pyrite.Windows.Logging.csproj", "{B73A65FA-8333-4D4B-BA9C-6BFBDF1B1815}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Android.ServiceClient", "Pyrite.Android.ServiceClient\Pyrite.Android.ServiceClient.csproj", "{9CD6A517-FB28-4D77-8807-789DD0DD1380}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +95,22 @@ Global
 		{E8AA2173-58F5-474B-AFF7-EB66D077CACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8AA2173-58F5-474B-AFF7-EB66D077CACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8AA2173-58F5-474B-AFF7-EB66D077CACD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76BFDDE3-4535-4AA0-9E66-D35101BA18B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76BFDDE3-4535-4AA0-9E66-D35101BA18B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76BFDDE3-4535-4AA0-9E66-D35101BA18B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76BFDDE3-4535-4AA0-9E66-D35101BA18B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09BE5F23-3903-4547-9D56-12CAE326C5CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09BE5F23-3903-4547-9D56-12CAE326C5CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09BE5F23-3903-4547-9D56-12CAE326C5CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09BE5F23-3903-4547-9D56-12CAE326C5CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B73A65FA-8333-4D4B-BA9C-6BFBDF1B1815}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B73A65FA-8333-4D4B-BA9C-6BFBDF1B1815}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B73A65FA-8333-4D4B-BA9C-6BFBDF1B1815}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B73A65FA-8333-4D4B-BA9C-6BFBDF1B1815}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CD6A517-FB28-4D77-8807-789DD0DD1380}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CD6A517-FB28-4D77-8807-789DD0DD1380}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CD6A517-FB28-4D77-8807-789DD0DD1380}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CD6A517-FB28-4D77-8807-789DD0DD1380}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

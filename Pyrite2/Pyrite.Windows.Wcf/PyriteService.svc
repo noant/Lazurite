@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Pyrite.Windows.Wcf.PyriteService" CodeBehind="PyriteService.svc.cs" %>

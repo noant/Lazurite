@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IClientFactory.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="ScenarioInfoLW.cs" />
     <Compile Include="ScenariosRepositoryBase.cs" />
     <Compile Include="IServer.cs" />
