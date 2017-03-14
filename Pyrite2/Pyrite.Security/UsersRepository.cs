@@ -17,6 +17,7 @@ namespace Pyrite.Security
 
         public UsersRepository()
         {
+            SystemUser = new SystemUser();
             if (_savior.Has(_usersKey))
                 _users = _savior.Get<List<UserBase>>(_usersKey);
             if (_savior.Has(_groupsKey))
@@ -33,7 +34,7 @@ namespace Pyrite.Security
             _savior.Set(_groupsKey, _groups);
         }
 
-        public readonly SystemUser SystemUser = new SystemUser();
+        public override UserBase SystemUser { get; set; }
 
         public override void Add(UserGroupBase group)
         {

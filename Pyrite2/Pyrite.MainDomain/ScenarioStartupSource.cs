@@ -9,8 +9,7 @@ namespace Pyrite.MainDomain
     public enum ScenarioStartupSource
     {
         OtherScenario,
-        RemoteScenario,
         ServerUI,
-        RemoteUI
+        Remote
     }
 }

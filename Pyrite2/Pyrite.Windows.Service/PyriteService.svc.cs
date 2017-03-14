@@ -3,6 +3,7 @@ using Pyrite.MainDomain;
 using Pyrite.Visual;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -34,47 +35,92 @@ namespace Pyrite.Windows.Service
         private UserBase GetCurrentUser()
         {
             var login = OperationContext.Current.ServiceSecurityContext.PrimaryIdentity.Name;
-            return _usersRepository.Users.SingleOrDefault(x => x.Login.Equals(login));
+            var user = _usersRepository.Users.SingleOrDefault(x => x.Login.Equals(login));
+            if (user == null)
+                ThrowUnauthorizedAccessException();
+            return user;
+        }
+
+        private ScenarioBase GetScenarioWithPrivileges(string scenarioId)
+        {
+            var user = GetCurrentUser();
+
+            var scenario = _scenariosRepository
+                .Scenarios
+                .SingleOrDefault(x => x.Id.Equals(scenarioId));
+
+            if (scenario == null)
+                ThrowScenarioNotExistException();
+
+            if (!scenario.CanExecute(user, ScenarioStartupSource.Remote))
+                ThrowUnauthorizedAccessException();
+
+            return scenario;
+        }
+
+        private void ThrowUnauthorizedAccessException()
+        {
+            throw new UnauthorizedAccessException("Access denied");
+        }
+
+        private void ThrowScenarioNotExistException()
+        {
+            throw new InvalidOperationException("Scenario not exist");
+        }
+
+        private VisualSettingsBase GetVisualSettings(UserBase user, string scenarioId)
+        {
+            var visualSettings = _visualSettings.VisualSettings
+                .SingleOrDefault(x => x is UserVisualSettings &&
+                ((UserVisualSettings)x).UserId.Equals(user.Id) && x.ScenarioId.Equals(scenarioId));
+
+            //if we can not found visualSettings then get visualSetting of SystemUser
+            if (visualSettings == null)
+                visualSettings = _visualSettings.VisualSettings
+                    .SingleOrDefault(x => x is UserVisualSettings &&
+                    ((UserVisualSettings)x).UserId.Equals(_usersRepository.SystemUser.Id) &&
+                    x.ScenarioId.Equals(scenarioId));
+
+            //if we can not found visualSettings of SystemUser then create new VisualSettings
+            if (visualSettings == null)
+                visualSettings = new UserVisualSettings()
+                {
+                    Color = new byte[] { Color.AliceBlue.R, Color.AliceBlue.G, Color.AliceBlue.B },
+                    PositionX = 0,
+                    PositionY = 0,
+                    ScenarioId = scenarioId,
+                    UserId = user.Id
+                };
+
+            return visualSettings;
         }
 
         public string CalculateScenarioValue(string scenarioId)
         {
-            return OperationContext.Current.ServiceSecurityContext.PrimaryIdentity.Name;
-            //return _scenariosRepository
-            //    .Scenarios
-            //    .SingleOrDefault(x => x.Id.Equals(scenarioId))?
-            //    .CalculateCurrentValue();
+            return GetScenarioWithPrivileges(scenarioId).CalculateCurrentValue();
         }
 
         public void ExecuteScenario(string scenarioId, string value)
         {
-            _scenariosRepository
-                .Scenarios
-                .SingleOrDefault(x => x.Id.Equals(scenarioId))?
-                .Execute(value, new CancellationToken());
+            GetScenarioWithPrivileges(scenarioId).Execute(value, new CancellationToken());
         }
 
         public void AsyncExecuteScenario(string scenarioId, string value)
         {
-            _scenariosRepository
-                .Scenarios
-                .SingleOrDefault(x => x.Id.Equals(scenarioId))?
-                .ExecuteAsync(value);
+            GetScenarioWithPrivileges(scenarioId).ExecuteAsync(value);
         }
 
         public void AsyncExecuteScenarioParallel(string scenarioId, string value)
         {
-            _scenariosRepository
-                .Scenarios
-                .SingleOrDefault(x => x.Id.Equals(scenarioId))?
-                .ExecuteAsyncParallel(value, new CancellationToken());
+            GetScenarioWithPrivileges(scenarioId).ExecuteAsyncParallel(value, new CancellationToken());
         }
 
         public ScenarioInfoLW[] GetChangedScenarios(DateTime since)
         {
+            var user = GetCurrentUser();
             return _scenariosRepository
                 .Scenarios
-                .Where(x => x.LastChange <= since)
+                .Where(x => x.LastChange <= since && x.CanExecute(user, ScenarioStartupSource.Remote))
                 .Select(x => new ScenarioInfoLW()
                 {
                     CurrentValue = x.CalculateCurrentValue(),
@@ -85,43 +131,48 @@ namespace Pyrite.Windows.Service
 
         public ScenarioInfo GetScenarioInfo(string scenarioId)
         {
-            //var user = OperationContext.Current.ServiceSecurityContext.PrimaryIdentity.
+            var user = GetCurrentUser();
+            var scenario = GetScenarioWithPrivileges(scenarioId);
 
-            //var scenario = _scenariosRepository.Scenarios
-            //    .SingleOrDefault(x => x.Id.Equals(scenarioId));
-
-            //if (scenarioId == null)
-            //    return null;
-
-            //var currentScenarioVisualSettings = _visualSettings
-            //    .VisualSettings
-            //    .SingleOrDefault(x=> (x is UserVisualSettings) && ((UserVisualSettings)x).UserId.Equals()
-
-            //return new ScenarioInfo()
-            //{
-            //    CurrentValue = scenario.CalculateCurrentValue(),
-            //    ScenarioId = scenarioId,
-            //    ValueType = scenario.ValueType,
-            //    VisualSettings
-            //}
-
-            throw new NotImplementedException();
+            return new ScenarioInfo() {
+                CurrentValue = scenario.CalculateCurrentValue(),
+                ScenarioId = scenarioId,
+                ValueType = scenario.ValueType,
+                VisualSettings = GetVisualSettings(user, scenario.Id)
+            };
         }
 
         public ScenarioInfo[] GetScenariosInfo()
         {
-            throw new NotImplementedException();
+            var user = GetCurrentUser();
+            return _scenariosRepository
+                .Scenarios
+                .Where(x => x.CanExecute(user, ScenarioStartupSource.Remote))
+                .Select(x => new ScenarioInfo()
+                {
+                    CurrentValue = x.CalculateCurrentValue(),
+                    ScenarioId = x.Id,
+                    ValueType = x.ValueType,
+                    VisualSettings = GetVisualSettings(user, x.Id)
+                })
+                .ToArray();
         }
 
         public string GetScenarioValue(string scenarioId)
         {
-            throw new NotImplementedException();
+            return GetScenarioWithPrivileges(scenarioId).GetCurrentValue();
         }
 
         public bool IsScenarioValueChanged(string scenarioId, string lastKnownValue)
         {
-            throw new NotImplementedException();
+            return GetScenarioWithPrivileges(scenarioId)
+                .CalculateCurrentValue()
+                .Equals(lastKnownValue);
         }
 
+        public void SaveVisualSettings(VisualSettingsBase visualSettings)
+        {
+            _visualSettings.Add(visualSettings);
+        }
     }
 }

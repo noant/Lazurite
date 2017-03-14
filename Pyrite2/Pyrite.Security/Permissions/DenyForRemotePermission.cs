@@ -8,12 +8,12 @@ using Pyrite.ActionsDomain.Attributes;
 
 namespace Pyrite.Security.Permissions
 {
-    [HumanFriendlyName("Запретить в клиентском интерфейсе")]
-    public class DenyForRemoteUIPermission : IPermission
+    [HumanFriendlyName("Запретить для удаленного запуска")]
+    public class DenyForRemotePermission : IPermission
     {
         public bool IsAvailableForUser(UserBase user, ScenarioStartupSource source)
         {
-            return source != ScenarioStartupSource.RemoteUI;
+            return source != ScenarioStartupSource.Remote;
         }
     }
 }

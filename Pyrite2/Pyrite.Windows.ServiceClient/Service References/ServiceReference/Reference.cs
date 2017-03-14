@@ -41,6 +41,9 @@ namespace Pyrite.Windows.ServiceClient.ServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServer/GetChangedScenarios", ReplyAction="http://tempuri.org/IServer/GetChangedScenariosResponse")]
         Pyrite.MainDomain.ScenarioInfoLW[] GetChangedScenarios(System.DateTime since);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServer/SaveVisualSettings", ReplyAction="http://tempuri.org/IServer/SaveVisualSettingsResponse")]
+        void SaveVisualSettings(Pyrite.MainDomain.VisualSettingsBase visualSettings);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -49,7 +52,7 @@ namespace Pyrite.Windows.ServiceClient.ServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ServerClient : System.ServiceModel.ClientBase<Pyrite.Windows.ServiceClient.ServiceReference.IServer>, Pyrite.Windows.ServiceClient.ServiceReference.IServer, Pyrite.MainDomain.IServer {
+    public partial class ServerClient : System.ServiceModel.ClientBase<Pyrite.Windows.ServiceClient.ServiceReference.IServer>, Pyrite.Windows.ServiceClient.ServiceReference.IServer, MainDomain.IServer {
         
         public ServerClient() {
         }
@@ -104,6 +107,10 @@ namespace Pyrite.Windows.ServiceClient.ServiceReference {
         
         public Pyrite.MainDomain.ScenarioInfoLW[] GetChangedScenarios(System.DateTime since) {
             return base.Channel.GetChangedScenarios(since);
+        }
+        
+        public void SaveVisualSettings(Pyrite.MainDomain.VisualSettingsBase visualSettings) {
+            base.Channel.SaveVisualSettings(visualSettings);
         }
     }
 }

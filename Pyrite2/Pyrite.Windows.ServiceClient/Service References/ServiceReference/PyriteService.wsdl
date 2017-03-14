@@ -101,6 +101,12 @@
   <wsdl:message name="IServer_GetChangedScenarios_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetChangedScenariosResponse" />
   </wsdl:message>
+  <wsdl:message name="IServer_SaveVisualSettings_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveVisualSettings" />
+  </wsdl:message>
+  <wsdl:message name="IServer_SaveVisualSettings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveVisualSettingsResponse" />
+  </wsdl:message>
   <wsdl:portType name="IServer">
     <wsdl:operation name="IsScenarioValueChanged">
       <wsdl:input wsaw:Action="http://tempuri.org/IServer/IsScenarioValueChanged" message="tns:IServer_IsScenarioValueChanged_InputMessage" />
@@ -137,6 +143,10 @@
     <wsdl:operation name="GetChangedScenarios">
       <wsdl:input wsaw:Action="http://tempuri.org/IServer/GetChangedScenarios" message="tns:IServer_GetChangedScenarios_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IServer/GetChangedScenariosResponse" message="tns:IServer_GetChangedScenarios_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveVisualSettings">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServer/SaveVisualSettings" message="tns:IServer_SaveVisualSettings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServer/SaveVisualSettingsResponse" message="tns:IServer_SaveVisualSettings_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IServer" type="tns:IServer">
@@ -216,6 +226,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetChangedScenarios">
       <soap:operation soapAction="http://tempuri.org/IServer/GetChangedScenarios" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveVisualSettings">
+      <soap:operation soapAction="http://tempuri.org/IServer/SaveVisualSettings" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

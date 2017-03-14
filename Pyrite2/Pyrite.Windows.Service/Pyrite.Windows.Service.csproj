@@ -117,6 +117,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Pyrite.ActionsDomain\Pyrite.ActionsDomain.csproj">
+      <Project>{e6be3954-3d6f-447a-91bf-04d892a1c025}</Project>
+      <Name>Pyrite.ActionsDomain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pyrite.IOC\Pyrite.IOC.csproj">
       <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
       <Name>Pyrite.IOC</Name>

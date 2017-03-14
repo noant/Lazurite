@@ -28,5 +28,7 @@ namespace Pyrite.MainDomain
         void AsyncExecuteScenarioParallel(string scenarioId, string value);
         [OperationContract]
         ScenarioInfoLW[] GetChangedScenarios(DateTime since);
+        [OperationContract]
+        void SaveVisualSettings(VisualSettingsBase visualSettings);
     }
 }
