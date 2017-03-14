@@ -9,7 +9,7 @@ namespace Pyrite.ActionsDomain.ValueTypes
 {
     [OnlyExecute]
     [HumanFriendlyName("Кнопка")]
-    public class ButtonValueType : AbstractValueType
+    public class ButtonValueType : ValueTypeBase
     {
         public ButtonValueType() {
             _acceptedValues = new string[] { };

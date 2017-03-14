@@ -9,7 +9,7 @@ namespace Pyrite.ActionsDomain.ValueTypes
 {
     [OnlyGetValue]
     [HumanFriendlyName("Изображение")]
-    public class ImageValueType : AbstractValueType
+    public class ImageValueType : ValueTypeBase
     {
         public ImageValueType()
         {

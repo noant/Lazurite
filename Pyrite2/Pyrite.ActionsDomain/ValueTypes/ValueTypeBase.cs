@@ -2,7 +2,7 @@
 
 namespace Pyrite.ActionsDomain.ValueTypes
 {
-    public abstract class AbstractValueType
+    public abstract class ValueTypeBase
     {
         protected string[] _acceptedValues;
         public string[] AcceptedValues {
@@ -39,7 +39,7 @@ namespace Pyrite.ActionsDomain.ValueTypes
             }
         }
 
-        public bool IsCompatibleWith(AbstractValueType valueType)
+        public bool IsCompatibleWith(ValueTypeBase valueType)
         {
             if (valueType.GetType() != this.GetType()) return false;
             if (valueType.SupportsNumericalComparisons.Equals(this.SupportsNumericalComparisons) && valueType.AcceptedValues.Length.Equals(this.AcceptedValues.Length))

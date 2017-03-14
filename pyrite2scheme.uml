@@ -130,13 +130,13 @@
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">408</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">136</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">248</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">267</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">134</XPD:ATTR>
 <XPD:REF name="Model">wtaN1/7btkOUN8izgVINXgAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="6Enk653sk0CWCuEDML2wEAAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="yeoHekJgo02k9r5JlhrsjwAA">
 <XPD:ATTR name="FontStyle" type="integer">1</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">ValueType</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">ValueTypeBase</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="52BDqO+c/kKjZtvxX9mZxAAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -4998,7 +4998,7 @@ VisualCore
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">560</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">476</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">239</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">257</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">95</XPD:ATTR>
 <XPD:REF name="Model">55ypVk04NEKvtfIW0TvIYAAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="q3PEtgwiakS952PYnORyGwAA">
@@ -5034,7 +5034,7 @@ VisualCore
 <XPD:REF name="Model">V1cELe09Q0yCqvdddqsSugAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="vPTAmqGzM0m361YOBBOfIAAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="gsh9dgXVukSEyHRcGGFVlwAA">
-<XPD:ATTR name="Text" type="string">Pyrite.Core</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">Pyrite.Windows.Core</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="sca2yD1ETki7szi8HD0qoQAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -5232,7 +5232,7 @@ VisualCore
 <XPD:REF name="Model">QCMtGGR590mmoPkyTA2S0AAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="sR1igWBnNUedhcu7z8FlIgAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="KisvaV5I8UC6hm4xpiPEZgAA">
-<XPD:ATTR name="Text" type="string">Pyrite.Windows.Wcf</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">Pyrite.Windows.Service</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="IbPperzOs0avpbha1zi9swAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -5245,7 +5245,7 @@ VisualCore
 <XPD:OBJ name="OwnedViews[140]" type="UMLClassView" guid="QpKURVRLoUCgAAoiUhf8pgAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Left" type="integer">3408</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">3404</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">412</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">776</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">56</XPD:ATTR>
@@ -5253,7 +5253,7 @@ VisualCore
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="h0lYOkqR5EKlKf9/bib2PwAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="YEYzjdjWdUqPQkAYNQnskgAA">
 <XPD:ATTR name="FontStyle" type="integer">1</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">Service</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">PyriteService</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="OCj6roW2jUuM4fzbwH6ZxAAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -5277,7 +5277,7 @@ VisualCore
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="LineStyle" type="LineStyleKind">lsRectilinear</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">3408,439;3256,439;3256,256;2804,256</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">3404,439;3256,439;3256,256;2804,256</XPD:ATTR>
 <XPD:REF name="Model">vbHbMzdnp0+4JVs5lANdgwAA</XPD:REF>
 <XPD:REF name="Head">r1OY7jogx0Stua68ls3NqgAA</XPD:REF>
 <XPD:REF name="Tail">QpKURVRLoUCgAAoiUhf8pgAA</XPD:REF>
@@ -5311,7 +5311,7 @@ VisualCore
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="HU8KjEYBgUmmFFjIBgMd9gAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="ZkMnJKSwGUaxo6rp+KEMiwAA">
 <XPD:ATTR name="FontStyle" type="integer">1</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">ClientValidator: UserNamePasswordValidator</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">LoginValidator: UserNamePasswordValidator</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="se4Ry4rLr0CL9HrO9EmpZgAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -5538,7 +5538,7 @@ VisualCore
 <XPD:REF name="Model">vJdg6cxoC0WcGcR6bsKVtwAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="PfbfOUfVyES7nMxfN/H4hAAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="NKVnxnCgaUO3DN5MrUv3PAAA">
-<XPD:ATTR name="Text" type="string">Pyrite.WcfHost</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">Pyrite.Windows.Server</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="xqbT2XRsKk2dFKLjbl6maQAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -5759,7 +5759,7 @@ VisualCore
 <XPD:REF name="Model">YTDdOZMW40e7EreRyOnc3QAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="UKl/TkV2pEqEWCRGNlAGKQAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="WYXDuW/8OEyAIb/4eFYPJwAA">
-<XPD:ATTR name="Text" type="string">Pyrite.WcfClient</XPD:ATTR>
+<XPD:ATTR name="Text" type="string">Pyrite.Windows.ServiceClient</XPD:ATTR>
 </XPD:OBJ>
 <XPD:OBJ name="StereotypeLabel" type="LabelView" guid="VeH1JmexC02eeE3mGm033AAA">
 <XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
@@ -5961,7 +5961,7 @@ VisualCore
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">2256</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">292</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">641</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">664</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">134</XPD:ATTR>
 <XPD:REF name="Model">U/gqPxArwUqnoOHrUnXqlwAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="ihb30AteA02F/dSCEU/vNgAA">
@@ -7267,7 +7267,7 @@ VisualCore
 <XPD:REF name="Generalizations[0]">wTDYac1GD0S443upsYZ2EgAA</XPD:REF>
 <XPD:ATTR name="#OwnedElements" type="integer">18</XPD:ATTR>
 <XPD:OBJ name="OwnedElements[0]" type="UMLClass" guid="wtaN1/7btkOUN8izgVINXgAA">
-<XPD:ATTR name="Name" type="string">ValueType</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">ValueTypeBase</XPD:ATTR>
 <XPD:REF name="Namespace">jS1eiUqmM0yQl4BJ/p8XAwAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">q/IFfkfWR0OemuFmaDl67AAA</XPD:REF>
@@ -9308,7 +9308,7 @@ VisualCore
 <XPD:REF name="Generalizations[1]">I0CkQt5Y1k25snhMBq7n0gAA</XPD:REF>
 <XPD:ATTR name="#Associations" type="integer">1</XPD:ATTR>
 <XPD:REF name="Associations[0]">bRibPYhJNkuFZmpMF8Ug/AAA</XPD:REF>
-<XPD:ATTR name="#Attributes" type="integer">10</XPD:ATTR>
+<XPD:ATTR name="#Attributes" type="integer">9</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="H0ajqpM4AUyclPc/LLH6ZAAA">
 <XPD:ATTR name="Name" type="string">Id</XPD:ATTR>
 <XPD:ATTR name="StereotypeName" type="string">guid</XPD:ATTR>
@@ -9332,36 +9332,31 @@ VisualCore
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="Owner">C8zPooRSZ0mAveg+YRpoyQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Attributes[4]" type="UMLAttribute" guid="L4sDhm+5d0msH3NRcCdmLQAA">
-<XPD:ATTR name="Name" type="string">Port</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">uint</XPD:ATTR>
-<XPD:REF name="Owner">C8zPooRSZ0mAveg+YRpoyQAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Attributes[5]" type="UMLAttribute" guid="dwf03Pb5Hkm7UXia7mpwVAAA">
+<XPD:OBJ name="Attributes[4]" type="UMLAttribute" guid="dwf03Pb5Hkm7UXia7mpwVAAA">
 <XPD:ATTR name="Name" type="string">UserLogin</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="Owner">C8zPooRSZ0mAveg+YRpoyQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Attributes[6]" type="UMLAttribute" guid="wOqlixZ4aUOcV2YZh/QckAAA">
+<XPD:OBJ name="Attributes[5]" type="UMLAttribute" guid="wOqlixZ4aUOcV2YZh/QckAAA">
 <XPD:ATTR name="Name" type="string">Password</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="Owner">C8zPooRSZ0mAveg+YRpoyQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Attributes[7]" type="UMLAttribute" guid="O0/j8KQayEuBdnZhb2UWKgAA">
+<XPD:OBJ name="Attributes[6]" type="UMLAttribute" guid="O0/j8KQayEuBdnZhb2UWKgAA">
 <XPD:ATTR name="Name" type="string">_clientFactory</XPD:ATTR>
 <XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">IClientFactory</XPD:ATTR>
 <XPD:REF name="Type_">o6XBuuIsJkafRPzfP9FSJgAA</XPD:REF>
 <XPD:REF name="Owner">C8zPooRSZ0mAveg+YRpoyQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Attributes[8]" type="UMLAttribute" guid="9CVaC5d4aUSJobmY6W/WAwAA">
+<XPD:OBJ name="Attributes[7]" type="UMLAttribute" guid="9CVaC5d4aUSJobmY6W/WAwAA">
 <XPD:ATTR name="Name" type="string">_server</XPD:ATTR>
 <XPD:ATTR name="Visibility" type="UMLVisibilityKind">vkPrivate</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">IServer</XPD:ATTR>
 <XPD:REF name="Type_">qsciA6ceP0+tBIr4omBkIAAA</XPD:REF>
 <XPD:REF name="Owner">C8zPooRSZ0mAveg+YRpoyQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Attributes[9]" type="UMLAttribute" guid="Cl8c1ocWU0K233OkvzHIgQAA">
+<XPD:OBJ name="Attributes[8]" type="UMLAttribute" guid="Cl8c1ocWU0K233OkvzHIgQAA">
 <XPD:ATTR name="Name" type="string">RemoteScenarioId</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="Owner">C8zPooRSZ0mAveg+YRpoyQAA</XPD:REF>
@@ -10883,40 +10878,40 @@ VisualCore
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="Operations[5]" type="UMLOperation" guid="UcEU+p0SNEWpwU0cIs+h3gAA">
-<XPD:ATTR name="Name" type="string">ExecuteScenarioAsync</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">AsyncExecuteScenario</XPD:ATTR>
 <XPD:REF name="Owner">qsciA6ceP0+tBIr4omBkIAAA</XPD:REF>
 <XPD:ATTR name="#Parameters" type="integer">3</XPD:ATTR>
-<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="ZfP5suL9aES4m50xGWWJewAA">
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="pGtzmGFEFkSUd3fgNIWvygAA">
 <XPD:ATTR name="DirectionKind" type="UMLParameterDirectionKind">pdkReturn</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">void</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">UcEU+p0SNEWpwU0cIs+h3gAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="pfsv5Z1TDEWWs1UOD2RhIQAA">
+<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="AGEXjvSZsUad47gKxKXI5AAA">
 <XPD:ATTR name="Name" type="string">scenarioId</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">UcEU+p0SNEWpwU0cIs+h3gAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Parameters[2]" type="UMLParameter" guid="uvCt76W8/USBQrGKEwNYJgAA">
+<XPD:OBJ name="Parameters[2]" type="UMLParameter" guid="JdTZoF/tcEeXrDQ+NoWxpgAA">
 <XPD:ATTR name="Name" type="string">value</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">UcEU+p0SNEWpwU0cIs+h3gAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="Operations[6]" type="UMLOperation" guid="eU7APunrAUGxDXVsMUROQQAA">
-<XPD:ATTR name="Name" type="string">ExecuteScenarioAsyncParallel</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">AsyncExecuteScenarioParallel</XPD:ATTR>
 <XPD:REF name="Owner">qsciA6ceP0+tBIr4omBkIAAA</XPD:REF>
 <XPD:ATTR name="#Parameters" type="integer">3</XPD:ATTR>
-<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="CtpJMZ3q4kmjQWMI441OEAAA">
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="ndb4VieVmEGEmSwK7ZXUlAAA">
 <XPD:ATTR name="DirectionKind" type="UMLParameterDirectionKind">pdkReturn</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">void</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">eU7APunrAUGxDXVsMUROQQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="ACyf1HeBUEebx1LtIds9SAAA">
+<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="D/AD58vgM06hWyCjHiSHwQAA">
 <XPD:ATTR name="Name" type="string">scenarioId</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">eU7APunrAUGxDXVsMUROQQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Parameters[2]" type="UMLParameter" guid="kjvDhSZhD0m89oG+L3gb2QAA">
+<XPD:OBJ name="Parameters[2]" type="UMLParameter" guid="Gl4vOVQZMUOTyrEDuVQYmgAA">
 <XPD:ATTR name="Name" type="string">value</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">eU7APunrAUGxDXVsMUROQQAA</XPD:REF>
@@ -11910,7 +11905,7 @@ VisualCore
 <XPD:REF name="Parent">Mxff9X4tkEi37yzdmsvgfAAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[113]" type="UMLPackage" guid="V1cELe09Q0yCqvdddqsSugAA">
-<XPD:ATTR name="Name" type="string">Pyrite.Core</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">Pyrite.Windows.Core</XPD:ATTR>
 <XPD:REF name="Namespace">BfeRh8Ef20eeL8ynMv5G+AAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">1</XPD:ATTR>
 <XPD:REF name="Views[0]">alt0FIqmu0KFG5+Dwh0exAAA</XPD:REF>
@@ -12023,13 +12018,13 @@ VisualCore
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[117]" type="UMLPackage" guid="QCMtGGR590mmoPkyTA2S0AAA">
-<XPD:ATTR name="Name" type="string">Pyrite.Windows.Wcf</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">Pyrite.Windows.Service</XPD:ATTR>
 <XPD:REF name="Namespace">BfeRh8Ef20eeL8ynMv5G+AAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">1</XPD:ATTR>
 <XPD:REF name="Views[0]">Xl2c3QJI3E+FR24xW+NUVgAA</XPD:REF>
 <XPD:ATTR name="#OwnedElements" type="integer">2</XPD:ATTR>
 <XPD:OBJ name="OwnedElements[0]" type="UMLClass" guid="17eq9DyFDEypYYAUv4OybAAA">
-<XPD:ATTR name="Name" type="string">Service</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">PyriteService</XPD:ATTR>
 <XPD:REF name="Namespace">QCMtGGR590mmoPkyTA2S0AAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">QpKURVRLoUCgAAoiUhf8pgAA</XPD:REF>
@@ -12068,7 +12063,7 @@ VisualCore
 <XPD:REF name="Associations[0]">7hpcJyfJOU2r41b7jmkOlwAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[1]" type="UMLClass" guid="HsuBFghZvECDV2mqaWeYPAAA">
-<XPD:ATTR name="Name" type="string">ClientValidator: UserNamePasswordValidator</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">LoginValidator: UserNamePasswordValidator</XPD:ATTR>
 <XPD:REF name="Namespace">QCMtGGR590mmoPkyTA2S0AAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">VRWJijOfKUm9KYeBt9pR9gAA</XPD:REF>
@@ -12221,7 +12216,7 @@ VisualCore
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[125]" type="UMLPackage" guid="vJdg6cxoC0WcGcR6bsKVtwAA">
-<XPD:ATTR name="Name" type="string">Pyrite.WcfHost</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">Pyrite.Windows.Server</XPD:ATTR>
 <XPD:REF name="Namespace">BfeRh8Ef20eeL8ynMv5G+AAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">1</XPD:ATTR>
 <XPD:REF name="Views[0]">qHvXx9XnVUSrty4gdxzHYQAA</XPD:REF>
@@ -12326,7 +12321,7 @@ VisualCore
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[129]" type="UMLPackage" guid="YTDdOZMW40e7EreRyOnc3QAA">
-<XPD:ATTR name="Name" type="string">Pyrite.WcfClient</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">Pyrite.Windows.ServiceClient</XPD:ATTR>
 <XPD:REF name="Namespace">BfeRh8Ef20eeL8ynMv5G+AAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">1</XPD:ATTR>
 <XPD:REF name="Views[0]">tM3erI+1OUyZ/N0iBfuX4wAA</XPD:REF>
@@ -12341,8 +12336,9 @@ VisualCore
 <XPD:REF name="Views[3]">UDDJSe3YT0uSqOk+ulEjFwAA</XPD:REF>
 <XPD:ATTR name="#Generalizations" type="integer">1</XPD:ATTR>
 <XPD:REF name="Generalizations[0]">v1G6BgP4jUW9Vi5ZUn7iZwAA</XPD:REF>
-<XPD:ATTR name="#TypedParameters" type="integer">1</XPD:ATTR>
+<XPD:ATTR name="#TypedParameters" type="integer">2</XPD:ATTR>
 <XPD:REF name="TypedParameters[0]">bnQ9BSHKz0ebhZ4+6VS5YgAA</XPD:REF>
+<XPD:REF name="TypedParameters[1]">zdZnjK3q0UCB4+sP0/VUmQAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[1]" type="UMLClass" guid="tWCTOChL3EeoebQnyAUtbQAA">
 <XPD:ATTR name="Name" type="string">ServiceClientFactory</XPD:ATTR>
@@ -12358,27 +12354,22 @@ VisualCore
 <XPD:OBJ name="Operations[0]" type="UMLOperation" guid="A0zyVPWFGEiFxZHZVd8RbQAA">
 <XPD:ATTR name="Name" type="string">GetServer</XPD:ATTR>
 <XPD:REF name="Owner">tWCTOChL3EeoebQnyAUtbQAA</XPD:REF>
-<XPD:ATTR name="#Parameters" type="integer">5</XPD:ATTR>
-<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="bnQ9BSHKz0ebhZ4+6VS5YgAA">
+<XPD:ATTR name="#Parameters" type="integer">4</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="zdZnjK3q0UCB4+sP0/VUmQAA">
 <XPD:ATTR name="DirectionKind" type="UMLParameterDirectionKind">pdkReturn</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">A0zyVPWFGEiFxZHZVd8RbQAA</XPD:REF>
 <XPD:REF name="Type_">Ce7QRHfvGU2QqBrKuuRnnAAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="gCrKWqof0UW9pvTs5FmHOgAA">
+<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="MrnnXd7gvkSPvMXHtQ1XHQAA">
 <XPD:ATTR name="Name" type="string">host</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">A0zyVPWFGEiFxZHZVd8RbQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Parameters[2]" type="UMLParameter" guid="y4KKgmkHpEayrCJRdKX2RQAA">
-<XPD:ATTR name="Name" type="string">port</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">int</XPD:ATTR>
-<XPD:REF name="BehavioralFeature">A0zyVPWFGEiFxZHZVd8RbQAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Parameters[3]" type="UMLParameter" guid="nP+Zi59TykO9n9V2bTxyFwAA">
+<XPD:OBJ name="Parameters[2]" type="UMLParameter" guid="3PVSA/A4pkOZNVAy1gEZ4wAA">
 <XPD:ATTR name="Name" type="string">string user</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">A0zyVPWFGEiFxZHZVd8RbQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Parameters[4]" type="UMLParameter" guid="0w74xsqSSUuZR0Oa4zQ6YQAA">
+<XPD:OBJ name="Parameters[3]" type="UMLParameter" guid="FbfxKQ9jGU6UK0/Mm5ERjQAA">
 <XPD:ATTR name="Name" type="string">strign password</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">A0zyVPWFGEiFxZHZVd8RbQAA</XPD:REF>
 </XPD:OBJ>

@@ -49,7 +49,7 @@ namespace Pyrite.CoreActions
         }
 
         private ButtonValueType _valueType = new ButtonValueType();
-        public AbstractValueType ValueType
+        public ValueTypeBase ValueType
         {
             get
             {
@@ -75,7 +75,7 @@ namespace Pyrite.CoreActions
             //do nothing
         }
         
-        public void UserInitializeWith(AbstractValueType valueType)
+        public void UserInitializeWith(ValueTypeBase valueType)
         {
             //do nothing
         }

@@ -12,9 +12,9 @@ namespace Pyrite.ActionsDomain
         string GetValue(ExecutionContext context);
         void SetValue(ExecutionContext context, string value);
         string Caption { get; set; }
-        AbstractValueType ValueType { get; set; }
+        ValueTypeBase ValueType { get; set; }
         void Initialize();
-        void UserInitializeWith(AbstractValueType valueType);
+        void UserInitializeWith(ValueTypeBase valueType);
         ValueChangedDelegate ValueChanged { get; set; }
     }
 }

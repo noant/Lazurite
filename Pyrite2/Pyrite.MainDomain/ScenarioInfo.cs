@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace Pyrite.MainDomain
 
         public string CurrentValue { get; set; }
 
-        public AbstractValueType ValueType { get; set; }
+        public ValueTypeBase ValueType { get; set; }
 
         public VisualSettingsBase VisualSettings { get; set; }
     }

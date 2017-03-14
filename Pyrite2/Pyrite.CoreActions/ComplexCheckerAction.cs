@@ -49,7 +49,7 @@ namespace Pyrite.CoreActions
         }
 
         private ToggleValueType _valueType = new ToggleValueType();
-        public ActionsDomain.ValueTypes.AbstractValueType ValueType
+        public ActionsDomain.ValueTypes.ValueTypeBase ValueType
         {
             get
             {
@@ -84,7 +84,7 @@ namespace Pyrite.CoreActions
             return GetValue(context) == ToggleValueType.ValueON;
         }
 
-        public void UserInitializeWith(AbstractValueType valueType)
+        public void UserInitializeWith(ValueTypeBase valueType)
         {
             //do nothing
         }

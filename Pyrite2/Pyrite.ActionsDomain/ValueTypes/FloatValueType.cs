@@ -9,7 +9,7 @@ namespace Pyrite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Число")]
     [SuitableValueTypes(typeof(FloatValueType))]
-    public class FloatValueType: AbstractValueType
+    public class FloatValueType: ValueTypeBase
     {
         public FloatValueType()
         {

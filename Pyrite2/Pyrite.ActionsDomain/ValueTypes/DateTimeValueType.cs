@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Pyrite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("ДатаВремя")]
-    public class DateTimeValueType: AbstractValueType
+    public class DateTimeValueType: ValueTypeBase
     {
         public DateTimeValueType()
         {

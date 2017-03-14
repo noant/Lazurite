@@ -26,7 +26,7 @@ namespace Pyrite.MainDomain
                 .Any(z=>types.Any(y=>y.Equals(z)))).ToArray();
         }
 
-        public ScenarioBase[] GetScenarios(UserBase user, ScenarioStartupSource source, AbstractValueType valueType = null, bool rightPart = false)
+        public ScenarioBase[] GetScenarios(UserBase user, ScenarioStartupSource source, ValueTypeBase valueType = null, bool rightPart = false)
         {
             return Scenarios.Where(x =>
                 x.CanExecute(user, source)

@@ -113,7 +113,7 @@ namespace Pyrite.Tests
                 }
             }
 
-            public AbstractValueType ValueType
+            public ValueTypeBase ValueType
             {
                 get
                 {
@@ -140,7 +140,7 @@ namespace Pyrite.Tests
                 Thread.Sleep(8000);
             }
 
-            public void UserInitializeWith(AbstractValueType valueType)
+            public void UserInitializeWith(ValueTypeBase valueType)
             {
                 //
             }
@@ -161,7 +161,7 @@ namespace Pyrite.Tests
                 }
             }
 
-            public AbstractValueType ValueType
+            public ValueTypeBase ValueType
             {
                 get
                 {
@@ -189,7 +189,7 @@ namespace Pyrite.Tests
                 //
             }
 
-            public void UserInitializeWith(AbstractValueType valueType)
+            public void UserInitializeWith(ValueTypeBase valueType)
             {
                 //
             }
@@ -211,7 +211,7 @@ namespace Pyrite.Tests
                 }
             }
 
-            public AbstractValueType ValueType
+            public ValueTypeBase ValueType
             {
                 get
                 {
@@ -239,7 +239,7 @@ namespace Pyrite.Tests
                 Debug.WriteLine(value);
             }
 
-            public void UserInitializeWith(AbstractValueType valueType)
+            public void UserInitializeWith(ValueTypeBase valueType)
             {
                 //
             }
@@ -261,7 +261,7 @@ namespace Pyrite.Tests
                 }
             }
 
-            public AbstractValueType ValueType
+            public ValueTypeBase ValueType
             {
                 get
                 {
@@ -289,7 +289,7 @@ namespace Pyrite.Tests
                 //
             }
 
-            public void UserInitializeWith(AbstractValueType valueType)
+            public void UserInitializeWith(ValueTypeBase valueType)
             {
                 //
             }

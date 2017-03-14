@@ -25,7 +25,7 @@ namespace Pyrite.Tests
         [TestMethod]
         public void IsOnlyExecute()
         {
-            AbstractValueType @var = new ButtonValueType();
+            ValueTypeBase @var = new ButtonValueType();
             var isOnlyExec = ActionsDomain.Utils.IsOnlyExecute(var.GetType());
             if (!isOnlyExec)
                 throw new Exception();
@@ -39,7 +39,7 @@ namespace Pyrite.Tests
         [TestMethod]
         public void IsOnlyGetValue()
         {
-            AbstractValueType @var = new ButtonValueType();
+            ValueTypeBase @var = new ButtonValueType();
             var isOnlyGet = ActionsDomain.Utils.IsOnlyGetValue(var.GetType());
             if (isOnlyGet)
                 throw new Exception();

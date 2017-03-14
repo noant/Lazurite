@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="ff719941-eb8d-4874-a59a-5e1cd0c398a4" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:49755/PyriteService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="PyriteService.xsd" MetadataType="Schema" ID="c69e16b9-0471-4c72-80ed-5054ab2ed836" SourceId="1" SourceUrl="https://localhost:44340/PyriteService.svc?xsd=xsd4" />
+    <MetadataFile FileName="PyriteService.wsdl" MetadataType="Wsdl" ID="79cc9183-a9bb-479b-a4bb-ccfcb17d1e04" SourceId="1" SourceUrl="https://localhost:44340/PyriteService.svc?wsdl" />
+    <MetadataFile FileName="PyriteService.disco" MetadataType="Disco" ID="9d6b3104-316d-4b34-96f8-90195dc2536b" SourceId="1" SourceUrl="https://localhost:44340/PyriteService.svc?disco" />
+    <MetadataFile FileName="PyriteService1.xsd" MetadataType="Schema" ID="11aff766-fe0f-49a7-aaec-52ac9580c5f4" SourceId="1" SourceUrl="https://localhost:44340/PyriteService.svc?xsd=xsd3" />
+    <MetadataFile FileName="PyriteService2.xsd" MetadataType="Schema" ID="3fdaf0d9-0dfa-4cf9-acdf-e5590e0004f5" SourceId="1" SourceUrl="https://localhost:44340/PyriteService.svc?xsd=xsd2" />
+    <MetadataFile FileName="PyriteService3.xsd" MetadataType="Schema" ID="bb085c7a-a8d1-4a38-89d0-6a2ada76b03d" SourceId="1" SourceUrl="https://localhost:44340/PyriteService.svc?xsd=xsd1" />
+    <MetadataFile FileName="PyriteService4.xsd" MetadataType="Schema" ID="d061b491-4d9d-484d-8670-a713d99f9756" SourceId="1" SourceUrl="https://localhost:44340/PyriteService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Pyrite.MainDomain" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Pyrite.MainDomain" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://localhost:44340/PyriteService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Pyrite.ActionsDomain.ValueTypes" />
+  <xs:complexType name="ArrayOfScenarioInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ScenarioInfo" nillable="true" type="tns:ScenarioInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfScenarioInfo" nillable="true" type="tns:ArrayOfScenarioInfo" />
+  <xs:complexType name="ScenarioInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CurrentValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ScenarioId" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Pyrite.ActionsDomain.ValueTypes" minOccurs="0" name="ValueType" nillable="true" type="q1:ValueTypeBase" />
+      <xs:element minOccurs="0" name="VisualSettings" nillable="true" type="tns:VisualSettingsBase" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ScenarioInfo" nillable="true" type="tns:ScenarioInfo" />
+  <xs:complexType name="VisualSettingsBase">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Color" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="PositionX" type="xs:int" />
+      <xs:element minOccurs="0" name="PositionY" type="xs:int" />
+      <xs:element minOccurs="0" name="ScenarioId" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VisualSettingsBase" nillable="true" type="tns:VisualSettingsBase" />
+  <xs:complexType name="ArrayOfScenarioInfoLW">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ScenarioInfoLW" nillable="true" type="tns:ScenarioInfoLW" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfScenarioInfoLW" nillable="true" type="tns:ArrayOfScenarioInfoLW" />
+  <xs:complexType name="ScenarioInfoLW">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CurrentValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ScenarioId" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ScenarioInfoLW" nillable="true" type="tns:ScenarioInfoLW" />
+</xs:schema>

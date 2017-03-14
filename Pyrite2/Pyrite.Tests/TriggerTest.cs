@@ -174,7 +174,7 @@ namespace Pyrite.Tests
                 }
             }
 
-            public AbstractValueType ValueType
+            public ValueTypeBase ValueType
             {
                 get;
                 set;
@@ -195,7 +195,7 @@ namespace Pyrite.Tests
                 File.AppendAllText(@"D:\Temporary\triggerTest.txt", value);
             }
 
-            public void UserInitializeWith(AbstractValueType valueType)
+            public void UserInitializeWith(ValueTypeBase valueType)
             {
                 this.ValueType = valueType;
             }

@@ -52,7 +52,7 @@
     <Compile Include="Utils.cs" />
     <Compile Include="ValueTypes\StateValueType.cs" />
     <Compile Include="ValueTypes\ToggleValueType.cs" />
-    <Compile Include="ValueTypes\AbstractValueType.cs" />
+    <Compile Include="ValueTypes\ValueTypeBase.cs" />
     <Compile Include="Attributes\VisualInitializationAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

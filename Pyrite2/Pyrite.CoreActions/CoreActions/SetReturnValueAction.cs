@@ -46,7 +46,7 @@ namespace Pyrite.CoreActions.CoreActions
             get; set;
         }
         
-        public AbstractValueType ValueType
+        public ValueTypeBase ValueType
         {
             get
             {
@@ -68,7 +68,7 @@ namespace Pyrite.CoreActions.CoreActions
             return new[] { InputValue };
         }
         
-        public void UserInitializeWith(AbstractValueType valueType)
+        public void UserInitializeWith(ValueTypeBase valueType)
         {
             //do nothing
         }

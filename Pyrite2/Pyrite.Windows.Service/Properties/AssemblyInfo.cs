@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью указанного ниже 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("Pyrite.Windows.Wcf")]
+[assembly: AssemblyTitle("Pyrite.Windows.Service")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Pyrite.Windows.Wcf")]
+[assembly: AssemblyProduct("Pyrite.Windows.Service")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Указанный ниже идентификатор GUID предназначен для идентификации библиотеки типов, если этот проект будет видимым для COM-объектов
-[assembly: Guid("76bfdde3-4535-4aa0-9e66-d35101ba18b6")]
+[assembly: Guid("e3e5cd1c-8573-4192-a8a8-c6dcbe70619b")]
 
 // Сведения о версии сборки состоят из указанных ниже четырех значений:
 //

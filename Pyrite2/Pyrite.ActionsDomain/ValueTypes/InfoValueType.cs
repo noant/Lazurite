@@ -9,7 +9,7 @@ namespace Pyrite.ActionsDomain.ValueTypes
 {
     [OnlyGetValue]
     [HumanFriendlyName("Информация")]
-    public class InfoValueType : AbstractValueType
+    public class InfoValueType : ValueTypeBase
     {
         public InfoValueType()
         {

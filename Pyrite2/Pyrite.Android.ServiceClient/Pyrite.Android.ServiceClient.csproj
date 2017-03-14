@@ -39,19 +39,31 @@
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="GeneratedClient.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
+    <None Include="ServiceReferences.ClientConfig" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pyrite.ActionsDomain\Pyrite.ActionsDomain.csproj">
+      <Project>{e6be3954-3d6f-447a-91bf-04d892a1c025}</Project>
+      <Name>Pyrite.ActionsDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.MainDomain\Pyrite.MainDomain.csproj">
+      <Project>{dcd8e6af-a435-4556-ad74-84444b1dd816}</Project>
+      <Name>Pyrite.MainDomain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

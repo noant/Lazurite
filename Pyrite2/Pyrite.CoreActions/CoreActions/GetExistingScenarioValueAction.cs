@@ -47,7 +47,7 @@ namespace Pyrite.CoreActions.CoreActions
             }
         }
 
-        public AbstractValueType ValueType
+        public ValueTypeBase ValueType
         {
             get
             {
@@ -64,7 +64,7 @@ namespace Pyrite.CoreActions.CoreActions
             //do nothing
         }
         
-        public void UserInitializeWith(AbstractValueType valueType)
+        public void UserInitializeWith(ValueTypeBase valueType)
         {
             //do nothing
         }

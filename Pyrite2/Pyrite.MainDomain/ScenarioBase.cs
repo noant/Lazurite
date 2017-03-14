@@ -46,7 +46,7 @@ namespace Pyrite.MainDomain
         /// <summary>
         /// Type of returning value
         /// </summary>
-        public abstract AbstractValueType ValueType { get; set; }
+        public abstract ValueTypeBase ValueType { get; set; }
 
         /// <summary>
         /// Security settings

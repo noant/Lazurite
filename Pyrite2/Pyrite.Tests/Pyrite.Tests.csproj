@@ -58,6 +58,7 @@
     <Compile Include="ReflectionHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScenariosRepositoryTest.cs" />
+    <Compile Include="ServiceTest.cs" />
     <Compile Include="TriggerTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +101,10 @@
     <ProjectReference Include="..\Pyrite.Windows.Modules\Pyrite.Windows.Modules.csproj">
       <Project>{AB2D5750-1D05-4963-8445-EFCE54616D8F}</Project>
       <Name>Pyrite.Windows.Modules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Windows.ServiceClient\Pyrite.Windows.ServiceClient.csproj">
+      <Project>{8C79C90A-F696-4397-83C8-CB39AABBC872}</Project>
+      <Name>Pyrite.Windows.ServiceClient</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

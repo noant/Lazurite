@@ -18,7 +18,7 @@ namespace Pyrite.Scenarios.ScenarioTypes
     {
         public ComplexAction TargetAction { get; set; }
 
-        public override AbstractValueType ValueType
+        public override ValueTypeBase ValueType
         {
             get;
             set;

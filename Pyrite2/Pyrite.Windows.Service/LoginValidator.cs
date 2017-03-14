@@ -9,7 +9,7 @@ using System.ServiceModel;
 using System.ServiceModel.Security;
 using System.Web;
 
-namespace Pyrite.Windows.Wcf
+namespace Pyrite.Windows.Service
 {
     public class LoginValidator : UserNamePasswordValidator
     {

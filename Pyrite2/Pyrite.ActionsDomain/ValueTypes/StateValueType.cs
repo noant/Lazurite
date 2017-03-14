@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Pyrite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Статус")]
-    public class StateValueType : AbstractValueType
+    public class StateValueType : ValueTypeBase
     {
         public override bool CanBeModified
         {

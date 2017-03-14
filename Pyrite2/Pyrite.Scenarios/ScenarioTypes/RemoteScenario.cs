@@ -17,7 +17,7 @@ namespace Pyrite.Scenarios.ScenarioTypes
     {
         private IClientFactory _clientFactory;
         private IServer _server;
-        private AbstractValueType _valueType;
+        private ValueTypeBase _valueType;
         private ScenarioInfo _scenarioInfo;
         private string _currentValue;
         private CancellationTokenSource _cancellationTokenSource;
@@ -26,12 +26,7 @@ namespace Pyrite.Scenarios.ScenarioTypes
         /// Target server ip or name
         /// </summary>
         public string AddressHost { get; set; }
-
-        /// <summary>
-        /// Target server port
-        /// </summary>
-        public int Port { get; set; }
-
+        
         /// <summary>
         /// Target server login
         /// </summary>
@@ -50,7 +45,7 @@ namespace Pyrite.Scenarios.ScenarioTypes
         /// <summary>
         /// Value type of remote scenario
         /// </summary>
-        public override AbstractValueType ValueType
+        public override ValueTypeBase ValueType
         {
             get
             {
@@ -80,12 +75,12 @@ namespace Pyrite.Scenarios.ScenarioTypes
 
         public override void ExecuteAsync(string param)
         {
-            ExceptionsHandler.Handle(this, () => _server.ExecuteScenarioAsync(RemoteScenarioId, param));
+            ExceptionsHandler.Handle(this, () => _server.AsyncExecuteScenario(RemoteScenarioId, param));
         }
 
         public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
-            ExceptionsHandler.Handle(this, () => _server.ExecuteScenarioAsyncParallel(RemoteScenarioId, param));
+            ExceptionsHandler.Handle(this, () => _server.AsyncExecuteScenarioParallel(RemoteScenarioId, param));
         }
 
         public override Type[] GetAllUsedActionTypes()
@@ -108,7 +103,7 @@ namespace Pyrite.Scenarios.ScenarioTypes
         {
             _cancellationTokenSource = new CancellationTokenSource();
             _clientFactory = Singleton.Resolve<IClientFactory>();
-            _server = _clientFactory.GetServer(AddressHost, Port, UserLogin, Password);
+            _server = _clientFactory.GetServer(AddressHost, UserLogin, Password);
             _scenarioInfo = _server.GetScenarioInfo(RemoteScenarioId);
             _valueType = _scenarioInfo.ValueType;
             //changes listener

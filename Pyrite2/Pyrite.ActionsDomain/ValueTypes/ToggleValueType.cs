@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Pyrite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Переключатель")]
-    public class ToggleValueType: AbstractValueType
+    public class ToggleValueType: ValueTypeBase
     {
         public ToggleValueType()
         {

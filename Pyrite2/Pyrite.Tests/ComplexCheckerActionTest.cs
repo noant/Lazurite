@@ -36,7 +36,7 @@ namespace Pyrite.Tests
                 set;
             }
 
-            public AbstractValueType ValueType
+            public ValueTypeBase ValueType
             {
                 get
                 {
@@ -64,7 +64,7 @@ namespace Pyrite.Tests
                 Console.WriteLine(value);
             }
 
-            public void UserInitializeWith(AbstractValueType valueType)
+            public void UserInitializeWith(ValueTypeBase valueType)
             {
                 //
             }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <system.serviceModel>
+        <bindings>
+            <basicHttpBinding>
+                <binding name="BasicHttpBinding_PyriteService" maxBufferSize="2147483647"
+                    maxReceivedMessageSize="2147483647">
+                  <security mode="TransportWithMessageCredential">                    
+                  </security>
+                </binding>
+            </basicHttpBinding>
+        </bindings>
+        <client>
+            <endpoint address="http://localhost:50044/PyriteService.svc"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_PyriteService"
+                contract="PyriteService" name="BasicHttpBinding_PyriteService" />
+        </client>
+        <extensions />
+    </system.serviceModel>
+</configuration>
