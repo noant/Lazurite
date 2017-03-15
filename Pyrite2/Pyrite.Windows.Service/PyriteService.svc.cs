@@ -23,13 +23,9 @@ namespace Pyrite.Windows.Service
 
         public PyriteService()
         {
-            try
-            {
-                _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
-                _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
-                _visualSettings = Singleton.Resolve<VisualSettingsRepository>();
-            }
-            catch { }
+            _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+            _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
+            _visualSettings = Singleton.Resolve<VisualSettingsRepository>();
         }
 
         private UserBase GetCurrentUser()

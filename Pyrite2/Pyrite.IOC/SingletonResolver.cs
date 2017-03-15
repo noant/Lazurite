@@ -19,7 +19,19 @@ namespace Pyrite.IOC
         public static T Resolve<T>()
         {
             var typeInfo = typeof(T).GetTypeInfo();
+#if DEBUG
+            try
+            {
+                return (T)_object.Single(x => x.GetType().Equals(typeof(T)) || typeInfo.IsAssignableFrom(x.GetType().GetTypeInfo()));
+            }
+            catch
+            {
+                return default(T);
+            }
+#endif
+#if !DEBUG
             return (T)_object.Single(x => x.GetType().Equals(typeof(T)) || typeInfo.IsAssignableFrom(x.GetType().GetTypeInfo()));
+#endif
         }
     }
 }

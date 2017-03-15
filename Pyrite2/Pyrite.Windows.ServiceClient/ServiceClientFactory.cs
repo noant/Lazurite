@@ -20,7 +20,7 @@ namespace Pyrite.Windows.ServiceClient
             ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, errors) => true;
         }
 
-        private Dictionary<ConnectionCredentials, MainDomain.IServer> _cache = new Dictionary<ConnectionCredentials, MainDomain.IServer>();
+        private Dictionary<ConnectionCredentials, ServerClient> _cache = new Dictionary<ConnectionCredentials, ServerClient>();
 
         public MainDomain.IServer GetServer(string host, string userLogin, string password)
         {
@@ -37,10 +37,16 @@ namespace Pyrite.Windows.ServiceClient
 
                 _cache.Add(credentials, CreateClient(host, userLogin, password));
             }
+
+            if (_cache[credentials].State == CommunicationState.Faulted ||
+                _cache[credentials].State == CommunicationState.Closed ||
+                _cache[credentials].State == CommunicationState.Closing)
+                _cache[credentials] = CreateClient(host, userLogin, password);
+
             return _cache[credentials];
         }
 
-        private MainDomain.IServer CreateClient(string host, string userLogin, string password)
+        private ServerClient CreateClient(string host, string userLogin, string password)
         {
             var binding = new BasicHttpBinding();
             binding.Security.Mode = BasicHttpSecurityMode.TransportWithMessageCredential;

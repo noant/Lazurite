@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Windows.ServiceClien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Windows.Service", "Pyrite.Windows.Service\Pyrite.Windows.Service.csproj", "{E3E5CD1C-8573-4192-A8A8-C6DCBE70619B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Windows.Server", "Pyrite.Windows.Server\Pyrite.Windows.Server.csproj", "{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,6 +122,10 @@ Global
 		{E3E5CD1C-8573-4192-A8A8-C6DCBE70619B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3E5CD1C-8573-4192-A8A8-C6DCBE70619B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3E5CD1C-8573-4192-A8A8-C6DCBE70619B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
