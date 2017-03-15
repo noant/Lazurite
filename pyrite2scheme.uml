@@ -12251,7 +12251,7 @@ VisualCore
 <XPD:ATTR name="#Attributes" type="integer">3</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="hHDvmjEIYUidtRz2MoPd2AAA">
 <XPD:ATTR name="Name" type="string">Port</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">int</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">ushort</XPD:ATTR>
 <XPD:REF name="Owner">l1KbnhuqLEatECGFEiufOAAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Attributes[1]" type="UMLAttribute" guid="ZPSfK99jPUuxIwLIqUzOMQAA">
