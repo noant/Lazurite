@@ -32,7 +32,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,11 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CertificateLoadMode.cs" />
     <Compile Include="PyriteServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Pyrite.ActionsDomain\Pyrite.ActionsDomain.csproj">
+      <Project>{E6BE3954-3D6F-447A-91BF-04D892A1C025}</Project>
+      <Name>Pyrite.ActionsDomain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pyrite.Data\Pyrite.Data.csproj">
       <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
       <Name>Pyrite.Data</Name>
@@ -57,6 +64,10 @@
     <ProjectReference Include="..\Pyrite.Windows.Service\Pyrite.Windows.Service.csproj">
       <Project>{E3E5CD1C-8573-4192-A8A8-C6DCBE70619B}</Project>
       <Name>Pyrite.Windows.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Windows.Utils\Pyrite.Windows.Utils.csproj">
+      <Project>{09BE5F23-3903-4547-9D56-12CAE326C5CC}</Project>
+      <Name>Pyrite.Windows.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

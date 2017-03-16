@@ -15,6 +15,20 @@ namespace Pyrite.ActionsDomain
             return attr.Value;
         }
 
+        public static string ExtractHumanFrindlyName(Type type, string memberName)
+        {
+            var memberInfo = 
+                type.GetRuntimeProperty(memberName) as MemberInfo ??
+                type.GetRuntimeMethod(memberName, new Type[0]) as MemberInfo ??
+                type.GetRuntimeField(memberName) as MemberInfo ??
+                type.GetRuntimeEvent(memberName) as MemberInfo;
+
+            var attr = memberInfo.GetCustomAttribute<HumanFriendlyNameAttribute>();
+            if (attr == null)
+                return string.Empty;
+            return attr.Value;
+        }
+
         public static bool IsOnlyExecute(Type type)
         {
             return type.GetTypeInfo().GetCustomAttribute<OnlyExecuteAttribute>() != null;
