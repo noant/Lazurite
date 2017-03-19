@@ -12,11 +12,11 @@
       <xs:element minOccurs="0" name="CurrentValue" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="ScenarioId" nillable="true" type="xs:string" />
       <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Pyrite.ActionsDomain.ValueTypes" minOccurs="0" name="ValueType" nillable="true" type="q1:ValueTypeBase" />
-      <xs:element minOccurs="0" name="VisualSettings" nillable="true" type="tns:VisualSettingsBase" />
+      <xs:element minOccurs="0" name="VisualSettings" nillable="true" type="tns:UserVisualSettings" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ScenarioInfo" nillable="true" type="tns:ScenarioInfo" />
-  <xs:complexType name="VisualSettingsBase">
+  <xs:complexType name="UserVisualSettings">
     <xs:sequence>
       <xs:element minOccurs="0" name="Color" nillable="true" type="xs:base64Binary" />
       <xs:element minOccurs="0" name="PositionX" type="xs:int" />
@@ -24,7 +24,7 @@
       <xs:element minOccurs="0" name="ScenarioId" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="VisualSettingsBase" nillable="true" type="tns:VisualSettingsBase" />
+  <xs:element name="UserVisualSettings" nillable="true" type="tns:UserVisualSettings" />
   <xs:complexType name="ArrayOfScenarioInfoLW">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="ScenarioInfoLW" nillable="true" type="tns:ScenarioInfoLW" />

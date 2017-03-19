@@ -99,7 +99,10 @@ namespace Pyrite.MainDomain
             var cancellationToken = _tokenSource.Token;
             Task.Factory.StartNew(() => {
                 ExceptionsHandler.Handle(this, () => RunInternal(cancellationToken));
-            }, cancellationToken);
+            }, 
+            cancellationToken, 
+            TaskCreationOptions.LongRunning,
+            TaskScheduler.Default);
         }
 
         /// <summary>

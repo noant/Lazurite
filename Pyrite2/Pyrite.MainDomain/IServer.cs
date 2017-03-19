@@ -29,6 +29,6 @@ namespace Pyrite.MainDomain
         [OperationContract]
         ScenarioInfoLW[] GetChangedScenarios(DateTime since);
         [OperationContract]
-        void SaveVisualSettings(VisualSettingsBase visualSettings);
+        void SaveVisualSettings(UserVisualSettings visualSettings);
     }
 }

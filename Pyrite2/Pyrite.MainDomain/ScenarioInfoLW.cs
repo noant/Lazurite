@@ -8,10 +8,13 @@ using System.Threading.Tasks;
 
 namespace Pyrite.MainDomain
 {
+    [DataContract]
     public class ScenarioInfoLW
     {
+        [DataMember]
         public string ScenarioId { get; set; } //guid
 
+        [DataMember]
         public string CurrentValue { get; set; }
     }
 }

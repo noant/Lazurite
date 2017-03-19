@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Pyrite.ActionsDomain.ValueTypes
 {
+    [DataContract]
     public abstract class ValueTypeBase
     {
         protected string[] _acceptedValues;
+
+        [DataMember]
         public string[] AcceptedValues {
             get {
                 return _acceptedValues;
@@ -14,7 +18,7 @@ namespace Pyrite.ActionsDomain.ValueTypes
                     _acceptedValues = value;
             }
         }
-
+        
         public virtual bool CanBeModified
         {
             get
@@ -22,7 +26,7 @@ namespace Pyrite.ActionsDomain.ValueTypes
                 return false;
             }
         }
-
+        
         public virtual bool SupportsNumericalComparisons
         {
             get
@@ -30,7 +34,7 @@ namespace Pyrite.ActionsDomain.ValueTypes
                 return false;
             }
         }
-
+        
         public virtual string HumanFriendlyName
         {
             get

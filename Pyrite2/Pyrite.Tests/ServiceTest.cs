@@ -13,7 +13,7 @@ namespace Pyrite.Tests
     {
         [TestMethod]
         public void ClientTest() {
-            var client = new ServiceClientFactory().GetServer("https://localhost:44340/PyriteService.svc", "UserTest_1", "pass_1");
+            var client = new ServiceClientFactory().GetServer("localhost", 44340, "PyriteService.svc", "UserTest_1", "pass_1");
             var a = client.CalculateScenarioValue("123");
         }
     }

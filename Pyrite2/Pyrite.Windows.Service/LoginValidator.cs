@@ -21,7 +21,7 @@ namespace Pyrite.Windows.Service
             try
             {
                 var passwordHash = CryptoUtils.CreatePasswordHash(password);
-                var user = UsersRepository.Users.SingleOrDefault(x => x.Equals(userName) && x.PasswordHash.Equals(passwordHash));
+                var user = UsersRepository.Users.SingleOrDefault(x => x.Login.Equals(userName) && x.PasswordHash.Equals(passwordHash));
                 if (user == null)
                     throw new FaultException("Login or password not valid", new FaultCode("403"));
             }

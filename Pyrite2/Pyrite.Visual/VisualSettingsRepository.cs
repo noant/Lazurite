@@ -14,16 +14,16 @@ namespace Pyrite.Visual
         private ISavior _savior = Singleton.Resolve<ISavior>();
         private UsersRepositoryBase _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private ScenariosRepositoryBase _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
-        private List<VisualSettingsBase> _allSettings = new List<VisualSettingsBase>();
+        private List<UserVisualSettings> _allSettings = new List<UserVisualSettings>();
         private readonly string _key = "visualLayouts";
 
         public VisualSettingsRepository()
         {
             if (_savior.Has(_key))
-                _allSettings = _savior.Get<List<VisualSettingsBase>>(_key);
+                _allSettings = _savior.Get<List<UserVisualSettings>>(_key);
             _usersRepository.OnUserRemoved = (user) => 
             {
-                _allSettings.RemoveAll(x => x is UserVisualSettings && ((UserVisualSettings)x).UserId.Equals(user.Id));
+                _allSettings.RemoveAll(x => x.UserId.Equals(user.Id));
                 Save();
             };
             _scenariosRepository.OnScenarioRemoved = (scenario) =>
@@ -38,7 +38,7 @@ namespace Pyrite.Visual
             _savior.Set(_key, _allSettings);
         }
 
-        public VisualSettingsBase[] VisualSettings
+        public UserVisualSettings[] VisualSettings
         {
             get
             {
@@ -46,14 +46,14 @@ namespace Pyrite.Visual
             }
         }
 
-        public void Add(VisualSettingsBase settings)
+        public void Add(UserVisualSettings settings)
         {
             _allSettings.RemoveAll(x => x.SameAs(settings));
             _allSettings.Add(settings);
             Save();
         }
 
-        public void Remove(VisualSettingsBase settings)
+        public void Remove(UserVisualSettings settings)
         {
             _allSettings.RemoveAll(x => x.SameAs(settings));
             Save();

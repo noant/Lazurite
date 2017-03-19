@@ -1,5 +1,6 @@
 ﻿using Pyrite.Data;
 using Pyrite.IOC;
+using Pyrite.MainDomain;
 using Pyrite.Windows.Service;
 using Pyrite.Windows.Utils;
 using System;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.ServiceModel.Security;
 using System.ServiceModel.Web;
 using System.Text;
@@ -19,12 +21,10 @@ namespace Pyrite.Windows.Server
 {
     public class PyriteServer
     {
-        private readonly byte[] DefaultCertificate = new byte[] { };
-
         private ISavior _savior = Singleton.Resolve<ISavior>();
         private ServerSettings _settings;
         private string _key = "serverSettings";
-        private WebServiceHost _host;
+        private ServiceHost _host;
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
         public ServerSettings GetSettings()
@@ -36,41 +36,48 @@ namespace Pyrite.Windows.Server
         {
             _settings = settings;
             _savior.Set(_key, settings);
-            Restart();
         }
 
-        public void Restart()
+        public void Stop()
         {
             if (_host != null)
                 _host.Close();
 
             _tokenSource.Cancel();
             _tokenSource = new CancellationTokenSource();
+        }
 
+        public void Start()
+        {
             Task.Factory.StartNew(() =>
             {
                 var binding = new BasicHttpBinding(BasicHttpSecurityMode.TransportWithMessageCredential);
                 binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
+                binding.Security.Transport.ProxyCredentialType = HttpProxyCredentialType.None;
                 binding.Security.Message.ClientCredentialType = BasicHttpMessageCredentialType.UserName;
 
-                var address = _settings.GetAddress();
+                var address = new Uri(_settings.GetAddress());
                 var service = new PyriteService();
-                _host = new WebServiceHost(service, new Uri(address));
+                _host = new WebServiceHost(service, address);
+                _host.AddServiceEndpoint(typeof(IServer), binding, address);
                 _host.Credentials.UserNameAuthentication.UserNamePasswordValidationMode = UserNamePasswordValidationMode.Custom;
-                _host.Credentials.UserNameAuthentication.CustomUserNamePasswordValidator = new LoginValidator();
-
-                if (_settings.CertificateLoadMode == CertificateLoadMode.Default)
-                    _host.Credentials.ServiceCertificate.Certificate = new X509Certificate2
-                    (Path.Combine(Utils.Utils.GetAssemblyPath(Assembly.GetCallingAssembly()), "PyriteStandartCertificate.pfx"), 
-                    "1507199215071992");
-                else if (_settings.CertificateLoadMode == CertificateLoadMode.SubjectName)
-                    _host.Credentials.ServiceCertificate.SetCertificate(_settings.CertificateSubjectName);
-                else if (_settings.CertificateLoadMode == CertificateLoadMode.File)
-                    _host.Credentials.ServiceCertificate.Certificate = new X509Certificate2(_settings.CertificatePath, _settings.CertificatePassword);
-
+                _host.Credentials.UserNameAuthentication.CustomUserNamePasswordValidator = new LoginValidator();                
+                _host.Credentials.ServiceCertificate.SetCertificate(
+                    StoreLocation.LocalMachine,
+                    StoreName.My,
+                    X509FindType.FindBySubjectName,
+                    _settings.CertificateSubject);
                 _host.Open();
-            }, 
-            _tokenSource.Token);
+            },
+            _tokenSource.Token,
+            TaskCreationOptions.LongRunning,
+            TaskScheduler.Default);
+        }
+
+        public void Restart()
+        {
+            Stop();
+            Start();
         }
 
         public PyriteServer()

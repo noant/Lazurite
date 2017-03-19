@@ -58,6 +58,7 @@
     <Compile Include="ReflectionHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScenariosRepositoryTest.cs" />
+    <Compile Include="ServerTest.cs" />
     <Compile Include="ServiceTest.cs" />
     <Compile Include="TriggerTest.cs" />
   </ItemGroup>
@@ -90,9 +91,17 @@
       <Project>{EE271212-1572-4525-BC27-B2F283238740}</Project>
       <Name>Pyrite.Scenarios</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Security\Pyrite.Security.csproj">
+      <Project>{3ACF6EAC-A7BE-4AFE-AA9C-80259157AE71}</Project>
+      <Name>Pyrite.Security</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pyrite.Utils\Pyrite.Utils.csproj">
       <Project>{d4fdb9f4-f897-4f15-85fc-26e8d933af6d}</Project>
       <Name>Pyrite.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Visual\Pyrite.Visual.csproj">
+      <Project>{E8AA2173-58F5-474B-AFF7-EB66D077CACD}</Project>
+      <Name>Pyrite.Visual</Name>
     </ProjectReference>
     <ProjectReference Include="..\Pyrite.Windows.Data\Pyrite.Windows.Data.csproj">
       <Project>{e71f185a-b90f-4145-bd38-97eb30d129fe}</Project>
@@ -102,9 +111,17 @@
       <Project>{AB2D5750-1D05-4963-8445-EFCE54616D8F}</Project>
       <Name>Pyrite.Windows.Modules</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Windows.Server\Pyrite.Windows.Server.csproj">
+      <Project>{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}</Project>
+      <Name>Pyrite.Windows.Server</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pyrite.Windows.ServiceClient\Pyrite.Windows.ServiceClient.csproj">
       <Project>{8C79C90A-F696-4397-83C8-CB39AABBC872}</Project>
       <Name>Pyrite.Windows.ServiceClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyrite.Windows.Utils\Pyrite.Windows.Utils.csproj">
+      <Project>{09BE5F23-3903-4547-9D56-12CAE326C5CC}</Project>
+      <Name>Pyrite.Windows.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

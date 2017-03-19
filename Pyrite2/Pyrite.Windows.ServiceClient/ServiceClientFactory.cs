@@ -18,6 +18,7 @@ namespace Pyrite.Windows.ServiceClient
         static ServiceClientFactory()
         {
             ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, errors) => true;
+            ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
         }
 
         private Dictionary<ConnectionCredentials, ServerClient> _cache = new Dictionary<ConnectionCredentials, ServerClient>();
@@ -33,27 +34,27 @@ namespace Pyrite.Windows.ServiceClient
             };
             if (!_cache.ContainsKey(credentials))
             {
-                _cache.Add(credentials, CreateClient(host, userLogin, password));
+                _cache.Add(credentials, CreateClient(credentials));
             }
 
             if (_cache[credentials].State == CommunicationState.Faulted ||
                 _cache[credentials].State == CommunicationState.Closed ||
                 _cache[credentials].State == CommunicationState.Closing)
-                _cache[credentials] = CreateClient(host, userLogin, password);
+                _cache[credentials] = CreateClient(credentials);
 
             return _cache[credentials];
         }
 
-        private ServerClient CreateClient(string host, string userLogin, string password)
+        private ServerClient CreateClient(ConnectionCredentials credentials)
         {
             var binding = new BasicHttpBinding();
             binding.Security.Mode = BasicHttpSecurityMode.TransportWithMessageCredential;
-            var endpoint = new EndpointAddress(new Uri(host));
+            var endpoint = new EndpointAddress(new Uri(credentials.GetAddress()));
 
             var client = new ServerClient(binding, endpoint);
 
-            client.ClientCredentials.UserName.UserName = userLogin;
-            client.ClientCredentials.UserName.Password = password;
+            client.ClientCredentials.UserName.UserName = credentials.Login;
+            client.ClientCredentials.UserName.Password = credentials.Password;
 
             client.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
             client.ChannelFactory.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;

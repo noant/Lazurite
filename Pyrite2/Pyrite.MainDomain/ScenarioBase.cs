@@ -87,7 +87,7 @@ namespace Pyrite.MainDomain
         /// <param name="cancelToken"></param>
         public virtual void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
-            Task.Factory.StartNew(() => Execute(param, cancelToken), cancelToken);
+            Task.Factory.StartNew(() => Execute(param, cancelToken), cancelToken, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Pyrite.MainDomain
             _tokenSource.Cancel();
             _tokenSource = new CancellationTokenSource();
             var token = _tokenSource.Token;
-            Task.Factory.StartNew(() => Execute(param, token), token);
+            Task.Factory.StartNew(() => Execute(param, token), token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
         
         /// <summary>

@@ -15,6 +15,7 @@ namespace Pyrite.Windows.Service
 {
     // ПРИМЕЧАНИЕ. Команду "Переименовать" в меню "Рефакторинг" можно использовать для одновременного изменения имени класса "Service1" в коде, SVC-файле и файле конфигурации.
     // ПРИМЕЧАНИЕ. Чтобы запустить клиент проверки WCF для тестирования службы, выберите элементы Service1.svc или Service1.svc.cs в обозревателе решений и начните отладку.
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, UseSynchronizationContext = false)]
     public class PyriteService : IServer
     {
         private ScenariosRepositoryBase _scenariosRepository;
@@ -64,7 +65,7 @@ namespace Pyrite.Windows.Service
             throw new InvalidOperationException("Scenario not exist");
         }
 
-        private VisualSettingsBase GetVisualSettings(UserBase user, string scenarioId)
+        private UserVisualSettings GetVisualSettings(UserBase user, string scenarioId)
         {
             var visualSettings = _visualSettings.VisualSettings
                 .SingleOrDefault(x => x is UserVisualSettings &&
@@ -96,16 +97,19 @@ namespace Pyrite.Windows.Service
             return GetScenarioWithPrivileges(scenarioId).CalculateCurrentValue();
         }
 
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
         public void ExecuteScenario(string scenarioId, string value)
         {
             GetScenarioWithPrivileges(scenarioId).Execute(value, new CancellationToken());
         }
 
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
         public void AsyncExecuteScenario(string scenarioId, string value)
         {
             GetScenarioWithPrivileges(scenarioId).ExecuteAsync(value);
         }
 
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
         public void AsyncExecuteScenarioParallel(string scenarioId, string value)
         {
             GetScenarioWithPrivileges(scenarioId).ExecuteAsyncParallel(value, new CancellationToken());
@@ -124,7 +128,7 @@ namespace Pyrite.Windows.Service
                 })
                 .ToArray();
         }
-
+        
         public ScenarioInfo GetScenarioInfo(string scenarioId)
         {
             var user = GetCurrentUser();
@@ -159,15 +163,24 @@ namespace Pyrite.Windows.Service
             return GetScenarioWithPrivileges(scenarioId).GetCurrentValue();
         }
 
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
         public bool IsScenarioValueChanged(string scenarioId, string lastKnownValue)
         {
             return GetScenarioWithPrivileges(scenarioId)
                 .CalculateCurrentValue()
                 .Equals(lastKnownValue);
         }
-
-        public void SaveVisualSettings(VisualSettingsBase visualSettings)
+        
+        public void SaveVisualSettings(UserVisualSettings visualSettings)
         {
+            var user = GetCurrentUser();
+            visualSettings = new UserVisualSettings() {
+                Color = visualSettings.Color,
+                PositionX = visualSettings.PositionX,
+                PositionY = visualSettings.PositionY,
+                ScenarioId = visualSettings.ScenarioId,
+                UserId = user.Id
+            };
             _visualSettings.Add(visualSettings);
         }
     }

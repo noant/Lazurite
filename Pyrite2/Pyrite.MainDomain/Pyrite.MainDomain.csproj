@@ -68,7 +68,7 @@
     <Compile Include="UserGroupBase.cs" />
     <Compile Include="UsersRepositoryBase.cs" />
     <Compile Include="Utils.cs" />
-    <Compile Include="VisualSettingsBase.cs" />
+    <Compile Include="UserVisualSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ServiceModel">

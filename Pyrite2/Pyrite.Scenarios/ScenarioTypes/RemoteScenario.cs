@@ -28,6 +28,16 @@ namespace Pyrite.Scenarios.ScenarioTypes
         public string AddressHost { get; set; }
         
         /// <summary>
+        /// Server port
+        /// </summary>
+        public ushort Port { get; set; }
+
+        /// <summary>
+        /// Service name
+        /// </summary>
+        public string ServiceName { get; set; }
+
+        /// <summary>
         /// Target server login
         /// </summary>
         public string UserLogin { get; set; }
@@ -103,7 +113,7 @@ namespace Pyrite.Scenarios.ScenarioTypes
         {
             _cancellationTokenSource = new CancellationTokenSource();
             _clientFactory = Singleton.Resolve<IClientFactory>();
-            _server = _clientFactory.GetServer(AddressHost, UserLogin, Password);
+            _server = _clientFactory.GetServer(AddressHost, Port, ServiceName, UserLogin, Password);
             _scenarioInfo = _server.GetScenarioInfo(RemoteScenarioId);
             _valueType = _scenarioInfo.ValueType;
             //changes listener
