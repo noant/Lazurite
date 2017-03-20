@@ -49,11 +49,11 @@ namespace Pyrite.Tests
 
             server.Start();
 
-            Thread.Sleep(10000);
+            Thread.Sleep(3000);
 
             var clientFactory = Singleton.Resolve<IClientFactory>();
 
-            var client = clientFactory.GetServer("localhost", 444, "PyriteService.svc", "anton", "1243");
+            var client = clientFactory.GetServer("desktop", 444, "PyriteService.svc", "anton", "123");
 
             var a = client.GetScenarioValue("16b10918-a709-4418-93eb-fa5d3c9b5d20");
             var b = client.GetScenarioInfo("16b10918-a709-4418-93eb-fa5d3c9b5d20");

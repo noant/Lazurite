@@ -55,6 +55,12 @@ namespace Pyrite.Windows.Server
                 binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
                 binding.Security.Transport.ProxyCredentialType = HttpProxyCredentialType.None;
                 binding.Security.Message.ClientCredentialType = BasicHttpMessageCredentialType.UserName;
+                binding.CloseTimeout =
+                    binding.OpenTimeout =
+                    binding.SendTimeout = TimeSpan.FromMinutes(5);
+
+                binding.MessageEncoding = WSMessageEncoding.Text;
+                binding.TextEncoding = Encoding.UTF8;
 
                 var address = new Uri(_settings.GetAddress());
                 var service = new PyriteService();

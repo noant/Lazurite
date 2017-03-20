@@ -49,6 +49,20 @@ namespace Pyrite.Windows.ServiceClient
         {
             var binding = new BasicHttpBinding();
             binding.Security.Mode = BasicHttpSecurityMode.TransportWithMessageCredential;
+            binding.Security.Message.ClientCredentialType = BasicHttpMessageCredentialType.UserName;
+            binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
+            binding.TextEncoding = Encoding.UTF8;
+            binding.MessageEncoding = WSMessageEncoding.Text;
+            binding.ReaderQuotas.MaxArrayLength = 2147483647;
+            binding.ReaderQuotas.MaxBytesPerRead = 2147483647;
+            binding.ReaderQuotas.MaxDepth = 50;
+            binding.ReaderQuotas.MaxNameTableCharCount = 9999;
+            binding.ReaderQuotas.MaxStringContentLength = 2147483647;
+
+            binding.CloseTimeout =
+                binding.OpenTimeout =
+                binding.SendTimeout = TimeSpan.FromMinutes(5);
+
             var endpoint = new EndpointAddress(new Uri(credentials.GetAddress()));
 
             var client = new ServerClient(binding, endpoint);
@@ -58,7 +72,7 @@ namespace Pyrite.Windows.ServiceClient
 
             client.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
             client.ChannelFactory.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
-
+            
             return client;
         }
     }
