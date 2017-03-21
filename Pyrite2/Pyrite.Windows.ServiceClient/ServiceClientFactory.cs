@@ -18,7 +18,6 @@ namespace Pyrite.Windows.ServiceClient
         static ServiceClientFactory()
         {
             ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, errors) => true;
-            ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
         }
 
         private Dictionary<ConnectionCredentials, ServerClient> _cache = new Dictionary<ConnectionCredentials, ServerClient>();
@@ -48,11 +47,8 @@ namespace Pyrite.Windows.ServiceClient
         private ServerClient CreateClient(ConnectionCredentials credentials)
         {
             var binding = new BasicHttpBinding();
-            binding.Security.Mode = BasicHttpSecurityMode.TransportWithMessageCredential;
-            binding.Security.Message.ClientCredentialType = BasicHttpMessageCredentialType.UserName;
-            binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
-            binding.TextEncoding = Encoding.UTF8;
-            binding.MessageEncoding = WSMessageEncoding.Text;
+            binding.Security.Mode = BasicHttpSecurityMode.Transport;
+            binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
             binding.ReaderQuotas.MaxArrayLength = 2147483647;
             binding.ReaderQuotas.MaxBytesPerRead = 2147483647;
             binding.ReaderQuotas.MaxDepth = 50;

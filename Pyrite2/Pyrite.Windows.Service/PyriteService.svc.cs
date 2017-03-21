@@ -15,7 +15,7 @@ namespace Pyrite.Windows.Service
 {
     // ПРИМЕЧАНИЕ. Команду "Переименовать" в меню "Рефакторинг" можно использовать для одновременного изменения имени класса "Service1" в коде, SVC-файле и файле конфигурации.
     // ПРИМЕЧАНИЕ. Чтобы запустить клиент проверки WCF для тестирования службы, выберите элементы Service1.svc или Service1.svc.cs в обозревателе решений и начните отладку.
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, IncludeExceptionDetailInFaults = true)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, IncludeExceptionDetailInFaults = true, AddressFilterMode = AddressFilterMode.Any)]
     public class PyriteService : IServer
     {
         private ScenariosRepositoryBase _scenariosRepository;
@@ -24,9 +24,17 @@ namespace Pyrite.Windows.Service
 
         public PyriteService()
         {
-            _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
-            _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
-            _visualSettings = Singleton.Resolve<VisualSettingsRepository>();
+#if DEBUG
+            try
+            {
+#endif
+                _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+                _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
+                _visualSettings = Singleton.Resolve<VisualSettingsRepository>();
+#if DEBUG
+            }
+            catch { }
+#endif
         }
 
         private UserBase GetCurrentUser()

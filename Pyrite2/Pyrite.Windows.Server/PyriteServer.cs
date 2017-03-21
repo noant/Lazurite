@@ -51,17 +51,12 @@ namespace Pyrite.Windows.Server
         {
             Task.Factory.StartNew(() =>
             {
-                var binding = new BasicHttpBinding(BasicHttpSecurityMode.TransportWithMessageCredential);
-                binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
-                binding.Security.Transport.ProxyCredentialType = HttpProxyCredentialType.None;
-                binding.Security.Message.ClientCredentialType = BasicHttpMessageCredentialType.UserName;
+                var binding = new BasicHttpBinding(BasicHttpSecurityMode.Transport);
+                binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
                 binding.CloseTimeout =
                     binding.OpenTimeout =
                     binding.SendTimeout = TimeSpan.FromMinutes(5);
-
-                binding.MessageEncoding = WSMessageEncoding.Text;
-                binding.TextEncoding = Encoding.UTF8;
-
+                
                 var address = new Uri(_settings.GetAddress());
                 var service = new PyriteService();
                 _host = new WebServiceHost(service, address);

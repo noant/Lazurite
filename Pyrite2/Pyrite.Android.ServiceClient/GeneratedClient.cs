@@ -18,52 +18,52 @@
 public interface PyriteService
 {
 
-    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/PyriteService/GetCurrentUser", ReplyAction = "http://tempuri.org/PyriteService/GetCurrentUserResponse")]
+    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/IServer/GetCurrentUser", ReplyAction = "http://tempuri.org/IServer/GetCurrentUserResponse")]
     System.IAsyncResult BeginGetCurrentUser(System.AsyncCallback callback, object asyncState);
 
     Pyrite.MainDomain.UserBase EndGetCurrentUser(System.IAsyncResult result);
 
-    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/PyriteService/CalculateScenarioValue", ReplyAction = "http://tempuri.org/PyriteService/CalculateScenarioValueResponse")]
+    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/IServer/CalculateScenarioValue", ReplyAction = "http://tempuri.org/IServer/CalculateScenarioValueResponse")]
     System.IAsyncResult BeginCalculateScenarioValue(string scenarioId, System.AsyncCallback callback, object asyncState);
 
     string EndCalculateScenarioValue(System.IAsyncResult result);
 
-    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/PyriteService/ExecuteScenario", ReplyAction = "http://tempuri.org/PyriteService/ExecuteScenarioResponse")]
+    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/IServer/ExecuteScenario", ReplyAction = "http://tempuri.org/IServer/ExecuteScenarioResponse")]
     System.IAsyncResult BeginExecuteScenario(string scenarioId, string value, System.AsyncCallback callback, object asyncState);
 
     void EndExecuteScenario(System.IAsyncResult result);
 
-    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/PyriteService/ExecuteScenarioAsync", ReplyAction = "http://tempuri.org/PyriteService/ExecuteScenarioAsyncResponse")]
+    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/IServer/ExecuteScenarioAsync", ReplyAction = "http://tempuri.org/IServer/ExecuteScenarioAsyncResponse")]
     System.IAsyncResult BeginExecuteScenarioAsync(string scenarioId, string value, System.AsyncCallback callback, object asyncState);
 
     void EndExecuteScenarioAsync(System.IAsyncResult result);
 
-    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/PyriteService/ExecuteScenarioAsyncParallel", ReplyAction = "http://tempuri.org/PyriteService/ExecuteScenarioAsyncParallelResponse")]
+    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/IServer/ExecuteScenarioAsyncParallel", ReplyAction = "http://tempuri.org/IServer/ExecuteScenarioAsyncParallelResponse")]
     System.IAsyncResult BeginExecuteScenarioAsyncParallel(string scenarioId, string value, System.AsyncCallback callback, object asyncState);
 
     void EndExecuteScenarioAsyncParallel(System.IAsyncResult result);
 
-    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/PyriteService/GetChangedScenarios", ReplyAction = "http://tempuri.org/PyriteService/GetChangedScenariosResponse")]
+    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/IServer/GetChangedScenarios", ReplyAction = "http://tempuri.org/IServer/GetChangedScenariosResponse")]
     System.IAsyncResult BeginGetChangedScenarios(System.DateTime since, System.AsyncCallback callback, object asyncState);
 
     Pyrite.MainDomain.ScenarioInfoLW[] EndGetChangedScenarios(System.IAsyncResult result);
 
-    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/PyriteService/GetScenarioInfo", ReplyAction = "http://tempuri.org/PyriteService/GetScenarioInfoResponse")]
+    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/IServer/GetScenarioInfo", ReplyAction = "http://tempuri.org/IServer/GetScenarioInfoResponse")]
     System.IAsyncResult BeginGetScenarioInfo(string scenarioId, System.AsyncCallback callback, object asyncState);
 
     Pyrite.MainDomain.ScenarioInfo EndGetScenarioInfo(System.IAsyncResult result);
 
-    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/PyriteService/GetScenariosInfo", ReplyAction = "http://tempuri.org/PyriteService/GetScenariosInfoResponse")]
+    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/IServer/GetScenariosInfo", ReplyAction = "http://tempuri.org/IServer/GetScenariosInfoResponse")]
     System.IAsyncResult BeginGetScenariosInfo(System.AsyncCallback callback, object asyncState);
 
     Pyrite.MainDomain.ScenarioInfo[] EndGetScenariosInfo(System.IAsyncResult result);
 
-    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/PyriteService/GetScenarioValue", ReplyAction = "http://tempuri.org/PyriteService/GetScenarioValueResponse")]
+    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/IServer/GetScenarioValue", ReplyAction = "http://tempuri.org/IServer/GetScenarioValueResponse")]
     System.IAsyncResult BeginGetScenarioValue(string scenarioId, System.AsyncCallback callback, object asyncState);
 
     string EndGetScenarioValue(System.IAsyncResult result);
 
-    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/PyriteService/IsScenarioValueChanged", ReplyAction = "http://tempuri.org/PyriteService/IsScenarioValueChangedResponse")]
+    [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/IServer/IsScenarioValueChanged", ReplyAction = "http://tempuri.org/IServer/IsScenarioValueChangedResponse")]
     System.IAsyncResult BeginIsScenarioValueChanged(string scenarioId, string lastKnownValue, System.AsyncCallback callback, object asyncState);
 
     bool EndIsScenarioValueChanged(System.IAsyncResult result);

@@ -44,8 +44,8 @@ namespace Pyrite.Tests
 
             var server = new PyriteServer();
 
-            Windows.Server.Utils.NetshAddUrlacl(server.GetSettings());
-            Windows.Server.Utils.NetshAddSslCert(server.GetSettings());
+            //Windows.Server.Utils.NetshAddUrlacl(server.GetSettings());
+            //Windows.Server.Utils.NetshAddSslCert(server.GetSettings());
 
             server.Start();
 
