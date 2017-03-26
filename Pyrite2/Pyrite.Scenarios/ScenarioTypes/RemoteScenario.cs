@@ -9,6 +9,7 @@ using Pyrite.ActionsDomain.ValueTypes;
 using Pyrite.IOC;
 using System.Threading;
 using Pyrite.ActionsDomain.Attributes;
+using Pyrite.MainDomain.MessageSecurity;
 
 namespace Pyrite.Scenarios.ScenarioTypes
 {
@@ -36,6 +37,11 @@ namespace Pyrite.Scenarios.ScenarioTypes
         /// Service name
         /// </summary>
         public string ServiceName { get; set; }
+
+        /// <summary>
+        /// Server secret key
+        /// </summary>
+        public string SecretKey { get; set; }
 
         /// <summary>
         /// Target server login
@@ -69,7 +75,7 @@ namespace Pyrite.Scenarios.ScenarioTypes
 
         public override string CalculateCurrentValue()
         {
-            _currentValue = _server.CalculateScenarioValue(RemoteScenarioId);
+            _currentValue = _server.CalculateScenarioValue(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
             return _currentValue;
         }
 
@@ -80,17 +86,17 @@ namespace Pyrite.Scenarios.ScenarioTypes
 
         public override void Execute(string param, CancellationToken cancelToken)
         {
-            ExceptionsHandler.Handle(this, () => _server.ExecuteScenario(RemoteScenarioId, param));
+            ExceptionsHandler.Handle(this, () => _server.ExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey)));
         }
 
         public override void ExecuteAsync(string param)
         {
-            ExceptionsHandler.Handle(this, () => _server.AsyncExecuteScenario(RemoteScenarioId, param));
+            ExceptionsHandler.Handle(this, () => _server.AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey)));
         }
 
         public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
-            ExceptionsHandler.Handle(this, () => _server.AsyncExecuteScenarioParallel(RemoteScenarioId, param));
+            ExceptionsHandler.Handle(this, () => _server.AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey)));
         }
 
         public override Type[] GetAllUsedActionTypes()
@@ -113,8 +119,8 @@ namespace Pyrite.Scenarios.ScenarioTypes
         {
             _cancellationTokenSource = new CancellationTokenSource();
             _clientFactory = Singleton.Resolve<IClientFactory>();
-            _server = _clientFactory.GetServer(AddressHost, Port, ServiceName, UserLogin, Password);
-            _scenarioInfo = _server.GetScenarioInfo(RemoteScenarioId);
+            _server = _clientFactory.GetServer(AddressHost, Port, ServiceName, SecretKey, UserLogin, Password);
+            _scenarioInfo = _server.GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
             _valueType = _scenarioInfo.ValueType;
             //changes listener
             var task = new Task(() => {                
@@ -123,8 +129,8 @@ namespace Pyrite.Scenarios.ScenarioTypes
                     var exceptionThrown = true;
                     ExceptionsHandler.Handle(this, () =>
                     {
-                        if (_server.IsScenarioValueChanged(RemoteScenarioId, _currentValue))
-                            SetCurrentValueInternal(_server.GetScenarioValue(RemoteScenarioId));
+                        if (_server.IsScenarioValueChanged(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(_currentValue, SecretKey)))
+                            SetCurrentValueInternal(_server.GetScenarioValue(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey));
                         exceptionThrown = false;
                     }, 
                     true);

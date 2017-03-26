@@ -16,5 +16,13 @@ namespace Pyrite.Utils
             return assembly.DefinedTypes
                     .Where(x => typeInfo.IsAssignableFrom(x) && !x.IsInterface).ToArray();
         }
+
+        public static TypeInfo[] GetAllOfType(Type type, Type[] types)
+        {
+            var typeInfo = type.GetTypeInfo();
+            return types
+                .Select(x=>x.GetTypeInfo())
+                .Where(x => typeInfo.IsAssignableFrom(x) && !x.IsInterface).ToArray();
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Pyrite.Data;
 using Pyrite.IOC;
 using Pyrite.MainDomain;
+using Pyrite.MainDomain.MessageSecurity;
 using Pyrite.Windows.Service;
 using Pyrite.Windows.Utils;
 using System;
@@ -26,7 +27,7 @@ namespace Pyrite.Windows.Server
         private string _key = "serverSettings";
         private ServiceHost _host;
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
-
+        
         public ServerSettings GetSettings()
         {
             return _settings;
@@ -58,7 +59,7 @@ namespace Pyrite.Windows.Server
                     binding.SendTimeout = TimeSpan.FromMinutes(5);
                 
                 var address = new Uri(_settings.GetAddress());
-                var service = new PyriteService();
+                var service = new PyriteService(_settings.SecretKey);
                 _host = new WebServiceHost(service, address);
                 _host.AddServiceEndpoint(typeof(IServer), binding, address);
                 _host.Credentials.UserNameAuthentication.UserNamePasswordValidationMode = UserNamePasswordValidationMode.Custom;

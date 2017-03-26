@@ -44,8 +44,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Windows.Service", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Windows.Server", "Pyrite.Windows.Server\Pyrite.Windows.Server.csproj", "{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Windows.TestClient", "Pyrite.Windows.TestClient\Pyrite.Windows.TestClient.csproj", "{1D96F22B-0CDB-42A8-873A-EC47978EF07A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Android.Application", "Pyrite.Android.Application\Pyrite.Android.Application.csproj", "{173FF975-0593-4F28-B980-C6A95D820687}"
 EndProject
 Global
@@ -130,10 +128,6 @@ Global
 		{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1D96F22B-0CDB-42A8-873A-EC47978EF07A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1D96F22B-0CDB-42A8-873A-EC47978EF07A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1D96F22B-0CDB-42A8-873A-EC47978EF07A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1D96F22B-0CDB-42A8-873A-EC47978EF07A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{173FF975-0593-4F28-B980-C6A95D820687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{173FF975-0593-4F28-B980-C6A95D820687}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{173FF975-0593-4F28-B980-C6A95D820687}.Debug|Any CPU.Deploy.0 = Debug|Any CPU

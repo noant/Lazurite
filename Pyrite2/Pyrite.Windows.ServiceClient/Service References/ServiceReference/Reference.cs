@@ -9,41 +9,44 @@
 //------------------------------------------------------------------------------
 
 namespace Pyrite.Windows.ServiceClient.ServiceReference {
-    
-    
+    using System.Runtime.Serialization;
+    using System;
+    using MainDomain;
+    using MainDomain.MessageSecurity;
+        
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference.IServer")]
     public interface IServer {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServer/IsScenarioValueChanged", ReplyAction="http://tempuri.org/IServer/IsScenarioValueChangedResponse")]
-        bool IsScenarioValueChanged(string scenarioId, string lastKnownValue);
+        bool IsScenarioValueChanged(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Pyrite.MainDomain.MessageSecurity.Encrypted<string> lastKnownValue);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServer/GetScenariosInfo", ReplyAction="http://tempuri.org/IServer/GetScenariosInfoResponse")]
-        Pyrite.MainDomain.ScenarioInfo[] GetScenariosInfo();
+        EncryptedList<ScenarioInfo> GetScenariosInfo();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServer/GetScenarioInfo", ReplyAction="http://tempuri.org/IServer/GetScenarioInfoResponse")]
-        Pyrite.MainDomain.ScenarioInfo GetScenarioInfo(string scenarioId);
+        Pyrite.MainDomain.MessageSecurity.Encrypted<Pyrite.MainDomain.ScenarioInfo> GetScenarioInfo(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServer/CalculateScenarioValue", ReplyAction="http://tempuri.org/IServer/CalculateScenarioValueResponse")]
-        string CalculateScenarioValue(string scenarioId);
+        Pyrite.MainDomain.MessageSecurity.Encrypted<string> CalculateScenarioValue(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServer/GetScenarioValue", ReplyAction="http://tempuri.org/IServer/GetScenarioValueResponse")]
-        string GetScenarioValue(string scenarioId);
+        Pyrite.MainDomain.MessageSecurity.Encrypted<string> GetScenarioValue(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServer/ExecuteScenario", ReplyAction="http://tempuri.org/IServer/ExecuteScenarioResponse")]
-        void ExecuteScenario(string scenarioId, string value);
+        void ExecuteScenario(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Pyrite.MainDomain.MessageSecurity.Encrypted<string> value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServer/AsyncExecuteScenario", ReplyAction="http://tempuri.org/IServer/AsyncExecuteScenarioResponse")]
-        void AsyncExecuteScenario(string scenarioId, string value);
+        void AsyncExecuteScenario(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Pyrite.MainDomain.MessageSecurity.Encrypted<string> value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServer/AsyncExecuteScenarioParallel", ReplyAction="http://tempuri.org/IServer/AsyncExecuteScenarioParallelResponse")]
-        void AsyncExecuteScenarioParallel(string scenarioId, string value);
+        void AsyncExecuteScenarioParallel(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Pyrite.MainDomain.MessageSecurity.Encrypted<string> value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServer/GetChangedScenarios", ReplyAction="http://tempuri.org/IServer/GetChangedScenariosResponse")]
-        Pyrite.MainDomain.ScenarioInfoLW[] GetChangedScenarios(System.DateTime since);
+        EncryptedList<ScenarioInfoLW> GetChangedScenarios(System.DateTime since);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServer/SaveVisualSettings", ReplyAction="http://tempuri.org/IServer/SaveVisualSettingsResponse")]
-        void SaveVisualSettings(Pyrite.MainDomain.UserVisualSettings visualSettings);
+        void SaveVisualSettings(Pyrite.MainDomain.MessageSecurity.Encrypted<Pyrite.MainDomain.UserVisualSettings> visualSettings);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -73,43 +76,43 @@ namespace Pyrite.Windows.ServiceClient.ServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public bool IsScenarioValueChanged(string scenarioId, string lastKnownValue) {
+        public bool IsScenarioValueChanged(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Pyrite.MainDomain.MessageSecurity.Encrypted<string> lastKnownValue) {
             return base.Channel.IsScenarioValueChanged(scenarioId, lastKnownValue);
         }
         
-        public Pyrite.MainDomain.ScenarioInfo[] GetScenariosInfo() {
+        public EncryptedList<ScenarioInfo> GetScenariosInfo() {
             return base.Channel.GetScenariosInfo();
         }
         
-        public Pyrite.MainDomain.ScenarioInfo GetScenarioInfo(string scenarioId) {
+        public Pyrite.MainDomain.MessageSecurity.Encrypted<Pyrite.MainDomain.ScenarioInfo> GetScenarioInfo(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId) {
             return base.Channel.GetScenarioInfo(scenarioId);
         }
         
-        public string CalculateScenarioValue(string scenarioId) {
+        public Pyrite.MainDomain.MessageSecurity.Encrypted<string> CalculateScenarioValue(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId) {
             return base.Channel.CalculateScenarioValue(scenarioId);
         }
         
-        public string GetScenarioValue(string scenarioId) {
+        public Pyrite.MainDomain.MessageSecurity.Encrypted<string> GetScenarioValue(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId) {
             return base.Channel.GetScenarioValue(scenarioId);
         }
         
-        public void ExecuteScenario(string scenarioId, string value) {
+        public void ExecuteScenario(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Pyrite.MainDomain.MessageSecurity.Encrypted<string> value) {
             base.Channel.ExecuteScenario(scenarioId, value);
         }
         
-        public void AsyncExecuteScenario(string scenarioId, string value) {
+        public void AsyncExecuteScenario(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Pyrite.MainDomain.MessageSecurity.Encrypted<string> value) {
             base.Channel.AsyncExecuteScenario(scenarioId, value);
         }
         
-        public void AsyncExecuteScenarioParallel(string scenarioId, string value) {
+        public void AsyncExecuteScenarioParallel(Pyrite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Pyrite.MainDomain.MessageSecurity.Encrypted<string> value) {
             base.Channel.AsyncExecuteScenarioParallel(scenarioId, value);
         }
         
-        public Pyrite.MainDomain.ScenarioInfoLW[] GetChangedScenarios(System.DateTime since) {
+        public EncryptedList<ScenarioInfoLW> GetChangedScenarios(System.DateTime since) {
             return base.Channel.GetChangedScenarios(since);
         }
         
-        public void SaveVisualSettings(Pyrite.MainDomain.UserVisualSettings visualSettings) {
+        public void SaveVisualSettings(Pyrite.MainDomain.MessageSecurity.Encrypted<Pyrite.MainDomain.UserVisualSettings> visualSettings) {
             base.Channel.SaveVisualSettings(visualSettings);
         }
     }

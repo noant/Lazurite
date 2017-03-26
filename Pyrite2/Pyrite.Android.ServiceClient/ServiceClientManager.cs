@@ -9,10 +9,10 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Pyrite.MainDomain;
 using System.ServiceModel;
 using System.ServiceModel.Security;
 using System.Net;
+using Pyrite.Andriod.ServiceClient;
 
 namespace Pyrite.Android.ServiceClient
 {
@@ -23,7 +23,7 @@ namespace Pyrite.Android.ServiceClient
             ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, errors) => true;
         }
 
-        public static PyriteServiceClient Create(string host, ushort port, string serviceName, string userLogin, string password)
+        public static ServerClient Create(string host, ushort port, string serviceName, string secretKey, string userLogin, string password)
         {
             var binding = new BasicHttpBinding();
             binding.Security.Mode = BasicHttpSecurityMode.Transport;
@@ -38,8 +38,8 @@ namespace Pyrite.Android.ServiceClient
                 binding.SendTimeout = TimeSpan.FromMinutes(5);
             var endpoint = new EndpointAddress(new Uri(string.Format("https://{0}:{1}/{2}", host, port, serviceName)));
 
-            var client = new PyriteServiceClient(binding, endpoint);
-            
+            var client = new ServerClient(binding, endpoint);
+
             client.ClientCredentials.UserName.UserName = userLogin;
             client.ClientCredentials.UserName.Password = password;
 

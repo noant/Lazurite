@@ -3,6 +3,7 @@ using Pyrite.Data;
 using Pyrite.Exceptions;
 using Pyrite.IOC;
 using Pyrite.MainDomain;
+using Pyrite.MainDomain.MessageSecurity;
 using Pyrite.Scenarios;
 using Pyrite.Security;
 using Pyrite.Visual;
@@ -30,7 +31,7 @@ namespace Pyrite.Tests
             Singleton.Add(new UsersRepository());
             Singleton.Add(new VisualSettingsRepository());
             Singleton.Add(new ServiceClientFactory());
-
+            
             var scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
             var usersRepository = Singleton.Resolve<UsersRepository>();
             if (!usersRepository.Users.Any(x => x.Login.Equals("anton")))
@@ -53,11 +54,12 @@ namespace Pyrite.Tests
 
             var clientFactory = Singleton.Resolve<IClientFactory>();
 
-            var client = clientFactory.GetServer("desktop", 444, "PyriteService.svc", "anton", "123");
+            var client = clientFactory.GetServer("desktop", 444, "PyriteService.svc", "secretKey1234567", "anton", "123");
 
-            var a = client.GetScenarioValue("16b10918-a709-4418-93eb-fa5d3c9b5d20");
-            var b = client.GetScenarioInfo("16b10918-a709-4418-93eb-fa5d3c9b5d20");
+            var a = client.GetScenarioValue(new Encrypted<string>("16b10918-a709-4418-93eb-fa5d3c9b5d20", "secretKey1234567"));
+            var b = client.GetScenarioInfo(new Encrypted<string>("16b10918-a709-4418-93eb-fa5d3c9b5d20", "secretKey1234567"));
             var scens = client.GetScenariosInfo();
+            var c = b.Decrypt("secretKey1234567");
 
             while (true)
                 Thread.Sleep(5000);

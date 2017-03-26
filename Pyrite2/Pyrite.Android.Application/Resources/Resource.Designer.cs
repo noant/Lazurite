@@ -26,6 +26,8 @@ namespace Pyrite.Android.Application
 		
 		public static void UpdateIdValues()
 		{
+			global::PCLCrypto.Resource.String.ApplicationName = global::Pyrite.Android.Application.Resource.String.ApplicationName;
+			global::PCLCrypto.Resource.String.Hello = global::Pyrite.Android.Application.Resource.String.Hello;
 			global::Pyrite.Android.ServiceClient.Resource.String.ApplicationName = global::Pyrite.Android.Application.Resource.String.ApplicationName;
 			global::Pyrite.Android.ServiceClient.Resource.String.Hello = global::Pyrite.Android.Application.Resource.String.Hello;
 		}

@@ -1,5 +1,6 @@
 ﻿using Pyrite.IOC;
 using Pyrite.MainDomain;
+using Pyrite.MainDomain.MessageSecurity;
 using Pyrite.Visual;
 using System;
 using System.Collections.Generic;
@@ -21,9 +22,11 @@ namespace Pyrite.Windows.Service
         private ScenariosRepositoryBase _scenariosRepository;
         private UsersRepositoryBase _usersRepository;
         private VisualSettingsRepository _visualSettings;
+        private string _secretKey;
 
-        public PyriteService()
+        public PyriteService(string secretKey)
         {
+            _secretKey = secretKey;
 #if DEBUG
             try
             {
@@ -36,6 +39,8 @@ namespace Pyrite.Windows.Service
             catch { }
 #endif
         }
+
+        public PyriteService() : this("secretKey1234567") { }
 
         private UserBase GetCurrentUser()
         {
@@ -83,7 +88,7 @@ namespace Pyrite.Windows.Service
             if (visualSettings == null)
                 visualSettings = _visualSettings.VisualSettings
                     .SingleOrDefault(x => x is UserVisualSettings &&
-                    ((UserVisualSettings)x).UserId.Equals(_usersRepository.SystemUser.Id) &&
+                    x.UserId.Equals(_usersRepository.SystemUser.Id) &&
                     x.ScenarioId.Equals(scenarioId));
 
             //if we can not found visualSettings of SystemUser then create new VisualSettings
@@ -100,60 +105,59 @@ namespace Pyrite.Windows.Service
             return visualSettings;
         }
 
-        public string CalculateScenarioValue(string scenarioId)
+        public Encrypted<string> CalculateScenarioValue(Encrypted<string> scenarioId)
         {
-            return GetScenarioWithPrivileges(scenarioId).CalculateCurrentValue();
+            return new Encrypted<string>(GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey)).CalculateCurrentValue(), _secretKey);
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
-        public void ExecuteScenario(string scenarioId, string value)
+        public void ExecuteScenario(Encrypted<string> scenarioId, Encrypted<string> value)
         {
-            GetScenarioWithPrivileges(scenarioId).Execute(value, new CancellationToken());
+            GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey)).Execute(value.Decrypt(_secretKey), new CancellationToken());
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
-        public void AsyncExecuteScenario(string scenarioId, string value)
+        public void AsyncExecuteScenario(Encrypted<string> scenarioId, Encrypted<string> value)
         {
-            GetScenarioWithPrivileges(scenarioId).ExecuteAsync(value);
+            GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey)).ExecuteAsync(value.Decrypt(_secretKey));
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
-        public void AsyncExecuteScenarioParallel(string scenarioId, string value)
+        public void AsyncExecuteScenarioParallel(Encrypted<string> scenarioId, Encrypted<string> value)
         {
-            GetScenarioWithPrivileges(scenarioId).ExecuteAsyncParallel(value, new CancellationToken());
+            GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey)).ExecuteAsyncParallel(value.Decrypt(_secretKey), new CancellationToken());
         }
 
-        public ScenarioInfoLW[] GetChangedScenarios(DateTime since)
+        public EncryptedList<ScenarioInfoLW> GetChangedScenarios(DateTime since)
         {
             var user = GetCurrentUser();
-            return _scenariosRepository
+            return new EncryptedList<ScenarioInfoLW>(_scenariosRepository
                 .Scenarios
                 .Where(x => x.LastChange <= since && x.CanExecute(user, ScenarioStartupSource.Remote))
                 .Select(x => new ScenarioInfoLW()
                 {
                     CurrentValue = x.CalculateCurrentValue(),
                     ScenarioId = x.Id
-                })
-                .ToArray();
+                }), _secretKey);
         }
         
-        public ScenarioInfo GetScenarioInfo(string scenarioId)
+        public Encrypted<ScenarioInfo> GetScenarioInfo(Encrypted<string> scenarioId)
         {
             var user = GetCurrentUser();
-            var scenario = GetScenarioWithPrivileges(scenarioId);
+            var scenario = GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey));
 
-            return new ScenarioInfo() {
+            return new Encrypted<ScenarioInfo>(new ScenarioInfo() {
                 CurrentValue = scenario.CalculateCurrentValue(),
-                ScenarioId = scenarioId,
+                ScenarioId = scenario.Id,
                 ValueType = scenario.ValueType,
                 VisualSettings = GetVisualSettings(user, scenario.Id)
-            };
+            }, _secretKey);
         }
 
-        public ScenarioInfo[] GetScenariosInfo()
+        public EncryptedList<ScenarioInfo> GetScenariosInfo()
         {
             var user = GetCurrentUser();
-            return _scenariosRepository
+            var result = new EncryptedList<ScenarioInfo>(_scenariosRepository
                 .Scenarios
                 .Where(x => x.CanExecute(user, ScenarioStartupSource.Remote))
                 .Select(x => new ScenarioInfo()
@@ -162,34 +166,37 @@ namespace Pyrite.Windows.Service
                     ScenarioId = x.Id,
                     ValueType = x.ValueType,
                     VisualSettings = GetVisualSettings(user, x.Id)
-                })
-                .ToArray();
+                }), _secretKey);
+
+            return result;
         }
 
-        public string GetScenarioValue(string scenarioId)
+        public Encrypted<string> GetScenarioValue(Encrypted<string> scenarioId)
         {
-            return GetScenarioWithPrivileges(scenarioId).GetCurrentValue();
+            return new Encrypted<string>(GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey)).GetCurrentValue(), _secretKey);
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
-        public bool IsScenarioValueChanged(string scenarioId, string lastKnownValue)
+        public bool IsScenarioValueChanged(Encrypted<string> scenarioId, Encrypted<string> lastKnownValue)
         {
-            return GetScenarioWithPrivileges(scenarioId)
+            var decryptedLastKnown = lastKnownValue.Decrypt(_secretKey);
+            return GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey))
                 .CalculateCurrentValue()
-                .Equals(lastKnownValue);
+                .Equals(decryptedLastKnown);
         }
         
-        public void SaveVisualSettings(UserVisualSettings visualSettings)
+        public void SaveVisualSettings(Encrypted<UserVisualSettings> visualSettings)
         {
+            var decryptedVS = visualSettings.Decrypt(_secretKey);
             var user = GetCurrentUser();
-            visualSettings = new UserVisualSettings() {
-                Color = visualSettings.Color,
-                PositionX = visualSettings.PositionX,
-                PositionY = visualSettings.PositionY,
-                ScenarioId = visualSettings.ScenarioId,
+            decryptedVS = new UserVisualSettings() {
+                Color = decryptedVS.Color,
+                PositionX = decryptedVS.PositionX,
+                PositionY = decryptedVS.PositionY,
+                ScenarioId = decryptedVS.ScenarioId,
                 UserId = user.Id
             };
-            _visualSettings.Add(visualSettings);
+            _visualSettings.Add(decryptedVS);
         }
     }
 }

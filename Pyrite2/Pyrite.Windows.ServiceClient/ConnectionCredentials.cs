@@ -13,6 +13,7 @@ namespace Pyrite.Windows.ServiceClient
         public string ServiceName { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
+        public string SecretKey { get; set; }
         
         public string GetAddress()
         {

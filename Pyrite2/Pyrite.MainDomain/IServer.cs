@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pyrite.MainDomain.MessageSecurity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -11,24 +12,24 @@ namespace Pyrite.MainDomain
     public interface IServer
     {
         [OperationContract]
-        bool IsScenarioValueChanged(string scenarioId, string lastKnownValue);
+        bool IsScenarioValueChanged(Encrypted<string> scenarioId, Encrypted<string> lastKnownValue);
         [OperationContract]
-        ScenarioInfo[] GetScenariosInfo();
+        EncryptedList<ScenarioInfo> GetScenariosInfo();
         [OperationContract]
-        ScenarioInfo GetScenarioInfo(string scenarioId);
+        Encrypted<ScenarioInfo> GetScenarioInfo(Encrypted<string> scenarioId);
         [OperationContract]
-        string CalculateScenarioValue(string scenarioId);
+        Encrypted<string> CalculateScenarioValue(Encrypted<string> scenarioId);
         [OperationContract]
-        string GetScenarioValue(string scenarioId);
+        Encrypted<string> GetScenarioValue(Encrypted<string> scenarioId);
         [OperationContract]
-        void ExecuteScenario(string scenarioId, string value);
+        void ExecuteScenario(Encrypted<string> scenarioId, Encrypted<string> value);
         [OperationContract]
-        void AsyncExecuteScenario(string scenarioId, string value);
+        void AsyncExecuteScenario(Encrypted<string> scenarioId, Encrypted<string> value);
         [OperationContract]
-        void AsyncExecuteScenarioParallel(string scenarioId, string value);
+        void AsyncExecuteScenarioParallel(Encrypted<string> scenarioId, Encrypted<string> value);
         [OperationContract]
-        ScenarioInfoLW[] GetChangedScenarios(DateTime since);
+        EncryptedList<ScenarioInfoLW> GetChangedScenarios(DateTime since);
         [OperationContract]
-        void SaveVisualSettings(UserVisualSettings visualSettings);
+        void SaveVisualSettings(Encrypted<UserVisualSettings> visualSettings);
     }
 }

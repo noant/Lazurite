@@ -4,6 +4,7 @@ using Android.OS;
 using Pyrite.Android.ServiceClient;
 using System.Threading.Tasks;
 using System;
+using Pyrite.MainDomain.MessageSecurity;
 
 namespace Pyrite.Android.Application
 {
@@ -14,24 +15,34 @@ namespace Pyrite.Android.Application
         {
             base.OnCreate(bundle);
 
-            Task.Delay(TimeSpan.FromSeconds(10));
+            Task.Delay(TimeSpan.FromSeconds(20));
 
-            var client = ServiceClientManager.Create("desktop", 444, "PyriteService.svc", "anton", "123");
+            var client = ServiceClientManager.Create("desktop", 444, "PyriteService.svc", "secretKey1234567" , "anton", "123");
             client.GetScenariosInfoCompleted += Client_GetScenariosInfoCompleted;
             client.GetScenariosInfoAsync();
-            
             // Set our view from the "main" layout resource
             // SetContentView (Resource.Layout.Main);
         }
 
-        private void Client_GetScenariosInfoCompleted(object sender, GetScenariosInfoCompletedEventArgs e)
+        private void Client_GetScenariosInfoCompleted(object sender, Andriod.ServiceClient.GetScenariosInfoCompletedEventArgs e)
         {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.SetTitle("!!!");
-            alert.SetMessage(e.Result[0].ScenarioId);
+            try
+            {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.SetTitle("!!!");
+                var result = e.Result[0];
+                var scenInfo = result.Decrypt("secretKey1234567");
+                alert.SetMessage(scenInfo.ScenarioId + " " + scenInfo.CurrentValue + " " + scenInfo.ValueType.HumanFriendlyName);
 
-            Dialog dialog = alert.Create();
-            dialog.Show();
+                //FindViewById()
+
+                Dialog dialog = alert.Create();
+                dialog.Show();
+            }
+            catch (Exception ee)
+            {
+                var a = ee;
+            }
         }
     }
 }

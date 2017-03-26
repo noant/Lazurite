@@ -22,14 +22,15 @@ namespace Pyrite.Windows.ServiceClient
 
         private Dictionary<ConnectionCredentials, ServerClient> _cache = new Dictionary<ConnectionCredentials, ServerClient>();
 
-        public MainDomain.IServer GetServer(string host, ushort port, string serviceName, string userLogin, string password)
+        public MainDomain.IServer GetServer(string host, ushort port, string serviceName, string secretKey, string userLogin, string password)
         {
             var credentials = new ConnectionCredentials() {
                 Host = host,
                 Login = userLogin,
                 Password = password,
                 Port = port,
-                ServiceName = serviceName
+                ServiceName = serviceName,
+                SecretKey = secretKey
             };
             if (!_cache.ContainsKey(credentials))
             {

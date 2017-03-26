@@ -8,6 +8,6 @@ namespace Pyrite.MainDomain
 {
     public interface IClientFactory
     {
-        IServer GetServer(string host, ushort port, string serviceName, string userLogin, string password);
+        IServer GetServer(string host, ushort port, string serviceName, string secretKey, string userLogin, string password);
     }
 }
