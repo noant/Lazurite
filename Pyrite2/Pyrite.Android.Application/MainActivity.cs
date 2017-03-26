@@ -11,33 +11,41 @@ namespace Pyrite.Android.Application
     [Activity(Label = "Pyrite.Android.Application", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
+        TextView view;
+        LinearLayout linearLayout;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-            Task.Delay(TimeSpan.FromSeconds(20));
-
+            Task.Delay(TimeSpan.FromSeconds(5)).Wait();
+            
             var client = ServiceClientManager.Create("desktop", 444, "PyriteService.svc", "secretKey1234567" , "anton", "123");
             client.GetScenariosInfoCompleted += Client_GetScenariosInfoCompleted;
-            client.GetScenariosInfoAsync();
-            // Set our view from the "main" layout resource
-            // SetContentView (Resource.Layout.Main);
-        }
 
+            Task.Factory.StartNew(() => {
+                while (true)
+                {
+                    client.GetScenariosInfoAsync();
+                    Task.Delay(TimeSpan.FromSeconds(3)).Wait();
+                }
+            });
+            
+            // Set our view from the "main" layout resource
+            SetContentView(Resource.Layout.Main);
+            view = FindViewById<TextView>(Resource.Id.textView1);
+            linearLayout = FindViewById<LinearLayout>(Resource.Id.main_layout);
+        }
+        
         private void Client_GetScenariosInfoCompleted(object sender, Andriod.ServiceClient.GetScenariosInfoCompletedEventArgs e)
         {
             try
             {
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.SetTitle("!!!");
                 var result = e.Result[0];
                 var scenInfo = result.Decrypt("secretKey1234567");
-                alert.SetMessage(scenInfo.ScenarioId + " " + scenInfo.CurrentValue + " " + scenInfo.ValueType.HumanFriendlyName);
-
-                //FindViewById()
-
-                Dialog dialog = alert.Create();
-                dialog.Show();
+                RunOnUiThread(() => {
+                    view.Text = scenInfo.ScenarioId + " " + scenInfo.CurrentValue + " " + scenInfo.ValueType.HumanFriendlyName;
+                });
             }
             catch (Exception ee)
             {
