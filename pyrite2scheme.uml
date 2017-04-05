@@ -633,7 +633,7 @@ in base64 text
 <XPD:ATTR name="Left" type="integer">868</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">140</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">460</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">189</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">212</XPD:ATTR>
 <XPD:REF name="Model">L1Xm2/4q+E+x1UQKlWFuGAAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="gzvCGW9e6UWtSOJe+vSrkgAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="Vj81q+Ga20mSwv7L/RBlnwAA">
@@ -8362,7 +8362,7 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Views[3]">OWnaZIxN8EWvjbp1doJ8zAAA</XPD:REF>
 <XPD:ATTR name="#Generalizations" type="integer">1</XPD:ATTR>
 <XPD:REF name="Generalizations[0]">JDhlRZKqOkqtkGv5AgdnIwAA</XPD:REF>
-<XPD:ATTR name="#Operations" type="integer">5</XPD:ATTR>
+<XPD:ATTR name="#Operations" type="integer">8</XPD:ATTR>
 <XPD:OBJ name="Operations[0]" type="UMLOperation" guid="OJ/SXLfCI02D/jZeXtwgHwAA">
 <XPD:ATTR name="Name" type="string">AddPlugin</XPD:ATTR>
 <XPD:REF name="Owner">L1Xm2/4q+E+x1UQKlWFuGAAA</XPD:REF>
@@ -8433,6 +8433,41 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:ATTR name="Name" type="string">pluginName</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">2wkALz96tEKk9o+9Har4mQAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[5]" type="UMLOperation" guid="o1t4GM+EB0Supw1JdO0RAAAA">
+<XPD:ATTR name="Name" type="string">CanUpdatePlugin</XPD:ATTR>
+<XPD:REF name="Owner">L1Xm2/4q+E+x1UQKlWFuGAAA</XPD:REF>
+<XPD:ATTR name="#Parameters" type="integer">2</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="n4nHDX1u70u+xGQRORJo+wAA">
+<XPD:ATTR name="DirectionKind" type="UMLParameterDirectionKind">pdkReturn</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">CanUpdatePluginResult</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">o1t4GM+EB0Supw1JdO0RAAAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="J/pqLlxrm0CWq36bNsIJJgAA">
+<XPD:ATTR name="Name" type="string">pluginPath</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">o1t4GM+EB0Supw1JdO0RAAAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[6]" type="UMLOperation" guid="ayCawb4vjUWnLQ7YdEI1tAAA">
+<XPD:ATTR name="Name" type="string">RemovePlugin</XPD:ATTR>
+<XPD:REF name="Owner">L1Xm2/4q+E+x1UQKlWFuGAAA</XPD:REF>
+<XPD:ATTR name="#Parameters" type="integer">1</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="FbTB78OPEkeWiG+fBIKLPQAA">
+<XPD:ATTR name="Name" type="string">pluginName</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">ayCawb4vjUWnLQ7YdEI1tAAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[7]" type="UMLOperation" guid="AEY7daqtJk6p9f04nyS9jQAA">
+<XPD:ATTR name="Name" type="string">UpdatePlugin</XPD:ATTR>
+<XPD:REF name="Owner">L1Xm2/4q+E+x1UQKlWFuGAAA</XPD:REF>
+<XPD:ATTR name="#Parameters" type="integer">1</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="Mf5B3oT+e0urWr9S+Ec5qwAA">
+<XPD:ATTR name="Name" type="string">pluginPath</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">AEY7daqtJk6p9f04nyS9jQAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:ATTR name="#TypedFeatures" type="integer">1</XPD:ATTR>
@@ -10643,8 +10678,6 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Views[1]">tH9L1UEoyEejimPsFo93hwAA</XPD:REF>
 <XPD:REF name="Views[2]">44T0eKbHwkOujQmPuI/mewAA</XPD:REF>
 <XPD:REF name="Views[3]">IUyGhYFFP0eiEtckgOTqJQAA</XPD:REF>
-<XPD:ATTR name="#TypedParameters" type="integer">1</XPD:ATTR>
-<XPD:REF name="TypedParameters[0]" pathname="usersRepository">pupXA4wMbEOxrZ+qX7iHiwAA</XPD:REF>
 <XPD:ATTR name="#Associations" type="integer">4</XPD:ATTR>
 <XPD:REF name="Associations[0]">8XNML2uhk06iy0ISIPOylgAA</XPD:REF>
 <XPD:REF name="Associations[1]">IlCgM8qJmUevNij5VeSs+gAA</XPD:REF>
@@ -11315,8 +11348,6 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 </XPD:OBJ>
 <XPD:ATTR name="#TypedFeatures" type="integer">1</XPD:ATTR>
 <XPD:REF name="TypedFeatures[0]">9CVaC5d4aUSJobmY6W/WAwAA</XPD:REF>
-<XPD:ATTR name="#TypedParameters" type="integer">1</XPD:ATTR>
-<XPD:REF name="TypedParameters[0]">O3sslEoRGE61KXF33bm6YAAA</XPD:REF>
 <XPD:ATTR name="#Associations" type="integer">2</XPD:ATTR>
 <XPD:REF name="Associations[0]">LnWanbW/uE29axLNUUjMKAAA</XPD:REF>
 <XPD:REF name="Associations[1]">u8ePWsPJuEq22odBgTUD8QAA</XPD:REF>
@@ -11549,10 +11580,9 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="BehavioralFeature">IjRt6UYbN0e5rN9PcJMEvQAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:ATTR name="#TypedParameters" type="integer">3</XPD:ATTR>
-<XPD:REF name="TypedParameters[0]" pathname="scenariosRepository">i8TuGGth2kCYWXebhk7dfwAA</XPD:REF>
-<XPD:REF name="TypedParameters[1]">3FxCPOEwAEe2QIsSuGTaQQAA</XPD:REF>
-<XPD:REF name="TypedParameters[2]">JxLaaQ57k0u8JKkn6RcozQAA</XPD:REF>
+<XPD:ATTR name="#TypedParameters" type="integer">2</XPD:ATTR>
+<XPD:REF name="TypedParameters[0]">3FxCPOEwAEe2QIsSuGTaQQAA</XPD:REF>
+<XPD:REF name="TypedParameters[1]">JxLaaQ57k0u8JKkn6RcozQAA</XPD:REF>
 <XPD:ATTR name="#Attributes" type="integer">2</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="fxPWs4NtaUmge0qeLJs/2QAA">
 <XPD:ATTR name="Name" type="string">Scenarios</XPD:ATTR>
@@ -12385,8 +12415,6 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 </XPD:OBJ>
 <XPD:ATTR name="#TypedFeatures" type="integer">1</XPD:ATTR>
 <XPD:REF name="TypedFeatures[0]">Ig6H94sCOkyvqpmfmL3CzgAA</XPD:REF>
-<XPD:ATTR name="#TypedParameters" type="integer">1</XPD:ATTR>
-<XPD:REF name="TypedParameters[0]" pathname="visualSettingsRepository">IFVTXzi0gkigD6Yzz7ntegAA</XPD:REF>
 <XPD:ATTR name="#Associations" type="integer">1</XPD:ATTR>
 <XPD:REF name="Associations[0]">2DlADvL280CjEhHOXrQnBAAA</XPD:REF>
 <XPD:ATTR name="#Attributes" type="integer">3</XPD:ATTR>
@@ -12771,11 +12799,10 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Views[1]">QrMRrNKys0Chl1OZ0mnPEAAA</XPD:REF>
 <XPD:REF name="Views[2]">odavXiWdUEitmLEcKIqNJwAA</XPD:REF>
 <XPD:REF name="Views[3]">/xjs+JhRiU+PWf7UU0DBzAAA</XPD:REF>
-<XPD:ATTR name="#TypedParameters" type="integer">4</XPD:ATTR>
-<XPD:REF name="TypedParameters[0]">/SbecjQR2E6W7i0orwE+fgAA</XPD:REF>
-<XPD:REF name="TypedParameters[1]">RACpmrIdF0uO1yeqDbK2LAAA</XPD:REF>
-<XPD:REF name="TypedParameters[2]">UB3KZtrFDkmuQbtI0mYh2AAA</XPD:REF>
-<XPD:REF name="TypedParameters[3]">daYfeh8N+06HpVgppkGdjwAA</XPD:REF>
+<XPD:ATTR name="#TypedParameters" type="integer">3</XPD:ATTR>
+<XPD:REF name="TypedParameters[0]">RACpmrIdF0uO1yeqDbK2LAAA</XPD:REF>
+<XPD:REF name="TypedParameters[1]">UB3KZtrFDkmuQbtI0mYh2AAA</XPD:REF>
+<XPD:REF name="TypedParameters[2]">daYfeh8N+06HpVgppkGdjwAA</XPD:REF>
 <XPD:ATTR name="#Associations" type="integer">1</XPD:ATTR>
 <XPD:REF name="Associations[0]">6jVm0k06k0Wzlto9h1dtOwAA</XPD:REF>
 <XPD:ATTR name="#Attributes" type="integer">4</XPD:ATTR>
@@ -12918,10 +12945,9 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Views[3]">UDDJSe3YT0uSqOk+ulEjFwAA</XPD:REF>
 <XPD:ATTR name="#Generalizations" type="integer">1</XPD:ATTR>
 <XPD:REF name="Generalizations[0]">v1G6BgP4jUW9Vi5ZUn7iZwAA</XPD:REF>
-<XPD:ATTR name="#TypedParameters" type="integer">3</XPD:ATTR>
-<XPD:REF name="TypedParameters[0]">4wg4FfC1tUm8KNJHElYgVgAA</XPD:REF>
-<XPD:REF name="TypedParameters[1]">2dX5VPfRHUuSFksc//m3ZAAA</XPD:REF>
-<XPD:REF name="TypedParameters[2]">HNAtYdkAvUiB747wcGlGSQAA</XPD:REF>
+<XPD:ATTR name="#TypedParameters" type="integer">2</XPD:ATTR>
+<XPD:REF name="TypedParameters[0]">2dX5VPfRHUuSFksc//m3ZAAA</XPD:REF>
+<XPD:REF name="TypedParameters[1]">HNAtYdkAvUiB747wcGlGSQAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[1]" type="UMLClass" guid="tWCTOChL3EeoebQnyAUtbQAA">
 <XPD:ATTR name="Name" type="string">ServiceClientFactory</XPD:ATTR>
@@ -13240,9 +13266,8 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Views[1]">wpWPyEDhB0WI2wgO4LzIAQAA</XPD:REF>
 <XPD:REF name="Views[2]">bBvatpcTvUqhbN0xOnpFNQAA</XPD:REF>
 <XPD:REF name="Views[3]">As6pfdKdj0Ce3nZnf8JrsgAA</XPD:REF>
-<XPD:ATTR name="#TypedParameters" type="integer">2</XPD:ATTR>
-<XPD:REF name="TypedParameters[0]">b8iIXOY0IkuY5lcGasZF7AAA</XPD:REF>
-<XPD:REF name="TypedParameters[1]">yi3mEX5agUminuqCwiL75wAA</XPD:REF>
+<XPD:ATTR name="#TypedParameters" type="integer">1</XPD:ATTR>
+<XPD:REF name="TypedParameters[0]">yi3mEX5agUminuqCwiL75wAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[1]" type="UMLClass" guid="Z6rCfgtl30C8iSZl8tZM6QAA">
 <XPD:ATTR name="Name" type="string">ServiceClientManager</XPD:ATTR>

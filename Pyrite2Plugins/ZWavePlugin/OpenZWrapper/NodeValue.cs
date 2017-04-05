@@ -25,12 +25,19 @@ namespace OpenZWrapper
             this.Name = manager.GetValueLabel(Source);
             this.Unit = manager.GetValueUnits(Source);
             if (this.ValueType == ZWValueID.ValueType.List)
-            this. = manager.GetVa(Source);
+            {
+                var possibleValues = new string[0];
+                if (manager.GetValueListItems(Source, out possibleValues))
+                    PossibleValues = possibleValues;
+            }
+            InternalSet(Helper.GetValue(manager, Source, ValueType, PossibleValues));
         }
-
+        
         public ZWValueID Source { get; private set; }
         public Node Node { get; private set; }
         public ZWValueID.ValueType ValueType { get; private set; }
+        
+        public string[] PossibleValues { get; private set; }
 
         public event Action<object, NodeValueChangedEventArgs> Changed;
 
@@ -40,8 +47,8 @@ namespace OpenZWrapper
                 return _current;
             }
             set {
-                if (Helper.SetValueSucceed(Node.Manager, Source, value))
-                    InternalSet(value);
+                if (Helper.SetValueSucceed(Node.Manager, Source, ValueType, value))
+                    InternalSet(value);                
             }
         }
 
@@ -50,6 +57,9 @@ namespace OpenZWrapper
         public string Description { get; private set; }
         public string Name { get; private set; }
         public string Unit { get; private set; }
+
+        public byte CurrentGroupIdx { get; internal set; }
+        public byte CurrentByte { get; internal set; }
 
         internal void InternalSet(object value)
         {

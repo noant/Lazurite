@@ -45,7 +45,7 @@ namespace Pyrite.Scenarios.ScenarioTypes
             //if action not send some info when falue changed then calculate value
             if (TargetAction.ValueChanged == null)
                 return TargetAction.GetValue(new ExecutionContext(string.Empty, new OutputChangedDelegates(), new CancellationToken()));
-            //else - cached value is fresh always
+            //else - cached value is fresh
             return GetCurrentValue();
         }
 

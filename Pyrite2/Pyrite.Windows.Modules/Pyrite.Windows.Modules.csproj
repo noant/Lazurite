@@ -49,6 +49,7 @@
     <Compile Include="AssemblyTargetTypes.cs" />
     <Compile Include="CanAddPluginResult.cs" />
     <Compile Include="CanRemovePluginResult.cs" />
+    <Compile Include="CanUpdatePluginResult.cs" />
     <Compile Include="PluginInfo.cs" />
     <Compile Include="PluginsCreator.cs" />
     <Compile Include="PluginsManager.cs" />

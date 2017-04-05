@@ -238,5 +238,24 @@ namespace Pyrite.Windows.Modules
         {
             return assembly.DefinedTypes.Where(x => typeof(IAction).IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract).ToArray();
         }
+
+        /// <summary>
+        /// Determines where plugin can be updated
+        /// </summary>
+        /// <param name="pluginPath">Plugin file path</param>
+        /// <returns></returns>
+        public CanUpdatePluginResult CanUpdatePlugin(string pluginPath)
+        {
+            
+        }
+
+        /// <summary>
+        /// Updates plugin
+        /// </summary>
+        /// <param name="pluginPath"></param>
+        public void UpdatePlugin(string pluginPath)
+        {
+
+        }
     }
 }
