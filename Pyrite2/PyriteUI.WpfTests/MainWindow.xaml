@@ -1,0 +1,26 @@
+﻿<Window x:Class="PyriteUI.WpfTests.MainWindow"
+        xmlns:controls="clr-namespace:PyriteUI.Controls;assembly=PyriteUI.Controls"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PyriteUI.WpfTests"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="807">
+    <Grid Background="White" Margin="0,0,0,0">
+        <controls:ListItemsView Name="listItems" Width="300" SelectionMode="Single" HorizontalAlignment="Left" SelectionChanged="ListItemsView_SelectionChanged">
+            <controls:ItemView Selected="False" Icon="MeasureInch">item 1</controls:ItemView>
+            <controls:ItemView Selected="False" Icon="Ferry">item 2</controls:ItemView>
+            <controls:ItemView Selected="False" Icon="Close">item 3</controls:ItemView>
+            <controls:ItemView Selected="False" Icon="Fingerprint">item 4</controls:ItemView>
+            <controls:ItemView Selected="False" Icon="Bing">item 5</controls:ItemView>
+        </controls:ListItemsView>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="305,10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="270" Width="233"/>
+        <Button x:Name="button_Copy" Content="Button" HorizontalAlignment="Left" Margin="384,282,0,0" VerticalAlignment="Top" Width="75" Click="button_Copy_Click"/>
+        <Button x:Name="button_Copy1" Content="Button" HorizontalAlignment="Left" Margin="305,282,0,0" VerticalAlignment="Top" Width="75" Click="button_Copy1_Click"/>
+        <Button x:Name="button_Copy2" Content="Button" HorizontalAlignment="Left" Margin="463,282,0,0" VerticalAlignment="Top" Width="75" Click="button_Copy2_Click"/>
+        <controls:ItemView Selectable="True" Selected="False" Icon="Bing" Margin="543,36,10,248" Click="ItemView_Click">item 5</controls:ItemView>
+        <controls:ItemView Selectable="True" Selected="True" Icon="Bing" Margin="543,76,10,208" Click="ItemView_Click" Content="item 5"/>
+        <controls:ItemView Icon="Bing" Margin="543,116,10,168" Content="item 5" Click="ItemView_Click"/>
+    </Grid>
+</Window>

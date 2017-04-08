@@ -25,6 +25,8 @@ namespace OpenZWrapper
 
         public bool Initialized { get; private set; } = false;
 
+        public bool IsActive { get; private set; } = false;
+
         public Controller[] GetControllers()
         {
             return _controllers.ToArray();
@@ -43,7 +45,9 @@ namespace OpenZWrapper
                 var hobj = new HObject(_controllersInfoPath);
                 hobj.Zero = _controllers;
                 hobj.SaveToFile();
-                Initialize();
+                if (_manager != null)
+                    _manager.AddDriver(controller.Path, controller.IsHID ? ZWControllerInterface.Hid : ZWControllerInterface.Serial);
+                else Initialize();
             }
         }
 
@@ -59,35 +63,21 @@ namespace OpenZWrapper
             }
         }
 
-        private void SetOptions()
+        /// <summary>
+        /// Initialize manager if not initialized and wait for all nodes and values added
+        /// </summary>
+        public void WaitForInitialized()
         {
-            var options = new ZWOptions();
-            options.Create(
-              Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config"),
-              string.Empty,
-              string.Empty);
-            options.AddOptionInt("SaveLogLevel", (int)ZWLogLevel.None);
-            options.Lock();
+            if (!IsActive)
+                Initialize();
+            while (!Initialized)
+                Thread.Sleep(1000);
         }
 
-        private bool LoadControllers()
-        {
-            try
-            {
-                var hobj = HObject.FromFile(_controllersInfoPath);
-                if (hobj.Zero is List<Controller>)
-                {
-                    _controllers = hobj.Zero;
-                    return _controllers.Any();
-                }
-            }
-            catch
-            {
-                //do nothing
-            }
-            return false;
-        }
-
+        /// <summary>
+        /// Reset controller and re-add all controller nodes
+        /// </summary>
+        /// <param name="controller"></param>
         public void ResetController(Controller controller)
         {
             Initialized = false;
@@ -106,9 +96,10 @@ namespace OpenZWrapper
         }
 
         public void Initialize()
-        {            
+        {
             if (LoadControllers())
             {
+                IsActive = true;
                 SetOptions();
                 _manager = new ZWManager();
                 _manager.Create();
@@ -251,6 +242,35 @@ namespace OpenZWrapper
                     Manager = this
                 });
             }
+        }
+
+        private void SetOptions()
+        {
+            var options = new ZWOptions();
+            options.Create(
+              Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config"),
+              string.Empty,
+              string.Empty);
+            options.AddOptionInt("SaveLogLevel", (int)ZWLogLevel.None);
+            options.Lock();
+        }
+
+        private bool LoadControllers()
+        {
+            try
+            {
+                var hobj = HObject.FromFile(_controllersInfoPath);
+                if (hobj.Zero is List<Controller>)
+                {
+                    _controllers = hobj.Zero;
+                    return _controllers.Any();
+                }
+            }
+            catch
+            {
+                //do nothing
+            }
+            return false;
         }
     }
 }

@@ -24,6 +24,23 @@ namespace Pyrite.Exceptions
             }
         }
 
+        public T Handle<T>(object sender, Func<T> action, bool warning = false)
+        {
+            try
+            {
+                return action();
+            }
+            catch (Exception e)
+            {
+                ExceptionThrown?.Invoke(sender, e, warning);
+#if DEBUG
+                if (!warning)
+                    throw e;
+#endif
+            }
+            return default(T);
+        }
+
         public event Action<object, Exception, bool> ExceptionThrown;
     }
 }

@@ -9,5 +9,6 @@ namespace Pyrite.Exceptions
     public interface IExceptionsHandler
     {
         void Handle(object sender, Action action, bool warning=false);
+        T Handle<T>(object sender, Func<T> action, bool warning=false);
     }
 }

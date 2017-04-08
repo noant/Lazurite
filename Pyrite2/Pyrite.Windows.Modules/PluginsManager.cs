@@ -1,6 +1,7 @@
 ﻿using Pyrite.ActionsDomain;
 using Pyrite.ActionsDomain.ValueTypes;
 using Pyrite.Data;
+using Pyrite.Exceptions;
 using Pyrite.IOC;
 using Pyrite.MainDomain;
 using System;
@@ -16,6 +17,8 @@ namespace Pyrite.Windows.Modules
 {
     public class PluginsManager : IDisposable
     {
+        public static readonly string PluginFileExtension = ".pyp";
+
         public PluginsManager()
         {
             _baseDir = 
@@ -24,50 +27,89 @@ namespace Pyrite.Windows.Modules
                         Utils.GetAssemblyPath(
                             Assembly.GetExecutingAssembly())),
                     "plugins");
-            if (!Directory.Exists(_baseDir))
-                Directory.CreateDirectory(_baseDir);
+            _tmpDir =
+                Path.Combine(
+                    Path.GetDirectoryName(
+                        Utils.GetAssemblyPath(
+                            Assembly.GetExecutingAssembly())),
+                    "plugins");
+
+            _exceptionsHandler.Handle(this, () => {
+                if (!Directory.Exists(_baseDir))
+                    Directory.CreateDirectory(_baseDir);
+            });
 
             Debug.WriteLine("plugins base dir: " + _baseDir);
 
-            //get savior
-            _savior = Singleton.Resolve<ISavior>();
-
-            //get scenarios repository
-            _scenarioRepository = Singleton.Resolve<ScenariosRepositoryBase>();
-
             //get all plugins
-            if (_savior.Has(_saviorKey))
-                _plugins = _savior.Get<List<PluginInfo>>(_saviorKey);
+            _exceptionsHandler.Handle(this, () =>
+            {
+                if (_savior.Has(_saviorKey))
+                    _plugins = _savior.Get<List<PluginInfo>>(_saviorKey);
+            });
 
             //remove plugins
             if (_savior.Has(_saviorKey_removePlugins))
             {
-                _pluginsToRemove = _savior.Get<List<PluginInfo>>(_saviorKey_removePlugins);
-                foreach (var plugin in _pluginsToRemove.ToArray())
+                _exceptionsHandler.Handle(this, () =>
                 {
-                    var pluginDir = Path.Combine(_baseDir, plugin.Name);
-                    Directory.Delete(pluginDir, true);
-                    _pluginsToRemove.Remove(plugin);
+                    _pluginsToRemove = _savior.Get<List<PluginInfo>>(_saviorKey_removePlugins);
+                    foreach (var plugin in _pluginsToRemove.ToArray())
+                    {
+                        var pluginDir = Path.Combine(_baseDir, plugin.Name);
+                        _exceptionsHandler.Handle(this, () => Directory.Delete(pluginDir, true));
+                        _pluginsToRemove.Remove(plugin);
+                    }
+                    _savior.Set(_saviorKey_removePlugins, _pluginsToRemove);
+                });
+            }
+
+            //updated plugins initilized by adding in app
+            var updatedPlugins = new List<string>();
+
+            //update plugins
+            if (Directory.Exists(_tmpDir))
+            {
+                foreach (var tmpPluginFileToUpdate in Directory.GetFiles(_tmpDir))
+                {
+                    var pluginName = Path.GetFileNameWithoutExtension(tmpPluginFileToUpdate);
+                    _exceptionsHandler.Handle(this, () =>
+                    {
+                        RemovePluginInternal(pluginName);
+                        AddPlugin(tmpPluginFileToUpdate);
+                        updatedPlugins.Add(pluginName);
+                    });
                 }
-                _savior.Set(_saviorKey_removePlugins, _pluginsToRemove);
             }
 
             //init target types
             foreach (var plugin in _plugins)
             {
-                foreach (var relativePath in plugin.TargetLibraries)
-                {
-                    var absolutePath = Path.Combine(_baseDir, relativePath);
-                    Debug.WriteLine("plugin " + plugin.Name + " lib path " + absolutePath);
-                    var assembly = Utils.LoadAssembly(absolutePath);
-                    var types = GetTargetTypes(assembly);
-                    _allTypes.AddRange(types.Select(x => new PluginTypeInfo() {
-                        Plugin = plugin,
-                        Type = x,
-                        Assembly = assembly
-                    }));
-                }
+                if (!updatedPlugins.Any(x=> x.Equals(plugin.Name)))
+                    foreach (var relativePath in plugin.TargetLibraries)
+                    {
+                        _exceptionsHandler.Handle(this, () =>
+                        {
+                            var absolutePath = Path.Combine(_baseDir, relativePath);
+                            Debug.WriteLine("plugin " + plugin.Name + " lib path " + absolutePath);
+                            var assembly = Utils.LoadAssembly(absolutePath);
+                            var types = GetTargetTypes(assembly);
+                            _allTypes.AddRange(types.Select(x => new PluginTypeInfo()
+                            {
+                                Plugin = plugin,
+                                Type = x,
+                                Assembly = assembly
+                            }));
+                        });
+                    }
             }
+
+            //clear temporary plugin directory
+            _exceptionsHandler.Handle(this, () =>
+            {
+                Directory.Delete(_tmpDir, true);
+                Directory.CreateDirectory(_tmpDir);
+            });
 
             //resolve plugin types
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
@@ -89,11 +131,14 @@ namespace Pyrite.Windows.Modules
         private readonly string _saviorKey = "modulesManager";
         private readonly string _saviorKey_removePlugins = "modulesManager_removeLibs";
         private string _baseDir;
-        private ScenariosRepositoryBase _scenarioRepository;
-        private ISavior _savior;
         private List<PluginTypeInfo> _allTypes = new List<PluginTypeInfo>();
         private List<PluginInfo> _plugins = new List<PluginInfo>();
         private List<PluginInfo> _pluginsToRemove = new List<PluginInfo>();
+        private List<string> _pluginsToUpdate = new List<string>();
+        private string _tmpDir;
+        private ScenariosRepositoryBase _scenarioRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private ISavior _savior = Singleton.Resolve<ISavior>();
+        private IExceptionsHandler _exceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
 
         public IAction CreateInstanceOf(Type type)
         {
@@ -139,15 +184,24 @@ namespace Pyrite.Windows.Modules
         /// <param name="Unique name of plugin"></param>
         public void RemovePlugin(string pluginName)
         {
-            var plugin = _plugins.Single(x => x.Name.Equals(pluginName));
-            var canRemoveResult = CanRemovePlugin(pluginName);
-            if (!canRemoveResult.CanRemove)
-                throw new InvalidOperationException(canRemoveResult.Message);
-            _allTypes.RemoveAll(x => x.Plugin.Equals(plugin));
-            _pluginsToRemove.Add(plugin);
-            _plugins.Remove(plugin);
+            _exceptionsHandler.Handle(this, () =>
+            {
+                var plugin = _plugins.Single(x => x.Name.Equals(pluginName));
+                var canRemoveResult = CanRemovePlugin(pluginName);
+                if (!canRemoveResult.CanRemove)
+                    throw new InvalidOperationException(canRemoveResult.Message);
+                _allTypes.RemoveAll(x => x.Plugin.Equals(plugin));
+                _pluginsToRemove.Add(plugin);
+                _plugins.Remove(plugin);
+                _savior.Set(_saviorKey, _plugins);
+                _savior.Set(_saviorKey_removePlugins, _pluginsToRemove);
+            });
+        }
+
+        private void RemovePluginInternal(string pluginName)
+        {
+            _plugins.RemoveAll(x => x.Name.Equals(pluginName));
             _savior.Set(_saviorKey, _plugins);
-            _savior.Set(_saviorKey_removePlugins, _pluginsToRemove);
         }
 
         /// <summary>
@@ -156,40 +210,44 @@ namespace Pyrite.Windows.Modules
         /// <param name="pluginPath"></param>
         public void AddPlugin(string pluginPath)
         {
-            var fileName = Path.GetFileNameWithoutExtension(pluginPath);
-            var destDirectoryPath = Path.Combine(_baseDir, fileName);
-            var canAddLibResult = CanAddPlugin(pluginPath);
-            if (!canAddLibResult.CanAdd)
-                throw new Exception(canAddLibResult.Message);
-            if (!Directory.Exists(destDirectoryPath))
-                Directory.CreateDirectory(destDirectoryPath);
-            Utils.UnpackFile(pluginPath, destDirectoryPath);
-            Debug.WriteLine("plugin " + fileName + " unpacked in: " + destDirectoryPath);
-            var assembliesAndTypes = Utils.GetAssembliesWithType(typeof(IAction), destDirectoryPath);
-            var plugin = new PluginInfo() {
-                Name = fileName,
-                TargetLibraries = assembliesAndTypes
-                    .Select(x =>
-                        {
-                            var relativePath = Utils.GetAssemblyPath(x.Assembly).Substring(_baseDir.Length + 1);
-                            Debug.WriteLine("plugin " + fileName + " has target dll with relative path: " + relativePath);
-                            return relativePath;
-                        })
-                        .ToArray()
-            };
-            _plugins.Add(plugin);
-            _allTypes.AddRange(
-                assembliesAndTypes.SelectMany(x => 
-                    x.Types.Select(z =>
-                        new PluginTypeInfo()
-                        {
-                            Plugin = plugin,
-                            Type = z,
-                            Assembly = x.Assembly
-                        })
-                )
-            );
-            _savior.Set(_saviorKey, _plugins);
+            _exceptionsHandler.Handle(this, () =>
+            {
+                var fileName = Path.GetFileNameWithoutExtension(pluginPath);
+                var destDirectoryPath = Path.Combine(_baseDir, fileName);
+                var canAddLibResult = CanAddPlugin(pluginPath);
+                if (!canAddLibResult.CanAdd)
+                    throw new Exception(canAddLibResult.Message);
+                if (!Directory.Exists(destDirectoryPath))
+                    Directory.CreateDirectory(destDirectoryPath);
+                Utils.UnpackFile(pluginPath, destDirectoryPath);
+                Debug.WriteLine("plugin " + fileName + " unpacked in: " + destDirectoryPath);
+                var assembliesAndTypes = Utils.GetAssembliesWithType(typeof(IAction), destDirectoryPath);
+                var plugin = new PluginInfo()
+                {
+                    Name = fileName,
+                    TargetLibraries = assembliesAndTypes
+                        .Select(x =>
+                            {
+                                var relativePath = Utils.GetAssemblyPath(x.Assembly).Substring(_baseDir.Length + 1);
+                                Debug.WriteLine("plugin " + fileName + " has target dll with relative path: " + relativePath);
+                                return relativePath;
+                            })
+                            .ToArray()
+                };
+                _plugins.Add(plugin);
+                _allTypes.AddRange(
+                    assembliesAndTypes.SelectMany(x =>
+                        x.Types.Select(z =>
+                            new PluginTypeInfo()
+                            {
+                                Plugin = plugin,
+                                Type = z,
+                                Assembly = x.Assembly
+                            })
+                    )
+                );
+                _savior.Set(_saviorKey, _plugins);
+            });
         }
         
         /// <summary>
@@ -199,22 +257,25 @@ namespace Pyrite.Windows.Modules
         /// <returns></returns>
         public CanRemovePluginResult CanRemovePlugin(string pluginName)
         {
-            var libraryTypes = _allTypes.Where(x => x.Plugin.Name.Equals(pluginName)).Select(x=>x.Type).ToArray();
-            //determine dependent scenarios
-            var dependentScenarios = _scenarioRepository.GetDependentScenarios(libraryTypes);
-            var dependentTriggers = _scenarioRepository.GetDependentTriggers(libraryTypes);
-            if (dependentScenarios.Any() || dependentTriggers.Any())
+            return _exceptionsHandler.Handle(this, () =>
             {
-                var allDependentNames = dependentScenarios
-                        .Select(x => x.Name)
-                        .Union(dependentTriggers.Select(x=>x.Name))
-                        .Aggregate((x1, x2) => x1 + ";\r\n" + x2);
+                var libraryTypes = _allTypes.Where(x => x.Plugin.Name.Equals(pluginName)).Select(x => x.Type).ToArray();
+                //determine dependent scenarios
+                var dependentScenarios = _scenarioRepository.GetDependentScenarios(libraryTypes);
+                var dependentTriggers = _scenarioRepository.GetDependentTriggers(libraryTypes);
+                if (dependentScenarios.Any() || dependentTriggers.Any())
+                {
+                    var allDependentNames = dependentScenarios
+                            .Select(x => x.Name)
+                            .Union(dependentTriggers.Select(x => x.Name))
+                            .Aggregate((x1, x2) => x1 + ";\r\n" + x2);
 
-                return new CanRemovePluginResult(false,
-                    "Cannot remove plugin, because there is some scenarios or triggers referenced on it:\r\n" +
-                    allDependentNames);
-            }
-            return new CanRemovePluginResult(true);
+                    return new CanRemovePluginResult(false,
+                        "Cannot remove plugin, because there is some scenarios or triggers referenced on it:\r\n" +
+                        allDependentNames);
+                }
+                return new CanRemovePluginResult(true);
+            });
         }
 
         /// <summary>
@@ -246,7 +307,26 @@ namespace Pyrite.Windows.Modules
         /// <returns></returns>
         public CanUpdatePluginResult CanUpdatePlugin(string pluginPath)
         {
-            
+            return _exceptionsHandler.Handle(this, () =>
+            {
+                var result = new CanUpdatePluginResult(true);
+                var pluginName = Path.GetFileNameWithoutExtension(pluginPath);
+                if (!_plugins.Any(x => x.Name.Equals(pluginName)))
+                    result = new CanUpdatePluginResult(false, "Plugin not exist");
+                var tmpPluginDir = Path.Combine(_tmpDir, pluginName);
+                if (Directory.Exists(tmpPluginDir))
+                    Directory.Delete(tmpPluginDir, true);
+                Utils.UnpackFile(pluginPath, tmpPluginDir);
+                var newPluginTypes =
+                    Utils.GetAssembliesWithType(typeof(IAction), tmpPluginDir)
+                    .SelectMany(x => x.Types).Select(x => x.Name).ToArray();
+                var oldPluginTypes = _allTypes.Where(x => x.Plugin.Name.Equals(pluginName))
+                    .Select(x => x.Type.Name).ToArray();
+                if (oldPluginTypes.Intersect(newPluginTypes).Count() != oldPluginTypes.Count())
+                    result = new CanUpdatePluginResult(false, "Some plugin types not exists in new plugin");
+                Directory.Delete(tmpPluginDir, true);
+                return result;
+            });
         }
 
         /// <summary>
@@ -255,7 +335,19 @@ namespace Pyrite.Windows.Modules
         /// <param name="pluginPath"></param>
         public void UpdatePlugin(string pluginPath)
         {
-
+            _exceptionsHandler.Handle(this, () =>
+            {
+                var canUpdateResult = CanUpdatePlugin(pluginPath);
+                if (canUpdateResult.CanUpdate)
+                {
+                    var pluginName = Path.GetFileNameWithoutExtension(pluginPath);
+                    var tmpPluginFile = Path.Combine(_tmpDir, pluginName + PluginFileExtension);
+                    if (File.Exists(tmpPluginFile))
+                        File.Delete(tmpPluginFile);
+                    File.Copy(pluginPath, tmpPluginFile);
+                }
+                else throw new Exception(canUpdateResult.Message);
+            });
         }
     }
 }
