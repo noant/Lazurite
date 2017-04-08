@@ -38,7 +38,7 @@ namespace PyriteUI.WpfTests
 
         private void button_Copy1_Click(object sender, RoutedEventArgs e)
         {
-            listItems.SelectionMode = Controls.ListViewItemsSelectionMode.Multi;
+            listItems.SelectionMode = Controls.ListViewItemsSelectionMode.Multiple;
             ListItemsView_SelectionChanged(null, null);
         }
 
@@ -56,7 +56,7 @@ namespace PyriteUI.WpfTests
 
         private void ItemView_Click(object sender, RoutedEventArgs e)
         {
-            ((ItemView)((Button)sender).Parent).Content = ((ItemView)((Button)sender).Parent).Selected.ToString();
+            ((ItemView)sender).Content = ((ItemView)sender).Selected.ToString();
         }
     }
 }

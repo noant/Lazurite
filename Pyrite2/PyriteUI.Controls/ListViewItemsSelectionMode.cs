@@ -8,7 +8,7 @@ namespace PyriteUI.Controls
 {
     public enum ListViewItemsSelectionMode
     {
-        Multi,
+        Multiple,
         Single,
         None
     }

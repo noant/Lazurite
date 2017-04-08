@@ -6,19 +6,16 @@
              xmlns:local="clr-namespace:PyriteUI.Controls"
              mc:Ignorable="d" 
              Height="35"
+             Background="{Binding Source={x:Static local:Visual.Background}}"
              IsHitTestVisible="True"
              Width="Auto">
     <UserControl.Resources>
-        <ResourceDictionary Source="/PyriteUI.Controls;component/Styles/FlatStyles.xaml" />
+        <ResourceDictionary Source="/PyriteUI.Controls;component/Styles/Styles.xaml" />
     </UserControl.Resources>
-    <Button x:FieldModifier="private" Name="button" Style="{DynamicResource Dark}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">        
+    <Button x:FieldModifier="private" Name="button" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">        
         <Button.Template>
             <ControlTemplate TargetType="{x:Type Button}">
-                <Grid x:Name="border"
-                    TextBlock.Foreground="{TemplateBinding Foreground}"
-                    Background="{TemplateBinding Background}"
-                    TextBlock.FontFamily="{TemplateBinding TextBlock.FontFamily}"
-                    TextBlock.FontSize="{TemplateBinding TextBlock.FontSize}">
+                <Grid x:Name="border" Background="Transparent">
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal" />
@@ -42,8 +39,9 @@
             </ControlTemplate>
         </Button.Template>
         <Grid>
-            <Label IsHitTestVisible="False" Style="{DynamicResource Dark}" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" Name="label" x:FieldModifier="private"></Label>
-            <local:IconView IsHitTestVisible="False" x:Name="iconView" x:FieldModifier="private" Icon="AddMultiple" Visibility="{Binding IconVisibility}" Margin="7,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"></local:IconView>
+            <Grid x:FieldModifier="private" Visibility="Collapsed" Name="backView" Background="SteelBlue"></Grid>
+            <Label Style="{DynamicResource LabelStyle}" IsHitTestVisible="False" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" Name="label" x:FieldModifier="private"></Label>
+            <local:IconView IsHitTestVisible="False" x:Name="iconView" x:FieldModifier="private" Icon="AddMultiple" Visibility="{Binding IconVisibility}" Margin="4" VerticalAlignment="Center" HorizontalAlignment="Left"></local:IconView>
         </Grid>
     </Button>
 </UserControl>

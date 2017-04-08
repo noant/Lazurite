@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:PyriteUI.Controls">
+    <Style TargetType="Label" x:Key="LabelStyle">
+        <Setter Property="FontWeight" Value="{Binding Source={x:Static local:Visual.FontWeight}}"></Setter>
+        <Setter Property="FontFamily" Value="{Binding Source={x:Static local:Visual.FontFamily}}"></Setter>
+        <Setter Property="FontSize" Value="{Binding Source={x:Static local:Visual.FontSize}}"></Setter>
+        <Setter Property="Foreground" Value="{Binding Source={x:Static local:Visual.Foreground}}"></Setter>
+    </Style>
+</ResourceDictionary>

@@ -26,6 +26,8 @@ namespace PyriteUI.Controls
         public static new readonly DependencyProperty ContentProperty;
         public static readonly DependencyProperty SelectedProperty;
         public static readonly DependencyProperty SelectableProperty;
+        public static readonly DependencyProperty IconVerticalAligmentProperty;
+        public static readonly DependencyProperty IconHorizontalAligmentProperty;
 
         static ItemView()
         {
@@ -65,7 +67,7 @@ namespace PyriteUI.Controls
                     if (itemView.Selectable)
                     {
                         var value = (bool)e.NewValue;
-                        itemView.button.Background = value ? Brushes.SteelBlue : itemView._prevBackground;
+                        itemView.backView.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
                         itemView.SelectionChanged?.Invoke(o, new ItemViewSelectionChangedEventArgs()
                         {
                             ItemView = itemView,
@@ -75,16 +77,31 @@ namespace PyriteUI.Controls
                     else itemView.Selected = false;
                 }
             });
+            IconVerticalAligmentProperty = DependencyProperty.Register(nameof(IconVerticalAligment), typeof(VerticalAlignment), typeof(ItemView), new FrameworkPropertyMetadata() {
+                PropertyChangedCallback = (o,e) =>
+                {
+                    var itemView = ((ItemView)o);
+                    var value = (VerticalAlignment)e.NewValue;
+                    itemView.iconView.VerticalAlignment = value;
+                }
+            });
+            IconHorizontalAligmentProperty = DependencyProperty.Register(nameof(IconHorizontalAligment), typeof(HorizontalAlignment), typeof(ItemView), new FrameworkPropertyMetadata()
+            {
+                PropertyChangedCallback = (o, e) =>
+                {
+                    var itemView = ((ItemView)o);
+                    var value = (HorizontalAlignment)e.NewValue;
+                    itemView.iconView.HorizontalAlignment = value;
+                }
+            });
         }
 
         public ItemView()
         {
             InitializeComponent();
-            _prevBackground = button.Background;
+            button.Click += (o, e) => Click?.Invoke(this, e);
             Click += (o, e) => this.Selected = !this.Selected;
         }
-        
-        private Brush _prevBackground;
 
         public Visibility IconVisibility
         {
@@ -146,18 +163,32 @@ namespace PyriteUI.Controls
             }
         }
 
-        public event RoutedEventHandler Click
+        public VerticalAlignment IconVerticalAligment
         {
-            add
+            get
             {
-                button.Click += value;
+                return (VerticalAlignment)GetValue(IconVerticalAligmentProperty);
             }
-            remove
+            set
             {
-                button.Click -= value;
+                SetValue(IconVerticalAligmentProperty, value);
             }
         }
 
+        public HorizontalAlignment IconHorizontalAligment
+        {
+            get
+            {
+                return (HorizontalAlignment)GetValue(IconHorizontalAligmentProperty);
+            }
+            set
+            {
+                SetValue(IconHorizontalAligmentProperty, value);
+            }
+        }
+
+        public event RoutedEventHandler Click;
+        
         public event RoutedEventHandler SelectionChanged;
     }
 }

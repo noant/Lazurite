@@ -6,21 +6,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PyriteUI.WpfTests"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="807">
+        Title="MainWindow" Height="350" Width="1200">
     <Grid Background="White" Margin="0,0,0,0">
-        <controls:ListItemsView Name="listItems" Width="300" SelectionMode="Single" HorizontalAlignment="Left" SelectionChanged="ListItemsView_SelectionChanged">
-            <controls:ItemView Selected="False" Icon="MeasureInch">item 1</controls:ItemView>
-            <controls:ItemView Selected="False" Icon="Ferry">item 2</controls:ItemView>
-            <controls:ItemView Selected="False" Icon="Close">item 3</controls:ItemView>
-            <controls:ItemView Selected="False" Icon="Fingerprint">item 4</controls:ItemView>
-            <controls:ItemView Selected="False" Icon="Bing">item 5</controls:ItemView>
+        <controls:ListItemsView Orientation="Vertical" Name="listItems" Width="300" SelectionMode="Single" HorizontalAlignment="Left" SelectionChanged="ListItemsView_SelectionChanged">
+            <controls:ItemView Margin="1" Selected="False" Icon="MoonWaningCrescent">item 1</controls:ItemView>
+            <controls:ItemView Margin="1" Selected="False" Icon="Ferry">item 2</controls:ItemView>
+            <controls:ItemView Margin="1" Selected="False" Icon="Close">item 3</controls:ItemView>
+            <controls:ItemView Margin="1" Selected="False" Icon="Fingerprint">item 4</controls:ItemView>
+            <controls:ItemView Margin="1" Selected="False" Icon="Bing">item 5</controls:ItemView>
         </controls:ListItemsView>
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="305,10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="270" Width="233"/>
         <Button x:Name="button_Copy" Content="Button" HorizontalAlignment="Left" Margin="384,282,0,0" VerticalAlignment="Top" Width="75" Click="button_Copy_Click"/>
         <Button x:Name="button_Copy1" Content="Button" HorizontalAlignment="Left" Margin="305,282,0,0" VerticalAlignment="Top" Width="75" Click="button_Copy1_Click"/>
         <Button x:Name="button_Copy2" Content="Button" HorizontalAlignment="Left" Margin="463,282,0,0" VerticalAlignment="Top" Width="75" Click="button_Copy2_Click"/>
-        <controls:ItemView Selectable="True" Selected="False" Icon="Bing" Margin="543,36,10,248" Click="ItemView_Click">item 5</controls:ItemView>
-        <controls:ItemView Selectable="True" Selected="True" Icon="Bing" Margin="543,76,10,208" Click="ItemView_Click" Content="item 5"/>
-        <controls:ItemView Icon="Bing" Margin="543,116,10,168" Content="item 5" Click="ItemView_Click"/>
+        <controls:ItemView Selectable="True" Selected="False" Icon="Bing" Margin="543,36,465,248" Click="ItemView_Click">item 5</controls:ItemView>
+        <controls:ItemView Selectable="True" Selected="True" Icon="Bing" Margin="543,76,465,208" Click="ItemView_Click" Content="item 5"/>
+        <controls:ItemView Icon="Bing" Margin="543,116,465,168" Content="item 5" Click="ItemView_Click"/>
+        <controls:ItemView Selectable="True" Selected="False" Icon="Bing" Margin="762,36,246,248" Click="ItemView_Click" IconHorizontalAligment="Stretch" />
+        <controls:ItemView Background="DarkGreen" Selectable="True" Selected="False" Icon="AddMultiple" Margin="800,164,342,105" Click="ItemView_Click" IconHorizontalAligment="Stretch" />
     </Grid>
 </Window>
