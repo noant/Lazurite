@@ -26,32 +26,20 @@ namespace PyriteUI.WpfTests
         {
             InitializeComponent();
         }
-
-        private void ListItemsView_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            textBlock.Text = Enum.GetName(typeof(ListViewItemsSelectionMode), listItems.SelectionMode);
-            foreach (var itemView in listItems.GetSelectedItems())
-            {
-                textBlock.Text += "\r\n"+itemView.Content.ToString();
-            }
-        }
-
+        
         private void button_Copy1_Click(object sender, RoutedEventArgs e)
         {
             listItems.SelectionMode = Controls.ListViewItemsSelectionMode.Multiple;
-            ListItemsView_SelectionChanged(null, null);
         }
 
         private void button_Copy_Click(object sender, RoutedEventArgs e)
         {
             listItems.SelectionMode = Controls.ListViewItemsSelectionMode.Single;
-            ListItemsView_SelectionChanged(null, null);
         }
 
         private void button_Copy2_Click(object sender, RoutedEventArgs e)
         {
             listItems.SelectionMode = Controls.ListViewItemsSelectionMode.None;
-            ListItemsView_SelectionChanged(null, null);
         }
 
         private void ItemView_Click(object sender, RoutedEventArgs e)

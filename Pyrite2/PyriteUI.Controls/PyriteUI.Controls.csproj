@@ -58,7 +58,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Styles\VisualParameters.cs" />
+    <Compile Include="CaptionView.xaml.cs">
+      <DependentUpon>CaptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Styles\Visual.cs" />
+    <Page Include="CaptionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="IconView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

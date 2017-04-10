@@ -7,4 +7,10 @@
         <Setter Property="FontSize" Value="{Binding Source={x:Static local:Visual.FontSize}}"></Setter>
         <Setter Property="Foreground" Value="{Binding Source={x:Static local:Visual.Foreground}}"></Setter>
     </Style>
+    <Style TargetType="Label" x:Key="BigLabelStyle">
+        <Setter Property="FontWeight" Value="{Binding Source={x:Static local:Visual.FontWeight}}"></Setter>
+        <Setter Property="FontFamily" Value="{Binding Source={x:Static local:Visual.FontFamily}}"></Setter>
+        <Setter Property="FontSize" Value="{Binding Source={x:Static local:Visual.BigFontSize}}"></Setter>
+        <Setter Property="Foreground" Value="{Binding Source={x:Static local:Visual.Foreground}}"></Setter>
+    </Style>
 </ResourceDictionary>
