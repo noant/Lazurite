@@ -25,18 +25,19 @@ namespace PyriteUI.Controls
 
         static ListItemsView()
         {
-            SelectionModeProperty = DependencyProperty.Register(nameof(SelectionMode), typeof(ListViewItemsSelectionMode), typeof(ListItemsView), new FrameworkPropertyMetadata() {
-                PropertyChangedCallback = (o,e) =>
+            SelectionModeProperty = DependencyProperty.Register(nameof(SelectionMode), typeof(ListViewItemsSelectionMode), typeof(ListItemsView), new FrameworkPropertyMetadata()
+            {
+                PropertyChangedCallback = (o, e) =>
                 {
                     var listItemsView = ((ListItemsView)o);
                     var mode = (ListViewItemsSelectionMode)e.NewValue;
                     foreach (var children in listItemsView.Children)
                     {
-                        var itemView = children as ItemView;
-                        if (itemView != null)
+                        var item = children as ISelectable;
+                        if (item != null)
                         {
-                            itemView.Selected = false;
-                            itemView.Selectable = mode != ListViewItemsSelectionMode.None;
+                            item.Selected = false;
+                            item.Selectable = mode != ListViewItemsSelectionMode.None;
                         }
                     }
                 }
@@ -45,7 +46,9 @@ namespace PyriteUI.Controls
 
         public ListItemsView()
         {
-            InitializeComponent();
+            this.ClipToBounds = true;
+            this.IsHitTestVisible = true;
+            this.Background = Brushes.Transparent;
         }
 
         protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
@@ -54,35 +57,35 @@ namespace PyriteUI.Controls
                 base.OnVisualChildrenChanged(null, visualRemoved);
             else
             {
-                var itemView = visualAdded as ItemView;
-                if (itemView != null)
+                var item = visualAdded as ISelectable;
+                if (item != null)
                 {
-                    itemView.Selectable = SelectionMode != ListViewItemsSelectionMode.None;
-                    itemView.SelectionChanged += (o, e) =>
+                    item.Selectable = SelectionMode != ListViewItemsSelectionMode.None;
+                    item.SelectionChanged += (o, e) =>
                     {
-                        if (this.SelectionMode == ListViewItemsSelectionMode.Single && itemView.Selected)
+                        if (this.SelectionMode == ListViewItemsSelectionMode.Single && item.Selected)
                         {
-                            foreach (var item in this.Children.Cast<Control>())
+                            foreach (var child in this.Children.Cast<Control>())
                             {
-                                if (item is ItemView && item != itemView)
-                                    ((ItemView)item).Selected = false;
+                                if (child is ISelectable && item != child)
+                                    ((ISelectable)child).Selected = false;
                             }
                         }
                         RaiseSelectionChanged();
                     };
-                    base.OnVisualChildrenChanged(itemView, visualRemoved);
+                    base.OnVisualChildrenChanged(visualAdded, visualRemoved);
                 }
                 else
                     this.Children.Remove(visualAdded as UIElement);
             }
         }
 
-        public ItemView[] GetItems()
+        public ISelectable[] GetItems()
         {
-            return this.Children.Cast<Control>().Where(x => x is ItemView).Select(x => (ItemView)x).ToArray();
+            return this.Children.Cast<Control>().Where(x => x is ISelectable).Select(x => (ISelectable)x).ToArray();
         }
 
-        public ItemView[] GetSelectedItems()
+        public ISelectable[] GetSelectedItems()
         {
             return GetItems().Where(x => x.Selected).ToArray();
         }
@@ -101,9 +104,10 @@ namespace PyriteUI.Controls
 
         private void RaiseSelectionChanged()
         {
-            SelectionChanged?.Invoke(this, new ListItemsViewSelectionChangedEventArgs() {
+            SelectionChanged?.Invoke(this, new ListItemsViewSelectionChangedEventArgs()
+            {
                 ListItemsView = this,
-                SelectedItems = this.GetSelectedItems()                
+                SelectedItems = this.GetSelectedItems()
             });
         }
 

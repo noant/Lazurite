@@ -7,9 +7,10 @@ using System.Windows;
 
 namespace PyriteUI.Controls
 {
-    class ItemViewSelectionChangedEventArgs: RoutedEventArgs
+    public interface ISelectable
     {
-        public ItemView ItemView { get; internal set; }
-        public bool Selected { get; internal set; }
+        bool Selected { get; set; }
+        bool Selectable { get; set; }
+        event RoutedEventHandler SelectionChanged;
     }
 }

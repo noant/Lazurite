@@ -26,7 +26,7 @@ namespace PyriteUI.WpfTests
         {
             InitializeComponent();
         }
-        
+
         private void button_Copy1_Click(object sender, RoutedEventArgs e)
         {
             listItems.SelectionMode = Controls.ListViewItemsSelectionMode.Multiple;
@@ -40,11 +40,32 @@ namespace PyriteUI.WpfTests
         private void button_Copy2_Click(object sender, RoutedEventArgs e)
         {
             listItems.SelectionMode = Controls.ListViewItemsSelectionMode.None;
-        }
 
-        private void ItemView_Click(object sender, RoutedEventArgs e)
-        {
-            ((ItemView)sender).Content = ((ItemView)sender).Selected.ToString();
+            var messageView = new MessageView();
+            messageView.Icon = Icons.Icon.ConfirmYesNo;
+            messageView.ContentText = "Вы уверены, что хотите удалить сценарий 'Включить основной свет'?";
+            messageView.HeaderText = "Удаление сценария";
+            messageView.Show(grid);
+            messageView.SetItems(new[] {
+                new MessageItemInfo("Да", (mv) => {
+                    mv.ContentText = "Удаление сценария...";
+                    mv.StartAnimateProgress();
+                    mv.IsItemsEnabled = false;
+                    Task.Delay(8000).ContinueWith((t) => {
+                        mv.Dispatcher.BeginInvoke(new Action(()=> {
+                            mv.StopAnimateProgress();
+                            mv.ContentText = "Удаление завершено";
+                            mv.Icon = Icons.Icon.PinRemove;
+                            mv.SetItems(new [] {
+                                new MessageItemInfo("Ок", (mv1) => mv1.Close(), Icons.Icon.Check),
+                            });
+                            mv.IsItemsEnabled = true;
+                        }));
+                    });
+                }, Icons.Icon.Check),
+                new MessageItemInfo("Нет", (mv) => mv.Close(), Icons.Icon.Cancel),
+                new MessageItemInfo("Блабла", (mv) => mv.Close()),
+            });
         }
     }
 }

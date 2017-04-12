@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ZWavePluginUI
 {
     /// <summary>
-    /// Логика взаимодействия для NodeControl.xaml
+    /// Логика взаимодействия для ControllersManagerViiew.xaml
     /// </summary>
-    public partial class ItemView : Button
+    public partial class ControllersManagerViiew : UserControl
     {
-        public ItemView()
+        public ControllersManagerViiew()
         {
             InitializeComponent();
         }

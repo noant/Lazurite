@@ -35,6 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PyriteUI.Controls">
+      <HintPath>..\..\..\Releases\MaterialForPlugins\PyriteUI.Controls.exe</HintPath>
+    </Reference>
+    <Reference Include="PyriteUI.Icons">
+      <HintPath>..\..\..\Releases\MaterialForPlugins\PyriteUI.Icons.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -55,15 +61,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ItemView.xaml">
+    <Compile Include="ControllersManagerViiew.xaml.cs">
+      <DependentUpon>ControllersManagerViiew.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NodeValueSelectWindow.xaml.cs">
+      <DependentUpon>NodeValueSelectWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="ControllersManagerViiew.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SelectNodeControl.xaml">
+    <Page Include="NodesListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\FlatButtonStyle.xaml">
+    <Page Include="NodesValuesComplexView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NodeValuesListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NodeValueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NodeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -71,27 +95,32 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ZWaveSelectNodeValue.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ItemView.xaml.cs">
-      <DependentUpon>ItemView.xaml</DependentUpon>
+    <Compile Include="NodesListView.xaml.cs">
+      <DependentUpon>NodesListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SelectNodeControl.xaml.cs">
-      <DependentUpon>SelectNodeControl.xaml</DependentUpon>
+    <Compile Include="NodesValuesComplexView.xaml.cs">
+      <DependentUpon>NodesValuesComplexView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NodeValuesListView.xaml.cs">
+      <DependentUpon>NodeValuesListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NodeValueView.xaml.cs">
+      <DependentUpon>NodeValueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NodeView.xaml.cs">
+      <DependentUpon>NodeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ZWaveSelectNodeValue.xaml.cs">
-      <DependentUpon>ZWaveSelectNodeValue.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="NodeValueSelectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -122,6 +151,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenZWrapper\OpenZWrapper.csproj">
+      <Project>{D73E78B4-F53E-4ABB-8E10-E492D3B0CE15}</Project>
+      <Name>OpenZWrapper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

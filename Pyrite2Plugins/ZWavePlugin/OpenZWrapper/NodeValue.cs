@@ -13,9 +13,10 @@ namespace OpenZWrapper
         {
             Source = id;
             Node = node;
-            ValueType = id.GetType();
             Id = id.GetId();
-            Genre = id.GetGenre();
+            ZWValueType = id.GetType();
+            ValueType = (ValueType)(int)ZWValueType;
+            Genre = (ValueGenre)(int)id.GetGenre();
         }
 
         public void Refresh()
@@ -24,19 +25,20 @@ namespace OpenZWrapper
             this.Description = manager.GetValueHelp(Source);
             this.Name = manager.GetValueLabel(Source);
             this.Unit = manager.GetValueUnits(Source);
-            if (this.ValueType == ZWValueID.ValueType.List)
+            if (this.ValueType == ValueType.List)
             {
                 var possibleValues = new string[0];
                 if (manager.GetValueListItems(Source, out possibleValues))
                     PossibleValues = possibleValues;
             }
-            InternalSet(Helper.GetValue(manager, Source, ValueType, PossibleValues));
+            InternalSet(Helper.GetValue(manager, Source, ZWValueType, PossibleValues));
         }
         
         public ZWValueID Source { get; private set; }
         public Node Node { get; private set; }
-        public ZWValueID.ValueType ValueType { get; private set; }
-        
+        internal ZWValueID.ValueType ZWValueType { get; private set; }
+        public ValueType ValueType { get; private set; }
+
         public string[] PossibleValues { get; private set; }
 
         public event Action<object, NodeValueChangedEventArgs> Changed;
@@ -47,13 +49,13 @@ namespace OpenZWrapper
                 return _current;
             }
             set {
-                if (Helper.SetValueSucceed(Node.Manager, Source, ValueType, value))
+                if (Helper.SetValueSucceed(Node.Manager, Source, ZWValueType, value))
                     InternalSet(value);                
             }
         }
 
         public ulong Id { get; private set; }
-        public ZWValueID.ValueGenre Genre { get; private set; }
+        public ValueGenre Genre { get; private set; }
         public string Description { get; private set; }
         public string Name { get; private set; }
         public string Unit { get; private set; }

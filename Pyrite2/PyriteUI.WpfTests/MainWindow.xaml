@@ -7,15 +7,16 @@
         xmlns:local="clr-namespace:PyriteUI.WpfTests"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="1200">
-    <Grid Background="White" Margin="0,50,0,0">
-        <controls:CaptionView VerticalAlignment="Top" Margin="0,-50,0,0" Icon="Archive">Контроллер Z-Wave</controls:CaptionView>
-        <controls:ListItemsView Orientation="Vertical" Name="listItems" Width="300" SelectionMode="Single" HorizontalAlignment="Left">
-            <controls:ItemView Margin="1" Selected="False" Icon="MoonWaningCrescent">item 1</controls:ItemView>
-            <controls:ItemView Margin="1" Selected="False" Icon="Ferry">item 2</controls:ItemView>
-            <controls:ItemView Margin="1" Selected="False" Icon="Close">item 3</controls:ItemView>
-            <controls:ItemView Margin="1" Selected="False" Icon="Fingerprint">item 4</controls:ItemView>
-            <controls:ItemView Margin="1" Selected="False" Icon="Bing">item 5</controls:ItemView>
-        </controls:ListItemsView>
+    <Grid Background="White" Margin="0,0,0,0" Name="grid">
+        <controls:WheelScroll>
+            <controls:ListItemsView Orientation="Vertical" Name="listItems" Width="300" SelectionMode="Single" HorizontalAlignment="Left">
+                <controls:ItemView Margin="1" Selected="False" Icon="MoonWaningCrescent">item 1</controls:ItemView>
+                <controls:ItemView Margin="1" Selected="False" Icon="Ferry">item 2</controls:ItemView>
+                <controls:ItemView Margin="1" Selected="False" Icon="Close">item 3</controls:ItemView>
+                <controls:ItemView Margin="1" Selected="False" Icon="Fingerprint">item 4</controls:ItemView>
+                <controls:ItemView Margin="1" Selected="False" Icon="Bing">item 5</controls:ItemView>
+            </controls:ListItemsView>
+        </controls:WheelScroll>
         <StackPanel Orientation="Horizontal" Margin="500,0,0,0">
             <Button x:Name="button_Copy" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="button_Copy_Click"/>
             <Button x:Name="button_Copy1" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="button_Copy1_Click"/>

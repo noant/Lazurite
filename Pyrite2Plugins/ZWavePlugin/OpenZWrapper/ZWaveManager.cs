@@ -229,7 +229,7 @@ namespace OpenZWrapper
                                 var nodeValue = node.Values.FirstOrDefault(x => x.Id.Equals(value.GetId()));
                                 nodeValue.CurrentByte = notification.GetByte();
                                 nodeValue.CurrentGroupIdx = notification.GetGroupIdx();
-                                nodeValue.InternalSet(Helper.GetValue(_manager, value, nodeValue.ValueType, nodeValue.PossibleValues));
+                                nodeValue.InternalSet(Helper.GetValue(_manager, value, nodeValue.ZWValueType, nodeValue.PossibleValues));
                             }
                             break;
                     }

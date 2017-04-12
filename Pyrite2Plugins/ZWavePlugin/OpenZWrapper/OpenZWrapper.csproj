@@ -72,6 +72,8 @@
     <Compile Include="ControllerAddedEventArgs.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="ManagerInitializedEventArgs.cs" />
+    <Compile Include="ValueGenre.cs" />
+    <Compile Include="ValueType.cs" />
     <Compile Include="ZWaveManager.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeValue.cs" />

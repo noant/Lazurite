@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -84,6 +85,18 @@ namespace PyriteUI.Controls
             {
                 SetValue(ContentProperty, value);
             }
+        }
+
+        public void StartAnimateProgress()
+        {
+            progressGrid.Visibility = Visibility.Visible;
+            ((Storyboard)progressGrid.Resources["progressGridAnimation"]).Begin(progressGrid);
+        }
+
+        public void StopAnimateProgress()
+        {
+            progressGrid.Visibility = Visibility.Collapsed;
+            ((Storyboard)progressGrid.Resources["progressGridAnimation"]).Stop(progressGrid);
         }
 
         public CaptionView()

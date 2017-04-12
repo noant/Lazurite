@@ -19,7 +19,7 @@ namespace PyriteUI.Controls
     /// <summary>
     /// Логика взаимодействия для ItemView.xaml
     /// </summary>
-    public partial class ItemView : UserControl
+    public partial class ItemView : UserControl, ISelectable
     {
         public static readonly DependencyProperty IconVisibilityProperty;
         public static readonly DependencyProperty IconProperty;
@@ -68,9 +68,9 @@ namespace PyriteUI.Controls
                     {
                         var value = (bool)e.NewValue;
                         itemView.backView.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
-                        itemView.SelectionChanged?.Invoke(o, new ItemViewSelectionChangedEventArgs()
+                        itemView.SelectionChanged?.Invoke(o, new SelectionChangedEventArgs()
                         {
-                            ItemView = itemView,
+                            Item = itemView,
                             Selected = value
                         });
                     }

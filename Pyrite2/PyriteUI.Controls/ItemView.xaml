@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:PyriteUI.Controls"
              mc:Ignorable="d" 
              Height="35"
+             ClipToBounds="True"             
              Background="{Binding Source={x:Static local:Visual.Background}}"
              IsHitTestVisible="True"
              Width="Auto">

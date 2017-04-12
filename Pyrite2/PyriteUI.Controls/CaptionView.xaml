@@ -3,25 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             ClipToBounds="True"
              xmlns:local="clr-namespace:PyriteUI.Controls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              Background="{Binding Source={x:Static local:Visual.BrightBackground}}"
              Height="40">
     <UserControl.Resources>
         <ResourceDictionary Source="/PyriteUI.Controls;component/Styles/Styles.xaml" />
     </UserControl.Resources>
     <Grid>
-        <StackPanel Orientation="Horizontal" Margin="10,0,0,0" Name="stackPanel" x:FieldModifier="private">
+        <Grid Width="20" HorizontalAlignment="Left" Background="BlueViolet" Opacity="0.2" />
+        <Grid Width="30" HorizontalAlignment="Left" Visibility="Collapsed" Name="progressGrid" x:FieldModifier="private" Background="BlueViolet" Opacity="0.3">
+            <Grid.Resources>
+                <Storyboard x:Key="progressGridAnimation" x:Name="progressGridAnimation" RepeatBehavior="Forever">
+                    <ThicknessAnimation Storyboard.TargetName="progressGrid" 
+                              Storyboard.TargetProperty="Margin"
+                              From="-20,0,0,0" To="300,0,0,0" Duration="0:0:0.5" />
+                </Storyboard>
+            </Grid.Resources>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Name="stackPanel" x:FieldModifier="private">
             <StackPanel.Triggers>
                 <EventTrigger RoutedEvent="Loaded">
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="stackPanel"
                               Storyboard.TargetProperty="Opacity"
-                              From="0" To="1" Duration="0:0:0.3" />
+                              From="0" To="1" Duration="0:0:0.45" />
                             <ThicknessAnimation Storyboard.TargetName="stackPanel" 
                               Storyboard.TargetProperty="Margin"
-                              From="-200,0,0,0" To="10,0,0,0" Duration="0:0:0.3"/>
+                              From="-200,0,0,0" To="20,0,0,0" Duration="0:0:0.2"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
