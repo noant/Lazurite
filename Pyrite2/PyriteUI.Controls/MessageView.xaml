@@ -12,7 +12,7 @@
     <Grid>        
         <Grid Background="SteelBlue" Opacity="0.5" Name="gridBackground"></Grid>
         <Grid Name="mainContent">
-            <Grid Background="#111" Height="200" Width="Auto" MaxWidth="600" MinWidth="200">
+            <Grid Background="{x:Static local:Visual.Background}" Height="200" Width="Auto" MaxWidth="600" MinWidth="200">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition></RowDefinition>

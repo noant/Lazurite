@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              Height="35"
              ClipToBounds="True"             
-             Background="{Binding Source={x:Static local:Visual.Background}}"
+             Background="{Binding Source={x:Static local:Visual.ItemBackground}}"
              IsHitTestVisible="True"
              Width="Auto">
     <UserControl.Resources>

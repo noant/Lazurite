@@ -66,6 +66,11 @@ namespace ZWavePluginUI
             {
                 _node = value;
                 this.itemView.Content = _node.ProductName;
+                if (_node.Failed)
+                {
+                    this.itemView.Content += string.Format("(id {0}; node failed)", _node.Id);
+                    this.Opacity = 0.5;
+                }
             }
         }
 

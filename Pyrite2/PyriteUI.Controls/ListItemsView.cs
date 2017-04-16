@@ -48,7 +48,7 @@ namespace PyriteUI.Controls
         {
             this.ClipToBounds = true;
             this.IsHitTestVisible = true;
-            this.Background = Brushes.Transparent;
+            this.Background = Visual.Background;
         }
 
         protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)

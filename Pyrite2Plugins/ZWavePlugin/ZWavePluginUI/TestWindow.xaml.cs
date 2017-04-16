@@ -31,14 +31,10 @@ namespace ZWavePluginUI
         private void TestWindow_Loaded(object sender, RoutedEventArgs e)
         {
             var manager = new ZWaveManager();
-            manager.ManagerInitialized += (o, e1) =>
-            {
-                this.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    ctrl.InitializeWith(manager);
-                }));
-            };
-            manager.Initialize();
+            manager.WaitForInitialized();
+            
+            ctrl.InitializeWith(manager);
+            ctrl2.InitializeWith(manager);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace PyriteUI.Controls
                     Icon = item.Icon ?? Icon.Add,
                     IconVisibility = item.Icon != null ? Visibility.Visible : Visibility.Collapsed
                 };
-                itemView.MinWidth = 100;
+                itemView.MinWidth = 140;
                 itemView.Margin = new Thickness(2,0,0,0);
                 itemView.Click += (o, e) => item.Click?.Invoke(this);
                 itemsView.Children.Add(itemView);

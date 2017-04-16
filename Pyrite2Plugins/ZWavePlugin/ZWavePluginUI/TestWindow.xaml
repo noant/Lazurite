@@ -7,8 +7,14 @@
         xmlns:controls="clr-namespace:PyriteUI.Controls;assembly=PyriteUI.Controls"
         mc:Ignorable="d"
         Title="TestWindow" Height="300" Width="1000">
-    <Grid Background="Black">
-        <local:NodesValuesComplexView x:Name="ctrl"></local:NodesValuesComplexView>
-        <controls:IconView VerticalAlignment="Bottom" HorizontalAlignment="Right" Icon="Customerservice"></controls:IconView>
+    <Grid >
+        <TabControl Background="Black">
+            <TabItem Header="123">
+                <local:ControllersManagerView x:Name="ctrl"></local:ControllersManagerView>
+            </TabItem>
+            <TabItem Header="123">
+                <local:NodesValuesComplexView x:Name="ctrl2"></local:NodesValuesComplexView>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

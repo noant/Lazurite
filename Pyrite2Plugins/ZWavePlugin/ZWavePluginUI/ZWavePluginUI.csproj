@@ -61,13 +61,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ControllersManagerViiew.xaml.cs">
-      <DependentUpon>ControllersManagerViiew.xaml</DependentUpon>
+    <Compile Include="ControllersManagerView.xaml.cs">
+      <DependentUpon>ControllersManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControllerView.xaml.cs">
+      <DependentUpon>ControllerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NodeValueSelectWindow.xaml.cs">
       <DependentUpon>NodeValueSelectWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="ControllersManagerViiew.xaml">
+    <Page Include="ControllersManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControllerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

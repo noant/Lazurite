@@ -68,8 +68,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallbacksPool.cs" />
     <Compile Include="Controller.cs" />
-    <Compile Include="ControllerAddedEventArgs.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="ManagerInitializedEventArgs.cs" />
     <Compile Include="ValueGenre.cs" />

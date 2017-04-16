@@ -26,13 +26,14 @@ namespace ZWavePluginUI
             InitializeComponent();
         }
 
-        public void InitializeWith(ZWaveManager manager, Node selectedNode=null)
+        public void InitializeWith(ZWaveManager manager, Node selectedNode=null, Controller selectedController = null)
         {
             _manager = manager;
             captionView.StartAnimateProgress();
             listItems.Children.Clear();
             AppendAllNodes();
             SelectedNode = selectedNode;
+            SelectedController = selectedController;
             captionView.StopAnimateProgress();
 
             SelectedNodeChanged?.Invoke(this, new RoutedEventArgs());
@@ -40,7 +41,7 @@ namespace ZWavePluginUI
 
         private void AppendAllNodes()
         {
-            foreach (var node in _manager.GetNodes())
+            foreach (var node in _manager.GetNodes().Where(x=> SelectedController == null || x.Controller.Equals(SelectedController)))
             {
                 var nodeView = new NodeView(node);
                 listItems.Children.Add(nodeView);
@@ -56,6 +57,8 @@ namespace ZWavePluginUI
         }
 
         public Node SelectedNode { get; private set; }
+
+        public Controller SelectedController { get; private set; }
 
         public event RoutedEventHandler SelectedNodeChanged;
 

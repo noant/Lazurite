@@ -6,7 +6,7 @@
              ClipToBounds="True"
              xmlns:local="clr-namespace:PyriteUI.Controls"
              mc:Ignorable="d"
-             Background="{Binding Source={x:Static local:Visual.BrightBackground}}"
+             Background="{Binding Source={x:Static local:Visual.BrightItemBackground}}"
              Height="40">
     <UserControl.Resources>
         <ResourceDictionary Source="/PyriteUI.Controls;component/Styles/Styles.xaml" />

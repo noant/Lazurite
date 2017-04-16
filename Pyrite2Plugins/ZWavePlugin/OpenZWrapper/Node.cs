@@ -24,6 +24,7 @@ namespace OpenZWrapper
             Type = Manager.GetNodeType(HomeId, Id);
             ProductName = Manager.GetNodeProductName(HomeId, Id);
             ProductType = Manager.GetNodeType(HomeId, Id);
+            Location = Manager.GetNodeLocation(HomeId, Id);
         }
 
         public ZWManager Manager { get; private set; }
@@ -35,5 +36,11 @@ namespace OpenZWrapper
         public byte Id { get; private set; }
         public uint HomeId { get; private set; }
         public string ProductName { get; private set; }
+        public string Location { get; private set; }
+        public Controller Controller { get; internal set; }
+
+        public bool Failed { get; internal set; }
+
+        internal bool Initialized { get; set; }
     }
 }
