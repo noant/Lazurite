@@ -30,6 +30,14 @@ namespace Pyrite.Tests
                 }
             }
 
+            public bool IsSupportsEvent
+            {
+                get
+                {
+                    return ValueChanged != null;
+                }
+            }
+
             public string Value
             {
                 get;
@@ -64,12 +72,12 @@ namespace Pyrite.Tests
                 Console.WriteLine(value);
             }
 
-            public void UserInitializeWith(ValueTypeBase valueType)
+            public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
             {
-                //
+                return true;
             }
 
-            public ValueChangedDelegate ValueChanged { get; set; }
+            public event ValueChangedDelegate ValueChanged;
         }
 
         [TestMethod]

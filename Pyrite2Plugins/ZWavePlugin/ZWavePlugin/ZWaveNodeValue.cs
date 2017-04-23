@@ -18,7 +18,7 @@ namespace ZWavePlugin
     public class ZWaveNodeValue : IAction
     {
         public byte NodeId { get; set; }
-        public byte HomeId { get; set; }
+        public uint HomeId { get; set; }
         public ulong ValueId { get; set; }
 
         private NodeValue _nodeValue;
@@ -34,18 +34,22 @@ namespace ZWavePlugin
                 //do nothing
             }
         }
-
-        public ValueChangedDelegate ValueChanged
-        {
-            get;
-            set;
-        }
-
+        
         public ValueTypeBase ValueType
         {
             get;
             set;
         }
+
+        public bool IsSupportsEvent
+        {
+            get
+            {
+                return ValueChanged != null;
+            }
+        }
+
+        public event ValueChangedDelegate ValueChanged;
 
         public string GetValue(ExecutionContext context)
         {
@@ -59,7 +63,12 @@ namespace ZWavePlugin
             var node = nodes.FirstOrDefault(x => x.Id.Equals(this.NodeId));
             _nodeValue = node.Values.FirstOrDefault(x => x.Id.Equals(this.ValueId));
             if (_nodeValue != null)
-                _nodeValue.Changed += (o, e) => this.ValueChanged?.Invoke(this, _nodeValue.Current.ToString());
+                _nodeValue.Changed += NodeValue_Changed;
+        }
+
+        private void NodeValue_Changed(object arg1, NodeValueChangedEventArgs arg2)
+        {
+            this.ValueChanged?.Invoke(this, _nodeValue.Current.ToString());
         }
 
         public void SetValue(ExecutionContext context, string value)
@@ -67,7 +76,7 @@ namespace ZWavePlugin
             _nodeValue.Current = value;
         }
 
-        public void UserInitializeWith(ValueTypeBase valueType)
+        public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValueTypes)
         {
             var manager = ZWaveManager.Current;
             var parameterSelectView = new NodesValuesComplexView();
@@ -75,10 +84,22 @@ namespace ZWavePlugin
                 manager, 
                 _nodeValue?.Node, 
                 _nodeValue, 
-                (nodeValue) => ZWaveTypeComparability.IsTypesComparable(nodeValue, valueType));
+                (nodeValue) => ZWaveTypeComparability.IsTypesComparable(nodeValue, valueType, inheritsSupportedValueTypes));
             var window = new ZWaveSelectionWindow(manager);
             window.SetPrimaryControl(parameterSelectView);
-            window.ShowDialog();
+            if (window.ShowDialog() ?? false)
+            {
+                if (_nodeValue != null)
+                    _nodeValue.Changed -= NodeValue_Changed;
+                _nodeValue = parameterSelectView.SelectedNodeValue;
+                NodeId = _nodeValue.Node.Id;
+                HomeId = _nodeValue.Node.HomeId;
+                ValueId = _nodeValue.Id;
+                if (_nodeValue != null)
+                    _nodeValue.Changed += NodeValue_Changed;
+                return true;
+            }
+            else return false;
         }
     }
 }

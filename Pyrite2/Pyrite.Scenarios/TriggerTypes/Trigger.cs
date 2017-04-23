@@ -51,7 +51,7 @@ namespace Pyrite.Scenarios.TriggerTypes
 
             //если сценарий это одиночное действие и нельзя подписаться на изменение целевого действия
             //то не выполняем по подписке, а выполняем просто черех цикл 
-            if (scenario is SingleActionScenario && ((SingleActionScenario)scenario).TargetAction.ValueChanged == null)
+            if (scenario is SingleActionScenario && !((SingleActionScenario)scenario).TargetAction.IsSupportsEvent)
                 executeBySubscription = false;
 
             if (executeBySubscription)

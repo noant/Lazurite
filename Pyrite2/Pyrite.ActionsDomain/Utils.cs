@@ -45,10 +45,5 @@ namespace Pyrite.ActionsDomain
             var attr = type.GetCustomAttributes(typeof(SuitableValueTypesAttribute), true).FirstOrDefault() as SuitableValueTypesAttribute;
             return attr != null ? attr.Types.Contains(valueType) : false;
         }
-
-        public static bool IsInhertisValueTypeParams(Type type)
-        {
-            return type.GetCustomAttributes(typeof(InheritsValueTypeParamsAttribute), true).Any();
-        }
     }
 }

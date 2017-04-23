@@ -57,7 +57,10 @@ namespace ZWavePluginUI
         {
             _primary = primary;
             if (_primary is IRefreshable)
+            {
                 ((IRefreshable)_primary).IsDataAllowed = (allowed) => okItem.IsEnabled = allowed;
+                ((IRefreshable)_primary).NeedClose = () => this.Close();
+            }
         }
 
         private void ViewPrimary()
@@ -79,6 +82,16 @@ namespace ZWavePluginUI
                 managerView.InitializeWith(_manager);
                 mainContent.Children.Add(managerView);
             }
+        }
+
+        private void cancelItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
+        }
+
+        private void okItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
         }
     }
 }

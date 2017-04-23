@@ -113,7 +113,7 @@ namespace Pyrite.Tests
             input.SetTargetScenario(testScenario);
 
             var output = new WriteInFileAction();
-            output.UserInitializeWith(input.ValueType);
+            output.UserInitializeWith(input.ValueType, false);
 
             testTrigger.TargetAction = new ComplexAction()
             {
@@ -148,6 +148,14 @@ namespace Pyrite.Tests
 
         public class WriteInFileAction : IAction
         {
+            public bool IsSupportsEvent
+            {
+                get
+                {
+                    return ValueChanged != null;
+                }
+            }
+
             public string Caption
             {
                 get
@@ -161,18 +169,7 @@ namespace Pyrite.Tests
                 }
             }
 
-            public ValueChangedDelegate ValueChanged
-            {
-                get
-                {
-                    return null;
-                }
-
-                set
-                {
-                    //
-                }
-            }
+            public event ValueChangedDelegate ValueChanged;
 
             public ValueTypeBase ValueType
             {
@@ -194,10 +191,11 @@ namespace Pyrite.Tests
             {
                 File.AppendAllText(@"D:\Temporary\triggerTest.txt", value);
             }
-
-            public void UserInitializeWith(ValueTypeBase valueType)
+            
+            public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
             {
                 this.ValueType = valueType;
+                return true;
             }
         }
     }

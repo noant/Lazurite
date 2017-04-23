@@ -22,6 +22,14 @@ namespace Pyrite.CoreActions.CoreActions
             _scenario = scenario;
         }
 
+        public bool IsSupportsEvent
+        {
+            get
+            {
+                return ValueChanged != null;
+            }
+        }
+
         public ScenarioBase GetTargetScenario()
         {
             return _scenario;
@@ -67,10 +75,10 @@ namespace Pyrite.CoreActions.CoreActions
         {
             return new[] { InputValue };
         }
-        
-        public void UserInitializeWith(ValueTypeBase valueType)
+
+        public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            //do nothing
+            return false;
         }
 
         public string GetValue(ExecutionContext context)
@@ -83,6 +91,6 @@ namespace Pyrite.CoreActions.CoreActions
             context.OutputChanged.Execute(InputValue.GetValue(context));
         }
 
-        public ValueChangedDelegate ValueChanged { get; set; }
+        public event ValueChangedDelegate ValueChanged;
     }
 }

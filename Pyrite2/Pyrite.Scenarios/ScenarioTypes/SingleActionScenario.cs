@@ -42,8 +42,8 @@ namespace Pyrite.Scenarios.ScenarioTypes
 
         public override string CalculateCurrentValue()
         {
-            //if action not send some info when falue changed then calculate value
-            if (TargetAction.ValueChanged == null)
+            //if action not send some info when value changed then calculate value
+            if (!TargetAction.IsSupportsEvent)
                 return TargetAction.GetValue(new ExecutionContext(string.Empty, new OutputChangedDelegates(), new CancellationToken()));
             //else - cached value is fresh
             return GetCurrentValue();
@@ -63,12 +63,13 @@ namespace Pyrite.Scenarios.ScenarioTypes
 
         public override void Initialize(ScenariosRepositoryBase repository)
         {
+            TargetAction.Initialize();
             if (this.TargetAction is ICoreAction)
             {
                 ((ICoreAction)TargetAction)
                     .SetTargetScenario(repository.Scenarios.SingleOrDefault(x=>x.Id.Equals(((ICoreAction)TargetAction).TargetScenarioId)));
             }
-            this.TargetAction.ValueChanged = (action, value) => SetCurrentValueInternal(value);
+            this.TargetAction.ValueChanged += (action, value) => SetCurrentValueInternal(value);
         }
 
         public override IAction[] GetAllActionsFlat()

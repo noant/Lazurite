@@ -54,8 +54,12 @@ namespace Pyrite.Scenarios.ScenarioTypes
 
         public override void Initialize(ScenariosRepositoryBase repository)
         {
-            foreach (ICoreAction coreAction in this.TargetAction.GetAllActionsFlat().Where(x => x is ICoreAction))
-                coreAction.SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
+            foreach (var action in this.TargetAction.GetAllActionsFlat())
+            {
+                action.Initialize();
+                var coreAction = action as ICoreAction;
+                coreAction?.SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
+            }
             ExecuteAsync(InitializeWithValue);
         }
 

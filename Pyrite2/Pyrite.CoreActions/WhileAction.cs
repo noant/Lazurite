@@ -45,6 +45,14 @@ namespace Pyrite.CoreActions
             }
         }
 
+        public bool IsSupportsEvent
+        {
+            get
+            {
+                return ValueChanged != null;
+            }
+        }
+
         public IAction[] GetAllActionsFlat()
         {
             return new[] { Action, Action }
@@ -57,10 +65,10 @@ namespace Pyrite.CoreActions
         {
             //
         }
-        
-        public void UserInitializeWith(ValueTypeBase valueType)
+
+        public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            //
+            return false;
         }
 
         public string GetValue(ExecutionContext context)
@@ -78,6 +86,6 @@ namespace Pyrite.CoreActions
             }
         }
 
-        public ValueChangedDelegate ValueChanged { get; set; }
+        public event ValueChangedDelegate ValueChanged;
     }
 }

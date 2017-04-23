@@ -14,7 +14,8 @@ namespace Pyrite.ActionsDomain
         string Caption { get; set; }
         ValueTypeBase ValueType { get; set; }
         void Initialize();
-        void UserInitializeWith(ValueTypeBase valueType);
-        ValueChangedDelegate ValueChanged { get; set; }
+        bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues);
+        event ValueChangedDelegate ValueChanged;
+        bool IsSupportsEvent { get; }
     }
 }

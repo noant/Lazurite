@@ -23,6 +23,14 @@ namespace Pyrite.CoreActions
             CheckerOperations = new List<CheckerOperatorPair>();
         }
 
+        public bool IsSupportsEvent
+        {
+            get
+            {
+                return ValueChanged != null;
+            }
+        }
+
         public string Caption
         {
             get
@@ -84,9 +92,9 @@ namespace Pyrite.CoreActions
             return GetValue(context) == ToggleValueType.ValueON;
         }
 
-        public void UserInitializeWith(ValueTypeBase valueType)
+        public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            //do nothing
+            return false;
         }
 
         public string GetValue(ExecutionContext context)
@@ -122,6 +130,6 @@ namespace Pyrite.CoreActions
             //
         }
 
-        public ValueChangedDelegate ValueChanged { get; set; }
+        public event ValueChangedDelegate ValueChanged;
     }
 }

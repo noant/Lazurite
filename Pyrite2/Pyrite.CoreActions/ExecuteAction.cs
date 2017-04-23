@@ -34,7 +34,15 @@ namespace Pyrite.CoreActions
                 //
             }
         }
-        
+
+        public bool IsSupportsEvent
+        {
+            get
+            {
+                return ValueChanged != null;
+            }
+        }
+
         private ButtonValueType _valueType = new ButtonValueType();
         public ValueTypeBase ValueType
         {
@@ -63,9 +71,9 @@ namespace Pyrite.CoreActions
             //do nothing
         }
 
-        public void UserInitializeWith(ValueTypeBase valueType)
+        public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            //do nothing
+            return false;
         }
 
         public string GetValue(ExecutionContext context)
@@ -75,7 +83,7 @@ namespace Pyrite.CoreActions
 
         public void SetValue(ExecutionContext context, string value)
         {
-            Action.SetValue(context, InputValue != null ? InputValue.GetValue(context) : string.Empty);
+            Action.SetValue(context, InputValue?.GetValue(context));
         }
 
         private IAction _action;
@@ -106,6 +114,6 @@ namespace Pyrite.CoreActions
             }
         }
 
-        public ValueChangedDelegate ValueChanged { get; set; }
+        public event ValueChangedDelegate ValueChanged;
     }
 }

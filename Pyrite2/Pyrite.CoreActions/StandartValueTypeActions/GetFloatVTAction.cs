@@ -11,7 +11,6 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
 {
     [OnlyGetValue]
     [VisualInitialization]
-    [InheritsValueTypeParams]
     [SuitableValueTypes(typeof(FloatValueType))]
     public class GetFloatVTAction : IAction
     {
@@ -46,14 +45,22 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
             }
         }
 
+        public bool IsSupportsEvent
+        {
+            get
+            {
+                return ValueChanged != null;
+            }
+        }
+
         public void Initialize()
         {
             //
         }
-        
-        public void UserInitializeWith(ValueTypeBase valueType)
+
+        public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            //
+            return false;
         }
 
         public string GetValue(ExecutionContext context)
@@ -66,6 +73,6 @@ namespace Pyrite.CoreActions.StandartValueTypeActions
             Value = value;
         }
 
-        public ValueChangedDelegate ValueChanged { get; set; }
+        public event ValueChangedDelegate ValueChanged;
     }
 }

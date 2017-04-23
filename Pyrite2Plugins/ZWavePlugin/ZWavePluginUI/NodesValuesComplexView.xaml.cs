@@ -60,6 +60,12 @@ namespace ZWavePluginUI
             set;
         }
 
+        public Action NeedClose
+        {
+            get;
+            set;
+        }
+
         public event RoutedEventHandler SelectionChanged;
         private Func<NodeValue, bool> _nodeValueFilter;
     }

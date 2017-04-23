@@ -100,6 +100,14 @@ namespace Pyrite.Tests
 
         public class WaitAction : IAction
         {
+            public bool IsSupportsEvent
+            {
+                get
+                {
+                    return ValueChanged != null;
+                }
+            }
+
             public string Caption
             {
                 get
@@ -140,15 +148,23 @@ namespace Pyrite.Tests
                 Thread.Sleep(8000);
             }
 
-            public void UserInitializeWith(ValueTypeBase valueType)
+            public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
             {
-                //
+                return true;
             }
 
-            public ValueChangedDelegate ValueChanged { get; set; }
+            public event ValueChangedDelegate ValueChanged;
         }
         public class GetCurrentDateTimeAction: IAction
         {
+            public bool IsSupportsEvent
+            {
+                get
+                {
+                    return ValueChanged != null;
+                }
+            }
+
             public string Caption
             {
                 get
@@ -189,15 +205,23 @@ namespace Pyrite.Tests
                 //
             }
 
-            public void UserInitializeWith(ValueTypeBase valueType)
+            public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
             {
-                //
+                return true;
             }
 
-            public ValueChangedDelegate ValueChanged { get; set; }
+            public event ValueChangedDelegate ValueChanged;
         }
         public class WriteDataAction : IAction
         {
+            public bool IsSupportsEvent
+            {
+                get
+                {
+                    return ValueChanged != null;
+                }
+            }
+
             public string Caption
             {
                 get
@@ -239,15 +263,23 @@ namespace Pyrite.Tests
                 Debug.WriteLine(value);
             }
 
-            public void UserInitializeWith(ValueTypeBase valueType)
+            public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
             {
-                //
+                return false;
             }
 
-            public ValueChangedDelegate ValueChanged { get; set; }
+            public event ValueChangedDelegate ValueChanged;
         }
         public class AlwaysOnAction : IAction
         {
+            public bool IsSupportsEvent
+            {
+                get
+                {
+                    return ValueChanged != null;
+                }
+            }
+
             public string Caption
             {
                 get
@@ -289,12 +321,12 @@ namespace Pyrite.Tests
                 //
             }
 
-            public void UserInitializeWith(ValueTypeBase valueType)
+            public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
             {
-                //
+                return true;
             }
 
-            public ValueChangedDelegate ValueChanged { get; set; }
+            public event ValueChangedDelegate ValueChanged;
         }
     }
 }

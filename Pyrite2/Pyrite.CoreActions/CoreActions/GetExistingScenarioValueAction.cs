@@ -21,9 +21,17 @@ namespace Pyrite.CoreActions.CoreActions
             get; set;
         }
 
+        public bool IsSupportsEvent
+        {
+            get
+            {
+                return ValueChanged != null;
+            }
+        }
+
         private ScenarioBase _scenario;
 
-        public ValueChangedDelegate ValueChanged { get; set; }
+        public event ValueChangedDelegate ValueChanged;
 
         public void SetTargetScenario(ScenarioBase scenario)
         {
@@ -63,10 +71,10 @@ namespace Pyrite.CoreActions.CoreActions
         {
             //do nothing
         }
-        
-        public void UserInitializeWith(ValueTypeBase valueType)
+
+        public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            //do nothing
+            return false;
         }
 
         public string GetValue(ExecutionContext context)

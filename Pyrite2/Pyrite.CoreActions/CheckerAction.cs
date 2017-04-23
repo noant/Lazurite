@@ -55,6 +55,14 @@ namespace Pyrite.CoreActions
             }
         }
 
+        public bool IsSupportsEvent
+        {
+            get
+            {
+                return ValueChanged != null;
+            }
+        }
+
         public IAction[] GetAllActionsFlat()
         {
             return new[] { TargetAction1, TargetAction2 };
@@ -63,11 +71,11 @@ namespace Pyrite.CoreActions
         public void Initialize()
         {
             //do nothing
-        }        
+        }
 
-        public void UserInitializeWith(ValueTypeBase valueType)
+        public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            //do nothing
+            return false;
         }
 
         public bool Evaluate(ExecutionContext context)
@@ -75,6 +83,6 @@ namespace Pyrite.CoreActions
             return GetValue(context) == ToggleValueType.ValueON;
         }
 
-        public ValueChangedDelegate ValueChanged { get; set; }
+        public event ValueChangedDelegate ValueChanged;
     }
 }

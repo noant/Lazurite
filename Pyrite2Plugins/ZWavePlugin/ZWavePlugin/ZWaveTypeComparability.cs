@@ -30,10 +30,12 @@ namespace ZWavePlugin
             return typeof(ValueTypeBase);
         }
 
-        public static bool IsTypesComparable(NodeValue nodeValue, ValueTypeBase valueType)
+        public static bool IsTypesComparable(NodeValue nodeValue, ValueTypeBase valueType, bool inheritsStates)
         {
+            if (valueType.GetType().Equals(typeof(ValueTypeBase)))
+                return true;
             if (valueType is StateValueType && nodeValue.ValueType == OpenZWrapper.ValueType.List &&
-                nodeValue.PossibleValues.OrderBy(x => x).SequenceEqual(((StateValueType)valueType).AcceptedValues.OrderBy(x => x)))
+                (nodeValue.PossibleValues.OrderBy(x => x).SequenceEqual(((StateValueType)valueType).AcceptedValues.OrderBy(x => x)) || !inheritsStates))
                 return true;
             if (GetTypeBy(nodeValue.ValueType).Equals(valueType.GetType()) && nodeValue.ValueType != OpenZWrapper.ValueType.List)
                 return true;

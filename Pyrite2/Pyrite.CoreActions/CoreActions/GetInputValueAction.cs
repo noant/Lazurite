@@ -28,6 +28,14 @@ namespace Pyrite.CoreActions.CoreActions
             }
         }
 
+        public bool IsSupportsEvent
+        {
+            get
+            {
+                return ValueChanged != null;
+            }
+        }
+
         public string TargetScenarioId
         {
             get; set;
@@ -72,11 +80,11 @@ namespace Pyrite.CoreActions.CoreActions
             //
         }
 
-        public void UserInitializeWith(ValueTypeBase valueType)
+        public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            //
+            return false;
         }
 
-        public ValueChangedDelegate ValueChanged { get; set; }
+        public event ValueChangedDelegate ValueChanged;
     }
 }
