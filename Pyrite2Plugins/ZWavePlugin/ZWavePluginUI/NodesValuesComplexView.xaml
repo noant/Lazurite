@@ -12,17 +12,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="50"></RowDefinition>
-        </Grid.RowDefinitions>
         <local:NodesListView Grid.Column="0" x:Name="nodesListView"></local:NodesListView>
         <local:NodeValuesListView Grid.Column="1" x:Name="valuesListView"></local:NodeValuesListView>
-        <Grid Grid.Row="1" Grid.Column="1">
-            <StackPanel Margin="0,0,0,7" Orientation="Horizontal" HorizontalAlignment="Right">
-                <controls:ItemView Name="okItem" Click="OkClick" Icon="Check" Width="180" Selectable="False">Применить</controls:ItemView>
-                <controls:ItemView Name="cancelItem" Click="CancelClick" Icon="Cancel" Width="180" Margin="10,0,10,0" Selectable="False">Отмена</controls:ItemView>
-            </StackPanel>
-        </Grid>
     </Grid>
 </UserControl>

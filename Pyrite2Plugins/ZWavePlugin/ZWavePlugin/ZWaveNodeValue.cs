@@ -6,9 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Pyrite.ActionsDomain.ValueTypes;
 using OpenZWrapper;
+using Pyrite.ActionsDomain.Attributes;
+using ZWavePluginUI;
 
 namespace ZWavePlugin
 {
+    [HumanFriendlyName("Параметр ZWave устройства")]
+    [SuitableValueTypes(
+        typeof(StateValueType), typeof(InfoValueType), typeof(FloatValueType), 
+        typeof(ButtonValueType), typeof(ToggleValueType))]
     public class ZWaveNodeValue : IAction
     {
         public byte NodeId { get; set; }
@@ -63,7 +69,16 @@ namespace ZWavePlugin
 
         public void UserInitializeWith(ValueTypeBase valueType)
         {
-            throw new NotImplementedException();
+            var manager = ZWaveManager.Current;
+            var parameterSelectView = new NodesValuesComplexView();
+            parameterSelectView.InitializeWith(
+                manager, 
+                _nodeValue?.Node, 
+                _nodeValue, 
+                (nodeValue) => ZWaveTypeComparability.IsTypesComparable(nodeValue, valueType));
+            var window = new ZWaveSelectionWindow(manager);
+            window.SetPrimaryControl(parameterSelectView);
+            window.ShowDialog();
         }
     }
 }

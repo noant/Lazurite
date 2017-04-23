@@ -24,17 +24,10 @@ namespace ZWavePluginUI
         public TestWindow()
         {
             InitializeComponent();
-
-            this.Loaded += TestWindow_Loaded;
         }
 
         private void TestWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var manager = new ZWaveManager();
-            manager.WaitForInitialized();
-            
-            ctrl.InitializeWith(manager);
-            ctrl2.InitializeWith(manager);
         }
     }
 }

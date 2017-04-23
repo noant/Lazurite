@@ -14,6 +14,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,6 +36,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\..\Releases\MaterialForPlugins\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Polenter.SharpSerializer, Version=2.20.0.0, Culture=neutral, PublicKeyToken=8f4f20011571ee5f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Libs\Polenter.SharpSerializer.dll</HintPath>
+    </Reference>
     <Reference Include="PyriteUI.Controls">
       <HintPath>..\..\..\Releases\MaterialForPlugins\PyriteUI.Controls.exe</HintPath>
     </Reference>
@@ -67,8 +75,9 @@
     <Compile Include="ControllerView.xaml.cs">
       <DependentUpon>ControllerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NodeValueSelectWindow.xaml.cs">
-      <DependentUpon>NodeValueSelectWindow.xaml</DependentUpon>
+    <Compile Include="IRefreshable.cs" />
+    <Compile Include="ZWaveSelectionWindow.xaml.cs">
+      <DependentUpon>ZWaveSelectionWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="ControllersManagerView.xaml">
       <SubType>Designer</SubType>
@@ -124,7 +133,7 @@
     <Compile Include="TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="NodeValueSelectWindow.xaml">
+    <Page Include="ZWaveSelectionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

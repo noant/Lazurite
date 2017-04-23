@@ -14,7 +14,7 @@ namespace OpenZWrapper
     public class ZWaveManager
     {
         private readonly string _controllersInfoPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "controllers.xml");
-
+        
         private CallbacksPool _callbacksPool = new CallbacksPool();
 
         private ZWManager _manager;
@@ -22,7 +22,11 @@ namespace OpenZWrapper
         private List<Controller> _controllers = new List<Controller>();
         private List<Node> _nodes = new List<Node>();
 
-        public event Action<object, ManagerInitializedEventArgs> ManagerInitialized;
+        public ManagerInitializedCallbacksPool ManagerInitializedCallbacksPool
+        {
+            get;
+            private set;
+        } = new ManagerInitializedCallbacksPool();
 
         public bool Initialized { get; private set; } = false;
 
@@ -253,9 +257,7 @@ namespace OpenZWrapper
                             if (!_controllers.Any())
                             {
                                 Initialized = false;
-                                ManagerInitialized?.Invoke(this, new ManagerInitializedEventArgs() {
-                                    Manager = this                                        
-                                });
+                                ManagerInitializedCallbacksPool.ExecuteAll(this);
                             }
                             _callbacksPool.Dequeue(false, 
                                 nameof(AddController), 
@@ -276,10 +278,7 @@ namespace OpenZWrapper
                             _nodes.Where(x => !x.Initialized).All(x => x.Failed = true);
                             _manager.WriteConfig(notification.GetHomeId());
                             this.Initialized = true;
-                            ManagerInitialized?.Invoke(this, new ManagerInitializedEventArgs()
-                            {
-                                Manager = this
-                            });
+                            ManagerInitializedCallbacksPool.ExecuteAll(this);
                         }
                         break;
                     case ZWNotification.Type.NodeAdded:
@@ -294,6 +293,7 @@ namespace OpenZWrapper
                                 nameof(AddNewSecureDevice));
                         }
                         break;
+                    case ZWNotification.Type.EssentialNodeQueriesComplete:
                     case ZWNotification.Type.NodeQueriesComplete:
                         {
                             node.Initialized = true;
@@ -356,10 +356,7 @@ namespace OpenZWrapper
             if (!hasAnyControllers)
             {
                 Initialized = true;
-                ManagerInitialized?.Invoke(this, new ManagerInitializedEventArgs()
-                {
-                    Manager = this
-                });
+                ManagerInitializedCallbacksPool.ExecuteAll(this);
             }
         }
 

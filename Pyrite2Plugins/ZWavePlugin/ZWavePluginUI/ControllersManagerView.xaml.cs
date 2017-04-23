@@ -38,15 +38,15 @@ namespace ZWavePluginUI
             if (!_manager.Initialized)
             {
                 var messageView = new MessageView();
-                Action<object, ManagerInitializedEventArgs> managerInitialized = null;
-                managerInitialized = new Action<object, ManagerInitializedEventArgs>((sender, args) => {
-                    this.Dispatcher.BeginInvoke(new Action(() => {
-                        messageView.Close();
-                        RefreshControllersList();
-                    }));
-                    _manager.ManagerInitialized -= managerInitialized;
+                _manager.ManagerInitializedCallbacksPool.Add(new ManagerInitializedCallback() {
+                    Callback = (sender, args) =>
+                        this.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            messageView.Close();
+                            RefreshControllersList();
+                        })),
+                    RemoveAfterInvoke = true
                 });
-                _manager.ManagerInitialized += managerInitialized;
                 messageView.Icon = Icon.Hourglass;
                 messageView.HeaderText = "Загрузка...";
                 messageView.ContentText = "Инициализация менеджера контроллеров...";

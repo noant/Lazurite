@@ -27,9 +27,7 @@ namespace ZWavePluginUI
             InitializeComponent();
 
             this.SelectionChanged += (o, e) => {
-
                 tbDescription.Text = "";
-
                 if (SelectedNodeValue != null)
                 {
                     var description =
@@ -55,16 +53,20 @@ namespace ZWavePluginUI
         private ValueGenre _selectedGenre;
         public event RoutedEventHandler SelectionChanged;
         public NodeValue SelectedNodeValue { get; private set; }
+        private Func<NodeValue, bool> _nodeValueFilter;
 
-        public void InitializeWith(Node node, NodeValue selectedValue=null)
+        public void InitializeWith(Node node, NodeValue selectedValue=null, Func<NodeValue, bool> nodeValueFilter = null)
         {
+            _nodeValueFilter = nodeValueFilter;
             _node = node;
             SelectedNodeValue = selectedValue;
 
             if (SelectedNodeValue != null)
+            {
                 _selectedGenre = SelectedNodeValue.Genre;
-            
-            genreList.GetItems()[(int)_selectedGenre].Selected = true;
+                genreList.GetItems()[(int)_selectedGenre].Selected = true;
+            }
+
             RefreshValues();
         }
         
@@ -79,7 +81,8 @@ namespace ZWavePluginUI
                 foreach (var value in _node.Values.Where(x => x.Genre == _selectedGenre))
                 {
                     var nodeValueView = new NodeValueView(value);
-                    if (value.Equals(SelectedNodeValue))
+                    nodeValueView.IsEnabled = _nodeValueFilter == null || _nodeValueFilter(value);
+                    if (value.Equals(SelectedNodeValue) && nodeValueView.IsEnabled)
                         nodeValueView.Selected = true;
                     nodeValueView.Click += (o, e) =>
                     {

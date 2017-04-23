@@ -9,49 +9,46 @@ namespace Pyrite.ActionsDomain
     {
         public static string ExtractHumanFriendlyName(Type type)
         {
-            var attr = type.GetTypeInfo().GetCustomAttribute<HumanFriendlyNameAttribute>();
-            if (attr == null)
-                return string.Empty;
-            return attr.Value;
+            return 
+                (type.GetCustomAttributes(typeof(HumanFriendlyNameAttribute), true).FirstOrDefault() as HumanFriendlyNameAttribute)?.Value;
         }
 
         public static string ExtractHumanFrindlyName(Type type, string memberName)
         {
             var memberInfo = 
-                type.GetRuntimeProperty(memberName) as MemberInfo ??
-                type.GetRuntimeMethod(memberName, new Type[0]) as MemberInfo ??
-                type.GetRuntimeField(memberName) as MemberInfo ??
-                type.GetRuntimeEvent(memberName) as MemberInfo;
+                type.GetProperty(memberName) as MemberInfo ??
+                type.GetMethod(memberName, new Type[0]) as MemberInfo ??
+                type.GetField(memberName) as MemberInfo ??
+                type.GetEvent(memberName) as MemberInfo;
 
-            var attr = memberInfo.GetCustomAttribute<HumanFriendlyNameAttribute>();
-            if (attr == null)
-                return string.Empty;
-            return attr.Value;
+            return
+                (memberInfo.GetCustomAttributes(typeof(HumanFriendlyNameAttribute), true).FirstOrDefault() as HumanFriendlyNameAttribute)?.Value;
         }
 
         public static bool IsOnlyExecute(Type type)
         {
-            return type.GetTypeInfo().GetCustomAttribute<OnlyExecuteAttribute>() != null;
+            return type.GetCustomAttributes(typeof(OnlyExecuteAttribute), true).Any();
         }
 
         public static bool IsOnlyGetValue(Type type)
         {
-            return type.GetTypeInfo().GetCustomAttribute<OnlyGetValueAttribute>() != null;
+            return type.GetCustomAttributes(typeof(OnlyGetValueAttribute), true).Any();
         }
 
         public static bool IsCoreVisualInitialization(Type type)
         {
-            return type.GetTypeInfo().GetCustomAttribute<VisualInitializationAttribute>() != null;
+            return type.GetCustomAttributes(typeof(VisualInitializationAttribute), true).Any();
         }
 
         public static bool IsComparableWithValueType(Type type, Type valueType)
         {
-            return type.GetTypeInfo().GetCustomAttribute<SuitableValueTypesAttribute>().Types.Contains(valueType);
+            var attr = type.GetCustomAttributes(typeof(SuitableValueTypesAttribute), true).FirstOrDefault() as SuitableValueTypesAttribute;
+            return attr != null ? attr.Types.Contains(valueType) : false;
         }
 
         public static bool IsInhertisValueTypeParams(Type type)
         {
-            return type.GetTypeInfo().GetCustomAttribute<InheritsValueTypeParamsAttribute>() != null;
+            return type.GetCustomAttributes(typeof(InheritsValueTypeParamsAttribute), true).Any();
         }
     }
 }

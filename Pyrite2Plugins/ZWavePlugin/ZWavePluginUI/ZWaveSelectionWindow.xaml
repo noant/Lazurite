@@ -1,0 +1,28 @@
+﻿<Window x:Class="ZWavePluginUI.ZWaveSelectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZWavePluginUI"
+        WindowState="Maximized"
+        mc:Ignorable="d"
+        WindowStyle="SingleBorderWindow"
+        xmlns:controls="clr-namespace:PyriteUI.Controls;assembly=PyriteUI.Controls"
+        Title="Z-Wave" Height="300" Width="1000">
+    <Grid Background="DarkSlateGray">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Name="mainContent" Grid.Row="0"></Grid>
+        <Grid Name="crutchGrid" Grid.Row="0" Grid.RowSpan="2"></Grid>
+        <controls:ListItemsView x:Name="listViewModes" SelectionChanged="ListItemsView_SelectionChanged" Grid.Row="1" Margin="5" Orientation="Horizontal" SelectionMode="Single">
+            <controls:ItemView Icon="ListCheck" Margin="10,0,10,0" Width="220" x:Name="itemViewPrimary">Выбор параметра</controls:ItemView>
+            <controls:ItemView Icon="Settings" Width="220" x:Name="itemViewController">Настройки контроллеров</controls:ItemView>
+        </controls:ListItemsView>
+        <controls:ListItemsView Grid.Row="1" HorizontalAlignment="Right" Margin="5" Orientation="Horizontal" SelectionMode="Single">
+            <controls:ItemView Background="#003355" x:Name="okItem" Icon="Check" Width="180" Selectable="False">Применить</controls:ItemView>
+            <controls:ItemView x:Name="cancelItem" Icon="Cancel" Width="180" Margin="10,0,10,0" Selectable="False">Отмена</controls:ItemView>
+        </controls:ListItemsView>
+    </Grid>
+</Window>

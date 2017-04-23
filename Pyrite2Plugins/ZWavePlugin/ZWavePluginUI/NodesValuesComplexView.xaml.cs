@@ -19,41 +19,48 @@ namespace ZWavePluginUI
     /// <summary>
     /// Логика взаимодействия для NodesValuesComplexView.xaml
     /// </summary>
-    public partial class NodesValuesComplexView : UserControl
+    public partial class NodesValuesComplexView : UserControl, IRefreshable
     {
         public NodesValuesComplexView()
         {
             InitializeComponent();
-            okItem.IsEnabled = false;
-            nodesListView.SelectedNodeChanged += (o, e) => valuesListView.InitializeWith(nodesListView.SelectedNode);
+            nodesListView.SelectedNodeChanged += (o, e) =>
+                valuesListView.InitializeWith(nodesListView.SelectedNode, null, _nodeValueFilter);
             valuesListView.SelectionChanged += (o, e) =>
             {
                 SelectedNodeValue = valuesListView.SelectedNodeValue;
                 SelectionChanged?.Invoke(this, new RoutedEventArgs());
-
-                okItem.IsEnabled = SelectedNodeValue != null;
+                IsDataAllowed?.Invoke(SelectedNodeValue != null);
             };
         }
 
-        public void InitializeWith(ZWaveManager manager, Node selectedNode=null, NodeValue selectedNodeValue=null)
+        public void InitializeWith(ZWaveManager manager, Node selectedNode=null, NodeValue selectedNodeValue=null, Func<NodeValue, bool> nodeValueFilter=null)
         {
-            nodesListView.InitializeWith(manager, selectedNode);
-            valuesListView.InitializeWith(selectedNode, selectedNodeValue);
+            _nodeValueFilter = nodeValueFilter;
+            _manager = manager;
+            SelectedNode = selectedNode;
+            SelectedNodeValue = selectedNodeValue;
+            Refresh();
         }
-
-        private void OkClick(object sender, RoutedEventArgs e)
+        
+        public void Refresh()
         {
-            OkClicked?.Invoke(this, new RoutedEventArgs());
-        }
-
-        private void CancelClick(object sender, RoutedEventArgs e)
-        {
-            CancelClicked?.Invoke(this, new RoutedEventArgs());
+            nodesListView.InitializeWith(_manager, SelectedNode);
+            valuesListView.InitializeWith(SelectedNode, SelectedNodeValue, _nodeValueFilter);
+            IsDataAllowed?.Invoke(false);
         }
 
         public NodeValue SelectedNodeValue { get; private set; }
+        public Node SelectedNode { get; private set; }
+        private ZWaveManager _manager;
+
+        public Action<bool> IsDataAllowed
+        {
+            get;
+            set;
+        }
+
         public event RoutedEventHandler SelectionChanged;
-        public event RoutedEventHandler OkClicked;
-        public event RoutedEventHandler CancelClicked;
+        private Func<NodeValue, bool> _nodeValueFilter;
     }
 }

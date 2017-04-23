@@ -11,6 +11,7 @@
     <AssemblyName>OpenZWrapper</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -71,6 +72,8 @@
     <Compile Include="CallbacksPool.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="ManagerInitializedCallback.cs" />
+    <Compile Include="ManagerInitializedCallbacksPool.cs" />
     <Compile Include="ManagerInitializedEventArgs.cs" />
     <Compile Include="ValueGenre.cs" />
     <Compile Include="ValueType.cs" />

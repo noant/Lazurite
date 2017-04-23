@@ -14,8 +14,8 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <controls:CaptionView Grid.ColumnSpan="2" Name="captionView" Icon="ListGear">Параметры узла</controls:CaptionView>
         <controls:ListItemsView HorizontalAlignment="Left" Grid.Row="1" x:Name="genreList" Orientation="Horizontal" SelectionMode="Single">
@@ -25,16 +25,16 @@
             <controls:ItemView Background="Transparent" SelectionChanged="ConfigGenreSelectionChanged" Height="40" IconVisibility="Collapsed">Конфигурационные</controls:ItemView>
         </controls:ListItemsView>
         <controls:WheelScroll Grid.Row="2">
-            <controls:ListItemsView SelectionMode="Single" Name="listItems" x:FieldModifier="private"></controls:ListItemsView>            
+            <controls:ListItemsView SelectionMode="Single" Name="listItems" x:FieldModifier="private"></controls:ListItemsView>
         </controls:WheelScroll>
-        <controls:WheelScroll Grid.Row="2" Grid.Column="1">
-            <TextBlock Name="tbDescription" 
+        <TextBlock Name="tbDescription"
+                   Grid.Row="2"
+                    Grid.Column="1"
                    TextWrapping="Wrap"
                    Foreground="{x:Static controls:Visual.Foreground}"
                    FontFamily="{x:Static controls:Visual.FontFamily}"
                    FontSize="14" 
                    Margin="14"
                    FontWeight="{x:Static controls:Visual.FontWeight}"></TextBlock>
-        </controls:WheelScroll>
     </Grid>
 </UserControl>

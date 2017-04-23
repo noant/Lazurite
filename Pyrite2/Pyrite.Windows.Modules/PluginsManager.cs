@@ -21,6 +21,10 @@ namespace Pyrite.Windows.Modules
 
         public PluginsManager()
         {
+            //resolve plugin types
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
+
             _baseDir = 
                 Path.Combine(
                     Path.GetDirectoryName(
@@ -110,24 +114,39 @@ namespace Pyrite.Windows.Modules
                 Directory.Delete(_tmpDir, true);
                 Directory.CreateDirectory(_tmpDir);
             });
+        }
 
-            //resolve plugin types
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+        private Assembly CurrentDomain_TypeResolve(object sender, ResolveEventArgs args)
+        {
+            if (_catchedTypes.ContainsKey(args.Name))
+                return _catchedTypes[args.Name].Assembly;
+            throw new DllNotFoundException("type not found: " + args.Name);
+        }
+
+        private void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
+        {
+            if (!_catchedAssemblies.ContainsKey(args.LoadedAssembly.FullName))
+                _catchedAssemblies.Add(args.LoadedAssembly.FullName, args.LoadedAssembly);
         }
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
+            if (_catchedAssemblies.ContainsKey(args.Name))
+                return _catchedAssemblies[args.Name];
             var pluginTypeInfo = _allTypes.FirstOrDefault(x => x.Assembly.FullName.Equals(args.Name));
             if (pluginTypeInfo != null)
                 return pluginTypeInfo.Assembly;
-            else throw new DllNotFoundException("Cannot find type " + args.Name);
+            else throw new DllNotFoundException("Cannot resolve assembly: " + args.Name);
         }
         
         public void Dispose()
         {
             AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
+            AppDomain.CurrentDomain.AssemblyLoad -= CurrentDomain_AssemblyLoad;
         }
 
+        private Dictionary<string, Type> _catchedTypes = new Dictionary<string, Type>();
+        private Dictionary<string, Assembly> _catchedAssemblies = new Dictionary<string, Assembly>();
         private readonly string _saviorKey = "modulesManager";
         private readonly string _saviorKey_removePlugins = "modulesManager_removeLibs";
         private string _baseDir;

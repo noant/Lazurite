@@ -1,5 +1,6 @@
 ﻿using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
+using Pyrite.ActionsDomain;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,30 +20,48 @@ namespace Pyrite.Windows.Modules
             var result = new List<AssemblyTargetTypes>();
             var allFiles = Directory.GetFiles(directory);
             var allDirs = Directory.GetDirectories(directory);
+            var currentAssembly = Assembly.GetAssembly(typeof(Utils));
+            var currentAssemblyFileName = Path.GetFileName(currentAssembly.Location);
+            var searchingAssignableTypeAssembly = type.Assembly;
+            var searchingAssignableAssemblyIgnore = Path.GetFileName(searchingAssignableTypeAssembly.Location);
+            DoWithFiles(directory,
+                (filePath) => {
+                    try
+                    {
+                        var fileName = Path.GetFileName(filePath);
+                        if (fileName != currentAssemblyFileName && fileName != searchingAssignableAssemblyIgnore)
+                        {
+                            var assembly = LoadAssembly(filePath);
+                            var types = assembly.GetTypes().Where(x => type.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract).ToArray();
+                            if (types.Any())
+                                result.Add(new AssemblyTargetTypes()
+                                {
+                                    Assembly = assembly,
+                                    Types = types
+                                });
+                        }
+                    }
+                    catch
+                    {
+                        //do nothing; file is not C# library or broken
+                    }
+                });
+
+            return result.ToArray();
+        }
+
+        public static void DoWithFiles(string directory, Action<string> action)
+        {
+            var allFiles = Directory.GetFiles(directory);
+            var allDirs = Directory.GetDirectories(directory);
             foreach (var file in allFiles)
             {
-                try
-                {
-                    var assembly = LoadAssembly(file);
-                    var types = assembly.DefinedTypes.Where(x => type.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract).ToArray();
-                    if (types.Any())
-                        result.Add(new AssemblyTargetTypes()
-                        {
-                            Assembly = assembly,
-                            Types = types
-                        });
-                }
-                catch
-                {
-                    //do nothing; file is not C# library or broken
-                }
+                action(file);
             }
             foreach (var dir in allDirs)
             {
-                result.AddRange(GetAssembliesWithType(type, dir));
+                DoWithFiles(dir, action);
             }
-
-            return result.ToArray();
         }
 
         public static void CreatePackage(string folder, string outerFile)
