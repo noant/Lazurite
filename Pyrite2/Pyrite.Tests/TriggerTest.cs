@@ -51,8 +51,8 @@ namespace Pyrite.Tests
                         Checker = new CheckerAction()
                         {
                             ComparisonType = new EqualityComparisonType(),
-                            TargetAction2 = new AlwaysOnAction(),
-                            TargetAction1 = new AlwaysOnAction()
+                            TargetAction2 = new ToggleConstAction(),
+                            TargetAction1 = new ToggleConstAction()
                         }
                     }
                 },

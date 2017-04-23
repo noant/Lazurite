@@ -87,6 +87,7 @@
     <Compile Include="ServiceTest.cs" />
     <Compile Include="TriggerTest.cs" />
     <Compile Include="TriggerTest2.cs" />
+    <Compile Include="TriggerTest3.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pyrite.ActionsDomain\Pyrite.ActionsDomain.csproj">

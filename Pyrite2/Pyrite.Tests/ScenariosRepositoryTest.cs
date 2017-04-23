@@ -70,8 +70,8 @@ namespace Pyrite.Tests
                                     Checker = new CheckerAction()
                                     {
                                         ComparisonType = new EqualityComparisonType(),
-                                        TargetAction1 = new AlwaysOnAction(),
-                                        TargetAction2 = new AlwaysOnAction()
+                                        TargetAction1 = new ToggleConstAction(),
+                                        TargetAction2 = new ToggleConstAction()
                                     }
                                 }
                             }
@@ -270,8 +270,19 @@ namespace Pyrite.Tests
 
             public event ValueChangedDelegate ValueChanged;
         }
-        public class AlwaysOnAction : IAction
+        public class ToggleConstAction : IAction
         {
+            public bool On { get; set; }
+            public ToggleConstAction(bool on)
+            {
+                On = on;
+            }
+
+            public ToggleConstAction()
+            {
+                On = true;
+            }
+
             public bool IsSupportsEvent
             {
                 get
@@ -308,7 +319,7 @@ namespace Pyrite.Tests
 
             public string GetValue(ActionsDomain.ExecutionContext context)
             {
-                return ToggleValueType.ValueON;
+                return On ? ToggleValueType.ValueON : ToggleValueType.ValueOFF;
             }
 
             public void Initialize()

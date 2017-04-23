@@ -53,7 +53,14 @@ namespace ZWavePlugin
 
         public string GetValue(ExecutionContext context)
         {
-            return _nodeValue?.Current.ToString();
+            if (_nodeValue != null)
+            {
+                if (_nodeValue.Current is bool)
+                    return (bool)_nodeValue.Current ? ToggleValueType.ValueON : ToggleValueType.ValueOFF;
+                else
+                    return (string)_nodeValue.Current;
+            }
+            return string.Empty;
         }
 
         public void Initialize()
@@ -73,7 +80,17 @@ namespace ZWavePlugin
 
         public void SetValue(ExecutionContext context, string value)
         {
-            _nodeValue.Current = value;
+            if (_nodeValue.ValueType == OpenZWrapper.ValueType.Bool)
+                _nodeValue.Current = value == ToggleValueType.ValueON;
+            else if (_nodeValue.ValueType == OpenZWrapper.ValueType.Byte)
+                _nodeValue.Current = byte.Parse(value);
+            else if (_nodeValue.ValueType == OpenZWrapper.ValueType.Decimal)
+                _nodeValue.Current = decimal.Parse(value);
+            else if (_nodeValue.ValueType == OpenZWrapper.ValueType.Int)
+                _nodeValue.Current = int.Parse(value);
+            else if (_nodeValue.ValueType == OpenZWrapper.ValueType.Short)
+                _nodeValue.Current = short.Parse(value);
+            else _nodeValue.Current = value;
         }
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValueTypes)

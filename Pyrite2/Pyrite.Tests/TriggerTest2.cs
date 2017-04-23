@@ -46,7 +46,7 @@ namespace Pyrite.Tests
             trigger.TargetAction = new ExecuteAction()
             {
                 Action = new WriteDebugAction(),
-                InputValue = new AlwaysOnAction()
+                InputValue = new ToggleConstAction()
             };
             trigger.Enabled = true;
             rep.AddTrigger(trigger);

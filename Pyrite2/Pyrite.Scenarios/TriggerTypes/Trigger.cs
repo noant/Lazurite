@@ -31,6 +31,8 @@ namespace Pyrite.Scenarios.TriggerTypes
 
         public override void Initialize(ScenariosRepositoryBase scenariosRepository)
         {
+            foreach (var action in GetAllActionsFlat())
+                action.Initialize();
             SetScenario(scenariosRepository.Scenarios.Single(x=>x.Id.Equals(this.TargetScenarioId)));
             if (Enabled)
                 Run();

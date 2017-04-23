@@ -63,12 +63,12 @@ namespace Pyrite.Scenarios.ScenarioTypes
 
         public override void Initialize(ScenariosRepositoryBase repository)
         {
-            TargetAction.Initialize();
             if (this.TargetAction is ICoreAction)
             {
                 ((ICoreAction)TargetAction)
                     .SetTargetScenario(repository.Scenarios.SingleOrDefault(x=>x.Id.Equals(((ICoreAction)TargetAction).TargetScenarioId)));
             }
+            TargetAction.Initialize();
             this.TargetAction.ValueChanged += (action, value) => SetCurrentValueInternal(value);
         }
 

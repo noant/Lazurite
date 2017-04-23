@@ -36,7 +36,7 @@ namespace Pyrite.Windows.Modules
                     Path.GetDirectoryName(
                         Utils.GetAssemblyPath(
                             Assembly.GetExecutingAssembly())),
-                    "plugins");
+                    "tmp_plugins");
 
             _exceptionsHandler.Handle(this, () => {
                 if (!Directory.Exists(_baseDir))
@@ -111,18 +111,12 @@ namespace Pyrite.Windows.Modules
             //clear temporary plugin directory
             _exceptionsHandler.Handle(this, () =>
             {
-                Directory.Delete(_tmpDir, true);
+                if (Directory.Exists(_tmpDir))
+                    Directory.Delete(_tmpDir, true);
                 Directory.CreateDirectory(_tmpDir);
             });
         }
-
-        private Assembly CurrentDomain_TypeResolve(object sender, ResolveEventArgs args)
-        {
-            if (_catchedTypes.ContainsKey(args.Name))
-                return _catchedTypes[args.Name].Assembly;
-            throw new DllNotFoundException("type not found: " + args.Name);
-        }
-
+        
         private void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
         {
             if (!_catchedAssemblies.ContainsKey(args.LoadedAssembly.FullName))
@@ -144,8 +138,7 @@ namespace Pyrite.Windows.Modules
             AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
             AppDomain.CurrentDomain.AssemblyLoad -= CurrentDomain_AssemblyLoad;
         }
-
-        private Dictionary<string, Type> _catchedTypes = new Dictionary<string, Type>();
+        
         private Dictionary<string, Assembly> _catchedAssemblies = new Dictionary<string, Assembly>();
         private readonly string _saviorKey = "modulesManager";
         private readonly string _saviorKey_removePlugins = "modulesManager_removeLibs";
