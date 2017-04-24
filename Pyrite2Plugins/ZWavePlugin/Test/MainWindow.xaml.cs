@@ -27,8 +27,8 @@ namespace Test
         {
             InitializeComponent();
             var b = new ZWaveNodeValue();
-            b.UserInitializeWith(new ToggleValueType(), true);
-            var a = b.GetValue(null);
+            b.UserInitializeWith(null, false);
+            b.SetValue(null, "8");
             while (true)
             {
                 Thread.Sleep(1000);

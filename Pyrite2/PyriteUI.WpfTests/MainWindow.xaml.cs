@@ -47,7 +47,7 @@ namespace PyriteUI.WpfTests
             messageView.HeaderText = "Удаление сценария";
             messageView.Show(grid);
             messageView.SetItems(new[] {
-                new MessageItemInfo("Да", (mv) => {
+                new MessageItemInfo("Да", (mv) => { 
                     mv.ContentText = "Удаление сценария...";
                     mv.StartAnimateProgress();
                     mv.IsItemsEnabled = false;

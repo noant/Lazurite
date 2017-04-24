@@ -51,6 +51,8 @@ namespace PyriteUI.Controls
                 itemView.Margin = new Thickness(2,0,0,0);
                 itemView.Click += (o, e) => item.Click?.Invoke(this);
                 itemsView.Children.Add(itemView);
+                if (item.Focused || (itemsInfos.All(x => !x.Focused) && itemsInfos.Last() == item))
+                    itemView.Loaded += (o,e) => FocusManager.SetFocusedElement(this, itemView);
             }
         }
 

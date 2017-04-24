@@ -95,6 +95,7 @@ namespace ZWavePlugin
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValueTypes)
         {
+            ValueType = valueType;
             var manager = ZWaveManager.Current;
             var parameterSelectView = new NodesValuesComplexView();
             parameterSelectView.InitializeWith(
@@ -112,8 +113,8 @@ namespace ZWavePlugin
                 NodeId = _nodeValue.Node.Id;
                 HomeId = _nodeValue.Node.HomeId;
                 ValueId = _nodeValue.Id;
-                if (_nodeValue != null)
-                    _nodeValue.Changed += NodeValue_Changed;
+                ValueType = ZWaveTypeComparability.CreateValueTypeFromNodeValue(_nodeValue);
+                _nodeValue.Changed += NodeValue_Changed;
                 return true;
             }
             else return false;

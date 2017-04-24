@@ -103,6 +103,12 @@ namespace PyriteUI.Controls
             Click += (o, e) => this.Selected = !this.Selected;
         }
 
+        protected override void OnGotFocus(RoutedEventArgs e)
+        {
+            base.OnGotFocus(e);
+            Keyboard.Focus(button);
+        }
+
         public Visibility IconVisibility
         {
             get

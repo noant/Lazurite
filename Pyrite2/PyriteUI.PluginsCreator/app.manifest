@@ -10,12 +10,12 @@
 
         <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
         <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+        <requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
 
             При указании элемента requestedExecutionLevel будет отключена виртуализация файлов и реестра. 
             Удалите этот элемент, если виртуализация требуется приложению для обратной
             совместимости.
         -->
-        <requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
       </requestedPrivileges>
     </security>
   </trustInfo>

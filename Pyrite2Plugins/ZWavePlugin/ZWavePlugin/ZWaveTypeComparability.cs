@@ -32,7 +32,7 @@ namespace ZWavePlugin
 
         public static bool IsTypesComparable(NodeValue nodeValue, ValueTypeBase valueType, bool inheritsStates)
         {
-            if (valueType.GetType().Equals(typeof(ValueTypeBase)))
+            if (valueType == null)
                 return true;
             if (valueType is StateValueType && nodeValue.ValueType == OpenZWrapper.ValueType.List &&
                 (nodeValue.PossibleValues.OrderBy(x => x).SequenceEqual(((StateValueType)valueType).AcceptedValues.OrderBy(x => x)) || !inheritsStates))
@@ -41,5 +41,16 @@ namespace ZWavePlugin
                 return true;
             return false;
         }
+
+        public static ValueTypeBase CreateValueTypeFromNodeValue(NodeValue nodeValue)
+        {
+            var type = GetTypeBy(nodeValue.ValueType);
+            var typeInstance = Activator.CreateInstance(type);
+            if (nodeValue.ValueType == OpenZWrapper.ValueType.List)
+            {
+                ((StateValueType)typeInstance).AcceptedValues = nodeValue.PossibleValues;
+            }
+            return (ValueTypeBase)typeInstance;
+        } 
     }
 }
