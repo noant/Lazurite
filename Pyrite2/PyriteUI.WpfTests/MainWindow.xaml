@@ -12,14 +12,14 @@
         <controls:WheelScroll>
             <controls:ListItemsView Orientation="Vertical" Name="listItems" Width="300" SelectionMode="Single" HorizontalAlignment="Left">
                 <controls:ItemView Margin="1" Selected="False" Icon="MoonWaningCrescent">item 1</controls:ItemView>
-                <controls:ItemView Margin="1" Selected="False" Icon="Ferry">item 2</controls:ItemView>
+                <controls:ItemView IsEnabled="false" Margin="1" Selected="False" Icon="Ferry">item 2</controls:ItemView>
                 <controls:ItemView Margin="1" Selected="False" Icon="Close">item 3</controls:ItemView>
-                <controls:ItemView Margin="1" Selected="False" Icon="Fingerprint">item 4</controls:ItemView>
+                <controls:ItemView IsEnabled="False" Margin="1" Selected="False" Icon="Fingerprint">item 4</controls:ItemView>
                 <controls:ItemView Margin="1" Selected="False" Icon="Bing">item 5</controls:ItemView>
             </controls:ListItemsView>
         </controls:WheelScroll>
         <StackPanel Orientation="Horizontal" Margin="500,0,0,0">
-            <Button x:Name="button_Copy" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="button_Copy_Click"/>
+            <Button IsEnabled="False" x:Name="button_Copy" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="button_Copy_Click"/>
             <Button x:Name="button_Copy1" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="button_Copy1_Click"/>
             <Button x:Name="button_Copy2" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="button_Copy2_Click"/>
         </StackPanel>

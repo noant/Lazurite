@@ -31,6 +31,9 @@ namespace PyriteUI.WpfTests
         private void button_Copy1_Click(object sender, RoutedEventArgs e)
         {
             listItems.SelectionMode = Controls.ListViewItemsSelectionMode.Multiple;
+
+            var dialogView = new DialogView(new Button() { Content = "test" });
+            dialogView.Show(grid);
         }
 
         private void button_Copy_Click(object sender, RoutedEventArgs e)

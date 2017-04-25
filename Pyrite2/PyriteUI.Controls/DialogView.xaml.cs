@@ -21,6 +21,8 @@ namespace PyriteUI.Controls
     /// </summary>
     public partial class DialogView : UserControl
     {
+        private List<FrameworkElement> _tempDisabledElements = new List<FrameworkElement>();
+
         public DialogView(FrameworkElement child)
         {
             InitializeComponent();
@@ -29,17 +31,29 @@ namespace PyriteUI.Controls
         
         public void Show(Panel parentElement)
         {
+            _tempDisabledElements.Clear();
+            foreach (FrameworkElement element in parentElement.Children)
+            {
+                if (!element.IsEnabled)
+                    _tempDisabledElements.Add(element);
+                else element.IsEnabled = false;
+            }
             parentElement.Children.Add(this);
             Panel.SetZIndex(this, 999);
         }
 
         public void Close()
         {
+            foreach (FrameworkElement element in ((Panel)this.Parent).Children)
+            {
+                if (!_tempDisabledElements.Contains(element))
+                    element.IsEnabled = true;
+            }
             ((Panel)Parent).Children.Remove(this);
             Closed?.Invoke(this, new RoutedEventArgs());
         }
 
-        private void closeitemView_Click(object sender, RoutedEventArgs e)
+        private void CloseItemView_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
