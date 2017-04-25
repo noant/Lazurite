@@ -26,7 +26,7 @@ namespace Pyrite.Visual
                 _allSettings.RemoveAll(x => x.UserId.Equals(user.Id));
                 Save();
             };
-            _scenariosRepository.OnScenarioRemoved = (scenario) =>
+            _scenariosRepository.OnScenarioRemoved += (scenario) =>
             {
                 _allSettings.RemoveAll(x => x.ScenarioId.Equals(scenario.Id));
                 Save();

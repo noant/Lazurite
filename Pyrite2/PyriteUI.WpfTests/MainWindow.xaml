@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:PyriteUI.WpfTests"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="1200">
-    <Grid Background="White" Margin="0,0,0,0" Name="grid">
+    <Grid Background="White" Margin="0,50,0,0" Name="grid">
+        <controls:CaptionView Height="50" VerticalAlignment="Top" Margin="0,-50,0,0" Icon="Pyrite128">Pyrite / Управление системами умного дома</controls:CaptionView>
         <controls:WheelScroll>
             <controls:ListItemsView Orientation="Vertical" Name="listItems" Width="300" SelectionMode="Single" HorizontalAlignment="Left">
                 <controls:ItemView Margin="1" Selected="False" Icon="MoonWaningCrescent">item 1</controls:ItemView>

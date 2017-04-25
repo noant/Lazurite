@@ -60,6 +60,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PyriteUI.Controls", "Pyrite
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PyriteUI.PluginsCreator", "PyriteUI.PluginsCreator\PyriteUI.PluginsCreator.csproj", "{BC0971D2-CE72-4B6B-8544-A364570CBC4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyrite.Windows.Core", "Pyrite.Windows.Core\Pyrite.Windows.Core.csproj", "{2191CEFD-A432-4376-BE91-D585FE1AB2FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -168,6 +170,10 @@ Global
 		{BC0971D2-CE72-4B6B-8544-A364570CBC4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC0971D2-CE72-4B6B-8544-A364570CBC4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC0971D2-CE72-4B6B-8544-A364570CBC4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2191CEFD-A432-4376-BE91-D585FE1AB2FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2191CEFD-A432-4376-BE91-D585FE1AB2FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2191CEFD-A432-4376-BE91-D585FE1AB2FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2191CEFD-A432-4376-BE91-D585FE1AB2FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -198,5 +204,6 @@ Global
 		{F2B203A2-7169-4919-911F-3915C44EBFEC} = {C115067A-EE43-45FC-8FAA-A5AEE50C8054}
 		{DF6CF289-FC2D-48EA-AC6A-C2F1DB939D55} = {C115067A-EE43-45FC-8FAA-A5AEE50C8054}
 		{BC0971D2-CE72-4B6B-8544-A364570CBC4C} = {C115067A-EE43-45FC-8FAA-A5AEE50C8054}
+		{2191CEFD-A432-4376-BE91-D585FE1AB2FB} = {0368F453-033D-47D9-8751-5748BD145A24}
 	EndGlobalSection
 EndGlobal

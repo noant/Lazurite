@@ -44,10 +44,7 @@ namespace Pyrite.Tests
             }
 
             var server = new PyriteServer();
-
-            //Windows.Server.Utils.NetshAddUrlacl(server.GetSettings());
-            //Windows.Server.Utils.NetshAddSslCert(server.GetSettings());
-
+            
             server.Start();
 
             Thread.Sleep(3000);
@@ -68,12 +65,15 @@ namespace Pyrite.Tests
         [TestMethod]
         public void TestNetshCertAdd()
         {
-            Windows.Server.Utils.NetshAddSslCert(new ServerSettings()
-            {
-                CertificateSubject = "localhost",
-                Port = 666,
-                ServiceName = "test"
-            });
+            Windows.Server.Utils.NetshAddSslCert("localhost", 666);
+        }
+
+        [TestMethod]
+        public void TestAddCert()
+        {
+            var certName = Windows.Server.Utils.AddCertificate(@"D:\Programming\Pyrite_2\Pyrite2\Pyrite.Tests\bin\Debug\PyriteStandartCertificate.pfx", "1507199215071992");
+            if (certName != "localhost")
+                throw new Exception();
         }
     }
 }

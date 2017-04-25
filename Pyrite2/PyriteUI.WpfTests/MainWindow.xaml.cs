@@ -25,6 +25,7 @@ namespace PyriteUI.WpfTests
         public MainWindow()
         {
             InitializeComponent();
+            this.Icon = BitmapFrame.Create(Icons.Utils.GetIconData(Icons.Icon.Pyrite64));
         }
 
         private void button_Copy1_Click(object sender, RoutedEventArgs e)

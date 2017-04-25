@@ -1263,6 +1263,12 @@ namespace PyriteUI.Icons
         Xbox,
         Youtube,
         YoutubePlay,
-        Zune
+        Zune,
+        PyriteBig,
+        Pyrite256,
+        Pyrite128,
+        Pyrite64,
+        Pyrite32,
+        Pyrite16
     }
 }

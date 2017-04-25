@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PyriteUI.Controls"
              mc:Ignorable="d"
-            ClipToBounds="True"             
-             Height="30"
-             Width="30"
+             ClipToBounds="False"
+             Height="Auto"
+             Width="Auto"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Image Name="iconControl" ></Image>
+        <Image Name="iconControl"></Image>
     </Grid>
 </UserControl>

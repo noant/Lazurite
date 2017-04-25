@@ -51,7 +51,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Icons\Pyrite128.png" />
+    <EmbeddedResource Include="Icons\Pyrite16.png" />
+    <EmbeddedResource Include="Icons\Pyrite256.png" />
+    <EmbeddedResource Include="Icons\Pyrite32.png" />
+    <EmbeddedResource Include="Icons\Pyrite64.png" />
+    <EmbeddedResource Include="Icons\PyriteBig.png" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icons\Acorn.png" />
     <EmbeddedResource Include="Icons\Add.png" />

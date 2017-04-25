@@ -11,24 +11,25 @@ namespace Pyrite.Scenarios
 {
     public class ScenariosRepository: ScenariosRepositoryBase
     {
+        private readonly string ScenariosIdsKey = "scenariosRepository";
+        private readonly string TriggersIdsKey = "triggersRepository";
+
         private ISavior _savior;
         private List<string> _scenariosIds;
         private List<string> _triggersIds;
         private List<ScenarioBase> _scenarios;
         private List<TriggerBase> _triggers;
-        private readonly string _scenariosIdsKey = "scenariosRepository";
-        private readonly string _triggersIdsKey = "triggersRepository";
 
         public ScenariosRepository()
         {
             _savior = Singleton.Resolve<ISavior>();
 
-            if (_savior.Has(_scenariosIdsKey))
-                _scenariosIds = _savior.Get<List<string>>(_scenariosIdsKey);
+            if (_savior.Has(ScenariosIdsKey))
+                _scenariosIds = _savior.Get<List<string>>(ScenariosIdsKey);
             else _scenariosIds = new List<string>();
 
-            if (_savior.Has(_triggersIdsKey))
-                _triggersIds = _savior.Get<List<string>>(_triggersIdsKey);
+            if (_savior.Has(TriggersIdsKey))
+                _triggersIds = _savior.Get<List<string>>(TriggersIdsKey);
             else _triggersIds = new List<string>();
 
             _scenarios = _scenariosIds.Select(x => _savior.Get<ScenarioBase>(x)).ToList();
@@ -66,7 +67,7 @@ namespace Pyrite.Scenarios
             _scenarios.Add(scenario);
             _scenariosIds.Add(scenario.Id);
             _savior.Set(scenario.Id, scenario);
-            _savior.Set(_scenariosIdsKey, _scenariosIds);
+            _savior.Set(ScenariosIdsKey, _scenariosIds);
         }
 
         public override void RemoveScenario(ScenarioBase scenario)
@@ -83,7 +84,7 @@ namespace Pyrite.Scenarios
 
             _scenariosIds.Remove(scenario.Id);
             _scenarios.RemoveAll(x => x.Id.Equals(scenario.Id));
-            _savior.Set(_scenariosIdsKey, _scenariosIds);
+            _savior.Set(ScenariosIdsKey, _scenariosIds);
             _savior.Clear(scenario.Id);
         }
 
@@ -98,7 +99,7 @@ namespace Pyrite.Scenarios
                 throw new InvalidOperationException("Trigger with same id already exist");
             _triggers.Add(trigger);
             _triggersIds.Add(trigger.Id);
-            _savior.Set(_triggersIdsKey, _triggersIds);
+            _savior.Set(TriggersIdsKey, _triggersIds);
             _savior.Set(trigger.Id, trigger);
         }
 
@@ -106,7 +107,7 @@ namespace Pyrite.Scenarios
         {
             _triggersIds.Remove(trigger.Id);
             _triggers.RemoveAll(x => x.Id.Equals(trigger.Id));
-            _savior.Set(_triggersIdsKey, _triggersIds);
+            _savior.Set(TriggersIdsKey, _triggersIds);
             _savior.Clear(trigger.Id);
         }
 

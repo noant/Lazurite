@@ -22,9 +22,14 @@ namespace Pyrite.Windows.Server
 {
     public class PyriteServer
     {
+        private static readonly string StandartCertificateSubject = "localhost";
+        private static readonly string StandartSecretKey = "secretKey";
+        private static readonly string StandartServiceName = "Pyrite";
+        private static readonly ushort StandartServicePort = 8080;
+        private static readonly string SettingsKey = "serverSettings";
+
         private ISavior _savior = Singleton.Resolve<ISavior>();
         private ServerSettings _settings;
-        private string _key = "serverSettings";
         private ServiceHost _host;
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         
@@ -36,7 +41,10 @@ namespace Pyrite.Windows.Server
         public void SetSettings(ServerSettings settings)
         {
             _settings = settings;
-            _savior.Set(_key, settings);
+            _savior.Set(SettingsKey, settings);
+            if (_host != null && (_host.State == CommunicationState.Opened ||
+                _host.State == CommunicationState.Opening))
+                Restart();
         }
 
         public void Stop()
@@ -84,9 +92,17 @@ namespace Pyrite.Windows.Server
 
         public PyriteServer()
         {
-            if (_savior.Has(_key))
-                _settings = _savior.Get<ServerSettings>(_key);
-            else _settings = new ServerSettings();
+            if (_savior.Has(SettingsKey))
+                _settings = _savior.Get<ServerSettings>(SettingsKey);
+            else
+            {
+                _settings = new ServerSettings() {
+                    CertificateSubject = StandartCertificateSubject,
+                    Port = StandartServicePort,
+                    SecretKey = StandartSecretKey,
+                    ServiceName = StandartServiceName
+                };
+            }
         }
     }
 }

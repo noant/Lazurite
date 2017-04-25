@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Pyrite.MainDomain
 {
-    public abstract class ScenariosRepositoryBase
+    public abstract class ScenariosRepositoryBase: IDisposable
     {
         public abstract ScenarioBase[] Scenarios { get; }
         public abstract TriggerBase[] Triggers { get; }
@@ -47,6 +47,14 @@ namespace Pyrite.MainDomain
             OnScenarioRemoved?.Invoke(scenario);
         }
 
-        public Action<ScenarioBase> OnScenarioRemoved { get; set; }
+        public void Dispose()
+        {
+            foreach (var trigger in Triggers)
+                trigger.Stop();
+            foreach (var scenario in Scenarios)
+                scenario.TryCancelAll();
+        }
+
+        public event Action<ScenarioBase> OnScenarioRemoved;
     }
 }

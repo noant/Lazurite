@@ -120,6 +120,14 @@ namespace Pyrite.MainDomain
 #endif
         }
 
+        /// <summary>
+        /// Try cancel all operations
+        /// </summary>
+        public virtual void TryCancelAll()
+        {
+            _tokenSource.Cancel();
+        }
+
         public bool CanExecute(UserBase user, ScenarioStartupSource source)
         {
             if (SecuritySettings == null)
@@ -146,7 +154,6 @@ namespace Pyrite.MainDomain
         /// <returns></returns>
         public abstract IAction[] GetAllActionsFlat();
         
-
         /// <summary>
         /// Set event on state changed
         /// </summary>
