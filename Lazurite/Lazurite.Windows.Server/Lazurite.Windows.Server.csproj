@@ -100,7 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="LazuriteStandartCertificate.pfx">
+    <None Include="LazuriteStandardCertificate.pfx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
