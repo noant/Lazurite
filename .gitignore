@@ -241,3 +241,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /pyrite2scheme.~ml
+/*.~ml

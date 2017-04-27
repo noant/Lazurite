@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2191CEFD-A432-4376-BE91-D585FE1AB2FB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lazurite.Windows.Core</RootNamespace>
+    <AssemblyName>Lazurite.Windows.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CoreSettings.cs" />
+    <Compile Include="LazuriteCore.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lazurite.Data\Lazurite.Data.csproj">
+      <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
+      <Name>Lazurite.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Exceptions\Lazurite.Exceptions.csproj">
+      <Project>{1F4412D0-F16D-4D36-A28D-CB52C9732CDE}</Project>
+      <Name>Lazurite.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj">
+      <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
+      <Name>Lazurite.IOC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.MainDomain\Lazurite.MainDomain.csproj">
+      <Project>{DCD8E6AF-A435-4556-AD74-84444B1DD816}</Project>
+      <Name>Lazurite.MainDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Scenarios\Lazurite.Scenarios.csproj">
+      <Project>{EE271212-1572-4525-BC27-B2F283238740}</Project>
+      <Name>Lazurite.Scenarios</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Security\Lazurite.Security.csproj">
+      <Project>{3ACF6EAC-A7BE-4AFE-AA9C-80259157AE71}</Project>
+      <Name>Lazurite.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Visual\Lazurite.Visual.csproj">
+      <Project>{E8AA2173-58F5-474B-AFF7-EB66D077CACD}</Project>
+      <Name>Lazurite.Visual</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Data\Lazurite.Windows.Data.csproj">
+      <Project>{e71f185a-b90f-4145-bd38-97eb30d129fe}</Project>
+      <Name>Lazurite.Windows.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Modules\Lazurite.Windows.Modules.csproj">
+      <Project>{AB2D5750-1D05-4963-8445-EFCE54616D8F}</Project>
+      <Name>Lazurite.Windows.Modules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Server\Lazurite.Windows.Server.csproj">
+      <Project>{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}</Project>
+      <Name>Lazurite.Windows.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.ServiceClient\Lazurite.Windows.ServiceClient.csproj">
+      <Project>{8C79C90A-F696-4397-83C8-CB39AABBC872}</Project>
+      <Name>Lazurite.Windows.ServiceClient</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

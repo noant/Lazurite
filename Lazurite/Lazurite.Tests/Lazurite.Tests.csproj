@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9F3DE701-C654-41EE-A055-AF50364D308A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lazurite.Tests</RootNamespace>
+    <AssemblyName>Lazurite.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PCLCrypto, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d4421c8a4786956c, processorArchitecture=MSIL">
+      <HintPath>..\packages\PCLCrypto.2.0.147\lib\net45\PCLCrypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PInvoke.BCrypt, Version=0.3.0.0, Culture=neutral, PublicKeyToken=9e300f9f87f04a7a, processorArchitecture=MSIL">
+      <HintPath>..\packages\PInvoke.BCrypt.0.3.2\lib\net40\PInvoke.BCrypt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PInvoke.Kernel32, Version=0.3.0.0, Culture=neutral, PublicKeyToken=9e300f9f87f04a7a, processorArchitecture=MSIL">
+      <HintPath>..\packages\PInvoke.Kernel32.0.3.2\lib\net40\PInvoke.Kernel32.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PInvoke.NCrypt, Version=0.3.0.0, Culture=neutral, PublicKeyToken=9e300f9f87f04a7a, processorArchitecture=MSIL">
+      <HintPath>..\packages\PInvoke.NCrypt.0.3.2\lib\net40\PInvoke.NCrypt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PInvoke.Windows.Core, Version=0.3.0.0, Culture=neutral, PublicKeyToken=9e300f9f87f04a7a, processorArchitecture=MSIL">
+      <HintPath>..\packages\PInvoke.Windows.Core.0.3.2\lib\portable-net45+win+wpa81+MonoAndroid10+xamarinios10+MonoTouch10\PInvoke.Windows.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="Validation, Version=2.2.0.0, Culture=neutral, PublicKeyToken=2fc06f0d701809a7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Validation.2.2.8\lib\dotnet\Validation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="ComplexCheckerActionTest.cs" />
+    <Compile Include="ConcretePluginTest.cs" />
+    <Compile Include="DelayTest.cs" />
+    <Compile Include="FileSaviorTest.cs" />
+    <Compile Include="IOCTest.cs" />
+    <Compile Include="ModulesManagerTest.cs" />
+    <Compile Include="ReflectionHelperTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScenariosRepositoryTest.cs" />
+    <Compile Include="ServerTest.cs" />
+    <Compile Include="ServiceTest.cs" />
+    <Compile Include="TriggerTest.cs" />
+    <Compile Include="TriggerTest2.cs" />
+    <Compile Include="TriggerTest3.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lazurite.ActionsDomain\Lazurite.ActionsDomain.csproj">
+      <Project>{e6be3954-3d6f-447a-91bf-04d892a1c025}</Project>
+      <Name>Lazurite.ActionsDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.CoreActions\Lazurite.CoreActions.csproj">
+      <Project>{cb9ec852-4c16-4a34-98ab-ec569c35398c}</Project>
+      <Name>Lazurite.CoreActions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Data\Lazurite.Data.csproj">
+      <Project>{47c6bac6-34d8-4013-9739-2c0f6dcb6ffa}</Project>
+      <Name>Lazurite.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Exceptions\Lazurite.Exceptions.csproj">
+      <Project>{1f4412d0-f16d-4d36-a28d-cb52c9732cde}</Project>
+      <Name>Lazurite.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj">
+      <Project>{a002f2fb-6791-46a2-9061-38bbe59e1618}</Project>
+      <Name>Lazurite.IOC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.MainDomain\Lazurite.MainDomain.csproj">
+      <Project>{dcd8e6af-a435-4556-ad74-84444b1dd816}</Project>
+      <Name>Lazurite.MainDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Scenarios\Lazurite.Scenarios.csproj">
+      <Project>{EE271212-1572-4525-BC27-B2F283238740}</Project>
+      <Name>Lazurite.Scenarios</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Security\Lazurite.Security.csproj">
+      <Project>{3ACF6EAC-A7BE-4AFE-AA9C-80259157AE71}</Project>
+      <Name>Lazurite.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Utils\Lazurite.Utils.csproj">
+      <Project>{d4fdb9f4-f897-4f15-85fc-26e8d933af6d}</Project>
+      <Name>Lazurite.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Visual\Lazurite.Visual.csproj">
+      <Project>{E8AA2173-58F5-474B-AFF7-EB66D077CACD}</Project>
+      <Name>Lazurite.Visual</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Data\Lazurite.Windows.Data.csproj">
+      <Project>{e71f185a-b90f-4145-bd38-97eb30d129fe}</Project>
+      <Name>Lazurite.Windows.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Modules\Lazurite.Windows.Modules.csproj">
+      <Project>{AB2D5750-1D05-4963-8445-EFCE54616D8F}</Project>
+      <Name>Lazurite.Windows.Modules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Server\Lazurite.Windows.Server.csproj">
+      <Project>{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}</Project>
+      <Name>Lazurite.Windows.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.ServiceClient\Lazurite.Windows.ServiceClient.csproj">
+      <Project>{8C79C90A-F696-4397-83C8-CB39AABBC872}</Project>
+      <Name>Lazurite.Windows.ServiceClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Utils\Lazurite.Windows.Utils.csproj">
+      <Project>{09BE5F23-3903-4547-9D56-12CAE326C5CC}</Project>
+      <Name>Lazurite.Windows.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
