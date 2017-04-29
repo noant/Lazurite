@@ -1,7 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.ValueTypes;
-using Lazurite.Exceptions;
 using Lazurite.IOC;
+using Lazurite.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +13,9 @@ namespace Lazurite.MainDomain
 {
     public abstract class ScenarioBase
     {
+        protected static readonly ILogger Log = Singleton.Resolve<ILogger>();
+
         private List<Action<ScenarioBase>> _events = new List<Action<ScenarioBase>>();        
-        public readonly IExceptionsHandler ExceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private string _id = Guid.NewGuid().ToString();
 
@@ -112,12 +113,14 @@ namespace Lazurite.MainDomain
             var output = new OutputChangedDelegates();
             output.Add(val => SetCurrentValueInternal(val));
             var context = new ExecutionContext(param, output, cancelToken);
-#if DEBUG
-            ExecuteInternal(context);
-#endif
-#if !DEBUG
-            ExceptionsHandler.Handle(this, () => ExecuteInternal(context));
-#endif
+            try
+            {
+                ExecuteInternal(context);
+            }
+            catch (Exception e)
+            {
+                Log.ErrorFormat(e, "Error while executing scenario [{0}][{1}]", this.Name, this.Id);
+            }
         }
 
         /// <summary>
@@ -180,8 +183,14 @@ namespace Lazurite.MainDomain
             LastChange = DateTime.Now;
             for (int i = 0; i < _events.Count; i++)
             {
-                var @event = _events[i];
-                ExceptionsHandler.Handle(this, () => @event(this));
+                try
+                {
+                    _events[i](this);
+                }
+                catch(Exception e)
+                {
+                    Log.InfoFormat(e, "Error while raise events in scenario [{1}][{0}]", this.Name, this.Id);
+                }
             }
         }        
     }

@@ -89,14 +89,12 @@ namespace LazuriteUI.Controls
 
         public void StartAnimateProgress()
         {
-            progressGrid.Visibility = Visibility.Visible;
-            ((Storyboard)progressGrid.Resources["progressGridAnimation"]).Begin(progressGrid);
+            progressBar.StartProgress();
         }
 
         public void StopAnimateProgress()
         {
-            progressGrid.Visibility = Visibility.Collapsed;
-            ((Storyboard)progressGrid.Resources["progressGridAnimation"]).Stop(progressGrid);
+            progressBar.StopProgress();
         }
 
         public CaptionView()

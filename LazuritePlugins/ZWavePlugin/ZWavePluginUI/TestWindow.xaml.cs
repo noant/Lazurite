@@ -1,5 +1,5 @@
 ﻿using OpenZWrapper;
-using PyriteUI.Controls;
+using LazuriteUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;

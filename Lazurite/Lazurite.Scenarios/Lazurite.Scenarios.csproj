@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -47,13 +48,13 @@
       <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
       <Name>Lazurite.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lazurite.Exceptions\Lazurite.Exceptions.csproj">
-      <Project>{1f4412d0-f16d-4d36-a28d-cb52c9732cde}</Project>
-      <Name>Lazurite.Exceptions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj">
       <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
       <Name>Lazurite.IOC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Logging\Lazurite.Logging.csproj">
+      <Project>{0A02DE31-B9E4-4AB7-8002-7F477A0F52DE}</Project>
+      <Name>Lazurite.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.MainDomain\Lazurite.MainDomain.csproj">
       <Project>{dcd8e6af-a435-4556-ad74-84444b1dd816}</Project>

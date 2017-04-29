@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LazuriteUI.Controls"
         mc:Ignorable="d"
         Title="Рекомендуемые элементы управления для плагинов Lazurite" Height="350" Width="525">
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Label>Необходимо добавить этот файл в ссылки проекта.</Label>
+    <Grid Background="{x:Static local:Visual.BackgroundCubes}">
+        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">Необходимо добавить этот файл в ссылки проекта.</Label>
     </Grid>
 </Window>

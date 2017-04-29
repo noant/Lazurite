@@ -1,13 +1,13 @@
-﻿using Pyrite.ActionsDomain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Pyrite.ActionsDomain.ValueTypes;
 using OpenZWrapper;
-using Pyrite.ActionsDomain.Attributes;
 using ZWavePluginUI;
+using Lazurite.ActionsDomain.Attributes;
+using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.ActionsDomain;
 
 namespace ZWavePlugin
 {

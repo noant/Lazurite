@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,13 +40,13 @@
       <Project>{e6be3954-3d6f-447a-91bf-04d892a1c025}</Project>
       <Name>Lazurite.ActionsDomain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lazurite.Exceptions\Lazurite.Exceptions.csproj">
-      <Project>{1f4412d0-f16d-4d36-a28d-cb52c9732cde}</Project>
-      <Name>Lazurite.Exceptions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj">
       <Project>{a002f2fb-6791-46a2-9061-38bbe59e1618}</Project>
       <Name>Lazurite.IOC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Logging\Lazurite.Logging.csproj">
+      <Project>{0A02DE31-B9E4-4AB7-8002-7F477A0F52DE}</Project>
+      <Name>Lazurite.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.Utils\Lazurite.Utils.csproj">
       <Project>{d4fdb9f4-f897-4f15-85fc-26e8d933af6d}</Project>
@@ -54,7 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IClientFactory.cs" />
-    <Compile Include="ILogger.cs" />
     <Compile Include="MessageSecurity\DataContractSerializerExtension.cs" />
     <Compile Include="MessageSecurity\Encrypted.cs" />
     <Compile Include="MessageSecurity\EncryptedList.cs" />

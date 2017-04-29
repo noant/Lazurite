@@ -35,8 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lazurite.ActionsDomain">
-      <HintPath>..\..\..\Releases\MaterialForPlugins\Lazurite.ActionsDomain.dll</HintPath>
+    <Reference Include="Lazurite.ActionsDomain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.ActionsDomain.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

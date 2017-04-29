@@ -1,5 +1,6 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Windows.Logging;
 using Lazurite.Windows.Utils;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Lazurite.Windows.Service
     public class LoginValidator : UserNamePasswordValidator
     {
         private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
-        private static readonly LoggerBase Log = Singleton.Resolve<LoggerBase>();
+        private static readonly WarningHandlerBase WarningHandler = Singleton.Resolve<WarningHandlerBase>();
 
         public override void Validate(string userName, string password)
         {
@@ -31,7 +32,7 @@ namespace Lazurite.Windows.Service
             }
             catch (Exception e)
             {
-                Log.Write(e, "Error while user authenticate: " + userName);
+                WarningHandler.InfoFormat(e, "Error while user authenticate: [{0}]", userName);
                 throw new FaultException("Error while user authenticate: " + userName, new FaultCode("500"));
             }
         }

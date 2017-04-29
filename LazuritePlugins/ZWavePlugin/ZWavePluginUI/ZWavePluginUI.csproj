@@ -39,15 +39,17 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\..\Releases\MaterialForPlugins\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="LazuriteUI.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Controls.exe</HintPath>
+    </Reference>
+    <Reference Include="LazuriteUI.Icons, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Icons.dll</HintPath>
+    </Reference>
     <Reference Include="Polenter.SharpSerializer, Version=2.20.0.0, Culture=neutral, PublicKeyToken=8f4f20011571ee5f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Libs\Polenter.SharpSerializer.dll</HintPath>
-    </Reference>
-    <Reference Include="LazuriteUI.Controls">
-      <HintPath>..\..\..\Releases\MaterialForPlugins\LazuriteUI.Controls.exe</HintPath>
-    </Reference>
-    <Reference Include="LazuriteUI.Icons">
-      <HintPath>..\..\..\Releases\MaterialForPlugins\LazuriteUI.Icons.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

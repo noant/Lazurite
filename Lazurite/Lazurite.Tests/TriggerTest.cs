@@ -7,7 +7,6 @@ using Lazurite.CoreActions.ComparisonTypes;
 using Lazurite.CoreActions.CoreActions;
 using Lazurite.CoreActions.StandartValueTypeActions;
 using Lazurite.Data;
-using Lazurite.Exceptions;
 using Lazurite.IOC;
 using Lazurite.Scenarios;
 using Lazurite.Scenarios.ScenarioTypes;
@@ -22,6 +21,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static Lazurite.Tests.ScenariosRepositoryTest;
+using Lazurite.Windows.Logging;
 
 namespace Lazurite.Tests
 {
@@ -32,7 +32,7 @@ namespace Lazurite.Tests
         public void CreateTrigger()
         {
             Singleton.Add(new FileSavior());
-            Singleton.Add(new ExceptionsHandler());
+            Singleton.Add(new WarningHandler());
             var repository = new ScenariosRepository();
 
             var testScenario = new CompositeScenario();
@@ -137,7 +137,7 @@ namespace Lazurite.Tests
         [TestMethod]
         public void TestTrigger()
         {
-            Singleton.Add(new ExceptionsHandler());
+            Singleton.Add(new WarningHandler());
             Singleton.Add(new FileSavior());
             var repository = new ScenariosRepository();
             while (true)

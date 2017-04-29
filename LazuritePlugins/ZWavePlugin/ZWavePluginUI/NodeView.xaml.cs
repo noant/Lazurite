@@ -1,5 +1,5 @@
 ﻿using OpenZWrapper;
-using PyriteUI.Controls;
+using LazuriteUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,13 +31,13 @@ namespace ZWavePluginUI
             Node = node;
 
             // =)
-            this.itemView.Icon = PyriteUI.Icons.Icon.Connect;
+            this.itemView.Icon = LazuriteUI.Icons.Icon.Connect;
             if (node.ProductName.ToLower().Contains("usb"))
-                this.itemView.Icon = PyriteUI.Icons.Icon.Usb;
+                this.itemView.Icon = LazuriteUI.Icons.Icon.Usb;
             if (node.ProductName.ToLower().Contains("light"))
-                this.itemView.Icon = PyriteUI.Icons.Icon.LightbulbHueOn;
+                this.itemView.Icon = LazuriteUI.Icons.Icon.LightbulbHueOn;
             if (node.ProductName.ToLower().Contains("sensor"))
-                this.itemView.Icon = PyriteUI.Icons.Icon.ManSensor;
+                this.itemView.Icon = LazuriteUI.Icons.Icon.ManSensor;
         }
         
         private Node _node;

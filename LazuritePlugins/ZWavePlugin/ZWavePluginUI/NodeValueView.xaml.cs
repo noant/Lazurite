@@ -1,5 +1,5 @@
 ﻿using OpenZWrapper;
-using PyriteUI.Controls;
+using LazuriteUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,22 +30,22 @@ namespace ZWavePluginUI
             switch (NodeValue.ValueType)
             {
                 case OpenZWrapper.ValueType.Bool:
-                    itemView.Icon = PyriteUI.Icons.Icon.TypeBoolean;
+                    itemView.Icon = LazuriteUI.Icons.Icon.TypeBoolean;
                     break;
                 case OpenZWrapper.ValueType.Button:
-                    itemView.Icon = PyriteUI.Icons.Icon.InterfaceButton;
+                    itemView.Icon = LazuriteUI.Icons.Icon.InterfaceButton;
                     break;
                 case OpenZWrapper.ValueType.Byte:
                 case OpenZWrapper.ValueType.Int:
                 case OpenZWrapper.ValueType.Short:
                 case OpenZWrapper.ValueType.Decimal:
-                    itemView.Icon = PyriteUI.Icons.Icon.MeasureCentimeter;
+                    itemView.Icon = LazuriteUI.Icons.Icon.MeasureCentimeter;
                     break;
                 case OpenZWrapper.ValueType.List:
-                    itemView.Icon = PyriteUI.Icons.Icon.InterfaceList;
+                    itemView.Icon = LazuriteUI.Icons.Icon.InterfaceList;
                     break;
                 case OpenZWrapper.ValueType.String:
-                    itemView.Icon = PyriteUI.Icons.Icon.PageText;
+                    itemView.Icon = LazuriteUI.Icons.Icon.PageText;
                     break;
             }
 

@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -132,6 +133,10 @@
     <ProjectReference Include="..\Lazurite.Visual\Lazurite.Visual.csproj">
       <Project>{E8AA2173-58F5-474B-AFF7-EB66D077CACD}</Project>
       <Name>Lazurite.Visual</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Logging\Lazurite.Windows.Logging.csproj">
+      <Project>{ACC84748-2884-44A2-8E45-84FF8338684B}</Project>
+      <Name>Lazurite.Windows.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Utils\Lazurite.Windows.Utils.csproj">
       <Project>{09be5f23-3903-4547-9d56-12cae326c5cc}</Project>

@@ -9,8 +9,8 @@
     <UserControl.Resources>
         <ResourceDictionary Source="/LazuriteUI.Controls;component/Styles/Styles.xaml" />
     </UserControl.Resources>
-    <Grid>        
-        <Grid Background="SteelBlue" Opacity="0.5" Name="gridBackground"></Grid>
+    <Grid>
+        <Grid Background="Black" Opacity="0.5" Name="gridBackground"></Grid>
         <Grid Name="mainContent">
             <Grid Background="{x:Static local:Visual.Background}" Height="200" Width="Auto" MaxWidth="600" MinWidth="200">
                 <Grid.RowDefinitions>
@@ -32,6 +32,7 @@
                     <local:ListItemsView x:FieldModifier="private" x:Name="itemsView" Margin="10" HorizontalAlignment="Right" Orientation="Horizontal" SelectionMode="None">
                     </local:ListItemsView>
                 </Grid>
+                <Border Grid.RowSpan="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1,0,1,1" Opacity="0"></Border>
             </Grid>
         </Grid>
     </Grid>

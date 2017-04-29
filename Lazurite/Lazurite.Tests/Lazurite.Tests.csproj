@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -102,10 +103,6 @@
       <Project>{47c6bac6-34d8-4013-9739-2c0f6dcb6ffa}</Project>
       <Name>Lazurite.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lazurite.Exceptions\Lazurite.Exceptions.csproj">
-      <Project>{1f4412d0-f16d-4d36-a28d-cb52c9732cde}</Project>
-      <Name>Lazurite.Exceptions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj">
       <Project>{a002f2fb-6791-46a2-9061-38bbe59e1618}</Project>
       <Name>Lazurite.IOC</Name>
@@ -133,6 +130,10 @@
     <ProjectReference Include="..\Lazurite.Windows.Data\Lazurite.Windows.Data.csproj">
       <Project>{e71f185a-b90f-4145-bd38-97eb30d129fe}</Project>
       <Name>Lazurite.Windows.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Logging\Lazurite.Windows.Logging.csproj">
+      <Project>{ACC84748-2884-44A2-8E45-84FF8338684B}</Project>
+      <Name>Lazurite.Windows.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Modules\Lazurite.Windows.Modules.csproj">
       <Project>{AB2D5750-1D05-4963-8445-EFCE54616D8F}</Project>

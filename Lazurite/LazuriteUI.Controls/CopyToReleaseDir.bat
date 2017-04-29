@@ -1,3 +1,3 @@
-del ..\..\..\..\Releases\MaterialForPlugins\LazuriteUI.Controls.exe
-xcopy LazuriteUI.Controls.exe ..\..\..\..\Releases\MaterialForPlugins\
+del ..\..\..\..\Releases\PluginsMaterial\LazuriteUI.Controls.exe
+xcopy LazuriteUI.Controls.exe ..\..\..\..\Releases\PluginsMaterial\
 EXIT

@@ -1,6 +1,6 @@
 ﻿using OpenZWrapper;
-using PyriteUI.Controls;
-using PyriteUI.Icons;
+using LazuriteUI.Controls;
+using LazuriteUI.Icons;
 using System;
 using System.Collections.Generic;
 using System.Linq;

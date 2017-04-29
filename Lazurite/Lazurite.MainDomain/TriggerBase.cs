@@ -1,6 +1,6 @@
 ﻿using Lazurite.ActionsDomain;
-using Lazurite.Exceptions;
 using Lazurite.IOC;
+using Lazurite.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,8 @@ namespace Lazurite.MainDomain
 {
     public abstract class TriggerBase
     {
-        public readonly IExceptionsHandler ExceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
+        private static readonly ILogger Log = Singleton.Resolve<ILogger>();
+
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private string _id = Guid.NewGuid().ToString();
 
@@ -98,7 +99,14 @@ namespace Lazurite.MainDomain
             _tokenSource = new CancellationTokenSource();
             var cancellationToken = _tokenSource.Token;
             Task.Factory.StartNew(() => {
-                ExceptionsHandler.Handle(this, () => RunInternal(cancellationToken));
+                try
+                {
+                    RunInternal(cancellationToken);
+                }
+                catch (Exception e)
+                {
+                    Log.InfoFormat(e, "error while starting trigger [{0}][{1}]", this.Name, this.Id);
+                }
             }, 
             cancellationToken, 
             TaskCreationOptions.LongRunning,

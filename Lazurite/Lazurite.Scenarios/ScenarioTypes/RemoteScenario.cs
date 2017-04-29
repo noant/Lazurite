@@ -86,17 +86,44 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void Execute(string param, CancellationToken cancelToken)
         {
-            ExceptionsHandler.Handle(this, () => _server.ExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey)));
+            try
+            {
+                _server.ExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
+            }
+            catch (Exception e)
+            {
+                Log.WarnFormat(e, 
+                    "Error while executing remote scenario [{0}][{1}][{2}  serviceName:{3}]", 
+                    this.Name, this.Id, this.AddressHost, this.ServiceName);
+            }
         }
 
         public override void ExecuteAsync(string param)
         {
-            ExceptionsHandler.Handle(this, () => _server.AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey)));
+            try
+            {
+                _server.AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
+            }
+            catch (Exception e)
+            {
+                Log.WarnFormat(e,
+                    "Error while async executing remote scenario [{0}][{1}][{2}  serviceName:{3}]",
+                    this.Name, this.Id, this.AddressHost, this.ServiceName);
+            }
         }
 
         public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
-            ExceptionsHandler.Handle(this, () => _server.AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey)));
+            try
+            {
+                _server.AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
+            }
+            catch (Exception e)
+            {
+                Log.WarnFormat(e,
+                    "Error while async parallel executing remote scenario [{0}][{1}][{2}  serviceName:{3}]",
+                    this.Name, this.Id, this.AddressHost, this.ServiceName);
+            }
         }
 
         public override Type[] GetAllUsedActionTypes()
@@ -127,13 +154,18 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 while (!_cancellationTokenSource.IsCancellationRequested)
                 {
                     var exceptionThrown = true;
-                    ExceptionsHandler.Handle(this, () =>
+                    try
                     {
                         if (_server.IsScenarioValueChanged(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(_currentValue, SecretKey)))
                             SetCurrentValueInternal(_server.GetScenarioValue(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey));
                         exceptionThrown = false;
-                    }, 
-                    true);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.WarnFormat(e,
+                            "Error while listen remote scenario changes [{0}][{1}][{2}  serviceName:{3}]",
+                            this.Name, this.Id, this.AddressHost, this.ServiceName);
+                    }
                     //if connection was failed
                     if (exceptionThrown)
                         Task.Delay(200000);

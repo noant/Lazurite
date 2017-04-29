@@ -13,15 +13,7 @@
     </UserControl.Resources>
     <Grid>
         <Grid Width="20" HorizontalAlignment="Left" Background="BlueViolet" Opacity="0.2" />
-        <Grid Width="30" HorizontalAlignment="Left" Visibility="Collapsed" Name="progressGrid" x:FieldModifier="private" Background="BlueViolet" Opacity="0.3">
-            <Grid.Resources>
-                <Storyboard x:Key="progressGridAnimation" x:Name="progressGridAnimation" RepeatBehavior="Forever">
-                    <ThicknessAnimation Storyboard.TargetName="progressGrid" 
-                              Storyboard.TargetProperty="Margin"
-                              From="-20,0,0,0" To="300,0,0,0" Duration="0:0:0.5" />
-                </Storyboard>
-            </Grid.Resources>
-        </Grid>
+        <local:Progress x:Name="progressBar"></local:Progress>
         <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Name="stackPanel" x:FieldModifier="private">
             <StackPanel.Triggers>
                 <EventTrigger RoutedEvent="Loaded">

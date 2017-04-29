@@ -1,5 +1,5 @@
-﻿using OpenZWrapper;
-using Pyrite.ActionsDomain.ValueTypes;
+﻿using Lazurite.ActionsDomain.ValueTypes;
+using OpenZWrapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,18 +14,18 @@ namespace ZWavePlugin
             switch (zWaveValueType)
             {
                 case OpenZWrapper.ValueType.Bool:
-                    return typeof(Pyrite.ActionsDomain.ValueTypes.ToggleValueType);
+                    return typeof(Lazurite.ActionsDomain.ValueTypes.ToggleValueType);
                 case OpenZWrapper.ValueType.Button:
-                    return typeof(Pyrite.ActionsDomain.ValueTypes.ButtonValueType);
+                    return typeof(Lazurite.ActionsDomain.ValueTypes.ButtonValueType);
                 case OpenZWrapper.ValueType.Byte:
                 case OpenZWrapper.ValueType.Decimal:
                 case OpenZWrapper.ValueType.Short:
                 case OpenZWrapper.ValueType.Int:
-                    return typeof(Pyrite.ActionsDomain.ValueTypes.FloatValueType);
+                    return typeof(Lazurite.ActionsDomain.ValueTypes.FloatValueType);
                 case OpenZWrapper.ValueType.String:
-                    return typeof(Pyrite.ActionsDomain.ValueTypes.InfoValueType);
+                    return typeof(Lazurite.ActionsDomain.ValueTypes.InfoValueType);
                 case OpenZWrapper.ValueType.List:
-                    return typeof(Pyrite.ActionsDomain.ValueTypes.StateValueType);
+                    return typeof(Lazurite.ActionsDomain.ValueTypes.StateValueType);
             }
             return typeof(ValueTypeBase);
         }

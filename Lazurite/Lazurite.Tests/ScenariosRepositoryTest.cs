@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Lazurite.ActionsDomain;
 using Lazurite.Data;
-using Lazurite.Exceptions;
 using Lazurite.IOC;
 using Lazurite.Scenarios;
 using Lazurite.Scenarios.ScenarioTypes;
@@ -16,6 +15,7 @@ using System.Threading;
 using Lazurite.CoreActions.CheckerLogicalOperators;
 using Lazurite.CoreActions.ComparisonTypes;
 using System.Diagnostics;
+using Lazurite.Windows.Logging;
 
 namespace Lazurite.Tests
 {
@@ -25,7 +25,7 @@ namespace Lazurite.Tests
         [TestMethod]
         public void CreateAndSaveScenario()
         {
-            Singleton.Add(new ExceptionsHandler());
+            Singleton.Add(new WarningHandler());
             Singleton.Add(new FileSavior());
             var repository = new ScenariosRepository();
             var testScen = new SingleActionScenario();
@@ -40,7 +40,7 @@ namespace Lazurite.Tests
         [TestMethod]
         public void LoadScenario()
         {
-            Singleton.Add(new ExceptionsHandler());
+            Singleton.Add(new WarningHandler());
             Singleton.Add(new FileSavior());
             var repository = new ScenariosRepository();
             var testScen = repository.Scenarios.Single(x => x.Name.Equals("testScen"));
@@ -50,7 +50,7 @@ namespace Lazurite.Tests
         [TestMethod]
         public void CreateCompositeScenario()
         {
-            Singleton.Add(new ExceptionsHandler());
+            Singleton.Add(new WarningHandler());
             Singleton.Add(new FileSavior());
             var repository = new ScenariosRepository();
             Singleton.Add(repository);

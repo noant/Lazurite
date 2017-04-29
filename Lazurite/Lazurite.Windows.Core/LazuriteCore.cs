@@ -1,10 +1,10 @@
 ﻿using Lazurite.Data;
-using Lazurite.Exceptions;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.Scenarios;
 using Lazurite.Security;
 using Lazurite.Visual;
+using Lazurite.Windows.Logging;
 using Lazurite.Windows.Modules;
 using Lazurite.Windows.Server;
 using Lazurite.Windows.ServiceClient;
@@ -23,8 +23,8 @@ namespace Lazurite.Windows.Core
         private CoreSettings _settings;
 
         public ISavior Savior { get; private set; }
-        public IExceptionsHandler ExceptionsHandler { get; private set; }
         public IClientFactory ClientsFactory { get; private set; }
+        public WarningHandlerBase WarningHandler { get; private set; }
         public PluginsManager PluginsManager { get; private set; }
         public ScenariosRepositoryBase ScenariosRepository { get; private set; }
         public UsersRepositoryBase UsersRepository { get; private set; }
@@ -51,7 +51,7 @@ namespace Lazurite.Windows.Core
         {
             Task.Factory.StartNew(() =>
             {
-                Singleton.Add(ExceptionsHandler = new ExceptionsHandler());
+                Singleton.Add(WarningHandler = new WarningHandler());
                 Singleton.Add(Savior = new FileSavior());
                 Singleton.Add(ScenariosRepository = new ScenariosRepository());
                 Singleton.Add(ClientsFactory = new ServiceClientFactory());

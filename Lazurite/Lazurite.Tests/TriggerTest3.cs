@@ -3,7 +3,6 @@ using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.CoreActions;
 using Lazurite.CoreActions.ComparisonTypes;
 using Lazurite.Data;
-using Lazurite.Exceptions;
 using Lazurite.IOC;
 using Lazurite.Scenarios;
 using Lazurite.Scenarios.ScenarioTypes;
@@ -17,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Lazurite.Tests.ConcretePluginTest;
 using static Lazurite.Tests.ScenariosRepositoryTest;
+using Lazurite.Windows.Logging;
 
 namespace Lazurite.Tests
 {
@@ -31,7 +31,7 @@ namespace Lazurite.Tests
             if (Directory.Exists("plugins"))
                 Directory.Delete("plugins", true);
             Singleton.Add(new FileSavior());
-            Singleton.Add(new ExceptionsHandler());
+            Singleton.Add(new WarningHandler());
             var manager = new PluginsManager();
             var pluginPath = @"D:\Programming\Lazurite_2\Releases\Plugins\ZWavePlugin.pyp";
             manager.AddPlugin(pluginPath);
@@ -100,7 +100,7 @@ namespace Lazurite.Tests
         public void TestTrigger_3_2()
         {
             Singleton.Add(new FileSavior());
-            Singleton.Add(new ExceptionsHandler());
+            Singleton.Add(new WarningHandler());
             var manager = new PluginsManager();
             var rep = new ScenariosRepository();
 

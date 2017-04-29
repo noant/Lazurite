@@ -27,17 +27,9 @@ namespace Lazurite.Windows.Service
         public LazuriteService(string secretKey)
         {
             _secretKey = secretKey;
-#if DEBUG
-            try
-            {
-#endif
-                _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
-                _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
-                _visualSettings = Singleton.Resolve<VisualSettingsRepository>();
-#if DEBUG
-            }
-            catch { }
-#endif
+            _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+            _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
+            _visualSettings = Singleton.Resolve<VisualSettingsRepository>();
         }
 
         public LazuriteService() : this("secretKey1234567") { }

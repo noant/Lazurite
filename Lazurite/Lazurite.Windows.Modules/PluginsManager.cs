@@ -1,9 +1,9 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.Data;
-using Lazurite.Exceptions;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Windows.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,34 +38,54 @@ namespace Lazurite.Windows.Modules
                             Assembly.GetExecutingAssembly())),
                     "tmp_plugins");
 
-            _exceptionsHandler.Handle(this, () => {
+            try
+            {
                 if (!Directory.Exists(_baseDir))
                     Directory.CreateDirectory(_baseDir);
-            });
+            }
+            catch (Exception e)
+            {
+                _warningHandler.ErrorFormat(e, "Error while creating plugins base directory");
+            }
 
             Debug.WriteLine("plugins base dir: " + _baseDir);
 
             //get all plugins
-            _exceptionsHandler.Handle(this, () =>
+            try
             {
                 if (_savior.Has(_saviorKey))
                     _plugins = _savior.Get<List<PluginInfo>>(_saviorKey);
-            });
+            }
+            catch (Exception e)
+            {
+                _warningHandler.ErrorFormat(e, "Error while load plugins info");
+            }
 
             //remove plugins
             if (_savior.Has(_saviorKey_removePlugins))
             {
-                _exceptionsHandler.Handle(this, () =>
+                try
                 {
                     _pluginsToRemove = _savior.Get<List<PluginInfo>>(_saviorKey_removePlugins);
-                    foreach (var plugin in _pluginsToRemove.ToArray())
+                }
+                catch (Exception e)
+                {
+                    _warningHandler.ErrorFormat(e, "Error while load plugins list to remove");
+                }
+                foreach (var plugin in _pluginsToRemove.ToArray())
+                {
+                    try
                     {
                         var pluginDir = Path.Combine(_baseDir, plugin.Name);
-                        _exceptionsHandler.Handle(this, () => Directory.Delete(pluginDir, true));
+                        Directory.Delete(pluginDir, true);
                         _pluginsToRemove.Remove(plugin);
                     }
-                    _savior.Set(_saviorKey_removePlugins, _pluginsToRemove);
-                });
+                    catch (Exception e)
+                    {
+                        _warningHandler.ErrorFormat(e, "Error while removing plugin [{0}]", plugin.Name);
+                    }
+                }
+                _savior.Set(_saviorKey_removePlugins, _pluginsToRemove);
             }
 
             //updated plugins initilized by adding in app
@@ -77,12 +97,16 @@ namespace Lazurite.Windows.Modules
                 foreach (var tmpPluginFileToUpdate in Directory.GetFiles(_tmpDir))
                 {
                     var pluginName = Path.GetFileNameWithoutExtension(tmpPluginFileToUpdate);
-                    _exceptionsHandler.Handle(this, () =>
+                    try
                     {
                         RemovePluginInternal(pluginName);
                         AddPlugin(tmpPluginFileToUpdate);
                         updatedPlugins.Add(pluginName);
-                    });
+                    }
+                    catch (Exception e)
+                    {
+                        _warningHandler.ErrorFormat(e, "Error while updating plugin [{0}]", pluginName);
+                    }
                 }
             }
 
@@ -92,10 +116,10 @@ namespace Lazurite.Windows.Modules
                 if (!updatedPlugins.Any(x=> x.Equals(plugin.Name)))
                     foreach (var relativePath in plugin.TargetLibraries)
                     {
-                        _exceptionsHandler.Handle(this, () =>
+                        try
                         {
                             var absolutePath = Path.Combine(_baseDir, relativePath);
-                            Debug.WriteLine("plugin " + plugin.Name + " lib path " + absolutePath);
+                            _warningHandler.Debug("plugin " + plugin.Name + " lib path " + absolutePath);
                             var assembly = Utils.LoadAssembly(absolutePath);
                             var types = GetTargetTypes(assembly);
                             _allTypes.AddRange(types.Select(x => new PluginTypeInfo()
@@ -104,17 +128,25 @@ namespace Lazurite.Windows.Modules
                                 Type = x,
                                 Assembly = assembly
                             }));
-                        });
+                        }
+                        catch (Exception e)
+                        {
+                            _warningHandler.ErrorFormat(e, "Error while initializing plugin [{0}]", plugin.Name);
+                        }
                     }
             }
 
             //clear temporary plugin directory
-            _exceptionsHandler.Handle(this, () =>
+            try
             {
                 if (Directory.Exists(_tmpDir))
                     Directory.Delete(_tmpDir, true);
                 Directory.CreateDirectory(_tmpDir);
-            });
+            }
+            catch (Exception e)
+            {
+                _warningHandler.ErrorFormat(e, "Error while clear temporary plugins directory");
+            }
         }
         
         private void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
@@ -150,7 +182,7 @@ namespace Lazurite.Windows.Modules
         private string _tmpDir;
         private ScenariosRepositoryBase _scenarioRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private ISavior _savior = Singleton.Resolve<ISavior>();
-        private IExceptionsHandler _exceptionsHandler = Singleton.Resolve<IExceptionsHandler>();
+        private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
 
         public IAction CreateInstanceOf(Type type)
         {
@@ -196,18 +228,15 @@ namespace Lazurite.Windows.Modules
         /// <param name="Unique name of plugin"></param>
         public void RemovePlugin(string pluginName)
         {
-            _exceptionsHandler.Handle(this, () =>
-            {
-                var plugin = _plugins.Single(x => x.Name.Equals(pluginName));
-                var canRemoveResult = CanRemovePlugin(pluginName);
-                if (!canRemoveResult.CanRemove)
-                    throw new InvalidOperationException(canRemoveResult.Message);
-                _allTypes.RemoveAll(x => x.Plugin.Equals(plugin));
-                _pluginsToRemove.Add(plugin);
-                _plugins.Remove(plugin);
-                _savior.Set(_saviorKey, _plugins);
-                _savior.Set(_saviorKey_removePlugins, _pluginsToRemove);
-            });
+            var plugin = _plugins.Single(x => x.Name.Equals(pluginName));
+            var canRemoveResult = CanRemovePlugin(pluginName);
+            if (!canRemoveResult.CanRemove)
+                throw new InvalidOperationException(canRemoveResult.Message);
+            _allTypes.RemoveAll(x => x.Plugin.Equals(plugin));
+            _pluginsToRemove.Add(plugin);
+            _plugins.Remove(plugin);
+            _savior.Set(_saviorKey, _plugins);
+            _savior.Set(_saviorKey_removePlugins, _pluginsToRemove);
         }
 
         private void RemovePluginInternal(string pluginName)
@@ -222,44 +251,41 @@ namespace Lazurite.Windows.Modules
         /// <param name="pluginPath"></param>
         public void AddPlugin(string pluginPath)
         {
-            _exceptionsHandler.Handle(this, () =>
+            var fileName = Path.GetFileNameWithoutExtension(pluginPath);
+            var destDirectoryPath = Path.Combine(_baseDir, fileName);
+            var canAddLibResult = CanAddPlugin(pluginPath);
+            if (!canAddLibResult.CanAdd)
+                throw new Exception(canAddLibResult.Message);
+            if (!Directory.Exists(destDirectoryPath))
+                Directory.CreateDirectory(destDirectoryPath);
+            Utils.UnpackFile(pluginPath, destDirectoryPath);
+            Debug.WriteLine("plugin " + fileName + " unpacked in: " + destDirectoryPath);
+            var assembliesAndTypes = Utils.GetAssembliesWithType(typeof(IAction), destDirectoryPath);
+            var plugin = new PluginInfo()
             {
-                var fileName = Path.GetFileNameWithoutExtension(pluginPath);
-                var destDirectoryPath = Path.Combine(_baseDir, fileName);
-                var canAddLibResult = CanAddPlugin(pluginPath);
-                if (!canAddLibResult.CanAdd)
-                    throw new Exception(canAddLibResult.Message);
-                if (!Directory.Exists(destDirectoryPath))
-                    Directory.CreateDirectory(destDirectoryPath);
-                Utils.UnpackFile(pluginPath, destDirectoryPath);
-                Debug.WriteLine("plugin " + fileName + " unpacked in: " + destDirectoryPath);
-                var assembliesAndTypes = Utils.GetAssembliesWithType(typeof(IAction), destDirectoryPath);
-                var plugin = new PluginInfo()
-                {
-                    Name = fileName,
-                    TargetLibraries = assembliesAndTypes
-                        .Select(x =>
-                            {
-                                var relativePath = Utils.GetAssemblyPath(x.Assembly).Substring(_baseDir.Length + 1);
-                                Debug.WriteLine("plugin " + fileName + " has target dll with relative path: " + relativePath);
-                                return relativePath;
-                            })
-                            .ToArray()
-                };
-                _plugins.Add(plugin);
-                _allTypes.AddRange(
-                    assembliesAndTypes.SelectMany(x =>
-                        x.Types.Select(z =>
-                            new PluginTypeInfo()
-                            {
-                                Plugin = plugin,
-                                Type = z,
-                                Assembly = x.Assembly
-                            })
-                    )
-                );
-                _savior.Set(_saviorKey, _plugins);
-            });
+                Name = fileName,
+                TargetLibraries = assembliesAndTypes
+                    .Select(x =>
+                        {
+                            var relativePath = Utils.GetAssemblyPath(x.Assembly).Substring(_baseDir.Length + 1);
+                            Debug.WriteLine("plugin " + fileName + " has target dll with relative path: " + relativePath);
+                            return relativePath;
+                        })
+                        .ToArray()
+            };
+            _plugins.Add(plugin);
+            _allTypes.AddRange(
+                assembliesAndTypes.SelectMany(x =>
+                    x.Types.Select(z =>
+                        new PluginTypeInfo()
+                        {
+                            Plugin = plugin,
+                            Type = z,
+                            Assembly = x.Assembly
+                        })
+                )
+            );
+            _savior.Set(_saviorKey, _plugins);
         }
         
         /// <summary>
@@ -269,25 +295,22 @@ namespace Lazurite.Windows.Modules
         /// <returns></returns>
         public CanRemovePluginResult CanRemovePlugin(string pluginName)
         {
-            return _exceptionsHandler.Handle(this, () =>
+            var libraryTypes = _allTypes.Where(x => x.Plugin.Name.Equals(pluginName)).Select(x => x.Type).ToArray();
+            //determine dependent scenarios
+            var dependentScenarios = _scenarioRepository.GetDependentScenarios(libraryTypes);
+            var dependentTriggers = _scenarioRepository.GetDependentTriggers(libraryTypes);
+            if (dependentScenarios.Any() || dependentTriggers.Any())
             {
-                var libraryTypes = _allTypes.Where(x => x.Plugin.Name.Equals(pluginName)).Select(x => x.Type).ToArray();
-                //determine dependent scenarios
-                var dependentScenarios = _scenarioRepository.GetDependentScenarios(libraryTypes);
-                var dependentTriggers = _scenarioRepository.GetDependentTriggers(libraryTypes);
-                if (dependentScenarios.Any() || dependentTriggers.Any())
-                {
-                    var allDependentNames = dependentScenarios
-                            .Select(x => x.Name)
-                            .Union(dependentTriggers.Select(x => x.Name))
-                            .Aggregate((x1, x2) => x1 + ";\r\n" + x2);
+                var allDependentNames = dependentScenarios
+                        .Select(x => x.Name)
+                        .Union(dependentTriggers.Select(x => x.Name))
+                        .Aggregate((x1, x2) => x1 + ";\r\n" + x2);
 
-                    return new CanRemovePluginResult(false,
-                        "Cannot remove plugin, because there is some scenarios or triggers referenced on it:\r\n" +
-                        allDependentNames);
-                }
-                return new CanRemovePluginResult(true);
-            });
+                return new CanRemovePluginResult(false,
+                    "Cannot remove plugin, because there is some scenarios or triggers referenced on it:\r\n" +
+                    allDependentNames);
+            }
+            return new CanRemovePluginResult(true);
         }
 
         /// <summary>
@@ -319,26 +342,23 @@ namespace Lazurite.Windows.Modules
         /// <returns></returns>
         public CanUpdatePluginResult CanUpdatePlugin(string pluginPath)
         {
-            return _exceptionsHandler.Handle(this, () =>
-            {
-                var result = new CanUpdatePluginResult(true);
-                var pluginName = Path.GetFileNameWithoutExtension(pluginPath);
-                if (!_plugins.Any(x => x.Name.Equals(pluginName)))
-                    result = new CanUpdatePluginResult(false, "Plugin not exist");
-                var tmpPluginDir = Path.Combine(_tmpDir, pluginName);
-                if (Directory.Exists(tmpPluginDir))
-                    Directory.Delete(tmpPluginDir, true);
-                Utils.UnpackFile(pluginPath, tmpPluginDir);
-                var newPluginTypes =
-                    Utils.GetAssembliesWithType(typeof(IAction), tmpPluginDir)
-                    .SelectMany(x => x.Types).Select(x => x.Name).ToArray();
-                var oldPluginTypes = _allTypes.Where(x => x.Plugin.Name.Equals(pluginName))
-                    .Select(x => x.Type.Name).ToArray();
-                if (oldPluginTypes.Intersect(newPluginTypes).Count() != oldPluginTypes.Count())
-                    result = new CanUpdatePluginResult(false, "Some plugin types not exists in new plugin");
+            var result = new CanUpdatePluginResult(true);
+            var pluginName = Path.GetFileNameWithoutExtension(pluginPath);
+            if (!_plugins.Any(x => x.Name.Equals(pluginName)))
+                result = new CanUpdatePluginResult(false, "Plugin not exist");
+            var tmpPluginDir = Path.Combine(_tmpDir, pluginName);
+            if (Directory.Exists(tmpPluginDir))
                 Directory.Delete(tmpPluginDir, true);
-                return result;
-            });
+            Utils.UnpackFile(pluginPath, tmpPluginDir);
+            var newPluginTypes =
+                Utils.GetAssembliesWithType(typeof(IAction), tmpPluginDir)
+                .SelectMany(x => x.Types).Select(x => x.Name).ToArray();
+            var oldPluginTypes = _allTypes.Where(x => x.Plugin.Name.Equals(pluginName))
+                .Select(x => x.Type.Name).ToArray();
+            if (oldPluginTypes.Intersect(newPluginTypes).Count() != oldPluginTypes.Count())
+                result = new CanUpdatePluginResult(false, "Some plugin types not exists in new plugin");
+            Directory.Delete(tmpPluginDir, true);
+            return result;
         }
 
         /// <summary>
@@ -347,19 +367,16 @@ namespace Lazurite.Windows.Modules
         /// <param name="pluginPath"></param>
         public void UpdatePlugin(string pluginPath)
         {
-            _exceptionsHandler.Handle(this, () =>
+            var canUpdateResult = CanUpdatePlugin(pluginPath);
+            if (canUpdateResult.CanUpdate)
             {
-                var canUpdateResult = CanUpdatePlugin(pluginPath);
-                if (canUpdateResult.CanUpdate)
-                {
-                    var pluginName = Path.GetFileNameWithoutExtension(pluginPath);
-                    var tmpPluginFile = Path.Combine(_tmpDir, pluginName + PluginFileExtension);
-                    if (File.Exists(tmpPluginFile))
-                        File.Delete(tmpPluginFile);
-                    File.Copy(pluginPath, tmpPluginFile);
-                }
-                else throw new Exception(canUpdateResult.Message);
-            });
+                var pluginName = Path.GetFileNameWithoutExtension(pluginPath);
+                var tmpPluginFile = Path.Combine(_tmpDir, pluginName + PluginFileExtension);
+                if (File.Exists(tmpPluginFile))
+                    File.Delete(tmpPluginFile);
+                File.Copy(pluginPath, tmpPluginFile);
+            }
+            else throw new Exception(canUpdateResult.Message);
         }
     }
 }

@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:ZWavePluginUI"
              xmlns:controls="clr-namespace:LazuriteUI.Controls;assembly=LazuriteUI.Controls"
              mc:Ignorable="d" 
+             Margin="0,1,0,0"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <controls:ItemView x:Name="itemView" IconVisibility="Collapsed"></controls:ItemView>

@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:LazuriteUI.Controls;assembly=LazuriteUI.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="800">
-    <Grid Background="{x:Static controls:Visual.Background}">
+    <Grid Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>

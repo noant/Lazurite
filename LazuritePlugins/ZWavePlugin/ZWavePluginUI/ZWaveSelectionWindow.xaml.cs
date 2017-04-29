@@ -1,5 +1,5 @@
 ﻿using OpenZWrapper;
-using PyriteUI.Controls;
+using LazuriteUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +32,7 @@ namespace ZWavePluginUI
                 var messageView = new MessageView();
                 messageView.HeaderText = "Пожалуйста, подождите...";
                 messageView.ContentText = "Инициализация контроллеров...";
-                messageView.Icon = PyriteUI.Icons.Icon.Hourglass;
+                messageView.Icon = LazuriteUI.Icons.Icon.Hourglass;
                 messageView.StartAnimateProgress();
                 messageView.Show(this.crutchGrid);
                 _manager.ManagerInitializedCallbacksPool.Add(new ManagerInitializedCallback() {

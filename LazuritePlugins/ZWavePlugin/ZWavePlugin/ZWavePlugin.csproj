@@ -31,17 +31,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Releases\PluginsMaterial\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Lazurite.ActionsDomain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.ActionsDomain.dll</HintPath>
+    </Reference>
+    <Reference Include="Lazurite.Windows.Modules, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.Windows.Modules.dll</HintPath>
+    </Reference>
+    <Reference Include="LazuriteUI.PluginsCreator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.PluginsCreator.exe</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Lazurite.ActionsDomain">
-      <HintPath>..\..\..\Releases\MaterialForPlugins\Lazurite.ActionsDomain.dll</HintPath>
-    </Reference>
-    <Reference Include="Lazurite.Windows.Modules">
-      <HintPath>..\..\..\Releases\MaterialForPlugins\Lazurite.Windows.Modules.dll</HintPath>
-    </Reference>
-    <Reference Include="LazuriteUI.PluginsCreator">
-      <HintPath>..\..\..\Releases\MaterialForPlugins\LazuriteUI.PluginsCreator.exe</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

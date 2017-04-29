@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Lazurite.Data;
-using Lazurite.Exceptions;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.MessageSecurity;
@@ -16,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Lazurite.Windows.Logging;
 
 namespace Lazurite.Tests
 {
@@ -26,7 +26,7 @@ namespace Lazurite.Tests
         public void RunServer()
         {
             Singleton.Add(new FileSavior());
-            Singleton.Add(new ExceptionsHandler());
+            Singleton.Add(new WarningHandler());
             Singleton.Add(new ScenariosRepository());
             Singleton.Add(new UsersRepository());
             Singleton.Add(new VisualSettingsRepository());

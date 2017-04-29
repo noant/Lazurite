@@ -4,7 +4,6 @@
              xmlns:local="clr-namespace:LazuriteUI.Controls"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary Source="/LazuriteUI.Controls;component/Styles/FlatStyles.xaml"/>
-
+        <ResourceDictionary Source="/LazuriteUI.Controls;component/Styles/Styles.xaml"/>
     </Application.Resources>
 </Application>
