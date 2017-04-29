@@ -8,20 +8,24 @@
              ClipToBounds="True"
              d:DesignHeight="40" d:DesignWidth="300">
     <Grid Height="40">
-        <Grid Visibility="Collapsed" Name="moveGrid" Width="250" VerticalAlignment="Center" Height="200" HorizontalAlignment="Center" Opacity="0.4" Background="DarkMagenta">
+        <Grid Visibility="Collapsed" Name="moveGrid" Width="250" VerticalAlignment="Center" Height="1000" HorizontalAlignment="Center" Opacity="0.4" Background="DarkMagenta">
             <Grid.Effect>
                 <BlurEffect Radius="200" RenderingBias="Performance"></BlurEffect>
             </Grid.Effect>
             <Grid.RenderTransform>
                 <TransformGroup>
-                    <SkewTransform x:Name="skewTransform" AngleX="0"></SkewTransform>                    
+                    <SkewTransform x:Name="skewTransform" AngleX="0"></SkewTransform>
+                    <ScaleTransform x:Name="scaleTransform" ScaleX="1"></ScaleTransform>
                 </TransformGroup>
             </Grid.RenderTransform>
             <Grid.Resources>
                 <Storyboard x:Key="moveGridAnimation" x:Name="moveGridAnimation" RepeatBehavior="Forever" AutoReverse="False">
                     <DoubleAnimation Storyboard.TargetName="skewTransform" 
                               Storyboard.TargetProperty="AngleX"
-                              From="-1000" To="1000" Duration="0:0:8" />
+                              From="-1000" To="1000" Duration="0:0:16" />
+                    <DoubleAnimation Storyboard.TargetName="scaleTransform"
+                              Storyboard.TargetProperty="ScaleX"
+                              From="1" To="5" Duration="0:0:16" />
                 </Storyboard>
             </Grid.Resources>
         </Grid>

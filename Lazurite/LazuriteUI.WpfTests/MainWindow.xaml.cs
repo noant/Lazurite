@@ -26,6 +26,7 @@ namespace LazuriteUI.WpfTests
         {
             InitializeComponent();
             this.Icon = BitmapFrame.Create(Icons.Utils.GetIconData(Icons.Icon.Lazurite64));
+            caption.StartAnimateProgress();
         }
 
         private void button_Copy1_Click(object sender, RoutedEventArgs e)
