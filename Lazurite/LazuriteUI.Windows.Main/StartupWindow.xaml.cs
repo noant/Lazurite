@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace LazuriteUI.Windows.Main
+{
+    /// <summary>
+    /// Логика взаимодействия для SplashView.xaml
+    /// </summary>
+    public partial class StartupWindow : Window
+    {
+        public StartupWindow()
+        {
+            InitializeComponent();
+            this.progress.StartProgress();
+
+            new Thread(() =>
+            {
+                Thread.Sleep(10000);
+                new MainWindow().Show();
+                this.Close();
+            }).Start();
+        }
+    }
+}

@@ -24,6 +24,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
             set;
         }
 
+        public override void CalculateCurrentValueAsync(Action<string> callback)
+        {
+            //async is neccesary
+            callback(CalculateCurrentValue());
+        }
+
         public override string CalculateCurrentValue()
         {
             //just return last "returned" state

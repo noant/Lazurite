@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.LazuriteView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <controls:IconView x:Name="iconView" Grid.Column="0" Icon="Lazurite128" Width="Auto" HorizontalAlignment="Left" Margin="3"></controls:IconView>
+        <Grid Grid.Column="1">
+            <Viewbox>
+                <TextBlock FontFamily="Verdana" VerticalAlignment="Center" Foreground="SteelBlue">Lazurite</TextBlock>
+            </Viewbox>
+        </Grid>
+    </Grid>
+</UserControl>

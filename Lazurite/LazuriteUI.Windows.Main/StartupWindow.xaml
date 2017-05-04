@@ -1,0 +1,23 @@
+﻿<Window x:Class="LazuriteUI.Windows.Main.StartupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LazuriteUI.Windows.Main"
+        xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+        mc:Ignorable="d"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Title="SplashView" Height="250" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Topmost="True" WindowStyle="None">
+    <Window.Resources>
+        <ResourceDictionary Source="/LazuriteUI.Windows.Controls;component/Styles/Styles.xaml" />
+    </Window.Resources>
+    <Grid Margin="7" Background="{x:Static controls:Visual.BackgroundLazurite}" 
+        Effect="{DynamicResource GlowEffect}">
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Center">
+            <local:LazuriteView VerticalAlignment="Center" Margin="0,0,0,5" HorizontalAlignment="Center" Width="250"></local:LazuriteView>
+            <TextBlock Margin="10" Foreground="White" Opacity="0.2" VerticalAlignment="Bottom" HorizontalAlignment="Center">Управление системами умного дома</TextBlock>
+        </Grid>
+        <controls:Progress x:Name="progress"></controls:Progress>
+    </Grid>
+</Window>

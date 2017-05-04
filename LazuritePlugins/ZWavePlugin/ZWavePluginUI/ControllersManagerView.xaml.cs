@@ -1,5 +1,5 @@
 ﻿using OpenZWrapper;
-using LazuriteUI.Controls;
+using LazuriteUI.Windows.Controls;
 using LazuriteUI.Icons;
 using System;
 using System.Collections.Generic;

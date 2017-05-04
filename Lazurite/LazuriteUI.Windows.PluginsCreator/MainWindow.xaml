@@ -1,0 +1,16 @@
+﻿<Window x:Class="LazuriteUI.Windows.PluginsCreator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LazuriteUI.Windows.PluginsCreator"
+        mc:Ignorable="d"
+        WindowStyle="ToolWindow"
+        xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+        Title="Создать плагин" Height="188.683" Width="712.872">
+    <Grid Background="{x:Static controls:Visual.Background}">
+        <controls:CaptionView VerticalAlignment="Top" x:Name="cvTop" Icon="Opacity">Запаковать плагин</controls:CaptionView>
+        <controls:ItemView IsEnabled="False" x:Name="btCreate" Click="btCreate_Click" VerticalAlignment="Bottom" Icon="Add">Создать</controls:ItemView>
+        <controls:ItemView x:Name="btSelect" Click="btSelect_Click" VerticalAlignment="Center" IconVisibility="Collapsed" HorizontalAlignment="Center" Width="600">Выбрать папку...</controls:ItemView>
+    </Grid>
+</Window>

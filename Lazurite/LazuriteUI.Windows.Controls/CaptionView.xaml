@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Controls.CaptionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             ClipToBounds="True"
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Controls"
+             mc:Ignorable="d"
+             Background="{Binding Source={x:Static local:Visual.BrightItemBackground}}"
+             Height="40">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/LazuriteUI.Windows.Controls;component/Styles/Styles.xaml" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid Width="20" HorizontalAlignment="Left" Background="BlueViolet" Opacity="0.2" />
+        <local:Progress x:Name="progressBar"></local:Progress>
+        <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Name="stackPanel" x:FieldModifier="private">
+            <StackPanel.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="stackPanel"
+                              Storyboard.TargetProperty="Opacity"
+                              From="0" To="1" Duration="0:0:0.45" />
+                            <ThicknessAnimation Storyboard.TargetName="stackPanel" 
+                              Storyboard.TargetProperty="Margin"
+                              From="-200,0,0,0" To="20,0,0,0" Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </StackPanel.Triggers>
+            <local:IconView Height="45" Width="45" IsHitTestVisible="False" x:Name="iconView" x:FieldModifier="private" Icon="AddMultiple" Visibility="{Binding IconVisibility}" VerticalAlignment="Center" HorizontalAlignment="Left"></local:IconView>
+            <Label Style="{DynamicResource BigLabelStyle}" IsHitTestVisible="False" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" Name="label" x:FieldModifier="private"></Label>
+        </StackPanel>
+    </Grid>
+</UserControl>

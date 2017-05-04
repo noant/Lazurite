@@ -40,6 +40,14 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return new[] { TargetAction.GetType() };
         }
 
+        public override void CalculateCurrentValueAsync(Action<string> callback)
+        {
+            if (!TargetAction.IsSupportsEvent)
+                base.CalculateCurrentValueAsync(callback);
+            //return cached value, callback in not neccesary
+            else callback(GetCurrentValue());
+        }
+
         public override string CalculateCurrentValue()
         {
             //if action not send some info when value changed then calculate value
@@ -63,12 +71,13 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void Initialize(ScenariosRepositoryBase repository)
         {
-            if (this.TargetAction is ICoreAction)
+            if (this.TargetAction is ICoreAction && repository != null)
             {
                 ((ICoreAction)TargetAction)
                     .SetTargetScenario(repository.Scenarios.SingleOrDefault(x=>x.Id.Equals(((ICoreAction)TargetAction).TargetScenarioId)));
             }
             TargetAction.Initialize();
+            _currentValue = TargetAction.GetValue(null);
             this.TargetAction.ValueChanged += (action, value) => SetCurrentValueInternal(value);
         }
 

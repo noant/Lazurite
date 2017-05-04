@@ -1,26 +1,20 @@
-﻿using System.Reflection;
+﻿using System.Resources;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// Управление общими сведениями о сборке осуществляется с помощью 
-// набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
-// связанные со сборкой.
-[assembly: AssemblyTitle("Lazurite.Icons")]
-[assembly: AssemblyDescription("Icons. Powered by http://modernuiicons.com")]
+// Общие сведения о сборке определяются следующим 
+// набором атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
+// связанные с этой сборкой.
+[assembly: AssemblyTitle("LazuriteUI.Icons")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Lazurite.Icons")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyProduct("LazuriteUI.Icons")]
+[assembly: AssemblyCopyright("©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
-// Параметр ComVisible со значением FALSE делает типы в сборке невидимыми 
-// для COM-компонентов.  Если требуется обратиться к типу в этой сборке через 
-// COM, задайте атрибуту ComVisible значение TRUE для этого типа.
-[assembly: ComVisible(false)]
-
-// Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("955559ca-3f58-442e-bf44-78fb25741fbe")]
+[assembly: NeutralResourcesLanguage("ru")]
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //
@@ -30,7 +24,7 @@ using System.Runtime.InteropServices;
 //      Редакция
 //
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
-// используя "*", как показано ниже:
+// указав "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]

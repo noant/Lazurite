@@ -3604,9 +3604,9 @@ SetReturnValueAction
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">2196</XPD:ATTR>
-<XPD:ATTR name="Top" type="integer">512</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">476</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">122</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">95</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">108</XPD:ATTR>
 <XPD:REF name="Model">yb4brI1xFE+nG/uYht4MxwAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="56swOzzawki9MEnxYzu84QAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="S6RlFzLuakujLAsRherNbgAA">
@@ -3635,7 +3635,7 @@ SetReturnValueAction
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="LineStyle" type="LineStyleKind">lsRectilinear</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">2707,696;2707,684;2256,684;2256,606</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">2707,696;2707,684;2256,684;2256,583</XPD:ATTR>
 <XPD:REF name="Model">uVW73xZe2ky9KX3uIj3VkAAA</XPD:REF>
 <XPD:REF name="Head">zqcgDPEGikCBZXH9FV4iNwAA</XPD:REF>
 <XPD:REF name="Tail">VliUTPnYKUavJYMpqETtswAA</XPD:REF>
@@ -6843,7 +6843,7 @@ VisualCore
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="LineStyle" type="LineStyleKind">lsRectilinear</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">2576,696;2204,696;2204,606</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">2576,696;2204,696;2204,583</XPD:ATTR>
 <XPD:REF name="Model">dI4o8Igv3EiuhhcDyowHfgAA</XPD:REF>
 <XPD:REF name="Head">zqcgDPEGikCBZXH9FV4iNwAA</XPD:REF>
 <XPD:REF name="Tail">oHRQhdi3Y0CWLd8f11UBcQAA</XPD:REF>
@@ -8073,8 +8073,8 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">2904</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">1552</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">417</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">353</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">245</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">205</XPD:ATTR>
 <XPD:REF name="Model">s8vixzHjI0C6z8aTtd9/5AAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="5XepMqZHH0ya7zb1wvw+GQAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="yAvAlmob3k+FWebJzfxRBgAA">
@@ -11476,7 +11476,7 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="TypedParameters[6]">YH4bxxm4aEGcQ1fWt+nphQAA</XPD:REF>
 <XPD:ATTR name="#Associations" type="integer">1</XPD:ATTR>
 <XPD:REF name="Associations[0]">EzswrL43zESWrwpsD1PkFQAA</XPD:REF>
-<XPD:ATTR name="#Attributes" type="integer">3</XPD:ATTR>
+<XPD:ATTR name="#Attributes" type="integer">4</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="kxlTgeY0FECwWm6bvhJKbwAA">
 <XPD:ATTR name="Name" type="string">Id</XPD:ATTR>
 <XPD:ATTR name="StereotypeName" type="string">guid</XPD:ATTR>
@@ -11490,6 +11490,11 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 </XPD:OBJ>
 <XPD:OBJ name="Attributes[2]" type="UMLAttribute" guid="MRT+akUzvUqEhoxFEFBahgAA">
 <XPD:ATTR name="Name" type="string">PasswordHash</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
+<XPD:REF name="Owner">yb4brI1xFE+nG/uYht4MxwAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[3]" type="UMLAttribute" guid="MYRiA0KMgEmKpSxj5jWUZgAA">
+<XPD:ATTR name="Name" type="string">Name</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="Owner">yb4brI1xFE+nG/uYht4MxwAA</XPD:REF>
 </XPD:OBJ>

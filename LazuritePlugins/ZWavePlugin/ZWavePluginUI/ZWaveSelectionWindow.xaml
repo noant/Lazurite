@@ -7,7 +7,7 @@
         WindowState="Maximized"
         mc:Ignorable="d"
         WindowStyle="SingleBorderWindow"
-        xmlns:controls="clr-namespace:LazuriteUI.Controls;assembly=LazuriteUI.Controls"
+        xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
         Title="Z-Wave" Height="300" Width="1000">
     <Grid Background="{x:Static controls:Visual.Background}">
         <Grid.RowDefinitions>

@@ -1,0 +1,9 @@
+﻿<Application x:Class="LazuriteUI.Windows.Controls.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Controls"
+             StartupUri="Splash.xaml">
+    <Application.Resources>
+        <ResourceDictionary Source="/LazuriteUI.Windows.Controls;component/Styles/Styles.xaml"/>
+    </Application.Resources>
+</Application>

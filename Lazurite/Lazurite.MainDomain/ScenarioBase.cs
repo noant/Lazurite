@@ -65,6 +65,17 @@ namespace Lazurite.MainDomain
         public abstract string CalculateCurrentValue();
 
         /// <summary>
+        /// Current value of scenario execution
+        /// </summary>
+        public virtual void CalculateCurrentValueAsync(Action<string> callback)
+        {
+            Task.Factory.StartNew(() => {
+                var result = CalculateCurrentValue();
+                callback(result);
+            });
+        }
+
+        /// <summary>
         /// Get cached result of scenario execution
         /// </summary>
         /// <param name="value"></param>

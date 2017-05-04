@@ -1,0 +1,14 @@
+﻿<Window x:Class="LazuriteUI.Windows.Main.TestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LazuriteUI.Windows.Main"
+        xmlns:switches="clr-namespace:LazuriteUI.Windows.Main.Switches"
+        mc:Ignorable="d"
+        Background="Black"
+        Title="TestWindows" Height="300" Width="300">
+    <Grid Name="grid">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Name="stack" Orientation="Horizontal"></StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Switches.StatusViewSwitch"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Switches"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d"
+             Background="Black"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="tbScenarioName" Foreground="SteelBlue" FontSize="12"></TextBlock>
+        <controls:ListItemsView Grid.Row="1" x:Name="listItemsStates" SelectionMode="Single" x:FieldModifier="private"></controls:ListItemsView>
+    </Grid>
+</UserControl>

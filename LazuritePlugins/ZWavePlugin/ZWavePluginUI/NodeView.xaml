@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ZWavePluginUI"
              Margin="0,1,0,0"
              mc:Ignorable="d"
-             xmlns:controls="clr-namespace:LazuriteUI.Controls;assembly=LazuriteUI.Controls"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <controls:ItemView x:FieldModifier="private" Name="itemView"></controls:ItemView>
