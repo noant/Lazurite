@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LazuriteUI.Windows.Main.Switches.StatusView"
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Switches.InfoView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,12 +7,12 @@
              mc:Ignorable="d" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              Height="80" Width="80"
+             Background="{x:Static controls:Visual.BackgroundLazurite}"
              d:DesignHeight="80" d:DesignWidth="80">
     <Grid>
         <Grid.Resources>
             <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
         </Grid.Resources>
-        <controls:ItemView Name="itemView" VerticalAlignment="Stretch" Height="80" IconVisibility="Collapsed" Background="{x:Static controls:Visual.BackgroundLazurite}" HorizontalAlignment="Stretch"></controls:ItemView>
         <Grid IsHitTestVisible="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
@@ -20,11 +20,11 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}"></controls:IconView>
-            <Viewbox Grid.Row="1" VerticalAlignment="Center" Margin="3,0,3,0">
+            <Viewbox Grid.Row="1" VerticalAlignment="Top" Margin="3,0,3,0">
                 <TextBlock Name="textBlockScenName" Text="{Binding ScenarioName}" x:FieldModifier="private" Foreground="SteelBlue" FontSize="8.5"></TextBlock>
             </Viewbox>
-            <Viewbox Grid.Row="2" VerticalAlignment="Bottom" Margin="3,0,3,3" >
-                <TextBlock Name="textBlockScenValue" Text="{Binding ScenarioValue}" x:FieldModifier="private" Foreground="White" VerticalAlignment="Top" TextAlignment="Center" FontSize="9"></TextBlock>
+            <Viewbox Grid.Row="2" VerticalAlignment="Top" Margin="3,0,3,3">
+                <TextBlock Name="textBlockScenValue" Text="{Binding ScenarioValue}" x:FieldModifier="private" Foreground="White" VerticalAlignment="Top" TextAlignment="Center" FontSize="8.5"></TextBlock>
             </Viewbox>
         </Grid>
     </Grid>

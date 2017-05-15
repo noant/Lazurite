@@ -34,7 +34,7 @@ namespace Lazurite.MainDomain
             OnUserRemoved?.Invoke(user);
         }
 
-        public abstract UserBase SystemUser { get; set; }
+        public abstract UserBase SystemUser { get; }
         public abstract void Add(UserBase user);
         public abstract void Add(UserGroupBase group);
         public abstract void Remove(UserBase user);

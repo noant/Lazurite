@@ -9,6 +9,6 @@
         Background="Black"
         Title="TestWindows" Height="300" Width="300">
     <Grid Name="grid">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Name="stack" Orientation="Horizontal"></StackPanel>
+        <local:SwitchesGrid x:Name="switches"></local:SwitchesGrid>
     </Grid>
 </Window>

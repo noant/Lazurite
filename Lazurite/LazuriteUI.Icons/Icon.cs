@@ -1271,6 +1271,7 @@ namespace LazuriteUI.Icons
         Lazurite32,
         Lazurite16,
         On,
-        Off
+        Off,
+        None
     }
 }

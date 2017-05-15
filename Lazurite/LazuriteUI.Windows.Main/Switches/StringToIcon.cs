@@ -9,20 +9,19 @@ using System.Windows.Data;
 
 namespace LazuriteUI.Windows.Main.Switches
 {
-    [ValueConversion(typeof(bool), typeof(Icon))]
-    public class BoolToIconConverter : IValueConverter
+    [ValueConversion(typeof(string), typeof(Icon))]
+    public class StringToIcon : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(bool)value)
-                return Icon.On;
-            else
-                return Icon.Off;
+            if (string.IsNullOrEmpty(value as string))
+                return Icon.None;
+            return Enum.Parse(typeof(Icon), value.ToString());
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return Enum.GetName(typeof(Icon), value);
         }
     }
 }

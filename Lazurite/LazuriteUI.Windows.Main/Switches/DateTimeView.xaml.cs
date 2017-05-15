@@ -22,14 +22,14 @@ namespace LazuriteUI.Windows.Main.Switches
     /// <summary>
     /// Логика взаимодействия для ToggleView.xaml
     /// </summary>
-    public partial class StatusView : UserControl
+    public partial class DateTimeView : UserControl
     {
-        public StatusView()
+        public DateTimeView()
         {
             InitializeComponent();
         }
 
-        public StatusView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
+        public DateTimeView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
         {
             this.DataContext = new ScenarioModel(scenario, visualSettings);
             itemView.Click += ItemView_Click;
@@ -37,9 +37,14 @@ namespace LazuriteUI.Windows.Main.Switches
 
         private void ItemView_Click(object sender, RoutedEventArgs e)
         {
-            var statusSwitch = new StatusViewSwitch((ScenarioModel)this.DataContext);
-            var dialog = new DialogView(statusSwitch);
-            statusSwitch.StateChanged += (o, e2) => dialog.Close();
+            var dateTimeSwitch = new DateTimeViewSwitch() {
+                DateTime = DateTime.Parse(((ScenarioModel)this.DataContext).ScenarioValue)
+            };
+            var dialog = new DialogView(dateTimeSwitch);
+            dateTimeSwitch.Apply += (o, args) => {
+                dialog.Close();
+                ((ScenarioModel)this.DataContext).ScenarioValue = dateTimeSwitch.DateTime.ToString();
+            };
             dialog.Show(Window.GetWindow(this).Content as Grid);
         }
     }

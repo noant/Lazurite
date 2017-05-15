@@ -4526,7 +4526,7 @@ VisualCore
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">2956</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">44</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">117</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">141</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">121</XPD:ATTR>
 <XPD:REF name="Model">Mxff9X4tkEi37yzdmsvgfAAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="h6yQwYNGCESVnb4ycXBrAQAA">
@@ -7020,7 +7020,7 @@ VisualCore
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="LineStyle" type="LineStyleKind">lsRectilinear</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">3600,64;3072,64</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">3600,64;3096,64</XPD:ATTR>
 <XPD:REF name="Model">QocNaxTn4Uyf6xX0LrSasQAA</XPD:REF>
 <XPD:REF name="Head">8Gz8DV/YPUiV8HbcaOIccwAA</XPD:REF>
 <XPD:REF name="Tail">J0SSdf6GJUiap7zf2OvTPwAA</XPD:REF>
@@ -11924,8 +11924,9 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Owner">Mxff9X4tkEi37yzdmsvgfAAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Attributes[1]" type="UMLAttribute" guid="ZEYIja++OEWi8ewnbwuHAgAA">
-<XPD:ATTR name="Name" type="string">BackColor</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">Color</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">AddictionalData</XPD:ATTR>
+<XPD:ATTR name="Multiplicity" type="string">0</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="Owner">Mxff9X4tkEi37yzdmsvgfAAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Attributes[2]" type="UMLAttribute" guid="zWTfAkR4v0qoR3e8vZUIiwAA">

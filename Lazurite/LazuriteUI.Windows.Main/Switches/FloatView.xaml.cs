@@ -26,9 +26,9 @@ namespace LazuriteUI.Windows.Main.Switches
             InitializeComponent();
         }
 
-        public FloatView(ScenarioBase scenario): this()
+        public FloatView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
         {
-            this.DataContext = new ScenarioModel(scenario);
+            this.DataContext = new ScenarioModel(scenario, visualSettings);
         }
     }
 }

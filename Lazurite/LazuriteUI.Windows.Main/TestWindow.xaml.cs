@@ -18,6 +18,10 @@ using LazuriteUI.Windows.Main.Switches;
 using Lazurite.IOC;
 using Lazurite.Windows.Logging;
 using System.Threading;
+using Lazurite.MainDomain;
+using Lazurite.Windows.Core;
+using Lazurite.Security;
+using Lazurite.Data;
 
 namespace LazuriteUI.Windows.Main
 {
@@ -30,34 +34,52 @@ namespace LazuriteUI.Windows.Main
         {
             InitializeComponent();
             Singleton.Add(new WarningHandler());
+            Singleton.Add(new FileSavior());
+            Singleton.Add(new UsersRepository());
+
+            var scens = new List<ScenarioBase>();
+            var visualSettings = new List<UserVisualSettings>();
 
             var scenario = new SingleActionScenario();
             scenario.TargetAction = new ToggleTestAction();
             scenario.Initialize(null);
             scenario.Name = "Переключатель";
-            this.stack.Children.Add(new ToggleView(scenario) { Margin = new Thickness(2) });
+            scens.Add(scenario);
 
             var scenario0 = new SingleActionScenario();
             scenario0.TargetAction = new ToggleTestAction();
             scenario0.Initialize(null);
             scenario0.Name = "Свет на кухне";
-            this.stack.Children.Add(new ToggleView(scenario0) { Margin = new Thickness(2) });
+            scens.Add(scenario0);
 
+            var scenario3 = new SingleActionScenario();
+            scenario3.Name = "Свет в ванной";
+            scenario3.TargetAction = new StatusTestAction();
+            scenario3.Initialize(null);
+            scens.Add(scenario3);
+            
             var scenario2 = new SingleActionScenario();
             scenario2.TargetAction = new FloatTestAction();
             scenario2.Initialize(null);
             scenario2.Name = "Уровень звука";
-            this.stack.Children.Add(new FloatView(scenario2)
-            {
-                Width = 200,
-                Margin = new Thickness(2)
-            });
+            scens.Add(scenario2);
+            visualSettings.Add(new UserVisualSettings() { ScenarioId = scenario2.Id, AddictionalData = new[] { "Sound2", "LightbulbHue" } });
+            
+            var scenario4 = new SingleActionScenario();
+            scenario4.Name = "Компьютер";
+            scenario4.TargetAction = new ButtonTestAction();
+            scenario4.Initialize(null);
+            scens.Add(scenario4);
+            visualSettings.Add(new UserVisualSettings() { ScenarioId = scenario4.Id, AddictionalData = new[] { "TvNews", "LightbulbHue" } });
 
-            var scenario3 = new SingleActionScenario();
-            scenario3.Name = "Свет";
-            scenario3.TargetAction = new StatusTestAction();
-            scenario3.Initialize(null);
-            this.stack.Children.Add(new StatusView(scenario3) { Margin = new Thickness(2) });
+            var scenario5 = new SingleActionScenario();
+            scenario5.Name = "Свет в ванной";
+            scenario5.TargetAction = new DateTimeTestAction();
+            scenario5.Initialize(null);
+            scens.Add(scenario5);
+            visualSettings.Add(new UserVisualSettings() { ScenarioId = scenario5.Id, AddictionalData = new[] { "TvNews", "LightbulbHue" } });
+
+            switches.Initialize(scens.ToArray(), visualSettings.ToArray());
         }
 
         public class ToggleTestAction : IAction
@@ -114,6 +136,61 @@ namespace LazuriteUI.Windows.Main
                     _val = ToggleValueType.ValueON;
                     ValueChanged?.Invoke(this, _val);
                 });
+            }
+
+            public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
+            {
+                return true;
+            }
+        }
+
+        public class ButtonTestAction : IAction
+        {
+            public string Caption
+            {
+                get
+                {
+                    return "";
+                }
+                set
+                {
+                }
+            }
+
+            public bool IsSupportsEvent
+            {
+                get
+                {
+                    return true;
+                }
+            }
+
+            public ValueTypeBase ValueType
+            {
+                get
+                {
+                    return new ButtonValueType();
+                }
+
+                set
+                {
+                }
+            }
+
+            public event ValueChangedDelegate ValueChanged;
+            
+            public string GetValue(Lazurite.ActionsDomain.ExecutionContext context)
+            {
+                return "";
+            }
+
+            public void Initialize()
+            {
+            }
+
+            public void SetValue(Lazurite.ActionsDomain.ExecutionContext context, string value)
+            {
+
             }
 
             public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
@@ -254,6 +331,132 @@ namespace LazuriteUI.Windows.Main
                 Task.Factory.StartNew(() => {
                     Thread.Sleep(4000);
                     _val = "Аварийный";
+                    ValueChanged?.Invoke(this, _val);
+                });
+            }
+
+            public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
+            {
+                return true;
+            }
+        }
+
+        public class DateTimeTestAction : IAction
+        {
+            public string Caption
+            {
+                get
+                {
+                    return "";
+                }
+
+                set
+                {
+                }
+            }
+
+            public bool IsSupportsEvent
+            {
+                get
+                {
+                    return true;
+                }
+            }
+
+            public ValueTypeBase ValueType
+            {
+                get
+                {
+                    return new DateTimeValueType();
+                }
+
+                set
+                {
+                }
+            }
+
+            public event ValueChangedDelegate ValueChanged;
+
+            private string _val = DateTime.Now.ToString();
+
+            public string GetValue(Lazurite.ActionsDomain.ExecutionContext context)
+            {
+                return _val;
+            }
+
+            public void Initialize()
+            {
+            }
+
+            public void SetValue(Lazurite.ActionsDomain.ExecutionContext context, string value)
+            {
+                _val = value;
+                Task.Factory.StartNew(() => {
+                    Thread.Sleep(8000);
+                    _val = DateTime.Now.ToString();
+                    ValueChanged?.Invoke(this, _val);
+                });
+            }
+
+            public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
+            {
+                return true;
+            }
+        }
+
+        public class InfoTestAction : IAction
+        {
+            public string Caption
+            {
+                get
+                {
+                    return "";
+                }
+
+                set
+                {
+                }
+            }
+
+            public bool IsSupportsEvent
+            {
+                get
+                {
+                    return true;
+                }
+            }
+
+            public ValueTypeBase ValueType
+            {
+                get
+                {
+                    return new InfoValueType();
+                }
+
+                set
+                {
+                }
+            }
+
+            public event ValueChangedDelegate ValueChanged;
+
+            private string _val = "+25";
+
+            public string GetValue(Lazurite.ActionsDomain.ExecutionContext context)
+            {
+                return _val;
+            }
+
+            public void Initialize()
+            {
+            }
+
+            public void SetValue(Lazurite.ActionsDomain.ExecutionContext context, string value)
+            {
+                _val = value;
+                Task.Factory.StartNew(() => {
+                    Thread.Sleep(4000);
+                    _val = DateTime.Now.ToString();
                     ValueChanged?.Invoke(this, _val);
                 });
             }

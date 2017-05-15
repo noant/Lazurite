@@ -87,7 +87,6 @@ namespace Lazurite.Windows.Service
             if (visualSettings == null)
                 visualSettings = new UserVisualSettings()
                 {
-                    Color = new byte[] { Color.AliceBlue.R, Color.AliceBlue.G, Color.AliceBlue.B },
                     PositionX = 0,
                     PositionY = 0,
                     ScenarioId = scenarioId,
@@ -182,7 +181,7 @@ namespace Lazurite.Windows.Service
             var decryptedVS = visualSettings.Decrypt(_secretKey);
             var user = GetCurrentUser();
             decryptedVS = new UserVisualSettings() {
-                Color = decryptedVS.Color,
+                AddictionalData = decryptedVS.AddictionalData,
                 PositionX = decryptedVS.PositionX,
                 PositionY = decryptedVS.PositionY,
                 ScenarioId = decryptedVS.ScenarioId,

@@ -6,11 +6,13 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Switches"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
-             Height="80"
+             Height="80" 
+             Background="{x:Static controls:Visual.BackgroundLazurite}"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Background="{x:Static controls:Visual.BackgroundLazurite}">
+    <Grid>
         <Grid.Resources>
             <local:ValueTypeStringToDouble x:Key="valueTypeStringToDouble"></local:ValueTypeStringToDouble>
+            <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
             <Style x:Key="SliderThumbStyle" TargetType="{x:Type Thumb}">
                 <Setter Property="OverridesDefaultStyle" Value="True"/>
                 <Setter Property="Template">
@@ -74,11 +76,11 @@
                     <TickBar x:Name="TopTick" Visibility="Collapsed" Fill="LightGray" Placement="Top" SnapsToDevicePixels="True"
                  Height="4" Margin="0,0,0,2" />
                     <Border x:Name="TrackBackground"
-                Grid.Row="1"
-                Margin="10,0"
-                BorderThickness="2"
-                BorderBrush="White"
-                VerticalAlignment="Center" Height="3" />
+                        Grid.Row="1"
+                        Margin="10,0"
+                        BorderThickness="2"
+                        BorderBrush="White"
+                        VerticalAlignment="Center" Height="3" />
                     <Track x:Name="PART_Track" Grid.Row="1">
                         <Track.DecreaseRepeatButton>
                             <RepeatButton Command="{x:Static Slider.DecreaseLarge}"  Style="{StaticResource SliderRepeatButtonStyle}" />
@@ -166,7 +168,10 @@
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <TextBlock Text="{Binding ScenarioName}" Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5,14,0,5"></TextBlock>
+        <StackPanel Height="16" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-40,15,0,5">
+            <controls:IconView VerticalAlignment="Center" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" Height="40" Width="40"></controls:IconView>
+            <TextBlock Text="{Binding ScenarioName}" Foreground="White"></TextBlock>
+        </StackPanel> 
         <Slider Delay="500" IsMoveToPointEnabled="True" Style="{StaticResource SliderStyle}" Value="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToDouble}, Mode=TwoWay}" Minimum="{Binding Min}" Maximum="{Binding Max}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="5"></Slider>
     </Grid>
 </UserControl>

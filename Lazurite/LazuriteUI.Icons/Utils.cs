@@ -12,10 +12,15 @@ namespace LazuriteUI.Icons
     {
         public static Stream GetIconData(Icon icon)
         {
+            return GetIconData(Enum.GetName(typeof(Icon), icon));
+        }
+
+        public static Stream GetIconData(string iconName)
+        {
             return typeof(Utils)
                     .GetTypeInfo()
                     .Assembly
-                    .GetManifestResourceStream(string.Format("LazuriteUI.Icons.Icons.{0}.png", Enum.GetName(typeof(Icon), icon)));
+                    .GetManifestResourceStream(string.Format("LazuriteUI.Icons.Icons.{0}.png", iconName));
         }
     }
 }

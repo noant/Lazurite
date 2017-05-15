@@ -51,18 +51,23 @@ namespace Lazurite.Windows.Core
         {
             Task.Factory.StartNew(() =>
             {
-                Singleton.Add(WarningHandler = new WarningHandler());
-                Singleton.Add(Savior = new FileSavior());
-                Singleton.Add(ScenariosRepository = new ScenariosRepository());
-                Singleton.Add(ClientsFactory = new ServiceClientFactory());
-                Singleton.Add(UsersRepository = new UsersRepository());
-                Singleton.Add(VisualSettingsRepository = new VisualSettingsRepository());
-                PluginsManager = new PluginsManager();
-                Server = new LazuriteServer();
-                SetSettings(Savior.Get<CoreSettings>(SettingsKey));
-                Server.Start();
+                Initialize();
                 callback?.Invoke();
             });
+        }
+
+        public void Initialize()
+        {
+            Singleton.Add(WarningHandler = new WarningHandler());
+            Singleton.Add(Savior = new FileSavior());
+            Singleton.Add(ScenariosRepository = new ScenariosRepository());
+            Singleton.Add(ClientsFactory = new ServiceClientFactory());
+            Singleton.Add(UsersRepository = new UsersRepository());
+            Singleton.Add(VisualSettingsRepository = new VisualSettingsRepository());
+            PluginsManager = new PluginsManager();
+            Server = new LazuriteServer();
+            SetSettings(Savior.Get<CoreSettings>(SettingsKey));
+            Server.Start();
         }
     }
 }

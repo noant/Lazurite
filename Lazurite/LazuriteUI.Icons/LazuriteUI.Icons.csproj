@@ -1311,6 +1311,9 @@
     <EmbeddedResource Include="Icons\YoutubePlay.png" />
     <EmbeddedResource Include="Icons\Zune.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icons\None.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)" == "Release" start CopyToReleaseDir.bat

@@ -1,7 +1,6 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.MainDomain;
-using LazuriteUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,25 +21,17 @@ namespace LazuriteUI.Windows.Main.Switches
     /// <summary>
     /// Логика взаимодействия для ToggleView.xaml
     /// </summary>
-    public partial class StatusView : UserControl
+    public partial class ButtonView : UserControl
     {
-        public StatusView()
+        public ButtonView()
         {
             InitializeComponent();
         }
 
-        public StatusView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
+        public ButtonView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
         {
             this.DataContext = new ScenarioModel(scenario, visualSettings);
-            itemView.Click += ItemView_Click;
-        }
-
-        private void ItemView_Click(object sender, RoutedEventArgs e)
-        {
-            var statusSwitch = new StatusViewSwitch((ScenarioModel)this.DataContext);
-            var dialog = new DialogView(statusSwitch);
-            statusSwitch.StateChanged += (o, e2) => dialog.Close();
-            dialog.Show(Window.GetWindow(this).Content as Grid);
+            itemView.Click += (o, e) => scenario.ExecuteAsync(string.Empty);
         }
     }
 }

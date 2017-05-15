@@ -37,6 +37,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -46,21 +48,42 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\NumericUpDown.xaml.cs">
+      <DependentUpon>NumericUpDown.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ObservableObject.cs" />
     <Compile Include="StartupWindow.xaml.cs">
       <DependentUpon>StartupWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SwitchesGrid.xaml.cs">
+      <DependentUpon>SwitchesGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\BoolToVisibilityInvert.cs" />
+    <Compile Include="Switches\ImageView.xaml.cs">
+      <DependentUpon>ImageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\DateTimeViewSwitch.xaml.cs">
+      <DependentUpon>DateTimeViewSwitch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\InfoView.xaml.cs">
+      <DependentUpon>InfoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Switches\FloatView.xaml.cs">
       <DependentUpon>FloatView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\DateTimeView.xaml.cs">
+      <DependentUpon>DateTimeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Switches\StatusView.xaml.cs">
       <DependentUpon>StatusView.xaml</DependentUpon>
@@ -68,9 +91,16 @@
     <Compile Include="Switches\StatusViewSwitch.xaml.cs">
       <DependentUpon>StatusViewSwitch.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Switches\DateTimeValueTypeToSplittedString.cs" />
+    <Compile Include="Switches\StringToIcon.cs" />
+    <Compile Include="Switches\ButtonView.xaml.cs">
+      <DependentUpon>ButtonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\StringToSplittedString.cs" />
+    <Compile Include="Switches\SwitchesCreator.cs" />
     <Compile Include="Switches\ValueTypeStringToDouble.cs" />
     <Compile Include="Switches\ValueTypeStringToBool.cs" />
-    <Compile Include="Switches\BoolToIconConverter.cs" />
+    <Compile Include="Switches\BoolToVisibility.cs" />
     <Compile Include="Switches\ScenarioModel.cs" />
     <Compile Include="Switches\ToggleView.xaml.cs">
       <DependentUpon>ToggleView.xaml</DependentUpon>
@@ -78,6 +108,10 @@
     <Compile Include="TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Common\NumericUpDown.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LazuriteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -108,9 +142,29 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SwitchesGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Switches\ImageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Switches\DateTimeViewSwitch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Switches\InfoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Switches\FloatView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Switches\DateTimeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Switches\StatusView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -119,6 +173,10 @@
     <Page Include="Switches\StatusViewSwitch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Switches\ButtonView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Switches\ToggleView.xaml">
       <SubType>Designer</SubType>
@@ -172,6 +230,18 @@
     <ProjectReference Include="..\Lazurite.Scenarios\Lazurite.Scenarios.csproj">
       <Project>{EE271212-1572-4525-BC27-B2F283238740}</Project>
       <Name>Lazurite.Scenarios</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Security\Lazurite.Security.csproj">
+      <Project>{3ACF6EAC-A7BE-4AFE-AA9C-80259157AE71}</Project>
+      <Name>Lazurite.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Core\Lazurite.Windows.Core.csproj">
+      <Project>{2191CEFD-A432-4376-BE91-D585FE1AB2FB}</Project>
+      <Name>Lazurite.Windows.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Data\Lazurite.Windows.Data.csproj">
+      <Project>{E71F185A-B90F-4145-BD38-97EB30D129FE}</Project>
+      <Name>Lazurite.Windows.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Logging\Lazurite.Windows.Logging.csproj">
       <Project>{ACC84748-2884-44A2-8E45-84FF8338684B}</Project>
