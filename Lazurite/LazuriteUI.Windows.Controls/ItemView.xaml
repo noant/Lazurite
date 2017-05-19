@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
-             Height="35"       
+             Height="35"
              Background="{Binding Source={x:Static local:Visual.ItemBackground}}"
              IsHitTestVisible="True"
              Focusable="True"

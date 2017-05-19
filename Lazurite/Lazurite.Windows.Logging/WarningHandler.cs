@@ -13,6 +13,16 @@ namespace Lazurite.Windows.Logging
 {
     public class WarningHandler : WarningHandlerBase
     {
+        public WarningHandler()
+        {
+#if DEBUG
+            this.MaxWritingWarnType = WarnType.Debug;
+#endif
+#if !DEBUG
+            this.MaxWritingWarnType = WarnType.Info;
+#endif
+        }
+
         private static ILog _logger;
         public override void InternalWrite(WarnType type, string message = null, Exception exception = null)
         {
@@ -21,7 +31,7 @@ namespace Lazurite.Windows.Logging
                 var hierarchy = (Hierarchy)LogManager.GetRepository();
                 hierarchy.Name = "main";
                 var patternLayout = new PatternLayout();
-                //patternLayout.ConversionPattern = "%-5p %d %5rms %-22.22c{1} %-18.18M - %m%n";
+                patternLayout.ConversionPattern = "%d [%2%t] %-5p %m%n%n";
                 patternLayout.ActivateOptions();
 
                 var roller = new RollingFileAppender();

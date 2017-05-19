@@ -14,6 +14,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Lazurite.Windows.Core;
+using Lazurite.Scenarios.ScenarioTypes;
+using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.IOC;
+using Lazurite.Windows.Logging;
+using Lazurite.Windows.Server;
+using Lazurite.Windows.Utils;
+using System.Threading;
 
 namespace LazuriteUI.Windows.WpfTests
 {
@@ -26,9 +34,79 @@ namespace LazuriteUI.Windows.WpfTests
         {
             InitializeComponent();
             this.Icon = BitmapFrame.Create(Icons.Utils.GetIconData(Icons.Icon.Lazurite64));
-            
 
-            //toggleView.
+            Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
+
+            this.Loaded += MainWindow_Loaded;
+
+        }
+
+        private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            Singleton.Resolve<WarningHandlerBase>().Error("Необработанное исключение", e.Exception);
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            var core = new LazuriteCore();
+            core.WarningHandler.OnWrite += WarningHandler_OnWrite;
+            core.InitializeAsync(() => {
+                Thread.Sleep(2000);
+                this.Dispatcher.BeginInvoke(new Action(() => {
+                    this.Title = "core initialized";
+                }));
+
+                //core.WarningHandler.Debug("set settings");
+
+                var serverSettings = core.Server.GetSettings();
+                //serverSettings.SecretKey = "0123456789123456";
+                //core.Server.SetSettings(serverSettings);
+
+                var sertName = Lazurite.Windows.Server.Utils.AddCertificate("LazuriteStandardCertificate.pfx", "1507199215071992");
+                Lazurite.Windows.Server.Utils.NetshAddSslCert(sertName, serverSettings.Port);
+                Lazurite.Windows.Server.Utils.NetshAddUrlacl(serverSettings.GetAddress());
+
+                //Thread.Sleep(2000);
+
+                //core.WarningHandler.Debug("add user");
+
+                //if (!core.UsersRepository.Users.Any())
+                //    core.UsersRepository.Add(new Lazurite.MainDomain.UserBase() {
+                //        Login = "user1",
+                //        PasswordHash = CryptoUtils.CreatePasswordHash("pass")
+                //    });
+
+                core.WarningHandler.Debug("check conn");
+
+                var scens = core.ClientsFactory.GetServer("192.168.0.100", serverSettings.Port, serverSettings.ServiceName, "0123456789123456", "user1", "pass").GetScenariosInfo();
+
+                core.WarningHandler.Debug("scens cnt = " + scens.Count);
+
+                //if (!core.PluginsManager.GetPlugins().Any())
+                //    core.PluginsManager.AddPlugin(@"D:\Programming\Lazurite\Releases\Plugins\ZWavePlugin.pyp");
+
+                //var zwave = core.PluginsManager.CreateInstanceOf(core.PluginsManager.GetModules().First());
+
+                //this.Dispatcher.BeginInvoke(new Action(() => {
+                //    zwave.UserInitializeWith(new ToggleValueType(), false);
+
+                //    core.ScenariosRepository.AddScenario(new SingleActionScenario()
+                //    {
+                //        Name = "Главный свет",
+                //        TargetAction = zwave
+                //    });
+
+                //}));
+            });
+
+        }
+
+        private void WarningHandler_OnWrite(object arg1, Lazurite.Windows.Logging.WarningEventArgs args)
+        {
+            this.Dispatcher.BeginInvoke(new Action(() => {
+                this.Title = args.Message;
+            }));
         }
 
         private void button_Copy1_Click(object sender, RoutedEventArgs e)

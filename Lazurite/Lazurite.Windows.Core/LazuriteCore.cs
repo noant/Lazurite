@@ -30,7 +30,12 @@ namespace Lazurite.Windows.Core
         public UsersRepositoryBase UsersRepository { get; private set; }
         public VisualSettingsRepository VisualSettingsRepository { get; private set; }
         public LazuriteServer Server { get; private set; }
-        
+
+        public LazuriteCore()
+        {
+            Singleton.Add(WarningHandler = new WarningHandler());
+        }
+
         public CoreSettings GetSettings()
         {
             return _settings;
@@ -58,15 +63,17 @@ namespace Lazurite.Windows.Core
 
         public void Initialize()
         {
-            Singleton.Add(WarningHandler = new WarningHandler());
             Singleton.Add(Savior = new FileSavior());
             Singleton.Add(ScenariosRepository = new ScenariosRepository());
+            PluginsManager = new PluginsManager();
+            ScenariosRepository.Initialize();
             Singleton.Add(ClientsFactory = new ServiceClientFactory());
             Singleton.Add(UsersRepository = new UsersRepository());
             Singleton.Add(VisualSettingsRepository = new VisualSettingsRepository());
-            PluginsManager = new PluginsManager();
             Server = new LazuriteServer();
-            SetSettings(Savior.Get<CoreSettings>(SettingsKey));
+            if (Savior.Has(SettingsKey))
+                SetSettings(Savior.Get<CoreSettings>(SettingsKey));
+            else SetSettings(new CoreSettings());
             Server.Start();
         }
     }

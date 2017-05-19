@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid
+    HeightRequest="35"
+    xmlns:local="clr-namespace:LazuriteMobile.App.Controls"
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:styles="clr-namespace:LazuriteMobile.App.Styles"
+    HorizontalOptions="FillAndExpand"
+    BackgroundColor="#252525" 
+    x:Class="LazuriteMobile.App.Controls.ItemView">
+    <Grid x:Name="backGrid" InputTransparent="True" VerticalOptions="Fill" HorizontalOptions="Fill" BackgroundColor="#4682b4" IsVisible="False"></Grid>
+    <Button x:Name="button" BorderColor="Transparent" TextColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" Clicked="Button_Clicked" ></Button>
+    <local:IconView HeightRequest="35" WidthRequest="35" HorizontalOptions="Start" InputTransparent="True" VerticalOptions="Center" x:Name="iconView" x:FieldModifier="private" Icon="AdobeAcrobat" IsVisible="{Binding IconVisibility}" Margin="4"></local:IconView>
+</Grid>

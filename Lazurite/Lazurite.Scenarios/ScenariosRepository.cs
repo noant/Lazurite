@@ -23,7 +23,10 @@ namespace Lazurite.Scenarios
         public ScenariosRepository()
         {
             _savior = Singleton.Resolve<ISavior>();
+        }
 
+        public override void Initialize()
+        {
             if (_savior.Has(ScenariosIdsKey))
                 _scenariosIds = _savior.Get<List<string>>(ScenariosIdsKey);
             else _scenariosIds = new List<string>();

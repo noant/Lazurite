@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns:local="clr-namespace:LazuriteMobile.App.Controls"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    VerticalOptions="FillAndExpand"
+    HorizontalOptions="FillAndExpand"
+    x:Class="LazuriteMobile.App.Controls.DialogView">
+    <ContentView.Content>
+        <Grid>
+            <Grid BackgroundColor="Black" x:FieldModifier="private" Opacity="0.7" x:Name="gridBackground"></Grid>
+            <Grid x:Name="mainContent">
+                <Grid x:FieldModifier="private" VerticalOptions="Center" MinimumHeightRequest="750" HorizontalOptions="FillAndExpand" x:Name="contentGrid"></Grid>
+            </Grid>
+            <local:ItemView VerticalOptions="Start" HorizontalOptions="End" x:Name="closeItemView" Click="CloseItemView_Click" Opacity="0.5" BackgroundColor="Red" HeightRequest="34" WidthRequest="34" Icon="Close"></local:ItemView>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

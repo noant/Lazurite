@@ -62,9 +62,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             foreach (var action in this.TargetAction.GetAllActionsFlat())
             {
-                action.Initialize();
-                var coreAction = action as ICoreAction;
-                coreAction?.SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
+                if (action != null)
+                {
+                    action.Initialize();
+                    var coreAction = action as ICoreAction;
+                    coreAction?.SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
+                }
             }
             ExecuteAsync(InitializeWithValue);
         }

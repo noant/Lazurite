@@ -52,13 +52,17 @@
     <Compile Include="WarnType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Lazurite.Logging\Lazurite.Logging.csproj">
       <Project>{0a02de31-b9e4-4ab7-8002-7f477a0f52de}</Project>
       <Name>Lazurite.Logging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Utils\Lazurite.Windows.Utils.csproj">
+      <Project>{09BE5F23-3903-4547-9D56-12CAE326C5CC}</Project>
+      <Name>Lazurite.Windows.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

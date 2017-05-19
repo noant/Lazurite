@@ -56,5 +56,7 @@ namespace Lazurite.MainDomain
         }
 
         public event Action<ScenarioBase> OnScenarioRemoved;
+
+        public abstract void Initialize();
     }
 }

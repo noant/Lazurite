@@ -78,7 +78,7 @@ namespace Lazurite.Windows.Modules
 
         public static Assembly LoadAssembly(string path)
         {
-            return Assembly.UnsafeLoadFrom(path);
+            return Assembly.LoadFrom(path);
         }
 
         public static string GetAssemblyPath(Assembly assembly)

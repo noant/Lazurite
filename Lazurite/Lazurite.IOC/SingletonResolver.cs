@@ -21,5 +21,11 @@ namespace Lazurite.IOC
             var typeInfo = typeof(T).GetTypeInfo();
             return (T)_object.Single(x => x.GetType().Equals(typeof(T)) || typeInfo.IsAssignableFrom(x.GetType().GetTypeInfo()));
         }
+
+        public static bool Any<T>()
+        {
+            var typeInfo = typeof(T).GetTypeInfo();
+            return _object.Any(x => x.GetType().Equals(typeof(T)) || typeInfo.IsAssignableFrom(x.GetType().GetTypeInfo()));
+        }
     }
 }

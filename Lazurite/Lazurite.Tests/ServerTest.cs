@@ -46,18 +46,7 @@ namespace Lazurite.Tests
             var server = new LazuriteServer();
             
             server.Start();
-
-            Thread.Sleep(3000);
-
-            var clientFactory = Singleton.Resolve<IClientFactory>();
-
-            var client = clientFactory.GetServer("desktop", 444, "LazuriteService.svc", "secretKey1234567", "anton", "123");
-
-            var a = client.GetScenarioValue(new Encrypted<string>("16b10918-a709-4418-93eb-fa5d3c9b5d20", "secretKey1234567"));
-            var b = client.GetScenarioInfo(new Encrypted<string>("16b10918-a709-4418-93eb-fa5d3c9b5d20", "secretKey1234567"));
-            var scens = client.GetScenariosInfo();
-            var c = b.Decrypt("secretKey1234567");
-
+            
             while (true)
                 Thread.Sleep(5000);
         }
