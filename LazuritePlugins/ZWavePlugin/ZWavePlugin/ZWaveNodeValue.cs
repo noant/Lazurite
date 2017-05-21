@@ -55,10 +55,7 @@ namespace ZWavePlugin
         {
             if (_nodeValue != null)
             {
-                if (_nodeValue.Current is bool)
-                    return (bool)_nodeValue.Current ? ToggleValueType.ValueON : ToggleValueType.ValueOFF;
-                else
-                    return (string)_nodeValue.Current;
+                return (string)_nodeValue.Current;
             }
             return string.Empty;
         }

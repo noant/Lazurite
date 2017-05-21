@@ -24,7 +24,7 @@ namespace LazuriteMobile.App.Controls
                 {
                     ((ItemView)sender).iconView.IsVisible = (bool)newVal;
                 });
-            IconProperty = BindableProperty.Create(nameof(Icon), typeof(Icon), typeof(ItemView), Icon.On, BindingMode.OneWay, null,
+            IconProperty = BindableProperty.Create(nameof(Icon), typeof(Icon), typeof(ItemView), Icon.Power, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) =>
                 {
                     ((ItemView)sender).iconView.Icon = (Icon)newVal;

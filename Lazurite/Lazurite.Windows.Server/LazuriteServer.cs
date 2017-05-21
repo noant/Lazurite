@@ -44,9 +44,6 @@ namespace Lazurite.Windows.Server
         {
             _settings = settings;
             _savior.Set(SettingsKey, settings);
-            if (_host != null && (_host.State == CommunicationState.Opened ||
-                _host.State == CommunicationState.Opening))
-                Restart();
         }
 
         public void Stop()
@@ -58,7 +55,7 @@ namespace Lazurite.Windows.Server
             _tokenSource = new CancellationTokenSource();
         }
 
-        public void Start()
+        public void StartAsync(Action<bool> callback)
         {
             Task.Factory.StartNew(() =>
             {
@@ -84,10 +81,12 @@ namespace Lazurite.Windows.Server
                         _settings.CertificateSubject);
                     _host.Open();
                     _warningHandler.Info("Service started: " + this._settings.GetAddress());
+                    callback?.Invoke(true);
                 }
                 catch (Exception e)
                 {
                     _warningHandler.Error("Error while starting service: " + this._settings.GetAddress(), e);
+                    callback?.Invoke(false);
                 }
             },
             _tokenSource.Token,
@@ -95,10 +94,10 @@ namespace Lazurite.Windows.Server
             TaskScheduler.Default);
         }
 
-        public void Restart()
+        public void Restart(Action<bool> callback)
         {
             Stop();
-            Start();
+            StartAsync(callback);
         }
 
         public LazuriteServer()

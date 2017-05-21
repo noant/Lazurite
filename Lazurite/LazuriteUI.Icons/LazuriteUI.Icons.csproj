@@ -768,7 +768,6 @@
     <EmbeddedResource Include="Icons\OfficeSharepoint.png" />
     <EmbeddedResource Include="Icons\OfficeVisio.png" />
     <EmbeddedResource Include="Icons\OfficeWord.png" />
-    <EmbeddedResource Include="Icons\On.png" />
     <EmbeddedResource Include="Icons\Opacity.png" />
     <EmbeddedResource Include="Icons\Ornament.png" />
     <EmbeddedResource Include="Icons\OrnamentVariant.png" />
@@ -1313,6 +1312,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icons\None.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icons\ButtonOn.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>

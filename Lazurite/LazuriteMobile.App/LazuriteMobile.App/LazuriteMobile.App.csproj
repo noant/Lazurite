@@ -54,8 +54,20 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ObservableObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Styles\Visual.cs" />
+    <Compile Include="ScenariosManager.cs" />
+    <Compile Include="Switches\DateTimeValueTypeToSplittedString.cs" />
+    <Compile Include="Switches\ScenarioModel.cs" />
+    <Compile Include="Switches\StringToIcon.cs" />
+    <Compile Include="Switches\StringToSplittedString.cs" />
+    <Compile Include="Switches\SwitchesCreator.cs" />
+    <Compile Include="Switches\ToggleView.xaml.cs">
+      <DependentUpon>ToggleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\ValueTypeStringToBoolInvert.cs" />
+    <Compile Include="Switches\ValueTypeStringToBool.cs" />
+    <Compile Include="Switches\ValueTypeStringToDouble.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -90,7 +102,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Switches\" />
+    <EmbeddedResource Include="Switches\ToggleView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\DialogView.xaml">
@@ -111,6 +126,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Lazurite.ActionsDomain\Lazurite.ActionsDomain.csproj">
+      <Project>{E6BE3954-3D6F-447A-91BF-04D892A1C025}</Project>
+      <Name>Lazurite.ActionsDomain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Lazurite.IOC\Lazurite.IOC.csproj">
       <Project>{a002f2fb-6791-46a2-9061-38bbe59e1618}</Project>
       <Name>Lazurite.IOC</Name>

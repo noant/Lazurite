@@ -48,7 +48,6 @@ namespace LazuriteUI.Windows.WpfTests
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-
             var core = new LazuriteCore();
             core.WarningHandler.OnWrite += WarningHandler_OnWrite;
             core.InitializeAsync(() => {
@@ -67,6 +66,15 @@ namespace LazuriteUI.Windows.WpfTests
                 Lazurite.Windows.Server.Utils.NetshAddSslCert(sertName, serverSettings.Port);
                 Lazurite.Windows.Server.Utils.NetshAddUrlacl(serverSettings.GetAddress());
 
+                core.Server.StartAsync((success)=> {
+                    Thread.Sleep(3000);
+                    core.WarningHandler.Debug("check conn");
+
+                    var scens = core.ClientsFactory.GetServer("192.168.0.100", serverSettings.Port, serverSettings.ServiceName, "0123456789123456", "user1", "pass").GetScenariosInfo();
+
+                    core.WarningHandler.Debug("scens cnt = " + scens.Count);
+                });
+
                 //Thread.Sleep(2000);
 
                 //core.WarningHandler.Debug("add user");
@@ -76,13 +84,7 @@ namespace LazuriteUI.Windows.WpfTests
                 //        Login = "user1",
                 //        PasswordHash = CryptoUtils.CreatePasswordHash("pass")
                 //    });
-
-                core.WarningHandler.Debug("check conn");
-
-                var scens = core.ClientsFactory.GetServer("192.168.0.100", serverSettings.Port, serverSettings.ServiceName, "0123456789123456", "user1", "pass").GetScenariosInfo();
-
-                core.WarningHandler.Debug("scens cnt = " + scens.Count);
-
+                
                 //if (!core.PluginsManager.GetPlugins().Any())
                 //    core.PluginsManager.AddPlugin(@"D:\Programming\Lazurite\Releases\Plugins\ZWavePlugin.pyp");
 

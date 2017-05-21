@@ -1270,8 +1270,8 @@ namespace LazuriteUI.Icons
         Lazurite64,
         Lazurite32,
         Lazurite16,
-        On,
         Off,
+        ButtonOn,
         None
     }
 }

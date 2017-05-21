@@ -1,30 +1,49 @@
 ﻿using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.IOC;
 using Lazurite.MainDomain;
+using LazuriteMobile.App;
+using LazuriteMobile.MainDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LazuriteUI.Windows.Main.Switches
+namespace LazuriteMobile.App.Switches
 {
     public class ScenarioModel: ObservableObject, IDisposable
     {
-        public ScenarioModel(ScenarioBase scenario, UserVisualSettings visualSettings)
+        private IScenariosManager _manager = Singleton.Resolve<IScenariosManager>(); 
+
+        public ScenarioModel(ScenarioInfo scenario, UserVisualSettings visualSettings)
         {
             Scenario = scenario;
-            VisualSettings = visualSettings;
-            Scenario.SetOnStateChanged(ScenarioValueChanged);
-            Scenario.CalculateCurrentValueAsync((value) => {
-                _value = value;
-                OnPropertyChanged(nameof(ScenarioValue));
-            });
+            VisualSettings = visualSettings ?? 
+                new UserVisualSettings() {
+                    ScenarioId = scenario.ScenarioId
+                };
+            Scenario.ValueChanged += ScenarioValueChanged;
+            _manager.ConnectionLost += _manager_ConnectionLost;
+            _manager.ConnectionRestored += _manager_ConnectionRestored;
+
+            this._value = Scenario.CurrentValue;
+        }
+
+        private void _manager_ConnectionRestored()
+        {
+            Available = true;
+        }
+
+        private void _manager_ConnectionLost()
+        {
+            Available = false;
         }
 
         private string _value;
+        private bool _available;
 
         public UserVisualSettings VisualSettings { get; private set; }
-        public ScenarioBase Scenario { get; private set; }
+        public ScenarioInfo Scenario { get; private set; }
         
         public string Icon1
         {
@@ -32,7 +51,7 @@ namespace LazuriteUI.Windows.Main.Switches
             {
                 if (VisualSettings.AddictionalData == null)
                     VisualSettings.AddictionalData = new string[0];
-                if (VisualSettings.AddictionalData.Any())
+                if (VisualSettings.AddictionalData.Any() && !string.IsNullOrEmpty(VisualSettings.AddictionalData[0]))
                     return VisualSettings.AddictionalData[0];
                 else
                 {
@@ -77,7 +96,7 @@ namespace LazuriteUI.Windows.Main.Switches
                     VisualSettings.AddictionalData[1] = value;
                 else if (VisualSettings.AddictionalData.Length == 1)
                     VisualSettings.AddictionalData = new string[] { VisualSettings.AddictionalData[0], value };
-                else VisualSettings.AddictionalData = new string[] { value, value };
+                else VisualSettings.AddictionalData = new string[] { "On", value };
             }
         }
 
@@ -106,11 +125,11 @@ namespace LazuriteUI.Windows.Main.Switches
             set
             {
                 _value = value;
-                Scenario.ExecuteAsync(_value);
+                _manager.ExecuteScenario(Scenario.ScenarioId, _value);
                 OnPropertyChanged(nameof(ScenarioValue));
             }
         }
-
+        
         public double Max {
             get
             {
@@ -126,15 +145,30 @@ namespace LazuriteUI.Windows.Main.Switches
             }
         }
 
-        private void ScenarioValueChanged(ScenarioBase scenario)
+        public bool Available
         {
-            _value = scenario.GetCurrentValue();
+            get
+            {
+                return _available;
+            }
+            set
+            {
+                _available = value;
+                OnPropertyChanged(nameof(Available));
+            }
+        }
+
+        private void ScenarioValueChanged(ScenarioInfo scenario)
+        {
+            _value = scenario.CurrentValue;
             OnPropertyChanged(nameof(ScenarioValue));
         }
 
         public void Dispose()
         {
-            Scenario.RemoveOnStateChanged(ScenarioValueChanged);
+            Scenario.ValueChanged -= ScenarioValueChanged;
+            _manager.ConnectionLost -= _manager_ConnectionLost;
+            _manager.ConnectionRestored -= _manager_ConnectionRestored;
         }
     }
 }

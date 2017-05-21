@@ -19,16 +19,31 @@ namespace Lazurite.MainDomain
     [KnownType(typeof(ActionsDomain.ValueTypes.ToggleValueType))]
     public class ScenarioInfo
     {
+        private string _currentValue;
+
+        [DataMember]
+        public string Name { get; set; }
+
         [DataMember]
         public string ScenarioId { get; set; } //guid
 
         [DataMember]
-        public string CurrentValue { get; set; }
+        public string CurrentValue {
+            get {
+                return _currentValue;
+            }
+            set{
+                _currentValue = value;
+                ValueChanged?.Invoke(this);
+            }
+        }
 
         [DataMember]
         public ValueTypeBase ValueType { get; set; }
 
         [DataMember]
         public UserVisualSettings VisualSettings { get; set; }
+
+        public event Action<ScenarioInfo> ValueChanged;
     }
 }

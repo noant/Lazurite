@@ -45,7 +45,7 @@ namespace Lazurite.Tests
 
             var server = new LazuriteServer();
             
-            server.Start();
+            server.StartAsync(null);
             
             while (true)
                 Thread.Sleep(5000);

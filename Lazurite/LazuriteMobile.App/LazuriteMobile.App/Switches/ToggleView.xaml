@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="LazuriteMobile.App.Switches.ToggleView"
+    xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
+    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+    HeightRequest="80"
+    WidthRequest="80">
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <local:ValueTypeStringToBool x:Key="valueTypeStringToBool"></local:ValueTypeStringToBool>
+                <local:ValueTypeStringToBoolInvert x:Key="valueTypeStringToBoolInvert"></local:ValueTypeStringToBoolInvert>
+                <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
+                <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <controls:ItemView BackgroundColor="#1D191D" Grid.RowSpan="2" x:Name="itemView" Selected="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToBool}, Mode=TwoWay}" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False" Selectable="True" HorizontalOptions="FillAndExpand"></controls:ItemView>
+        <controls:IconView Grid.Row="0" Icon="{Binding Icon2, Converter={StaticResource stringToIcon}}" IsVisible="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToBool}}" InputTransparent="True" x:Name="iconViewOn" x:FieldModifier="private" Margin="5" WidthRequest="50" VerticalOptions="Start" HorizontalOptions="Center"></controls:IconView>
+        <controls:IconView Grid.Row="0" Icon="ButtonOn" IsVisible="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToBoolInvert}}" InputTransparent="True" x:Name="iconViewOff" x:FieldModifier="private" Margin="5" WidthRequest="50" VerticalOptions="Start" HorizontalOptions="Center"></controls:IconView>
+        <Label HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1" x:Name="textBlock" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="White" FontSize="Medium"></Label>
+    </Grid>
+</ContentView>

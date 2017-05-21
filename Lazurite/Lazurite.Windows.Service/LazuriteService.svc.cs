@@ -213,6 +213,7 @@ namespace Lazurite.Windows.Service
                         CurrentValue = x.CalculateCurrentValue(),
                         ScenarioId = x.Id,
                         ValueType = x.ValueType,
+                        Name = x.Name,
                         VisualSettings = GetVisualSettings(user, x.Id)
                     }), _secretKey);
 

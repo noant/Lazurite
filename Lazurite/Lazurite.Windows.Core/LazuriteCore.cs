@@ -74,7 +74,6 @@ namespace Lazurite.Windows.Core
             if (Savior.Has(SettingsKey))
                 SetSettings(Savior.Get<CoreSettings>(SettingsKey));
             else SetSettings(new CoreSettings());
-            Server.Start();
         }
     }
 }

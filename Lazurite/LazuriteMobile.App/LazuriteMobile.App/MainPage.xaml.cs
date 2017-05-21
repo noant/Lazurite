@@ -1,11 +1,13 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain.MessageSecurity;
 using LazuriteMobile.App.Controls;
+using LazuriteMobile.App.Switches;
 using LazuriteMobile.MainDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -13,41 +15,38 @@ namespace LazuriteMobile.App
 {
 	public partial class MainPage : ContentPage
 	{
-        IServiceClientManager _clientManager;
-        IServiceClient _client;
-        public void InitializeClientManager()
-        {
-            _clientManager = Singleton.Resolve<IServiceClientManager>();
-            _client = _clientManager.Create("192.168.0.100", 8080, "Lazurite", "0123456789123456", "user1", "pass");
-        }
+        IScenariosManager _manager = Singleton.Resolve<IScenariosManager>();
+
+        DialogView _tempDialog;
+
+        SynchronizationContext _currentContext = SynchronizationContext.Current;
 
         public MainPage()
 		{
             this.InitializeComponent();
+            _manager.NewScenarios += _manager_NewScenarios;
+        }
 
-            InitializeClientManager();
+        private void _manager_NewScenarios(Lazurite.MainDomain.ScenarioInfo[] obj)
+        {
+            _currentContext.Post((state) => {
+                if (_tempDialog != null)
+                    _tempDialog.Close();
 
-            var listItems = new ListItemsView();
+                //var listItems = new ListItemsView();
 
-            listItems.Children.Add(new ItemView() { Text = "adds" });
-            listItems.Children.Add(new ItemView() { Text = "ad12ds" });
-            listItems.Children.Add(new ItemView() { Text = "adsds" });
-            listItems.Children.Add(new ItemView() { Text = "asdds" });
+                //foreach (var scenarioInfo in obj)
+                //    listItems.Children.Add(new ItemView() { Text = scenarioInfo.Name });
 
-            new DialogView(listItems).Show(grid);
+                var view = SwitchesCreator.CreateScenarioControl(obj[0], null);
+
+                _tempDialog = new DialogView(view);
+                _tempDialog.Show(this.grid);
+            }, null);
         }
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            _client.BeginGetScenariosInfo((result) => {
-                var res = _client.EndGetScenariosInfo(result).Decrypt("0123456789123456");
-                var scenario = res[0];
-                if (res[0].CurrentValue == "ON" || res[0].CurrentValue == "True")
-                    _client.BeginExecuteScenario(new Encrypted<string>(res[0].ScenarioId, "0123456789123456"), new Encrypted<string>("OFF", "0123456789123456"), null, null);
-                else
-                    _client.BeginExecuteScenario(new Encrypted<string>(res[0].ScenarioId, "0123456789123456"), new Encrypted<string>("ON", "0123456789123456"), null, null);
-
-            }, null);
         }
     }
 }

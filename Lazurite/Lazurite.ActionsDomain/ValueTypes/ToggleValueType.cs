@@ -27,7 +27,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
         {
             get
             {
-                return "ON";
+                return true.ToString();
             }
         }
 
@@ -35,7 +35,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
         {
             get
             {
-                return "OFF";
+                return false.ToString();
             }
         }
     }

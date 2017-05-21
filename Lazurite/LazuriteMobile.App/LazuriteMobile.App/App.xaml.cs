@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Lazurite.IOC;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App
@@ -13,9 +14,14 @@ namespace LazuriteMobile.App
         {
             InitializeComponent();
 
+            //Task.Delay(200).Wait();
+
+            Singleton.Add(new ScenariosManager());
+            Singleton.Resolve<ScenariosManager>().Initialize("192.168.0.100", 8080, "Lazurite", "user1", "pass", "0123456789123456");
+
             MainPage = new LazuriteMobile.App.MainPage();
         }
-
+        
         protected override void OnStart()
         {
             // Handle when your app starts

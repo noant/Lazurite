@@ -15,10 +15,21 @@ namespace LazuriteMobile.App.Controls
 
         static IconView()
         {
-            IconProperty = BindableProperty.Create(nameof(Icon), typeof(Icon), typeof(IconView), Icon.On, BindingMode.OneWay, null,
+            IconProperty = BindableProperty.Create(nameof(Icon), typeof(Icon), typeof(IconView), Icon.Power, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) => {
-                    var data = Utils.GetIconData((Icon)newVal);
-                    ((IconView)sender).iconControl.Source = ImageSource.FromStream(() => data);
+                    ((IconView)sender).iconControl.Source = ImageSource.FromStream(() =>
+                        {
+                            try
+                            {
+                                return Utils.GetIconData((Icon)newVal);
+                            }
+                            catch(Exception e)
+                            {
+                                var b = "asd";
+                            }
+                            return null;
+                        }
+                    );
                 });
         }
 
