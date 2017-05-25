@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="LazuriteMobile.App.Switches.StatusView"
+    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+    HeightRequest="110"
+    WidthRequest="110"
+    VerticalOptions="Start" 
+    BackgroundColor="#1D191D"
+    HorizontalOptions="Start"
+    xmlns:local="clr-namespace:LazuriteMobile.App.Switches">
+    <Grid.Resources>
+        <ResourceDictionary>
+            <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
+            <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
+        </ResourceDictionary>
+    </Grid.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <controls:ItemView BackgroundColor="Transparent" IconVisibility="False" Selectable="False" Grid.RowSpan="3" x:Name="itemView" x:FieldModifier="private"></controls:ItemView>
+        <controls:IconView InputTransparent="True" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}"></controls:IconView>
+        <Label Grid.Row="1" InputTransparent="True" VerticalOptions="Center" Margin="0,-4,0,4" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="#4682b4" FontSize="Medium" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
+        <Label Grid.Row="2" InputTransparent="True" VerticalOptions="Center" Margin="0,-7,0,0" x:Name="textBlockScenValue" Text="{Binding ScenarioValue, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small"></Label>
+    </Grid>
+</ContentView>

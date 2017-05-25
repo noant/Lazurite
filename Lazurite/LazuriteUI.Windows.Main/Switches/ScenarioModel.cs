@@ -37,11 +37,15 @@ namespace LazuriteUI.Windows.Main.Switches
                 else
                 {
                     if (Scenario.ValueType is ToggleValueType)
-                        return "Power";
+                        return "ButtonOn";
                     else if (Scenario.ValueType is StateValueType)
                         return "New";
                     else if (Scenario.ValueType is FloatValueType)
                         return "DimensionArrowLineWidth";
+                    else if (Scenario.ValueType is DateTimeValueType)
+                        return "Timer";
+                    else if (Scenario.ValueType is InfoValueType)
+                        return "PageText";
                     return "None";
                 }
             }
@@ -77,7 +81,7 @@ namespace LazuriteUI.Windows.Main.Switches
                     VisualSettings.AddictionalData[1] = value;
                 else if (VisualSettings.AddictionalData.Length == 1)
                     VisualSettings.AddictionalData = new string[] { VisualSettings.AddictionalData[0], value };
-                else VisualSettings.AddictionalData = new string[] { value, value };
+                else VisualSettings.AddictionalData = new string[] { "ButtonOn", value };
             }
         }
 
@@ -111,7 +115,8 @@ namespace LazuriteUI.Windows.Main.Switches
             }
         }
 
-        public double Max {
+        public double Max
+        {
             get
             {
                 return double.Parse((Scenario.ValueType as FloatValueType)?.AcceptedValues.Last());

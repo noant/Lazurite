@@ -50,7 +50,7 @@ namespace LazuriteUI.Windows.Main
             var maxX = 4;
             var marginLeft = 2;
             var marginTop = 2;
-            var elementSize = 80;
+            var elementSize = 110;
             var occupiedPoints = new List<Point>();
             foreach (UserControl control in grid.Children)
             {

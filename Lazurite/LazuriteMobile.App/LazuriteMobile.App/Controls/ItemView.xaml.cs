@@ -16,6 +16,7 @@ namespace LazuriteMobile.App.Controls
         public static readonly BindableProperty TextProperty;
         public static readonly BindableProperty SelectedProperty;
         public static readonly BindableProperty SelectableProperty;
+        public static readonly BindableProperty AnimateViewProperty;
 
         static ItemView()
         {
@@ -33,18 +34,19 @@ namespace LazuriteMobile.App.Controls
                 (sender, oldVal, newVal) => {
                     ((ItemView)sender).button.Text = (string)newVal;
                 });
-            SelectableProperty = BindableProperty.Create(nameof(SelectableProperty), typeof(bool), typeof(ItemView), false, BindingMode.TwoWay, null,
+            SelectableProperty = BindableProperty.Create(nameof(SelectableProperty), typeof(bool), typeof(ItemView), false, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) =>
                 {
                     if (!(bool)newVal)
                         ((ItemView)sender).Selected = false;
                 });
-            SelectedProperty = BindableProperty.Create(nameof(SelectedProperty), typeof(bool), typeof(ItemView), false, BindingMode.TwoWay, null,
+            SelectedProperty = BindableProperty.Create(nameof(SelectedProperty), typeof(bool), typeof(ItemView), false, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) =>
                 {
                     ((ItemView)sender).backGrid.IsVisible = (bool)newVal;
                     ((ItemView)sender).RaiseSelectionChanged();
                 });
+            AnimateViewProperty = BindableProperty.Create(nameof(AnimateView), typeof(View), typeof(ItemView), null, BindingMode.OneWay);
         }
 
         public ItemView()
@@ -112,11 +114,27 @@ namespace LazuriteMobile.App.Controls
             }
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
+        public View AnimateView
+        {
+            get
+            {
+                return (View)GetValue(AnimateViewProperty);
+            }
+            set
+            {
+                SetValue(AnimateViewProperty, value);
+            }
+        }
+
+        async private void Button_Clicked(object sender, EventArgs e)
         {
             if (this.Selectable)
                 this.Selected = !this.Selected;
             Click?.Invoke(this, new EventArgs());
+            var view = AnimateView ?? this;
+            await view.ScaleTo(0.85, 50, Easing.Linear);
+            await Task.Delay(40);
+            await view.ScaleTo(1, 50, Easing.Linear);
         }
 
         private void RaiseSelectionChanged()

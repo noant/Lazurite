@@ -6,27 +6,24 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Switches"
              mc:Ignorable="d" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             Height="80" Width="80"
-             d:DesignHeight="80" d:DesignWidth="80">
+             Height="110" Width="110"
+             d:DesignHeight="110" d:DesignWidth="110">
     <Grid>
         <Grid.Resources>
+            <local:StringToShortString x:Key="stringToShortString"></local:StringToShortString>
             <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
             <local:DateTimeValueTypeToSplittedString x:Key="dateTimeValueTypeToSplittedString"></local:DateTimeValueTypeToSplittedString>
         </Grid.Resources>
-        <controls:ItemView Name="itemView" VerticalAlignment="Stretch" Height="80" IconVisibility="Collapsed" Background="{x:Static controls:Visual.BackgroundLazurite}" HorizontalAlignment="Stretch"></controls:ItemView>
+        <controls:ItemView Name="itemView" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed" Background="{x:Static controls:Visual.BackgroundLazurite}" HorizontalAlignment="Stretch"></controls:ItemView>
         <Grid IsHitTestVisible="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="0.7*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}"></controls:IconView>
-            <Viewbox Grid.Row="1" VerticalAlignment="Center" Margin="0,-4,0,4">
-                <TextBlock Name="textBlockScenName" Text="{Binding ScenarioName}" x:FieldModifier="private" Foreground="SteelBlue" Margin="3,0,3,0" FontSize="8.5"></TextBlock>
-            </Viewbox>
-            <Viewbox Grid.Row="2" VerticalAlignment="Center" Margin="0,-3,0,3">
-                <TextBlock Grid.Row="2" Name="textBlockDate" Text="{Binding ScenarioValue, Converter={StaticResource dateTimeValueTypeToSplittedString}}" x:FieldModifier="private" Foreground="White" Margin="3,0,3,0" VerticalAlignment="Center" TextAlignment="Center" FontSize="8.5"></TextBlock>
-            </Viewbox>
+            <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="0,-4,0,4" Name="textBlockScenName" Text="{Binding ScenarioName, Converter={StaticResource stringToShortString}}" x:FieldModifier="private" Foreground="SteelBlue" TextAlignment="Center" ></TextBlock>
+            <TextBlock Grid.Row="2" VerticalAlignment="Center" Margin="0,-7,0,0" Name="textBlockDate" Text="{Binding ScenarioValue, Converter={StaticResource dateTimeValueTypeToSplittedString}}" x:FieldModifier="private" Foreground="White" TextAlignment="Center" ></TextBlock>
         </Grid>
     </Grid>
 </UserControl>

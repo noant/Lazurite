@@ -3,6 +3,7 @@ using Lazurite.IOC;
 using Lazurite.MainDomain;
 using LazuriteMobile.App;
 using LazuriteMobile.MainDomain;
+using LazuriteUI.Icons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace LazuriteMobile.App.Switches
             _manager.ConnectionRestored += _manager_ConnectionRestored;
 
             this._value = Scenario.CurrentValue;
+            OnPropertyChanged(nameof(ScenarioValue));
         }
 
         private void _manager_ConnectionRestored()
@@ -55,12 +57,18 @@ namespace LazuriteMobile.App.Switches
                     return VisualSettings.AddictionalData[0];
                 else
                 {
-                    if (Scenario.ValueType is ToggleValueType)
-                        return "Power";
+                    if (Scenario.ValueType is ToggleValueType || Scenario.ValueType is ButtonValueType)
+                        return "ButtonOn";
                     else if (Scenario.ValueType is StateValueType)
                         return "New";
                     else if (Scenario.ValueType is FloatValueType)
                         return "DimensionArrowLineWidth";
+                    else if (Scenario.ValueType is DateTimeValueType)
+                        return "Timer";
+                    else if (Scenario.ValueType is DateTimeValueType)
+                        return "Timer";
+                    else if (Scenario.ValueType is InfoValueType)
+                        return "PageText";
                     return "None";
                 }
             }
@@ -96,7 +104,7 @@ namespace LazuriteMobile.App.Switches
                     VisualSettings.AddictionalData[1] = value;
                 else if (VisualSettings.AddictionalData.Length == 1)
                     VisualSettings.AddictionalData = new string[] { VisualSettings.AddictionalData[0], value };
-                else VisualSettings.AddictionalData = new string[] { "On", value };
+                else VisualSettings.AddictionalData = new string[] { "ButtonOn", value };
             }
         }
 

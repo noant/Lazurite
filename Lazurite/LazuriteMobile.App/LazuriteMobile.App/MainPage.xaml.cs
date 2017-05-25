@@ -27,7 +27,7 @@ namespace LazuriteMobile.App
             _manager.NewScenarios += _manager_NewScenarios;
         }
 
-        private void _manager_NewScenarios(Lazurite.MainDomain.ScenarioInfo[] obj)
+        private void _manager_NewScenarios(Lazurite.MainDomain.ScenarioInfo[] scensInfos)
         {
             _currentContext.Post((state) => {
                 if (_tempDialog != null)
@@ -37,10 +37,17 @@ namespace LazuriteMobile.App
 
                 //foreach (var scenarioInfo in obj)
                 //    listItems.Children.Add(new ItemView() { Text = scenarioInfo.Name });
+                //var view = new StackLayout() {
+                //    Orientation = StackOrientation.Vertical
+                //};
+                //foreach (var sinfo in obj)
+                //    view.Children.Add(SwitchesCreator.CreateScenarioControl(sinfo, null));
 
-                var view = SwitchesCreator.CreateScenarioControl(obj[0], null);
 
-                _tempDialog = new DialogView(view);
+                var grid = new SwitchesGrid();
+                grid.Initialize(scensInfos, new Lazurite.MainDomain.UserVisualSettings[0]);
+
+                _tempDialog = new DialogView(grid);
                 _tempDialog.Show(this.grid);
             }, null);
         }

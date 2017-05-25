@@ -49,7 +49,7 @@ namespace LazuriteUI.Windows.Main
             var scenario0 = new SingleActionScenario();
             scenario0.TargetAction = new ToggleTestAction();
             scenario0.Initialize(null);
-            scenario0.Name = "Свет на кухне";
+            scenario0.Name = "Свет в коридоре";
             scens.Add(scenario0);
 
             var scenario3 = new SingleActionScenario();

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="LazuriteMobile.App.Switches.ButtonView"
+    HeightRequest="110"
+    WidthRequest="110"
+    xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
+    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+    VerticalOptions="Start"
+    HorizontalOptions="Start">
+    <Grid x:Name="grid">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
+                <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <controls:ItemView AnimateView="{Binding Source={Reference Name=grid}}" BackgroundColor="#1D191D" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" InputTransparent="True" x:Name="iconView" x:FieldModifier="private" WidthRequest="50" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,12,0,0"></controls:IconView>
+            <Label Grid.Row="1" Margin="2,-7,2,2" InputTransparent="True" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="White" FontSize="Medium"></Label>
+        </Grid>
+    </Grid>
+</ContentView>

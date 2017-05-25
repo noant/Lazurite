@@ -4,19 +4,18 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
+using Xamarin.Forms;
 
-namespace LazuriteUI.Windows.Main.Switches
+namespace LazuriteMobile.App.Switches
 {
-    [ValueConversion(typeof(string), typeof(string))]
-    public class StringToSplittedString : IValueConverter
+    public class StringToSplittedStringLong : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var str = value.ToString();
-            if (str.Length < 15)
+            if (str.Length < 20)
                 return str;
-            if (str.Length > 14)
+            if (str.Length > 19)
             {
                 var min = int.MaxValue;
                 for (int i = 0; i<str.Length; i++)
@@ -26,10 +25,10 @@ namespace LazuriteUI.Windows.Main.Switches
                             min = str.Length / 2 - i;
                 }
                 if (min != int.MaxValue)
-                    str = str.Insert(str.Length / 2 - min, "\r\n").Replace(" \r\n", "\r\n").Replace("\r\n ", "\r\n"); ;
+                    str = str.Insert(str.Length / 2 - min, "\r\n").Replace(" \r\n", "\r\n").Replace("\r\n ", "\r\n");
             }
-            if (str.Length > 28)
-                str = str.Substring(0, 27) + "...";
+            if (str.Length > 40)
+                str = str.Substring(0, 38) + "...";
             return str;
         }
 

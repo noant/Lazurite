@@ -33,6 +33,15 @@ namespace LazuriteMobile.App.Controls
         {
             this.Orientation = StackOrientation.Vertical;
             this.Spacing = 3;
+            this.SizeChanged += ListItemsView_SizeChanged;
+        }
+        
+        private void ListItemsView_SizeChanged(object sender, EventArgs e)
+        {
+            //foreach (var children in this.Children)
+            //{
+            //    children.WidthRequest = this.Width;
+            //}
         }
 
         protected override void OnChildAdded(Element child)
@@ -40,7 +49,8 @@ namespace LazuriteMobile.App.Controls
             var item = child as ISelectable;
             if (item != null)
             {
-                ((Layout)item).HorizontalOptions = new LayoutOptions(LayoutAlignment.Fill, true);
+                ((View)child).HorizontalOptions = new LayoutOptions(LayoutAlignment.Fill, true);
+                ((View)child).WidthRequest = this.Width;
                 item.Selectable = SelectionMode != ListViewItemsSelectionMode.None;
                 item.SelectionChanged += (o, e) =>
                 {

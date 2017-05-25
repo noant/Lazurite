@@ -38,6 +38,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\NumericEntry.cs" />
     <Compile Include="Controls\DialogView.xaml.cs">
       <DependentUpon>DialogView.xaml</DependentUpon>
     </Compile>
@@ -51,15 +52,45 @@
     <Compile Include="Controls\ListItemsView.cs" />
     <Compile Include="Controls\ListItemsViewSelectionChangedEventArgs.cs" />
     <Compile Include="Controls\ListViewItemsSelectionMode.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObservableObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScenariosManager.cs" />
+    <Compile Include="SwitchesGrid.xaml.cs">
+      <DependentUpon>SwitchesGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\ButtonView.xaml.cs">
+      <DependentUpon>ButtonView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Switches\DateTimeValueTypeToSplittedString.cs" />
+    <Compile Include="Switches\DateTimeView.xaml.cs">
+      <DependentUpon>DateTimeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\DateTimeViewSwitch.xaml.cs">
+      <DependentUpon>DateTimeViewSwitch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\FloatView.xaml.cs">
+      <DependentUpon>FloatView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\ImageView.xaml.cs">
+      <DependentUpon>ImageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\InfoView.xaml.cs">
+      <DependentUpon>InfoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Switches\ScenarioModel.cs" />
+    <Compile Include="Switches\StatusView.xaml.cs">
+      <DependentUpon>StatusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\StatusViewSwitch.xaml.cs">
+      <DependentUpon>StatusViewSwitch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Switches\StringToIcon.cs" />
+    <Compile Include="Switches\StringToShortString.cs" />
+    <Compile Include="Switches\StringToSplittedStringLong.cs" />
     <Compile Include="Switches\StringToSplittedString.cs" />
     <Compile Include="Switches\SwitchesCreator.cs" />
     <Compile Include="Switches\ToggleView.xaml.cs">
@@ -67,7 +98,6 @@
     </Compile>
     <Compile Include="Switches\ValueTypeStringToBoolInvert.cs" />
     <Compile Include="Switches\ValueTypeStringToBool.cs" />
-    <Compile Include="Switches\ValueTypeStringToDouble.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -154,6 +184,60 @@
       <Project>{c5d27a74-cb03-4830-b5e1-558ac2194d5f}</Project>
       <Name>LazuriteUI.Icons</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Switches\ButtonView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Switches\DateTimeView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Switches\DateTimeViewSwitch.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Switches\FloatView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Switches\ImageView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Switches\InfoView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Switches\StatusView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Switches\StatusViewSwitch.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SwitchesGrid.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

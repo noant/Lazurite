@@ -80,6 +80,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="TestStateAction.cs" />
+    <Compile Include="TestInfoAction.cs" />
+    <Compile Include="TestToggleAction.cs" />
+    <Compile Include="TestButtonAction.cs" />
+    <Compile Include="TestFloatAction.cs" />
+    <Compile Include="TestDateTimeAction.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

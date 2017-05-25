@@ -8,10 +8,10 @@ namespace Lazurite.Windows.Server
 {
     public class ServerSettings
     {
-        public ushort Port { get; set; } = 444;
-        public string ServiceName { get; set; } = "LazuriteService.svc";
-        public string CertificateSubject { get; set; } = "localhost";
-        public string SecretKey { get; set; } = "secretKey1234567";
+        public ushort Port { get; set; }
+        public string ServiceName { get; set; }
+        public string CertificateSubject { get; set; }
+        public string SecretKey { get; set; }
                 
         public string GetAddress()
         {

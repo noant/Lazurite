@@ -10,6 +10,6 @@
              Background="{x:Static controls:Visual.BackgroundLazurite}"
              d:DesignHeight="80" d:DesignWidth="80">
     <Grid>
-        <TextBlock IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Name="textBlock" x:FieldModifier="private" Foreground="White" FontSize="10">[Изображение]</TextBlock>
+        <TextBlock IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Name="textBlock" x:FieldModifier="private" Foreground="Gray" >[Изображение]</TextBlock>
     </Grid>
 </UserControl>

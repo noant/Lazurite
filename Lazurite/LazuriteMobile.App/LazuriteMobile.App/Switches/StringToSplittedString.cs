@@ -22,11 +22,13 @@ namespace LazuriteMobile.App.Switches
                 {
                     if (str[i].Equals(' '))
                         if (Math.Abs(str.Length / 2 - i) < Math.Abs(min))
-                            min = Math.Abs(str.Length / 2 - i);
+                            min = str.Length / 2 - i;
                 }
                 if (min != int.MaxValue)
-                    str = str.Insert(str.Length / 2 + min, "\r\n").Replace(" \r\n", "\r\n");
+                    str = str.Insert(str.Length / 2 - min, "\r\n").Replace(" \r\n", "\r\n").Replace("\r\n ", "\r\n");
             }
+            if (str.Length > 28)
+                str = str.Substring(0, 27) + "...";
             return str;
         }
 

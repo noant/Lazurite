@@ -7,8 +7,8 @@
              mc:Ignorable="d"
              Background="{x:Static controls:Visual.BackgroundLazurite}"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             Height="80" Width="80"
-             d:DesignHeight="80" d:DesignWidth="80">
+             Height="110" Width="110"
+             d:DesignHeight="110" d:DesignWidth="110">
     <Grid >
         <Grid.Resources>
             <local:BoolToVisibility x:Key="boolToVisibility"></local:BoolToVisibility>
@@ -21,11 +21,9 @@
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:ItemView Background="Transparent" Grid.RowSpan="2" Name="itemView" Selected="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToBool}, Mode=TwoWay}" VerticalAlignment="Stretch" Height="80" IconVisibility="Collapsed"  Selectable="True"  HorizontalAlignment="Stretch"></controls:ItemView>
+        <controls:ItemView Background="Transparent" Grid.RowSpan="2" Name="itemView" Selected="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToBool}, Mode=TwoWay}" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed"  Selectable="True"  HorizontalAlignment="Stretch"></controls:ItemView>
         <controls:IconView Grid.Row="0" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" Visibility="{Binding Selected, ElementName=itemView, Converter={StaticResource boolToVisibility}}" IsHitTestVisible="False" x:Name="iconViewOff" x:FieldModifier="private" Margin="5" Width="50" VerticalAlignment="Top" HorizontalAlignment="Center"></controls:IconView>
         <controls:IconView Grid.Row="0" Icon="{Binding Icon2, Converter={StaticResource stringToIcon}, Mode=TwoWay}" Visibility="{Binding Selected, ElementName=itemView, Converter={StaticResource boolToVisibilityInvert}}" IsHitTestVisible="False" x:Name="iconViewOn" x:FieldModifier="private" Margin="5" Width="50" VerticalAlignment="Top" HorizontalAlignment="Center"></controls:IconView>
-        <Viewbox Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="3,0,3,3">
-            <TextBlock IsHitTestVisible="False" Name="textBlock" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" Foreground="White" FontSize="8.5"></TextBlock>
-        </Viewbox>
+        <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0,3,3" TextAlignment="Center" IsHitTestVisible="False" Name="textBlock" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" Foreground="White" ></TextBlock>
     </Grid>
 </UserControl>

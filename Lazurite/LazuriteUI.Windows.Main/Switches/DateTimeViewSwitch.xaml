@@ -28,7 +28,7 @@
                 <TextBlock Grid.Row="2" HorizontalAlignment="Right" Foreground="White" Margin="3" Grid.Column="0">Секунда</TextBlock>
                 <common:NumericUpDown Grid.Row="2" MaxValue="59" MinValue="0" x:Name="nudSecond" Margin="3" Grid.Column="1"></common:NumericUpDown>
             </Grid>
-            <controls:ItemView x:Name="itemViewApply" Height="30" Icon="None" Margin="5">Применить</controls:ItemView>
+            <controls:ItemView Icon="Check" x:Name="itemViewApply" Height="30" Margin="5">Применить</controls:ItemView>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -6,24 +6,22 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Switches"
              mc:Ignorable="d" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             Height="80" Width="80"
+             Height="110" Width="110"
              Background="{x:Static controls:Visual.BackgroundLazurite}"
-             d:DesignHeight="80" d:DesignWidth="80">
+             d:DesignHeight="110" d:DesignWidth="110">
     <Grid>
         <Grid.Resources>
             <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
             <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
         </Grid.Resources>
-        <controls:ItemView Background="Transparent" Name="itemView" VerticalAlignment="Stretch" Height="80" IconVisibility="Collapsed"  Selectable="False"  HorizontalAlignment="Stretch"></controls:ItemView>
+        <controls:ItemView Background="Transparent" Name="itemView" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed"  Selectable="False"  HorizontalAlignment="Stretch"></controls:ItemView>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"></RowDefinition>
                 <RowDefinition Height="2*"></RowDefinition>
             </Grid.RowDefinitions>
             <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" IsHitTestVisible="False" x:Name="iconViewOff" x:FieldModifier="private" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center"></controls:IconView>
-            <Viewbox Margin="3,0,3,3" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                <TextBlock TextWrapping="Wrap" IsHitTestVisible="False" Name="textBlock" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextAlignment="Center" Foreground="White" FontSize="8.5"></TextBlock>
-            </Viewbox>
+            <TextBlock Margin="3,3,3,3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" IsHitTestVisible="False" Name="textBlock" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" Foreground="White" ></TextBlock>
         </Grid>
     </Grid>
 </UserControl>

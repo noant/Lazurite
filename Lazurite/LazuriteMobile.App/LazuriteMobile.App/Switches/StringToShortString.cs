@@ -1,6 +1,4 @@
-﻿using Lazurite.ActionsDomain.ValueTypes;
-using LazuriteUI.Icons;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,16 +8,19 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public class ValueTypeStringToDouble : IValueConverter
+    public class StringToShortString : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return double.Parse((value??0).ToString());
+            var val = value.ToString();
+            if (val.Length <= 14)
+                return val;
+            else return val.Substring(0, 12) + "...";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value.ToString();
+            throw new NotImplementedException();
         }
     }
 }

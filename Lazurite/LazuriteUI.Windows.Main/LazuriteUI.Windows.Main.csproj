@@ -96,7 +96,9 @@
     <Compile Include="Switches\ButtonView.xaml.cs">
       <DependentUpon>ButtonView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Switches\StringToShortString.cs" />
     <Compile Include="Switches\StringToSplittedString.cs" />
+    <Compile Include="Switches\StringToSplittedStringLong.cs" />
     <Compile Include="Switches\SwitchesCreator.cs" />
     <Compile Include="Switches\ValueTypeStringToDouble.cs" />
     <Compile Include="Switches\ValueTypeStringToBool.cs" />

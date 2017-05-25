@@ -62,6 +62,30 @@ namespace LazuriteUI.Windows.WpfTests
                 //serverSettings.SecretKey = "0123456789123456";
                 //core.Server.SetSettings(serverSettings);
 
+                //core.ScenariosRepository.AddScenario(new SingleActionScenario()
+                //{
+                //    Name = "Включить компьютер",
+                //    TargetAction = new TestButtonAction()
+                //});
+
+                //core.ScenariosRepository.AddScenario(new SingleActionScenario()
+                //{
+                //    Name = "Свет в прихожей",
+                //    TargetAction = new TestToggleAction()
+                //});
+
+                //core.ScenariosRepository.AddScenario(new SingleActionScenario()
+                //{
+                //    Name = "Свет в прихожей",
+                //    TargetAction = new TestInfoAction()
+                //});
+
+                //core.ScenariosRepository.AddScenario(new SingleActionScenario()
+                //{
+                //    Name = "Тест статусы",
+                //    TargetAction = new TestStateAction()
+                //});
+
                 var sertName = Lazurite.Windows.Server.Utils.AddCertificate("LazuriteStandardCertificate.pfx", "1507199215071992");
                 Lazurite.Windows.Server.Utils.NetshAddSslCert(sertName, serverSettings.Port);
                 Lazurite.Windows.Server.Utils.NetshAddUrlacl(serverSettings.GetAddress());
@@ -84,30 +108,33 @@ namespace LazuriteUI.Windows.WpfTests
                 //        Login = "user1",
                 //        PasswordHash = CryptoUtils.CreatePasswordHash("pass")
                 //    });
-                
+
                 //if (!core.PluginsManager.GetPlugins().Any())
                 //    core.PluginsManager.AddPlugin(@"D:\Programming\Lazurite\Releases\Plugins\ZWavePlugin.pyp");
 
                 //var zwave = core.PluginsManager.CreateInstanceOf(core.PluginsManager.GetModules().First());
 
-                //this.Dispatcher.BeginInvoke(new Action(() => {
-                //    zwave.UserInitializeWith(new ToggleValueType(), false);
+                //this.Dispatcher.BeginInvoke(new Action(() =>
+                //{
+                //    if (!zwave.UserInitializeWith(new ToggleValueType(), false))
+                //        return;
 
-                //    core.ScenariosRepository.AddScenario(new SingleActionScenario()
-                //    {
-                //        Name = "Главный свет",
-                //        TargetAction = zwave
-                //    });
+                //core.ScenariosRepository.AddScenario(new SingleActionScenario()
+                //{
+                //    Name = "Дата выключения света",
+                //    TargetAction = new TestDateTimeAction()
+                //});
 
                 //}));
             });
 
         }
+            
 
         private void WarningHandler_OnWrite(object arg1, Lazurite.Windows.Logging.WarningEventArgs args)
         {
             this.Dispatcher.BeginInvoke(new Action(() => {
-                this.Title = args.Message;
+                this.Title = DateTime.Now.ToString()+ " // " + args.Message;
             }));
         }
 

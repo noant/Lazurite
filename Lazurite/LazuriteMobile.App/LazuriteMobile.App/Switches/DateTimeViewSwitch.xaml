@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns:common="clr-namespace:LazuriteMobile.App.Common"
+    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="LazuriteMobile.App.Switches.DateTimeViewSwitch">
+    <StackLayout Orientation="Vertical" Margin="5">
+        <Grid BackgroundColor="Black">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"></RowDefinition>
+                <RowDefinition Height="45"></RowDefinition>
+                <RowDefinition Height="45"></RowDefinition>
+                <RowDefinition Height="45"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <DatePicker HeightRequest="27" BackgroundColor="Gray" Grid.ColumnSpan="2" VerticalOptions="FillAndExpand" HorizontalOptions="Center" TextColor="White" x:Name="datePicker"></DatePicker>
+            <Label FontSize="Medium" Grid.Row="1" HorizontalOptions="End" VerticalOptions="Center" TextColor="White" Margin="3" Grid.Column="0">Час</Label>
+            <common:NumericEntry BackgroundColor="Gray" Grid.Row="1" TextColor="White" x:Name="neHour" Max="23" Min="0" Margin="3" Grid.Column="1"></common:NumericEntry>
+            <Label FontSize="Medium" Grid.Row="2" HorizontalOptions="End" VerticalOptions="Center" TextColor="White" Margin="3" Grid.Column="0">Минута</Label>
+            <common:NumericEntry BackgroundColor="Gray" TextColor="White" Grid.Row="2" Max="59" Min="0" x:Name="neMinute" Margin="3" Grid.Column="1"></common:NumericEntry>
+            <Label FontSize="Medium" Grid.Row="3" HorizontalOptions="End" VerticalOptions="Center" TextColor="White" Margin="3" Grid.Column="0">Секунда</Label>
+            <common:NumericEntry BackgroundColor="Gray" TextColor="White" Grid.Row="3" Max="59" Min="0" x:Name="neSecond" Margin="3" Grid.Column="1"></common:NumericEntry>
+        </Grid>
+        <controls:ItemView VerticalOptions="EndAndExpand" Click="itemViewApply_Click" x:Name="itemViewApply" Icon="Check" Margin="5" Text="Применить"></controls:ItemView>
+    </StackLayout>
+</ContentView>

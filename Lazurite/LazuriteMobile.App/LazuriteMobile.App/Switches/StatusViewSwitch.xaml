@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="LazuriteMobile.App.Switches.StatusViewSwitch"
+    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+    BackgroundColor="Black"
+    VerticalOptions="Center">
+    <Grid>
+        <Label x:Name="tbScenarioName" TextColor="#4682b4" FontSize="Medium"></Label>
+        <ScrollView  Margin="0,19,0,0">
+            <controls:ListItemsView x:Name="listItemsStates" SelectionMode="Single" x:FieldModifier="private"></controls:ListItemsView>
+        </ScrollView>
+    </Grid>
+</Grid>

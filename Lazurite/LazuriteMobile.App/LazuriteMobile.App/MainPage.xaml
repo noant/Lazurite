@@ -10,6 +10,6 @@
            HorizontalOptions="Center" />
     <Grid x:Name="grid">
         <Button Clicked="Button_Clicked"></Button>
-        <controls:ItemView Icon="Alert" Text="asdasdasd"></controls:ItemView>
+        <controls:ItemView Selectable="True" Icon="Alert" Text="asdasdasd"></controls:ItemView>
     </Grid>
 </ContentPage>
