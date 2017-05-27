@@ -8,8 +8,13 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              Height="80" Width="80"
              Background="{x:Static controls:Visual.BackgroundLazurite}"
+             xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
              d:DesignHeight="80" d:DesignWidth="80">
     <Grid>
-        <TextBlock IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Name="textBlock" x:FieldModifier="private" Foreground="Gray" >[Изображение]</TextBlock>
+        <Grid.Resources>
+            <local:BoolToVisibility x:Key="boolToVisibility"></local:BoolToVisibility>
+        </Grid.Resources>
+        <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}}"></common:CheckPanel>
+        <TextBlock IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Name="textBlock" x:FieldModifier="private" Foreground="Gray" FontSize="9" >[Изображение]</TextBlock>
     </Grid>
 </UserControl>

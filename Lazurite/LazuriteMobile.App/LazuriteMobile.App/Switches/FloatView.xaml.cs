@@ -1,4 +1,5 @@
 ﻿using Lazurite.MainDomain;
+using LazuriteMobile.App.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,25 +12,31 @@ namespace LazuriteMobile.App.Switches
 {
     public partial class FloatView : ContentView
     {
+        private ScenarioModel _model;
         public FloatView()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception e)
+            {
+                var a = "as";
+            }
         }
-
+        
         public FloatView(ScenarioInfo scenario, UserVisualSettings visualSettings) : this()
         {
-            this.BindingContext = new ScenarioModel(scenario, visualSettings);
-            //binding works incorrectly
-            slider.Value = double.Parse(scenario.CurrentValue);
+            _model = new ScenarioModel(scenario, visualSettings);
+            this.BindingContext = _model;
+            itemView.Click += itemView_Click;
         }
-
-        //binding works incorrectly
-        private void slider_ValueChanged(object sender, ValueChangedEventArgs e)
+        
+        private void itemView_Click(object sender, EventArgs e)
         {
-            var model = ((ScenarioModel)this.BindingContext);
-            var newVal = slider.Value.ToString();
-            if (!model.ScenarioValue.Equals(newVal))
-                model.ScenarioValue = newVal;
+            var floatSwitch = new FloatViewSwitch(_model);
+            var dialog = new DialogView(floatSwitch);
+            dialog.Show(Helper.GetLastParent(this));
         }
     }
 }

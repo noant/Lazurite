@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Switches"
              mc:Ignorable="d" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
              Height="110" Width="110"
              Background="{x:Static controls:Visual.BackgroundLazurite}"
              d:DesignHeight="110" d:DesignWidth="110">
@@ -13,8 +14,12 @@
         <Grid.Resources>
             <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
             <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
+            <local:BoolToVisibilityInvert x:Key="boolToVisibilityInvert"></local:BoolToVisibilityInvert>
+            <local:BoolToVisibility x:Key="boolToVisibility"></local:BoolToVisibility>
+            <local:BoolInvert x:Key="boolInvert"></local:BoolInvert>
         </Grid.Resources>
-        <controls:ItemView Background="Transparent" Name="itemView" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed"  Selectable="False"  HorizontalAlignment="Stretch"></controls:ItemView>
+        <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}}"></common:CheckPanel>
+        <controls:ItemView IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" Background="Transparent" Name="itemView" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed"  Selectable="False"  HorizontalAlignment="Stretch"></controls:ItemView>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"></RowDefinition>

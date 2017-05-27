@@ -7,6 +7,7 @@
     HeightRequest="110"
     WidthRequest="110"
     VerticalOptions="Start" 
+    xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     BackgroundColor="#1D191D"
     HorizontalOptions="Start"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches">
@@ -25,5 +26,6 @@
         <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}"></controls:IconView>
         <Label Grid.Row="1" VerticalOptions="Center" Margin="0,-4,0,4" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="#4682b4"  FontSize="Medium" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
         <Label Grid.Row="2" VerticalOptions="Center" Margin="0,-7,0,0" x:Name="textBlockScenValue" Text="{Binding ScenarioValue, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small"></Label>
+        <common:CheckPanel Grid.RowSpan="3" Checked="{Binding Checked}" IsVisible="{Binding EditMode}"></common:CheckPanel>
     </Grid>
 </ContentView>

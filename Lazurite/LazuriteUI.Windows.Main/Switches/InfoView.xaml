@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Switches"
+             xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
              mc:Ignorable="d" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              Height="110" Width="110"
@@ -12,8 +13,10 @@
     <Grid>
         <Grid.Resources>
             <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
+            <local:BoolToVisibility x:Key="boolToVisibility"></local:BoolToVisibility>
             <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
         </Grid.Resources>
+        <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}}"></common:CheckPanel>
         <Grid IsHitTestVisible="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>

@@ -18,6 +18,7 @@ namespace Lazurite.Windows.ServiceClient
         static ServiceClientFactory()
         {
             ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, errors) => true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
         private Dictionary<ConnectionCredentials, ServerClient> _cache = new Dictionary<ConnectionCredentials, ServerClient>();

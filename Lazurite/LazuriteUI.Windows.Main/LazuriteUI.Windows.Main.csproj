@@ -59,8 +59,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\CheckPanel.xaml.cs">
+      <DependentUpon>CheckPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\NumericUpDown.xaml.cs">
       <DependentUpon>NumericUpDown.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ScaleView.xaml.cs">
+      <DependentUpon>ScaleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObservableObject.cs" />
     <Compile Include="StartupWindow.xaml.cs">
@@ -69,7 +75,11 @@
     <Compile Include="SwitchesGrid.xaml.cs">
       <DependentUpon>SwitchesGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Switches\BoolInvert.cs" />
     <Compile Include="Switches\BoolToVisibilityInvert.cs" />
+    <Compile Include="Switches\FloatView.xaml.cs">
+      <DependentUpon>FloatView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Switches\ImageView.xaml.cs">
       <DependentUpon>ImageView.xaml</DependentUpon>
     </Compile>
@@ -79,8 +89,8 @@
     <Compile Include="Switches\InfoView.xaml.cs">
       <DependentUpon>InfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Switches\FloatView.xaml.cs">
-      <DependentUpon>FloatView.xaml</DependentUpon>
+    <Compile Include="Switches\FloatViewSwitch.xaml.cs">
+      <DependentUpon>FloatViewSwitch.xaml</DependentUpon>
     </Compile>
     <Compile Include="Switches\DateTimeView.xaml.cs">
       <DependentUpon>DateTimeView.xaml</DependentUpon>
@@ -110,7 +120,15 @@
     <Compile Include="TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Common\CheckPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\NumericUpDown.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\ScaleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,6 +166,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Switches\FloatView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Switches\ImageView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -160,7 +182,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Switches\FloatView.xaml">
+    <Page Include="Switches\FloatViewSwitch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

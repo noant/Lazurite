@@ -4,17 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Switches"
+             xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
              mc:Ignorable="d" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             Height="110" Width="110"
+             Height="110" Width="110" 
+             Background="{x:Static controls:Visual.BackgroundLazurite}"
              d:DesignHeight="110" d:DesignWidth="110">
     <Grid>
         <Grid.Resources>
             <local:StringToShortString x:Key="stringToShortString"></local:StringToShortString>
+            <local:BoolInvert x:Key="boolInvert"></local:BoolInvert>
+            <local:BoolToVisibility x:Key="boolToVisibility"></local:BoolToVisibility>
             <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
             <local:DateTimeValueTypeToSplittedString x:Key="dateTimeValueTypeToSplittedString"></local:DateTimeValueTypeToSplittedString>
         </Grid.Resources>
-        <controls:ItemView Name="itemView" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed" Background="{x:Static controls:Visual.BackgroundLazurite}" HorizontalAlignment="Stretch"></controls:ItemView>
+        <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}}"></common:CheckPanel>
+        <controls:ItemView Background="Transparent" IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" Name="itemView" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed"  HorizontalAlignment="Stretch"></controls:ItemView>
         <Grid IsHitTestVisible="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>

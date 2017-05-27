@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Switches"
              mc:Ignorable="d"
+             xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
              Background="{x:Static controls:Visual.BackgroundLazurite}"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              Height="110" Width="110"
@@ -14,6 +15,7 @@
             <local:BoolToVisibility x:Key="boolToVisibility"></local:BoolToVisibility>
             <local:BoolToVisibilityInvert x:Key="boolToVisibilityInvert"></local:BoolToVisibilityInvert>
             <local:ValueTypeStringToBool x:Key="valueTypeStringToBool"></local:ValueTypeStringToBool>
+            <local:BoolInvert x:Key="boolInvert"></local:BoolInvert>
             <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
             <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
         </Grid.Resources>
@@ -21,7 +23,8 @@
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:ItemView Background="Transparent" Grid.RowSpan="2" Name="itemView" Selected="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToBool}, Mode=TwoWay}" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed"  Selectable="True"  HorizontalAlignment="Stretch"></controls:ItemView>
+        <controls:ItemView  IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" Background="Transparent" Grid.RowSpan="2" Name="itemView" Selected="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToBool}, Mode=TwoWay}" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed"  Selectable="True"  HorizontalAlignment="Stretch"></controls:ItemView>
+        <common:CheckPanel Grid.RowSpan="2" Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}}"></common:CheckPanel>
         <controls:IconView Grid.Row="0" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" Visibility="{Binding Selected, ElementName=itemView, Converter={StaticResource boolToVisibility}}" IsHitTestVisible="False" x:Name="iconViewOff" x:FieldModifier="private" Margin="5" Width="50" VerticalAlignment="Top" HorizontalAlignment="Center"></controls:IconView>
         <controls:IconView Grid.Row="0" Icon="{Binding Icon2, Converter={StaticResource stringToIcon}, Mode=TwoWay}" Visibility="{Binding Selected, ElementName=itemView, Converter={StaticResource boolToVisibilityInvert}}" IsHitTestVisible="False" x:Name="iconViewOn" x:FieldModifier="private" Margin="5" Width="50" VerticalAlignment="Top" HorizontalAlignment="Center"></controls:IconView>
         <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0,3,3" TextAlignment="Center" IsHitTestVisible="False" Name="textBlock" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" Foreground="White" ></TextBlock>

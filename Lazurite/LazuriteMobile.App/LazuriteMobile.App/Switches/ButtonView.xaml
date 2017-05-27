@@ -7,6 +7,8 @@
     WidthRequest="110"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
     xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+    xmlns:common="clr-namespace:LazuriteMobile.App.Common"
+    BackgroundColor="#1D191D"
     VerticalOptions="Start"
     HorizontalOptions="Start">
     <Grid x:Name="grid">
@@ -14,9 +16,11 @@
             <ResourceDictionary>
                 <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
                 <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
+                <local:BoolInvert x:Key="boolInvert"></local:BoolInvert>
             </ResourceDictionary>
         </Grid.Resources>
-        <controls:ItemView AnimateView="{Binding Source={Reference Name=grid}}" BackgroundColor="#1D191D" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
+        <common:CheckPanel Checked="{Binding Checked}" IsVisible="{Binding EditMode}"></common:CheckPanel>
+        <controls:ItemView BackgroundColor="Transparent" IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"></RowDefinition>

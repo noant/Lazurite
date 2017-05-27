@@ -22,6 +22,8 @@ namespace LazuriteUI.Windows.Main.Switches
         }
 
         private string _value;
+        private bool _editMode;
+        private bool _checked;
 
         public UserVisualSettings VisualSettings { get; private set; }
         public ScenarioBase Scenario { get; private set; }
@@ -128,6 +130,32 @@ namespace LazuriteUI.Windows.Main.Switches
             get
             {
                 return double.Parse((Scenario.ValueType as FloatValueType)?.AcceptedValues.First());
+            }
+        }
+
+        public bool EditMode
+        {
+            get
+            {
+                return _editMode;
+            }
+            set
+            {
+                _editMode = value;
+                OnPropertyChanged(nameof(EditMode));
+            }
+        }
+
+        public bool Checked
+        {
+            get
+            {
+                return _checked;
+            }
+            set
+            {
+                _checked = value;
+                OnPropertyChanged(nameof(Checked));
             }
         }
 

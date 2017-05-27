@@ -14,7 +14,14 @@ namespace LazuriteMobile.App.Switches
         private ScenarioModel _model;
         public ButtonView()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch(Exception e)
+            {
+                var a = "asd";
+            }
         }
         
         public ButtonView(ScenarioInfo scenario, UserVisualSettings visualSettings) : this()

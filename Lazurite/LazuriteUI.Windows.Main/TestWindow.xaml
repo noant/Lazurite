@@ -9,6 +9,7 @@
         Background="Black"
         Title="TestWindows" Height="300" Width="300">
     <Grid Name="grid">
-        <local:SwitchesGrid x:Name="switches"></local:SwitchesGrid>
+        <CheckBox IsChecked="{Binding ElementName=switches, Path=EditMode, Mode=TwoWay}"></CheckBox>
+        <local:SwitchesGrid Margin="20" x:Name="switches"></local:SwitchesGrid>
     </Grid>
 </Window>

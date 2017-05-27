@@ -17,7 +17,7 @@ namespace LazuriteMobile.App.Controls
             _child = child;
             this.contentGrid.Children.Add(child);
         }
-
+        
         public void Show(Grid parentElement)
         {
             parentElement.Children.Add(this);

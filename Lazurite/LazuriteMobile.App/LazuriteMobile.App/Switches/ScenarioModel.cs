@@ -43,6 +43,8 @@ namespace LazuriteMobile.App.Switches
 
         private string _value;
         private bool _available;
+        private bool _editMode;
+        private bool _checked;
 
         public UserVisualSettings VisualSettings { get; private set; }
         public ScenarioInfo Scenario { get; private set; }
@@ -144,7 +146,33 @@ namespace LazuriteMobile.App.Switches
                 return double.Parse((Scenario.ValueType as FloatValueType)?.AcceptedValues.Last());
             }
         }
-        
+
+
+        public bool EditMode
+        {
+            get
+            {
+                return _editMode;
+            }
+            set
+            {
+                _editMode = value;
+                OnPropertyChanged(nameof(EditMode));
+            }
+        }
+
+        public bool Checked
+        {
+            get
+            {
+                return _checked;
+            }
+            set
+            {
+                _checked = value;
+                OnPropertyChanged(nameof(Checked));
+            }
+        }
         public double Min
         {
             get

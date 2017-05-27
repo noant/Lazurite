@@ -3,24 +3,33 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="LazuriteMobile.App.Switches.FloatView"
+    HeightRequest="110"
+    WidthRequest="110"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
     xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
-    BackgroundColor="#1D191D"
+    xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     VerticalOptions="Start"
-    HorizontalOptions="Start"
-    HeightRequest="110"
-    WidthRequest="223">
-    <Grid>
+    BackgroundColor="#1D191D"
+    HorizontalOptions="Start">
+    <Grid x:Name="grid">
         <Grid.Resources>
             <ResourceDictionary>
                 <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
-                <local:StringToSplittedStringLong x:Key="stringToSplittedStringLong"></local:StringToSplittedStringLong>
+                <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
+                <local:BoolInvert x:Key="boolInvert"></local:BoolInvert>
+                <local:ValueTypeStringToDouble x:Key="valueTypeStringToDouble"></local:ValueTypeStringToDouble>
             </ResourceDictionary>
         </Grid.Resources>
-        <StackLayout Spacing="0" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Center" Margin="-25,-38,0,0">
-            <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="End"></controls:IconView>
-            <Label Margin="0,0,0,0" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedStringLong}}" HorizontalTextAlignment="Start" HorizontalOptions="Start" FontSize="Medium" TextColor="White"></Label>
-        </StackLayout>
-        <Slider x:Name="slider" Minimum="{Binding Min}" Maximum="{Binding Max}" x:FieldModifier="private" ValueChanged="slider_ValueChanged" VerticalOptions="End" HorizontalOptions="FillAndExpand" Margin="5,5,5,15"></Slider>
+        <controls:ItemView IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" BackgroundColor="Transparent" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
+        <common:CheckPanel Checked="{Binding Checked}" IsVisible="{Binding EditMode}"></common:CheckPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" InputTransparent="True" x:Name="iconView" x:FieldModifier="private" WidthRequest="50" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,12,0,0"></controls:IconView>
+            <Label Grid.Row="1" Margin="2,-7,2,2" InputTransparent="True" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="White" FontSize="Medium"></Label>
+        </Grid>
+        <common:ScaleView Opacity="0.5" VerticalOptions="FillAndExpand" HorizontalOptions="End" Max="{Binding Max}" Min="{Binding Min}" Value="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToDouble}}"></common:ScaleView>
     </Grid>
 </ContentView>

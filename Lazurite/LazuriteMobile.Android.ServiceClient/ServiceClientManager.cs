@@ -18,9 +18,14 @@ namespace LazuriteMobile.Android.ServiceClient
 {
     public class ServiceClientManager: IServiceClientManager
     {
+        static ServiceClientManager()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, errors) => true;
+        }
+
         public IServiceClient Create(string host, ushort port, string serviceName, string secretKey, string userLogin, string password)
         {
-            ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, errors) => true;
             var binding = new BasicHttpBinding();
             binding.Security.Mode = BasicHttpSecurityMode.Transport;
             binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;

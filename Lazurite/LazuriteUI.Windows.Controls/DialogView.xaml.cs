@@ -26,9 +26,16 @@ namespace LazuriteUI.Windows.Controls
         public DialogView(FrameworkElement child)
         {
             InitializeComponent();
+            this.KeyUp += DialogView_KeyUp;
             this.contentGrid.Children.Add(child);
         }
-        
+
+        private void DialogView_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+                this.Close();
+        }
+
         public void Show(Panel parentElement)
         {
             _tempDisabledElements.Clear();

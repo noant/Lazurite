@@ -6,7 +6,9 @@
     HeightRequest="110"
     WidthRequest="110"
     VerticalOptions="Start" 
+    xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     BackgroundColor="#1D191D"
     HorizontalOptions="Start">
-    <Label TextColor="Gray" Text="[Изображение]" VerticalOptions="Center" HorizontalOptions="Center"></Label>
+    <Label FontSize="Small" TextColor="Gray" Text="[Изображение]" VerticalOptions="Center" HorizontalOptions="Center"></Label>
+    <common:CheckPanel  Checked="{Binding Checked}" IsVisible="{Binding EditMode}"></common:CheckPanel>
 </ContentView>
