@@ -1,8 +1,10 @@
-﻿using System;
+﻿using SslCertBinding.Net;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
@@ -13,28 +15,30 @@ namespace Lazurite.Windows.Server
 {
     public static class Utils
     {
-        public static void NetshAddSslCert(string certificateSubject, ushort port)
+        public static void NetshAddSslCert(string certificateHash, ushort port)
         {
+            NetshDeleteSslCert(port);
             var store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
             store.Open(OpenFlags.ReadOnly);
             var cert = store
                 .Certificates
                 .Cast<X509Certificate2>()
-                .FirstOrDefault(x => x.Subject.Equals("CN=" + certificateSubject));
+                .FirstOrDefault(x => x.GetCertHashString().Equals(certificateHash));
 
             if (cert == null)
-                throw new Exception(string.Format("Cannot found certificate [{0}]", certificateSubject));
-
-            var certhash = cert.GetCertHashString();
-            var appid = ((GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0]).Value;
-            var commandString = string.Format(" http add sslcert ipport=0.0.0.0:{0} certhash={1} appid={{{2}}}", port, certhash, appid);
+                throw new Exception(string.Format("Cannot found certificate [{0}]", certificateHash));
             
-            var output = 
-                Windows.Utils.Utils.ExecuteProcess(Path.Combine(Environment.SystemDirectory, "netsh.exe"), commandString);
+            var appid = ((GuidAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(GuidAttribute), true)[0]).Value;
 
-            var outputLower = output.ToLower();
-            if (!outputLower.Contains("183") && (outputLower.Contains("error") || outputLower.Contains("ошибка") || outputLower.Contains("сбой") || outputLower.Contains("неверно")))
-                throw new Exception(output);
+            var certificateBindingConfiguration = new CertificateBindingConfiguration();
+
+            certificateBindingConfiguration.Bind(
+                new CertificateBinding(
+                    certificateHash,
+                    StoreName.My,
+                    new IPEndPoint(new IPAddress(new byte[] { 0, 0, 0, 0 }), port),
+                    Guid.Parse(appid))
+            );
         }
 
         public static void NetshDeleteSslCert(ushort port)
@@ -45,6 +49,7 @@ namespace Lazurite.Windows.Server
 
         public static void NetshAddUrlacl(string address)
         {
+            NetshDeleteUrlacl(address);
             var commandString = string.Format(@" http add urlacl url={0} user={1}\{2}", address, Environment.UserDomainName, Environment.UserName);
 
             var output = Windows.Utils.Utils.ExecuteProcess(Path.Combine(Environment.SystemDirectory, "netsh.exe"), commandString);
@@ -66,9 +71,11 @@ namespace Lazurite.Windows.Server
             var name = certificate.Subject.Replace("CN=", "");
             X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
             store.Open(OpenFlags.ReadWrite);
-            store.Add(new X509Certificate2(certificate));
+
+            var cert = new X509Certificate2(certificate);
+            store.Add(cert);
             store.Close();
-            return name;
+            return cert.GetCertHashString();
         }
     }
 }

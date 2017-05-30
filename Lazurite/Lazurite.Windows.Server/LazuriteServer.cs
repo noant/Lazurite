@@ -77,7 +77,7 @@ namespace Lazurite.Windows.Server
                     _host.Credentials.ServiceCertificate.SetCertificate(
                         StoreLocation.LocalMachine,
                         StoreName.My,
-                        X509FindType.FindBySubjectName,
+                        X509FindType.FindByThumbprint,
                         _settings.CertificateSubject);
                     _host.Open();
                     _warningHandler.Info("Service started: " + this._settings.GetAddress());

@@ -20,20 +20,19 @@ namespace Lazurite.Windows.Utils
 
         public static string ExecuteProcess(string filePath, string arguments)
         {
-            var output = "";
             var process = new Process();
+            process.StartInfo.StandardErrorEncoding =
+                process.StartInfo.StandardOutputEncoding =
+                Encoding.GetEncoding(866);
+            process.StartInfo.CreateNoWindow = true;
             process.StartInfo.FileName = filePath;
             process.StartInfo.Arguments = arguments;
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.UseShellExecute = false;
-            process.ErrorDataReceived += (o, e) => output += e.Data + "\r\n";
-            process.OutputDataReceived += (o, e) => output += e.Data + "\r\n";
             process.Start();
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
             process.WaitForExit();
-            return output;
+            return process.StandardOutput.ReadToEnd()+"\r\n"+process.StandardError.ReadToEnd();
         }
     }
 }

@@ -7105,8 +7105,8 @@ VisualCore
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">4140</XPD:ATTR>
-<XPD:ATTR name="Top" type="integer">696</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">309</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">692</XPD:ATTR>
+<XPD:ATTR name="Width" type="integer">326</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">82</XPD:ATTR>
 <XPD:REF name="Model">GBkPZMxAU0yajG57oUyDzQAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="8PSLiDJg2Uenicrb0cjDiQAA">
@@ -13739,12 +13739,12 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:ATTR name="Name" type="string">NetshAddSslCert</XPD:ATTR>
 <XPD:REF name="Owner">GBkPZMxAU0yajG57oUyDzQAA</XPD:REF>
 <XPD:ATTR name="#Parameters" type="integer">2</XPD:ATTR>
-<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="mZ4/AMLlhUy3PaQz/vTSygAA">
-<XPD:ATTR name="Name" type="string">certificateSubject</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="m9BQfXVpIEqjuWGf9/mt2gAA">
+<XPD:ATTR name="Name" type="string">certificateHash</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">vBvDo4JrTESFiHJEPJjrAgAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="wP8bV0+QWUS89pSzrUzThgAA">
+<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="571AdW9P4E+fWjPZr4d5YAAA">
 <XPD:ATTR name="Name" type="string">port</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">ushort</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">vBvDo4JrTESFiHJEPJjrAgAA</XPD:REF>
@@ -13763,8 +13763,13 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:OBJ name="Operations[2]" type="UMLOperation" guid="gGwS4TSOskmMOnqLPmUtkAAA">
 <XPD:ATTR name="Name" type="string">AddCertificate</XPD:ATTR>
 <XPD:REF name="Owner">GBkPZMxAU0yajG57oUyDzQAA</XPD:REF>
-<XPD:ATTR name="#Parameters" type="integer">1</XPD:ATTR>
-<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="j0eeF4ZShEOuCKFX+zB1bAAA">
+<XPD:ATTR name="#Parameters" type="integer">2</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="5XA94rGdwUqjCO8UYc+17gAA">
+<XPD:ATTR name="DirectionKind" type="UMLParameterDirectionKind">pdkReturn</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">gGwS4TSOskmMOnqLPmUtkAAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="6NPAxlMv80yJ3atg7xbtHQAA">
 <XPD:ATTR name="Name" type="string">certFilePath</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string; certPassword: string</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">gGwS4TSOskmMOnqLPmUtkAAA</XPD:REF>
@@ -14831,8 +14836,8 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Participant">SZV/48Rb4UKaCluS7NdRYgAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">O3KwL3IoPEK2FKjreh3pVAAA</XPD:REF>
-<XPD:REF name="Views[1]">PyOpZN7gyEC7fI8guy9vpAAA</XPD:REF>
-<XPD:REF name="Views[2]">VOyJThAjjkGAwY/1bGuWWAAA</XPD:REF>
+<XPD:REF name="Views[1]">VOyJThAjjkGAwY/1bGuWWAAA</XPD:REF>
+<XPD:REF name="Views[2]">PyOpZN7gyEC7fI8guy9vpAAA</XPD:REF>
 <XPD:REF name="Views[3]">YxqiHWwES0yGaZowyAC/0gAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Connections[1]" type="UMLAssociationEnd" guid="ysCBDSt+Yk2slgFhfY+XyAAA">
@@ -14840,8 +14845,8 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Participant">9M+oJgVbmEu4RBTSfJjKxwAA</XPD:REF>
 <XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
 <XPD:REF name="Views[0]">zWJ+NJk0UUy6DBGDgqu9UgAA</XPD:REF>
-<XPD:REF name="Views[1]">C9CeA5U/KUOODMdvWlzg0wAA</XPD:REF>
-<XPD:REF name="Views[2]">fXIEWxFk7Uu4QVdkV+kkngAA</XPD:REF>
+<XPD:REF name="Views[1]">fXIEWxFk7Uu4QVdkV+kkngAA</XPD:REF>
+<XPD:REF name="Views[2]">C9CeA5U/KUOODMdvWlzg0wAA</XPD:REF>
 <XPD:REF name="Views[3]">aRkcdELsKkWrHzyXwJDxbwAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>

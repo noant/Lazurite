@@ -51,6 +51,10 @@
       <HintPath>..\packages\PInvoke.Windows.Core.0.5.64\lib\net20\PInvoke.Windows.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SslCertBinding.Net, Version=1.0.2.0, Culture=neutral, PublicKeyToken=46398e4c25dead31, processorArchitecture=MSIL">
+      <HintPath>..\packages\SslCertBinding.Net.1.0.2\lib\net20\SslCertBinding.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel" />

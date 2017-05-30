@@ -52,16 +52,9 @@ namespace LazuriteUI.Windows.WpfTests
             core.WarningHandler.OnWrite += WarningHandler_OnWrite;
             core.InitializeAsync(() => {
                 Thread.Sleep(2000);
-                this.Dispatcher.BeginInvoke(new Action(() => {
-                    this.Title = "core initialized";
-                }));
 
-                //core.WarningHandler.Debug("set settings");
-
-                var serverSettings = core.Server.GetSettings();
-                //serverSettings.SecretKey = "0123456789123456";
-                //core.Server.SetSettings(serverSettings);
-
+                core.WarningHandler.Debug("set settings");
+                
                 //core.ScenariosRepository.AddScenario(new SingleActionScenario()
                 //{
                 //    Name = "Включить компьютер",
@@ -86,9 +79,12 @@ namespace LazuriteUI.Windows.WpfTests
                 //    TargetAction = new TestStateAction()
                 //});
 
-                var sertName = Lazurite.Windows.Server.Utils.AddCertificate("LazuriteStandardCertificate.pfx", "1507199215071992");
-                Lazurite.Windows.Server.Utils.NetshAddSslCert(sertName, serverSettings.Port);
+                var serverSettings = core.Server.GetSettings();
+                var sertName = Lazurite.Windows.Server.Utils.AddCertificate("LazuriteStandardCertificate.pfx", "28021992");
+                serverSettings.CertificateSubject = sertName;
                 Lazurite.Windows.Server.Utils.NetshAddUrlacl(serverSettings.GetAddress());
+                Lazurite.Windows.Server.Utils.NetshAddSslCert(serverSettings.CertificateSubject, serverSettings.Port);
+                core.Server.SetSettings(serverSettings);
 
                 core.Server.StartAsync((success)=> {
                     Thread.Sleep(3000);
