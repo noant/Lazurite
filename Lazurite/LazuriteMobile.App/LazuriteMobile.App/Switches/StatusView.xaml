@@ -11,23 +11,23 @@
     BackgroundColor="#1D191D"
     HorizontalOptions="Start"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches">
-    <Grid.Resources>
-        <ResourceDictionary>
-            <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
-            <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
-            <local:BoolInvert x:Key="boolInvert"></local:BoolInvert>
-        </ResourceDictionary>
-    </Grid.Resources>
-    <Grid>
+    <Grid x:Name="grid">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
+                <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
+                <local:BoolInvert x:Key="boolInvert"></local:BoolInvert>
+            </ResourceDictionary>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:ItemView IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" BackgroundColor="Transparent" IconVisibility="False" Selectable="False" Grid.RowSpan="3" x:Name="itemView" x:FieldModifier="private"></controls:ItemView>
-        <controls:IconView InputTransparent="True" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}"></controls:IconView>
-        <Label Grid.Row="1" InputTransparent="True" VerticalOptions="Center" Margin="0,-4,0,4" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="#4682b4" FontSize="Medium" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
-        <Label Grid.Row="2" InputTransparent="True" VerticalOptions="Center" Margin="0,-7,0,0" x:Name="textBlockScenValue" Text="{Binding ScenarioValue, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small"></Label>
+        <controls:ItemView AnimateView="{Binding Source={Reference Name=grid}}" IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" BackgroundColor="Transparent" IconVisibility="False" Selectable="False" Grid.RowSpan="3" x:Name="itemView" x:FieldModifier="private"></controls:ItemView>
+        <controls:IconView WidthRequest="20" InputTransparent="True" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}"></controls:IconView>
+        <Label Grid.Row="1" InputTransparent="True" VerticalOptions="Center" Margin="4,-4,4,4" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="#4682b4" FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
+        <Label Grid.Row="2" InputTransparent="True" VerticalOptions="Center" Margin="4,-7,4,0" x:Name="textBlockScenValue" Text="{Binding ScenarioValue, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small"></Label>
         <common:CheckPanel Grid.RowSpan="3" Checked="{Binding Checked}" IsVisible="{Binding EditMode}"></common:CheckPanel>
     </Grid>
 </ContentView>

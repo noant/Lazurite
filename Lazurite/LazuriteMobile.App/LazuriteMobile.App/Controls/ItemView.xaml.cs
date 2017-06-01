@@ -32,7 +32,7 @@ namespace LazuriteMobile.App.Controls
                 });
             TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(ItemView), "itemView", BindingMode.OneWay, null,
                 (sender, oldVal, newVal) => {
-                    ((ItemView)sender).button.Text = (string)newVal;
+                    ((ItemView)sender).label.Text = (string)newVal;
                 });
             SelectableProperty = BindableProperty.Create(nameof(SelectableProperty), typeof(bool), typeof(ItemView), false, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) =>
@@ -52,6 +52,13 @@ namespace LazuriteMobile.App.Controls
         public ItemView()
 		{
 			InitializeComponent();
+            this.PropertyChanged += (o, e) => {
+                if (e.PropertyName == nameof(IsEnabled))
+                {
+                    this.button.IsVisible = this.IsEnabled;
+                    this.backGrid.IsVisible = this.IsEnabled && this.Selected;
+                }
+            };
 		}
 
         public bool IconVisibility
@@ -128,13 +135,16 @@ namespace LazuriteMobile.App.Controls
 
         async private void Button_Clicked(object sender, EventArgs e)
         {
-            if (this.Selectable)
-                this.Selected = !this.Selected;
-            Click?.Invoke(this, new EventArgs());
-            var view = AnimateView ?? this;
-            await view.ScaleTo(0.85, 50, Easing.Linear);
-            await Task.Delay(40);
-            await view.ScaleTo(1, 50, Easing.Linear);
+            if (button.IsEnabled)
+            {
+                var view = AnimateView ?? this;
+                await view.ScaleTo(0.85, 50, Easing.Linear).ContinueWith((o) =>
+                    view.ScaleTo(1, 50, Easing.Linear)
+                );
+                if (this.Selectable)
+                    this.Selected = !this.Selected;
+                Click?.Invoke(this, new EventArgs());
+            }
         }
 
         private void RaiseSelectionChanged()

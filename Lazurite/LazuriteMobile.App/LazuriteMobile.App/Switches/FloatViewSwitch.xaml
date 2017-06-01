@@ -7,7 +7,7 @@
     xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
     BackgroundColor="#1D191D"
     VerticalOptions="Start"
-    HorizontalOptions="Start"
+    HorizontalOptions="FillAndExpand"
     HeightRequest="110">
     <Grid>
         <Grid.Resources>
@@ -18,7 +18,7 @@
         </Grid.Resources>
         <StackLayout Spacing="0" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Center" Margin="-25,-38,0,0">
             <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" VerticalOptions="Center" HorizontalOptions="End"></controls:IconView>
-            <Label Margin="0,0,0,0" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedStringLong}}" HorizontalTextAlignment="Start" HorizontalOptions="Start" FontSize="Medium" TextColor="White"></Label>
+            <Label Margin="10,0,0,0" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedStringLong}}" HorizontalTextAlignment="Start" HorizontalOptions="Start" FontSize="Small" TextColor="White"></Label>
         </StackLayout>
         <Slider x:Name="slider" Minimum="{Binding Min}" Maximum="{Binding Max}" x:FieldModifier="private" ValueChanged="slider_ValueChanged" VerticalOptions="End" HorizontalOptions="FillAndExpand" Margin="5,5,5,15"></Slider>
     </Grid>

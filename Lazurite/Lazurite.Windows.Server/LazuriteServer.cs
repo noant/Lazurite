@@ -78,7 +78,7 @@ namespace Lazurite.Windows.Server
                         StoreLocation.LocalMachine,
                         StoreName.My,
                         X509FindType.FindByThumbprint,
-                        _settings.CertificateSubject);
+                        _settings.CertificateHash);
                     _host.Open();
                     _warningHandler.Info("Service started: " + this._settings.GetAddress());
                     callback?.Invoke(true);
@@ -107,7 +107,7 @@ namespace Lazurite.Windows.Server
             else
             {
                 _settings = new ServerSettings() {
-                    CertificateSubject = StandartCertificateSubject,
+                    CertificateHash = StandartCertificateSubject,
                     Port = StandartServicePort,
                     SecretKey = StandartSecretKey,
                     ServiceName = StandartServiceName

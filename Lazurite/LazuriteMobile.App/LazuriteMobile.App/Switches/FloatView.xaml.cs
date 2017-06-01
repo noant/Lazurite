@@ -15,14 +15,7 @@ namespace LazuriteMobile.App.Switches
         private ScenarioModel _model;
         public FloatView()
         {
-            try
-            {
-                InitializeComponent();
-            }
-            catch (Exception e)
-            {
-                var a = "as";
-            }
+            InitializeComponent();
         }
         
         public FloatView(ScenarioInfo scenario, UserVisualSettings visualSettings) : this()
@@ -31,7 +24,6 @@ namespace LazuriteMobile.App.Switches
             this.BindingContext = _model;
             itemView.Click += itemView_Click;
         }
-        
         private void itemView_Click(object sender, EventArgs e)
         {
             var floatSwitch = new FloatViewSwitch(_model);

@@ -18,11 +18,7 @@ namespace LazuriteMobile.App.Common
         {
             ValueProperty = BindableProperty.Create(nameof(Value), typeof(double), typeof(ScaleView), 0.0, BindingMode.Default, null, 
                 (o, oldVal, newVal) => {
-                    var value = (double)newVal;
-                    var scaleView = o as ScaleView;
-                    var percent = value / (scaleView.Max - scaleView.Min);
-                    var marginBottom = scaleView.Height * percent;
-                    scaleView.gridValue.HeightRequest = marginBottom;
+                    ((ScaleView)o).RefreshScale();
                 }
             );
             MaxProperty = BindableProperty.Create(nameof(Max), typeof(double), typeof(ScaleView), 100.0);
@@ -32,6 +28,14 @@ namespace LazuriteMobile.App.Common
         public ScaleView()
         {
             InitializeComponent();
+            this.SizeChanged += (o, e) => RefreshScale();
+        }
+                
+        private void RefreshScale()
+        {
+            var percent = Value / (this.Max - this.Min);
+            var marginBottom = this.Height * percent;
+            this.gridValue.HeightRequest = marginBottom;
         }
 
         public double Value

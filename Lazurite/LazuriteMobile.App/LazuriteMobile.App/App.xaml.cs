@@ -13,11 +13,9 @@ namespace LazuriteMobile.App
         public App()
         {
             InitializeComponent();
-
-            Task.Delay(3000).Wait();
-            
+                        
             Singleton.Add(new ScenariosManager());
-            Singleton.Resolve<ScenariosManager>().Initialize("192.168.0.100", 8087, "Lazurite", "user1", "pass", "0123456789123456");
+            Singleton.Resolve<ScenariosManager>().Initialize("noant.asuscomm.com", 254, "Lazurite", "user1", "pass", "0123456789123456");
 
             MainPage = new LazuriteMobile.App.MainPage();
         }

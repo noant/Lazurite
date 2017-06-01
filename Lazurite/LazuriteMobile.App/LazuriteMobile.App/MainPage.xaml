@@ -5,11 +5,6 @@
              xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
              BackgroundColor="Black"
              x:Class="LazuriteMobile.App.MainPage">
-    <Label x:Name="label" Text="Welcome to Xamarin Forms!" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
-    <Grid x:Name="grid">
-        <Button Clicked="Button_Clicked"></Button>
-        <controls:ItemView Selectable="True" Icon="Alert" Text="asdasdasd"></controls:ItemView>
+    <Grid x:Name="grid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
     </Grid>
 </ContentPage>

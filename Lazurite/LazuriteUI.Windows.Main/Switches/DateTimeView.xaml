@@ -26,7 +26,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}"></controls:IconView>
+            <controls:IconView Width="35" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}"></controls:IconView>
             <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="0,-4,0,4" Name="textBlockScenName" Text="{Binding ScenarioName, Converter={StaticResource stringToShortString}}" x:FieldModifier="private" Foreground="SteelBlue" TextAlignment="Center" ></TextBlock>
             <TextBlock Grid.Row="2" VerticalAlignment="Center" Margin="0,-7,0,0" Name="textBlockDate" Text="{Binding ScenarioValue, Converter={StaticResource dateTimeValueTypeToSplittedString}}" x:FieldModifier="private" Foreground="White" TextAlignment="Center" ></TextBlock>
         </Grid>

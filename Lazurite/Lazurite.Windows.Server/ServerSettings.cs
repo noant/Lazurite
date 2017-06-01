@@ -10,7 +10,7 @@ namespace Lazurite.Windows.Server
     {
         public ushort Port { get; set; }
         public string ServiceName { get; set; }
-        public string CertificateSubject { get; set; }
+        public string CertificateHash { get; set; }
         public string SecretKey { get; set; }
                 
         public string GetAddress()

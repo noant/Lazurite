@@ -19,15 +19,7 @@ namespace LazuriteMobile.App.Controls
                 (sender, oldVal, newVal) => {
                     ((IconView)sender).iconControl.Source = ImageSource.FromStream(() =>
                         {
-                            try
-                            {
-                                return Utils.GetIconData((Icon)newVal);
-                            }
-                            catch(Exception e)
-                            {
-                                var b = "asd";
-                            }
-                            return null;
+                            return Utils.GetIconData((Icon)newVal);
                         }
                     );
                 });

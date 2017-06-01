@@ -26,11 +26,15 @@ namespace LazuriteUI.Windows.Main
     {
         public static DependencyProperty EditModeProperty;
 
+        private static readonly int MaxX = 3;
+        private static readonly int ElementSize = 111;
+        private static readonly int ElementMargin = 6;
+
         static SwitchesGrid()
         {
             EditModeProperty = DependencyProperty.Register(nameof(EditMode), typeof(bool), typeof(SwitchesGrid), new FrameworkPropertyMetadata() {
                 DefaultValue = false,
-                PropertyChangedCallback = (o,e) => {
+                PropertyChangedCallback = (o, e) => {
                     ((SwitchesGrid)o).grid.Children
                         .Cast<FrameworkElement>()
                         .Select(x => ((ScenarioModel)x.DataContext).EditMode = (bool)e.NewValue)
@@ -46,6 +50,7 @@ namespace LazuriteUI.Windows.Main
             InitializeComponent();
             this.MouseMove += SwitchesGrid_MouseMove;
             this.MouseLeftButtonUp += ElementMouseRelease;
+            this.grid.Margin = new Thickness(0, 0, ElementMargin, 0);
         }
 
         public bool EditMode
@@ -64,13 +69,12 @@ namespace LazuriteUI.Windows.Main
         {
             if (this.EditMode && _draggableCurrent != null)
             {
-                var marginLeft = 2;
-                var marginTop = 2;
-                var elementSize = 110;
+                var margin = ElementMargin;
+                var elementSize = ElementSize;
                 var position = e.GetPosition(this.grid);
-                var positionExt = new Point(position.X / (elementSize + marginLeft), position.Y / (elementSize + marginTop));
+                var positionExt = new Point(position.X / (elementSize + margin), position.Y / (elementSize + margin));
                 var visualSettings = ((ScenarioModel)_draggableCurrent.DataContext).VisualSettings;
-                if (visualSettings.PositionX != (int)positionExt.X || visualSettings.PositionY != (int)positionExt.Y)
+                if ((visualSettings.PositionX != (int)positionExt.X || visualSettings.PositionY != (int)positionExt.Y) && (int)positionExt.X < MaxX)
                 {
                     Move(_draggableCurrent, new Point((int)positionExt.X >= 0 ? (int)positionExt.X : 0, (int)positionExt.Y >= 0 ? (int)positionExt.Y : 0));
                 }
@@ -110,18 +114,17 @@ namespace LazuriteUI.Windows.Main
                     if (userControl != control)
                         ((ScenarioModel)userControl.DataContext).Checked = false;
                 }
-                _draggableCurrent = control;                
+                _draggableCurrent = control;
             }
         }
-        
+
         private UserControl _draggableCurrent;
-        
+
         public void Rearrange()
         {
-            var maxX = 4;
-            var marginLeft = 2;
-            var marginTop = 2;
-            var elementSize = 110;
+            var maxX = MaxX;
+            var margin = ElementMargin;
+            var elementSize = ElementSize;
             var occupiedPoints = new List<Point>();
             foreach (UserControl control in grid.Children.Cast<UserControl>())
             {
@@ -151,7 +154,7 @@ namespace LazuriteUI.Windows.Main
             //optimize
             var controls = grid.Children.Cast<UserControl>().ToArray();
             var controlsVisualSettings = controls.Select(x => ((ScenarioModel)x.DataContext).VisualSettings).ToArray();
-            foreach (var visualSetting in controlsVisualSettings.OrderBy(x=>x.PositionY).OrderBy(x=>x.PositionX))
+            foreach (var visualSetting in controlsVisualSettings.OrderBy(x => x.PositionY).OrderBy(x => x.PositionX))
             {
                 var x = visualSetting.PositionX;
                 var y = visualSetting.PositionY;
@@ -166,7 +169,7 @@ namespace LazuriteUI.Windows.Main
                     if (x == 0 && y != 0)
                     {
                         y--;
-                        x = maxX;
+                        x = maxX - 1;
                     }
                     else if (x != 0)
                         x--;
@@ -182,7 +185,7 @@ namespace LazuriteUI.Windows.Main
             {
                 var model = ((ScenarioModel)control.DataContext);
                 var targetPoint = new Point(model.VisualSettings.PositionX, model.VisualSettings.PositionY);
-                control.Margin = new Thickness(marginLeft * (1 + targetPoint.X) + elementSize * targetPoint.X, marginTop * (1 + targetPoint.Y) + elementSize * targetPoint.Y, 0, 0);
+                control.Margin = new Thickness(margin * (1 + targetPoint.X) + elementSize * targetPoint.X, margin * (1 + targetPoint.Y) + elementSize * targetPoint.Y, 0, 0);
             }
         }
 

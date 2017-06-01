@@ -13,14 +13,7 @@ namespace LazuriteMobile.App.Switches
     {
         public StatusViewSwitch()
         {
-            try
-            {
-                InitializeComponent();
-            }
-            catch (Exception e)
-            {
-                var a = "asd";
-            }
+            InitializeComponent();
         }
 
         public StatusViewSwitch(ScenarioModel scenarioModel) : this()

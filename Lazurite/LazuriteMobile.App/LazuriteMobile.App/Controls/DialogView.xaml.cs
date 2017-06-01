@@ -16,8 +16,17 @@ namespace LazuriteMobile.App.Controls
 			InitializeComponent();
             _child = child;
             this.contentGrid.Children.Add(child);
+
+            var tapGesture = new TapGestureRecognizer();
+            tapGesture.Tapped += TapGesture_Tapped;
+            gridBackground.GestureRecognizers.Add(tapGesture);
         }
-        
+
+        private void TapGesture_Tapped(object sender, EventArgs e)
+        {
+            Close();
+        }
+
         public void Show(Grid parentElement)
         {
             parentElement.Children.Add(this);
@@ -25,8 +34,8 @@ namespace LazuriteMobile.App.Controls
 
         public void Close()
         {
-            ((Grid)Parent).Children.Remove(this);
             Closed?.Invoke(this, new EventArgs());
+            ((Grid)Parent).Children.Remove(this);
         }
 
         private void CloseItemView_Click(object sender, EventArgs e)

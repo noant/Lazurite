@@ -7,7 +7,7 @@
     BackgroundColor="Black"
     VerticalOptions="Center">
     <Grid>
-        <Label x:Name="tbScenarioName" TextColor="#4682b4" FontSize="Medium"></Label>
+        <Label x:Name="tbScenarioName" TextColor="#4682b4" FontSize="Small"></Label>
         <ScrollView  Margin="0,19,0,0">
             <controls:ListItemsView x:Name="listItemsStates" SelectionMode="Single" x:FieldModifier="private"></controls:ListItemsView>
         </ScrollView>

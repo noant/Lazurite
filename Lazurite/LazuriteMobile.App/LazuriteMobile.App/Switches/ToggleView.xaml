@@ -9,6 +9,7 @@
     HeightRequest="110"
     WidthRequest="110"
     VerticalOptions="Start"
+    BackgroundColor="#1D191D" 
     HorizontalOptions="Start">
     <Grid x:Name="grid">
         <Grid.Resources>
@@ -24,10 +25,10 @@
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:ItemView IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" AnimateView="{Binding Source={Reference Name=grid}}" BackgroundColor="#1D191D" Grid.RowSpan="2" x:Name="itemView" SelectionChanged="itemView_SelectionChanged" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False" Selectable="True" HorizontalOptions="FillAndExpand"></controls:ItemView>
-        <controls:IconView Grid.Row="0" Icon="{Binding Icon2, Converter={StaticResource stringToIcon}}" IsVisible="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToBool}}" InputTransparent="True" x:Name="iconViewOn" x:FieldModifier="private" Margin="0,12,0,0" WidthRequest="50" VerticalOptions="Start" HorizontalOptions="Center"></controls:IconView>
-        <controls:IconView Grid.Row="0" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}}" IsVisible="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToBoolInvert}}" InputTransparent="True" x:Name="iconViewOff" x:FieldModifier="private" Margin="0,12,0,0" WidthRequest="50" VerticalOptions="Start" HorizontalOptions="Center"></controls:IconView>
-        <Label Margin="2,-7,2,2" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1" x:Name="textBlock" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="White" FontSize="Medium" HorizontalTextAlignment="Center"></Label>
+        <controls:ItemView BackgroundColor="Transparent" IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" AnimateView="{Binding Source={Reference Name=grid}}" Grid.RowSpan="2" x:Name="itemView" SelectionChanged="itemView_SelectionChanged" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False" Selectable="True" HorizontalOptions="FillAndExpand"></controls:ItemView>
+        <controls:IconView Grid.Row="0" Icon="{Binding Icon2, Converter={StaticResource stringToIcon}}" IsVisible="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToBool}}" InputTransparent="True" x:Name="iconViewOn" x:FieldModifier="private" Margin="0,12,0,0" WidthRequest="30" VerticalOptions="Center" HorizontalOptions="Center"></controls:IconView>
+        <controls:IconView Grid.Row="0" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}}" IsVisible="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToBoolInvert}}" InputTransparent="True" x:Name="iconViewOff" x:FieldModifier="private" Margin="0,12,0,0" WidthRequest="30" VerticalOptions="Center" HorizontalOptions="Center"></controls:IconView>
+        <Label Margin="2,-7,2,2" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1" x:Name="textBlock" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="White" FontSize="Small" HorizontalTextAlignment="Center"></Label>
         <common:CheckPanel Grid.RowSpan="2" Checked="{Binding Checked}" IsVisible="{Binding EditMode}"></common:CheckPanel>
     </Grid>
 </ContentView>

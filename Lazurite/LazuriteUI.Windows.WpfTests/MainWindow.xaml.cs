@@ -54,7 +54,7 @@ namespace LazuriteUI.Windows.WpfTests
                 Thread.Sleep(2000);
 
                 core.WarningHandler.Debug("set settings");
-                
+
                 //core.ScenariosRepository.AddScenario(new SingleActionScenario()
                 //{
                 //    Name = "Включить компьютер",
@@ -79,14 +79,20 @@ namespace LazuriteUI.Windows.WpfTests
                 //    TargetAction = new TestStateAction()
                 //});
 
-                var serverSettings = core.Server.GetSettings();
-                var sertName = Lazurite.Windows.Server.Utils.AddCertificate("LazuriteStandardCertificate.pfx", "28021992");
-                serverSettings.CertificateSubject = sertName;
-                Lazurite.Windows.Server.Utils.NetshAddUrlacl(serverSettings.GetAddress());
-                Lazurite.Windows.Server.Utils.NetshAddSslCert(serverSettings.CertificateSubject, serverSettings.Port);
-                core.Server.SetSettings(serverSettings);
+                //core.ScenariosRepository.AddScenario(new SingleActionScenario()
+                //{
+                //    Name = "Дата выключения света",
+                //    TargetAction = new TestDateTimeAction()
+                //});
 
-                core.Server.StartAsync((success)=> {
+                var serverSettings = core.Server.GetSettings();
+                //var sertName = Lazurite.Windows.Server.Utils.AddCertificate("LazuriteStandardCertificate.pfx", "28021992");
+                //serverSettings.CertificateHash = sertName;
+                //Lazurite.Windows.Server.Utils.NetshAddUrlacl(serverSettings.GetAddress());
+                //Lazurite.Windows.Server.Utils.NetshAddSslCert(serverSettings.CertificateHash, serverSettings.Port);
+                //core.Server.SetSettings(serverSettings);
+
+                core.Server.StartAsync((success) => {
                     Thread.Sleep(3000);
                     core.WarningHandler.Debug("check conn");
 
@@ -115,11 +121,6 @@ namespace LazuriteUI.Windows.WpfTests
                 //    if (!zwave.UserInitializeWith(new ToggleValueType(), false))
                 //        return;
 
-                //core.ScenariosRepository.AddScenario(new SingleActionScenario()
-                //{
-                //    Name = "Дата выключения света",
-                //    TargetAction = new TestDateTimeAction()
-                //});
 
                 //}));
             });
