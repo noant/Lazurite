@@ -68,6 +68,13 @@
     <Compile Include="Common\ScaleView.xaml.cs">
       <DependentUpon>ScaleView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ITypeResolver.cs" />
+    <Compile Include="MenuItemView.xaml.cs">
+      <DependentUpon>MenuItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MenuResolverView.xaml.cs">
+      <DependentUpon>MenuResolverView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ObservableObject.cs" />
     <Compile Include="StartupWindow.xaml.cs">
       <DependentUpon>StartupWindow.xaml</DependentUpon>
@@ -110,12 +117,22 @@
     <Compile Include="Switches\StringToSplittedString.cs" />
     <Compile Include="Switches\StringToSplittedStringLong.cs" />
     <Compile Include="Switches\SwitchesCreator.cs" />
+    <Compile Include="Switches\SwitchSettings\SwitchIconModel.cs" />
+    <Compile Include="Switches\SwitchSettings\SwitchIconSelect.xaml.cs">
+      <DependentUpon>SwitchIconSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\SwitchSettings\SwitchSetting.xaml.cs">
+      <DependentUpon>SwitchSetting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Switches\ValueTypeStringToDouble.cs" />
     <Compile Include="Switches\ValueTypeStringToBool.cs" />
     <Compile Include="Switches\BoolToVisibility.cs" />
     <Compile Include="Switches\ScenarioModel.cs" />
     <Compile Include="Switches\ToggleView.xaml.cs">
       <DependentUpon>ToggleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\SwitchSettings\SwitchIconView.xaml.cs">
+      <DependentUpon>SwitchIconView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
@@ -158,6 +175,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MenuItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MenuResolverView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="StartupWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -202,7 +227,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Switches\SwitchSettings\SwitchIconSelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Switches\SwitchSettings\SwitchSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Switches\ToggleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Switches\SwitchSettings\SwitchIconView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -259,6 +296,10 @@
       <Project>{3ACF6EAC-A7BE-4AFE-AA9C-80259157AE71}</Project>
       <Name>Lazurite.Security</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Visual\Lazurite.Visual.csproj">
+      <Project>{E8AA2173-58F5-474B-AFF7-EB66D077CACD}</Project>
+      <Name>Lazurite.Visual</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Core\Lazurite.Windows.Core.csproj">
       <Project>{2191CEFD-A432-4376-BE91-D585FE1AB2FB}</Project>
       <Name>Lazurite.Windows.Core</Name>
@@ -270,6 +311,10 @@
     <ProjectReference Include="..\Lazurite.Windows.Logging\Lazurite.Windows.Logging.csproj">
       <Project>{ACC84748-2884-44A2-8E45-84FF8338684B}</Project>
       <Name>Lazurite.Windows.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Server\Lazurite.Windows.Server.csproj">
+      <Project>{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}</Project>
+      <Name>Lazurite.Windows.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\LazuriteUI.Windows.Controls\LazuriteUI.Windows.Controls.csproj">
       <Project>{df6cf289-fc2d-48ea-ac6a-c2f1db939d55}</Project>

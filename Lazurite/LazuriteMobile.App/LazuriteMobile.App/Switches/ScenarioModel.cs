@@ -81,6 +81,7 @@ namespace LazuriteMobile.App.Switches
                 if (VisualSettings.AddictionalData.Any())
                     VisualSettings.AddictionalData[0] = value;
                 else VisualSettings.AddictionalData = new string[] { value, value };
+                OnPropertyChanged(nameof(Icon1));
             }
         }
         public string Icon2
@@ -107,6 +108,7 @@ namespace LazuriteMobile.App.Switches
                 else if (VisualSettings.AddictionalData.Length == 1)
                     VisualSettings.AddictionalData = new string[] { VisualSettings.AddictionalData[0], value };
                 else VisualSettings.AddictionalData = new string[] { "ButtonOn", value };
+                OnPropertyChanged(nameof(Icon2));
             }
         }
 

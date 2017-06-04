@@ -5,11 +5,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             xmlns:switchesSettings="clr-namespace:LazuriteUI.Windows.Main.Switches.SwitchSettings"
+             xmlns:switches="clr-namespace:LazuriteUI.Windows.Main.Switches"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <controls:WheelScroll>
-            <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Name="grid"></Grid>
-        </controls:WheelScroll>    
+        <Grid.Resources>
+            <switches:BoolToVisibility x:Key="boolToVisibility"></switches:BoolToVisibility>
+        </Grid.Resources>
+        <Grid Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SwitchesGrid}}}" Background="{x:Static controls:Visual.BackgroundCubes}" Opacity="0.5"></Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <controls:ItemView Grid.Row="0" Selectable="True" 
+                               Selected="{Binding EditMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SwitchesGrid}}, Mode=TwoWay}" 
+                               Visibility="{Binding EditModeButtonVisible, Converter={StaticResource boolToVisibility}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SwitchesGrid}}}" 
+                               Width="260" Margin="10" Icon="Settings" Content="Режим редактирования"></controls:ItemView>
+            <Border ClipToBounds="True" Grid.Row="1" HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="0,1,0,1">
+                <controls:WheelScroll Grid.Row="1" HorizontalAlignment="Center" Background="Black">
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Name="grid"></Grid>
+                </controls:WheelScroll>
+            </Border>
+            <switchesSettings:SwitchSetting Grid.Row="2" Margin="10" HorizontalAlignment="Center" x:Name="switchSetting" Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SwitchesGrid}}}"></switchesSettings:SwitchSetting>
+        </Grid>
     </Grid>
 </UserControl>

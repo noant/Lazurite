@@ -12,7 +12,7 @@ using Lazurite.IOC;
 
 namespace LazuriteMobile.App.Droid
 {
-    [Activity(Label = "LazuriteMobile.App", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true)]
+    [Activity(Label = "LazuriteMobile.App", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)

@@ -34,7 +34,7 @@
           TileMode="Tile">
         <DrawingBrush.Drawing>
             <DrawingGroup >
-                <GeometryDrawing Brush="{x:Static local:Visual.Background}">
+                <GeometryDrawing Brush="{x:Static local:Visual.ItemBackground}">
                    <GeometryDrawing.Geometry>
                         <RectangleGeometry Rect="0,0,5,5" />
                    </GeometryDrawing.Geometry>
@@ -44,7 +44,7 @@
                         <RectangleGeometry Rect="5,0,5,5" />
                     </GeometryDrawing.Geometry>
                 </GeometryDrawing>
-                <GeometryDrawing Brush="{x:Static local:Visual.Background}">
+                <GeometryDrawing Brush="{x:Static local:Visual.ItemBackground}">
                     <GeometryDrawing.Geometry>
                         <RectangleGeometry Rect="5,5,5,5" />
                     </GeometryDrawing.Geometry>

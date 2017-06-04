@@ -22,6 +22,8 @@ using Lazurite.MainDomain;
 using Lazurite.Windows.Core;
 using Lazurite.Security;
 using Lazurite.Data;
+using Lazurite.Visual;
+using Lazurite.Scenarios;
 
 namespace LazuriteUI.Windows.Main
 {
@@ -36,6 +38,8 @@ namespace LazuriteUI.Windows.Main
             Singleton.Add(new WarningHandler());
             Singleton.Add(new FileSavior());
             Singleton.Add(new UsersRepository());
+            Singleton.Add(new ScenariosRepository());
+            Singleton.Add(new VisualSettingsRepository());
 
             var scens = new List<ScenarioBase>();
             var visualSettings = new List<UserVisualSettings>();
@@ -63,21 +67,21 @@ namespace LazuriteUI.Windows.Main
             scenario2.Initialize(null);
             scenario2.Name = "Уровень звука";
             scens.Add(scenario2);
-            visualSettings.Add(new UserVisualSettings() { ScenarioId = scenario2.Id, AddictionalData = new[] { "Sound2", "LightbulbHue" } });
+            visualSettings.Add(new UserVisualSettings() { ScenarioId = scenario2.Id, AddictionalData = new[] { "Sound2" } });
             
             var scenario4 = new SingleActionScenario();
             scenario4.Name = "Компьютер";
             scenario4.TargetAction = new ButtonTestAction();
             scenario4.Initialize(null);
             scens.Add(scenario4);
-            visualSettings.Add(new UserVisualSettings() { ScenarioId = scenario4.Id, AddictionalData = new[] { "TvNews", "LightbulbHue" } });
+            visualSettings.Add(new UserVisualSettings() { ScenarioId = scenario4.Id, AddictionalData = new[] { "TvNews" } });
 
             var scenario5 = new SingleActionScenario();
             scenario5.Name = "Свет в ванной";
             scenario5.TargetAction = new DateTimeTestAction();
             scenario5.Initialize(null);
             scens.Add(scenario5);
-            visualSettings.Add(new UserVisualSettings() { ScenarioId = scenario5.Id, AddictionalData = new[] { "TvNews", "LightbulbHue" } });
+            visualSettings.Add(new UserVisualSettings() { ScenarioId = scenario5.Id, AddictionalData = new[] { "TvNews" } });
 
             switches.Initialize(scens.ToArray(), visualSettings.ToArray());
         }

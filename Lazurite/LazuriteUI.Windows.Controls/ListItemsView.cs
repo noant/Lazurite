@@ -22,7 +22,8 @@ namespace LazuriteUI.Windows.Controls
     public partial class ListItemsView : StackPanel
     {
         public static readonly DependencyProperty SelectionModeProperty;
-
+        public static readonly DependencyProperty SelectedItemProperty;
+        
         static ListItemsView()
         {
             SelectionModeProperty = DependencyProperty.Register(nameof(SelectionMode), typeof(ListViewItemsSelectionMode), typeof(ListItemsView), new FrameworkPropertyMetadata()
@@ -40,6 +41,13 @@ namespace LazuriteUI.Windows.Controls
                             item.Selectable = mode != ListViewItemsSelectionMode.None;
                         }
                     }
+                }
+            });
+            SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItemProperty), typeof(ISelectable), typeof(ListItemsView), new FrameworkPropertyMetadata()
+            {
+                PropertyChangedCallback = (o, e) =>
+                {
+                    ((ISelectable)e.NewValue).Selected = true;
                 }
             });
         }
@@ -62,6 +70,8 @@ namespace LazuriteUI.Windows.Controls
                     item.Selectable = SelectionMode != ListViewItemsSelectionMode.None;
                     item.SelectionChanged += (o, e) =>
                     {
+                        if (item.Selected)
+                            this.SelectedItem = item;
                         if (this.SelectionMode == ListViewItemsSelectionMode.Single && item.Selected)
                         {
                             foreach (var child in this.Children.Cast<Control>())
@@ -98,6 +108,18 @@ namespace LazuriteUI.Windows.Controls
             set
             {
                 SetValue(SelectionModeProperty, value);
+            }
+        }
+
+        public ISelectable SelectedItem
+        {
+            get
+            {
+                return (ISelectable)GetValue(SelectedItemProperty);
+            }
+            set
+            {
+                SetValue(SelectedItemProperty, value);
             }
         }
 

@@ -172,9 +172,9 @@
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <StackPanel Height="16" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-40,30,0,5">
-            <controls:IconView VerticalAlignment="Center" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" Height="40" Width="40"></controls:IconView>
-            <TextBlock Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedStringLong}}" Foreground="White"></TextBlock>
+        <StackPanel Height="50" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-40,10,0,5">
+            <controls:IconView VerticalAlignment="Center" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" Height="50" Width="50"></controls:IconView>
+            <TextBlock VerticalAlignment="Center" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedStringLong}}" Foreground="White"></TextBlock>
         </StackPanel>
         <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}}"></common:CheckPanel>
         <Slider IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" IsMoveToPointEnabled="True" Style="{StaticResource SliderStyle}" Value="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToDouble}}" Minimum="{Binding Min}" Maximum="{Binding Max}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="5,5,5,10"></Slider>

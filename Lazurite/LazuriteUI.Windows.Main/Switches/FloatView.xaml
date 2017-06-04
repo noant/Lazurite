@@ -29,6 +29,6 @@
             <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" IsHitTestVisible="False" x:Name="iconViewOff" x:FieldModifier="private" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center"></controls:IconView>
             <TextBlock Margin="3,3,3,3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" IsHitTestVisible="False" Name="textBlock" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" Foreground="White" ></TextBlock>
         </Grid>
-        <common:ScaleView IsHitTestVisible="False" Opacity="0.5" Max="{Binding Max}" Min="{Binding Min}" Value="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToDouble}}" HorizontalAlignment="Right"></common:ScaleView>
+        <common:ScaleView x:Name="scaleView" IsHitTestVisible="False" Opacity="0.5" Max="{Binding Max}" Min="{Binding Min}" Value="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToDouble}}" HorizontalAlignment="Right"></common:ScaleView>
     </Grid>
 </UserControl>

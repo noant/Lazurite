@@ -1265,7 +1265,7 @@ namespace LazuriteUI.Icons
         YoutubePlay,
         Zune,
         LazuriteBig,
-        Lazurite56,
+        Lazurite256,
         Lazurite128,
         Lazurite64,
         Lazurite32,

@@ -23,8 +23,8 @@ namespace LazuriteUI.Windows.Controls
     {
         public static readonly DependencyProperty IconVisibilityProperty;
         public static readonly DependencyProperty IconProperty;
-        public static new readonly DependencyProperty ContentProperty;
         public static readonly DependencyProperty SelectedProperty;
+        public static new readonly DependencyProperty ContentProperty;
         public static readonly DependencyProperty SelectableProperty;
         public static readonly DependencyProperty IconVerticalAligmentProperty;
         public static readonly DependencyProperty IconHorizontalAligmentProperty;

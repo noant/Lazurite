@@ -14,13 +14,14 @@ namespace LazuriteUI.Icons
         {
             return GetIconData(Enum.GetName(typeof(Icon), icon));
         }
-
+        
         public static Stream GetIconData(string iconName)
         {
-            return typeof(Utils)
+            var data = typeof(Utils)
                     .GetTypeInfo()
                     .Assembly
                     .GetManifestResourceStream(string.Format("LazuriteUI.Icons.Icons.{0}.png", iconName));
+            return data;
         }
     }
 }

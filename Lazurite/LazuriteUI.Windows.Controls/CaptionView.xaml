@@ -12,7 +12,7 @@
         <ResourceDictionary Source="/LazuriteUI.Windows.Controls;component/Styles/Styles.xaml" />
     </UserControl.Resources>
     <Grid>
-        <Grid Width="20" HorizontalAlignment="Left" Background="BlueViolet" Opacity="0.2" />
+        <local:CornerView VerticalAlignment="Top" HorizontalAlignment="Left"></local:CornerView>
         <local:Progress x:Name="progressBar"></local:Progress>
         <StackPanel Orientation="Horizontal" Margin="20,0,0,0" Name="stackPanel" x:FieldModifier="private">
             <StackPanel.Triggers>

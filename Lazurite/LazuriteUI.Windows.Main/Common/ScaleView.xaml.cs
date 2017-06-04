@@ -30,20 +30,30 @@ namespace LazuriteUI.Windows.Main.Common
                 new FrameworkPropertyMetadata() {
                     DefaultValue = 0.0,
                     PropertyChangedCallback = (o,e) => {
-                        var value = (double)e.NewValue;
-                        var scaleView = o as ScaleView;
-                        var percent = value / (scaleView.Max - scaleView.Min);
-                        var marginBottom = scaleView.ActualHeight * percent;
-                        scaleView.borderValue.Height = marginBottom;
+                        ((ScaleView)o).AllocateScaleViewSize();
                     }
                 });
-            MaxProperty = DependencyProperty.Register(nameof(Max), typeof(double), typeof(ScaleView));
-            MinProperty = DependencyProperty.Register(nameof(Min), typeof(double), typeof(ScaleView));
+            MaxProperty = DependencyProperty.Register(nameof(Max), typeof(double), typeof(ScaleView), new FrameworkPropertyMetadata(100.0));
+            MinProperty = DependencyProperty.Register(nameof(Min), typeof(double), typeof(ScaleView), new FrameworkPropertyMetadata(0.0));
         }
 
         public ScaleView()
         {
             InitializeComponent();
+        }
+        
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+            AllocateScaleViewSize();
+        }
+
+        private void AllocateScaleViewSize()
+        {
+            var value = Value;
+            var percent = value / (this.Max - this.Min);
+            var marginBottom = this.ActualHeight * percent;
+            this.borderValue.Height = marginBottom;
         }
 
         public double Value

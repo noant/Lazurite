@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Controls.CornerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             ClipToBounds="True"
+             Opacity="0.2"
+             Height="30"
+             Width="30"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Background="BlueViolet" Margin="-35,21,-5,-22">
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <RotateTransform x:Name="rotate" Angle="-45" CenterX="0" CenterY="0"/>
+            </TransformGroup>
+        </Grid.RenderTransform>
+    </Grid>
+</UserControl>

@@ -31,7 +31,10 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public FloatView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
         {
-            this.DataContext = new ScenarioModel(scenario, visualSettings);
+            var model = new ScenarioModel(scenario, visualSettings);
+            this.DataContext = model;
+            //sometimes binding works incorrectly
+            //this.scaleView.Value = double.Parse(model.ScenarioValue);
         }
 
         private void itemView_Click(object sender, RoutedEventArgs e)

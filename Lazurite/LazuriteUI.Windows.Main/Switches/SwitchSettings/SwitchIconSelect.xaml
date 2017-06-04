@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Switches.SwitchSettings.SwitchIconSelect"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Switches.SwitchSettings"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             Width="400"
+             Background="{x:Static controls:Visual.Background}"
+             d:DesignHeight="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <controls:IconView Width="40" Height="40" Icon="PageSearch"></controls:IconView>
+        <TextBox HorizontalContentAlignment="Left" VerticalContentAlignment="Center" TextChanged="tbSearch_TextChanged" FontSize="18" x:Name="tbSearch" Grid.Column="1"></TextBox>
+        <controls:WheelScroll Grid.Row="1" Grid.ColumnSpan="2">
+            <StackPanel x:Name="stackPanel" Orientation="Vertical">                
+            </StackPanel>
+        </controls:WheelScroll>
+        <controls:ItemView Grid.Row="2" Grid.ColumnSpan="2" Background="{x:Static controls:Visual.BackgroundLazurite}" Icon="Check" Content="OK" Click="ItemView_Click"></controls:ItemView>
+    </Grid>
+</UserControl>

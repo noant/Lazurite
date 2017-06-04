@@ -1,5 +1,7 @@
 ﻿using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Visual;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace LazuriteUI.Windows.Main.Switches
         public ScenarioModel(ScenarioBase scenario, UserVisualSettings visualSettings)
         {
             Scenario = scenario;
-            VisualSettings = visualSettings;
+            _visualSettings = visualSettings;
             Scenario.SetOnStateChanged(ScenarioValueChanged);
             Scenario.CalculateCurrentValueAsync((value) => {
                 _value = value;
@@ -25,17 +27,18 @@ namespace LazuriteUI.Windows.Main.Switches
         private bool _editMode;
         private bool _checked;
 
-        public UserVisualSettings VisualSettings { get; private set; }
         public ScenarioBase Scenario { get; private set; }
-        
+        private UserVisualSettings _visualSettings;
+        private VisualSettingsRepository _visualSettingsRepository = Singleton.Resolve<VisualSettingsRepository>();
+
         public string Icon1
         {
             get
             {
-                if (VisualSettings.AddictionalData == null)
-                    VisualSettings.AddictionalData = new string[0];
-                if (VisualSettings.AddictionalData.Any())
-                    return VisualSettings.AddictionalData[0];
+                if (_visualSettings.AddictionalData == null)
+                    _visualSettings.AddictionalData = new string[0];
+                if (_visualSettings.AddictionalData.Any())
+                    return _visualSettings.AddictionalData[0];
                 else
                 {
                     if (Scenario.ValueType is ToggleValueType)
@@ -53,21 +56,24 @@ namespace LazuriteUI.Windows.Main.Switches
             }
             set
             {
-                if (VisualSettings.AddictionalData == null)
-                    VisualSettings.AddictionalData = new string[0];
-                if (VisualSettings.AddictionalData.Any())
-                    VisualSettings.AddictionalData[0] = value;
-                else VisualSettings.AddictionalData = new string[] { value, value };
+                if (_visualSettings.AddictionalData == null)
+                    _visualSettings.AddictionalData = new string[0];
+                if (_visualSettings.AddictionalData.Any())
+                    _visualSettings.AddictionalData[0] = value;
+                else _visualSettings.AddictionalData = new string[] { value, value };
+                _visualSettingsRepository.Update(_visualSettings);
+                OnPropertyChanged(nameof(Icon1));
             }
         }
+
         public string Icon2
         {
             get
             {
-                if (VisualSettings.AddictionalData == null)
-                    VisualSettings.AddictionalData = new string[0];
-                if (VisualSettings.AddictionalData.Length > 1)
-                    return VisualSettings.AddictionalData[1];
+                if (_visualSettings.AddictionalData == null)
+                    _visualSettings.AddictionalData = new string[0];
+                if (_visualSettings.AddictionalData.Length > 1)
+                    return _visualSettings.AddictionalData[1];
                 else
                 {
                     if (Scenario.ValueType is ToggleValueType)
@@ -77,13 +83,43 @@ namespace LazuriteUI.Windows.Main.Switches
             }
             set
             {
-                if (VisualSettings.AddictionalData == null)
-                    VisualSettings.AddictionalData = new string[0];
-                if (VisualSettings.AddictionalData.Length > 1)
-                    VisualSettings.AddictionalData[1] = value;
-                else if (VisualSettings.AddictionalData.Length == 1)
-                    VisualSettings.AddictionalData = new string[] { VisualSettings.AddictionalData[0], value };
-                else VisualSettings.AddictionalData = new string[] { "ButtonOn", value };
+                if (_visualSettings.AddictionalData == null)
+                    _visualSettings.AddictionalData = new string[0];
+                if (_visualSettings.AddictionalData.Length > 1)
+                    _visualSettings.AddictionalData[1] = value;
+                else if (_visualSettings.AddictionalData.Length == 1)
+                    _visualSettings.AddictionalData = new string[] { _visualSettings.AddictionalData[0], value };
+                else _visualSettings.AddictionalData = new string[] { "ButtonOn", value };
+                _visualSettingsRepository.Update(_visualSettings);
+                OnPropertyChanged(nameof(Icon2));
+            }
+        }
+
+        public int PositionX
+        {
+            get
+            {
+                return _visualSettings.PositionX;
+            }
+            set
+            {
+                _visualSettings.PositionX = value;
+                _visualSettingsRepository.Update(_visualSettings);
+                OnPropertyChanged(nameof(PositionX));
+            }
+        }
+
+        public int PositionY
+        {
+            get
+            {
+                return _visualSettings.PositionY;
+            }
+            set
+            {
+                _visualSettings.PositionY = value;
+                _visualSettingsRepository.Update(_visualSettings);
+                OnPropertyChanged(nameof(PositionY));
             }
         }
 

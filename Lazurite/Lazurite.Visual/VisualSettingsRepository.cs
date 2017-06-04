@@ -58,5 +58,10 @@ namespace Lazurite.Visual
             _allSettings.RemoveAll(x => x.SameAs(settings));
             Save();
         }
+
+        public void Update(UserVisualSettings settings)
+        {
+            Add(settings); //operation equals
+        }
     }
 }

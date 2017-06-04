@@ -13,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LazuriteUI.Windows.Main
+namespace LazuriteUI.Windows.Controls
 {
     /// <summary>
-    /// Логика взаимодействия для MainView.xaml
+    /// Логика взаимодействия для CornerView.xaml
     /// </summary>
-    public partial class MainView : UserControl
+    public partial class CornerView : UserControl
     {
-        public MainView()
+        public CornerView()
         {
             InitializeComponent();
-            this.Loaded += (o, e) => {
-                this.menuItems.SelectionChanged += (o1, e1) => 
-                    menuResolver.Resolver = menuItems.SelectedItem as ITypeResolver;
-                this.menuItems.GetItems().First().Selected = true;
-            };
         }
     }
 }

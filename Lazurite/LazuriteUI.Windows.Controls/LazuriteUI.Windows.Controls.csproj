@@ -62,6 +62,9 @@
     <Compile Include="CaptionView.xaml.cs">
       <DependentUpon>CaptionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CornerView.xaml.cs">
+      <DependentUpon>CornerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ISelectable.cs" />
     <Compile Include="ListItemsView.cs" />
     <Compile Include="MessageItemInfo.cs" />
@@ -77,6 +80,10 @@
     <Compile Include="Styles\Visual.cs" />
     <Compile Include="WheelScroll.cs" />
     <Page Include="CaptionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CornerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

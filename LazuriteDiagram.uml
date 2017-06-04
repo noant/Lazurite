@@ -13346,8 +13346,8 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Owner">rkHCL4LH/0yCO7Gb2NIRSwAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Attributes[7]" type="UMLAttribute" guid="IjzAREjQpUm0Wz563+OPSwAA">
-<XPD:ATTR name="Name" type="string">Initialized</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">bool</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">InitializedAsync(callback</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">Action&lt;bool&gt;): voidl</XPD:ATTR>
 <XPD:REF name="Owner">rkHCL4LH/0yCO7Gb2NIRSwAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
@@ -13655,12 +13655,17 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="Operations[2]" type="UMLOperation" guid="dr+b4XfdVEemrhVZxQ7MVwAA">
-<XPD:ATTR name="Name" type="string">Start</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">StartAsync</XPD:ATTR>
 <XPD:REF name="Owner">GQ6Ot0R9r0m7tC4ua6Qd7AAA</XPD:REF>
-<XPD:ATTR name="#Parameters" type="integer">1</XPD:ATTR>
-<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="B4jDjzt/Pk+TSlL2uuq4fAAA">
+<XPD:ATTR name="#Parameters" type="integer">2</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="EFslLGs3Xkin+0DUrW1XfgAA">
 <XPD:ATTR name="DirectionKind" type="UMLParameterDirectionKind">pdkReturn</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">void</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">dr+b4XfdVEemrhVZxQ7MVwAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="S4bd1LUfi0y1OYayuryjqQAA">
+<XPD:ATTR name="Name" type="string">callback</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">Action&lt;bool&gt;</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">dr+b4XfdVEemrhVZxQ7MVwAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
@@ -13675,12 +13680,17 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="Operations[4]" type="UMLOperation" guid="HF4zqG4WhES39RReoprCVgAA">
-<XPD:ATTR name="Name" type="string">Restart</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">RestartAsync</XPD:ATTR>
 <XPD:REF name="Owner">GQ6Ot0R9r0m7tC4ua6Qd7AAA</XPD:REF>
-<XPD:ATTR name="#Parameters" type="integer">1</XPD:ATTR>
-<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="daZhi7uM0k+bZHnvz1Cq2QAA">
+<XPD:ATTR name="#Parameters" type="integer">2</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="hbRGUehwjkmsByJH1rjeUAAA">
 <XPD:ATTR name="DirectionKind" type="UMLParameterDirectionKind">pdkReturn</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">void</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">HF4zqG4WhES39RReoprCVgAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="KVc2hDaKiU6BvvtCeuLenQAA">
+<XPD:ATTR name="Name" type="string">callback</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">Action&lt;bool&gt;</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">HF4zqG4WhES39RReoprCVgAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>

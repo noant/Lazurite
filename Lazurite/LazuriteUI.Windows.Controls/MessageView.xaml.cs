@@ -23,6 +23,8 @@ namespace LazuriteUI.Windows.Controls
     {
         private List<FrameworkElement> _tempDisabledElements = new List<FrameworkElement>();
 
+        private Window _window;
+
         public MessageView()
         {
             InitializeComponent();
@@ -41,14 +43,37 @@ namespace LazuriteUI.Windows.Controls
             Panel.SetZIndex(this, 999);
         }
 
+        public void Show()
+        {
+            var window = new Window();
+            window.Height = 190;
+            window.Width = 500;
+            window.WindowStyle = WindowStyle.None;
+            window.ResizeMode = ResizeMode.NoResize;
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            window.Topmost = true;
+            window.Content = new Grid();
+            _window = window;
+            Show(window.Content as Grid);
+            window.Show();
+        }
+
         public void Close()
         {
-            foreach (FrameworkElement element in ((Panel)this.Parent).Children)
+            if (_window != null)
             {
-                if (!_tempDisabledElements.Contains(element))
-                    element.IsEnabled = true;
+                _window.Close();
+                _window = null;
             }
-            ((Panel)Parent).Children.Remove(this);
+            else
+            {
+                foreach (FrameworkElement element in ((Panel)this.Parent).Children)
+                {
+                    if (!_tempDisabledElements.Contains(element))
+                        element.IsEnabled = true;
+                }
+                ((Panel)Parent).Children.Remove(this);
+            }
         }
 
         public void SetItems(MessageItemInfo[] itemsInfos)

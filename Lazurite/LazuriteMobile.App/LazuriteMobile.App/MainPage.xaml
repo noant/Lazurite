@@ -5,6 +5,6 @@
              xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
              BackgroundColor="Black"
              x:Class="LazuriteMobile.App.MainPage">
-    <Grid x:Name="grid" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+    <Grid x:Name="grid" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
     </Grid>
 </ContentPage>

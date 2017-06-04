@@ -27,7 +27,7 @@ namespace Lazurite.MainDomain
         
         public bool SameAs(UserVisualSettings settings)
         {
-            return settings.UserId.Equals(UserId) && settings.ScenarioId.Equals(ScenarioId);
+            return settings.UserId == UserId && settings.ScenarioId.Equals(ScenarioId);
         }
     }
 }

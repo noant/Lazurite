@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             ClipToBounds="True"
+             Background="{x:Static controls:Visual.Background}"
+             d:DesignHeight="300" d:DesignWidth="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -14,12 +16,34 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="{x:Static controls:Visual.ItemBackground}">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+                <ColumnDefinition Width="30"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <controls:IconView Grid.Column="0" Icon="Lazurite64" Height="50" HorizontalAlignment="Left" Margin="3"></controls:IconView>
-            <TextBlock Margin="0" FontFamily="Verdana" VerticalAlignment="Center" FontSize="24" Grid.Column="1" Foreground="SteelBlue">Lazurite</TextBlock>
+            <Grid Background="BlueViolet" Opacity="0.3"></Grid>
+            <controls:CornerView Opacity="0.3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" ></controls:CornerView>
+            <local:LazuriteView Grid.Column="2" Width="140"></local:LazuriteView>
+            <TextBlock Margin="10,0,0,0" FontFamily="Verdana" VerticalAlignment="Center" FontSize="18" Grid.Column="3" Opacity="0.5" Foreground="DarkGray">управление системами умного дома</TextBlock>
+        </Grid>
+        <Grid Grid.Row="1" Margin="0,1,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="170"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical">
+                <controls:ListItemsView Name="menuItems" SelectionMode="Single">
+                    <local:MenuItemView Type="{x:Type local:SwitchesGrid}" Margin="0,0,0,1" Icon="CursorHand" Text="Переключатели"></local:MenuItemView>
+                    <local:MenuItemView Selected="True" Type="{x:Type Button}" Margin="0,0,0,1" Icon="Console" Text="Сценарии"></local:MenuItemView>
+                    <local:MenuItemView Margin="0,0,0,1" Icon="Brick" Text="Плагины"></local:MenuItemView>
+                    <local:MenuItemView Margin="0,0,0,1" Icon="Server" Text="Сервер"></local:MenuItemView>
+                    <local:MenuItemView Margin="0,0,0,1" Icon="User" Text="Пользователи"></local:MenuItemView>
+                    <local:MenuItemView Margin="0,0,0,1" Icon="Group" Text="Группы"></local:MenuItemView>
+                    <local:MenuItemView Margin="0,0,0,1" Icon="Journal" Text="Журнал"></local:MenuItemView>
+                </controls:ListItemsView>
+                <controls:CornerView HorizontalAlignment="Left" Margin="-10,0,0,0"></controls:CornerView>
+            </StackPanel>
+            <local:MenuResolverView Grid.Column="1" x:Name="menuResolver"></local:MenuResolverView>
         </Grid>
     </Grid>
 </UserControl>

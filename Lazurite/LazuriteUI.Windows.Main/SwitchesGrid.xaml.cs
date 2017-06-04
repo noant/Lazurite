@@ -1,9 +1,12 @@
 ﻿using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Visual;
+using LazuriteUI.Icons;
 using LazuriteUI.Windows.Main.Switches;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,9 +25,12 @@ namespace LazuriteUI.Windows.Main
     /// <summary>
     /// Логика взаимодействия для SwitchesGrid.xaml
     /// </summary>
+    [DisplayName("Переключатели сценариев")]
+    [LazuriteIcon(Icon.CursorHand)]
     public partial class SwitchesGrid : UserControl
     {
         public static DependencyProperty EditModeProperty;
+        public static DependencyProperty EditModeButtonVisibleProperty;
 
         private static readonly int MaxX = 3;
         private static readonly int ElementSize = 111;
@@ -35,22 +41,28 @@ namespace LazuriteUI.Windows.Main
             EditModeProperty = DependencyProperty.Register(nameof(EditMode), typeof(bool), typeof(SwitchesGrid), new FrameworkPropertyMetadata() {
                 DefaultValue = false,
                 PropertyChangedCallback = (o, e) => {
-                    ((SwitchesGrid)o).grid.Children
+                    var swgrid = ((SwitchesGrid)o);
+                    swgrid.grid.Children
                         .Cast<FrameworkElement>()
                         .Select(x => ((ScenarioModel)x.DataContext).EditMode = (bool)e.NewValue)
                         .ToArray();
                 }
             });
+
+            EditModeButtonVisibleProperty = DependencyProperty.Register(nameof(EditModeButtonVisible), typeof(bool), typeof(SwitchesGrid), new FrameworkPropertyMetadata(true));
         }
 
-        private UsersRepositoryBase _usersRepository;
+        private UsersRepositoryBase _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
+        private VisualSettingsRepository _visualSettingsRepository = Singleton.Resolve<VisualSettingsRepository>();
+        private ScenariosRepositoryBase _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
 
         public SwitchesGrid()
         {
             InitializeComponent();
             this.MouseMove += SwitchesGrid_MouseMove;
             this.MouseLeftButtonUp += ElementMouseRelease;
-            this.grid.Margin = new Thickness(0, 0, ElementMargin, 0);
+            this.grid.Margin = new Thickness(0, 0, ElementMargin, ElementMargin);
+            Initialize(_scenariosRepository.Scenarios, _visualSettingsRepository.VisualSettings);
         }
 
         public bool EditMode
@@ -65,6 +77,18 @@ namespace LazuriteUI.Windows.Main
             }
         }
 
+        public bool EditModeButtonVisible
+        {
+            get
+            {
+                return (bool)GetValue(EditModeButtonVisibleProperty);
+            }
+            set
+            {
+                SetValue(EditModeButtonVisibleProperty, value);
+            }
+        }
+
         private void SwitchesGrid_MouseMove(object sender, MouseEventArgs e)
         {
             if (this.EditMode && _draggableCurrent != null)
@@ -73,8 +97,8 @@ namespace LazuriteUI.Windows.Main
                 var elementSize = ElementSize;
                 var position = e.GetPosition(this.grid);
                 var positionExt = new Point(position.X / (elementSize + margin), position.Y / (elementSize + margin));
-                var visualSettings = ((ScenarioModel)_draggableCurrent.DataContext).VisualSettings;
-                if ((visualSettings.PositionX != (int)positionExt.X || visualSettings.PositionY != (int)positionExt.Y) && (int)positionExt.X < MaxX)
+                var model = ((ScenarioModel)_draggableCurrent.DataContext);
+                if ((model.PositionX != (int)positionExt.X || model.PositionY != (int)positionExt.Y) && (int)positionExt.X < MaxX)
                 {
                     Move(_draggableCurrent, new Point((int)positionExt.X >= 0 ? (int)positionExt.X : 0, (int)positionExt.Y >= 0 ? (int)positionExt.Y : 0));
                 }
@@ -83,7 +107,6 @@ namespace LazuriteUI.Windows.Main
 
         public void Initialize(ScenarioBase[] scenarios, UserVisualSettings[] visualSettings)
         {
-            _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
             foreach (var scenario in scenarios)
             {
                 var visualSetting = visualSettings.FirstOrDefault(x => x.ScenarioId.Equals(scenario.Id));
@@ -93,6 +116,12 @@ namespace LazuriteUI.Windows.Main
                 control.MouseLeftButtonDown += ElementClick;
                 control.MouseLeftButtonUp += ElementMouseRelease;
                 grid.Children.Add(control);
+                if (scenario.Equals(scenarios.First()))
+                {
+                    var model = control.DataContext as ScenarioModel;
+                    model.Checked = true;
+                    BindSwitchSettings(control);
+                }
             }
             Rearrange();
         }
@@ -106,16 +135,21 @@ namespace LazuriteUI.Windows.Main
         {
             if (this.EditMode)
             {
-                var control = sender as UserControl;
-                var model = ((ScenarioModel)control.DataContext);
-                model.Checked = true;
-                foreach (UserControl userControl in grid.Children)
-                {
-                    if (userControl != control)
-                        ((ScenarioModel)userControl.DataContext).Checked = false;
-                }
-                _draggableCurrent = control;
+                BindSwitchSettings((UserControl)sender);
+                _draggableCurrent = (UserControl)sender;
             }
+        }
+
+        private void BindSwitchSettings(UserControl control)
+        {
+            var model = ((ScenarioModel)control.DataContext);
+            model.Checked = true;
+            foreach (UserControl userControl in grid.Children)
+            {
+                if (userControl != control)
+                    ((ScenarioModel)userControl.DataContext).Checked = false;
+            }
+            switchSetting.DataContext = control.DataContext;
         }
 
         private UserControl _draggableCurrent;
@@ -129,8 +163,8 @@ namespace LazuriteUI.Windows.Main
             foreach (UserControl control in grid.Children.Cast<UserControl>())
             {
                 var scenario = ((ScenarioModel)control.DataContext).Scenario;
-                var visualSettings = ((ScenarioModel)control.DataContext).VisualSettings;
-                var targetPoint = new Point(visualSettings.PositionX, visualSettings.PositionY);
+                var model = ((ScenarioModel)control.DataContext);
+                var targetPoint = new Point(model.PositionX, model.PositionY);
                 while (occupiedPoints.Any(x => x.Equals(targetPoint)))
                 {
                     targetPoint.X++;
@@ -142,8 +176,8 @@ namespace LazuriteUI.Windows.Main
                     else if (control is FloatView)
                         targetPoint.X++;
                 }
-                visualSettings.PositionX = (int)targetPoint.X;
-                visualSettings.PositionY = (int)targetPoint.Y;
+                model.PositionX = (int)targetPoint.X;
+                model.PositionY = (int)targetPoint.Y;
 
                 occupiedPoints.Add(targetPoint);
 
@@ -153,8 +187,8 @@ namespace LazuriteUI.Windows.Main
             }
             //optimize
             var controls = grid.Children.Cast<UserControl>().ToArray();
-            var controlsVisualSettings = controls.Select(x => ((ScenarioModel)x.DataContext).VisualSettings).ToArray();
-            foreach (var visualSetting in controlsVisualSettings.OrderBy(x => x.PositionY).OrderBy(x => x.PositionX))
+            var controlsModels = controls.Select(x => ((ScenarioModel)x.DataContext)).ToArray();
+            foreach (var visualSetting in controlsModels.OrderBy(x => x.PositionY).OrderBy(x => x.PositionX))
             {
                 var x = visualSetting.PositionX;
                 var y = visualSetting.PositionY;
@@ -184,7 +218,7 @@ namespace LazuriteUI.Windows.Main
             foreach (var control in grid.Children.Cast<UserControl>())
             {
                 var model = ((ScenarioModel)control.DataContext);
-                var targetPoint = new Point(model.VisualSettings.PositionX, model.VisualSettings.PositionY);
+                var targetPoint = new Point(model.PositionX, model.PositionY);
                 control.Margin = new Thickness(margin * (1 + targetPoint.X) + elementSize * targetPoint.X, margin * (1 + targetPoint.Y) + elementSize * targetPoint.Y, 0, 0);
             }
         }
@@ -195,25 +229,25 @@ namespace LazuriteUI.Windows.Main
                 return true;
             return controls.Any(control =>
             {
-                var settings = ((ScenarioModel)control.DataContext).VisualSettings;
-                return settings.PositionX.Equals(x) && settings.PositionY.Equals(y);
+                var model = ((ScenarioModel)control.DataContext);
+                return model.PositionX.Equals(x) && model.PositionY.Equals(y);
             });
         }
 
         public void Move(UserControl control, Point position)
         {
-            var visualSettings = ((ScenarioModel)control.DataContext).VisualSettings;
+            var model = ((ScenarioModel)control.DataContext);
             var controlAtPoint = this.grid.Children.Cast<UserControl>().FirstOrDefault(x =>
-                ((ScenarioModel)x.DataContext).VisualSettings.PositionX == position.X &&
-                ((ScenarioModel)x.DataContext).VisualSettings.PositionY == position.Y);
+                ((ScenarioModel)x.DataContext).PositionX == position.X &&
+                ((ScenarioModel)x.DataContext).PositionY == position.Y);
             if (controlAtPoint != null)
             {
-                ((ScenarioModel)controlAtPoint.DataContext).VisualSettings.PositionX = visualSettings.PositionX;
-                ((ScenarioModel)controlAtPoint.DataContext).VisualSettings.PositionY = visualSettings.PositionY;
+                ((ScenarioModel)controlAtPoint.DataContext).PositionX = model.PositionX;
+                ((ScenarioModel)controlAtPoint.DataContext).PositionY = model.PositionY;
             }
 
-            visualSettings.PositionX = (int)position.X;
-            visualSettings.PositionY = (int)position.Y;
+            model.PositionX = (int)position.X;
+            model.PositionY = (int)position.Y;
 
             Rearrange();
         }
