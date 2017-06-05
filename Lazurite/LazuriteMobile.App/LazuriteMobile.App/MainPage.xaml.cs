@@ -29,7 +29,7 @@ namespace LazuriteMobile.App
         {
             _currentContext.Post((state) => {
                 var swgrid = new SwitchesGrid();
-                swgrid.Initialize(scensInfos, new Lazurite.MainDomain.UserVisualSettings[0]);
+                swgrid.Initialize(scensInfos);
                 this.grid.Children.Add(swgrid);
                 var bt = new Button();
                 bt.Clicked += (o, e) =>

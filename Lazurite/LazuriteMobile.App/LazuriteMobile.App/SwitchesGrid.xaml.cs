@@ -47,14 +47,11 @@ namespace LazuriteMobile.App
             this.grid.Margin = new Thickness(0, 0, ElementMargin, 0);
         }
 
-        public void Initialize(ScenarioInfo[] scenarios, UserVisualSettings[] visualSettings)
+        public void Initialize(ScenarioInfo[] scenarios)
         {
             foreach (var scenario in scenarios)
             {
-                var visualSetting = visualSettings.FirstOrDefault(x => x.ScenarioId.Equals(scenario.ScenarioId));
-                if (visualSetting == null)
-                    visualSetting = new UserVisualSettings() { ScenarioId = scenario.ScenarioId };
-                var control = SwitchesCreator.CreateScenarioControl(scenario, visualSetting);
+                var control = SwitchesCreator.CreateScenarioControl(scenario, scenario.VisualSettings);
                 grid.Children.Add(control);
             }
             Rearrange();

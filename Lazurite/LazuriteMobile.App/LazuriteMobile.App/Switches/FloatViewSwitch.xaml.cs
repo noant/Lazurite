@@ -1,4 +1,5 @@
 ﻿using Lazurite.MainDomain;
+using Lazurite.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace LazuriteMobile.App.Switches
             var model = ((ScenarioModel)this.BindingContext);
             var newVal = slider.Value.ToString();
             if (!model.ScenarioValue.Equals(newVal))
-                model.ScenarioValue = newVal;
+                SomeOtherUtils.DoManyTimes(this, () => model.ScenarioValue = newVal);
         }
     }
 }

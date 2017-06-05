@@ -41,7 +41,7 @@ namespace LazuriteMobile.App
         {
             get; private set;
         }
-
+        
         public event Action<ScenarioInfo[]> NewScenarios;
         public event Action<ScenarioInfo[]> ScenariosChanged;
         public event Action ConnectionLost;

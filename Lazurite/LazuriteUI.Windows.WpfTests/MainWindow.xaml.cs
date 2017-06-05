@@ -86,11 +86,11 @@ namespace LazuriteUI.Windows.WpfTests
                 //});
 
                 var serverSettings = core.Server.GetSettings();
-                //var sertName = Lazurite.Windows.Server.Utils.AddCertificate("LazuriteStandardCertificate.pfx", "28021992");
-                //serverSettings.CertificateHash = sertName;
-                //Lazurite.Windows.Server.Utils.NetshAddUrlacl(serverSettings.GetAddress());
-                //Lazurite.Windows.Server.Utils.NetshAddSslCert(serverSettings.CertificateHash, serverSettings.Port);
-                //core.Server.SetSettings(serverSettings);
+                var hash = Lazurite.Windows.Server.Utils.AddCertificate("LazuriteStandardCertificate.pfx", "28021992");
+                serverSettings.CertificateHash = hash;
+                Lazurite.Windows.Server.Utils.NetshAddUrlacl(serverSettings.GetAddress());
+                Lazurite.Windows.Server.Utils.NetshAddSslCert(serverSettings.CertificateHash, serverSettings.Port);
+                core.Server.SetSettings(serverSettings);
 
                 core.Server.StartAsync((success) => {
                     Thread.Sleep(3000);

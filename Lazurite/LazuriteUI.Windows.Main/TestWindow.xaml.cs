@@ -135,11 +135,7 @@ namespace LazuriteUI.Windows.Main
             public void SetValue(Lazurite.ActionsDomain.ExecutionContext context, string value)
             {
                 _val = value;
-                Task.Factory.StartNew(() => {
-                    Thread.Sleep(4000);
-                    _val = ToggleValueType.ValueON;
-                    ValueChanged?.Invoke(this, _val);
-                });
+                ValueChanged?.Invoke(this, _val);
             }
 
             public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
@@ -259,12 +255,7 @@ namespace LazuriteUI.Windows.Main
             public void SetValue(Lazurite.ActionsDomain.ExecutionContext context, string value)
             {
                 _val = value;
-                MessageBox.Show(_val);
-                Task.Factory.StartNew(() => {
-                    Thread.Sleep(4000);
-                    _val = 340.ToString();
-                    ValueChanged?.Invoke(this, _val);
-                });
+                ValueChanged?.Invoke(this, _val);
             }
 
             public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
@@ -332,11 +323,7 @@ namespace LazuriteUI.Windows.Main
             public void SetValue(Lazurite.ActionsDomain.ExecutionContext context, string value)
             {
                 _val = value;
-                Task.Factory.StartNew(() => {
-                    Thread.Sleep(4000);
-                    _val = "Аварийный";
-                    ValueChanged?.Invoke(this, _val);
-                });
+                ValueChanged?.Invoke(this, _val);
             }
 
             public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
@@ -395,11 +382,7 @@ namespace LazuriteUI.Windows.Main
             public void SetValue(Lazurite.ActionsDomain.ExecutionContext context, string value)
             {
                 _val = value;
-                Task.Factory.StartNew(() => {
-                    Thread.Sleep(8000);
-                    _val = DateTime.Now.ToString();
-                    ValueChanged?.Invoke(this, _val);
-                });
+                ValueChanged?.Invoke(this, _val);
             }
 
             public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
@@ -458,11 +441,7 @@ namespace LazuriteUI.Windows.Main
             public void SetValue(Lazurite.ActionsDomain.ExecutionContext context, string value)
             {
                 _val = value;
-                Task.Factory.StartNew(() => {
-                    Thread.Sleep(4000);
-                    _val = DateTime.Now.ToString();
-                    ValueChanged?.Invoke(this, _val);
-                });
+                ValueChanged?.Invoke(this, _val);
             }
 
             public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)

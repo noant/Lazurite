@@ -161,6 +161,10 @@
       <Project>{3acf6eac-a7be-4afe-aa9c-80259157ae71}</Project>
       <Name>Lazurite.Security</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Lazurite.Utils\Lazurite.Utils.csproj">
+      <Project>{D4FDB9F4-F897-4F15-85FC-26E8D933AF6D}</Project>
+      <Name>Lazurite.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Lazurite.Visual\Lazurite.Visual.csproj">
       <Project>{e8aa2173-58f5-474b-aff7-eb66d077cacd}</Project>
       <Name>Lazurite.Visual</Name>
