@@ -57,7 +57,7 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Time when CurrentValue was changed last time
         /// </summary>
-        public DateTime LastChange { get; private set; }
+        public DateTime LastChange { get; private set; } = DateTime.Now.ToUniversalTime();
 
         /// <summary>
         /// Current value of scenario execution
@@ -191,7 +191,7 @@ namespace Lazurite.MainDomain
         /// </summary>
         protected void RaiseEvents()
         {
-            LastChange = DateTime.Now;
+            LastChange = DateTime.Now.ToUniversalTime();
             for (int i = 0; i < _events.Count; i++)
             {
                 try

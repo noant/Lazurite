@@ -21,6 +21,8 @@ namespace LazuriteUI.Windows.Main.Switches
                 _value = value;
                 OnPropertyChanged(nameof(ScenarioValue));
             });
+            OnPropertyChanged(nameof(Icon1));
+            OnPropertyChanged(nameof(Icon2));
         }
 
         private string _value;
@@ -37,7 +39,7 @@ namespace LazuriteUI.Windows.Main.Switches
             {
                 if (_visualSettings.AddictionalData == null)
                     _visualSettings.AddictionalData = new string[0];
-                if (_visualSettings.AddictionalData.Any())
+                if (_visualSettings.AddictionalData.Any() && !string.IsNullOrEmpty(_visualSettings.AddictionalData[0]))
                     return _visualSettings.AddictionalData[0];
                 else
                 {

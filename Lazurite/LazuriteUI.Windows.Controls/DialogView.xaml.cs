@@ -27,7 +27,13 @@ namespace LazuriteUI.Windows.Controls
         {
             InitializeComponent();
             this.KeyUp += DialogView_KeyUp;
+            this.gridBackground.MouseLeftButtonDown += GridBackground_MouseLeftButtonDown;
             this.contentGrid.Children.Add(child);
+        }
+
+        private void GridBackground_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
         }
 
         private void DialogView_KeyUp(object sender, KeyEventArgs e)

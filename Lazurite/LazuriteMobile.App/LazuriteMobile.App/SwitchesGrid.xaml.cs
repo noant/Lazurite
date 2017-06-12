@@ -44,19 +44,51 @@ namespace LazuriteMobile.App
         public SwitchesGrid()
         {
             InitializeComponent();
-            this.grid.Margin = new Thickness(0, 0, ElementMargin, 0);
+            this.grid.Margin = new Thickness(0, 0, ElementMargin, 40);
+        }
+
+        private View CreateControl(ScenarioInfo scenarioInfo)
+        {
+            return SwitchesCreator.CreateScenarioControl(scenarioInfo);
         }
 
         public void Initialize(ScenarioInfo[] scenarios)
         {
+            this.grid.Children.Clear();
             foreach (var scenario in scenarios)
-            {
-                var control = SwitchesCreator.CreateScenarioControl(scenario, scenario.VisualSettings);
-                grid.Children.Add(control);
-            }
+                grid.Children.Add(CreateControl(scenario));
             Rearrange();
         }
         
+        public void Refresh(ScenarioInfo[] scenarios)
+        {
+            var modelsViews = grid.Children.ToDictionary(x => (ScenarioModel)x.BindingContext).ToList();
+            var models = modelsViews.Select(x=>x.Key).ToArray();
+            //add new scenarios and refresh existing
+            foreach (var scenario in scenarios)
+            {
+                var scenarioModel = models.FirstOrDefault(x => x.Scenario.ScenarioId.Equals(scenario.ScenarioId));
+                if (scenarioModel != null)
+                {
+                    scenarioModel.RefreshWith(scenario);
+                }
+                else
+                {
+                    var control = CreateControl(scenario);
+                    this.grid.Children.Add(control);
+                }
+            }
+
+            //remove not existing scenarios
+            foreach (var modelView in modelsViews)
+            {
+                if (!scenarios.Any(x => x.ScenarioId.Equals(modelView.Key.Scenario.ScenarioId)))
+                    grid.Children.Remove(modelView.Value);
+            }
+
+            Rearrange();
+        }
+
         public void Rearrange()
         {
             var maxX = MaxX;

@@ -9,11 +9,13 @@ namespace LazuriteMobile.MainDomain
 {
     public interface IScenariosManager
     {
-        void Initialize(string host, ushort port, string serviceName, string login, string password, string secretKey); 
+        void Initialize(); 
 
         void StartListenChanges();
         void StopListenChanges();
         void Refresh();
+        ClientSettings GetClientSettings();
+        void SetClientSettings(ClientSettings settings);
 
         void ExecuteScenario(string id, string value);
 
@@ -21,9 +23,12 @@ namespace LazuriteMobile.MainDomain
 
         ScenarioInfo[] Scenarios { get; }
 
-        event Action<ScenarioInfo[]> ScenariosChanged;       
-        event Action<ScenarioInfo[]> NewScenarios;
+        event Action<ScenarioInfo[]> ScenariosChanged;
+        event Action NeedRefresh;
         event Action ConnectionLost;
         event Action ConnectionRestored;
+        event Action NeedClientSettings;
+        event Action LoginOrPasswordInvalid;
+        event Action SecretCodeInvalid;
     }
 }

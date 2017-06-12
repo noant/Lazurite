@@ -19,14 +19,13 @@
                 <local:BoolInvert x:Key="boolInvert"></local:BoolInvert>
             </ResourceDictionary>
         </Grid.Resources>
-        <common:CheckPanel Checked="{Binding Checked}" IsVisible="{Binding EditMode}"></common:CheckPanel>
         <controls:ItemView BackgroundColor="Transparent" IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"></RowDefinition>
                 <RowDefinition Height="2*"></RowDefinition>
             </Grid.RowDefinitions>
-            <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" InputTransparent="True" x:Name="iconView" x:FieldModifier="private" WidthRequest="30" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,12,0,0"></controls:IconView>
+            <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" InputTransparent="True" x:Name="iconView" x:FieldModifier="private" WidthRequest="45" HeightRequest="45" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,12,0,0"></controls:IconView>
             <Label Grid.Row="1" Margin="2,-7,2,2" InputTransparent="True" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="White" FontSize="Small"></Label>
         </Grid>
     </Grid>

@@ -16,9 +16,9 @@ namespace LazuriteMobile.App.Switches
             InitializeComponent();
         }
 
-        public InfoView(ScenarioInfo scenario, UserVisualSettings visualSettings) : this()
+        public InfoView(ScenarioInfo scenario) : this()
         {
-            this.BindingContext = new ScenarioModel(scenario, visualSettings);
+            this.BindingContext = new ScenarioModel(scenario);
         }
     }
 }

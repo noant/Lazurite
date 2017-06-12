@@ -5,21 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace LazuriteMobile.App
 {
     public partial class App : Application
     {
         public App()
         {
-            InitializeComponent();
-                        
             Singleton.Add(new ScenariosManager());
-            Singleton.Resolve<ScenariosManager>().Initialize("noant.asuscomm.com", 254, "Lazurite", "user1", "pass", "0123456789123456");
 
+            InitializeComponent();
             MainPage = new LazuriteMobile.App.MainPage();
+
+            Singleton.Resolve<ScenariosManager>().Initialize("noant.asuscomm.com", 254, "Lazurite", "user1", "pass", "0123456789123456");
         }
-        
+
         protected override void OnStart()
         {
             // Handle when your app starts

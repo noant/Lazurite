@@ -2,9 +2,21 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:LazuriteMobile"
+             xmlns:app="clr-namespace:LazuriteMobile.App"
              xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+             xmlns:common="clr-namespace:LazuriteMobile.App.Common"
              BackgroundColor="Black"
              x:Class="LazuriteMobile.App.MainPage">
-    <Grid x:Name="grid" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+    <Grid x:Name="grid" VerticalOptions="Fill" HorizontalOptions="FillAndExpand">
+        <app:SwitchesGrid x:Name="swgrid"></app:SwitchesGrid>
+        <Grid BackgroundColor="Black" x:Name="gridCaption">
+            <controls:IconView Icon="Lazurite256" VerticalOptions="Center" HorizontalOptions="Center"></controls:IconView>
+            <Label VerticalOptions="End" TextColor="White" HorizontalOptions="Center" Margin="0,0,0,100" FontSize="Medium" x:Name="lblCaption">Загрузка...</Label>
+        </Grid>
+        <common:SliderMenu>
+            <common:SliderMenu.Content>
+                <Grid BackgroundColor="Lime"></Grid>
+            </common:SliderMenu.Content>
+        </common:SliderMenu>
     </Grid>
 </ContentPage>

@@ -171,10 +171,13 @@ namespace Lazurite.Windows.Service
         {
             return Handle(() =>
             {
+                since = since.ToUniversalTime();
                 var user = GetCurrentUser();
                 return new EncryptedList<ScenarioInfoLW>(_scenariosRepository
                     .Scenarios
-                    .Where(x => x.LastChange <= since && x.CanExecute(user, ScenarioStartupSource.Remote))
+                    .Where(x => 
+                        x.LastChange >= since && x.CanExecute(user, ScenarioStartupSource.Remote)
+                    )
                     .Select(x => new ScenarioInfoLW()
                     {
                         CurrentValue = x.CalculateCurrentValue(),

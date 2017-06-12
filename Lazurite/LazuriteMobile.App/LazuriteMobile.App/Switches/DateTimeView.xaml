@@ -20,7 +20,6 @@
                 <local:BoolInvert x:Key="boolInvert"></local:BoolInvert>
             </ResourceDictionary>
         </Grid.Resources>
-        <common:CheckPanel Checked="{Binding Checked}" IsVisible="{Binding EditMode}"></common:CheckPanel>
         <controls:ItemView BackgroundColor="Transparent" IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False" AnimateView="{Binding Source={Reference Name=grid}}" HorizontalOptions="FillAndExpand"></controls:ItemView>
         <Grid InputTransparent="True">
             <Grid.RowDefinitions>

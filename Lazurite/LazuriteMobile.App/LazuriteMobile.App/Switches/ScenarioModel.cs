@@ -16,19 +16,12 @@ namespace LazuriteMobile.App.Switches
     {
         private IScenariosManager _manager = Singleton.Resolve<IScenariosManager>(); 
 
-        public ScenarioModel(ScenarioInfo scenario, UserVisualSettings visualSettings)
+        public ScenarioModel(ScenarioInfo scenario)
         {
-            Scenario = scenario;
-            VisualSettings = visualSettings ?? 
-                new UserVisualSettings() {
-                    ScenarioId = scenario.ScenarioId
-                };
-            Scenario.ValueChanged += ScenarioValueChanged;
             _manager.ConnectionLost += _manager_ConnectionLost;
             _manager.ConnectionRestored += _manager_ConnectionRestored;
 
-            this._value = Scenario.CurrentValue;
-            OnPropertyChanged(nameof(ScenarioValue));
+            RefreshWith(scenario);
         }
 
         private void _manager_ConnectionRestored()
@@ -46,9 +39,25 @@ namespace LazuriteMobile.App.Switches
         private bool _editMode;
         private bool _checked;
 
-        public UserVisualSettings VisualSettings { get; private set; }
+        public UserVisualSettings VisualSettings {
+            get
+            {
+                return Scenario.VisualSettings;
+            }
+        }
         public ScenarioInfo Scenario { get; private set; }
         
+        public void RefreshWith(ScenarioInfo scenario)
+        {
+            Scenario = scenario;
+            Scenario.ValueChanged += ScenarioValueChanged;
+            this._value = Scenario.CurrentValue;
+            OnPropertyChanged(nameof(Icon1));
+            OnPropertyChanged(nameof(Icon2));
+            OnPropertyChanged(nameof(ScenarioName));
+            OnPropertyChanged(nameof(ScenarioValue));
+        }
+
         public string Icon1
         {
             get
@@ -65,8 +74,6 @@ namespace LazuriteMobile.App.Switches
                         return "New";
                     else if (Scenario.ValueType is FloatValueType)
                         return "DimensionArrowLineWidth";
-                    else if (Scenario.ValueType is DateTimeValueType)
-                        return "Timer";
                     else if (Scenario.ValueType is DateTimeValueType)
                         return "Timer";
                     else if (Scenario.ValueType is InfoValueType)

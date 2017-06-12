@@ -56,7 +56,7 @@
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
     <BundleAssemblies>False</BundleAssemblies>
     <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86;x86_64;arm64-v8a</AndroidSupportedAbis>
+    <AndroidSupportedAbis>armeabi;armeabi-v7a;arm64-v8a</AndroidSupportedAbis>
     <Debugger>.Net (Xamarin)</Debugger>
     <AotAssemblies>False</AotAssemblies>
     <EnableLLVM>False</EnableLLVM>
@@ -69,8 +69,13 @@
       <HintPath>..\..\packages\Xamarin.Forms.2.3.3.193\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PCLCrypto, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d4421c8a4786956c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PCLCrypto.2.0.147\lib\MonoAndroid23\PCLCrypto.dll</HintPath>
       <Private>True</Private>
@@ -179,6 +184,8 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SplashActivity.cs" />
+    <Compile Include="JsonFileSavior.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -201,6 +208,10 @@
     <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Lazurite.Data\Lazurite.Data.csproj">
+      <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
+      <Name>Lazurite.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Lazurite.IOC\Lazurite.IOC.csproj">
       <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
       <Name>Lazurite.IOC</Name>
@@ -217,6 +228,12 @@
       <Project>{1e37c555-d641-4e16-bb55-a867a774ff85}</Project>
       <Name>LazuriteMobile.App</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\splashscreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\splash_centered.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

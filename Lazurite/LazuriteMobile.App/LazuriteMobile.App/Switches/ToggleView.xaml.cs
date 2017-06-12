@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -18,11 +19,20 @@ namespace LazuriteMobile.App.Switches
 
         private ValueTypeStringToBool _converter = new ValueTypeStringToBool();
 
-        public ToggleView(ScenarioInfo scenario, UserVisualSettings visualSettings) : this()
+        public ToggleView(ScenarioInfo scenario) : this()
         {
-            this.BindingContext = new ScenarioModel(scenario, visualSettings);
+            var model = new ScenarioModel(scenario);
+            this.BindingContext = model;
+            var context = SynchronizationContext.Current;
             //binding works incorrectly
-            itemView.Selected = (bool)_converter.Convert(((ScenarioModel)this.BindingContext).ScenarioValue, null, null, null);
+            model.PropertyChanged += (o, e) =>
+            {
+                if (e.PropertyName == nameof(ScenarioModel.ScenarioValue))
+                    context.Post((state) => {
+                        itemView.Selected = (bool)_converter.Convert(model.ScenarioValue, null, null, null);
+                    }, null);
+            };
+            itemView.Selected = (bool)_converter.Convert(model.ScenarioValue, null, null, null);
         }
 
         //binding works incorrectly

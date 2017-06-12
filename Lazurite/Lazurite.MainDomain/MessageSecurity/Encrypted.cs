@@ -32,7 +32,11 @@ namespace Lazurite.MainDomain.MessageSecurity
         {
             var serializer = SerializersFactory.GetSerializer<T>();
             Data = GetSecureEncoding(secretKey).Encrypt(serializer.Serialize(obj));
+            ServerTime = DateTime.Now;
         }
+
+        [DataMember]
+        public DateTime ServerTime { get; set; }
 
         public T Decrypt(string secretKey)
         {

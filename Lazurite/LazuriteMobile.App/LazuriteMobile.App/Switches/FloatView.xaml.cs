@@ -18,9 +18,9 @@ namespace LazuriteMobile.App.Switches
             InitializeComponent();
         }
         
-        public FloatView(ScenarioInfo scenario, UserVisualSettings visualSettings) : this()
+        public FloatView(ScenarioInfo scenario) : this()
         {
-            _model = new ScenarioModel(scenario, visualSettings);
+            _model = new ScenarioModel(scenario);
             this.BindingContext = _model;
             itemView.Click += itemView_Click;
         }

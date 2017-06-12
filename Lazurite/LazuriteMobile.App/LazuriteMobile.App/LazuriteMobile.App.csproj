@@ -45,6 +45,9 @@
     <Compile Include="Common\ScaleView.xaml.cs">
       <DependentUpon>ScaleView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\SliderMenu.xaml.cs">
+      <DependentUpon>SliderMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\ViewBox.cs" />
     <Compile Include="Controls\DialogView.xaml.cs">
       <DependentUpon>DialogView.xaml</DependentUpon>
@@ -149,6 +152,10 @@
       <Project>{E6BE3954-3D6F-447A-91BF-04D892A1C025}</Project>
       <Name>Lazurite.ActionsDomain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Lazurite.Data\Lazurite.Data.csproj">
+      <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
+      <Name>Lazurite.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Lazurite.IOC\Lazurite.IOC.csproj">
       <Project>{a002f2fb-6791-46a2-9061-38bbe59e1618}</Project>
       <Name>Lazurite.IOC</Name>
@@ -251,9 +258,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Mono.Android">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v7.1\Mono.Android.dll</HintPath>
-    </Reference>
     <Reference Include="PCLCrypto, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d4421c8a4786956c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\PCLCrypto.2.0.147\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\PCLCrypto.dll</HintPath>
       <Private>True</Private>
@@ -282,6 +286,9 @@
       <HintPath>..\..\packages\System.Reactive.PlatformServices.3.1.1\lib\netstandard1.0\System.Reactive.PlatformServices.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ServiceModel">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.ServiceModel.dll</HintPath>
+    </Reference>
     <Reference Include="Validation, Version=2.4.0.0, Culture=neutral, PublicKeyToken=2fc06f0d701809a7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Validation.2.4.15\lib\portable-net45+win8+wp8+wpa81\Validation.dll</HintPath>
       <Private>True</Private>
@@ -298,6 +305,12 @@
       <HintPath>..\..\packages\Xamarin.Forms.2.3.3.193\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Xaml.dll</HintPath>
       <Private>True</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Common\SliderMenu.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

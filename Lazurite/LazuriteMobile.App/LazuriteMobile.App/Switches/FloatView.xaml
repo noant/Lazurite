@@ -21,13 +21,12 @@
             </ResourceDictionary>
         </Grid.Resources>
         <controls:ItemView IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" BackgroundColor="Transparent" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
-        <common:CheckPanel Checked="{Binding Checked}" IsVisible="{Binding EditMode}"></common:CheckPanel>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"></RowDefinition>
                 <RowDefinition Height="2*"></RowDefinition>
             </Grid.RowDefinitions>
-            <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" InputTransparent="True" x:Name="iconView" x:FieldModifier="private" WidthRequest="50" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,12,0,0"></controls:IconView>
+            <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" InputTransparent="True" x:Name="iconView" x:FieldModifier="private" WidthRequest="45" HeightRequest="45" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,12,0,0"></controls:IconView>
             <Label Grid.Row="1" Margin="2,-7,2,2" InputTransparent="True" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="White" FontSize="Small"></Label>
         </Grid>
         <common:ScaleView Opacity="0.5" VerticalOptions="FillAndExpand" HorizontalOptions="End" Max="{Binding Max}" Min="{Binding Min}" Value="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToDouble}}"></common:ScaleView>

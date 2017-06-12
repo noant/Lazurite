@@ -17,9 +17,9 @@ namespace LazuriteMobile.App.Switches
             InitializeComponent();
         }
 
-        public DateTimeView(ScenarioInfo scenario, UserVisualSettings visualSettings) : this()
+        public DateTimeView(ScenarioInfo scenario) : this()
         {
-            this.BindingContext = new ScenarioModel(scenario, visualSettings);
+            this.BindingContext = new ScenarioModel(scenario);
             itemView.Click += ItemView_Click;
         }
 
