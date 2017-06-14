@@ -1,4 +1,5 @@
 ﻿using Lazurite.IOC;
+using LazuriteMobile.MainDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,13 @@ namespace LazuriteMobile.App
     {
         public App()
         {
-            Singleton.Add(new ScenariosManager());
+            if (!Singleton.Any<IScenariosManager>())
+                Singleton.Add(new ScenariosManager());
 
             InitializeComponent();
             MainPage = new LazuriteMobile.App.MainPage();
 
-            Singleton.Resolve<ScenariosManager>().Initialize("noant.asuscomm.com", 254, "Lazurite", "user1", "pass", "0123456789123456");
+            Singleton.Resolve<IScenariosManager>().Initialize();
         }
 
         protected override void OnStart()

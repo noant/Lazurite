@@ -9,13 +9,13 @@
              x:Class="LazuriteMobile.App.MainPage">
     <Grid x:Name="grid" VerticalOptions="Fill" HorizontalOptions="FillAndExpand">
         <app:SwitchesGrid x:Name="swgrid"></app:SwitchesGrid>
-        <Grid BackgroundColor="Black" x:Name="gridCaption">
+        <Grid BackgroundColor="Black" x:Name="gridCaption" Opacity="0.9">
             <controls:IconView Icon="Lazurite256" VerticalOptions="Center" HorizontalOptions="Center"></controls:IconView>
-            <Label VerticalOptions="End" TextColor="White" HorizontalOptions="Center" Margin="0,0,0,100" FontSize="Medium" x:Name="lblCaption">Загрузка...</Label>
+            <Label HorizontalTextAlignment="Center" VerticalOptions="End" TextColor="White" HorizontalOptions="Center" Margin="0,0,0,100" FontSize="Medium" x:Name="lblCaption">Соединение...</Label>
         </Grid>
-        <common:SliderMenu>
+        <common:SliderMenu x:Name="sliderMenu">
             <common:SliderMenu.Content>
-                <Grid BackgroundColor="Lime"></Grid>
+                <app:SettingsView x:Name="settingsView"></app:SettingsView>
             </common:SliderMenu.Content>
         </common:SliderMenu>
     </Grid>

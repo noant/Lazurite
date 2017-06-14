@@ -11,6 +11,8 @@ using System.Threading;
 using Xamarin.Forms;
 using Lazurite.Data;
 using System.ServiceModel;
+using System.Net;
+using System.Runtime.Serialization;
 
 namespace LazuriteMobile.App
 {
@@ -48,7 +50,8 @@ namespace LazuriteMobile.App
         private readonly int _fullRefreshInterval = 120;
         private readonly string _cachedScenariosKey = "scensCache";
         private readonly string _clientSettingsKey = "clientSettings";
-        private CancellationTokenSource _cancellationTokenSource;
+        private CancellationTokenSource _listenersCancellationTokenSource;
+        private CancellationTokenSource _operationCancellationTokenSource;
         private IServiceClientManager _clientManager = Singleton.Resolve<IServiceClientManager>();
         private ISavior _savior = Singleton.Resolve<ISavior>();
         private IServiceClient _serviceClient;
@@ -65,6 +68,7 @@ namespace LazuriteMobile.App
         public event Action NeedClientSettings;
         public event Action LoginOrPasswordInvalid;
         public event Action SecretCodeInvalid;
+        public event Action CredentialsLoaded;
 
         public ScenariosManager()
         {
@@ -74,22 +78,37 @@ namespace LazuriteMobile.App
 
         private bool HandleExceptions(Action action)
         {
+            var cancellationToken = _operationCancellationTokenSource.Token;
             bool success = false;
             try
             {
                 action();
                 success = true;
+                Connected = true;
             }
             catch (Exception e)
             {
-                Connected = false;
-                if (e.InnerException)
+                if (!cancellationToken.IsCancellationRequested)
                 {
-
+                    //if login or password wrong; error 403
+                    if (e is WebException && 
+                        ((HttpWebResponse)((WebException)e).Response).StatusCode == HttpStatusCode.Forbidden)
+                    {
+                        LoginOrPasswordInvalid?.Invoke();
+                    }
+                    //if data is wrong or secretKey.Length is wrong
+                    else if (e is SerializationException || e.Message == "Key length not 128/192/256 bits.")
+                    {
+                        SecretCodeInvalid?.Invoke();
+                    }
+                    else if (Connected)
+                        ConnectionLost?.Invoke();
+                    Connected = false;
+                    success = false;
                 }
-                success = false;
-                ConnectionLost?.Invoke();
             }
+            if (cancellationToken.IsCancellationRequested)
+                return false;
             if (success && !Connected)
                 ConnectionRestored?.Invoke();
             return success;
@@ -101,7 +120,7 @@ namespace LazuriteMobile.App
             var success = HandleExceptions(() =>
             {
                 var encryptedResult = func();
-                result = encryptedResult.Decrypt(_clientSettings.ServerSecretCode);
+                result = encryptedResult.Decrypt(_clientSettings.SecretKey);
                 serverTime = encryptedResult.ServerTime;
             });
             return new OperationResult<T>(result, success, serverTime);
@@ -114,7 +133,7 @@ namespace LazuriteMobile.App
             var success = HandleExceptions(() =>
             {
                 var encryptedResult = func();
-                result = encryptedResult.Decrypt(_clientSettings.ServerSecretCode);
+                result = encryptedResult.Decrypt(_clientSettings.SecretKey);
                 serverTime = encryptedResult.FirstOrDefault()?.ServerTime;
             });
             return new OperationResult<List<T>>(result, success, serverTime);
@@ -124,17 +143,24 @@ namespace LazuriteMobile.App
         {
             TryLoadClientSettings();
             if (_clientSettings != null)
-                Initialize(_clientSettings.ServerHost, _clientSettings.ServerPort, _clientSettings.ServerService, _clientSettings.Login, _clientSettings.Password, _clientSettings.ServerSecretCode);
+                Initialize(_clientSettings.Host, _clientSettings.Port, _clientSettings.ServiceName, _clientSettings.Login, _clientSettings.Password, _clientSettings.SecretKey);
             else NeedClientSettings?.Invoke();
         }
 
         private void Initialize(string host, ushort port, string serviceName, string login, string password, string secretKey)
         {
+            //cancel all operations
+            if (_operationCancellationTokenSource != null)
+                _operationCancellationTokenSource.Cancel();
+            _operationCancellationTokenSource = new CancellationTokenSource();
+
             StopListenChanges();
+
             if (_serviceClient != null)
                 _serviceClient.Close();
             
             _serviceClient = _clientManager.Create(host, port, serviceName, secretKey, login, password);
+            Connected = true;
             _serviceClient.BeginGetScenariosInfo((x) => {
                 var result = Handle(() => _serviceClient.EndGetScenariosInfo(x));
                 if (result.Success)
@@ -145,21 +171,21 @@ namespace LazuriteMobile.App
                     NeedRefresh?.Invoke();
                     StartListenChanges();
                 }
-            }, 
+            },
             null);
         }
         
         public void StartListenChanges()
         {
-            if (_cancellationTokenSource != null)
-                _cancellationTokenSource.Cancel();
+            if (_listenersCancellationTokenSource != null)
+                _listenersCancellationTokenSource.Cancel();
 
-            _cancellationTokenSource = new CancellationTokenSource();
+            _listenersCancellationTokenSource = new CancellationTokenSource();
 
             int fullRefreshIncrement = 0;
 
             Device.StartTimer(TimeSpan.FromMilliseconds(_listenInterval), () => {
-                var token = _cancellationTokenSource.Token;
+                var token = _listenersCancellationTokenSource.Token;
                 if (token.IsCancellationRequested)
                     return false;
                 if (fullRefreshIncrement == _fullRefreshInterval)
@@ -196,12 +222,12 @@ namespace LazuriteMobile.App
 
         public void StopListenChanges()
         {
-            _cancellationTokenSource?.Cancel();
+            _listenersCancellationTokenSource?.Cancel();
         }
 
         public void ExecuteScenario(string id, string value)
         {
-            _serviceClient.BeginAsyncExecuteScenario(new Encrypted<string>(id, _clientSettings.ServerSecretCode), new Encrypted<string>(value, _clientSettings.ServerSecretCode), null, null);
+            _serviceClient.BeginAsyncExecuteScenario(new Encrypted<string>(id, _clientSettings.SecretKey), new Encrypted<string>(value, _clientSettings.SecretKey), null, null);
         }
 
         public void Refresh()
@@ -246,12 +272,18 @@ namespace LazuriteMobile.App
                 try
                 {
                     _clientSettings = _savior.Get<ClientSettings>(_clientSettingsKey);
+                    CredentialsLoaded?.Invoke();
                 }
                 catch
                 {
                     _savior.Clear(_clientSettingsKey);
                 }
             }
+        }
+
+        private void SaveClientSettings()
+        {
+            _savior.Set(_clientSettingsKey, _clientSettings);
         }
 
         public ClientSettings GetClientSettings()
@@ -262,7 +294,8 @@ namespace LazuriteMobile.App
         public void SetClientSettings(ClientSettings settings)
         {
             _clientSettings = settings;
-            Initialize(_clientSettings.ServerHost, _clientSettings.ServerPort, _clientSettings.ServerService, _clientSettings.Login, _clientSettings.Password, _clientSettings.ServerSecretCode);
+            SaveClientSettings();
+            Initialize(_clientSettings.Host, _clientSettings.Port, _clientSettings.ServiceName, _clientSettings.Login, _clientSettings.Password, _clientSettings.SecretKey);
         }
     }
 }
