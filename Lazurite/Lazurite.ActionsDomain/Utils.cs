@@ -10,10 +10,10 @@ namespace Lazurite.ActionsDomain
         public static string ExtractHumanFriendlyName(Type type)
         {
             return 
-                (type.GetCustomAttributes(typeof(HumanFriendlyNameAttribute), true).FirstOrDefault() as HumanFriendlyNameAttribute)?.Value;
+                (type.GetCustomAttributes(typeof(HumanFriendlyNameAttribute), true).FirstOrDefault() as HumanFriendlyNameAttribute)?.Value ?? type.Name;
         }
 
-        public static string ExtractHumanFrindlyName(Type type, string memberName)
+        public static string ExtractHumanFriendlyName(Type type, string memberName)
         {
             var memberInfo = 
                 type.GetProperty(memberName) as MemberInfo ??

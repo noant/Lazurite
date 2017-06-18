@@ -86,15 +86,24 @@
     <Compile Include="Common\CheckPanel.xaml.cs">
       <DependentUpon>CheckPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\NumericUpDown.xaml.cs">
-      <DependentUpon>NumericUpDown.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Common\ScaleView.xaml.cs">
       <DependentUpon>ScaleView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\Decomposition\ActionModel.cs" />
+    <Compile Include="Constructors\Decomposition\ActionView.xaml.cs">
+      <DependentUpon>ActionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\Decomposition\EditActionButtonsView.xaml.cs">
+      <DependentUpon>EditActionButtonsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\Decomposition\IConstructorElement.cs" />
     <Compile Include="Constructors\ScenarioParametersView.xaml.cs">
       <DependentUpon>ScenarioParametersView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\SelectActionView.xaml.cs">
+      <DependentUpon>SelectActionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IInitializable.cs" />
     <Compile Include="ITypeResolver.cs" />
     <Compile Include="MenuItemView.xaml.cs">
       <DependentUpon>MenuItemView.xaml</DependentUpon>
@@ -168,15 +177,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Common\NumericUpDown.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Common\ScaleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Constructors\Decomposition\ActionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\Decomposition\EditActionButtonsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Constructors\ScenarioParametersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\SelectActionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -343,6 +360,10 @@
     <ProjectReference Include="..\Lazurite.Windows.Logging\Lazurite.Windows.Logging.csproj">
       <Project>{ACC84748-2884-44A2-8E45-84FF8338684B}</Project>
       <Name>Lazurite.Windows.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Modules\Lazurite.Windows.Modules.csproj">
+      <Project>{AB2D5750-1D05-4963-8445-EFCE54616D8F}</Project>
+      <Name>Lazurite.Windows.Modules</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Server\Lazurite.Windows.Server.csproj">
       <Project>{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}</Project>

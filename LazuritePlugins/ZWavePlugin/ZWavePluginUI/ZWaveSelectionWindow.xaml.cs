@@ -36,12 +36,12 @@ namespace ZWavePluginUI
                 messageView.StartAnimateProgress();
                 messageView.Show(this.crutchGrid);
                 _manager.ManagerInitializedCallbacksPool.Add(new ManagerInitializedCallback() {
-                        Callback = (o1, e1) => this.Dispatcher.BeginInvoke(new Action(() => 
-                        {
-                            messageView.Close();
-                            this.itemViewPrimary.Selected = true;
-                        })),
-                        RemoveAfterInvoke = true
+                    Callback = (o1, e1) => this.Dispatcher.BeginInvoke(new Action(() => 
+                    {
+                        messageView.Close();
+                        this.itemViewPrimary.Selected = true;
+                    })),
+                    RemoveAfterInvoke = true
                 });
                 if (!manager.IsActive)
                     manager.Initialize();

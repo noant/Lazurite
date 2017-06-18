@@ -41,6 +41,9 @@ namespace OpenZWrapper
 
         public string[] PossibleValues { get; private set; }
 
+        public decimal Max { get; set; } = decimal.MaxValue;
+        public decimal Min { get; set; } = decimal.MinValue;
+
         public event Action<object, NodeValueChangedEventArgs> Changed;
 
         private object _current;

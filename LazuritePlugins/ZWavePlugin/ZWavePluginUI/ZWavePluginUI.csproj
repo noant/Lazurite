@@ -73,6 +73,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ChangeRangeView.xaml.cs">
+      <DependentUpon>ChangeRangeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ControllersManagerView.xaml.cs">
       <DependentUpon>ControllersManagerView.xaml</DependentUpon>
     </Compile>
@@ -83,6 +86,10 @@
     <Compile Include="ZWaveSelectionWindow.xaml.cs">
       <DependentUpon>ZWaveSelectionWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="ChangeRangeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ControllersManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

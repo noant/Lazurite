@@ -50,6 +50,16 @@ namespace ZWavePlugin
             {
                 ((StateValueType)typeInstance).AcceptedValues = nodeValue.PossibleValues;
             }
+            else if (nodeValue.ValueType == OpenZWrapper.ValueType.Byte ||
+                nodeValue.ValueType == OpenZWrapper.ValueType.Decimal ||
+                nodeValue.ValueType == OpenZWrapper.ValueType.Int ||
+                nodeValue.ValueType == OpenZWrapper.ValueType.Short)
+            {
+                ((FloatValueType)typeInstance).AcceptedValues = new string[] {
+                    nodeValue.Min.ToString(),
+                    nodeValue.Max.ToString()
+                };
+            }
             return (ValueTypeBase)typeInstance;
         } 
     }

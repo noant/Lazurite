@@ -8,12 +8,12 @@ using Lazurite.ActionsDomain.Attributes;
 
 namespace Lazurite.Security.Permissions
 {
-    [HumanFriendlyName("Запретить в интерфейсе сервера")]
-    public class DenyForServerUIPermission : IPermission
+    [HumanFriendlyName("Запретить для удаленного запуска")]
+    public class DenyForPublicUsagePermission : IPermission
     {
         public bool IsAvailableForUser(UserBase user, ScenarioStartupSource source)
         {
-            return source != ScenarioStartupSource.ServerUI;
+            return source != ScenarioStartupSource.PublicUsage;
         }
     }
 }

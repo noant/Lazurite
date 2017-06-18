@@ -20,7 +20,7 @@ namespace ZWavePlugin
         public byte NodeId { get; set; }
         public uint HomeId { get; set; }
         public ulong ValueId { get; set; }
-
+        
         private NodeValue _nodeValue;
 
         public string Caption
@@ -95,6 +95,8 @@ namespace ZWavePlugin
             ValueType = valueType;
             var manager = ZWaveManager.Current;
             var parameterSelectView = new NodesValuesComplexView();
+            if (valueType == null)
+                parameterSelectView.AllowChangeRange = true;
             parameterSelectView.InitializeWith(
                 manager, 
                 _nodeValue?.Node, 
@@ -116,5 +118,7 @@ namespace ZWavePlugin
             }
             else return false;
         }
+
+
     }
 }

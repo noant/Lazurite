@@ -24,6 +24,9 @@ using Lazurite.Security;
 using Lazurite.Data;
 using Lazurite.Visual;
 using Lazurite.Scenarios;
+using Lazurite.ActionsDomain.Attributes;
+using LazuriteUI.Windows.Main.Constructors.Decomposition;
+using LazuriteUI.Icons;
 
 namespace LazuriteUI.Windows.Main
 {
@@ -35,64 +38,20 @@ namespace LazuriteUI.Windows.Main
         public TestWindow()
         {
             InitializeComponent();
-            Singleton.Add(new WarningHandler());
-            Singleton.Add(new FileSavior());
-            Singleton.Add(new UsersRepository());
-            Singleton.Add(new ScenariosRepository());
-            Singleton.Add(new VisualSettingsRepository());
 
-            var scens = new List<ScenarioBase>();
-            var visualSettings = new List<UserVisualSettings>();
-
-            var scenario = new SingleActionScenario();
-            scenario.TargetAction = new ToggleTestAction();
-            scenario.Initialize(null);
-            scenario.Name = "Переключатель";
-            scens.Add(scenario);
-
-            var scenario0 = new SingleActionScenario();
-            scenario0.TargetAction = new ToggleTestAction();
-            scenario0.Initialize(null);
-            scenario0.Name = "Свет в коридоре";
-            scens.Add(scenario0);
-
-            var scenario3 = new SingleActionScenario();
-            scenario3.Name = "Свет в ванной";
-            scenario3.TargetAction = new StatusTestAction();
-            scenario3.Initialize(null);
-            scens.Add(scenario3);
-            
-            var scenario2 = new SingleActionScenario();
-            scenario2.TargetAction = new FloatTestAction();
-            scenario2.Initialize(null);
-            scenario2.Name = "Уровень звука";
-            scens.Add(scenario2);
-            visualSettings.Add(new UserVisualSettings() { ScenarioId = scenario2.Id, AddictionalData = new[] { "Sound2" } });
-            
-            var scenario4 = new SingleActionScenario();
-            scenario4.Name = "Компьютер";
-            scenario4.TargetAction = new ButtonTestAction();
-            scenario4.Initialize(null);
-            scens.Add(scenario4);
-            visualSettings.Add(new UserVisualSettings() { ScenarioId = scenario4.Id, AddictionalData = new[] { "TvNews" } });
-
-            var scenario5 = new SingleActionScenario();
-            scenario5.Name = "Свет в ванной";
-            scenario5.TargetAction = new DateTimeTestAction();
-            scenario5.Initialize(null);
-            scens.Add(scenario5);
-            visualSettings.Add(new UserVisualSettings() { ScenarioId = scenario5.Id, AddictionalData = new[] { "TvNews" } });
-
-            switches.Initialize(scens.ToArray(), visualSettings.ToArray());
+            var actionView = new ActionView(new ToggleTestAction());
+            this.grid.Children.Add(actionView);
         }
 
+        [HumanFriendlyName("Modbus устройство")]
+        [LazuriteIcon(Icons.Icon.Connect)]
         public class ToggleTestAction : IAction
         {
             public string Caption
             {
                 get
                 {
-                    return "";
+                    return "Контроллер: 1, устройство: 0";
                 }
                 set
                 {

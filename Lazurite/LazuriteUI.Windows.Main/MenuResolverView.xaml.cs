@@ -37,6 +37,9 @@ namespace LazuriteUI.Windows.Main
                     resolverView.captionView.Content = displayName?.DisplayName;
                     resolverView.captionView.Icon = icon;
                     resolverView.contentControl.Content = control;
+
+                    if (control is IInitializable)
+                        ((IInitializable)control).Initialize();
                 }
             });
         }

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LazuriteUI.Windows.Main.Common
+namespace LazuriteUI.Windows.Controls
 {
     /// <summary>
     /// Логика взаимодействия для NumericUpDown.xaml

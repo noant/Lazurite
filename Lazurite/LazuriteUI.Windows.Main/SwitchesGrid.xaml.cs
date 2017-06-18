@@ -27,10 +27,11 @@ namespace LazuriteUI.Windows.Main
     /// </summary>
     [DisplayName("Переключатели сценариев")]
     [LazuriteIcon(Icon.CursorHand)]
-    public partial class SwitchesGrid : UserControl
+    public partial class SwitchesGrid : UserControl, IInitializable
     {
         public static DependencyProperty EditModeProperty;
         public static DependencyProperty EditModeButtonVisibleProperty;
+        public static DependencyProperty IsConstructorModeProperty;
 
         private static readonly int MaxX = 3;
         private static readonly int ElementSize = 111;
@@ -50,11 +51,13 @@ namespace LazuriteUI.Windows.Main
             });
 
             EditModeButtonVisibleProperty = DependencyProperty.Register(nameof(EditModeButtonVisible), typeof(bool), typeof(SwitchesGrid), new FrameworkPropertyMetadata(true));
+            IsConstructorModeProperty = DependencyProperty.Register(nameof(IsConstructorMode), typeof(bool), typeof(SwitchesGrid), new FrameworkPropertyMetadata(false));
         }
 
         private UsersRepositoryBase _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private VisualSettingsRepository _visualSettingsRepository = Singleton.Resolve<VisualSettingsRepository>();
         private ScenariosRepositoryBase _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private UserControl _draggableCurrent;
 
         public SwitchesGrid()
         {
@@ -62,7 +65,18 @@ namespace LazuriteUI.Windows.Main
             this.MouseMove += SwitchesGrid_MouseMove;
             this.MouseLeftButtonUp += ElementMouseRelease;
             this.grid.Margin = new Thickness(0, 0, ElementMargin, ElementMargin);
-            Initialize(_scenariosRepository.Scenarios, _visualSettingsRepository.VisualSettings);
+        }
+        
+        public bool IsConstructorMode
+        {
+            get
+            {
+                return (bool)GetValue(IsConstructorModeProperty);
+            }
+            set
+            {
+                SetValue(IsConstructorModeProperty, value);
+            }
         }
 
         public bool EditMode
@@ -89,6 +103,11 @@ namespace LazuriteUI.Windows.Main
             }
         }
 
+        public ScenarioModel SelectedModel
+        {
+            get; private set;
+        }
+
         private void SwitchesGrid_MouseMove(object sender, MouseEventArgs e)
         {
             if (this.EditMode && _draggableCurrent != null)
@@ -105,7 +124,15 @@ namespace LazuriteUI.Windows.Main
             }
         }
 
-        public void Initialize(ScenarioBase[] scenarios, UserVisualSettings[] visualSettings)
+        public void Initialize()
+        {
+            var scenarios = _scenariosRepository.Scenarios;
+            if (!IsConstructorMode)
+                scenarios = scenarios.Where(x => x.CanExecute(_usersRepository.SystemUser, ScenarioStartupSource.PublicUsage)).ToArray();
+            Initialize(scenarios, _visualSettingsRepository.VisualSettings);
+        }
+
+        private void Initialize(ScenarioBase[] scenarios, UserVisualSettings[] visualSettings)
         {
             foreach (var scenario in scenarios)
             {
@@ -116,14 +143,91 @@ namespace LazuriteUI.Windows.Main
                 control.MouseLeftButtonDown += ElementClick;
                 control.MouseLeftButtonUp += ElementMouseRelease;
                 grid.Children.Add(control);
-                if (scenario.Equals(scenarios.First()))
-                {
-                    var model = control.DataContext as ScenarioModel;
-                    model.Checked = true;
-                    BindSwitchSettings(control);
-                }
             }
             Rearrange();
+            SelectFirst();
+        }
+
+        public void Add(ScenarioBase scenario, UserVisualSettings visualSettings)
+        {
+            if (visualSettings == null)
+                visualSettings = new UserVisualSettings() { ScenarioId = scenario.Id, UserId = _usersRepository.SystemUser.Id };
+            var control = SwitchesCreator.CreateScenarioControl(scenario, visualSettings);
+            control.MouseLeftButtonDown += ElementClick;
+            control.MouseLeftButtonUp += ElementMouseRelease;
+            grid.Children.Add(control);
+            Select(scenario);
+        }
+
+        public void Remove(ScenarioBase scenario)
+        {
+            var control = grid.Children.Cast<UserControl>()
+                .FirstOrDefault(x => ((ScenarioModel)x.DataContext).Scenario.Id.Equals(scenario.Id));
+            grid.Children.Remove(control);
+            Rearrange();
+            SelectFirst();
+        }
+
+        public void RefreshItem(ScenarioBase scenario)
+        {
+            var control = grid.Children.Cast<UserControl>()
+                .FirstOrDefault(x => ((ScenarioModel)x.DataContext).Scenario.Id.Equals(scenario.Id));
+            if (control != null)
+            {
+                var model = (ScenarioModel)control.DataContext;
+                model.Refresh();
+            }
+        }
+
+        public void RefreshItemFull(ScenarioBase scenario)
+        {
+            var control = grid.Children.Cast<UserControl>()
+                .FirstOrDefault(x => ((ScenarioModel)x.DataContext).Scenario.Id.Equals(scenario.Id));
+            if (control != null)
+            {
+                var oldModel = (ScenarioModel)control.DataContext;
+                grid.Children.Remove(control);
+                control = SwitchesCreator.CreateScenarioControl(oldModel.Scenario, oldModel.VisualSettings);
+                control.MouseLeftButtonDown += ElementClick;
+                control.MouseLeftButtonUp += ElementMouseRelease;
+                grid.Children.Add(control);
+                Rearrange();
+                Select(scenario);
+            }
+        }
+
+        public void Select(ScenarioBase scenario)
+        {
+            var @switch = this.grid.Children.Cast<UserControl>().FirstOrDefault(control =>
+            {
+                var model = ((ScenarioModel)control.DataContext);
+                return model.Scenario.Id.Equals(scenario.Id);
+            });
+            if (@switch != null)
+            {
+                BindSwitchSettings(@switch);
+                var model = ((ScenarioModel)@switch.DataContext);
+                model.Checked = true;
+                SelectedModel = model;
+                SelectedModelChanged?.Invoke(model);
+            }
+        }
+
+        private void SelectFirst()
+        {
+            var firstSwitch = this.grid.Children.Cast<UserControl>().FirstOrDefault(control =>
+            {
+                var model = ((ScenarioModel)control.DataContext);
+                return model.PositionX.Equals(0) && model.PositionY.Equals(0);
+            });
+            if (firstSwitch != null)
+            {
+                BindSwitchSettings(firstSwitch);
+                var model = ((ScenarioModel)firstSwitch.DataContext);
+                model.Checked = true;
+                SelectedModel = model;
+                SelectedModelChanged?.Invoke(model);
+            }
         }
 
         private void ElementMouseRelease(object sender, MouseButtonEventArgs e)
@@ -136,7 +240,13 @@ namespace LazuriteUI.Windows.Main
             if (this.EditMode)
             {
                 BindSwitchSettings((UserControl)sender);
-                _draggableCurrent = (UserControl)sender;
+                if (_draggableCurrent != sender)
+                {
+                    _draggableCurrent = (UserControl)sender;
+                    var model = (ScenarioModel)_draggableCurrent.DataContext;
+                    SelectedModel = model;
+                    SelectedModelChanged?.Invoke(model);
+                }
             }
         }
 
@@ -151,8 +261,6 @@ namespace LazuriteUI.Windows.Main
             }
             switchSetting.DataContext = control.DataContext;
         }
-
-        private UserControl _draggableCurrent;
 
         public void Rearrange()
         {
@@ -251,5 +359,7 @@ namespace LazuriteUI.Windows.Main
 
             Rearrange();
         }
+
+        public event Action<ScenarioModel> SelectedModelChanged;
     }
 }

@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lazurite.MainDomain
+namespace LazuriteUI.Windows.Main
 {
-    public enum ScenarioStartupSource
+    public interface IInitializable
     {
-        OtherScenario,
-        PublicUsage
+        void Initialize();
     }
 }

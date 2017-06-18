@@ -37,5 +37,6 @@
                    Margin="8"
                    Padding="10"
                    FontWeight="{x:Static controls:Visual.FontWeight}"></TextBlock>
+        <controls:ItemView Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20" Grid.Column="1" Icon="ArrowUpDown" x:Name="itemRange" Visibility="Collapsed" Width="200">Изменить диапазон</controls:ItemView>
     </Grid>
 </UserControl>

@@ -34,6 +34,17 @@ namespace ZWavePluginUI
             };
         }
 
+        public bool AllowChangeRange {
+            get
+            {
+                return valuesListView.AllowChangeRange;
+            }
+            set
+            {
+                valuesListView.AllowChangeRange = value;
+            }
+        }
+
         public void InitializeWith(ZWaveManager manager, Node selectedNode=null, NodeValue selectedNodeValue=null, Func<NodeValue, bool> nodeValueFilter=null)
         {
             _nodeValueFilter = nodeValueFilter;
