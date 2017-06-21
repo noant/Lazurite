@@ -227,7 +227,11 @@ namespace LazuriteMobile.App
 
         public void ExecuteScenario(string id, string value)
         {
-            _serviceClient.BeginAsyncExecuteScenario(new Encrypted<string>(id, _clientSettings.SecretKey), new Encrypted<string>(value, _clientSettings.SecretKey), null, null);
+            _serviceClient.BeginAsyncExecuteScenario(new Encrypted<string>(id, _clientSettings.SecretKey), new Encrypted<string>(value, _clientSettings.SecretKey), 
+                (result) => {
+                    HandleExceptions(() => _serviceClient.EndAsyncExecuteScenario(result));
+                }, 
+            null);
         }
 
         public void Refresh()

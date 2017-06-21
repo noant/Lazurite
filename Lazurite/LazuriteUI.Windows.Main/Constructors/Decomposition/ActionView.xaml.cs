@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Lazurite.ActionsDomain;
+using Lazurite.Windows.Modules;
+using Lazurite.IOC;
 
 namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 {
@@ -25,12 +27,34 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             InitializeComponent();
             Action = action;
-            Model = new ActionModel(action);
+            Model = new ActionModel();
+            Model.Refresh(Action);
             DataContext = Model;
 
             buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
             buttons.RemoveClick += () => NeedRemove?.Invoke(this);
-            buttons.EditClick += () => action.UserInitializeWith(MasterAction.ValueType, true);
+            buttons.EditClick += () =>
+            {
+                if (Action.UserInitializeWith(MasterAction?.ValueType, true))
+                    Modified?.Invoke(this);
+            };
+            buttons.ChangeClick += () => {
+                SelectActionView.Show(
+                    (type) => {
+                        var newAction = Singleton.Resolve<PluginsManager>().CreateInstanceOf(type);
+                        if (newAction.UserInitializeWith(MasterAction?.ValueType, MasterAction != null))
+                        {
+                            Action = newAction;
+                            Model.Refresh(Action);
+                            Modified?.Invoke(this);
+                        }
+                    },
+                    Window.GetWindow(this).Content as Panel,
+                    MasterAction?.ValueType.GetType(),
+                    MasterAction == null ? Lazurite.Windows.Modules.ActionInstanceSide.OnlyLeft
+                    : Lazurite.Windows.Modules.ActionInstanceSide.OnlyRight, 
+                    Action?.GetType());
+            };
         }
 
         public IAction MasterAction { get; private set; }
@@ -59,5 +83,6 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public event Action<IConstructorElement> NeedAddNext;
         public event Action<IConstructorElement> NeedRemove;
+        public event Action<IConstructorElement> Modified;
     }
 }

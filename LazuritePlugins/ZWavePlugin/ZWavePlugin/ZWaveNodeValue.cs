@@ -8,13 +8,15 @@ using ZWavePluginUI;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.ActionsDomain;
+using LazuriteUI.Icons;
 
 namespace ZWavePlugin
 {
-    [HumanFriendlyName("Параметр ZWave устройства")]
+    [HumanFriendlyName("ZWave устройство")]
     [SuitableValueTypes(
         typeof(StateValueType), typeof(InfoValueType), typeof(FloatValueType), 
         typeof(ButtonValueType), typeof(ToggleValueType))]
+    [LazuriteIcon(Icon.ManSensor)]
     public class ZWaveNodeValue : IAction
     {
         public byte NodeId { get; set; }

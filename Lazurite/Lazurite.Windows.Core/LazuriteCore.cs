@@ -65,7 +65,7 @@ namespace Lazurite.Windows.Core
         {
             Singleton.Add(Savior = new FileSavior());
             Singleton.Add(ScenariosRepository = new ScenariosRepository());
-            PluginsManager = new PluginsManager();
+            Singleton.Add(PluginsManager = new PluginsManager());
             ScenariosRepository.Initialize();
             Singleton.Add(ClientsFactory = new ServiceClientFactory());
             Singleton.Add(UsersRepository = new UsersRepository());

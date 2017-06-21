@@ -15,21 +15,39 @@ namespace Lazurite.Windows.Modules
 {
     public static class Utils
     {
+        public static readonly string[] IgnorableAssemblies;
+
+        static Utils()
+        {
+            IgnorableAssemblies = Directory.GetFiles(Path.GetDirectoryName(GetAssemblyPath(typeof(Utils).Assembly)))
+                .Select(x=>Path.GetFileName(x).ToUpper())
+                .Where(x => x.EndsWith(".DLL") || x.EndsWith(".EXE")).ToArray();
+        }
+
+        public static bool IsIgnorableAssembly(string fileName)
+        {
+            fileName = fileName.ToUpper();
+            return IgnorableAssemblies.Any(x => x.Equals(fileName));
+        }
+
         public static AssemblyTargetTypes[] GetAssembliesWithType(Type type, string directory)
         {
             var result = new List<AssemblyTargetTypes>();
             var allFiles = Directory.GetFiles(directory);
             var allDirs = Directory.GetDirectories(directory);
             var currentAssembly = Assembly.GetAssembly(typeof(Utils));
-            var currentAssemblyFileName = Path.GetFileName(currentAssembly.Location);
+            var currentAssemblyFileName = Path.GetFileName(currentAssembly.Location).ToUpper();
             var searchingAssignableTypeAssembly = type.Assembly;
-            var searchingAssignableAssemblyIgnore = Path.GetFileName(searchingAssignableTypeAssembly.Location);
+            var searchingAssignableAssemblyIgnore = Path.GetFileName(searchingAssignableTypeAssembly.Location).ToUpper();
             DoWithFiles(directory,
                 (filePath) => {
                     try
                     {
-                        var fileName = Path.GetFileName(filePath);
-                        if (fileName != currentAssemblyFileName && fileName != searchingAssignableAssemblyIgnore)
+                        var fileName = Path.GetFileName(filePath).ToUpper();
+                        if ((fileName.EndsWith(".DLL") || fileName.EndsWith(".EXE"))
+                            && fileName != currentAssemblyFileName 
+                            && fileName != searchingAssignableAssemblyIgnore 
+                            && !IsIgnorableAssembly(fileName))
                         {
                             var assembly = LoadAssembly(filePath);
                             var types = assembly.GetTypes().Where(x => type.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract).ToArray();

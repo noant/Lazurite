@@ -182,20 +182,7 @@ namespace LazuriteUI.Windows.Main
 
             public ValueTypeBase ValueType
             {
-                get
-                {
-                    return new FloatValueType()
-                    {
-                        AcceptedValues = new[] {
-                            0.ToString(),
-                            450.ToString()
-                        }
-                    };
-                }
-
-                set
-                {
-                }
+                get;set;
             }
 
             public event ValueChangedDelegate ValueChanged;

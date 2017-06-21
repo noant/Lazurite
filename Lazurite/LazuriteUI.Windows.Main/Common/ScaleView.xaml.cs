@@ -51,9 +51,17 @@ namespace LazuriteUI.Windows.Main.Common
         private void AllocateScaleViewSize()
         {
             var value = Value;
-            var percent = value / (this.Max - this.Min);
+            var percent = (value - this.Min) / (this.Max - this.Min);
             var marginBottom = this.ActualHeight * percent;
             this.borderValue.Height = marginBottom;
+
+            tbValue.Text = Math.Round(Value).ToString();
+            if (percent < 0.25)
+                tbValue.Foreground = new SolidColorBrush(Colors.Gray);
+            else if (percent >= 0.25 && percent < 0.9)
+                tbValue.Foreground = new SolidColorBrush(Color.FromRgb(80,144,180));
+            else
+                tbValue.Foreground = new SolidColorBrush(Colors.Red);
         }
 
         public double Value

@@ -13,7 +13,9 @@
             <controls:ListItemsView Orientation="Vertical" Name="listItems" Width="300" SelectionMode="Single" HorizontalAlignment="Left">
                 <controls:ItemView Margin="1" Selected="False" Icon="Power">item 1</controls:ItemView>
                 <controls:ItemView IsEnabled="false" Margin="1" Selected="False" Icon="Ferry">item 2</controls:ItemView>
-                <controls:ItemView Margin="1" Selected="False" Icon="Close">item 3</controls:ItemView>
+                <controls:ItemView Background="{x:Static controls:Visual.BackgroundLazurite}" Margin="1" Selected="False" Icon="Close">
+                    <Label Foreground="Red">dsf</Label>
+                </controls:ItemView>
                 <controls:ItemView IsEnabled="False" Margin="1" Selected="False" Icon="Fingerprint">item 4</controls:ItemView>
                 <controls:ItemView Margin="1" Selected="False" Icon="Bing">item 5</controls:ItemView>
             </controls:ListItemsView>

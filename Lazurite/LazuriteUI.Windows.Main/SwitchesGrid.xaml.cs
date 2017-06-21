@@ -42,11 +42,7 @@ namespace LazuriteUI.Windows.Main
             EditModeProperty = DependencyProperty.Register(nameof(EditMode), typeof(bool), typeof(SwitchesGrid), new FrameworkPropertyMetadata() {
                 DefaultValue = false,
                 PropertyChangedCallback = (o, e) => {
-                    var swgrid = ((SwitchesGrid)o);
-                    swgrid.grid.Children
-                        .Cast<FrameworkElement>()
-                        .Select(x => ((ScenarioModel)x.DataContext).EditMode = (bool)e.NewValue)
-                        .ToArray();
+                    ((SwitchesGrid)o).SetEditMode((bool)e.NewValue);
                 }
             });
 
@@ -65,6 +61,7 @@ namespace LazuriteUI.Windows.Main
             this.MouseMove += SwitchesGrid_MouseMove;
             this.MouseLeftButtonUp += ElementMouseRelease;
             this.grid.Margin = new Thickness(0, 0, ElementMargin, ElementMargin);
+            this.Loaded += (o, e) => SetEditMode(this.EditMode); //crutch
         }
         
         public bool IsConstructorMode
@@ -122,6 +119,14 @@ namespace LazuriteUI.Windows.Main
                     Move(_draggableCurrent, new Point((int)positionExt.X >= 0 ? (int)positionExt.X : 0, (int)positionExt.Y >= 0 ? (int)positionExt.Y : 0));
                 }
             }
+        }
+
+        private void SetEditMode(bool value)
+        {
+            this.grid.Children
+                .Cast<FrameworkElement>()
+                .Select(x => ((ScenarioModel)x.DataContext).EditMode = value)
+                .ToArray();
         }
 
         public void Initialize()

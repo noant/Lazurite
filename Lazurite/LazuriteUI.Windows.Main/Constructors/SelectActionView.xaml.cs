@@ -62,12 +62,8 @@ namespace LazuriteUI.Windows.Main.Constructors
             var control = new SelectActionView();
             var dialogView = new DialogView(control);
             control.Initialize(valueType, side, selectedType);
-            control.SelectionChanged += (ctrl) =>
-            {
-                selectedCallback?.Invoke(ctrl.SelectedType);
-                dialogView.Close();
-            };
-            dialogView.Closed += (o, e) => selectedCallback?.Invoke(null);
+            control.SelectionChanged += (ctrl) => dialogView.Close();
+            dialogView.Closed += (o, e) => selectedCallback?.Invoke(control.SelectedType);
             dialogView.Show(parent);
         }
 

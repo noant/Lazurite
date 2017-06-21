@@ -10,7 +10,11 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 {
     public class ActionModel: ObservableObject
     {
-        public ActionModel(IAction action)
+        public ActionModel()
+        {
+        }
+
+        public void Refresh(IAction action)
         {
             Action = action;
             ActionName = Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(action.GetType());
@@ -26,7 +30,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             get
             {
-                return Action.Caption;
+                return Action?.Caption ?? "[null]";
             }
         }
 

@@ -14,6 +14,7 @@
         <Grid.Resources>
             <local:BoolToVisibility x:Key="boolToVisibility"></local:BoolToVisibility>
             <local:ValueTypeStringToDouble x:Key="valueTypeStringToDouble"></local:ValueTypeStringToDouble>
+            <local:ValueTypeStringToDoubleRound x:Key="valueTypeStringToDoubleRound"></local:ValueTypeStringToDoubleRound>
             <local:BoolInvert x:Key="boolInvert"></local:BoolInvert>
             <local:StringToSplittedStringLong x:Key="stringToSplittedStringLong"></local:StringToSplittedStringLong>
             <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
@@ -172,11 +173,12 @@
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <StackPanel Height="50" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-40,10,0,5">
+        <StackPanel Height="50" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,5">
             <controls:IconView VerticalAlignment="Center" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" Height="50" Width="50"></controls:IconView>
             <TextBlock VerticalAlignment="Center" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedStringLong}}" Foreground="White"></TextBlock>
         </StackPanel>
         <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}}"></common:CheckPanel>
         <Slider IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" IsMoveToPointEnabled="True" Style="{StaticResource SliderStyle}" Value="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToDouble}}" Minimum="{Binding Min}" Maximum="{Binding Max}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="5,5,5,10"></Slider>
+        <Label Opacity="0.5" IsHitTestVisible="False" Foreground="SteelBlue" Content="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToDoubleRound}}" FontSize="75" x:Name="tbValue" HorizontalAlignment="Right" Margin="0,-10,8,0"></Label>
     </Grid>
 </UserControl>

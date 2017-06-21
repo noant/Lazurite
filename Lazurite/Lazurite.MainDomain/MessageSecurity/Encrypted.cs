@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lazurite.IOC;
+using Lazurite.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -40,10 +42,20 @@ namespace Lazurite.MainDomain.MessageSecurity
 
         public T Decrypt(string secretKey)
         {
-            var secureEncoding = GetSecureEncoding(secretKey);
-            var serializer = SerializersFactory.GetSerializer<T>();
-            var decryptedRaw = secureEncoding.Decrypt(Data);
-            return (T)serializer.Deserialize(decryptedRaw.TrimEnd('\0'));
+            try
+            {
+                var secureEncoding = GetSecureEncoding(secretKey);
+                var serializer = SerializersFactory.GetSerializer<T>();
+                var decryptedRaw = secureEncoding.Decrypt(Data);
+                return (T)serializer.Deserialize(decryptedRaw.TrimEnd('\0'));
+            }
+            catch (Exception e)
+            {
+                if (Singleton.Any<ILogger>())
+                    Singleton.Resolve<ILogger>()
+                        .ErrorFormat(e, "Ошибка при расшифровке строки [{0}]", this.Data);
+                throw e;
+            }
         }
     }
 }

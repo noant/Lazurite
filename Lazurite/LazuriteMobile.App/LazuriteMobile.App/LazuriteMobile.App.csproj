@@ -114,6 +114,7 @@
     </Compile>
     <Compile Include="Switches\ValueTypeStringToBoolInvert.cs" />
     <Compile Include="Switches\ValueTypeStringToBool.cs" />
+    <Compile Include="Switches\ValueTypeStringToDoubleRoundStr.cs" />
     <Compile Include="Switches\ValueTypeStringToDouble.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -34,7 +34,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
             Task.Factory.StartNew(() =>
             {
                 messageDialog = new MessageView();
-                messageDialog.Icon = Icons.Icon.ImageGallery;
+                messageDialog.Icon = Icons.Icon.ImageSelect;
                 messageDialog.HeaderText = "Иконки";
                 messageDialog.ContentText = "Загрузка иконок...";
                 messageDialog.Show();

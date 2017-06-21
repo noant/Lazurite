@@ -67,12 +67,15 @@ namespace LazuriteUI.Windows.Controls
             }
             else
             {
-                foreach (FrameworkElement element in ((Panel)this.Parent).Children)
+                if (this.Parent != null)
                 {
-                    if (!_tempDisabledElements.Contains(element))
-                        element.IsEnabled = true;
+                    foreach (FrameworkElement element in ((Panel)this.Parent).Children)
+                    {
+                        if (!_tempDisabledElements.Contains(element))
+                            element.IsEnabled = true;
+                    }
+                    ((Panel)Parent).Children.Remove(this);
                 }
-                ((Panel)Parent).Children.Remove(this);
             }
         }
 
@@ -163,6 +166,54 @@ namespace LazuriteUI.Windows.Controls
         public void StopAnimateProgress()
         {
             captionView.StopAnimateProgress();
+        }
+
+        public static void ShowMessage(string message, string header, Icon icon, Panel parent = null, Action okCallback = null)
+        {
+            if (parent == null)
+                parent = Application.Current.MainWindow.Content as Panel;
+            var messageView = new MessageView();
+            messageView.ContentText = message;
+            messageView.HeaderText = header;
+            messageView.Icon = icon;
+            messageView.SetItems(new MessageItemInfo[] {
+                new MessageItemInfo("OK", 
+                (v) => {
+                    v.Close();
+                    okCallback?.Invoke();
+                }, Icon.Check, true)
+            });
+            messageView.Show(parent);
+        }
+
+        public static void ShowYesNo(string message, string header, Icon icon, Action<bool> callback = null, Panel parent = null)
+        {
+            if (parent == null)
+                parent = Application.Current.MainWindow.Content as Panel;
+            var messageView = new MessageView();
+            messageView.ContentText = message;
+            messageView.HeaderText = header;
+            messageView.Icon = icon;
+            messageView.SetItems(new MessageItemInfo[] {
+                new MessageItemInfo(
+                "Да", 
+                (v) =>
+                {
+                    v.Close();
+                    callback?.Invoke(true);
+                }, 
+                Icon.Check),
+                new MessageItemInfo(
+                "Нет", 
+                (v) =>
+                {
+                    v.Close();
+                    callback?.Invoke(false);
+                }, 
+                Icon.Cancel, 
+                true)
+            });
+            messageView.Show(parent);
         }
     }
 }

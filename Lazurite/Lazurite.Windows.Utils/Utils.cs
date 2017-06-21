@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HierarchicalData;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -33,6 +34,15 @@ namespace Lazurite.Windows.Utils
             process.Start();
             process.WaitForExit();
             return process.StandardOutput.ReadToEnd()+"\r\n"+process.StandardError.ReadToEnd();
+        }
+
+        public static object CloneObject(object obj)
+        {
+            var stream = new MemoryStream();
+            var hobject = new HObject(stream);
+            hobject["clone"] = obj;
+            hobject.SaveToStream();
+            return HObject.FromStream(stream)["clone"];
         }
     }
 }

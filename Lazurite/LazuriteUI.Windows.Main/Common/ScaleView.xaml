@@ -5,10 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Common"
              mc:Ignorable="d" 
-             Width="4"
+             Width="40"
              d:DesignHeight="110" d:DesignWidth="4">
     <Grid>
-        <Grid Background="Gray" Opacity="0.2"></Grid>
-        <Border x:Name="borderValue" BorderThickness="4,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" BorderBrush="SteelBlue"></Border>
+        <TextBlock x:Name="tbValue" Foreground="White" HorizontalAlignment="Right" Margin="0,0,8,0">0</TextBlock>
+        <Grid HorizontalAlignment="Right" Width="4" Background="Gray" Opacity="0.2"></Grid>
+        <Border HorizontalAlignment="Right" x:Name="borderValue" BorderThickness="4,0,0,0" VerticalAlignment="Bottom" BorderBrush="SteelBlue"></Border>
     </Grid>
 </UserControl>

@@ -7,6 +7,8 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
              Height="30"
+             HorizontalAlignment="Left"
+             VerticalAlignment="Top"
              Background="#002233"
              d:DesignHeight="300">
     <Grid>

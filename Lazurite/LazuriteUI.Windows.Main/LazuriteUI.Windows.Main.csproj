@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HierarchicalData, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\HierarchicalData.dll</HintPath>
+    </Reference>
     <Reference Include="PCLCrypto, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d4421c8a4786956c, processorArchitecture=MSIL">
       <HintPath>..\packages\PCLCrypto.2.0.147\lib\net45\PCLCrypto.dll</HintPath>
       <Private>True</Private>
@@ -97,11 +101,18 @@
       <DependentUpon>EditActionButtonsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Constructors\Decomposition\IConstructorElement.cs" />
+    <Compile Include="Constructors\IScenarioConstructorView.cs" />
     <Compile Include="Constructors\ScenarioParametersView.xaml.cs">
       <DependentUpon>ScenarioParametersView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\ScenariosConstructorsResolverView.xaml.cs">
+      <DependentUpon>ScenariosConstructorsResolverView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\SelectActionView.xaml.cs">
       <DependentUpon>SelectActionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\SingleActionScenarioView.xaml.cs">
+      <DependentUpon>SingleActionScenarioView.xaml</DependentUpon>
     </Compile>
     <Compile Include="IInitializable.cs" />
     <Compile Include="ITypeResolver.cs" />
@@ -112,6 +123,16 @@
       <DependentUpon>MenuResolverView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObservableObject.cs" />
+    <Compile Include="PluginsViews\PluginActionView.xaml.cs">
+      <DependentUpon>PluginActionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PluginsViews\PluginActionViewModel.cs" />
+    <Compile Include="PluginsViews\PluginsView.xaml.cs">
+      <DependentUpon>PluginsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ScenariosConstructionView.xaml.cs">
+      <DependentUpon>ScenariosConstructionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StartupWindow.xaml.cs">
       <DependentUpon>StartupWindow.xaml</DependentUpon>
     </Compile>
@@ -160,6 +181,7 @@
     <Compile Include="Switches\SwitchSettings\SwitchSetting.xaml.cs">
       <DependentUpon>SwitchSetting.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Switches\ValueTypeStringToDoubleRound.cs" />
     <Compile Include="Switches\ValueTypeStringToDouble.cs" />
     <Compile Include="Switches\ValueTypeStringToBool.cs" />
     <Compile Include="Switches\BoolToVisibility.cs" />
@@ -193,7 +215,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Constructors\ScenariosConstructorsResolverView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Constructors\SelectActionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\SingleActionScenarioView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -228,6 +258,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MenuResolverView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PluginsViews\PluginActionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PluginsViews\PluginsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ScenariosConstructionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -382,9 +424,7 @@
       <Name>LazuriteUI.Icons</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Constructors\SingleActionScenarioConstructor\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

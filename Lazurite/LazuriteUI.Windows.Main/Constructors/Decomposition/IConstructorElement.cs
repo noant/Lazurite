@@ -11,6 +11,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     {
         event Action<IConstructorElement> NeedAddNext;
         event Action<IConstructorElement> NeedRemove;
+        event Action<IConstructorElement> Modified;
         bool EditMode { get; set; }
         IAction Action { get; }
     }

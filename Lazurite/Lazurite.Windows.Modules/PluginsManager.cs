@@ -213,6 +213,11 @@ namespace Lazurite.Windows.Modules
             return result.ToArray();
         }
 
+        public PluginTypeInfo[] GetPluginsTypesInfos()
+        {
+            return _allTypes.ToArray();
+        }
+
         /// <summary>
         /// Get all libraries as array
         /// </summary>
@@ -357,7 +362,6 @@ namespace Lazurite.Windows.Modules
                 .Select(x => x.Type.Name).ToArray();
             if (oldPluginTypes.Intersect(newPluginTypes).Count() != oldPluginTypes.Count())
                 result = new CanUpdatePluginResult(false, "Some plugin types not exists in new plugin");
-            Directory.Delete(tmpPluginDir, true);
             return result;
         }
 

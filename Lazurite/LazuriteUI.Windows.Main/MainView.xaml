@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main"
+             xmlns:pluginsViews="clr-namespace:LazuriteUI.Windows.Main.PluginsViews"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d"
              ClipToBounds="True"
@@ -34,13 +35,13 @@
             <StackPanel Orientation="Vertical">
                 <controls:ListItemsView Name="menuItems" SelectionMode="Single">
                     <local:MenuItemView Type="{x:Type local:SwitchesGrid}" Margin="0,0,0,1" Icon="SwitchOff" Text="Переключатели"></local:MenuItemView>
-                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="MovieClapper" Text="Сценарии"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type local:ScenariosConstructionView}" Margin="0,0,0,1" Icon="MovieClapper" Text="Сценарии"></local:MenuItemView>
                     <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="TimerForward" Text="Триггеры"></local:MenuItemView>
-                    <local:MenuItemView Margin="0,0,0,1" Icon="Brick" Text="Плагины"></local:MenuItemView>
-                    <local:MenuItemView Margin="0,0,0,1" Icon="NetworkHome" Text="Сервер"></local:MenuItemView>
-                    <local:MenuItemView Margin="0,0,0,1" Icon="People" Text="Пользователи"></local:MenuItemView>
-                    <local:MenuItemView Margin="0,0,0,1" Icon="PeopleMultiple" Text="Группы"></local:MenuItemView>
-                    <local:MenuItemView Margin="0,0,0,1" Icon="Journal" Text="Журнал"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type pluginsViews:PluginsView}" Margin="0,0,0,1" Icon="Brick" Text="Плагины"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="NetworkHome" Text="Сервер"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="People" Text="Пользователи"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="PeopleMultiple" Text="Группы"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="Journal" Text="Журнал"></local:MenuItemView>
                 </controls:ListItemsView>
                 <controls:CornerView HorizontalAlignment="Left" Margin="-10,0,0,0"></controls:CornerView>
             </StackPanel>

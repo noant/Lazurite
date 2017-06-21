@@ -94,6 +94,9 @@ namespace Lazurite.Scenarios
         public override void SaveScenario(ScenarioBase scenario)
         {
             _savior.Set(scenario.Id, scenario);
+            var index = _scenarios.IndexOf(_scenarios.FirstOrDefault(x => x.Id.Equals(scenario.Id)));
+            _scenarios.RemoveAll(x => x.Id.Equals(scenario.Id));
+            _scenarios.Insert(index, scenario);
         }
 
         public override void AddTrigger(TriggerBase trigger)

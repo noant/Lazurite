@@ -33,9 +33,17 @@ namespace LazuriteMobile.App.Common
                 
         private void RefreshScale()
         {
-            var percent = Value / (this.Max - this.Min);
+            var percent = (Value - this.Min) / (this.Max - this.Min);
             var marginBottom = this.Height * percent;
             this.gridValue.HeightRequest = marginBottom;
+
+            lblValue.Text = Math.Round(Value).ToString();
+            if (percent < 0.25)
+                lblValue.TextColor = Color.Gray;
+            else if (percent >= 0.25 && percent < 0.9)
+                lblValue.TextColor = Color.FromHex("5090B4");
+            else
+                lblValue.TextColor = Color.Red;
         }
 
         public double Value

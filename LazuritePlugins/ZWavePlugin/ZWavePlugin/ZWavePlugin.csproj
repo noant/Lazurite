@@ -43,6 +43,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.Windows.Modules.dll</HintPath>
     </Reference>
+    <Reference Include="LazuriteUI.Icons, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Icons.dll</HintPath>
+    </Reference>
     <Reference Include="LazuriteUI.Windows.PluginsCreator">
       <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Windows.PluginsCreator.exe</HintPath>
     </Reference>
