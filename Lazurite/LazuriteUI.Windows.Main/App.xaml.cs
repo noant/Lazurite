@@ -15,6 +15,7 @@ using System.Windows.Controls;
 using LazuriteUI.Windows.Controls;
 using static LazuriteUI.Windows.Main.TestWindow;
 using Lazurite.ActionsDomain.ValueTypes;
+using LazuriteUI.Windows.Main.Journal;
 
 namespace LazuriteUI.Windows.Main
 {
@@ -31,33 +32,7 @@ namespace LazuriteUI.Windows.Main
             core.Initialize();
 
             core.WarningHandler.OnWrite += (o, e) => {
-                switch (e.Type)
-                {
-                    case WarnType.Fatal:
-                        {
-                            Application.Current.MainWindow.Dispatcher.BeginInvoke(new Action(() =>
-                            {
-                                MessageView.ShowMessage(e.Message + "\r\n" + e.Exception?.Message, "Критическая ошибка!", Icons.Icon.Close, this.MainWindow.Content as Panel, () => Application.Current.Shutdown(1));
-                            }));
-                            break;
-                        }
-                    case WarnType.Error:
-                        {
-                            Application.Current.MainWindow.Dispatcher.BeginInvoke(new Action(() => 
-                            {
-                                MessageView.ShowMessage(e.Message + "\r\n" + e.Exception?.Message, "Ошибка!", Icons.Icon.Bug, this.MainWindow.Content as Panel);
-                            }));
-                            break;
-                        }
-                    case WarnType.Warn:
-                        {
-                            Application.Current.MainWindow.Dispatcher.BeginInvoke(new Action(() =>
-                            {
-                                MessageView.ShowMessage(e.Message + "\r\n" + e.Exception?.Message, "Внимание!", Icons.Icon.Alert, this.MainWindow.Content as Panel);
-                            }));
-                            break;
-                        }
-                }
+                JournalManager.Set(e.Message, e.Type, e.Exception);
             };
 
             core.Server.StartAsync(null);
@@ -68,7 +43,7 @@ namespace LazuriteUI.Windows.Main
             //    PasswordHash = CryptoUtils.CreatePasswordHash("pass")
             //});
 
-            for (int i = 0; i <= 1; i++)
+            for (int i = 0; i <= -1; i++)
             {
                 var scenario = new SingleActionScenario();
                 scenario.TargetAction = new ToggleTestAction();

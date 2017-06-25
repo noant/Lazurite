@@ -102,6 +102,9 @@
     </Compile>
     <Compile Include="Constructors\Decomposition\IConstructorElement.cs" />
     <Compile Include="Constructors\IScenarioConstructorView.cs" />
+    <Compile Include="Constructors\ScenarioConstructorButtonsView.xaml.cs">
+      <DependentUpon>ScenarioConstructorButtonsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\ScenarioParametersView.xaml.cs">
       <DependentUpon>ScenarioParametersView.xaml</DependentUpon>
     </Compile>
@@ -116,6 +119,19 @@
     </Compile>
     <Compile Include="IInitializable.cs" />
     <Compile Include="ITypeResolver.cs" />
+    <Compile Include="Journal\JournalItemViewModel.cs" />
+    <Compile Include="Journal\JournalLightWindow.xaml.cs">
+      <DependentUpon>JournalLightWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Journal\JournalManager.cs" />
+    <Compile Include="Journal\JournaltemView.xaml.cs">
+      <DependentUpon>JournaltemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Journal\JournalView.xaml.cs">
+      <DependentUpon>JournalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Journal\WarnTypeToBrush.cs" />
+    <Compile Include="Journal\WarnTypeToString.cs" />
     <Compile Include="MenuItemView.xaml.cs">
       <DependentUpon>MenuItemView.xaml</DependentUpon>
     </Compile>
@@ -211,6 +227,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Constructors\ScenarioConstructorButtonsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Constructors\ScenarioParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -224,6 +244,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Constructors\SingleActionScenarioView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Journal\JournalLightWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Journal\JournaltemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Journal\JournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

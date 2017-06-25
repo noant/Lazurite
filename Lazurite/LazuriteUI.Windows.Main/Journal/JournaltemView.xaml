@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Journal.JournaltemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Journal"
+             mc:Ignorable="d" 
+             Height="22"
+             d:DesignWidth="300">
+    <Grid>
+        <Grid.Resources>
+            <local:WarnTypeToBrush x:Key="warnTypeToBrush"></local:WarnTypeToBrush>
+            <local:WarnTypeToString x:Key="warnTypeToString"></local:WarnTypeToString>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="2" Text="{Binding Time}" Foreground="Gray"></TextBlock>
+        <TextBlock Margin="2" Grid.Column="1" Text="{Binding WarnType, Converter={StaticResource warnTypeToString}}" Foreground="Gray"></TextBlock>
+        <TextBlock Margin="2" Grid.Column="2" Text="{Binding Message}" Foreground="{Binding WarnType, Converter={StaticResource warnTypeToBrush}}"></TextBlock>
+    </Grid>
+</UserControl>

@@ -29,7 +29,7 @@ namespace ZWavePlugin
         {
             get
             {
-                return _nodeValue?.Node.Name + " -> " + _nodeValue?.Name;
+                return _nodeValue?.Node.ProductName + " -> " + _nodeValue?.Name;
             }
             set
             {

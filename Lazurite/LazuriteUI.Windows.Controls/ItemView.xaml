@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
              Height="35"
-             Background="{Binding Source={x:Static local:Visual.ItemBackground}}"
+             Background="{x:Static local:Visual.ItemBackground}"
              IsHitTestVisible="True"
              Focusable="True"
              FocusManager.FocusedElement="{Binding ElementName=button}" 

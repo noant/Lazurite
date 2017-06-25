@@ -36,7 +36,10 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             buttons.EditClick += () =>
             {
                 if (Action.UserInitializeWith(MasterAction?.ValueType, true))
+                {
                     Modified?.Invoke(this);
+                    Model.Refresh(Action);
+                }
             };
             buttons.ChangeClick += () => {
                 SelectActionView.Show(

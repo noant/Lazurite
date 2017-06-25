@@ -33,6 +33,8 @@ namespace LazuriteUI.Windows.Main.Constructors
         public ScenariosConstructorsResolverView()
         {
             InitializeComponent();
+            this.buttonsView.ApplyClicked += () => Apply();
+            this.buttonsView.ResetClicked += () => Revert();
         }
 
         public void SetScenario(ScenarioBase scenario)
@@ -41,7 +43,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
             if (scenario is SingleActionScenario)
                 this.Content = _constructorView = new SingleActionScenarioView((SingleActionScenario)_clonedScenario);
-
+            buttonsView.SetScenario(scenario);
             _constructorView.Modified += () => Modified?.Invoke();
         }
 

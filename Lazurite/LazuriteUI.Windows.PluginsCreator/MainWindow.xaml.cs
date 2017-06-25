@@ -1,4 +1,5 @@
-﻿using Lazurite.Windows.Modules;
+﻿using Lazurite.Windows.Logging;
+using Lazurite.Windows.Modules;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,8 @@ namespace LazuriteUI.Windows.PluginsCreator
     /// </summary>
     public partial class MainWindow : Window
     {
+        private WarningHandler _warningHandler = new WarningHandler();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -64,6 +67,7 @@ namespace LazuriteUI.Windows.PluginsCreator
                 }
                 catch (Exception e)
                 {
+                    _warningHandler.Error("Ошибка при создании файла плагина", e);
                     System.Windows.MessageBox.Show(e.Message);
                 }
                 finally

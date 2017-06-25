@@ -19,6 +19,11 @@ namespace Lazurite.Windows.Utils
             return Path.GetFullPath(Uri.UnescapeDataString(uri.Path));
         }
 
+        public static string GetAssemblyFolder(Assembly assembly)
+        {
+            return Path.GetDirectoryName(GetAssemblyPath(assembly));
+        }
+
         public static string ExecuteProcess(string filePath, string arguments)
         {
             var process = new Process();

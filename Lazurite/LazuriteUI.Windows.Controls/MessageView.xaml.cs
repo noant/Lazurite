@@ -171,7 +171,7 @@ namespace LazuriteUI.Windows.Controls
         public static void ShowMessage(string message, string header, Icon icon, Panel parent = null, Action okCallback = null)
         {
             if (parent == null)
-                parent = Application.Current.MainWindow.Content as Panel;
+                parent = GetMainWindowPanel();
             var messageView = new MessageView();
             messageView.ContentText = message;
             messageView.HeaderText = header;
@@ -189,7 +189,7 @@ namespace LazuriteUI.Windows.Controls
         public static void ShowYesNo(string message, string header, Icon icon, Action<bool> callback = null, Panel parent = null)
         {
             if (parent == null)
-                parent = Application.Current.MainWindow.Content as Panel;
+                parent = GetMainWindowPanel();
             var messageView = new MessageView();
             messageView.ContentText = message;
             messageView.HeaderText = header;
@@ -214,6 +214,12 @@ namespace LazuriteUI.Windows.Controls
                 true)
             });
             messageView.Show(parent);
+        }
+
+        private static Panel GetMainWindowPanel()
+        {
+            var mainWindow = App.Current.Windows.Cast<Window>().FirstOrDefault(x => x is MainWindow);
+            return mainWindow?.Content as Panel;
         }
     }
 }

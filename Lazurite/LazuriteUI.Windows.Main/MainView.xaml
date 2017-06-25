@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main"
              xmlns:pluginsViews="clr-namespace:LazuriteUI.Windows.Main.PluginsViews"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             xmlns:journal="clr-namespace:LazuriteUI.Windows.Main.Journal"
              mc:Ignorable="d"
              ClipToBounds="True"
              Background="{x:Static controls:Visual.Background}"
@@ -25,7 +26,7 @@
             <Grid Background="BlueViolet" Opacity="0.3"></Grid>
             <controls:CornerView Opacity="0.3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" ></controls:CornerView>
             <local:LazuriteView Grid.Column="2" Width="140"></local:LazuriteView>
-            <TextBlock Margin="10,0,0,0" FontFamily="Verdana" VerticalAlignment="Center" FontSize="18" Grid.Column="3" Opacity="0.5" Foreground="DarkGray">управление системами умного дома</TextBlock>
+            <TextBlock Margin="10,1,0,0" FontFamily="Verdana" VerticalAlignment="Center" FontSize="18" Grid.Column="3" Opacity="0.5" Foreground="DarkGray">управление системами умного дома</TextBlock>
         </Grid>
         <Grid Grid.Row="1" Margin="0,1,0,0">
             <Grid.ColumnDefinitions>
@@ -41,7 +42,7 @@
                     <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="NetworkHome" Text="Сервер"></local:MenuItemView>
                     <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="People" Text="Пользователи"></local:MenuItemView>
                     <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="PeopleMultiple" Text="Группы"></local:MenuItemView>
-                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="Journal" Text="Журнал"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type journal:JournalView}" Margin="0,0,0,1" Icon="Journal" Text="Журнал"></local:MenuItemView>
                 </controls:ListItemsView>
                 <controls:CornerView HorizontalAlignment="Left" Margin="-10,0,0,0"></controls:CornerView>
             </StackPanel>

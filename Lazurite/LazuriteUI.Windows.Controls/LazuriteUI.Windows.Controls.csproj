@@ -67,6 +67,7 @@
     <Compile Include="CornerView.xaml.cs">
       <DependentUpon>CornerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EntryView.cs" />
     <Compile Include="ISelectable.cs" />
     <Compile Include="ListItemsView.cs" />
     <Compile Include="MessageItemInfo.cs" />

@@ -129,6 +129,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lazurite.Windows.Logging\Lazurite.Windows.Logging.csproj">
+      <Project>{ACC84748-2884-44A2-8E45-84FF8338684B}</Project>
+      <Name>Lazurite.Windows.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Modules\Lazurite.Windows.Modules.csproj">
       <Project>{ab2d5750-1d05-4963-8445-efce54616d8f}</Project>
       <Name>Lazurite.Windows.Modules</Name>

@@ -1,0 +1,26 @@
+﻿<Window x:Class="LazuriteUI.Windows.Main.Journal.JournalLightWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LazuriteUI.Windows.Main"
+        xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+        xmlns:app="clr-namespace:LazuriteUI.Windows.Main"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        Background="Transparent"
+        MinHeight="0"
+        Topmost="True"
+        ShowActivated="False"
+        ShowInTaskbar="False"
+        AllowsTransparency="True"
+        Title="JournalWindow" Height="50" Width="400">
+    <Grid>
+        <Grid Opacity="0.8" Background="{x:Static controls:Visual.BackgroundLazurite}"></Grid>
+        <app:LazuriteView Opacity="0.8" Margin="23,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25"></app:LazuriteView>
+        <controls:CornerView VerticalAlignment="Top" HorizontalAlignment="Left"></controls:CornerView>
+        <controls:ItemView Click="ItemView_Click" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Transparent" Icon="Close" Opacity="0.5"></controls:ItemView>
+        <StackPanel x:Name="stackPanel" ClipToBounds="False" Orientation="Vertical" Height="Auto" Margin="10,43,10,8"></StackPanel>
+        <controls:Progress VerticalAlignment="Stretch" x:Name="progressView"></controls:Progress>
+    </Grid>
+</Window>
