@@ -40,7 +40,10 @@ namespace Lazurite.Scenarios
 
             //initialize scenarios
             foreach (var scenario in _scenarios)
+            {
                 scenario.Initialize(this);
+                scenario.AfterInitilize();
+            }
 
             //initialize triggers
             foreach (var trigger in _triggers)

@@ -192,7 +192,8 @@ namespace LazuriteUI.Windows.Main
             {
                 var oldModel = (ScenarioModel)control.DataContext;
                 grid.Children.Remove(control);
-                control = SwitchesCreator.CreateScenarioControl(oldModel.Scenario, oldModel.VisualSettings);
+                control = SwitchesCreator.CreateScenarioControl(scenario, oldModel.VisualSettings);
+                ((ScenarioModel)control.DataContext).EditMode = this.EditMode;
                 control.MouseLeftButtonDown += ElementClick;
                 control.MouseLeftButtonUp += ElementMouseRelease;
                 grid.Children.Add(control);

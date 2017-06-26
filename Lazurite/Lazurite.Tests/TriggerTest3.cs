@@ -37,8 +37,8 @@ namespace Lazurite.Tests
             manager.AddPlugin(pluginPath);
             ScenariosRepository rep = new ScenariosRepository();
             var scen = new SingleActionScenario();
-            scen.TargetAction = manager.CreateInstanceOf(manager.GetModules().First());
-            scen.TargetAction.UserInitializeWith(new ToggleValueType(), false);
+            scen.ActionHolder = manager.CreateInstanceOf(manager.GetModules().First());
+            scen.ActionHolder.UserInitializeWith(new ToggleValueType(), false);
             rep.AddScenario(scen);
 
             var lightZWaction = manager.CreateInstanceOf(manager.GetModules().First());
@@ -49,7 +49,7 @@ namespace Lazurite.Tests
             trigger.SetScenario(scen);
             trigger.TargetAction = new ComplexAction()
             {
-                Actions = new List<ActionsDomain.IAction>()
+                ActionHolders = new List<ActionsDomain.IAction>()
                 {
                     new IfAction()
                     {
@@ -69,7 +69,7 @@ namespace Lazurite.Tests
                         },
                         ActionIf = new ComplexAction()
                         {
-                            Actions = new List<ActionsDomain.IAction>()
+                            ActionHolders = new List<ActionsDomain.IAction>()
                             {
                                 new ExecuteAction()
                                 {
@@ -80,7 +80,7 @@ namespace Lazurite.Tests
                         },
                         ActionElse = new ComplexAction()
                         {
-                            Actions = new List<ActionsDomain.IAction>()
+                            ActionHolders = new List<ActionsDomain.IAction>()
                             {
                                 new ExecuteAction()
                                 {

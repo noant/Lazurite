@@ -19,10 +19,10 @@ namespace Lazurite.CoreActions
     {
         public ComplexAction()
         {
-            Actions = new List<IAction>();
+            ActionHolders = new List<ActionHolder>();
         }
 
-        public List<IAction> Actions { get; set; }
+        public List<ActionHolder> ActionHolders { get; set; }
 
         public bool IsSupportsEvent
         {
@@ -71,9 +71,10 @@ namespace Lazurite.CoreActions
         
         public IAction[] GetAllActionsFlat()
         {
-            return Actions
+            return ActionHolders
+                .Select(x=>x.Action)
                 .Union(
-                Actions
+                ActionHolders
                 .Where(x => x is IMultipleAction)
                 .Select(x => ((IMultipleAction)x).GetAllActionsFlat()).SelectMany(x => x)).ToArray();
         }
@@ -95,11 +96,11 @@ namespace Lazurite.CoreActions
 
         public void SetValue(ExecutionContext context, string value)
         {
-            foreach (var action in Actions)
+            foreach (var holder in ActionHolders)
             {
                 if (context.CancellationToken.IsCancellationRequested)
                     break;
-                action.SetValue(context, string.Empty);
+                holder.Action.SetValue(context, string.Empty);
             }
         }
 

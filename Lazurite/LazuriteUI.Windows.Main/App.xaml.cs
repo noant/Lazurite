@@ -16,6 +16,7 @@ using LazuriteUI.Windows.Controls;
 using static LazuriteUI.Windows.Main.TestWindow;
 using Lazurite.ActionsDomain.ValueTypes;
 using LazuriteUI.Windows.Main.Journal;
+using Lazurite.ActionsDomain;
 
 namespace LazuriteUI.Windows.Main
 {
@@ -46,27 +47,30 @@ namespace LazuriteUI.Windows.Main
             for (int i = 0; i <= -1; i++)
             {
                 var scenario = new SingleActionScenario();
-                scenario.TargetAction = new ToggleTestAction();
+                scenario.ActionHolder = new ActionHolder() { Action = new ToggleTestAction() };
                 scenario.Initialize(null);
                 scenario.Name = "Переключатель";
                 core.ScenariosRepository.AddScenario(scenario);
 
                 var scenario0 = new SingleActionScenario();
-                scenario0.TargetAction = new ToggleTestAction();
+                scenario0.ActionHolder = new ActionHolder() { Action = new ToggleTestAction() };
                 scenario0.Initialize(null);
                 scenario0.Name = "Свет в коридоре";
                 core.ScenariosRepository.AddScenario(scenario0);
 
                 var scenario3 = new SingleActionScenario();
                 scenario3.Name = "Свет в ванной";
-                scenario3.TargetAction = new StatusTestAction();
+                scenario3.ActionHolder = new ActionHolder() { Action = new StatusTestAction() };
                 scenario3.Initialize(null);
                 core.ScenariosRepository.AddScenario(scenario3);
 
                 var scenario2 = new SingleActionScenario();
-                scenario2.TargetAction = new FloatTestAction() {
+                scenario2.ActionHolder = new ActionHolder()
+                {
+                    Action = new FloatTestAction() {
                     ValueType = new FloatValueType() {
                         AcceptedValues = new[] {"-1", "1" }
+                    }
                     }
                 };
                 scenario2.Initialize(null);
@@ -76,14 +80,14 @@ namespace LazuriteUI.Windows.Main
 
                 var scenario4 = new SingleActionScenario();
                 scenario4.Name = "Компьютер";
-                scenario4.TargetAction = new ButtonTestAction();
+                scenario4.ActionHolder = new ActionHolder() { Action = new ButtonTestAction() };
                 scenario4.Initialize(null);
                 core.ScenariosRepository.AddScenario(scenario4);
                 core.VisualSettingsRepository.Add(new UserVisualSettings() { ScenarioId = scenario4.Id, AddictionalData = new[] { "TvNews" }, UserId = "0" });
 
                 var scenario5 = new SingleActionScenario();
                 scenario5.Name = "Свет в ванной";
-                scenario5.TargetAction = new DateTimeTestAction();
+                scenario5.ActionHolder = new ActionHolder() { Action = new DateTimeTestAction() };
                 scenario5.Initialize(null);
                 core.ScenariosRepository.AddScenario(scenario5);
                 core.VisualSettingsRepository.Add(new UserVisualSettings() { ScenarioId = scenario5.Id, AddictionalData = new[] { "TvNews" }, UserId = "0" });

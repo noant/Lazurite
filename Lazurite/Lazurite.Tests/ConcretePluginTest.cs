@@ -45,7 +45,7 @@ namespace Lazurite.Tests
             var scenario = new CompositeScenario();
             scenario.TargetAction = new CoreActions.ComplexAction()
             {
-                Actions = new List<ActionsDomain.IAction>()
+                ActionHolders = new List<ActionsDomain.IAction>()
                 {
                     new WhileAction()
                     {
@@ -66,7 +66,7 @@ namespace Lazurite.Tests
                         },
                         Action = new ComplexAction()
                         {
-                            Actions = new List<ActionsDomain.IAction>()
+                            ActionHolders = new List<ActionsDomain.IAction>()
                             {
                                 new IfAction()
                                 {
@@ -87,7 +87,7 @@ namespace Lazurite.Tests
                                     },
                                     ActionIf = new ComplexAction()
                                     {
-                                        Actions = new List<IAction>()
+                                        ActionHolders = new List<IAction>()
                                         {
                                             new ExecuteAction()
                                             {
@@ -98,7 +98,7 @@ namespace Lazurite.Tests
                                     },
                                     ActionElse = new ComplexAction()
                                     {
-                                        Actions = new List<IAction>()
+                                        ActionHolders = new List<IAction>()
                                         {
                                             new ExecuteAction()
                                             {

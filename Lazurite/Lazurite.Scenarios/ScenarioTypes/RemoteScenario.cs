@@ -149,8 +149,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
             _server = _clientFactory.GetServer(AddressHost, Port, ServiceName, SecretKey, UserLogin, Password);
             _scenarioInfo = _server.GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
             _valueType = _scenarioInfo.ValueType;
+        }
+
+        public override void AfterInitilize()
+        {
             //changes listener
-            var task = new Task(() => {                
+            var task = new Task(() => {
                 while (!_cancellationTokenSource.IsCancellationRequested)
                 {
                     var exceptionThrown = true;
@@ -172,7 +176,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     Task.Delay(2000);
                 }
             },
-            _cancellationTokenSource.Token, 
+            _cancellationTokenSource.Token,
             TaskCreationOptions.LongRunning);
         }
 

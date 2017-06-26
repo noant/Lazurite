@@ -29,6 +29,8 @@ namespace LazuriteUI.Windows.Main
             InitializeComponent();
             this.switchesGrid.SelectedModelChanged += SwitchesGrid_SelectedModelChanged;
             this.switchesGrid.Initialize();
+
+            this.constructorsResolver.Applied += () => this.switchesGrid.RefreshItemFull(this.constructorsResolver.GetScenario());
         }
 
         private void SwitchesGrid_SelectedModelChanged(Switches.ScenarioModel obj)

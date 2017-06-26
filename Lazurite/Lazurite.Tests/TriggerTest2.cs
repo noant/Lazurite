@@ -37,8 +37,8 @@ namespace Lazurite.Tests
             manager.AddPlugin(pluginPath);
             ScenariosRepository rep = new ScenariosRepository();
             var scen = new SingleActionScenario();
-            scen.TargetAction = manager.CreateInstanceOf(manager.GetModules().First());
-            scen.TargetAction.UserInitializeWith(new ToggleValueType(), false);
+            scen.ActionHolder = manager.CreateInstanceOf(manager.GetModules().First());
+            scen.ActionHolder.UserInitializeWith(new ToggleValueType(), false);
             rep.AddScenario(scen);
             var trigger = new Trigger();
             trigger.TargetScenarioId = scen.Id;

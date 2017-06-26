@@ -59,7 +59,7 @@ namespace Lazurite.Tests
             };
             @while.Action = new ComplexAction()
             {
-                Actions = new List<IAction>()
+                ActionHolders = new List<IAction>()
                 {
                     new WaitAction(),
                     new SetReturnValueAction()
@@ -91,7 +91,7 @@ namespace Lazurite.Tests
                 }
             };
 
-            testScenario.TargetAction.Actions.Add(@while);
+            testScenario.TargetAction.ActionHolders.Add(@while);
 
             //little crutch
             foreach (ICoreAction coreact in testScenario.TargetAction.GetAllActionsFlat().Where(x => x is ICoreAction))
@@ -117,7 +117,7 @@ namespace Lazurite.Tests
 
             testTrigger.TargetAction = new ComplexAction()
             {
-                Actions = new List<IAction> {
+                ActionHolders = new List<IAction> {
                     new ExecuteAction()
                     {
                         Action = output,

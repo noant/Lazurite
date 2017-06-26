@@ -20,7 +20,7 @@ namespace LazuriteUI.Windows.Main
     /// <summary>
     /// Логика взаимодействия для MenuItemView.xaml
     /// </summary>
-    public partial class MenuItemView : UserControl, ISelectable, ITypeResolver
+    public partial class MenuItemView : UserControl, ISelectable, IViewTypeResolverItem
     {
         public static readonly DependencyProperty IconProperty;
         public static readonly DependencyProperty TextProperty;

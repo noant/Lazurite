@@ -36,7 +36,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         
         private void Initialize()
         {
-            _actionView = new ActionView(Scenario.TargetAction);
+            _actionView = new ActionView(Scenario.ActionHolder);
             _actionView.Modified += (element) => Modified?.Invoke();
             gridContent.Children.Add(_actionView);
         }

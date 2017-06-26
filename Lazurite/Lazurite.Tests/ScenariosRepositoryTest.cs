@@ -31,7 +31,7 @@ namespace Lazurite.Tests
             var testScen = new SingleActionScenario();
             testScen.Name = "testScen";
             testScen.Category = "category1";
-            testScen.TargetAction = new ComplexCheckerActionTest.TestAction() {
+            testScen.ActionHolder = new ComplexCheckerActionTest.TestAction() {
                 Value = "20"
             };
             repository.AddScenario(testScen);
@@ -58,7 +58,7 @@ namespace Lazurite.Tests
             var scen = new CompositeScenario();
             scen.TargetAction = new ComplexAction()
             {
-                Actions = new List<IAction>()
+                ActionHolders = new List<IAction>()
                 {
                     new WhileAction()
                     {
@@ -78,7 +78,7 @@ namespace Lazurite.Tests
                         },
                         Action = new ComplexAction()
                         {
-                            Actions = new List<IAction>
+                            ActionHolders = new List<IAction>
                             {
                                 new ExecuteAction()
                                 {

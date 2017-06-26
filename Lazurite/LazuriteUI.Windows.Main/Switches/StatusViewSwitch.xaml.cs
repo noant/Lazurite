@@ -43,8 +43,11 @@ namespace LazuriteUI.Windows.Main.Switches
 
             this.Loaded += (o, e) =>
             {
-                toSelect.Selected = true;
-                toSelect.Focus();
+                if (toSelect != null)
+                {
+                    toSelect.Selected = true;
+                    toSelect.Focus();
+                }
             };
 
             listItemsStates.SelectionChanged += (o, e) =>

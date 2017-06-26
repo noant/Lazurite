@@ -19,37 +19,30 @@ namespace LazuriteUI.Windows.Main.Journal
                 JournalLightWindow.Show(message, type);
             if (type == WarnType.Error || type == WarnType.Fatal || type == WarnType.Warn)
             {
-                if (Application.Current.Windows.Cast<Window>().Any(x => x is MainWindow))
-                {
-                    var mainWindow = Application.Current.Windows.Cast<Window>().First(x => x is MainWindow);
-                    switch (type)
+                Application.Current.Dispatcher.BeginInvoke(new Action(() => {
+                    if (Application.Current.Windows.Cast<Window>().Any(x => x is MainWindow))
                     {
-                        case WarnType.Fatal:
-                            {
-                                Application.Current.MainWindow.Dispatcher.BeginInvoke(new Action(() =>
+                        var mainWindow = Application.Current.Windows.Cast<Window>().First(x => x is MainWindow);
+                        switch (type)
+                        {
+                            case WarnType.Fatal:
                                 {
                                     MessageView.ShowMessage(message + "\r\n" + e?.Message, "Критическая ошибка!", Icons.Icon.Close, mainWindow.Content as Panel, () => Application.Current.Shutdown(1));
-                                }));
-                                break;
-                            }
-                        case WarnType.Error:
-                            {
-                                Application.Current.MainWindow.Dispatcher.BeginInvoke(new Action(() =>
+                                    break;
+                                }
+                            case WarnType.Error:
                                 {
                                     MessageView.ShowMessage(e.Message + "\r\n" + e?.Message, "Ошибка!", Icons.Icon.Bug, mainWindow.Content as Panel);
-                                }));
-                                break;
-                            }
-                        case WarnType.Warn:
-                            {
-                                Application.Current.MainWindow.Dispatcher.BeginInvoke(new Action(() =>
+                                    break;
+                                }
+                            case WarnType.Warn:
                                 {
                                     MessageView.ShowMessage(e.Message + "\r\n" + e?.Message, "Внимание!", Icons.Icon.Alert, mainWindow.Content as Panel);
-                                }));
-                                break;
-                            }
+                                    break;
+                                }
+                        }
                     }
-                }
+                }));
             }
         }
     }

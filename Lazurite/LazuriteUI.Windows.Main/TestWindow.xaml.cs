@@ -39,7 +39,7 @@ namespace LazuriteUI.Windows.Main
         {
             InitializeComponent();
 
-            var actionView = new ActionView(new ToggleTestAction());
+            var actionView = new ActionView(new ActionHolder() { Action = new ToggleTestAction() });
             this.grid.Children.Add(actionView);
         }
 

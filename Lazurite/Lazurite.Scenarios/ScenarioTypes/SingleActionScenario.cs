@@ -16,13 +16,13 @@ namespace Lazurite.Scenarios.ScenarioTypes
     [HumanFriendlyName("Одиночный сценарий")]
     public class SingleActionScenario : ScenarioBase
     {
-        public IAction TargetAction { get; set; }
+        public ActionHolder ActionHolder { get; set; }
 
         public override ValueTypeBase ValueType
         {
             get
             {
-                return TargetAction.ValueType;
+                return ActionHolder.Action.ValueType;
             }
             set
             {
@@ -32,17 +32,17 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void ExecuteInternal(ExecutionContext context)
         {
-            TargetAction.SetValue(context, context.Input);
+            ActionHolder.Action.SetValue(context, context.Input);
         }
 
         public override Type[] GetAllUsedActionTypes()
         {
-            return new[] { TargetAction.GetType() };
+            return new[] { ActionHolder.GetType() };
         }
 
         public override void CalculateCurrentValueAsync(Action<string> callback)
         {
-            if (!TargetAction.IsSupportsEvent)
+            if (!ActionHolder.Action.IsSupportsEvent)
                 base.CalculateCurrentValueAsync(callback);
             //return cached value, callback in not neccesary
             else callback(GetCurrentValue());
@@ -51,8 +51,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
         public override string CalculateCurrentValue()
         {
             //if action not send some info when value changed then calculate value
-            if (!TargetAction.IsSupportsEvent)
-                return TargetAction.GetValue(new ExecutionContext(string.Empty, new OutputChangedDelegates(), new CancellationToken()));
+            if (!ActionHolder.Action.IsSupportsEvent)
+                return ActionHolder.Action.GetValue(new ExecutionContext(string.Empty, new OutputChangedDelegates(), new CancellationToken()));
             //else - cached value is fresh
             return GetCurrentValue();
         }
@@ -71,19 +71,24 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void Initialize(ScenariosRepositoryBase repository)
         {
-            if (this.TargetAction is ICoreAction && repository != null)
+            if (this.ActionHolder.Action is ICoreAction && repository != null)
             {
-                ((ICoreAction)TargetAction)
-                    .SetTargetScenario(repository.Scenarios.SingleOrDefault(x=>x.Id.Equals(((ICoreAction)TargetAction).TargetScenarioId)));
+                ((ICoreAction)ActionHolder.Action)
+                    .SetTargetScenario(repository.Scenarios.SingleOrDefault(x=>x.Id.Equals(((ICoreAction)ActionHolder).TargetScenarioId)));
             }
-            TargetAction.Initialize();
-            _currentValue = TargetAction.GetValue(null);
-            this.TargetAction.ValueChanged += (action, value) => SetCurrentValueInternal(value);
+            ActionHolder.Action.Initialize();
+            _currentValue = ActionHolder.Action.GetValue(null);
+            this.ActionHolder.Action.ValueChanged += (action, value) => SetCurrentValueInternal(value);
+        }
+
+        public override void AfterInitilize()
+        {
+            //first getting action value
         }
 
         public override IAction[] GetAllActionsFlat()
         {
-            return new[] { TargetAction };
+            return new[] { ActionHolder.Action };
         }
     }
 }

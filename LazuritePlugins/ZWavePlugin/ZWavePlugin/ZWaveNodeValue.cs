@@ -57,7 +57,7 @@ namespace ZWavePlugin
         {
             if (_nodeValue != null)
             {
-                return (string)_nodeValue.Current;
+                return _nodeValue.Current.ToString();
             }
             return string.Empty;
         }

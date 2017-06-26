@@ -28,6 +28,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         private ScenarioBase _originalSenario;
         private ScenarioBase _clonedScenario;
 
+        public event Action Applied;
         public event Action Modified;
 
         public ScenariosConstructorsResolverView()
@@ -41,25 +42,33 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             _originalSenario = scenario;
             _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
+            _clonedScenario.Initialize(_repository);
             if (scenario is SingleActionScenario)
-                this.Content = _constructorView = new SingleActionScenarioView((SingleActionScenario)_clonedScenario);
+                this.contentPresenter.Content = _constructorView = new SingleActionScenarioView((SingleActionScenario)_clonedScenario);
             buttonsView.SetScenario(scenario);
             _constructorView.Modified += () => Modified?.Invoke();
+            _constructorView.Modified += () => buttonsView.ScenarioModified();
         }
 
-        public ScenarioBase Apply()
+        public ScenarioBase GetScenario()
+        {
+            return _originalSenario;
+        }
+
+        public void Apply()
         {
             _originalSenario.TryCancelAll();
             _repository.SaveScenario(_clonedScenario);
-            _originalSenario = _clonedScenario;
-            _originalSenario.Initialize(_repository);
-            _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
-            return _originalSenario;
+            _clonedScenario.Initialize(_repository);
+            _clonedScenario.AfterInitilize();
+            SetScenario(_clonedScenario);
+            Applied?.Invoke();
         }
 
         public void Revert()
         {
             _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
+            _clonedScenario.Initialize(_repository);
             _constructorView.Revert(_clonedScenario);
         }
     }

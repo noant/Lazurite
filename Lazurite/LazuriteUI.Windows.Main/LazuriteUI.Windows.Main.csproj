@@ -118,7 +118,7 @@
       <DependentUpon>SingleActionScenarioView.xaml</DependentUpon>
     </Compile>
     <Compile Include="IInitializable.cs" />
-    <Compile Include="ITypeResolver.cs" />
+    <Compile Include="IViewTypeResolverItem.cs" />
     <Compile Include="Journal\JournalItemViewModel.cs" />
     <Compile Include="Journal\JournalLightWindow.xaml.cs">
       <DependentUpon>JournalLightWindow.xaml</DependentUpon>

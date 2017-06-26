@@ -26,9 +26,9 @@ namespace LazuriteUI.Windows.Main
 
         static MenuResolverView()
         {
-            ResolverProperty = DependencyProperty.Register(nameof(Resolver), typeof(ITypeResolver), typeof(MenuResolverView), new FrameworkPropertyMetadata() {
+            ResolverProperty = DependencyProperty.Register(nameof(Resolver), typeof(IViewTypeResolverItem), typeof(MenuResolverView), new FrameworkPropertyMetadata() {
                 PropertyChangedCallback = (o,e) => {
-                    var type = ((ITypeResolver)e.NewValue).Type;
+                    var type = ((IViewTypeResolverItem)e.NewValue).Type;
                     var displayName = (DisplayNameAttribute)type.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault();
                     var icon = LazuriteIconAttribute.GetIcon(type);
                     var control = (UIElement)Activator.CreateInstance(type);
@@ -44,11 +44,11 @@ namespace LazuriteUI.Windows.Main
             });
         }
 
-        public ITypeResolver Resolver
+        public IViewTypeResolverItem Resolver
         {
             get
             {
-                return (ITypeResolver)GetValue(ResolverProperty);
+                return (IViewTypeResolverItem)GetValue(ResolverProperty);
             }
             set
             {

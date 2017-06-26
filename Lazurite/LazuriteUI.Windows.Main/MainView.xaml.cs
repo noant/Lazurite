@@ -25,7 +25,7 @@ namespace LazuriteUI.Windows.Main
             InitializeComponent();
             this.Loaded += (o, e) => {
                 this.menuItems.SelectionChanged += (o1, e1) => 
-                    menuResolver.Resolver = menuItems.SelectedItem as ITypeResolver;
+                    menuResolver.Resolver = menuItems.SelectedItem as IViewTypeResolverItem;
                 this.menuItems.GetItems().First().Selected = true;
             };
         }

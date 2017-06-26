@@ -69,6 +69,10 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     coreAction?.SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
                 }
             }
+        }
+
+        public override void AfterInitilize()
+        {
             ExecuteAsync(InitializeWithValue);
         }
 

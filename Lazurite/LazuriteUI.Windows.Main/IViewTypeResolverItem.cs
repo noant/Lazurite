@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LazuriteUI.Windows.Main
 {
-    public interface ITypeResolver
+    public interface IViewTypeResolverItem
     {
         Type Type { get; }
     }

@@ -91,6 +91,11 @@ namespace Lazurite.MainDomain
         /// Method runs after creating of all scenario parameters
         /// </summary>
         public abstract void Initialize(ScenariosRepositoryBase repository);
+        
+        /// <summary>
+        /// Method runs after initializing
+        /// </summary>
+        public abstract void AfterInitilize();
 
         /// <summary>
         /// Execute scenario in other thread

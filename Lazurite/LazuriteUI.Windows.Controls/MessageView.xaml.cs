@@ -218,7 +218,7 @@ namespace LazuriteUI.Windows.Controls
 
         private static Panel GetMainWindowPanel()
         {
-            var mainWindow = App.Current.Windows.Cast<Window>().FirstOrDefault(x => x is MainWindow);
+            var mainWindow = App.Current.Windows.Cast<Window>().OrderBy(x => x.Name == "MainWindow").FirstOrDefault();
             return mainWindow?.Content as Panel;
         }
     }

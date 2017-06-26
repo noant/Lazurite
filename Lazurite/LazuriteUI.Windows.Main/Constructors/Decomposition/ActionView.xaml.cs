@@ -23,22 +23,22 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// </summary>
     public partial class ActionView : UserControl, IConstructorElement
     {
-        public ActionView(IAction action)
+        public ActionView(ActionHolder action)
         {
             InitializeComponent();
-            Action = action;
+            ActionHolder = action;
             Model = new ActionModel();
-            Model.Refresh(Action);
+            Model.Refresh(ActionHolder);
             DataContext = Model;
 
             buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
             buttons.RemoveClick += () => NeedRemove?.Invoke(this);
             buttons.EditClick += () =>
             {
-                if (Action.UserInitializeWith(MasterAction?.ValueType, true))
+                if (ActionHolder.Action.UserInitializeWith(MasterAction?.ValueType, true))
                 {
+                    Model.Refresh(ActionHolder);
                     Modified?.Invoke(this);
-                    Model.Refresh(Action);
                 }
             };
             buttons.ChangeClick += () => {
@@ -47,8 +47,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                         var newAction = Singleton.Resolve<PluginsManager>().CreateInstanceOf(type);
                         if (newAction.UserInitializeWith(MasterAction?.ValueType, MasterAction != null))
                         {
-                            Action = newAction;
-                            Model.Refresh(Action);
+                            ActionHolder.Action = newAction;
+                            Model.Refresh();
                             Modified?.Invoke(this);
                         }
                     },
@@ -56,7 +56,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     MasterAction?.ValueType.GetType(),
                     MasterAction == null ? Lazurite.Windows.Modules.ActionInstanceSide.OnlyLeft
                     : Lazurite.Windows.Modules.ActionInstanceSide.OnlyRight, 
-                    Action?.GetType());
+                    ActionHolder?.Action.GetType());
             };
         }
 
@@ -67,7 +67,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             get; private set;
         }
 
-        public IAction Action
+        public ActionHolder ActionHolder
         {
             get; private set;
         }

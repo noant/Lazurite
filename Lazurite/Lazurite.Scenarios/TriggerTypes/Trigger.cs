@@ -53,7 +53,7 @@ namespace Lazurite.Scenarios.TriggerTypes
 
             //если сценарий это одиночное действие и нельзя подписаться на изменение целевого действия
             //то не выполняем по подписке, а выполняем просто черех цикл 
-            if (scenario is SingleActionScenario && !((SingleActionScenario)scenario).TargetAction.IsSupportsEvent)
+            if (scenario is SingleActionScenario && !((SingleActionScenario)scenario).ActionHolder.Action.IsSupportsEvent)
                 executeBySubscription = false;
 
             if (executeBySubscription)

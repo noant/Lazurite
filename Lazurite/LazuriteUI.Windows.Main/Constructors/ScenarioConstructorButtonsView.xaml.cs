@@ -60,6 +60,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         public void SetScenario(ScenarioBase scenario)
         {
             _scenario = scenario;
+            Refresh();
         }
 
         private void Refresh()

@@ -14,11 +14,16 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
         }
 
-        public void Refresh(IAction action)
+        public void Refresh(ActionHolder actionHolder)
         {
-            Action = action;
-            ActionName = Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(action.GetType());
-            Icon = Icons.LazuriteIconAttribute.GetIcon(action.GetType());
+            ActionHolder = actionHolder;
+            Refresh();
+        }
+        
+        public void Refresh()
+        {
+            ActionName = Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(ActionHolder.Action.GetType());
+            Icon = Icons.LazuriteIconAttribute.GetIcon(ActionHolder.Action.GetType());
             OnPropertyChanged(nameof(ActionName));
             OnPropertyChanged(nameof(ActionCaption));
             OnPropertyChanged(nameof(Icon));
@@ -30,7 +35,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             get
             {
-                return Action?.Caption ?? "[null]";
+                return ActionHolder?.Action.Caption ?? "[null]";
             }
         }
 
@@ -54,6 +59,6 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public Icon Icon { get; private set; }
 
-        public IAction Action { get; private set; }
+        public ActionHolder ActionHolder { get; private set; }
     }
 }
