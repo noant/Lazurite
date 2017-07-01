@@ -41,23 +41,20 @@ namespace LazuriteUI.Windows.Main.Journal
 
         public static void Show(string message, WarnType type)
         {
-            lock (_locker)
+            if (_current == null || _closed)
             {
-                if (_current == null || _closed)
+                Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        _current = new JournalLightWindow();
-                        _current.Show();
-                        _current.Set(message, type);
-                    }));
-                }
-                else
-                    _current.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        _current.Set(message, type);
-                    }));
+                    _current = new JournalLightWindow();
+                    _current.Show();
+                    _current.Set(message, type);
+                }));
             }
+            else
+                _current.Dispatcher.Invoke(new Action(() =>
+                {
+                    _current.Set(message, type);
+                }));
         }
 
         private void Set(string message, WarnType type)

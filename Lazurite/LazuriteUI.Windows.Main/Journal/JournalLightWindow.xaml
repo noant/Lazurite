@@ -14,12 +14,13 @@
         ShowActivated="False"
         ShowInTaskbar="False"
         AllowsTransparency="True"
-        Title="JournalWindow" Height="50" Width="400">
+        Title="JournalWindow" Height="50" Width="650">
     <Grid>
         <Grid Opacity="0.8" Background="{x:Static controls:Visual.BackgroundLazurite}"></Grid>
+        <Border BorderThickness="0,4,0,0" BorderBrush="BlueViolet" Opacity="0.6"></Border>
         <app:LazuriteView Opacity="0.8" Margin="23,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25"></app:LazuriteView>
-        <controls:CornerView VerticalAlignment="Top" HorizontalAlignment="Left"></controls:CornerView>
-        <controls:ItemView Click="ItemView_Click" VerticalAlignment="Top" HorizontalAlignment="Right" Background="Transparent" Icon="Close" Opacity="0.5"></controls:ItemView>
+        <controls:CornerView VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,4,0,0"></controls:CornerView>
+        <controls:ItemView Click="ItemView_Click" VerticalAlignment="Top" Margin="0,4,0,0" HorizontalAlignment="Right" Background="Transparent" Icon="Close" Opacity="0.5"></controls:ItemView>
         <StackPanel x:Name="stackPanel" ClipToBounds="False" Orientation="Vertical" Height="Auto" Margin="10,43,10,8"></StackPanel>
         <controls:Progress VerticalAlignment="Stretch" x:Name="progressView"></controls:Progress>
     </Grid>

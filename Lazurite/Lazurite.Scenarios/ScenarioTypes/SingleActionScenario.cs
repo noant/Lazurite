@@ -38,7 +38,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override Type[] GetAllUsedActionTypes()
         {
-            return new[] { ActionHolder.GetType() };
+            return new[] { ActionHolder.Action.GetType() };
         }
 
         public override void CalculateCurrentValueAsync(Action<string> callback)

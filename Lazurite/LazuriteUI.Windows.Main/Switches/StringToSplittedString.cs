@@ -13,7 +13,7 @@ namespace LazuriteUI.Windows.Main.Switches
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var str = value.ToString();
+            var str = (value??"").ToString();
             if (str.Length < 15)
                 return str;
             if (str.Length > 14)

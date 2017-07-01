@@ -80,6 +80,9 @@
     <Compile Include="NumericUpDown.xaml.cs">
       <DependentUpon>NumericUpDown.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PasswordView.xaml.cs">
+      <DependentUpon>PasswordView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Progress.xaml.cs">
       <DependentUpon>Progress.xaml</DependentUpon>
     </Compile>
@@ -134,6 +137,10 @@
     <Page Include="NumericUpDown.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Progress.xaml">
       <SubType>Designer</SubType>

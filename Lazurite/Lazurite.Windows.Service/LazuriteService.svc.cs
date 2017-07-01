@@ -235,7 +235,7 @@ namespace Lazurite.Windows.Service
             return Handle(() =>
             {
                 var decryptedLastKnown = lastKnownValue.Decrypt(_secretKey);
-                return GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey))
+                return !GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey))
                     .CalculateCurrentValue()
                     .Equals(decryptedLastKnown);
             });

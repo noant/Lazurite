@@ -13,7 +13,7 @@ namespace LazuriteUI.Windows.Main.Switches
     {
         public static UserControl CreateScenarioControl(ScenarioBase scenario, UserVisualSettings visualSetting)
         {
-            if (scenario.ValueType is Lazurite.ActionsDomain.ValueTypes.ButtonValueType)
+            if (scenario.ValueType is Lazurite.ActionsDomain.ValueTypes.ButtonValueType || scenario.ValueType == null)
                 return new ButtonView(scenario, visualSetting);
             if (scenario.ValueType is Lazurite.ActionsDomain.ValueTypes.DateTimeValueType)
                 return new DateTimeView(scenario, visualSetting);

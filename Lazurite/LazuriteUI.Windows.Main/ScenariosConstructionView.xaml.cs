@@ -69,12 +69,21 @@ namespace LazuriteUI.Windows.Main
 
             selectScenarioTypeControl.SingleActionScenario += () => {
                 dialogView.Close();
-                var newScenario = new SingleActionScenario();
-                newScenario.Name = "Новый сценарий";
-                _repository.AddScenario(newScenario);
-                this.switchesGrid.Add(newScenario, null);
-                this.constructorsResolver.SetScenario(newScenario);
+                NewScenario(new SingleActionScenario());
             };
+
+            selectScenarioTypeControl.RemoteScenario += () => {
+                dialogView.Close();
+                NewScenario(new RemoteScenario());
+            };
+        }
+
+        private void NewScenario(ScenarioBase newScenario)
+        {
+            newScenario.Name = "Новый сценарий";
+            _repository.AddScenario(newScenario);
+            this.switchesGrid.Add(newScenario, null);
+            this.constructorsResolver.SetScenario(newScenario);
         }
     }
 }

@@ -50,7 +50,20 @@ namespace LazuriteUI.Windows.Main.Constructors
                 ScenarioModified();
             };
         }
-        
+
+        event Action IScenarioConstructorView.Failed
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public void ScenarioModified()
         {
             btCancel.IsEnabled = btApply.IsEnabled = true;
@@ -74,8 +87,14 @@ namespace LazuriteUI.Windows.Main.Constructors
             Refresh();
         }
 
+        public void Failed()
+        {
+            this.btApply.IsEnabled = false;
+        }
+
         public event Action ApplyClicked;
         public event Action ResetClicked;
         public event Action Modified;
+        public event Action Succeed;
     }
 }

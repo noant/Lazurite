@@ -31,12 +31,14 @@ namespace LazuriteUI.Windows.Main
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             
             var core = new LazuriteCore();
-            core.Initialize();
 
             core.WarningHandler.OnWrite += (o, e) => {
                 JournalManager.Set(e.Message, e.Type, e.Exception);
             };
 
+            core.Initialize();
+            Lazurite.Windows.Server.Utils.NetshAddUrlacl(core.Server.GetSettings().GetAddress());
+            Lazurite.Windows.Server.Utils.NetshAddSslCert(core.Server.GetSettings().CertificateHash, core.Server.GetSettings().Port);
             core.Server.StartAsync(null);
             Singleton.Add(core);
             //core.UsersRepository.Add(new Lazurite.MainDomain.UserBase()

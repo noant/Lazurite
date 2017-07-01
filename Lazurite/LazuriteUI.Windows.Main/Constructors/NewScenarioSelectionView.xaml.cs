@@ -37,7 +37,7 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         private void btRemoteScenario_Click(object sender, RoutedEventArgs e)
         {
-            ComplexScenario?.Invoke();
+            RemoteScenario?.Invoke();
         }
 
         public event Action SingleActionScenario;

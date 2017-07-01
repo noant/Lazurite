@@ -64,10 +64,10 @@ namespace Lazurite.Windows.Core
         public void Initialize()
         {
             Singleton.Add(Savior = new FileSavior());
+            Singleton.Add(ClientsFactory = new ServiceClientFactory());
             Singleton.Add(ScenariosRepository = new ScenariosRepository());
             Singleton.Add(PluginsManager = new PluginsManager());
             ScenariosRepository.Initialize();
-            Singleton.Add(ClientsFactory = new ServiceClientFactory());
             Singleton.Add(UsersRepository = new UsersRepository());
             Singleton.Add(VisualSettingsRepository = new VisualSettingsRepository());
             Server = new LazuriteServer();

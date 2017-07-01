@@ -54,6 +54,8 @@ namespace LazuriteUI.Windows.Main.Constructors
         }
         
         public event Action Modified;
+        public event Action Failed;
+        public event Action Succeed;
 
         public SingleActionScenario Scenario { get; private set; }
     }

@@ -81,15 +81,40 @@ namespace ZWavePlugin
         {
             if (_nodeValue.ValueType == OpenZWrapper.ValueType.Bool)
                 _nodeValue.Current = value == ToggleValueType.ValueON;
-            else if (_nodeValue.ValueType == OpenZWrapper.ValueType.Byte)
-                _nodeValue.Current = byte.Parse(value);
-            else if (_nodeValue.ValueType == OpenZWrapper.ValueType.Decimal)
-                _nodeValue.Current = decimal.Parse(value);
-            else if (_nodeValue.ValueType == OpenZWrapper.ValueType.Int)
-                _nodeValue.Current = int.Parse(value);
-            else if (_nodeValue.ValueType == OpenZWrapper.ValueType.Short)
-                _nodeValue.Current = short.Parse(value);
-            else _nodeValue.Current = value;
+            else if (_nodeValue.ValueType == OpenZWrapper.ValueType.Byte ||
+                _nodeValue.ValueType == OpenZWrapper.ValueType.Decimal ||
+                _nodeValue.ValueType == OpenZWrapper.ValueType.Int ||
+                _nodeValue.ValueType == OpenZWrapper.ValueType.Short)
+                _nodeValue.Current = TranslateNumric(value, _nodeValue.ValueType);
+        }
+
+        private object TranslateNumric(string value, OpenZWrapper.ValueType valueType)
+        {
+            if (valueType == OpenZWrapper.ValueType.Byte ||
+                valueType == OpenZWrapper.ValueType.Int ||
+                valueType == OpenZWrapper.ValueType.Short ||
+                valueType == OpenZWrapper.ValueType.Decimal)
+            {
+                var valueNum = double.Parse(value);
+                if (valueType == OpenZWrapper.ValueType.Byte)
+                    return (byte)TranslateByMargin(Math.Round(valueNum,0), byte.MinValue, byte.MaxValue);
+                if (valueType == OpenZWrapper.ValueType.Int)
+                    return (int)TranslateByMargin(Math.Round(valueNum, 0), int.MinValue, int.MaxValue);
+                if (valueType == OpenZWrapper.ValueType.Short)
+                    return (short)TranslateByMargin(Math.Round(valueNum, 0), short.MinValue, short.MaxValue);
+                if (valueType == OpenZWrapper.ValueType.Decimal)
+                    return (decimal)TranslateByMargin(valueNum, (double)decimal.MinValue, (double)decimal.MaxValue);
+            }
+            return value;
+        }
+
+        private double TranslateByMargin(double val, double min, double max)
+        {
+            if (val > max)
+                return max;
+            if (val < min)
+                return min;
+            return val;
         }
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValueTypes)

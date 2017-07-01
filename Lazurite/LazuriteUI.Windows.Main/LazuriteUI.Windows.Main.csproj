@@ -105,6 +105,12 @@
     <Compile Include="Constructors\NewScenarioSelectionView.xaml.cs">
       <DependentUpon>NewScenarioSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\RemoteScenarioSelect.xaml.cs">
+      <DependentUpon>RemoteScenarioSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\RemoteScenarioView.xaml.cs">
+      <DependentUpon>RemoteScenarioView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\ScenarioConstructorButtonsView.xaml.cs">
       <DependentUpon>ScenarioConstructorButtonsView.xaml</DependentUpon>
     </Compile>
@@ -231,6 +237,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Constructors\NewScenarioSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\RemoteScenarioSelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\RemoteScenarioView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

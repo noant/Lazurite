@@ -11,5 +11,7 @@ namespace LazuriteUI.Windows.Main.Constructors
     {
         void Revert(ScenarioBase scenario);
         event Action Modified;
+        event Action Failed;
+        event Action Succeed;
     }
 }
