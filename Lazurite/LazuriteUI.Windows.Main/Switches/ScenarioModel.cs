@@ -63,7 +63,7 @@ namespace LazuriteUI.Windows.Main.Switches
                         return "Timer";
                     else if (Scenario.ValueType is InfoValueType)
                         return "PageText";
-                    return "None";
+                    return "New";
                 }
             }
             set

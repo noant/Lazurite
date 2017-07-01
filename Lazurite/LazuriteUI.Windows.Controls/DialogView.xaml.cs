@@ -55,6 +55,12 @@ namespace LazuriteUI.Windows.Controls
             Panel.SetZIndex(this, 999);
         }
 
+        public void Show()
+        {
+            var parent = Utils.GetMainWindowPanel();
+            Show(parent);
+        }
+        
         public void Close()
         {
             foreach (FrameworkElement element in ((Panel)this.Parent).Children)

@@ -12,7 +12,7 @@
     <Grid>        
         <Grid Background="Black" x:FieldModifier="private" Opacity="0.5" Name="gridBackground"></Grid>
         <Grid Name="mainContent">
-            <Grid x:FieldModifier="private" Height="Auto" VerticalAlignment="Center" Width="Auto" MaxWidth="750" MinWidth="200" Name="contentGrid">
+            <Grid x:FieldModifier="private" Height="Auto" VerticalAlignment="Center" Width="Auto" MaxWidth="1000" MinWidth="200" Name="contentGrid">
             </Grid>
         </Grid>
         <local:ItemView VerticalAlignment="Top" x:Name="closeitemView" Click="CloseItemView_Click" IconHorizontalAligment="Center" IconVerticalAligment="Center" HorizontalAlignment="Right" Opacity="0.5" Background="Crimson" Width="34" Icon="Close"></local:ItemView>

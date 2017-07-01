@@ -45,7 +45,7 @@ namespace LazuriteUI.Windows.Main.Switches
                 dialog.Close();
                 ((ScenarioModel)this.DataContext).ScenarioValue = dateTimeSwitch.DateTime.ToString();
             };
-            dialog.Show(Window.GetWindow(this).Content as Grid);
+            dialog.Show();
         }
     }
 }

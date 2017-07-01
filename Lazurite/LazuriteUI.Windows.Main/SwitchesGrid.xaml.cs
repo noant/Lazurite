@@ -158,9 +158,11 @@ namespace LazuriteUI.Windows.Main
             if (visualSettings == null)
                 visualSettings = new UserVisualSettings() { ScenarioId = scenario.Id, UserId = _usersRepository.SystemUser.Id };
             var control = SwitchesCreator.CreateScenarioControl(scenario, visualSettings);
+            ((ScenarioModel)control.DataContext).EditMode = this.EditMode;
             control.MouseLeftButtonDown += ElementClick;
             control.MouseLeftButtonUp += ElementMouseRelease;
             grid.Children.Add(control);
+            Rearrange();
             Select(scenario);
         }
 
@@ -213,9 +215,12 @@ namespace LazuriteUI.Windows.Main
             {
                 BindSwitchSettings(@switch);
                 var model = ((ScenarioModel)@switch.DataContext);
-                model.Checked = true;
-                SelectedModel = model;
-                SelectedModelChanged?.Invoke(model);
+                if (model != SelectedModel || model.Scenario.Id != SelectedModel.Scenario.Id)
+                {
+                    model.Checked = true;
+                    SelectedModel = model;
+                    SelectedModelChanged?.Invoke(model);
+                }
             }
         }
 
@@ -233,6 +238,11 @@ namespace LazuriteUI.Windows.Main
                 model.Checked = true;
                 SelectedModel = model;
                 SelectedModelChanged?.Invoke(model);
+            }
+            else
+            {
+                SelectedModel = null;
+                SelectedModelChanged?.Invoke(null);
             }
         }
 
@@ -270,70 +280,83 @@ namespace LazuriteUI.Windows.Main
 
         public void Rearrange()
         {
-            var maxX = MaxX;
-            var margin = ElementMargin;
-            var elementSize = ElementSize;
-            var occupiedPoints = new List<Point>();
-            foreach (UserControl control in grid.Children.Cast<UserControl>())
+            if (grid.Children.Count > 0)
             {
-                var scenario = ((ScenarioModel)control.DataContext).Scenario;
-                var model = ((ScenarioModel)control.DataContext);
-                var targetPoint = new Point(model.PositionX, model.PositionY);
-                while (occupiedPoints.Any(x => x.Equals(targetPoint)))
+                var maxX = MaxX;
+                var margin = ElementMargin;
+                var elementSize = ElementSize;
+                var occupiedPoints = new List<Point>();
+                foreach (UserControl control in grid.Children.Cast<UserControl>())
                 {
-                    targetPoint.X++;
-                    if (targetPoint.X.Equals(maxX))
+                    var scenario = ((ScenarioModel)control.DataContext).Scenario;
+                    var model = ((ScenarioModel)control.DataContext);
+                    var targetPoint = new Point(model.PositionX, model.PositionY);
+                    while (occupiedPoints.Any(x => x.Equals(targetPoint)))
                     {
-                        targetPoint.X = 0;
-                        targetPoint.Y++;
-                    }
-                    else if (control is FloatView)
                         targetPoint.X++;
-                }
-                model.PositionX = (int)targetPoint.X;
-                model.PositionY = (int)targetPoint.Y;
-
-                occupiedPoints.Add(targetPoint);
-
-                control.VerticalAlignment = VerticalAlignment.Top;
-                control.HorizontalAlignment = HorizontalAlignment.Left;
-                control.Width = control.Height = elementSize;
-            }
-            //optimize
-            var controls = grid.Children.Cast<UserControl>().ToArray();
-            var controlsModels = controls.Select(x => ((ScenarioModel)x.DataContext)).ToArray();
-            foreach (var visualSetting in controlsModels.OrderBy(x => x.PositionY).OrderBy(x => x.PositionX))
-            {
-                var x = visualSetting.PositionX;
-                var y = visualSetting.PositionY;
-
-                var prevX = x;
-                var prevY = y;
-
-                do
-                {
-                    prevX = x;
-                    prevY = y;
-                    if (x == 0 && y != 0)
-                    {
-                        y--;
-                        x = maxX - 1;
+                        if (targetPoint.X.Equals(maxX))
+                        {
+                            targetPoint.X = 0;
+                            targetPoint.Y++;
+                        }
+                        else if (control is FloatView)
+                            targetPoint.X++;
                     }
-                    else if (x != 0)
-                        x--;
+                    model.PositionX = (int)targetPoint.X;
+                    model.PositionY = (int)targetPoint.Y;
+
+                    occupiedPoints.Add(targetPoint);
+
+                    control.VerticalAlignment = VerticalAlignment.Top;
+                    control.HorizontalAlignment = HorizontalAlignment.Left;
+                    control.Width = control.Height = elementSize;
                 }
-                while (!IsPointOccupied(controls, x, y) && !(prevX == 0 && prevY == 0));
+                //optimize
+                var controls = grid.Children.Cast<UserControl>().ToArray();
+                var controlsModels = controls.Select(x => ((ScenarioModel)x.DataContext)).ToArray();
+                var maxY = controlsModels.Select(x => x.VisualSettings).Max(x => x.PositionY);
 
-                visualSetting.PositionX = prevX;
-                visualSetting.PositionY = prevY;
+                for (int i = 0; i <= maxY; i++)
+                {
+                    foreach (var visualSetting in controlsModels.OrderBy(x => x.PositionY).OrderBy(x => x.PositionX))
+                    {
+                        var x = visualSetting.PositionX;
+                        var y = visualSetting.PositionY;
+
+                        var prevX = x;
+                        var prevY = y;
+
+                        do
+                        {
+                            prevX = x;
+                            prevY = y;
+                            if (x == 0 && y != 0)
+                            {
+                                y--;
+                                x = maxX - 1;
+                            }
+                            else if (x != 0)
+                                x--;
+                        }
+                        while (!IsPointOccupied(controls, x, y) && !(prevX == 0 && prevY == 0));
+
+                        visualSetting.PositionX = prevX;
+                        visualSetting.PositionY = prevY;
+                    }
+                }
+
+                //move
+                foreach (var control in grid.Children.Cast<UserControl>())
+                {
+                    var model = ((ScenarioModel)control.DataContext);
+                    var targetPoint = new Point(model.PositionX, model.PositionY);
+                    control.Margin = new Thickness(margin * (1 + targetPoint.X) + elementSize * targetPoint.X, margin * (1 + targetPoint.Y) + elementSize * targetPoint.Y, 0, 0);
+                }
+                ScenariosEmptyModeOff();
             }
-
-            //move
-            foreach (var control in grid.Children.Cast<UserControl>())
+            else
             {
-                var model = ((ScenarioModel)control.DataContext);
-                var targetPoint = new Point(model.PositionX, model.PositionY);
-                control.Margin = new Thickness(margin * (1 + targetPoint.X) + elementSize * targetPoint.X, margin * (1 + targetPoint.Y) + elementSize * targetPoint.Y, 0, 0);
+                ScenariosEmptyModeOn();
             }
         }
 
@@ -364,6 +387,21 @@ namespace LazuriteUI.Windows.Main
             model.PositionY = (int)position.Y;
 
             Rearrange();
+        }
+
+        public void ScenariosEmptyModeOn()
+        {
+            tbEmpty.Visibility = Visibility.Visible;
+            grid.Visibility = Visibility.Collapsed;
+            switchSettingsHolder.Visibility = Visibility.Collapsed;
+            EditModeButtonVisible = false;
+        }
+
+        public void ScenariosEmptyModeOff()
+        {
+            tbEmpty.Visibility = Visibility.Collapsed;
+            grid.Visibility = Visibility.Visible;
+            switchSettingsHolder.Visibility = Visibility.Visible;
         }
 
         public event Action<ScenarioModel> SelectedModelChanged;

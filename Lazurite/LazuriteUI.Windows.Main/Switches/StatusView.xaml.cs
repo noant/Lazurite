@@ -40,7 +40,7 @@ namespace LazuriteUI.Windows.Main.Switches
             var statusSwitch = new StatusViewSwitch((ScenarioModel)this.DataContext);
             var dialog = new DialogView(statusSwitch);
             statusSwitch.StateChanged += (o, e2) => dialog.Close();
-            dialog.Show(Window.GetWindow(this).Content as Grid);
+            dialog.Show();
         }
     }
 }

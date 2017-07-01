@@ -11,7 +11,7 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App
 {
-    public partial class SwitchesGrid : ContentView
+    public partial class SwitchesGrid : Grid
     {
         public static BindableProperty EditModeProperty;
 
@@ -44,6 +44,7 @@ namespace LazuriteMobile.App
         public SwitchesGrid()
         {
             InitializeComponent();
+            ScenariosEmptyModeOff();
             this.grid.Margin = new Thickness(0, 0, ElementMargin, 40);
         }
 
@@ -91,70 +92,84 @@ namespace LazuriteMobile.App
 
         public void Rearrange()
         {
-            var maxX = MaxX;
-            var margin = ElementMargin;
-            var elementSize = ElementSize;
-            var occupiedPoints = new List<Point>();
-            foreach (View control in grid.Children)
+            if (grid.Children.Any())
             {
-                var scenario = ((ScenarioModel)control.BindingContext).Scenario;
-                var visualSettings = ((ScenarioModel)control.BindingContext).VisualSettings;
-                var targetPoint = new Point(visualSettings.PositionX, visualSettings.PositionY);
-                while (occupiedPoints.Any(x => x.Equals(targetPoint)))
+                var maxX = MaxX;
+                var margin = ElementMargin;
+                var elementSize = ElementSize;
+                var occupiedPoints = new List<Point>();
+                foreach (View control in grid.Children)
                 {
-                    targetPoint.X++;
-                    if (targetPoint.X.Equals(maxX))
+                    var scenario = ((ScenarioModel)control.BindingContext).Scenario;
+                    var visualSettings = ((ScenarioModel)control.BindingContext).VisualSettings;
+                    var targetPoint = new Point(visualSettings.PositionX, visualSettings.PositionY);
+                    while (occupiedPoints.Any(x => x.Equals(targetPoint)))
                     {
-                        targetPoint.X = 0;
-                        targetPoint.Y++;
-                    }
-                    else if (control is FloatView)
                         targetPoint.X++;
-                }
-                visualSettings.PositionX = (int)targetPoint.X;
-                visualSettings.PositionY = (int)targetPoint.Y;
-
-                occupiedPoints.Add(targetPoint);
-
-                control.VerticalOptions = new LayoutOptions(LayoutAlignment.Start, false);
-                control.HorizontalOptions = new LayoutOptions(LayoutAlignment.Start, false);
-                control.WidthRequest = control.HeightRequest = elementSize;
-            }
-            //optimize
-            var controls = grid.Children.ToArray();
-            var controlsVisualSettings = controls.Select(x => ((ScenarioModel)x.BindingContext).VisualSettings).ToArray();
-            foreach (var visualSetting in controlsVisualSettings.OrderBy(x => x.PositionY).OrderBy(x => x.PositionX))
-            {
-                var x = visualSetting.PositionX;
-                var y = visualSetting.PositionY;
-
-                var prevX = x;
-                var prevY = y;
-
-                do
-                {
-                    prevX = x;
-                    prevY = y;
-                    if (x == 0 && y != 0)
-                    {
-                        y--;
-                        x = maxX-1;
+                        if (targetPoint.X.Equals(maxX))
+                        {
+                            targetPoint.X = 0;
+                            targetPoint.Y++;
+                        }
+                        else if (control is FloatView)
+                            targetPoint.X++;
                     }
-                    else if (x != 0)
-                        x--;
+                    visualSettings.PositionX = (int)targetPoint.X;
+                    visualSettings.PositionY = (int)targetPoint.Y;
+
+                    occupiedPoints.Add(targetPoint);
+
+                    control.VerticalOptions = new LayoutOptions(LayoutAlignment.Start, false);
+                    control.HorizontalOptions = new LayoutOptions(LayoutAlignment.Start, false);
+                    control.WidthRequest = control.HeightRequest = elementSize;
                 }
-                while (!IsPointOccupied(controls, x, y) && !(prevX == 0 && prevY == 0));
 
-                visualSetting.PositionX = prevX;
-                visualSetting.PositionY = prevY;
+                //optimize
+                var controls = grid.Children.ToArray();
+                var controlsVisualSettings = controls.Select(x => ((ScenarioModel)x.BindingContext).VisualSettings).ToArray();
+
+                for (int i = 0; i < controlsVisualSettings.Length; i++) //completely optimize
+                {
+                    foreach (var visualSetting in controlsVisualSettings.OrderBy(x => x.PositionY).OrderBy(x => x.PositionX))
+                    {
+                        var x = visualSetting.PositionX;
+                        var y = visualSetting.PositionY;
+
+                        var prevX = x;
+                        var prevY = y;
+
+                        do
+                        {
+                            prevX = x;
+                            prevY = y;
+                            if (x == 0 && y != 0)
+                            {
+                                y--;
+                                x = maxX - 1;
+                            }
+                            else if (x != 0)
+                                x--;
+                        }
+                        while (!IsPointOccupied(controls, x, y) && !(prevX == 0 && prevY == 0));
+
+                        visualSetting.PositionX = prevX;
+                        visualSetting.PositionY = prevY;
+                    }
+                }
+
+                //move
+                foreach (var control in controls)
+                {
+                    var model = ((ScenarioModel)control.BindingContext);
+                    var targetPoint = new Point(model.VisualSettings.PositionX, model.VisualSettings.PositionY);
+                    control.Margin = new Thickness(margin * (1 + targetPoint.X) + elementSize * targetPoint.X, margin * (1 + targetPoint.Y) + elementSize * targetPoint.Y, 0, 0);
+                }
+
+                ScenariosEmptyModeOff();
             }
-
-            //move
-            foreach (var control in controls)
+            else
             {
-                var model = ((ScenarioModel)control.BindingContext);
-                var targetPoint = new Point(model.VisualSettings.PositionX, model.VisualSettings.PositionY);
-                control.Margin = new Thickness(margin * (1 + targetPoint.X) + elementSize * targetPoint.X, margin * (1 + targetPoint.Y) + elementSize * targetPoint.Y, 0, 0);
+                ScenariosEmptyModeOn();
             }
         }
 
@@ -186,6 +201,16 @@ namespace LazuriteMobile.App
             visualSettings.PositionY = (int)position.Y;
 
             Rearrange();
+        }
+
+        public void ScenariosEmptyModeOn()
+        {
+            lblEmpty.IsVisible = true;
+        }
+
+        public void ScenariosEmptyModeOff()
+        {
+            lblEmpty.IsVisible = false;
         }
     }
 }

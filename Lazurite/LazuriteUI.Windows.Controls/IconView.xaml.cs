@@ -32,7 +32,7 @@ namespace LazuriteUI.Windows.Controls
                         var icon = (Icon)e.NewValue;
                         var image = new BitmapImage();
                         image.BeginInit();
-                        image.StreamSource = Utils.GetIconData(icon);
+                        image.StreamSource = LazuriteUI.Icons.Utils.GetIconData(icon);
                         image.EndInit();
                         ((IconView)o).iconControl.Source = image;
                     }

@@ -84,6 +84,7 @@
       <DependentUpon>Progress.xaml</DependentUpon>
     </Compile>
     <Compile Include="Styles\Visual.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="WheelScroll.cs" />
     <Page Include="CaptionView.xaml">
       <SubType>Designer</SubType>

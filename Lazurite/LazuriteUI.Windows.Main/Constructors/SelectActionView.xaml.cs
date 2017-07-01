@@ -57,14 +57,14 @@ namespace LazuriteUI.Windows.Main.Constructors
             };
         }
 
-        public static void Show(Action<Type> selectedCallback, Panel parent, Type valueType = null, ActionInstanceSide side = ActionInstanceSide.Both, Type selectedType = null)
+        public static void Show(Action<Type> selectedCallback, Type valueType = null, ActionInstanceSide side = ActionInstanceSide.Both, Type selectedType = null)
         {
             var control = new SelectActionView();
             var dialogView = new DialogView(control);
             control.Initialize(valueType, side, selectedType);
             control.SelectionChanged += (ctrl) => dialogView.Close();
             dialogView.Closed += (o, e) => selectedCallback?.Invoke(control.SelectedType);
-            dialogView.Show(parent);
+            dialogView.Show();
         }
 
         public Type SelectedType { get; private set; }

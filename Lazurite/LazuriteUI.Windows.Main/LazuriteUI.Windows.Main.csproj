@@ -102,6 +102,9 @@
     </Compile>
     <Compile Include="Constructors\Decomposition\IConstructorElement.cs" />
     <Compile Include="Constructors\IScenarioConstructorView.cs" />
+    <Compile Include="Constructors\NewScenarioSelectionView.xaml.cs">
+      <DependentUpon>NewScenarioSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\ScenarioConstructorButtonsView.xaml.cs">
       <DependentUpon>ScenarioConstructorButtonsView.xaml</DependentUpon>
     </Compile>
@@ -224,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Constructors\Decomposition\EditActionButtonsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\NewScenarioSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -402,6 +409,10 @@
     <ProjectReference Include="..\Lazurite.ActionsDomain\Lazurite.ActionsDomain.csproj">
       <Project>{E6BE3954-3D6F-447A-91BF-04D892A1C025}</Project>
       <Name>Lazurite.ActionsDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.CoreActions\Lazurite.CoreActions.csproj">
+      <Project>{CB9EC852-4C16-4A34-98AB-EC569C35398C}</Project>
+      <Name>Lazurite.CoreActions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj">
       <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>

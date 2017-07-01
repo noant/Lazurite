@@ -45,6 +45,12 @@ namespace LazuriteUI.Windows.Controls
 
         public void Show()
         {
+            var parent = Utils.GetMainWindowPanel();
+            Show(parent);
+        }
+
+        public void ShowInNewWindow()
+        {
             var window = new Window();
             window.Height = 190;
             window.Width = 500;
@@ -171,7 +177,7 @@ namespace LazuriteUI.Windows.Controls
         public static void ShowMessage(string message, string header, Icon icon, Panel parent = null, Action okCallback = null)
         {
             if (parent == null)
-                parent = GetMainWindowPanel();
+                parent = Utils.GetMainWindowPanel();
             var messageView = new MessageView();
             messageView.ContentText = message;
             messageView.HeaderText = header;
@@ -189,7 +195,7 @@ namespace LazuriteUI.Windows.Controls
         public static void ShowYesNo(string message, string header, Icon icon, Action<bool> callback = null, Panel parent = null)
         {
             if (parent == null)
-                parent = GetMainWindowPanel();
+                parent = Utils.GetMainWindowPanel();
             var messageView = new MessageView();
             messageView.ContentText = message;
             messageView.HeaderText = header;
@@ -214,12 +220,6 @@ namespace LazuriteUI.Windows.Controls
                 true)
             });
             messageView.Show(parent);
-        }
-
-        private static Panel GetMainWindowPanel()
-        {
-            var mainWindow = App.Current.Windows.Cast<Window>().OrderBy(x => x.Name == "MainWindow").FirstOrDefault();
-            return mainWindow?.Content as Panel;
         }
     }
 }

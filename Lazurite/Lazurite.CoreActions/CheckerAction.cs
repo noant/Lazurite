@@ -16,8 +16,8 @@ namespace Lazurite.CoreActions
     [SuitableValueTypes(typeof(ToggleValueType))]
     public class CheckerAction : IAction, IMultipleAction, IChecker
     {
-        public IAction TargetAction1 { get; set; }
-        public IAction TargetAction2 { get; set; }
+        public IAction TargetAction1 { get; set; } = new EmptyAction();
+        public IAction TargetAction2 { get; set; } = new EmptyAction();
         public IComparisonType ComparisonType { get; set; }
 
         public string Caption

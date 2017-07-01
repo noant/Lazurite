@@ -12,14 +12,15 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
         {
             ScenarioModel = scenarioModel;
             IsSecondIcon = isSecondIcon;
-
-            ScenarioModel.PropertyChanged += (o, e) => {
-                if ((e.PropertyName == nameof(ScenarioModel.Icon1) && !IsSecondIcon) ||
-                    (e.PropertyName == nameof(ScenarioModel.Icon2) && IsSecondIcon))
-                {
-                    OnPropertyChanged(nameof(ItemSelected));
-                }
-            };
+            
+            if (ScenarioModel != null)
+                ScenarioModel.PropertyChanged += (o, e) => {
+                    if ((e.PropertyName == nameof(ScenarioModel.Icon1) && !IsSecondIcon) ||
+                        (e.PropertyName == nameof(ScenarioModel.Icon2) && IsSecondIcon))
+                    {
+                        OnPropertyChanged(nameof(ItemSelected));
+                    }
+                };
             OnPropertyChanged(nameof(ItemSelected));
         }
 

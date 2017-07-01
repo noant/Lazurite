@@ -41,7 +41,7 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             var floatSwitch = new FloatViewSwitch((ScenarioModel)this.DataContext);
             var dialog = new DialogView(floatSwitch);
-            dialog.Show(Window.GetWindow(this).Content as Grid);
+            dialog.Show();
         }
     }
 }

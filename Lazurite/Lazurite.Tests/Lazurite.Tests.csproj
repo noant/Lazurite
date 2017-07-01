@@ -76,19 +76,14 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ComplexCheckerActionTest.cs" />
-    <Compile Include="ConcretePluginTest.cs" />
     <Compile Include="DelayTest.cs" />
     <Compile Include="FileSaviorTest.cs" />
     <Compile Include="IOCTest.cs" />
     <Compile Include="ModulesManagerTest.cs" />
     <Compile Include="ReflectionHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScenariosRepositoryTest.cs" />
     <Compile Include="ServerTest.cs" />
     <Compile Include="ServiceTest.cs" />
-    <Compile Include="TriggerTest.cs" />
-    <Compile Include="TriggerTest2.cs" />
-    <Compile Include="TriggerTest3.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lazurite.ActionsDomain\Lazurite.ActionsDomain.csproj">

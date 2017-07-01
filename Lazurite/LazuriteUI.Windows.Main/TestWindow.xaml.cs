@@ -27,6 +27,7 @@ using Lazurite.Scenarios;
 using Lazurite.ActionsDomain.Attributes;
 using LazuriteUI.Windows.Main.Constructors.Decomposition;
 using LazuriteUI.Icons;
+using Lazurite.CoreActions;
 
 namespace LazuriteUI.Windows.Main
 {

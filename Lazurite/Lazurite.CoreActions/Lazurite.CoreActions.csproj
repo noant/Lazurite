@@ -54,6 +54,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionHolder.cs" />
     <Compile Include="CheckerAction.cs" />
     <Compile Include="CheckerLogicalOperators\CheckerOperatorPair.cs" />
     <Compile Include="CheckerLogicalOperators\LogicalOperator.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="CoreActions\RunExistingScenarioAction.cs" />
     <Compile Include="CoreActions\RunExistingScenarioMode.cs" />
     <Compile Include="CoreActions\SetReturnValueAction.cs" />
+    <Compile Include="EmptyAction.cs" />
     <Compile Include="ExecuteAction.cs" />
     <Compile Include="ComparisonTypes\IComparisonType.cs" />
     <Compile Include="IChecker.cs" />

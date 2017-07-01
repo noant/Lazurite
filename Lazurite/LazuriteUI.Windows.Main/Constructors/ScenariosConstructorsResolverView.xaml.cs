@@ -40,14 +40,35 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         public void SetScenario(ScenarioBase scenario)
         {
-            _originalSenario = scenario;
-            _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
-            _clonedScenario.Initialize(_repository);
-            if (scenario is SingleActionScenario)
-                this.contentPresenter.Content = _constructorView = new SingleActionScenarioView((SingleActionScenario)_clonedScenario);
-            buttonsView.SetScenario(scenario);
-            _constructorView.Modified += () => Modified?.Invoke();
-            _constructorView.Modified += () => buttonsView.ScenarioModified();
+            if (scenario != null)
+            {
+                _originalSenario = scenario;
+                _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
+                _clonedScenario.Initialize(_repository);
+                if (scenario is SingleActionScenario)
+                    this.contentPresenter.Content = _constructorView = new SingleActionScenarioView((SingleActionScenario)_clonedScenario);
+                buttonsView.SetScenario(_clonedScenario);
+                _constructorView.Modified += () => Modified?.Invoke();
+                _constructorView.Modified += () => buttonsView.ScenarioModified();
+                EmptyScenarioModeOff();
+            }
+            else
+            {
+                EmptyScenarioModeOn();
+            }
+        }
+
+        private void EmptyScenarioModeOn()
+        {
+            tbScenarioEmpty.Visibility = Visibility.Visible;
+            buttonsViewHolder.Visibility = Visibility.Collapsed;
+            this.contentPresenter.Content = null;
+        }
+
+        private void EmptyScenarioModeOff()
+        {
+            tbScenarioEmpty.Visibility = Visibility.Collapsed;
+            buttonsViewHolder.Visibility = Visibility.Visible;
         }
 
         public ScenarioBase GetScenario()
@@ -69,6 +90,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
             _clonedScenario.Initialize(_repository);
+            buttonsView.Revert(_clonedScenario);
             _constructorView.Revert(_clonedScenario);
         }
     }

@@ -41,7 +41,6 @@ namespace LazuriteUI.Windows.Main.Constructors
                 MessageView.ShowYesNo("Вы уверены, что хотите отменить все изменения сценария?", "Изменения сценария", Icons.Icon.Question,
                     (result) => {
                         ResetClicked?.Invoke();
-                        btCancel.IsEnabled = btApply.IsEnabled = false;
                     });
             };
 

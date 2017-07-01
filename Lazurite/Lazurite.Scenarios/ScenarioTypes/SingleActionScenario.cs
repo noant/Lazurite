@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.CoreActions;
 using Lazurite.CoreActions.CoreActions;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
@@ -16,7 +17,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
     [HumanFriendlyName("Одиночный сценарий")]
     public class SingleActionScenario : ScenarioBase
     {
-        public ActionHolder ActionHolder { get; set; }
+        public ActionHolder ActionHolder { get; set; } = new ActionHolder();
 
         public override ValueTypeBase ValueType
         {

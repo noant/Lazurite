@@ -140,7 +140,7 @@ namespace LazuriteUI.Windows.WpfTests
             listItems.SelectionMode = Controls.ListViewItemsSelectionMode.Multiple;
 
             var dialogView = new DialogView(new Button() { Content = "test" });
-            dialogView.Show(grid);
+            dialogView.Show();
         }
 
         private void button_Copy_Click(object sender, RoutedEventArgs e)
@@ -156,7 +156,7 @@ namespace LazuriteUI.Windows.WpfTests
             messageView.Icon = Icons.Icon.ConfirmYesNo;
             messageView.ContentText = "Вы уверены, что хотите удалить сценарий 'Включить основной свет'?";
             messageView.HeaderText = "Удаление сценария";
-            messageView.Show(grid);
+            messageView.Show();
             messageView.SetItems(new[] {
                 new MessageItemInfo("Да", (mv) => { 
                     mv.ContentText = "Удаление сценария...";

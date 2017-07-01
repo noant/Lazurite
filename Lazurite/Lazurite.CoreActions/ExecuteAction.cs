@@ -86,7 +86,7 @@ namespace Lazurite.CoreActions
             Action.SetValue(context, InputValue?.GetValue(context));
         }
 
-        private IAction _action;
+        private IAction _action = new EmptyAction();
         public IAction Action {
             get
             {
@@ -100,7 +100,7 @@ namespace Lazurite.CoreActions
             }
         }
 
-        private IAction _inputValue;
+        private IAction _inputValue = new EmptyAction();
         public IAction InputValue {
             get
             {

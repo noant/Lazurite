@@ -12,7 +12,7 @@
     <Grid>
         <Grid Background="Black" Opacity="0.5" Name="gridBackground"></Grid>
         <Grid Name="mainContent">
-            <Grid Background="{x:Static local:Visual.Background}" Height="200" Width="Auto" MaxWidth="600" MinWidth="200">
+            <Grid Background="{x:Static local:Visual.Background}" VerticalAlignment="Center" MinHeight="200" MaxHeight="600" Width="Auto" MaxWidth="600" MinWidth="200">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition></RowDefinition>
@@ -26,7 +26,7 @@
                         <ColumnDefinition Width="70"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <local:IconView Icon="Question" x:FieldModifier="private" x:Name="iconView" Height="50" Width="50" Visibility="Visible"></local:IconView>
-                    <TextBlock Style="{DynamicResource TextBlockStyle}" x:FieldModifier="private" Name="tbText" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1">123</TextBlock>
+                    <TextBlock Style="{DynamicResource TextBlockStyle}" x:FieldModifier="private" Name="tbText" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Margin="0,10,0,10">123</TextBlock>
                 </Grid>
                 <Grid Grid.Row="2">
                     <local:ListItemsView x:FieldModifier="private" x:Name="itemsView" Margin="10" HorizontalAlignment="Right" Orientation="Horizontal" SelectionMode="None">

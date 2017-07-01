@@ -1,4 +1,11 @@
-﻿using LazuriteUI.Icons;
+﻿using Lazurite.ActionsDomain;
+using Lazurite.CoreActions;
+using Lazurite.IOC;
+using Lazurite.MainDomain;
+using Lazurite.Scenarios.ScenarioTypes;
+using LazuriteUI.Icons;
+using LazuriteUI.Windows.Controls;
+using LazuriteUI.Windows.Main.Constructors;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +31,8 @@ namespace LazuriteUI.Windows.Main
     [DisplayName("Конструктор сценариев")]
     public partial class ScenariosConstructionView : UserControl
     {
+        private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();
+
         public ScenariosConstructionView()
         {
             InitializeComponent();
@@ -35,7 +44,37 @@ namespace LazuriteUI.Windows.Main
 
         private void SwitchesGrid_SelectedModelChanged(Switches.ScenarioModel obj)
         {
-            this.constructorsResolver.SetScenario(this.switchesGrid.SelectedModel.Scenario);
+            this.constructorsResolver.SetScenario(this.switchesGrid.SelectedModel?.Scenario);
+        }
+
+        private void btDeleteScenario_Click(object sender, RoutedEventArgs e)
+        {
+            MessageView.ShowYesNo("Вы уверены, что хотите удалить выбранный сценарий?", "Удаление сценария", Icon.ListDelete,
+                (result) => {
+                    if (result)
+                    {
+                        var scenario = this.switchesGrid.SelectedModel.Scenario;
+                        this.switchesGrid.Remove(scenario);
+                        _repository.RemoveScenario(scenario);
+                    }
+                }
+            );
+        }
+
+        private void btCreateScenario_Click(object sender, RoutedEventArgs e)
+        {
+            var selectScenarioTypeControl = new NewScenarioSelectionView();
+            var dialogView = new DialogView(selectScenarioTypeControl);
+            dialogView.Show();
+
+            selectScenarioTypeControl.SingleActionScenario += () => {
+                dialogView.Close();
+                var newScenario = new SingleActionScenario();
+                newScenario.Name = "Новый сценарий";
+                _repository.AddScenario(newScenario);
+                this.switchesGrid.Add(newScenario, null);
+                this.constructorsResolver.SetScenario(newScenario);
+            };
         }
     }
 }

@@ -37,7 +37,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
                 messageDialog.Icon = Icons.Icon.ImageSelect;
                 messageDialog.HeaderText = "Иконки";
                 messageDialog.ContentText = "Загрузка иконок...";
-                messageDialog.Show();
+                messageDialog.ShowInNewWindow();
                 messageDialog.StartAnimateProgress();
                 this.Dispatcher.BeginInvoke(new Action(() =>
                 {
@@ -53,7 +53,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
                 var switchIconSelect = new SwitchIconSelect(((ScenarioModel)this.DataContext), false);
                 var dialog = new DialogView(switchIconSelect);
                 switchIconSelect.OkClick += (o, args) => dialog.Close();
-                dialog.Show(Window.GetWindow(this).Content as Grid);
+                dialog.Show();
             });
         }
 
@@ -63,7 +63,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
                 var switchIconSelect = new SwitchIconSelect(((ScenarioModel)this.DataContext), true);
                 var dialog = new DialogView(switchIconSelect);
                 switchIconSelect.OkClick += (o, args) => dialog.Close();
-                dialog.Show(Window.GetWindow(this).Content as Grid);
+                dialog.Show();
             });
         }
     }

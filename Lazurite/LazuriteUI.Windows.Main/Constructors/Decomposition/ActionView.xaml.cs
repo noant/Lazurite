@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Lazurite.ActionsDomain;
 using Lazurite.Windows.Modules;
 using Lazurite.IOC;
+using Lazurite.CoreActions;
 
 namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 {
@@ -52,7 +53,6 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                             Modified?.Invoke(this);
                         }
                     },
-                    Window.GetWindow(this).Content as Panel,
                     MasterAction?.ValueType.GetType(),
                     MasterAction == null ? Lazurite.Windows.Modules.ActionInstanceSide.OnlyLeft
                     : Lazurite.Windows.Modules.ActionInstanceSide.OnlyRight, 

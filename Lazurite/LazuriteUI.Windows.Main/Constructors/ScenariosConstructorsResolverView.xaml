@@ -12,6 +12,9 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <ContentPresenter x:Name="contentPresenter"></ContentPresenter>
-        <local:ScenarioConstructorButtonsView x:Name="buttonsView" Grid.Row="1"></local:ScenarioConstructorButtonsView>
+        <Grid x:Name="buttonsViewHolder" Grid.Row="1">
+            <local:ScenarioConstructorButtonsView x:Name="buttonsView"></local:ScenarioConstructorButtonsView>
+        </Grid>
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.RowSpan="2" x:Name="tbScenarioEmpty" Foreground="SteelBlue">Сценарий не выбран...</TextBlock>
     </Grid>
 </UserControl>
