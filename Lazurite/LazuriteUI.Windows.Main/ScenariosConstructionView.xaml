@@ -20,8 +20,8 @@
         <constructors:ScenariosConstructorsResolverView Grid.RowSpan="2" x:Name="constructorsResolver"></constructors:ScenariosConstructorsResolverView>
         <local:SwitchesGrid IsConstructorMode="True" x:Name="switchesGrid" EditMode="True" EditModeButtonVisible="False" Grid.Column="1"></local:SwitchesGrid>
         <controls:ListItemsView MinWidth="250" Grid.Row="1" SelectionMode="None" Grid.Column="1">
-            <controls:ItemView x:Name="btCreateScenario" Margin="2" Click="btCreateScenario_Click" Icon="ListCreate">Добавить новый сценарий</controls:ItemView>
-            <controls:ItemView x:Name="btDeleteScenario" Margin="2" Click="btDeleteScenario_Click" Icon="ListDelete" Background="Crimson">Удалить выбранный сценарий</controls:ItemView>
+            <controls:ItemView x:Name="btCreateScenario" Margin="5,2,5,2" Click="btCreateScenario_Click" Icon="ListCreate">Добавить новый сценарий</controls:ItemView>
+            <controls:ItemView x:Name="btDeleteScenario" Margin="5,2,5,2" Click="btDeleteScenario_Click" Icon="ListDelete" Background="Crimson">Удалить выбранный сценарий</controls:ItemView>
         </controls:ListItemsView>
     </Grid>
 </UserControl>

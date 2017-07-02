@@ -92,6 +92,11 @@ namespace LazuriteUI.Windows.Main.Constructors
             this.btApply.IsEnabled = false;
         }
 
+        public void Success()
+        {
+            this.btApply.IsEnabled = true;
+        }
+
         public event Action ApplyClicked;
         public event Action ResetClicked;
         public event Action Modified;

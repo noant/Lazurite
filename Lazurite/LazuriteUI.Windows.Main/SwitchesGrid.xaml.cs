@@ -215,7 +215,7 @@ namespace LazuriteUI.Windows.Main
             {
                 BindSwitchSettings(@switch);
                 var model = ((ScenarioModel)@switch.DataContext);
-                if (model != SelectedModel || model.Scenario.Id != SelectedModel.Scenario.Id)
+                if (model?.Scenario.Id != SelectedModel?.Scenario.Id || SelectedModel == null)
                 {
                     model.Checked = true;
                     SelectedModel = model;
@@ -260,8 +260,11 @@ namespace LazuriteUI.Windows.Main
                 {
                     _draggableCurrent = (UserControl)sender;
                     var model = (ScenarioModel)_draggableCurrent.DataContext;
-                    SelectedModel = model;
-                    SelectedModelChanged?.Invoke(model);
+                    if (model?.Scenario.Id != SelectedModel?.Scenario.Id || SelectedModel == null)
+                    {
+                        SelectedModel = model;
+                        SelectedModelChanged?.Invoke(model);
+                    }
                 }
             }
         }

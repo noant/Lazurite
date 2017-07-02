@@ -70,7 +70,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return _currentValue;
         }
 
-        public override void Initialize(ScenariosRepositoryBase repository)
+        public override bool Initialize(ScenariosRepositoryBase repository)
         {
             if (this.ActionHolder.Action is ICoreAction && repository != null)
             {
@@ -80,6 +80,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             ActionHolder.Action.Initialize();
             _currentValue = ActionHolder.Action.GetValue(null);
             this.ActionHolder.Action.ValueChanged += (action, value) => SetCurrentValueInternal(value);
+            return true;
         }
 
         public override void AfterInitilize()

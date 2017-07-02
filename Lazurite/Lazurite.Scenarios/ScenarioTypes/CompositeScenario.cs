@@ -58,7 +58,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return _currentValue;
         }
 
-        public override void Initialize(ScenariosRepositoryBase repository)
+        public override bool Initialize(ScenariosRepositoryBase repository)
         {
             foreach (var action in this.TargetAction.GetAllActionsFlat())
             {
@@ -69,6 +69,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     coreAction?.SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
                 }
             }
+            return true;
         }
 
         public override void AfterInitilize()

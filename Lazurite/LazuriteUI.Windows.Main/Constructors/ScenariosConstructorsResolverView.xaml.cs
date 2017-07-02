@@ -52,6 +52,8 @@ namespace LazuriteUI.Windows.Main.Constructors
                 buttonsView.SetScenario(_clonedScenario);
                 _constructorView.Modified += () => Modified?.Invoke();
                 _constructorView.Modified += () => buttonsView.ScenarioModified();
+                _constructorView.Failed += () => buttonsView.Failed();
+                _constructorView.Succeed += () => buttonsView.Success();
                 EmptyScenarioModeOff();
             }
             else

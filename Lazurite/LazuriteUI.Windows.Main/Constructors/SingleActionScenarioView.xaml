@@ -6,11 +6,9 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              xmlns:decomposition="clr-namespace:LazuriteUI.Windows.Main.Constructors.Decomposition"
-             mc:Ignorable="d" 
-             Background="{x:Static controls:Visual.Background}"
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Grid Background="{x:Static controls:Visual.BackgroundCubes}" Opacity="0.5"></Grid>
         <Grid x:Name="gridContent" Margin="4">
         </Grid>
     </Grid>

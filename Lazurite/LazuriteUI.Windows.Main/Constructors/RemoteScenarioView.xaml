@@ -5,10 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             MinWidth="500"
-             Background="{x:Static controls:Visual.Background}">
+             MinWidth="500">
     <Grid>
-        <Grid Background="{x:Static controls:Visual.BackgroundCubes}" Opacity="0.5"></Grid>
         <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="450">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>

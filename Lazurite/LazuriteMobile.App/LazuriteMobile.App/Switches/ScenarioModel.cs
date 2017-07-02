@@ -68,7 +68,7 @@ namespace LazuriteMobile.App.Switches
                     return VisualSettings.AddictionalData[0];
                 else
                 {
-                    if (Scenario.ValueType is ToggleValueType || Scenario.ValueType is ButtonValueType)
+                    if (Scenario.ValueType is ToggleValueType)
                         return "ButtonOn";
                     else if (Scenario.ValueType is StateValueType)
                         return "New";

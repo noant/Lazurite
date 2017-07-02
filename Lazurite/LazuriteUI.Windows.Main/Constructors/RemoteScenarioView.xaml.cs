@@ -32,6 +32,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         public RemoteScenarioView(RemoteScenario scenario)
         {
             InitializeComponent();
+            Refresh(scenario);
 
             tbServiceName.TextChanged += (o, e) => ApplyCurrent();
             tbSecretCode.PasswordChanged += (o, e) => ApplyCurrent();
@@ -65,18 +66,17 @@ namespace LazuriteUI.Windows.Main.Constructors
                 }
             };
             btTest.Click += (o, e) => {
-                try
+                if (_scenario.Initialize(_repository))
                 {
-                    _scenario.Initialize(_repository);
+                    MessageView.ShowMessage("Соединение успешно!", "Тест удаленного сценария", Icons.Icon.Check);
                     Succeed?.Invoke();
                 }
-                catch (Exception exception)
+                else
                 {
-                    _warningHandler.Error("Невозможно активировать удаленный сценарий.", exception);
+                    MessageView.ShowMessage("Невозможно активировать удаленный сценарий!", "Тест удаленного сценария", Icons.Icon.Cancel);
                     Failed?.Invoke();
                 }
             };
-            Refresh(scenario);
         }
         
         private void Refresh(RemoteScenario scenario)

@@ -13,7 +13,7 @@ namespace LazuriteMobile.App.Switches
     {
         public static View CreateScenarioControl(ScenarioInfo scenario)
         {
-            if (scenario.ValueType is Lazurite.ActionsDomain.ValueTypes.ButtonValueType)
+            if (scenario.ValueType is Lazurite.ActionsDomain.ValueTypes.ButtonValueType || scenario.ValueType == null)
                 return new ButtonView(scenario);
             if (scenario.ValueType is Lazurite.ActionsDomain.ValueTypes.DateTimeValueType)
                 return new DateTimeView(scenario);

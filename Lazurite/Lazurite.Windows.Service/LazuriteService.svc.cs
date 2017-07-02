@@ -198,7 +198,8 @@ namespace Lazurite.Windows.Service
                     CurrentValue = scenario.CalculateCurrentValue(),
                     ScenarioId = scenario.Id,
                     ValueType = scenario.ValueType,
-                    VisualSettings = GetVisualSettings(user, scenario.Id)
+                    VisualSettings = GetVisualSettings(user, scenario.Id),
+                    Name = scenario.Name
                 }, _secretKey);
             });
         }

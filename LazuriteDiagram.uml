@@ -8768,12 +8768,12 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:ATTR name="Name" type="string">Initialize</XPD:ATTR>
 <XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
 <XPD:ATTR name="#Parameters" type="integer">2</XPD:ATTR>
-<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="WxU9s50hM06yn9F1L+ijtgAA">
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="Zf95E+xbGkWr2kyz8Z7vUAAA">
 <XPD:ATTR name="DirectionKind" type="UMLParameterDirectionKind">pdkReturn</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">void</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">bool</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">qIWUaB4XmUSsmjP/2oJjxQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="JxLaaQ57k0u8JKkn6RcozQAA">
+<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="4NktYgAtnEmoUq9Ga/kHJwAA">
 <XPD:ATTR name="Name" type="string">scenariosRepository</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">qIWUaB4XmUSsmjP/2oJjxQAA</XPD:REF>
 <XPD:REF name="Type_">U/gqPxArwUqnoOHrUnXqlwAA</XPD:REF>
@@ -12410,9 +12410,10 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="BehavioralFeature">IjRt6UYbN0e5rN9PcJMEvQAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:ATTR name="#TypedParameters" type="integer">2</XPD:ATTR>
+<XPD:ATTR name="#TypedParameters" type="integer">3</XPD:ATTR>
 <XPD:REF name="TypedParameters[0]">3FxCPOEwAEe2QIsSuGTaQQAA</XPD:REF>
-<XPD:REF name="TypedParameters[1]">JxLaaQ57k0u8JKkn6RcozQAA</XPD:REF>
+<XPD:REF name="TypedParameters[1]" pathname="scenariosRepository">JxLaaQ57k0u8JKkn6RcozQAA</XPD:REF>
+<XPD:REF name="TypedParameters[2]">4NktYgAtnEmoUq9Ga/kHJwAA</XPD:REF>
 <XPD:ATTR name="#Attributes" type="integer">2</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="fxPWs4NtaUmge0qeLJs/2QAA">
 <XPD:ATTR name="Name" type="string">Scenarios</XPD:ATTR>

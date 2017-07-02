@@ -32,7 +32,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             {
                 var itemView = new ItemView();
                 itemView.Content = info.Name;
-                itemView.Icon = Icon.AlignRight;
+                itemView.Icon = Icon.ChevronRight;
                 itemView.Tag = info;
                 itemView.Margin = new Thickness(2);
                 if (info.ScenarioId.Equals(selectedScenario))

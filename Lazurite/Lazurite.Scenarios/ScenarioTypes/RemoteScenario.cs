@@ -163,7 +163,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             RaiseEvents();
         }
 
-        public override void Initialize(ScenariosRepositoryBase repository)
+        public override bool Initialize(ScenariosRepositoryBase repository)
         {
             _cancellationTokenSource = new CancellationTokenSource();
             _clientFactory = Singleton.Resolve<IClientFactory>();
@@ -173,10 +173,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 _scenarioInfo = _server.GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
                 _valueType = _scenarioInfo.ValueType;
                 RemoteScenarioName = _scenarioInfo.Name;
+                return true;
             }
             catch
             {
                 Log.Warn("Error while initializing remote scenario [" + Name + "]");
+                return false;
             }
         }
 
