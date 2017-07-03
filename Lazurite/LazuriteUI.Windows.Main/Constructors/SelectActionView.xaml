@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
+             MinWidth="400"
+             Background="Black"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <controls:WheelScroll>

@@ -7,38 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lazurite.CoreActions.StandartValueTypeActions
+namespace Lazurite.CoreActions.StandardValueTypeActions
 {
     [OnlyGetValue]
     [VisualInitialization]
-    [HumanFriendlyName("Дата и время")]
-    [SuitableValueTypes(typeof(DateTimeValueType))]
-    public class GetDateTimeVTAction : IAction
+    [HumanFriendlyName("Стандартные: статус")]
+    [SuitableValueTypes(typeof(StateValueType))]
+    public class GetStateVTAction : IAction
     {
         public string Caption
         {
             get
             {
                 return Value;
-            }
-            set
-            {
-                //
-            }
-        }
-
-        public string Value
-        {
-            get;
-            set;
-        }
-        
-        private DateTimeValueType _valueType = new DateTimeValueType();
-        public ValueTypeBase ValueType
-        {
-            get
-            {
-                return _valueType;
             }
             set
             {
@@ -54,6 +35,25 @@ namespace Lazurite.CoreActions.StandartValueTypeActions
             }
         }
 
+        public string Value
+        {
+            get;
+            set;
+        }
+
+        private StateValueType _valueType = new StateValueType();
+        public ValueTypeBase ValueType
+        {
+            get
+            {
+                return _valueType;
+            }
+            set
+            {
+                _valueType = (StateValueType)value;
+            }
+        }
+
         public void Initialize()
         {
             //
@@ -61,7 +61,7 @@ namespace Lazurite.CoreActions.StandartValueTypeActions
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            return true;
+            return false;
         }
 
         public string GetValue(ExecutionContext context)

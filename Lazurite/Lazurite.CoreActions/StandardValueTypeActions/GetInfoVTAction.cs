@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lazurite.CoreActions.StandartValueTypeActions
+namespace Lazurite.CoreActions.StandardValueTypeActions
 {
     [OnlyGetValue]
     [VisualInitialization]
-    [SuitableValueTypes(typeof(FloatValueType))]
-    public class GetFloatVTAction : IAction
+    [HumanFriendlyName("Стандартные: информация")]
+    [SuitableValueTypes(typeof(InfoValueType))]
+    public class GetInfoVTAction : IAction
     {
         public string Caption
         {
@@ -32,8 +33,8 @@ namespace Lazurite.CoreActions.StandartValueTypeActions
             set;
         }
 
-        private FloatValueType _valueType;
-        public ActionsDomain.ValueTypes.ValueTypeBase ValueType
+        private InfoValueType _valueType = new InfoValueType();
+        public ValueTypeBase ValueType
         {
             get
             {
@@ -41,7 +42,7 @@ namespace Lazurite.CoreActions.StandartValueTypeActions
             }
             set
             {
-                _valueType = (FloatValueType)value;
+                _valueType = (InfoValueType)value;
             }
         }
 

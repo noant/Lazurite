@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization.FloatInitializationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             Width="275"
+             Background="{x:Static controls:Visual.Background}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.ColumnSpan="2" Foreground="SteelBlue" VerticalAlignment="Center" HorizontalAlignment="Center">Тип значения: число</TextBlock>
+        <TextBlock Margin="5" Foreground="SteelBlue" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">Минимум</TextBlock>
+        <TextBlock Margin="5" Foreground="SteelBlue" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center">Максимум</TextBlock>
+        <TextBlock Margin="5" Foreground="SteelBlue" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center">Значение</TextBlock>
+        <controls:EntryView Grid.Row="1" Grid.Column="1" x:Name="tbMin">0</controls:EntryView>
+        <controls:EntryView Grid.Row="2" Grid.Column="1" x:Name="tbMax">100</controls:EntryView>
+        <controls:EntryView Grid.Row="3" Grid.Column="1" x:Name="tbVal">0</controls:EntryView>
+        <controls:ItemView Grid.Row="4" Grid.ColumnSpan="2" Margin="5" Icon="Check" x:Name="btApply">Применить</controls:ItemView>
+    </Grid>
+</UserControl>

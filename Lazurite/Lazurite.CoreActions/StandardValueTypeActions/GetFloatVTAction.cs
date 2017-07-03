@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lazurite.CoreActions.StandartValueTypeActions
+namespace Lazurite.CoreActions.StandardValueTypeActions
 {
     [OnlyGetValue]
     [VisualInitialization]
-    [HumanFriendlyName("Статус")]
-    [SuitableValueTypes(typeof(StateValueType))]
-    public class GetStateVTAction : IAction
+    [HumanFriendlyName("Стандартные: число")]
+    [SuitableValueTypes(typeof(FloatValueType))]
+    public class GetFloatVTAction : IAction
     {
         public string Caption
         {
@@ -27,22 +27,14 @@ namespace Lazurite.CoreActions.StandartValueTypeActions
             }
         }
 
-        public bool IsSupportsEvent
-        {
-            get
-            {
-                return ValueChanged != null;
-            }
-        }
-
         public string Value
         {
             get;
             set;
         }
 
-        private StateValueType _valueType;
-        public ValueTypeBase ValueType
+        private FloatValueType _valueType = new FloatValueType();
+        public ActionsDomain.ValueTypes.ValueTypeBase ValueType
         {
             get
             {
@@ -50,7 +42,15 @@ namespace Lazurite.CoreActions.StandartValueTypeActions
             }
             set
             {
-                _valueType = (StateValueType)value;
+                _valueType = (FloatValueType)value;
+            }
+        }
+
+        public bool IsSupportsEvent
+        {
+            get
+            {
+                return ValueChanged != null;
             }
         }
 

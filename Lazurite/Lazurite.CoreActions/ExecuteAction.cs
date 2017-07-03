@@ -21,12 +21,12 @@ namespace Lazurite.CoreActions
             {
                 if (InputValue != null)
                 {
-                    return ActionsDomain.Utils.ExtractHumanFriendlyName(Action.GetType()) + " " + Action.Caption + " = " +
-                        ActionsDomain.Utils.ExtractHumanFriendlyName(InputValue.GetType()) + " " + InputValue.Caption;
+                    return ActionsDomain.Utils.ExtractHumanFriendlyName(MasterActionHolder.GetType()) + " " + MasterActionHolder.Action.Caption + " = " +
+                        ActionsDomain.Utils.ExtractHumanFriendlyName(InputValue.GetType()) + " " + InputValue.Action.Caption;
                 }
                 else
                 {
-                    return ActionsDomain.Utils.ExtractHumanFriendlyName(Action.GetType()) + " " + Action.Caption;
+                    return ActionsDomain.Utils.ExtractHumanFriendlyName(MasterActionHolder.GetType()) + " " + MasterActionHolder.Action.Caption;
                 }
             }
             set
@@ -58,7 +58,7 @@ namespace Lazurite.CoreActions
 
         public IAction[] GetAllActionsFlat()
         {
-            return new[] { Action, InputValue };
+            return new[] { MasterActionHolder.Action, InputValue.Action };
         }
 
         public void Initialize()
@@ -83,32 +83,32 @@ namespace Lazurite.CoreActions
 
         public void SetValue(ExecutionContext context, string value)
         {
-            Action.SetValue(context, InputValue?.GetValue(context));
+            MasterActionHolder.Action.SetValue(context, InputValue?.Action.GetValue(context));
         }
 
-        private IAction _action = new EmptyAction();
-        public IAction Action {
+        private ActionHolder _actionHolder = new ActionHolder();
+        public ActionHolder MasterActionHolder {
             get
             {
-                return _action;
+                return _actionHolder;
             }
             set
             {
-                if (_inputValue != null && !_action.ValueType.IsCompatibleWith(_inputValue.ValueType))
-                    _inputValue = null;
-                _action = value;
+                if (_inputValue != null && !_actionHolder.Action.ValueType.IsCompatibleWith(_inputValue.Action.ValueType))
+                    _inputValue = new ActionHolder();
+                _actionHolder = value;
             }
         }
 
-        private IAction _inputValue = new EmptyAction();
-        public IAction InputValue {
+        private ActionHolder _inputValue = new ActionHolder();
+        public ActionHolder InputValue {
             get
             {
                 return _inputValue;
             }
             set
             {
-                if (_action == null)
+                if (_actionHolder == null)
                     throw new InvalidOperationException("Cannot set InputValue if Action is null");
                 _inputValue = value;
             }

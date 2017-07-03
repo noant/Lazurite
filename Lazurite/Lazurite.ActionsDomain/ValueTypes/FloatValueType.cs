@@ -15,7 +15,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
         {
             base.AcceptedValues = new string[] { double.MinValue.ToString(), double.MaxValue.ToString() };
         }
-
+        
         public override bool CanBeModified
         {
             get

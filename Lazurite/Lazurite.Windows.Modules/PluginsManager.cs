@@ -1,5 +1,6 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.CoreActions.StandardValueTypeActions;
 using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
@@ -197,9 +198,14 @@ namespace Lazurite.Windows.Modules
             var result = new List<Type>();
             bool isValueTypeSupport = false;
             bool rightSide = false;
-            foreach (var typeInfo in _allTypes)
+            foreach (var type in _allTypes.Select(x=>x.Type)
+                .Union(new Type[] {
+                    typeof(GetStateVTAction),
+                    typeof(GetDateTimeVTAction),
+                    typeof(GetFloatVTAction),
+                    typeof(GetInfoVTAction),
+                    typeof(GetToggleVTAction) }))
             {
-                var type = typeInfo.Type;
                 isValueTypeSupport = valueType == null || ActionsDomain.Utils.IsComparableWithValueType(type, valueType);
                 rightSide = (side == ActionInstanceSide.Both) ||
                     (side == ActionInstanceSide.OnlyLeft) ||

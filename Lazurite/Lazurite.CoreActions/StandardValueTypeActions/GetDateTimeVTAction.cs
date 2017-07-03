@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lazurite.CoreActions.StandartValueTypeActions
+namespace Lazurite.CoreActions.StandardValueTypeActions
 {
     [OnlyGetValue]
     [VisualInitialization]
-    [HumanFriendlyName("Информация")]
-    [SuitableValueTypes(typeof(InfoValueType))]
-    public class GetInfoVTAction : IAction
+    [HumanFriendlyName("Стандартные: дата и время")]
+    [SuitableValueTypes(typeof(DateTimeValueType))]
+    public class GetDateTimeVTAction : IAction
     {
         public string Caption
         {
@@ -32,8 +32,8 @@ namespace Lazurite.CoreActions.StandartValueTypeActions
             get;
             set;
         }
-
-        private InfoValueType _valueType = new InfoValueType();
+        
+        private DateTimeValueType _valueType = new DateTimeValueType();
         public ValueTypeBase ValueType
         {
             get
@@ -42,7 +42,7 @@ namespace Lazurite.CoreActions.StandartValueTypeActions
             }
             set
             {
-                //
+                _valueType = (DateTimeValueType)value;
             }
         }
 

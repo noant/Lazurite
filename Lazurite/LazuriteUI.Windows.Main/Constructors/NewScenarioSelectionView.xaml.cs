@@ -32,7 +32,7 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         private void btComplexScenario_Click(object sender, RoutedEventArgs e)
         {
-            ComplexScenario?.Invoke();
+            CompositeScenario?.Invoke();
         }
 
         private void btRemoteScenario_Click(object sender, RoutedEventArgs e)
@@ -41,7 +41,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         }
 
         public event Action SingleActionScenario;
-        public event Action ComplexScenario;
+        public event Action CompositeScenario;
         public event Action RemoteScenario;
     }
 }

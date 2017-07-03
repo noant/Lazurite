@@ -16,7 +16,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
     [HumanFriendlyName("Композитный сценарий")]
     public class CompositeScenario : ScenarioBase
     {
-        public ComplexAction TargetAction { get; set; }
+        public ComplexAction TargetAction { get; set; } = new ComplexAction();
 
         public override ValueTypeBase ValueType
         {

@@ -76,6 +76,11 @@ namespace LazuriteUI.Windows.Main
                 dialogView.Close();
                 NewScenario(new RemoteScenario());
             };
+
+            selectScenarioTypeControl.CompositeScenario += () => {
+                dialogView.Close();
+                NewScenario(new CompositeScenario());
+            };
         }
 
         private void NewScenario(ScenarioBase newScenario)

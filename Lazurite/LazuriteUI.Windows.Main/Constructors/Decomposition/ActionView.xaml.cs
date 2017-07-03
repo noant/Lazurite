@@ -24,33 +24,55 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// </summary>
     public partial class ActionView : UserControl, IConstructorElement
     {
-        public ActionView(ActionHolder action)
+        public ActionView() : this(new ActionHolder())
+        {
+            // do nothing
+        }
+
+        public ActionView(ActionHolder actionHolder)
         {
             InitializeComponent();
-            ActionHolder = action;
-            Model = new ActionModel();
-            Model.Refresh(ActionHolder);
-            DataContext = Model;
+
+            Refresh(actionHolder);
 
             buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
             buttons.RemoveClick += () => NeedRemove?.Invoke(this);
             buttons.EditClick += () =>
             {
-                if (ActionHolder.Action.UserInitializeWith(MasterAction?.ValueType, true))
-                {
-                    Model.Refresh(ActionHolder);
-                    Modified?.Invoke(this);
-                }
+                ActionControlResolver.UserInitialize(
+                    (result) => {
+                        if (result)
+                        {
+                            Model.Refresh(ActionHolder);
+                            Modified?.Invoke(this);
+                        }
+                    },
+                    ActionHolder.Action,
+                    MasterAction?.ValueType,
+                    MasterAction != null,
+                    MasterAction);
             };
             buttons.ChangeClick += () => {
                 SelectActionView.Show(
                     (type) => {
                         var newAction = Singleton.Resolve<PluginsManager>().CreateInstanceOf(type);
-                        if (newAction.UserInitializeWith(MasterAction?.ValueType, MasterAction != null))
+                        if (newAction != null)
                         {
-                            ActionHolder.Action = newAction;
-                            Model.Refresh();
-                            Modified?.Invoke(this);
+                            ActionControlResolver.UserInitialize(
+                                (result) => {
+                                    if (result)
+                                    {
+                                        Model.Refresh(ActionHolder);
+                                        Modified?.Invoke(this);
+                                        ActionHolder.Action = newAction;
+                                        Model.Refresh();
+                                        Modified?.Invoke(this);
+                                    }
+                                },
+                                newAction,
+                                MasterAction?.ValueType,
+                                true,
+                                MasterAction);
                         }
                     },
                     MasterAction?.ValueType.GetType(),
@@ -58,6 +80,14 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     : Lazurite.Windows.Modules.ActionInstanceSide.OnlyRight, 
                     ActionHolder?.Action.GetType());
             };
+        }
+
+        public void Refresh(ActionHolder actionHolder)
+        {
+            ActionHolder = actionHolder;
+            Model = new ActionModel();
+            Model.Refresh(ActionHolder);
+            DataContext = Model;
         }
 
         public IAction MasterAction { get; private set; }

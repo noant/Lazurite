@@ -22,7 +22,7 @@ namespace Lazurite.CoreActions
             ActionHolders = new List<ActionHolder>();
         }
 
-        public List<ActionHolder> ActionHolders { get; set; }
+        public List<ActionHolder> ActionHolders { get; set; } = new List<ActionHolder>();
 
         public bool IsSupportsEvent
         {

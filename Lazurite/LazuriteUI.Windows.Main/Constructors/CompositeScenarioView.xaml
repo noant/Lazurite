@@ -1,0 +1,24 @@
+﻿<Grid x:Class="LazuriteUI.Windows.Main.Constructors.CompositeScenarioView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             xmlns:decompos="clr-namespace:LazuriteUI.Windows.Main.Constructors.Decomposition"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <controls:WheelScroll Margin="4,4,4,4">
+        <Grid>
+            <Grid.LayoutTransform>
+                <ScaleTransform x:Name="scale" CenterX="0" CenterY="0"></ScaleTransform>
+            </Grid.LayoutTransform>
+            <decompos:ComplexActionView x:Name="complexActionView"></decompos:ComplexActionView>
+        </Grid>
+    </controls:WheelScroll>
+    <StackPanel Margin="4" Background="Black" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Right">
+        <controls:ItemView Height="30" Width="30" x:Name="btScalePlus" Icon="Add"></controls:ItemView>
+        <controls:IconView Height="30" Width="30" Icon="Magnify"></controls:IconView>
+        <controls:ItemView Height="30" Width="30" x:Name="btScaleMinus" Icon="Minus"></controls:ItemView>
+    </StackPanel>
+</Grid>

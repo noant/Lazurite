@@ -88,6 +88,7 @@ namespace Lazurite.Scenarios
                     + linkedScenarios.Select(x => x.Name).Aggregate((z, y) => z + "; " + y));
             }
 
+            scenario.TryCancelAll();
             _scenariosIds.Remove(scenario.Id);
             _scenarios.RemoveAll(x => x.Id.Equals(scenario.Id));
             _savior.Set(ScenariosIdsKey, _scenariosIds);
@@ -114,6 +115,7 @@ namespace Lazurite.Scenarios
 
         public override void RemoveTrigger(TriggerBase trigger)
         {
+            trigger.Stop();
             _triggersIds.Remove(trigger.Id);
             _triggers.RemoveAll(x => x.Id.Equals(trigger.Id));
             _savior.Set(TriggersIdsKey, _triggersIds);

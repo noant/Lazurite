@@ -93,12 +93,22 @@
     <Compile Include="Common\ScaleView.xaml.cs">
       <DependentUpon>ScaleView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\CompositeScenarioView.xaml.cs">
+      <DependentUpon>CompositeScenarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\Decomposition\ActionControlResolver.cs" />
     <Compile Include="Constructors\Decomposition\ActionModel.cs" />
     <Compile Include="Constructors\Decomposition\ActionView.xaml.cs">
       <DependentUpon>ActionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\Decomposition\ComplexActionView.xaml.cs">
+      <DependentUpon>ComplexActionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\Decomposition\EditActionButtonsView.xaml.cs">
       <DependentUpon>EditActionButtonsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\Decomposition\ExecuteActionView.xaml.cs">
+      <DependentUpon>ExecuteActionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Constructors\Decomposition\IConstructorElement.cs" />
     <Compile Include="Constructors\IScenarioConstructorView.cs" />
@@ -126,6 +136,10 @@
     <Compile Include="Constructors\SingleActionScenarioView.xaml.cs">
       <DependentUpon>SingleActionScenarioView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\StandardActionsInitialization\FloatInitializationView.xaml.cs">
+      <DependentUpon>FloatInitializationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\StandardActionsInitialization\IStandardVTActionEditView.cs" />
     <Compile Include="IInitializable.cs" />
     <Compile Include="IViewTypeResolverItem.cs" />
     <Compile Include="Journal\JournalItemViewModel.cs" />
@@ -157,6 +171,9 @@
     </Compile>
     <Compile Include="ScenariosConstructionView.xaml.cs">
       <DependentUpon>ScenariosConstructionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\SelectCoreActionView.xaml.cs">
+      <DependentUpon>SelectCoreActionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="StartupWindow.xaml.cs">
       <DependentUpon>StartupWindow.xaml</DependentUpon>
@@ -228,11 +245,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Constructors\CompositeScenarioView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Constructors\Decomposition\ActionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Constructors\Decomposition\ComplexActionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Constructors\Decomposition\EditActionButtonsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\Decomposition\ExecuteActionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -265,6 +294,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Constructors\SingleActionScenarioView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\StandardActionsInitialization\FloatInitializationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -323,6 +356,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ScenariosConstructionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\SelectCoreActionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

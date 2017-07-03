@@ -40,6 +40,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                 var itemView = new ItemView();
                 itemView.Content = Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(type);
                 itemView.Icon = Icons.LazuriteIconAttribute.GetIcon(type);
+                itemView.Margin = new Thickness(2);
                 itemView.Tag = type;
                 return itemView;
             }).OrderBy(x => x.Content.ToString());
@@ -61,9 +62,13 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             var control = new SelectActionView();
             var dialogView = new DialogView(control);
+            dialogView.ShowUnderCursor = true;
             control.Initialize(valueType, side, selectedType);
-            control.SelectionChanged += (ctrl) => dialogView.Close();
-            dialogView.Closed += (o, e) => selectedCallback?.Invoke(control.SelectedType);
+            control.SelectionChanged += (ctrl) =>
+            {
+                selectedCallback?.Invoke(control.SelectedType);
+                dialogView.Close();
+            };
             dialogView.Show();
         }
 

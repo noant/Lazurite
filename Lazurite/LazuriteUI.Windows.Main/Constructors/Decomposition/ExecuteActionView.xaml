@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Constructors.Decomposition.ExecuteActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors.Decomposition"
+             mc:Ignorable="d">
+    <StackPanel Orientation="Horizontal">
+        <local:ActionView x:Name="action1View"></local:ActionView>
+        <TextBlock FontSize="20" Foreground="SteelBlue" Margin="-1,-5,0,0" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Heavy">=</TextBlock>
+        <local:ActionView x:Name="action2View"></local:ActionView>
+        <local:EditActionButtonsView x:Name="buttons" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+    </StackPanel>
+</UserControl>

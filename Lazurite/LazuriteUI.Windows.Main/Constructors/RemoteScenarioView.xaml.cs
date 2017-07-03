@@ -33,6 +33,8 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             InitializeComponent();
             Refresh(scenario);
+            
+            tbPort.Validation = (str) => ushort.Parse(str);
 
             tbServiceName.TextChanged += (o, e) => ApplyCurrent();
             tbSecretCode.PasswordChanged += (o, e) => ApplyCurrent();

@@ -22,6 +22,7 @@ namespace LazuriteUI.Windows.Controls
     public partial class DialogView : UserControl
     {
         private List<FrameworkElement> _tempDisabledElements = new List<FrameworkElement>();
+        public bool ShowUnderCursor { get; set; } = false;
 
         public DialogView(FrameworkElement child)
         {
@@ -51,8 +52,34 @@ namespace LazuriteUI.Windows.Controls
                     _tempDisabledElements.Add(element);
                 else element.IsEnabled = false;
             }
+
+            if (ShowUnderCursor)
+            {
+                contentGrid.VerticalAlignment = VerticalAlignment.Top;
+                contentGrid.HorizontalAlignment = HorizontalAlignment.Left;
+                this.Loaded += (o, e) => {
+                    var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
+                    var mouse = transform.Transform(GetMousePosition());
+                    var margin = new Thickness(mouse.X, mouse.Y - contentGrid.ActualHeight / 2, 0, 0);
+
+                    if (margin.Top + contentGrid.ActualHeight > this.ActualHeight)
+                        margin.Top = 0;
+                    if (margin.Top < 0)
+                        margin.Top = 0;
+
+                    contentGrid.Margin = new Thickness(mouse.X - ((Window)Utils.GetMainWindowPanel().Parent).Left, mouse.Y - contentGrid.ActualHeight/2 - ((Window)Utils.GetMainWindowPanel().Parent).Top, 0, 0);
+                };
+            }
+
             parentElement.Children.Add(this);
             Panel.SetZIndex(this, 999);
+        }
+        
+
+        public System.Windows.Point GetMousePosition()
+        {
+            System.Drawing.Point point = System.Windows.Forms.Control.MousePosition;
+            return new System.Windows.Point(point.X, point.Y);
         }
 
         public void Show()
@@ -76,7 +103,7 @@ namespace LazuriteUI.Windows.Controls
         {
             Close();
         }
-
+        
         public event RoutedEventHandler Closed;
     }
 }

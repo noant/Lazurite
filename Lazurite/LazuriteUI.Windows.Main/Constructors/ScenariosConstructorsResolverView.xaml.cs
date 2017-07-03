@@ -49,6 +49,8 @@ namespace LazuriteUI.Windows.Main.Constructors
                     this.contentPresenter.Content = _constructorView = new SingleActionScenarioView((SingleActionScenario)_clonedScenario);
                 else if (scenario is RemoteScenario)
                     this.contentPresenter.Content = _constructorView = new RemoteScenarioView((RemoteScenario)_clonedScenario);
+                else if (scenario is CompositeScenario)
+                    this.contentPresenter.Content = _constructorView = new CompositeScenarioView((CompositeScenario)_clonedScenario);
                 buttonsView.SetScenario(_clonedScenario);
                 _constructorView.Modified += () => Modified?.Invoke();
                 _constructorView.Modified += () => buttonsView.ScenarioModified();

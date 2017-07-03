@@ -63,6 +63,10 @@
       <Project>{E6BE3954-3D6F-447A-91BF-04D892A1C025}</Project>
       <Name>Lazurite.ActionsDomain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.CoreActions\Lazurite.CoreActions.csproj">
+      <Project>{CB9EC852-4C16-4A34-98AB-EC569C35398C}</Project>
+      <Name>Lazurite.CoreActions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Data\Lazurite.Data.csproj">
       <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
       <Name>Lazurite.Data</Name>

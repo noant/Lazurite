@@ -7,31 +7,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lazurite.CoreActions.StandartValueTypeActions
+namespace Lazurite.CoreActions.StandardValueTypeActions
 {
     [OnlyGetValue]
     [VisualInitialization]
-    [HumanFriendlyName("Переключатель")]
-    [SuitableValueTypes(typeof(ToggleValueType))]
-    public class GetToggleVTAction : IAction
+    [HumanFriendlyName("Стандартные: изображение")]
+    [SuitableValueTypes(typeof(ImageValueType))]
+    public class GetImageVTAction : IAction
     {
         public string Caption
         {
             get
             {
-                return Value;
+                return "Изображение";
             }
             set
             {
                 //
-            }
-        }
-
-        public bool IsSupportsEvent
-        {
-            get
-            {
-                return ValueChanged != null;
             }
         }
 
@@ -41,8 +33,8 @@ namespace Lazurite.CoreActions.StandartValueTypeActions
             set;
         }
 
-        private ToggleValueType _valueType = new ToggleValueType();
-        public ValueTypeBase ValueType
+        private ImageValueType _valueType = new ImageValueType();
+        public ActionsDomain.ValueTypes.ValueTypeBase ValueType
         {
             get
             {
@@ -50,7 +42,15 @@ namespace Lazurite.CoreActions.StandartValueTypeActions
             }
             set
             {
-                //
+                _valueType = (ImageValueType)value;
+            }
+        }
+
+        public bool IsSupportsEvent
+        {
+            get
+            {
+                return ValueChanged != null;
             }
         }
 
