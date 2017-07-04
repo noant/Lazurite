@@ -71,12 +71,13 @@ namespace Lazurite.CoreActions
         
         public IAction[] GetAllActionsFlat()
         {
-            return ActionHolders
+            var result = ActionHolders
                 .Select(x=>x.Action)
                 .Union(
                 ActionHolders
-                .Where(x => x is IMultipleAction)
-                .Select(x => ((IMultipleAction)x).GetAllActionsFlat()).SelectMany(x => x)).ToArray();
+                .Where(x => x.Action is IMultipleAction)
+                .Select(x => ((IMultipleAction)x.Action).GetAllActionsFlat()).SelectMany(x => x)).ToArray();
+            return result;
         }
 
         public void Initialize()

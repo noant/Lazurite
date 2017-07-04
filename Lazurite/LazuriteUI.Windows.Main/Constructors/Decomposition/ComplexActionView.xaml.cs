@@ -80,6 +80,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             if (position == -1)
                 position = stackPanel.Children.Count;
             var control = ActionControlResolver.Create(actionHolder.Action);
+            ((FrameworkElement)control).Margin = new Thickness(0, 1, 0, 0);
             var constructorElement = control as IConstructorElement;
             constructorElement.Modified += (element) => Modified?.Invoke(element);
             constructorElement.NeedRemove += (element) => {
@@ -89,7 +90,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             };
             constructorElement.NeedAddNext += (element) => {
                 SelectCoreActionView.Show((type) => {
-                    var index = stackPanel.Children.IndexOf(control);
+                    var index = stackPanel.Children.IndexOf(control)+1;
                     var newActionHolder = new ActionHolder() {
                         Action = _manager.CreateInstanceOf(type)
                     };

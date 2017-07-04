@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors.Decomposition"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             xmlns:switches="clr-namespace:LazuriteUI.Windows.Main.Switches"
              mc:Ignorable="d" 
              Height="30"
              HorizontalAlignment="Left"
@@ -18,7 +19,7 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <controls:IconView Icon="{Binding Icon}"></controls:IconView>
+        <controls:IconView Icon="{Binding Icon}" Visibility="{Binding IconVisibility}"></controls:IconView>
         <Label Grid.Column="1" Foreground="White" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Content="{Binding ActionName}"></Label>
         <Label Grid.Column="2" Foreground="White" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Background="#114466" Content="{Binding ActionCaption}"></Label>
         <local:EditActionButtonsView x:Name="buttons" VerticalAlignment="Center" AddVisible="False" RemoveVisible="False" Grid.Column="3" DataContext="{Binding Model}"></local:EditActionButtonsView>

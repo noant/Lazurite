@@ -37,9 +37,30 @@ namespace LazuriteUI.Windows.Main
         {
             InitializeComponent();
             this.switchesGrid.SelectedModelChanged += SwitchesGrid_SelectedModelChanged;
+            this.switchesGrid.SelectedModelChanging += SwitchesGrid_SelectedModelChanging;
             this.switchesGrid.Initialize();
 
             this.constructorsResolver.Applied += () => this.switchesGrid.RefreshItemFull(this.constructorsResolver.GetScenario());
+        }
+
+        private void SwitchesGrid_SelectedModelChanging(Switches.ScenarioModel arg1, ScenarioChangingEventArgs args)
+        {
+            if (this.constructorsResolver.GetScenario() != null && this.constructorsResolver.IsModified)
+            {
+                switchesGrid.CancelDragging();
+                MessageView.ShowYesNo(
+                    "Сохранить изменения сценария [" + this.constructorsResolver.GetScenario().Name + "]?",
+                    "Выбран другой сценарий",
+                    Icon.Save,
+                    (result) =>
+                    {
+                        if (result)
+                            constructorsResolver.Apply(() => args.Apply());
+                        else
+                            args.Apply();
+                    });
+            }
+            else args.Apply();
         }
 
         private void SwitchesGrid_SelectedModelChanged(Switches.ScenarioModel obj)
@@ -79,7 +100,13 @@ namespace LazuriteUI.Windows.Main
 
             selectScenarioTypeControl.CompositeScenario += () => {
                 dialogView.Close();
-                NewScenario(new CompositeScenario());
+                var selectCompositeScenarioType = new NewCompositeScenarioSelectionView();
+                var dialogViewComposite = new DialogView(selectCompositeScenarioType);
+                selectCompositeScenarioType.Selected += (valueType) => {
+                    dialogViewComposite.Close();
+                    NewScenario(new CompositeScenario() { ValueType = valueType });
+                };
+                dialogViewComposite.Show();
             };
         }
 

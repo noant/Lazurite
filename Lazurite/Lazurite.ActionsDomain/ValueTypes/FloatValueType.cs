@@ -13,7 +13,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
     {
         public FloatValueType()
         {
-            base.AcceptedValues = new string[] { double.MinValue.ToString(), double.MaxValue.ToString() };
+            base.AcceptedValues = new string[] { 0.0.ToString(), 100.0.ToString() };
         }
         
         public override bool CanBeModified

@@ -13,7 +13,7 @@ namespace LazuriteUI.Windows.Main.Switches
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value.ToString().Replace(" ", "\r\n");
+            return value?.ToString().Replace(" ", "\r\n");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

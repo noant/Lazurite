@@ -198,19 +198,27 @@ namespace Lazurite.Windows.Modules
             var result = new List<Type>();
             bool isValueTypeSupport = false;
             bool rightSide = false;
-            foreach (var type in _allTypes.Select(x=>x.Type)
+
+            var allTypes = 
+                _allTypes.Select(x => x.Type)
                 .Union(new Type[] {
                     typeof(GetStateVTAction),
                     typeof(GetDateTimeVTAction),
                     typeof(GetFloatVTAction),
                     typeof(GetInfoVTAction),
-                    typeof(GetToggleVTAction) }))
+                    typeof(GetToggleVTAction) })
+                    .ToArray();
+            
+            if (side == ActionInstanceSide.OnlyRight && valueType != null && valueType.Equals(typeof(InfoValueType)))
+                return allTypes;
+
+            foreach (var type in allTypes)
             {
                 isValueTypeSupport = valueType == null || ActionsDomain.Utils.IsComparableWithValueType(type, valueType);
                 rightSide = (side == ActionInstanceSide.Both) ||
-                    (side == ActionInstanceSide.OnlyLeft) ||
-                    (side == ActionInstanceSide.OnlyRight 
-                    && ActionsDomain.Utils.IsOnlyGetValue(type)
+                    (side == ActionInstanceSide.OnlyLeft 
+                    && !ActionsDomain.Utils.IsOnlyGetValue(type)) ||
+                    (side == ActionInstanceSide.OnlyRight
                     && !ActionsDomain.Utils.IsOnlyExecute(type));
 
                 if (rightSide && isValueTypeSupport)

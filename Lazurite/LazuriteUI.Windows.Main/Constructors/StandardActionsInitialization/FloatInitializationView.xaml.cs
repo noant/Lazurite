@@ -37,6 +37,13 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
                 ((GetFloatVTAction)action).Value = tbVal.Text;
                 ApplyClicked?.Invoke();
             };
+
+            if (masterAction != null)
+            {
+                tbMin.Text = masterAction.ValueType.AcceptedValues[0];
+                tbMax.Text = masterAction.ValueType.AcceptedValues[1];
+                tbMax.IsEnabled = tbMin.IsEnabled = false;
+            }
         }
 
         public event Action ApplyClicked;

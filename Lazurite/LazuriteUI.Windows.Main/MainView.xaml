@@ -35,14 +35,14 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Vertical">
                 <controls:ListItemsView Name="menuItems" SelectionMode="Single">
-                    <local:MenuItemView Type="{x:Type local:SwitchesGrid}" Margin="0,0,0,1" Icon="SwitchOff" Text="Переключатели"></local:MenuItemView>
-                    <local:MenuItemView Type="{x:Type local:ScenariosConstructionView}" Margin="0,0,0,1" Icon="MovieClapper" Text="Сценарии"></local:MenuItemView>
-                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="TimerForward" Text="Триггеры"></local:MenuItemView>
-                    <local:MenuItemView Type="{x:Type pluginsViews:PluginsView}" Margin="0,0,0,1" Icon="Brick" Text="Плагины"></local:MenuItemView>
-                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="NetworkHome" Text="Сервер"></local:MenuItemView>
-                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="People" Text="Пользователи"></local:MenuItemView>
-                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="PeopleMultiple" Text="Группы"></local:MenuItemView>
-                    <local:MenuItemView Type="{x:Type journal:JournalView}" Margin="0,0,0,1" Icon="Journal" Text="Журнал"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type local:SwitchesGrid}" Margin="0,0,0,1" Icon="SwitchOff" Text="ПЕРЕКЛЮЧАТЕЛИ"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type local:ScenariosConstructionView}" Margin="0,0,0,1" Icon="MovieClapper" Text="СЦЕНАРИИ"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="TimerForward" Text="ТРИГГЕРЫ"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type pluginsViews:PluginsView}" Margin="0,0,0,1" Icon="Brick" Text="ПЛАГИНЫ"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="NetworkHome" Text="СЕРВЕР"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="People" Text="ПОЛЬЗОВАТЕЛИ"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="PeopleMultiple" Text="ГРУППЫ"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type journal:JournalView}" Margin="0,0,0,1" Icon="Journal" Text="ЖУРНАЛ"></local:MenuItemView>
                 </controls:ListItemsView>
                 <controls:CornerView HorizontalAlignment="Left" Margin="-10,0,0,0"></controls:CornerView>
             </StackPanel>

@@ -26,7 +26,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void CalculateCurrentValueAsync(Action<string> callback)
         {
-            //async is neccesary
+            //async is unneccesary
             callback(CalculateCurrentValue());
         }
 
@@ -45,7 +45,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             return TargetAction.GetAllActionsFlat().Select(x => x.GetType()).Distinct().ToArray();
         }
-
+        
         private string _currentValue;
         public override void SetCurrentValueInternal(string value)
         {

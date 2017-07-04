@@ -90,7 +90,12 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             DataContext = Model;
         }
 
-        public IAction MasterAction { get; private set; }
+        public void Refresh()
+        {
+            this.Refresh(this.ActionHolder);
+        }
+
+        public IAction MasterAction { get; set; }
 
         public ActionModel Model
         {

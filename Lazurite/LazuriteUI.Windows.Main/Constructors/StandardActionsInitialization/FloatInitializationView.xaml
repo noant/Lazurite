@@ -27,6 +27,6 @@
         <controls:EntryView Grid.Row="1" Grid.Column="1" x:Name="tbMin">0</controls:EntryView>
         <controls:EntryView Grid.Row="2" Grid.Column="1" x:Name="tbMax">100</controls:EntryView>
         <controls:EntryView Grid.Row="3" Grid.Column="1" x:Name="tbVal">0</controls:EntryView>
-        <controls:ItemView Grid.Row="4" Grid.ColumnSpan="2" Margin="5" Icon="Check" x:Name="btApply">Применить</controls:ItemView>
+        <controls:ItemView Width="265" HorizontalAlignment="Stretch" Grid.Row="4" Grid.ColumnSpan="2" Margin="5" Icon="Check" x:Name="btApply">Применить</controls:ItemView>
     </Grid>
 </UserControl>

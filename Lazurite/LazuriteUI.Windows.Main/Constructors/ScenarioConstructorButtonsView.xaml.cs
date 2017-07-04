@@ -67,6 +67,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         public void ScenarioModified()
         {
             btCancel.IsEnabled = btApply.IsEnabled = true;
+            Modified?.Invoke();
         }
 
         public void SetScenario(ScenarioBase scenario)

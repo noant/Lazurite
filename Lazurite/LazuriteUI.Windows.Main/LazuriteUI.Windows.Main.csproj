@@ -111,7 +111,11 @@
       <DependentUpon>ExecuteActionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Constructors\Decomposition\IConstructorElement.cs" />
+    <Compile Include="Constructors\FakeScenarioModel.cs" />
     <Compile Include="Constructors\IScenarioConstructorView.cs" />
+    <Compile Include="Constructors\NewCompositeScenarioSelectionView.xaml.cs">
+      <DependentUpon>NewCompositeScenarioSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\NewScenarioSelectionView.xaml.cs">
       <DependentUpon>NewScenarioSelectionView.xaml</DependentUpon>
     </Compile>
@@ -262,6 +266,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Constructors\Decomposition\ExecuteActionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\NewCompositeScenarioSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

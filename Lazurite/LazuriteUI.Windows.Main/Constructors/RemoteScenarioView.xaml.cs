@@ -28,7 +28,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         private RemoteScenario _scenario;
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
         private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();
-
+        
         public RemoteScenarioView(RemoteScenario scenario)
         {
             InitializeComponent();

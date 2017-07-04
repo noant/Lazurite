@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 {
@@ -25,6 +26,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             ActionName = Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(ActionHolder.Action.GetType());
             Icon = Icons.LazuriteIconAttribute.GetIcon(ActionHolder.Action.GetType());
+            IconVisibility = Icon == Icon.None ? Visibility.Collapsed : Visibility.Visible;
             OnPropertyChanged(nameof(ActionName));
             OnPropertyChanged(nameof(ActionCaption));
             OnPropertyChanged(nameof(Icon));
@@ -57,6 +59,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 OnPropertyChanged(nameof(EditMode));
             }
         }
+
+        public Visibility IconVisibility { get; private set; }
 
         public Icon Icon { get; private set; }
 

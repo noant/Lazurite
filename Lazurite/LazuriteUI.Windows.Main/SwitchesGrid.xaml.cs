@@ -217,10 +217,32 @@ namespace LazuriteUI.Windows.Main
                 var model = ((ScenarioModel)@switch.DataContext);
                 if (model?.Scenario.Id != SelectedModel?.Scenario.Id || SelectedModel == null)
                 {
-                    model.Checked = true;
-                    SelectedModel = model;
-                    SelectedModelChanged?.Invoke(model);
+                    SelectInternal(model);
                 }
+            }
+        }
+
+        private void SelectInternal(ScenarioModel model)
+        {
+            if (SelectedModelChanging != null)
+            {
+                SelectedModelChanging?.Invoke(
+                    model,
+                    new ScenarioChangingEventArgs()
+                    {
+                        Apply = () =>
+                        {
+                            model.Checked = true;
+                            SelectedModel = model;
+                            SelectedModelChanged?.Invoke(model);
+                        }
+                    });
+            }
+            else
+            {
+                model.Checked = true;
+                SelectedModel = model;
+                SelectedModelChanged?.Invoke(model);
             }
         }
 
@@ -235,14 +257,11 @@ namespace LazuriteUI.Windows.Main
             {
                 BindSwitchSettings(firstSwitch);
                 var model = ((ScenarioModel)firstSwitch.DataContext);
-                model.Checked = true;
-                SelectedModel = model;
-                SelectedModelChanged?.Invoke(model);
+                SelectInternal(model);
             }
             else
             {
-                SelectedModel = null;
-                SelectedModelChanged?.Invoke(null);
+                SelectInternal(null);
             }
         }
 
@@ -262,8 +281,7 @@ namespace LazuriteUI.Windows.Main
                     var model = (ScenarioModel)_draggableCurrent.DataContext;
                     if (model?.Scenario.Id != SelectedModel?.Scenario.Id || SelectedModel == null)
                     {
-                        SelectedModel = model;
-                        SelectedModelChanged?.Invoke(model);
+                        SelectInternal(model);
                     }
                 }
             }
@@ -271,8 +289,6 @@ namespace LazuriteUI.Windows.Main
 
         private void BindSwitchSettings(UserControl control)
         {
-            var model = ((ScenarioModel)control.DataContext);
-            model.Checked = true;
             foreach (UserControl userControl in grid.Children)
             {
                 if (userControl != control)
@@ -407,6 +423,17 @@ namespace LazuriteUI.Windows.Main
             switchSettingsHolder.Visibility = Visibility.Visible;
         }
 
+        public void CancelDragging()
+        {
+            _draggableCurrent = null;
+        }
+
         public event Action<ScenarioModel> SelectedModelChanged;
+        public event Action<ScenarioModel, ScenarioChangingEventArgs> SelectedModelChanging;
+    }
+
+    public class ScenarioChangingEventArgs
+    {
+        public Action Apply { get; set; }
     }
 }

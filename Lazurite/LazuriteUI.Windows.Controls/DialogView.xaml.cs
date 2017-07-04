@@ -90,13 +90,16 @@ namespace LazuriteUI.Windows.Controls
         
         public void Close()
         {
-            foreach (FrameworkElement element in ((Panel)this.Parent).Children)
+            if (this.Parent != null)
             {
-                if (!_tempDisabledElements.Contains(element))
-                    element.IsEnabled = true;
+                foreach (FrameworkElement element in ((Panel)this.Parent).Children)
+                {
+                    if (!_tempDisabledElements.Contains(element))
+                        element.IsEnabled = true;
+                }
+                ((Panel)Parent).Children.Remove(this);
+                Closed?.Invoke(this, new RoutedEventArgs());
             }
-            ((Panel)Parent).Children.Remove(this);
-            Closed?.Invoke(this, new RoutedEventArgs());
         }
 
         private void CloseItemView_Click(object sender, RoutedEventArgs e)

@@ -25,6 +25,8 @@ namespace LazuriteUI.Windows.Main.Switches
             OnPropertyChanged(nameof(Icon2));
         }
 
+        public ScenarioModel() : this(null, null) { }
+
         private string _value;
         private bool _editMode;
         private bool _checked;

@@ -6,10 +6,9 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors.Decomposition"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel Margin="15,0,0,0" Orientation="Vertical">
+    <StackPanel Orientation="Vertical">
         <local:EditActionButtonsView x:Name="buttons" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
         <StackPanel x:Name="stackPanel" Orientation="Vertical">
-            
         </StackPanel>
     </StackPanel>
 </UserControl>

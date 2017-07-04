@@ -33,6 +33,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     throw new NotImplementedException();
 
                 var dialog = new DialogView((FrameworkElement)vtAction);
+                dialog.ShowUnderCursor = true;
                 vtAction.ApplyClicked += () => {
                     callback(true);
                     dialog.Close();

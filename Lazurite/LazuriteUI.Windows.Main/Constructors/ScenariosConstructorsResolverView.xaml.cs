@@ -1,6 +1,7 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.Scenarios.ScenarioTypes;
+using LazuriteUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         public event Action Applied;
         public event Action Modified;
+        public bool IsModified { get; private set; }
 
         public ScenariosConstructorsResolverView()
         {
@@ -52,8 +54,10 @@ namespace LazuriteUI.Windows.Main.Constructors
                 else if (scenario is CompositeScenario)
                     this.contentPresenter.Content = _constructorView = new CompositeScenarioView((CompositeScenario)_clonedScenario);
                 buttonsView.SetScenario(_clonedScenario);
+                buttonsView.Modified += () => IsModified = true;
                 _constructorView.Modified += () => Modified?.Invoke();
                 _constructorView.Modified += () => buttonsView.ScenarioModified();
+                _constructorView.Modified += () => IsModified = true;
                 _constructorView.Failed += () => buttonsView.Failed();
                 _constructorView.Succeed += () => buttonsView.Success();
                 EmptyScenarioModeOff();
@@ -62,6 +66,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             {
                 EmptyScenarioModeOn();
             }
+            IsModified = false;
         }
 
         private void EmptyScenarioModeOn()
@@ -82,7 +87,30 @@ namespace LazuriteUI.Windows.Main.Constructors
             return _originalSenario;
         }
 
-        public void Apply()
+        public void Apply(Action callback = null)
+        {
+            if (!_originalSenario.ValueType.IsCompatibleWith(_clonedScenario.ValueType))
+            {
+                MessageView.ShowYesNo(
+                    "Сценарий был изменен так, что тип изначального сценария не совместим с типом текущего сценария.\r\n" +
+                    "Если на этот сценарий ссылаются удаленные или комплексные сценарии, то они могут выполняться с ошибкой.\r\n" +
+                    "Сохранить сценарий?",
+                    "Сохранение сценария",
+                    Icons.Icon.Warning,
+                    (result) =>
+                    {
+                        ApplyInternal();
+                        callback?.Invoke();
+                    });
+            }
+            else
+            {
+                ApplyInternal();
+                callback?.Invoke();
+            }
+        }
+
+        private void ApplyInternal()
         {
             _originalSenario.TryCancelAll();
             _repository.SaveScenario(_clonedScenario);
@@ -90,6 +118,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             _clonedScenario.AfterInitilize();
             SetScenario(_clonedScenario);
             Applied?.Invoke();
+            IsModified = false;
         }
 
         public void Revert()
@@ -98,6 +127,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             _clonedScenario.Initialize(_repository);
             buttonsView.Revert(_clonedScenario);
             _constructorView.Revert(_clonedScenario);
+            IsModified = false;
         }
     }
 }
