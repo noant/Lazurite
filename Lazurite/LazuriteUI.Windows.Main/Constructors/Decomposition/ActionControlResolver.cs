@@ -28,12 +28,17 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             {
                 IStandardVTActionEditView vtAction = null;
                 if (action is GetFloatVTAction)
-                    vtAction = new FloatInitializationView(action, masterAction);
-                else
-                    throw new NotImplementedException();
+                    vtAction = new FloatInitializationView((IStandardValueAction)action, masterAction);
+                else if (action is GetToggleVTAction)
+                    vtAction = new ToggleInitializationView((IStandardValueAction)action, masterAction);
+                else if (action is GetDateTimeVTAction)
+                    vtAction = new DateTimeInitializationView((IStandardValueAction)action, masterAction);
+                else if (action is GetStateVTAction)
+                    vtAction = new StatusInitializationView((IStandardValueAction)action, masterAction);
+                else if (action is GetInfoVTAction)
+                    vtAction = new InfoInitializationView((IStandardValueAction)action, masterAction);
 
                 var dialog = new DialogView((FrameworkElement)vtAction);
-                dialog.ShowUnderCursor = true;
                 vtAction.ApplyClicked += () => {
                     callback(true);
                     dialog.Close();

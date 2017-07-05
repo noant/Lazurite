@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization.ToggleInitializationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             Background="Black"
+             Width="205"
+             mc:Ignorable="d">
+    <Grid Margin="3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <controls:ItemView Selectable="True" x:Name="btOn" Height="Auto" Icon="ButtonOn" Margin="5,5,2,5" IconHorizontalAligment="Center" IconVerticalAligment="Center"></controls:ItemView>
+        <controls:ItemView Selectable="True" x:Name="btOff" Grid.Column="1" Icon="BaseSelect" Height="Auto" Margin="2,5,5,5" IconHorizontalAligment="Center" IconVerticalAligment="Center"></controls:ItemView>
+        <TextBlock Margin="5,0,2,5" Foreground="SteelBlue" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">Включено</TextBlock>
+        <TextBlock Margin="2,0,5,5" Foreground="SteelBlue" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">Выключено</TextBlock>
+    </Grid>
+</UserControl>

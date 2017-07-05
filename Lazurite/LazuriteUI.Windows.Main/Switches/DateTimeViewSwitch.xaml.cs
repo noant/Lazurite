@@ -24,6 +24,9 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             InitializeComponent();
             itemViewApply.Click += (o, e) => Apply?.Invoke(this, new RoutedEventArgs());
+            tbHour.Validation = (str) => int.Parse(str) >= 0 && int.Parse(str) <= 23;
+            tbMinute.Validation = (str) => int.Parse(str) >= 0 && int.Parse(str) <= 59;
+            tbSecond.Validation = (str) => int.Parse(str) >= 0 && int.Parse(str) <= 59;
         }
 
         public DateTime DateTime
@@ -31,14 +34,14 @@ namespace LazuriteUI.Windows.Main.Switches
             get
             {
                 var selectedDate = datePicker.SelectedDate ?? new DateTime();
-                return new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, (int)nudHour.Value, (int)nudMinute.Value, (int)nudSecond.Value);
+                return new DateTime(selectedDate.Year, selectedDate.Month, selectedDate.Day, int.Parse(tbHour.Text), int.Parse(tbMinute.Text), int.Parse(tbSecond.Text));
             }
             set
             {
                 datePicker.SelectedDate = value;
-                nudHour.Value = value.Hour;
-                nudMinute.Value = value.Minute;
-                nudSecond.Value = value.Second;
+                tbHour.Text = value.Hour.ToString();
+                tbMinute.Text = value.Minute.ToString();
+                tbSecond.Text = value.Second.ToString();
             }
         }
 

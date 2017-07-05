@@ -9,17 +9,16 @@ using System.Threading.Tasks;
 
 namespace Lazurite.CoreActions.StandardValueTypeActions
 {
-    [OnlyGetValue]
     [VisualInitialization]
     [HumanFriendlyName("Стандартные: переключатель")]
     [SuitableValueTypes(typeof(ToggleValueType))]
-    public class GetToggleVTAction : IAction
+    public class GetToggleVTAction : IAction, IStandardValueAction
     {
         public string Caption
         {
             get
             {
-                return Value;
+                return Value == ToggleValueType.ValueON ? "Включено" : "Выключено";
             }
             set
             {

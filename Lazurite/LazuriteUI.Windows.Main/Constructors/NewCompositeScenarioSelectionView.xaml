@@ -63,6 +63,7 @@
                 <switches:FloatView.DataContext>
                     <local:FakeScenarioModel>
                         <local:FakeScenarioModel.ScenarioValue>20</local:FakeScenarioModel.ScenarioValue>
+                        <local:FakeScenarioModel.ScenarioName>Числовой параметер</local:FakeScenarioModel.ScenarioName>
                     </local:FakeScenarioModel>
                 </switches:FloatView.DataContext>
             </switches:FloatView>

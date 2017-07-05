@@ -140,10 +140,23 @@
     <Compile Include="Constructors\SingleActionScenarioView.xaml.cs">
       <DependentUpon>SingleActionScenarioView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\StandardActionsInitialization\DateTimeInitializationView.cs" />
     <Compile Include="Constructors\StandardActionsInitialization\FloatInitializationView.xaml.cs">
       <DependentUpon>FloatInitializationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\StandardActionsInitialization\InfoInitializationView.xaml.cs">
+      <DependentUpon>InfoInitializationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\StandardActionsInitialization\IStandardVTActionEditView.cs" />
+    <Compile Include="Constructors\StandardActionsInitialization\StatusInitializationView.xaml.cs">
+      <DependentUpon>StatusInitializationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\StandardActionsInitialization\StatusInitializationViewItem.xaml.cs">
+      <DependentUpon>StatusInitializationViewItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\StandardActionsInitialization\ToggleInitializationView.xaml.cs">
+      <DependentUpon>ToggleInitializationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IInitializable.cs" />
     <Compile Include="IViewTypeResolverItem.cs" />
     <Compile Include="Journal\JournalItemViewModel.cs" />
@@ -306,6 +319,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Constructors\StandardActionsInitialization\FloatInitializationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\StandardActionsInitialization\InfoInitializationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\StandardActionsInitialization\StatusInitializationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\StandardActionsInitialization\StatusInitializationViewItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\StandardActionsInitialization\ToggleInitializationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

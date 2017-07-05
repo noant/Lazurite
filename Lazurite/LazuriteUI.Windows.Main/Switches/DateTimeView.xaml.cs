@@ -37,8 +37,10 @@ namespace LazuriteUI.Windows.Main.Switches
 
         private void ItemView_Click(object sender, RoutedEventArgs e)
         {
+            var dateTime = DateTime.Now;
+            DateTime.TryParse(((ScenarioModel)this.DataContext).ScenarioValue, out dateTime);
             var dateTimeSwitch = new DateTimeViewSwitch() {
-                DateTime = DateTime.Parse(((ScenarioModel)this.DataContext).ScenarioValue)
+                DateTime = dateTime
             };
             var dialog = new DialogView(dateTimeSwitch);
             dateTimeSwitch.Apply += (o, args) => {

@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization.StatusInitializationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             Background="Black"
+             Width="400"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Margin="4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <controls:ListItemsView SelectionMode="Single" x:Name="listItemsStatus"></controls:ListItemsView>
+        <Grid Grid.Row="1" x:Name="gridAdd">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Foreground="SteelBlue" Margin="5" VerticalAlignment="Center">Новый статус:</TextBlock>
+            <controls:EntryView x:Name="tbNewStatus" Grid.Column="1"></controls:EntryView>
+            <controls:ItemView x:Name="btAddNew" Grid.Column="2" Icon="Add" ToolTip="Добавить"></controls:ItemView>
+        </Grid>
+        <controls:ItemView x:Name="btApply" Grid.Row="2" Icon="Check" Margin="0,4,0,0">Применить</controls:ItemView>
+    </Grid>
+</UserControl>

@@ -89,7 +89,7 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         public void Apply(Action callback = null)
         {
-            if (!_originalSenario.ValueType.IsCompatibleWith(_clonedScenario.ValueType))
+            if (_originalSenario.ValueType != null && !_originalSenario.ValueType.IsCompatibleWith(_clonedScenario.ValueType))
             {
                 MessageView.ShowYesNo(
                     "Сценарий был изменен так, что тип изначального сценария не совместим с типом текущего сценария.\r\n" +

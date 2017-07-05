@@ -14,7 +14,7 @@ using Lazurite.IOC;
 namespace Lazurite.Scenarios.ScenarioTypes
 {
     [HumanFriendlyName("Композитный сценарий")]
-    public class CompositeScenario : ScenarioBase
+    public class CompositeScenario : ScenarioBase, IStandardValueAction
     {
         public ComplexAction TargetAction { get; set; } = new ComplexAction();
 
@@ -74,7 +74,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void AfterInitilize()
         {
-            ExecuteAsync(InitializeWithValue);
+            if (this.ValueType != null && this.ValueType is ButtonValueType == false) //except buttonValueType because any input value starts scenario permanent
+                ExecuteAsync(InitializeWithValue);
         }
 
         public override IAction[] GetAllActionsFlat()
@@ -83,5 +84,18 @@ namespace Lazurite.Scenarios.ScenarioTypes
         }
 
         public string InitializeWithValue { get; set; }
+
+        //crutch
+        public string Value
+        {
+            get
+            {
+                return InitializeWithValue;
+            }
+            set
+            {
+                InitializeWithValue = value;
+            }
+        }
     }
 }

@@ -9,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace Lazurite.CoreActions.StandardValueTypeActions
 {
-    [OnlyGetValue]
     [VisualInitialization]
     [HumanFriendlyName("Стандартные: статус")]
     [SuitableValueTypes(typeof(StateValueType))]
-    public class GetStateVTAction : IAction
+    public class GetStateVTAction : IAction, IStandardValueAction
     {
         public string Caption
         {

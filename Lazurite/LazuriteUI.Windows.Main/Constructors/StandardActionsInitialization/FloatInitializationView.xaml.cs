@@ -23,7 +23,7 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
     /// </summary>
     public partial class FloatInitializationView : UserControl, IStandardVTActionEditView
     {
-        public FloatInitializationView(IAction action = null, IAction masterAction=null)
+        public FloatInitializationView(IStandardValueAction action, IAction masterAction=null)
         {
             InitializeComponent();
 
@@ -32,9 +32,9 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
             tbVal.Validation = (str) => double.Parse(tbMin.Text) <= double.Parse(str) && double.Parse(str) <= double.Parse(tbMax.Text);
             
             btApply.Click += (o, e) => {
-                ((FloatValueType)action.ValueType).AcceptedValues[1] = tbMax.Text;
-                ((FloatValueType)action.ValueType).AcceptedValues[0] = tbMin.Text;
-                ((GetFloatVTAction)action).Value = tbVal.Text;
+                action.ValueType.AcceptedValues[1] = tbMax.Text;
+                action.ValueType.AcceptedValues[0] = tbMin.Text;
+                action.Value = tbVal.Text;
                 ApplyClicked?.Invoke();
             };
 
@@ -44,6 +44,8 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
                 tbMax.Text = masterAction.ValueType.AcceptedValues[1];
                 tbMax.IsEnabled = tbMin.IsEnabled = false;
             }
+
+            tbVal.Text = action.Value;
         }
 
         public event Action ApplyClicked;

@@ -25,9 +25,11 @@ namespace LazuriteMobile.App.Switches
 
         private void ItemView_Click(object sender, EventArgs e)
         {
+            var dateTime = DateTime.Now;
+            DateTime.TryParse(((ScenarioModel)this.BindingContext).ScenarioValue, out dateTime);
             var dateTimeSwitch = new DateTimeViewSwitch()
             {
-                DateTime = DateTime.Parse(((ScenarioModel)this.BindingContext).ScenarioValue)
+                DateTime = dateTime
             };
             var dialog = new DialogView(dateTimeSwitch);
             dateTimeSwitch.Apply += (o, args) =>

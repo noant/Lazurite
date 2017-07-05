@@ -10,6 +10,11 @@ namespace Lazurite.ActionsDomain.ValueTypes
     [HumanFriendlyName("Статус")]
     public class StateValueType : ValueTypeBase
     {
+        public StateValueType()
+        {
+            AcceptedValues = new string[] { };
+        }
+
         public override bool CanBeModified
         {
             get
