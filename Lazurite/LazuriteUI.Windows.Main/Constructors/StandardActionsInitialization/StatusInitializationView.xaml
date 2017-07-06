@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
-             Background="Black"
+             Background="{x:Static controls:Visual.Background}"
              Width="400"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Margin="4">
@@ -22,7 +22,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBlock Foreground="SteelBlue" Margin="5" VerticalAlignment="Center">Новый статус:</TextBlock>
+            <TextBlock Foreground="SteelBlue" Margin="5,3,5,5" VerticalAlignment="Center">Новый статус:</TextBlock>
             <controls:EntryView x:Name="tbNewStatus" Grid.Column="1"></controls:EntryView>
             <controls:ItemView x:Name="btAddNew" Grid.Column="2" Icon="Add" ToolTip="Добавить"></controls:ItemView>
         </Grid>

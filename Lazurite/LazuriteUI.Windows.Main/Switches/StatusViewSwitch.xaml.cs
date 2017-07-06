@@ -36,7 +36,7 @@ namespace LazuriteUI.Windows.Main.Switches
                 itemView.Icon = Icons.Icon.NavigateNext;
                 itemView.Content = state;
                 itemView.Margin = new Thickness(0, 0, 0, 1);
-                if (scenarioModel.ScenarioValue.Equals(state))
+                if (scenarioModel.ScenarioValue != null && scenarioModel.ScenarioValue.Equals(state))
                     toSelect = itemView;
                 listItemsStates.Children.Add(itemView);
             }

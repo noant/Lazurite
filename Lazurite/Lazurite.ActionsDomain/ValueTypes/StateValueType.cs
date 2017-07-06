@@ -12,7 +12,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
     {
         public StateValueType()
         {
-            AcceptedValues = new string[] { };
+            AcceptedValues = new string[] { "Статус 1", "Статус 2", "Статус 3" };
         }
 
         public override bool CanBeModified

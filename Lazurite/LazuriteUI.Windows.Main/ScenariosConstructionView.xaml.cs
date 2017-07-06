@@ -104,7 +104,10 @@ namespace LazuriteUI.Windows.Main
                 var dialogViewComposite = new DialogView(selectCompositeScenarioType);
                 selectCompositeScenarioType.Selected += (valueType) => {
                     dialogViewComposite.Close();
-                    NewScenario(new CompositeScenario() { ValueType = valueType });
+                    var scenario = new CompositeScenario() { ValueType = valueType };
+                    if (valueType.AcceptedValues.Any())
+                        scenario.InitializeWithValue = valueType.AcceptedValues[0];
+                    NewScenario(scenario);
                 };
                 dialogViewComposite.Show();
             };

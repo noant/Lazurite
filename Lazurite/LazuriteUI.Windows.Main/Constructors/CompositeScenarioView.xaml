@@ -16,14 +16,12 @@
             <decompos:ComplexActionView x:Name="complexActionView"></decompos:ComplexActionView>
         </Grid>
     </controls:WheelScroll>
-    <Border BorderBrush="SteelBlue" BorderThickness="0" Margin="4" Background="Black"  VerticalAlignment="Bottom" HorizontalAlignment="Left">
-        <Border.Effect>
-            <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.5"></DropShadowEffect>
-        </Border.Effect>
-        <StackPanel Orientation="Vertical">
-            <controls:ItemView IconHorizontalAligment="Center" Height="30" Width="30" x:Name="btScalePlus" Icon="Add"></controls:ItemView>
-            <controls:IconView Height="30" Width="30" Icon="Magnify"></controls:IconView>
-            <controls:ItemView IconHorizontalAligment="Center" Height="30" Width="30" x:Name="btScaleMinus" Icon="Minus"></controls:ItemView>
-        </StackPanel>
-    </Border>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4,0,4,2">
+        <TextBlock VerticalAlignment="Center" Foreground="SteelBlue">Тип значения сценария:</TextBlock>
+        <TextBlock Margin="5,0,10,0" VerticalAlignment="Center" x:Name="tbValueType" Foreground="White"></TextBlock>
+        <controls:ItemView IconHorizontalAligment="Center" x:Name="btScalePlus" Icon="Add"></controls:ItemView>
+        <controls:IconView Opacity="0.5" Background="Black" Width="30" Icon="Magnify"></controls:IconView>
+        <controls:ItemView IconHorizontalAligment="Center" x:Name="btScaleMinus" Icon="Minus"></controls:ItemView>
+        <controls:ItemView x:Name="btSettings" Margin="10,0,0,0" Width="300" Icon="Settings">Значение по умолчанию и параметры</controls:ItemView>
+    </StackPanel>
 </Grid>

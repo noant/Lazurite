@@ -232,7 +232,8 @@ namespace LazuriteUI.Windows.Main
                     {
                         Apply = () =>
                         {
-                            model.Checked = true;
+                            if (model != null)
+                                model.Checked = true;
                             SelectedModel = model;
                             SelectedModelChanged?.Invoke(model);
                         }
@@ -240,7 +241,8 @@ namespace LazuriteUI.Windows.Main
             }
             else
             {
-                model.Checked = true;
+                if (model != null)
+                    model.Checked = true;
                 SelectedModel = model;
                 SelectedModelChanged?.Invoke(model);
             }

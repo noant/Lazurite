@@ -13,8 +13,10 @@
     <Grid>        
         <Grid Background="Black" x:FieldModifier="private" Opacity="0.5" Name="gridBackground"></Grid>
         <Grid Name="mainContent">
-            <Grid x:FieldModifier="private" Height="Auto" VerticalAlignment="Center" Width="Auto" MaxWidth="1000" MinWidth="200" Name="contentGrid">
-            </Grid>
+            <StackPanel Height="Auto" VerticalAlignment="Center" Width="Auto" MaxWidth="1000" MinWidth="200">
+                <TextBlock Margin="0,0,0,10" Width="Auto" MaxWidth="400" TextWrapping="Wrap" x:Name="tbCaption" Foreground="SteelBlue" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                <Grid x:FieldModifier="private" Name="contentGrid"></Grid>
+            </StackPanel>
         </Grid>
         <local:ItemView VerticalAlignment="Top" x:Name="closeitemView" Click="CloseItemView_Click" IconHorizontalAligment="Center" IconVerticalAligment="Center" HorizontalAlignment="Right" Opacity="0.5" Background="Crimson" Width="34" Icon="Close"></local:ItemView>
     </Grid>

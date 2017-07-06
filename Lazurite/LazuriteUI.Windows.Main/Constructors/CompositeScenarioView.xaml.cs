@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Lazurite.MainDomain;
 using Lazurite.Scenarios.ScenarioTypes;
+using LazuriteUI.Windows.Main.Constructors.Decomposition;
+using Lazurite.ActionsDomain.ValueTypes;
 
 namespace LazuriteUI.Windows.Main.Constructors
 {
@@ -38,8 +40,17 @@ namespace LazuriteUI.Windows.Main.Constructors
                 scale.ScaleY += 0.1;
             };
 
+            btSettings.Click += (o, e) => {
+                ActionControlResolver.BeginCompositeScenarioSettings(_scenario, 
+                    (result) => {
+                        if (result)
+                            Modified?.Invoke();
+                    });
+            };
+
             complexActionView.MakeRemoveButtonInvisible();
             _scenario = scenario;
+            Refresh();
             complexActionView.Refresh(_scenario.TargetAction);
             complexActionView.Modified += (element) => Modified?.Invoke();
         }
@@ -52,6 +63,13 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             _scenario = (CompositeScenario)scenario;
             complexActionView.Refresh(_scenario.TargetAction);
+            Refresh();
+        }
+
+        private void Refresh()
+        {
+            tbValueType.Text = Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(_scenario.ValueType.GetType()).ToUpper();
+            btSettings.Visibility = _scenario.ValueType is ButtonValueType ? Visibility.Collapsed : Visibility.Visible;
         }
     }
 }

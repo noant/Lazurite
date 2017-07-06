@@ -31,6 +31,18 @@ namespace LazuriteUI.Windows.Controls
             this.gridBackground.MouseLeftButtonDown += GridBackground_MouseLeftButtonDown;
             this.contentGrid.Children.Add(child);
         }
+        
+        public string Caption
+        {
+            get
+            {
+                return tbCaption.Text;
+            }
+            set
+            {
+                tbCaption.Text = value;
+            }
+        }
 
         private void GridBackground_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -58,10 +70,10 @@ namespace LazuriteUI.Windows.Controls
 
             if (ShowUnderCursor)
             {
-                contentGrid.VerticalAlignment = VerticalAlignment.Top;
-                contentGrid.HorizontalAlignment = HorizontalAlignment.Left;
+                mainContent.VerticalAlignment = VerticalAlignment.Top;
+                mainContent.HorizontalAlignment = HorizontalAlignment.Left;
                 this.Loaded += (o, e) => RefreshPosition();;
-                this.contentGrid.SizeChanged += (o, e) => RefreshPositionByHeight();
+                this.mainContent.SizeChanged += (o, e) => RefreshPositionByHeight();
             }
         }
         
@@ -71,23 +83,23 @@ namespace LazuriteUI.Windows.Controls
             var mouse = transform.Transform(GetMousePosition());
             var margin = new Thickness(mouse.X, mouse.Y - contentGrid.ActualHeight / 2, 0, 0);
 
-            if (margin.Top + contentGrid.ActualHeight > Utils.GetMainWindow().ActualHeight)
+            if (margin.Top + mainContent.ActualHeight > Utils.GetMainWindow().ActualHeight)
                 margin.Top = 0;
             if (margin.Top < 0)
                 margin.Top = 0;
 
-            contentGrid.Margin = new Thickness(margin.Left - ((Window)Utils.GetMainWindowPanel().Parent).Left, margin.Top - ((Window)Utils.GetMainWindowPanel().Parent).Top, 0, 0);
+            mainContent.Margin = new Thickness(margin.Left - ((Window)Utils.GetMainWindowPanel().Parent).Left, margin.Top - ((Window)Utils.GetMainWindowPanel().Parent).Top, 0, 0);
         }
 
         private void RefreshPositionByHeight()
         {
             var margin = contentGrid.Margin;
-            if (margin.Top + contentGrid.ActualHeight >= Utils.GetMainWindow().ActualHeight - 50)
+            if (margin.Top + mainContent.ActualHeight >= Utils.GetMainWindow().ActualHeight - 50)
                 margin.Top = Utils.GetMainWindow().ActualHeight - margin.Top - 50;
             if (margin.Top < 0)
                 margin.Top = 0;
 
-            contentGrid.Margin = new Thickness(margin.Left, margin.Top, 0, 0);
+            mainContent.Margin = new Thickness(margin.Left, margin.Top, 0, 0);
         }
 
         public System.Windows.Point GetMousePosition()

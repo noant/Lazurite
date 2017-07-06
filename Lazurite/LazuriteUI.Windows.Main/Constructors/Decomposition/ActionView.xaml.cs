@@ -53,7 +53,13 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     MasterAction);
             };
             buttons.ChangeClick += () => {
-                SelectActionView.Show(
+                BeginSelectAction();
+            };
+        }
+
+        public void BeginSelectAction()
+        {
+            SelectActionView.Show(
                     (type) => {
                         var newAction = Singleton.Resolve<PluginsManager>().CreateInstanceOf(type);
                         if (newAction != null)
@@ -77,9 +83,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     },
                     MasterAction?.ValueType.GetType(),
                     MasterAction == null ? Lazurite.Windows.Modules.ActionInstanceSide.OnlyLeft
-                    : Lazurite.Windows.Modules.ActionInstanceSide.OnlyRight, 
+                    : Lazurite.Windows.Modules.ActionInstanceSide.OnlyRight,
                     ActionHolder?.Action.GetType());
-            };
         }
 
         public void Refresh(ActionHolder actionHolder)

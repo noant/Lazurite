@@ -71,9 +71,11 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
         private void Add(string state)
         {
             var itemView = new StatusInitializationViewItem();
+            itemView.Margin = new Thickness(0, 0, 0, 1);
             itemView.Text = state;
             itemView.IsRemoveButtonVisible = _masterAction == null;
-            itemView.Selected = _action.Value == state;
+            if (_action.Value == state)
+                this.Loaded += (o, e) => itemView.Selected = true;
             itemView.RemoveClick += (item) => listItemsStatus.Children.Remove(itemView);
             listItemsStatus.Children.Add(itemView);
         }

@@ -38,6 +38,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void ExecuteInternal(ExecutionContext context)
         {
+            SetCurrentValueInternal(context.Input);
             TargetAction.SetValue(context, string.Empty);
         }
 
