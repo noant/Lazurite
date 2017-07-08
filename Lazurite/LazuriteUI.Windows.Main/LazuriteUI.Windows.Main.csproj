@@ -107,6 +107,9 @@
     <Compile Include="Constructors\Decomposition\EditActionButtonsView.xaml.cs">
       <DependentUpon>EditActionButtonsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\Decomposition\ReturnScenarioValueView.xaml.cs">
+      <DependentUpon>ReturnScenarioValueView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\Decomposition\ExecuteActionView.xaml.cs">
       <DependentUpon>ExecuteActionView.xaml</DependentUpon>
     </Compile>
@@ -277,6 +280,10 @@
     <Page Include="Constructors\Decomposition\EditActionButtonsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\Decomposition\ReturnScenarioValueView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Constructors\Decomposition\ExecuteActionView.xaml">
       <SubType>Designer</SubType>

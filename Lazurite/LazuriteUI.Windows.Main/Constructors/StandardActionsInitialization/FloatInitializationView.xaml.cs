@@ -30,7 +30,19 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
             tbMax.Validation = (str) => double.Parse(str) > double.Parse(tbMin.Text);
             tbMin.Validation = (str) => double.Parse(str) < double.Parse(tbMax.Text);
             tbVal.Validation = (str) => double.Parse(tbMin.Text) <= double.Parse(str) && double.Parse(str) <= double.Parse(tbMax.Text);
+
+            tbMax.TextChanged += (o, e) =>
+            {
+                if (double.Parse(tbMax.Text) < double.Parse(tbVal.Text))
+                    tbVal.Text = tbMax.Text;
+            };
             
+            tbMin.TextChanged += (o, e) =>
+            {
+                if (double.Parse(tbMin.Text) > double.Parse(tbVal.Text))
+                    tbVal.Text = tbMin.Text;
+            };
+
             btApply.Click += (o, e) => {
                 action.ValueType.AcceptedValues[1] = tbMax.Text;
                 action.ValueType.AcceptedValues[0] = tbMin.Text;
@@ -43,6 +55,11 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
                 tbMin.Text = masterAction.ValueType.AcceptedValues[0];
                 tbMax.Text = masterAction.ValueType.AcceptedValues[1];
                 tbMax.IsEnabled = tbMin.IsEnabled = false;
+            }
+            else
+            {
+                tbMin.Text = action.ValueType.AcceptedValues[0];
+                tbMax.Text = action.ValueType.AcceptedValues[1];
             }
 
             tbVal.Text = action.Value;

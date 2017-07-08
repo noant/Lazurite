@@ -10,7 +10,7 @@ using Lazurite.ActionsDomain.ValueTypes;
 
 namespace Lazurite.CoreActions.CoreActions
 {
-    [HumanFriendlyName("ПолучитьЗначениеСценария")]
+    [HumanFriendlyName("Значение существующего сценария")]
     [VisualInitialization]
     [OnlyGetValue]
     [SuitableValueTypes(true)]

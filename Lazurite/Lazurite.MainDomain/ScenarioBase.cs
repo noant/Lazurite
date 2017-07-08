@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Lazurite.MainDomain
 {
-    public abstract class ScenarioBase
+    public abstract class ScenarioBase : IAlgorithmContext
     {
         protected static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
@@ -128,7 +128,7 @@ namespace Lazurite.MainDomain
         {
             var output = new OutputChangedDelegates();
             output.Add(val => SetCurrentValueInternal(val));
-            var context = new ExecutionContext(param, output, cancelToken);
+            var context = new ExecutionContext(this, param, output, cancelToken);
             try
             {
                 ExecuteInternal(context);

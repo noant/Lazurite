@@ -14,51 +14,36 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Lazurite.CoreActions;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.CoreActions.CoreActions;
 using Lazurite.MainDomain;
+using Lazurite.CoreActions.ContextInitialization;
 
 namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 {
     /// <summary>
     /// Логика взаимодействия для ExecuteActionView.xaml
     /// </summary>
-    public partial class ExecuteActionView : UserControl, IConstructorElement
+    public partial class ReturnScenarioValueView : UserControl, IConstructorElement
     {
-        public ExecuteActionView(ExecuteAction action)
+        public ReturnScenarioValueView(SetReturnValueAction action)
         {
             InitializeComponent();
-            this.ActionHolder = new ActionHolder() {
-                Action = action
-            };
-            this.action1View.Refresh(action.MasterActionHolder);
+            this.action1View.Refresh(new ActionHolder() { Action = action });
             this.action2View.Refresh(action.InputValue);
-            Action2EqualizeToAction1();
-            this.action1View.Modified += (element) =>
-            {
-                Modified?.Invoke(this);
-                Action2EqualizeToAction1();
-                if (!action2View.ActionHolder.Action.ValueType
-                    .Equals(action1View.ActionHolder.Action.ValueType))
-                {
-                    action.InputValue.Action = Lazurite.CoreActions.Utils.Default(action1View.ActionHolder.Action.ValueType);
-                    action2View.Refresh();
-                }
-            };
+            this.action2View.MasterAction = action;
+            this.action1View.MakeButtonsInvisible();
             this.action2View.Modified += (element) => Modified?.Invoke(this);
+
             this.buttons.RemoveClick += () => NeedRemove?.Invoke(this);
             this.buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
         }
-
-        private void Action2EqualizeToAction1()
-        {
-            action2View.MasterAction = action1View.ActionHolder.Action;
-            if (action1View.ActionHolder.Action.ValueType is ButtonValueType)
-                action2View.Visibility = tbEquals.Visibility = Visibility.Collapsed;
-            else action2View.Visibility = tbEquals.Visibility = Visibility.Visible;
-        }
-
+        
         public ActionHolder ActionHolder
         {
-            get; private set;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public bool EditMode
@@ -66,14 +51,15 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             get;
             set;
         }
-
+        
         public ScenarioBase ParentScenario
         {
             get
             {
                 return action1View.ParentScenario;
             }
-            set {
+            set
+            {
                 action1View.ParentScenario = action2View.ParentScenario = value;
             }
         }

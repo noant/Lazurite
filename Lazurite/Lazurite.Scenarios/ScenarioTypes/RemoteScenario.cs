@@ -143,7 +143,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void TryCancelAll()
         {
-            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource?.Cancel();
             base.TryCancelAll();
         }
 

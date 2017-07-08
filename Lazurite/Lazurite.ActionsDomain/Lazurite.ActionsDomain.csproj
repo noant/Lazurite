@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="Attributes\SuitableValueTypesAttribute.cs" />
     <Compile Include="ExecutionContext.cs" />
+    <Compile Include="IAlgorithmContext.cs" />
     <Compile Include="IStandardValueAction.cs" />
     <Compile Include="OutputChangedDelegates.cs" />
     <Compile Include="ValueChangedDelegate.cs" />

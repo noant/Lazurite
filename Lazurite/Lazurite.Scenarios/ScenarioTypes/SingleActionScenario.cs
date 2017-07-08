@@ -53,7 +53,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             //if action not send some info when value changed then calculate value
             if (!ActionHolder.Action.IsSupportsEvent)
-                return ActionHolder.Action.GetValue(new ExecutionContext(string.Empty, new OutputChangedDelegates(), new CancellationToken()));
+                return ActionHolder.Action.GetValue(new ExecutionContext(this, string.Empty, new OutputChangedDelegates(), new CancellationToken()));
             //else - cached value is fresh
             return GetCurrentValue();
         }

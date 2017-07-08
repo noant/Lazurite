@@ -8,20 +8,14 @@ using Lazurite.MainDomain;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.ActionsDomain.Attributes;
 
-namespace Lazurite.CoreActions.CoreActions
+namespace Lazurite.CoreActions.ContextInitialization
 {
     [OnlyExecute]
     [VisualInitialization]
-    [HumanFriendlyName("ВернутьЗначение")]
+    [HumanFriendlyName("Обновить значение сценария")]
     [SuitableValueTypes(true)]
-    public class SetReturnValueAction : ICoreAction, IAction, IMultipleAction
+    public class SetReturnValueAction : IAction, IMultipleAction, IContextInitializable
     {
-        private ScenarioBase _scenario;
-        public void SetTargetScenario(ScenarioBase scenario)
-        {
-            _scenario = scenario;
-        }
-
         public bool IsSupportsEvent
         {
             get
@@ -29,25 +23,20 @@ namespace Lazurite.CoreActions.CoreActions
                 return ValueChanged != null;
             }
         }
-
-        public ScenarioBase GetTargetScenario()
-        {
-            return _scenario;
-        }
-
+        
         public string Caption
         {
             get
             {
-                return ActionsDomain.Utils.ExtractHumanFriendlyName(InputValue.GetType()) + " " + InputValue.Caption;
+                return string.Empty;
             }
             set
             {
                 //
             }
         }
-
-        public IAction InputValue { get; set; }
+        
+        public ActionHolder InputValue { get; set; } = new ActionHolder();
 
         public string TargetScenarioId
         {
@@ -56,14 +45,8 @@ namespace Lazurite.CoreActions.CoreActions
         
         public ValueTypeBase ValueType
         {
-            get
-            {
-                return _scenario.ValueType;
-            }
-            set
-            {
-                //
-            }
+            get;
+            set;
         }
 
         public void Initialize()
@@ -73,12 +56,12 @@ namespace Lazurite.CoreActions.CoreActions
 
         public IAction[] GetAllActionsFlat()
         {
-            return new[] { InputValue };
+            return new[] { InputValue.Action };
         }
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            return false;
+            return true;
         }
 
         public string GetValue(ExecutionContext context)
@@ -88,7 +71,13 @@ namespace Lazurite.CoreActions.CoreActions
 
         public void SetValue(ExecutionContext context, string value)
         {
-            context.OutputChanged.Execute(InputValue.GetValue(context));
+            this.ValueType = context.AlgorithmContext.ValueType;
+            context.OutputChanged.Execute(InputValue.Action.GetValue(context));
+        }
+
+        public void Initialize(IAlgorithmContext algoContext)
+        {
+            this.ValueType = algoContext.ValueType;
         }
 
         public event ValueChangedDelegate ValueChanged;

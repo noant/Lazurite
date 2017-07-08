@@ -44,30 +44,31 @@
                 </TextBox>
                 <controls:ItemView Click="itemViewAddNewController_Click" IsEnabled="False" Selectable="True" Width="250" Icon="Add" Content="Добавить новый контроллер" Grid.Column="2" x:Name="itemViewAddNewController"></controls:ItemView>
             </Grid>
+            </Grid>
+                <controls:WheelScroll Grid.Row="1" Grid.Column="1">
+                    <StackPanel>
+                    <Grid Name="gridControlPanel">
+                        <controls:ListItemsView IsEnabled="False" SelectionMode="None" x:Name="itemsViewControllerCommands">
+                            <controls:ItemView Click="itemViewAddNewDevice_Click" Icon="Add" x:Name="itemViewAddNewDevice">Добавить новое устройство</controls:ItemView>
+                            <controls:ItemView Click="itemViewAddNewSecureDevice_Click"  Icon="Add" x:Name="itemViewAddNewSecureDevice">Добавить новое защищенное устройство</controls:ItemView>
+                            <controls:ItemView Click="itemViewRemoveDevice_Click" Icon="Cancel" x:Name="itemViewRemoveDevice">Удалить устройство</controls:ItemView>
+                            <controls:ItemView Click="itemViewRefreshNetwork_Click" Icon="Refresh" x:Name="itemViewRefreshNetworkNode">Обновить устройство</controls:ItemView>
+                            <controls:ItemView Click="itemViewUpdateNeighbors_Click" Icon="Diagram" x:Name="itemViewUpdateNeighbors">Обновить список соседних устройств</controls:ItemView>
+                            <controls:ItemView Click="itemViewCheckNodeFailed_Click" Icon="Bug" x:Name="itemViewCheckNodeFailed">Проверить устройство</controls:ItemView>
+                            <controls:ItemView Click="itemViewReplaceFailedNode_Click" Icon="Repeat" x:Name="itemViewReplaceFailedNode">Заменить неисправное устройство</controls:ItemView>
+                            <controls:ItemView Click="itemViewRemoveFailedNode_Click" Icon="Delete" x:Name="itemViewRemoveFailedNode">Удалить неисправное устройство</controls:ItemView>
+                            <controls:ItemView Click="itemViewHealNetwork_Click" Icon="MedicalPill" x:Name="itemViewHealNetwork">Вылечить сеть</controls:ItemView>
+                            <controls:ItemView Click="itemViewTransferPrimaryRole_Click" Icon="ArrowRight" x:Name="itemViewTransferPrimaryRole">Передать роль первичного контроллера</controls:ItemView>
+                            <controls:ItemView Click="itemViewCreateNewPrimaryController_Click" Icon="New" x:Name="itemViewCreateNewPrimaryController">Создать новый первичный контроллер</controls:ItemView>
+                            <controls:ItemView Click="itemViewRecieveConfiguration_Click" Icon="TransitConnectionDeparture" x:Name="itemViewRecieveConfiguration">Передать конфигурацию контроллеру</controls:ItemView>
+                            <controls:ItemView Click="itemViewSoftReset_Click" Icon="Reset" x:Name="itemViewSoftReset">Мягкий сброс контроллера</controls:ItemView>
+                            <controls:ItemView Click="itemViewEraseAll_Click" Icon="WarningCircle" x:Name="itemViewEraseAll" Background="#882222" ToolTip="Удалит все данные об устройствах, соединенных с контроллером">Сбросить данные контроллера</controls:ItemView>
+                            <controls:ItemView Click="itemViewRemoveController_Click" Icon="WarningCircle" x:Name="itemViewRemoveController" Background="#882222" ToolTip="Данный контроллер перестанет быть доступным для управления">Удалить контроллер</controls:ItemView>
+                        </controls:ListItemsView>
+                    </Grid>
+                </StackPanel>
+                </controls:WheelScroll>
+            <Border Grid.Column="1" Grid.Row="1" BorderBrush="{x:Static controls:Visual.SplitterBrush}" BorderThickness="1,0,0,0"></Border>
         </Grid>
-        <controls:WheelScroll Grid.Row="1" Grid.Column="1">
-            <StackPanel>
-                <Grid Name="gridControlPanel">
-                    <controls:ListItemsView IsEnabled="False" SelectionMode="None" x:Name="itemsViewControllerCommands">
-                        <controls:ItemView Click="itemViewAddNewDevice_Click" Icon="Add" x:Name="itemViewAddNewDevice">Добавить новое устройство</controls:ItemView>
-                        <controls:ItemView Click="itemViewAddNewSecureDevice_Click"  Icon="Add" x:Name="itemViewAddNewSecureDevice">Добавить новое защищенное устройство</controls:ItemView>
-                        <controls:ItemView Click="itemViewRemoveDevice_Click" Icon="Cancel" x:Name="itemViewRemoveDevice">Удалить устройство</controls:ItemView>
-                        <controls:ItemView Click="itemViewRefreshNetwork_Click" Icon="Refresh" x:Name="itemViewRefreshNetworkNode">Обновить устройство</controls:ItemView>
-                        <controls:ItemView Click="itemViewUpdateNeighbors_Click" Icon="Diagram" x:Name="itemViewUpdateNeighbors">Обновить список соседних устройств</controls:ItemView>
-                        <controls:ItemView Click="itemViewCheckNodeFailed_Click" Icon="Bug" x:Name="itemViewCheckNodeFailed">Проверить устройство</controls:ItemView>
-                        <controls:ItemView Click="itemViewReplaceFailedNode_Click" Icon="Repeat" x:Name="itemViewReplaceFailedNode">Заменить неисправное устройство</controls:ItemView>
-                        <controls:ItemView Click="itemViewRemoveFailedNode_Click" Icon="Delete" x:Name="itemViewRemoveFailedNode">Удалить неисправное устройство</controls:ItemView>
-                        <controls:ItemView Click="itemViewHealNetwork_Click" Icon="MedicalPill" x:Name="itemViewHealNetwork">Вылечить сеть</controls:ItemView>
-                        <controls:ItemView Click="itemViewTransferPrimaryRole_Click" Icon="ArrowRight" x:Name="itemViewTransferPrimaryRole">Передать роль первичного контроллера</controls:ItemView>
-                        <controls:ItemView Click="itemViewCreateNewPrimaryController_Click" Icon="New" x:Name="itemViewCreateNewPrimaryController">Создать новый первичный контроллер</controls:ItemView>
-                        <controls:ItemView Click="itemViewRecieveConfiguration_Click" Icon="TransitConnectionDeparture" x:Name="itemViewRecieveConfiguration">Передать конфигурацию контроллеру</controls:ItemView>
-                        <controls:ItemView Click="itemViewSoftReset_Click" Icon="Reset" x:Name="itemViewSoftReset">Мягкий сброс контроллера</controls:ItemView>
-                        <controls:ItemView Click="itemViewEraseAll_Click" Icon="WarningCircle" x:Name="itemViewEraseAll" Background="#882222" ToolTip="Удалит все данные об устройствах, соединенных с контроллером">Сбросить данные контроллера</controls:ItemView>
-                        <controls:ItemView Click="itemViewRemoveController_Click" Icon="WarningCircle" x:Name="itemViewRemoveController" Background="#882222" ToolTip="Данный контроллер перестанет быть доступным для управления">Удалить контроллер</controls:ItemView>
-                    </controls:ListItemsView>
-                </Grid>
-            </StackPanel>
-        </controls:WheelScroll>
-    </Grid>
     </Grid>
 </UserControl>

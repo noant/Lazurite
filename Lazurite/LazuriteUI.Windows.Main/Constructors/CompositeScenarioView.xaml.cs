@@ -52,6 +52,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             _scenario = scenario;
             Refresh();
             complexActionView.Refresh(_scenario.TargetAction);
+            complexActionView.ParentScenario = this._scenario;
             complexActionView.Modified += (element) => Modified?.Invoke();
         }
 
@@ -63,6 +64,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             _scenario = (CompositeScenario)scenario;
             complexActionView.Refresh(_scenario.TargetAction);
+            complexActionView.ParentScenario = this._scenario;
             Refresh();
         }
 

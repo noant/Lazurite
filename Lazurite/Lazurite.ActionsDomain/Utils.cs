@@ -43,7 +43,7 @@ namespace Lazurite.ActionsDomain
         public static bool IsComparableWithValueType(Type type, Type valueType)
         {
             var attr = type.GetCustomAttributes(typeof(SuitableValueTypesAttribute), true).FirstOrDefault() as SuitableValueTypesAttribute;
-            return attr != null ? attr.Types.Contains(valueType) : false;
+            return attr != null ? attr.All || attr.Types.Contains(valueType) : false;
         }
     }
 }

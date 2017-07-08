@@ -24,7 +24,8 @@
             <controls:ItemView Click="btRemovePlugin_Click" x:Name="btRemovePlugin" Margin="2,0,2,2" Content="Удалить плагин" Width="170" Icon="AppRemove" Background="Crimson" VerticalAlignment="Bottom"></controls:ItemView>
             <controls:ItemView Click="updatePlugin_Click" x:Name="updatePlugin" Margin="2" Content="Обновить плагин" Width="170" Icon="Refresh"></controls:ItemView>
         </StackPanel>
-        <Label Grid.Column="1" Foreground="White">Типы в составе плагина:</Label>
+        <Border Grid.Column="1" BorderBrush="{x:Static controls:Visual.SplitterBrush}" BorderThickness="1,0,0,0"></Border>
+        <Label Grid.Column="1" Foreground="SteelBlue">Типы в составе плагина:</Label>
         <StackPanel x:Name="spPluginTypes" Grid.Column="1" Margin="0,22,0,0"></StackPanel>
     </Grid>
 </UserControl>

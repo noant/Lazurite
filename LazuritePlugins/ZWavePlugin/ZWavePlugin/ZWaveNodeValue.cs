@@ -122,8 +122,7 @@ namespace ZWavePlugin
             ValueType = valueType;
             var manager = ZWaveManager.Current;
             var parameterSelectView = new NodesValuesComplexView();
-            if (valueType == null)
-                parameterSelectView.AllowChangeRange = true;
+            parameterSelectView.AllowChangeRange = true;
             parameterSelectView.InitializeWith(
                 manager, 
                 _nodeValue?.Node, 
@@ -145,7 +144,5 @@ namespace ZWavePlugin
             }
             else return false;
         }
-
-
     }
 }

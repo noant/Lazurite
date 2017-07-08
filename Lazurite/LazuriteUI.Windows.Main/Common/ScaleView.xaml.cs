@@ -53,6 +53,8 @@ namespace LazuriteUI.Windows.Main.Common
             var value = Value;
             var percent = (value - this.Min) / (this.Max - this.Min);
             var marginBottom = this.ActualHeight * percent;
+            if (marginBottom < 0)
+                marginBottom = 0;
             this.borderValue.Height = marginBottom;
 
             tbValue.Text = Math.Round(Value).ToString();

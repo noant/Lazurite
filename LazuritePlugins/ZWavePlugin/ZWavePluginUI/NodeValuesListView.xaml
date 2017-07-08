@@ -10,7 +10,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -19,10 +19,10 @@
         </Grid.ColumnDefinitions>
         <controls:CaptionView Grid.ColumnSpan="2" Name="captionView" Icon="ListGear">Параметры узла</controls:CaptionView>
         <controls:ListItemsView HorizontalAlignment="Left" Grid.Row="1" x:Name="genreList" Orientation="Horizontal" SelectionMode="Single">
-            <controls:ItemView Background="Transparent" SelectionChanged="BasicGenreSelectionChanged" Height="40" IconVisibility="Collapsed">Основные</controls:ItemView>
-            <controls:ItemView Background="Transparent" SelectionChanged="UserGenreSelectionChanged" Height="40" IconVisibility="Collapsed">Пользовательские</controls:ItemView>
-            <controls:ItemView Background="Transparent" SelectionChanged="SystemGenreSelectionChanged" Height="40" IconVisibility="Collapsed">Системные</controls:ItemView>
-            <controls:ItemView Background="Transparent" SelectionChanged="ConfigGenreSelectionChanged" Height="40" IconVisibility="Collapsed">Конфигурационные</controls:ItemView>
+            <controls:ItemView Background="Transparent" SelectionChanged="BasicGenreSelectionChanged" IconVisibility="Collapsed">Основные</controls:ItemView>
+            <controls:ItemView Background="Transparent" SelectionChanged="UserGenreSelectionChanged" IconVisibility="Collapsed">Пользовательские</controls:ItemView>
+            <controls:ItemView Background="Transparent" SelectionChanged="SystemGenreSelectionChanged" IconVisibility="Collapsed">Системные</controls:ItemView>
+            <controls:ItemView Background="Transparent" SelectionChanged="ConfigGenreSelectionChanged" IconVisibility="Collapsed">Конфигурационные</controls:ItemView>
         </controls:ListItemsView>
         <controls:WheelScroll Grid.Row="2">
             <controls:ListItemsView SelectionMode="Single" Name="listItems" x:FieldModifier="private"></controls:ListItemsView>

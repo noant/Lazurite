@@ -8,13 +8,13 @@ using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.MainDomain;
 using Lazurite.ActionsDomain.Attributes;
 
-namespace Lazurite.CoreActions.CoreActions
+namespace Lazurite.CoreActions.ContextInitialization
 {
     [OnlyGetValue]
     [SuitableValueTypes(true)]
-    [HumanFriendlyName("ВходящееЗначение")]
+    [HumanFriendlyName("Входящее значение")]
     [VisualInitialization]
-    public class GetInputValueAction : IAction, ICoreAction
+    public class GetInputValueAction : IAction, IContextInitializable
     {
         public string Caption
         {
@@ -36,45 +36,18 @@ namespace Lazurite.CoreActions.CoreActions
             }
         }
 
-        public string TargetScenarioId
-        {
-            get; set;
-        }
-
         public ValueTypeBase ValueType
         {
-            get
-            {
-                return _scenario.ValueType;
-            }
-
-            set
-            {
-                //
-            }
+            get;
+            set;
         }
-
-        public ScenarioBase GetTargetScenario()
-        {
-            return _scenario;
-        }
-
+        
         public string GetValue(ExecutionContext context)
         {
+            this.ValueType = context.AlgorithmContext.ValueType;
             return context.Input;
         }
-
-        public void Initialize()
-        {
-            //
-        }
-
-        private ScenarioBase _scenario;
-        public void SetTargetScenario(ScenarioBase scenario)
-        {
-            _scenario = scenario;
-        }
-
+        
         public void SetValue(ExecutionContext context, string value)
         {
             //
@@ -83,6 +56,16 @@ namespace Lazurite.CoreActions.CoreActions
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
             return false;
+        }
+
+        public void Initialize()
+        {
+            //
+        }
+
+        public void Initialize(IAlgorithmContext algoContext)
+        {
+            this.ValueType = algoContext.ValueType;
         }
 
         public event ValueChangedDelegate ValueChanged;

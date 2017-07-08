@@ -1,6 +1,8 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.CoreActions;
+using Lazurite.CoreActions.ContextInitialization;
+using Lazurite.CoreActions.CoreActions;
 using Lazurite.CoreActions.StandardValueTypeActions;
 using Lazurite.Scenarios.ScenarioTypes;
 using LazuriteUI.Windows.Controls;
@@ -20,6 +22,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             if (action is ExecuteAction)
                 return new ExecuteActionView((ExecuteAction)action);
+            if (action is SetReturnValueAction)
+                return new ReturnScenarioValueView((SetReturnValueAction)action);
             throw new NotImplementedException();
         }
 
@@ -28,7 +32,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             if (Lazurite.ActionsDomain.Utils.IsCoreVisualInitialization(action.GetType()))
             {
                 IStandardVTActionEditView vtAction = CreateControl((IStandardValueAction)action, masterAction);
-
+                if (vtAction == null)
+                    callback?.Invoke(true);
                 var dialog = new DialogView((FrameworkElement)vtAction);
                 vtAction.ApplyClicked += () => {
                     callback(true);

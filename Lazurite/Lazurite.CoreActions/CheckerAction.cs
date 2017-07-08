@@ -2,11 +2,13 @@
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.CoreActions.ComparisonTypes;
+using Lazurite.CoreActions.CoreActions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lazurite.MainDomain;
 
 namespace Lazurite.CoreActions
 {
@@ -16,10 +18,10 @@ namespace Lazurite.CoreActions
     [SuitableValueTypes(typeof(ToggleValueType))]
     public class CheckerAction : IAction, IMultipleAction, IChecker
     {
-        public IAction TargetAction1 { get; set; } = new EmptyAction();
-        public IAction TargetAction2 { get; set; } = new EmptyAction();
-        public IComparisonType ComparisonType { get; set; }
-
+        public ActionHolder TargetAction1Holder { get; set; } = new ActionHolder();
+        public ActionHolder TargetAction2Holder { get; set; } = new ActionHolder();
+        public IComparisonType ComparisonType { get; set; } = new EqualityComparisonType();
+        
         public string Caption
         {
             get
@@ -34,7 +36,7 @@ namespace Lazurite.CoreActions
                 
         public string GetValue(ExecutionContext context)
         {
-            return ComparisonType.Calculate(TargetAction1, TargetAction2, context) ? ToggleValueType.ValueON : ToggleValueType.ValueOFF;
+            return ComparisonType.Calculate(TargetAction1Holder.Action, TargetAction2Holder.Action, context) ? ToggleValueType.ValueON : ToggleValueType.ValueOFF;
         }
 
         public void SetValue(ExecutionContext context, string value)
@@ -62,10 +64,10 @@ namespace Lazurite.CoreActions
                 return ValueChanged != null;
             }
         }
-
+        
         public IAction[] GetAllActionsFlat()
         {
-            return new[] { TargetAction1, TargetAction2 };
+            return new[] { TargetAction1Holder.Action, TargetAction2Holder.Action };
         }
 
         public void Initialize()
@@ -82,7 +84,7 @@ namespace Lazurite.CoreActions
         {
             return GetValue(context) == ToggleValueType.ValueON;
         }
-
+        
         public event ValueChangedDelegate ValueChanged;
     }
 }

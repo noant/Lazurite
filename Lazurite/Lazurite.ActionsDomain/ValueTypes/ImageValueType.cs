@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Lazurite.ActionsDomain.ValueTypes
 {
-    [OnlyGetValue]
     [HumanFriendlyName("Изображение")]
     public class ImageValueType : ValueTypeBase
     {

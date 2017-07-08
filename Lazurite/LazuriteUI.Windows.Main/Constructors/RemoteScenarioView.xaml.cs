@@ -55,6 +55,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                         dialog.Close();
                         _scenario.RemoteScenarioId = info.ScenarioId;
                         _scenario.RemoteScenarioName = info.Name;
+                        tbScenario.Text = _scenario.RemoteScenarioName;
                         _scenario.Initialize(_repository);
                         Modified?.Invoke();
                         Succeed?.Invoke();

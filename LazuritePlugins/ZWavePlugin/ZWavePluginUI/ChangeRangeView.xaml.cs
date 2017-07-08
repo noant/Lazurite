@@ -23,19 +23,19 @@ namespace ZWavePluginUI
         public ChangeRangeView()
         {
             InitializeComponent();
-            this.nudMax.MaxValue = this.nudMin.MaxValue = decimal.MaxValue;
-            this.nudMax.MinValue = this.nudMin.MinValue = decimal.MinValue;
+            this.tbMin.Validation = (str) => decimal.Parse(str) < decimal.Parse(this.tbMax.Text);
+            this.tbMax.Validation = (str) => decimal.Parse(str) > decimal.Parse(this.tbMin.Text);
         }
 
         public decimal Max
         {
             get
             {
-                return nudMax.Value;
+                return decimal.Parse(tbMax.Text);
             }
             set
             {
-                nudMax.Value = value;
+                tbMax.Text = value.ToString();
             }
         }
 
@@ -43,11 +43,11 @@ namespace ZWavePluginUI
         {
             get
             {
-                return nudMin.Value;
+                return decimal.Parse(tbMin.Text);
             }
             set
             {
-                nudMin.Value = value;
+                tbMin.Text = value.ToString();
             }
         }
 

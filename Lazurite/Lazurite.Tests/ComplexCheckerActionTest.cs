@@ -90,8 +90,8 @@ namespace Lazurite.Tests
                 Checker = new CheckerAction()
                 {
                     ComparisonType = new MoreOrEqualComparisonType(),
-                    TargetAction1 = new TestAction() { Value = 5.ToString() },
-                    TargetAction2 = new TestAction() { Value = 5.ToString() }
+                    TargetAction1Holder = new ActionHolder() { Action = new TestAction() { Value = 5.ToString() } },
+                    TargetAction2Holder = new ActionHolder() { Action = new TestAction() { Value = 5.ToString() } }
                 },
             });
             checkerAction.CheckerOperations.Add(new CheckerOperatorPair() //false
@@ -105,8 +105,8 @@ namespace Lazurite.Tests
                                 Checker = new CheckerAction()
                                 {
                                     ComparisonType = new EqualityComparisonType(),
-                                    TargetAction1 = new TestAction() { Value = "5" },
-                                    TargetAction2 = new TestAction() { Value = "6" },
+                                    TargetAction1Holder = new ActionHolder() { Action = new TestAction() { Value = "5" } },
+                                    TargetAction2Holder = new ActionHolder() { Action = new TestAction() { Value = "6" } },
                                 }
                             }
                         }

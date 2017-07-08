@@ -9,7 +9,7 @@ using Lazurite.ActionsDomain.ValueTypes;
 
 namespace Lazurite.CoreActions.CoreActions
 {
-    [HumanFriendlyName("ЗапускСценария")]
+    [HumanFriendlyName("Запуск сценария")]
     [VisualInitialization]
     [OnlyExecute]
     [SuitableValueTypes(typeof(ButtonValueType))]

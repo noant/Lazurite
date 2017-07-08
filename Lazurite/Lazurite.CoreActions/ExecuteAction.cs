@@ -1,6 +1,8 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.CoreActions.CoreActions;
+using Lazurite.MainDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,7 +97,7 @@ namespace Lazurite.CoreActions
             set
             {
                 if (_inputValue != null && !_actionHolder.Action.ValueType.IsCompatibleWith(_inputValue.Action.ValueType))
-                    _inputValue = new ActionHolder();
+                    _inputValue.Action = Utils.Default(_inputValue.Action.ValueType);
                 _actionHolder = value;
             }
         }
@@ -110,10 +112,11 @@ namespace Lazurite.CoreActions
             {
                 if (_actionHolder == null)
                     throw new InvalidOperationException("Cannot set InputValue if Action is null");
+                
                 _inputValue = value;
             }
         }
-
+        
         public event ValueChangedDelegate ValueChanged;
     }
 }

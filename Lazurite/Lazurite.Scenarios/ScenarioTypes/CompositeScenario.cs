@@ -10,6 +10,7 @@ using Lazurite.CoreActions;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.CoreActions.CoreActions;
 using Lazurite.IOC;
+using Lazurite.CoreActions.ContextInitialization;
 
 namespace Lazurite.Scenarios.ScenarioTypes
 {
@@ -65,9 +66,11 @@ namespace Lazurite.Scenarios.ScenarioTypes
             {
                 if (action != null)
                 {
-                    action.Initialize();
                     var coreAction = action as ICoreAction;
                     coreAction?.SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
+                    var initializable = action as IContextInitializable;
+                    initializable?.Initialize(this);
+                    action.Initialize();
                 }
             }
             return true;

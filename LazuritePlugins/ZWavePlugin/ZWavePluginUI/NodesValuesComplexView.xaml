@@ -13,6 +13,6 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <local:NodesListView Grid.Column="0" x:Name="nodesListView"></local:NodesListView>
-        <local:NodeValuesListView Grid.Column="1" x:Name="valuesListView"></local:NodeValuesListView>
+        <local:NodeValuesListView BorderBrush="{x:Static controls:Visual.SplitterBrush}" BorderThickness="1,0,0,0" Grid.Column="1" x:Name="valuesListView"></local:NodeValuesListView>
     </Grid>
 </UserControl>

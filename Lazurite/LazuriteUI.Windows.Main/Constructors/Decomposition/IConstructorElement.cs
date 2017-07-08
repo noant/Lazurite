@@ -1,5 +1,6 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.CoreActions;
+using Lazurite.MainDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         event Action<IConstructorElement> Modified;
         bool EditMode { get; set; }
         ActionHolder ActionHolder { get; }
+
+        ScenarioBase ParentScenario { get; set; }
     }
 }

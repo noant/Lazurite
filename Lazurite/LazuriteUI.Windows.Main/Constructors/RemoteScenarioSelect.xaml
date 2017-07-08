@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <controls:ListItemsView SelectionMode="Single" x:Name="listItems"></controls:ListItemsView>
+    <Grid Background="{x:Static controls:Visual.Background}">
+        <controls:ListItemsView Margin="5" SelectionMode="Single" x:Name="listItems"></controls:ListItemsView>
     </Grid>
 </UserControl>

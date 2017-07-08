@@ -9,6 +9,7 @@ using System.Threading;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.CoreActions;
 using Lazurite.Scenarios.ScenarioTypes;
+using Lazurite.ActionsDomain.ValueTypes;
 
 namespace Lazurite.Scenarios.TriggerTypes
 {
@@ -61,7 +62,7 @@ namespace Lazurite.Scenarios.TriggerTypes
                 _lastSubscribe = (s) =>
                 {
                     var action = TargetAction;
-                    var executionContext = new ExecutionContext(s.GetCurrentValue(), new OutputChangedDelegates(), cancellationToken);
+                    var executionContext = new ExecutionContext(this, s.GetCurrentValue(), new OutputChangedDelegates(), cancellationToken);
                     Task.Factory.StartNew(() => action.SetValue(executionContext, string.Empty));
                 };
                 scenario.SetOnStateChanged(_lastSubscribe);
@@ -75,7 +76,7 @@ namespace Lazurite.Scenarios.TriggerTypes
                     if (!lastVal.Equals(curVal))
                     {
                         lastVal = curVal;
-                        var executionContext = new ExecutionContext(curVal, new OutputChangedDelegates(), cancellationToken);
+                        var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), cancellationToken);
                         Task.Factory.StartNew(() => TargetAction.SetValue(executionContext, string.Empty));
                     }
                     MainDomain.Utils.Sleep(10, cancellationToken);

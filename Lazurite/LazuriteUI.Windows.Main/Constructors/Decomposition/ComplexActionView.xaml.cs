@@ -1,5 +1,8 @@
 ﻿using Lazurite.CoreActions;
+using Lazurite.CoreActions.ContextInitialization;
+using Lazurite.CoreActions.CoreActions;
 using Lazurite.IOC;
+using Lazurite.MainDomain;
 using Lazurite.Windows.Modules;
 using System;
 using System.Collections.Generic;
@@ -26,8 +29,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         private PluginsManager _manager = Singleton.Resolve<PluginsManager>();
 
         private ComplexAction _action;
-
-        public ComplexActionView(ComplexAction action)
+        
+        public ComplexActionView(ComplexAction action, ScenarioBase scenario)
         {
             InitializeComponent();
             buttons.AddNewClick += () =>
@@ -35,16 +38,18 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 SelectCoreActionView.Show((type) => {
                     var newActionHolder = new ActionHolder()
                     {
-                        Action = _manager.CreateInstanceOf(type)
+                        Action = _manager.CreateInstanceOf(type, ParentScenario)
                     };
+                    _action.ActionHolders.Insert(0, newActionHolder);
                     Insert(newActionHolder, 0);
+                    Modified?.Invoke(this);
                 });
             };
             buttons.RemoveClick += () => NeedRemove?.Invoke(this);
             Refresh(action);
         }
 
-        public ComplexActionView() : this(new ComplexAction())
+        public ComplexActionView() : this(new ComplexAction(), null)
         {
             //do nothing
         }
@@ -58,6 +63,12 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         }
 
         public bool EditMode
+        {
+            get;
+            set;
+        }
+
+        public ScenarioBase ParentScenario
         {
             get;
             set;
@@ -82,6 +93,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             var control = ActionControlResolver.Create(actionHolder.Action);
             ((FrameworkElement)control).Margin = new Thickness(0, 1, 0, 0);
             var constructorElement = control as IConstructorElement;
+            constructorElement.ParentScenario = this.ParentScenario;
             constructorElement.Modified += (element) => Modified?.Invoke(element);
             constructorElement.NeedRemove += (element) => {
                 _action.ActionHolders.Remove(actionHolder);
@@ -92,7 +104,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 SelectCoreActionView.Show((type) => {
                     var index = stackPanel.Children.IndexOf(control)+1;
                     var newActionHolder = new ActionHolder() {
-                        Action = _manager.CreateInstanceOf(type)
+                        Action = _manager.CreateInstanceOf(type, ParentScenario)
                     };
                     _action.ActionHolders.Insert(index, newActionHolder);
                     Insert(newActionHolder, index);

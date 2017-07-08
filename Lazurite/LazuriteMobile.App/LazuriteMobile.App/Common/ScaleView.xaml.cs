@@ -35,6 +35,8 @@ namespace LazuriteMobile.App.Common
         {
             var percent = (Value - this.Min) / (this.Max - this.Min);
             var marginBottom = this.Height * percent;
+            if (marginBottom < 0)
+                marginBottom = 0;
             this.gridValue.HeightRequest = marginBottom;
 
             lblValue.Text = Math.Round(Value).ToString();

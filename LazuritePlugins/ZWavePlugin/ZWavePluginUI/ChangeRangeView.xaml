@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:ZWavePluginUI"
              mc:Ignorable="d" 
              Width="350"
-             Background="Black">
+             Background="{x:Static controls:Visual.Background}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -20,8 +20,8 @@
         </Grid.ColumnDefinitions>
         <TextBlock Margin="10" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center">Нижняя граница:</TextBlock>
         <TextBlock Margin="10" Foreground="White" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">Верхняя граница: </TextBlock>
-        <controls:NumericUpDown x:Name="nudMin" Grid.Column="1" Width="200" Margin="10"></controls:NumericUpDown>
-        <controls:NumericUpDown x:Name="nudMax" Grid.Column="1" Grid.Row="1" Width="200" Margin="10"></controls:NumericUpDown>
-        <controls:ItemView Grid.Row="2" Grid.ColumnSpan="2" Icon="Check" Click="ItemView_Click">OK</controls:ItemView>
+        <controls:EntryView x:Name="tbMin" Grid.Column="1" Width="200">0</controls:EntryView>
+        <controls:EntryView x:Name="tbMax" Grid.Column="1" Grid.Row="1" Width="200">100</controls:EntryView>
+        <controls:ItemView Margin="5" Grid.Row="2" Grid.ColumnSpan="2" Icon="Check" Click="ItemView_Click">OK</controls:ItemView>
     </Grid>
 </UserControl>

@@ -16,6 +16,8 @@ using Lazurite.ActionsDomain;
 using Lazurite.Windows.Modules;
 using Lazurite.IOC;
 using Lazurite.CoreActions;
+using Lazurite.MainDomain;
+using LazuriteUI.Windows.Controls;
 
 namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 {
@@ -39,29 +41,23 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             buttons.RemoveClick += () => NeedRemove?.Invoke(this);
             buttons.EditClick += () =>
             {
-                ActionControlResolver.UserInitialize(
-                    (result) => {
-                        if (result)
-                        {
-                            Model.Refresh(ActionHolder);
-                            Modified?.Invoke(this);
-                        }
-                    },
-                    ActionHolder.Action,
-                    MasterAction?.ValueType,
-                    MasterAction != null,
-                    MasterAction);
+                BeginEditAction();
             };
             buttons.ChangeClick += () => {
                 BeginSelectAction();
             };
         }
 
+        public void MakeButtonsInvisible()
+        {
+            buttons.Visibility = Visibility.Collapsed;
+        }
+
         public void BeginSelectAction()
         {
             SelectActionView.Show(
                     (type) => {
-                        var newAction = Singleton.Resolve<PluginsManager>().CreateInstanceOf(type);
+                        var newAction = Singleton.Resolve<PluginsManager>().CreateInstanceOf(type, ParentScenario);
                         if (newAction != null)
                         {
                             ActionControlResolver.UserInitialize(
@@ -79,12 +75,48 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                                 MasterAction?.ValueType,
                                 true,
                                 MasterAction);
+                            if (MasterAction != null && !newAction.ValueType.IsCompatibleWith(MasterAction.ValueType))
+                            {
+                                MessageView.ShowMessage(
+                                    "Тип действия не совпадает с типом действия главного действия. Нужно настроить подчиненное действие еще раз.",
+                                    "Внимание!",
+                                    Icons.Icon.WarningCircle, null, 
+                                    () => {
+                                        BeginSelectAction();
+                                    });
+                            }
                         }
                     },
                     MasterAction?.ValueType.GetType(),
                     MasterAction == null ? Lazurite.Windows.Modules.ActionInstanceSide.OnlyLeft
                     : Lazurite.Windows.Modules.ActionInstanceSide.OnlyRight,
                     ActionHolder?.Action.GetType());
+        }
+
+        public void BeginEditAction()
+        {
+            ActionControlResolver.UserInitialize(
+                (result) => {
+                    if (result)
+                    {
+                        Model.Refresh(ActionHolder);
+                        Modified?.Invoke(this);
+                        if (MasterAction != null && !ActionHolder.Action.ValueType.IsCompatibleWith(MasterAction.ValueType))
+                        {
+                            MessageView.ShowMessage(
+                                "Тип действия не совпадает с типом действия главного действия. Нужно настроить подчиненное действие еще раз.",
+                                "Внимание!",
+                                Icons.Icon.WarningCircle, null,
+                                () => {
+                                    BeginEditAction();
+                                });
+                        }
+                    }
+                },
+                ActionHolder.Action,
+                MasterAction?.ValueType,
+                MasterAction != null,
+                MasterAction);
         }
 
         public void Refresh(ActionHolder actionHolder)
@@ -122,6 +154,12 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             {
                 Model.EditMode = value;
             }
+        }
+
+        public ScenarioBase ParentScenario
+        {
+            get;
+            set;
         }
 
         public event Action<IConstructorElement> NeedAddNext;

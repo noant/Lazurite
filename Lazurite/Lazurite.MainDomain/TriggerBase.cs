@@ -1,4 +1,5 @@
 ﻿using Lazurite.ActionsDomain;
+using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
 using Lazurite.Logging;
 using System;
@@ -10,12 +11,14 @@ using System.Threading.Tasks;
 
 namespace Lazurite.MainDomain
 {
-    public abstract class TriggerBase
+    public abstract class TriggerBase: IAlgorithmContext
     {
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private string _id = Guid.NewGuid().ToString();
+        
+        public ValueTypeBase ValueType { get; set; } = new ButtonValueType();
 
         /// <summary>
         /// Trigger category

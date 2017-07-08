@@ -1,5 +1,8 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.CoreActions;
+using Lazurite.CoreActions.ContextInitialization;
+using Lazurite.CoreActions.CoreActions;
 using Lazurite.CoreActions.StandardValueTypeActions;
 using Lazurite.Data;
 using Lazurite.IOC;
@@ -185,9 +188,19 @@ namespace Lazurite.Windows.Modules
         private ISavior _savior = Singleton.Resolve<ISavior>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
 
-        public IAction CreateInstanceOf(Type type)
+        public IAction CreateInstanceOf(Type type, ScenarioBase parentScenario)
         {
-            return (IAction)Activator.CreateInstance(type);
+            var action = (IAction)Activator.CreateInstance(type);
+            if (action is IContextInitializable)
+                ((IContextInitializable)action).Initialize(parentScenario);
+            if (action is ICoreAction)
+                ((ICoreAction)action)
+                    .SetTargetScenario(_scenarioRepository.Scenarios.FirstOrDefault(x => x.Id.Equals(((ICoreAction)action).TargetScenarioId)));
+            if (action is ExecuteAction)
+                ((ExecuteAction)action).InputValue.Action = CoreActions.Utils.Default(action.ValueType);
+            else if (action is SetReturnValueAction)
+                ((SetReturnValueAction)action).InputValue.Action = CoreActions.Utils.Default(parentScenario.ValueType);
+            return action;
         }
 
         /// <summary>

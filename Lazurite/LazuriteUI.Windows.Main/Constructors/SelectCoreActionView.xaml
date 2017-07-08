@@ -7,8 +7,9 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              xmlns:coreActions="clr-namespace:Lazurite.CoreActions;assembly=Lazurite.CoreActions"
              xmlns:coreActions2="clr-namespace:Lazurite.CoreActions.CoreActions;assembly=Lazurite.CoreActions"
-             mc:Ignorable="d" 
-             Background="Black"
+             xmlns:contextInitialization="clr-namespace:Lazurite.CoreActions.ContextInitialization;assembly=Lazurite.CoreActions"
+             mc:Ignorable="d"
+             Background="{x:Static controls:Visual.Background}"
              Width="300">
     <Grid>
         <controls:ListItemsView x:Name="listItems">
@@ -16,7 +17,7 @@
             <controls:ItemView Tag="{x:Type coreActions:IfAction}" Margin="2" Icon="Question">Добавить условие</controls:ItemView>
             <controls:ItemView Tag="{x:Type coreActions:WhileAction}" Margin="2" Icon="DebugStepOut">Добавить цикл</controls:ItemView>
             <controls:ItemView Tag="{x:Type coreActions2:RunExistingScenarioAction}" Margin="2" Icon="ListSelect">Выполнить существующий сценарий</controls:ItemView>
-            <controls:ItemView Tag="{x:Type coreActions2:SetReturnValueAction}" Margin="2" Icon="CabinetOut">Обновить значение сценария</controls:ItemView>
+            <controls:ItemView Tag="{x:Type contextInitialization:SetReturnValueAction}" Margin="2" Icon="CabinetOut">Обновить значение сценария</controls:ItemView>
         </controls:ListItemsView>
     </Grid>
 </UserControl>

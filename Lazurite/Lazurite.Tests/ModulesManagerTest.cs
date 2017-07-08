@@ -53,7 +53,7 @@ namespace Lazurite.Tests
             var savior = new FileSavior();
             Singleton.Add(savior);
             var manager = new PluginsManager();
-            IAction testAction = manager.CreateInstanceOf(manager.GetModules().First());
+            IAction testAction = manager.CreateInstanceOf(manager.GetModules().First(), null);
             testAction.SetValue(null, DateTime.Now.ToString());
             savior.Set("testAction", testAction);
         }
