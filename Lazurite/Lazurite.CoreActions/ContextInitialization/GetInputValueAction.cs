@@ -20,7 +20,7 @@ namespace Lazurite.CoreActions.ContextInitialization
         {
             get
             {
-                return "ВходящееЗначение";
+                return string.Empty;
             }
             set
             {
@@ -55,7 +55,7 @@ namespace Lazurite.CoreActions.ContextInitialization
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            return false;
+            return true;
         }
 
         public void Initialize()

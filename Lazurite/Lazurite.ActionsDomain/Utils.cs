@@ -12,7 +12,7 @@ namespace Lazurite.ActionsDomain
             return 
                 (type.GetCustomAttributes(typeof(HumanFriendlyNameAttribute), true).FirstOrDefault() as HumanFriendlyNameAttribute)?.Value ?? type.Name;
         }
-
+        
         public static string ExtractHumanFriendlyName(Type type, string memberName)
         {
             var memberInfo = 

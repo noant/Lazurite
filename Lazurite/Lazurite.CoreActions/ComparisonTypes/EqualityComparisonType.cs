@@ -13,7 +13,7 @@ namespace Lazurite.CoreActions.ComparisonTypes
         {
             get
             {
-                return "=";
+                return "==";
             }
             set
             {

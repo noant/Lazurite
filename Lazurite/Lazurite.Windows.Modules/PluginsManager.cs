@@ -188,18 +188,18 @@ namespace Lazurite.Windows.Modules
         private ISavior _savior = Singleton.Resolve<ISavior>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
 
-        public IAction CreateInstanceOf(Type type, ScenarioBase parentScenario)
+        public IAction CreateInstanceOf(Type type, IAlgorithmContext algoContext)
         {
             var action = (IAction)Activator.CreateInstance(type);
             if (action is IContextInitializable)
-                ((IContextInitializable)action).Initialize(parentScenario);
+                ((IContextInitializable)action).Initialize(algoContext);
             if (action is ICoreAction)
                 ((ICoreAction)action)
                     .SetTargetScenario(_scenarioRepository.Scenarios.FirstOrDefault(x => x.Id.Equals(((ICoreAction)action).TargetScenarioId)));
             if (action is ExecuteAction)
                 ((ExecuteAction)action).InputValue.Action = CoreActions.Utils.Default(action.ValueType);
             else if (action is SetReturnValueAction)
-                ((SetReturnValueAction)action).InputValue.Action = CoreActions.Utils.Default(parentScenario.ValueType);
+                ((SetReturnValueAction)action).InputValue.Action = CoreActions.Utils.Default(algoContext.ValueType);
             return action;
         }
 
@@ -219,7 +219,8 @@ namespace Lazurite.Windows.Modules
                     typeof(GetDateTimeVTAction),
                     typeof(GetFloatVTAction),
                     typeof(GetInfoVTAction),
-                    typeof(GetToggleVTAction) })
+                    typeof(GetToggleVTAction),
+                    typeof(GetInputValueAction) })
                     .ToArray();
             
             if (side == ActionInstanceSide.OnlyRight && valueType != null && valueType.Equals(typeof(InfoValueType)))

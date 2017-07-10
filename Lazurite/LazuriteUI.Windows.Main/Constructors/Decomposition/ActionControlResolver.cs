@@ -29,13 +29,14 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public static void UserInitialize(Action<bool> callback, IAction action, ValueTypeBase valueType, bool inheritsSupportedValues, IAction masterAction)
         {
-            if (Lazurite.ActionsDomain.Utils.IsCoreVisualInitialization(action.GetType()))
+            if (action is IStandardValueAction)
             {
                 IStandardVTActionEditView vtAction = CreateControl((IStandardValueAction)action, masterAction);
                 if (vtAction == null)
                     callback?.Invoke(true);
                 var dialog = new DialogView((FrameworkElement)vtAction);
-                vtAction.ApplyClicked += () => {
+                vtAction.ApplyClicked += () =>
+                {
                     callback(true);
                     dialog.Close();
                 };

@@ -45,6 +45,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
 
         public bool IsCompatibleWith(ValueTypeBase valueType)
         {
+            if (this is InfoValueType) return true;
             if (valueType.GetType() != this.GetType()) return false;
             if (valueType.SupportsNumericalComparisons.Equals(this.SupportsNumericalComparisons) && valueType.AcceptedValues.Length.Equals(this.AcceptedValues.Length))
             {

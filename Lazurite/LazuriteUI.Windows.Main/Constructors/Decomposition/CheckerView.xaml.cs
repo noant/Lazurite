@@ -24,14 +24,14 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для ActionView.xaml
     /// </summary>
-    public partial class ActionView : UserControl, IConstructorElement
+    public partial class CheckerView : UserControl, IConstructorElement
     {
-        public ActionView() : this(new ActionHolder())
+        public CheckerView() : this(new ActionHolder())
         {
             // do nothing
         }
 
-        public ActionView(ActionHolder actionHolder)
+        public CheckerView(ActionHolder actionHolder)
         {
             InitializeComponent();
 
@@ -41,7 +41,6 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             buttons.RemoveClick += () => NeedRemove?.Invoke(this);
             buttons.EditClick += () => BeginEditAction();
             buttons.ChangeClick += () => BeginSelectAction();
-            
         }
 
         public void MakeButtonsInvisible()
@@ -71,7 +70,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                                 MasterAction?.ValueType,
                                 true,
                                 MasterAction);
-                            if (MasterAction != null && !MasterAction.ValueType.IsCompatibleWith(newAction.ValueType))
+                            if (MasterAction != null && MasterAction.ValueType.GetType() != newAction.ValueType.GetType())
                             {
                                 MessageView.ShowMessage(
                                     "Тип действия не совпадает с типом действия главного действия. Нужно настроить подчиненное действие еще раз.",
@@ -97,7 +96,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     {
                         Model.Refresh(ActionHolder);
                         Modified?.Invoke(this);
-                        if (MasterAction != null && !MasterAction.ValueType.IsCompatibleWith(ActionHolder.Action.ValueType))
+                        if (MasterAction != null && MasterAction.ValueType.GetType() != ActionHolder.Action.ValueType.GetType())
                         {
                             MessageView.ShowMessage(
                                 "Тип действия не совпадает с типом главного действия. Нужно настроить подчиненное действие еще раз.",

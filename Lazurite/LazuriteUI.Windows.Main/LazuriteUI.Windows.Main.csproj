@@ -98,14 +98,44 @@
     </Compile>
     <Compile Include="Constructors\Decomposition\ActionControlResolver.cs" />
     <Compile Include="Constructors\Decomposition\ActionModel.cs" />
+    <Compile Include="Constructors\Decomposition\ComplexCheckerOperatorPairView.xaml.cs">
+      <DependentUpon>ComplexCheckerOperatorPairView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\Decomposition\CheckerOperatorPairView.xaml.cs">
+      <DependentUpon>CheckerOperatorPairView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\Decomposition\CheckerOperatorSelectView2.xaml.cs">
+      <DependentUpon>CheckerOperatorSelectView2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\Decomposition\CheckerOperatorSelectView.xaml.cs">
+      <DependentUpon>CheckerOperatorSelectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\Decomposition\CheckerOperatorView.xaml.cs">
+      <DependentUpon>CheckerOperatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\Decomposition\CheckerView.xaml.cs">
+      <DependentUpon>CheckerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\Decomposition\ActionView.xaml.cs">
       <DependentUpon>ActionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\Decomposition\ComparisonTypeSelectView.xaml.cs">
+      <DependentUpon>ComparisonTypeSelectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\Decomposition\ComparisonTypeView.xaml.cs">
+      <DependentUpon>ComparisonTypeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Constructors\Decomposition\ComplexActionView.xaml.cs">
       <DependentUpon>ComplexActionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\Decomposition\ComplexCheckerView.xaml.cs">
+      <DependentUpon>ComplexCheckerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\Decomposition\EditActionButtonsView.xaml.cs">
       <DependentUpon>EditActionButtonsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\Decomposition\CheckerActionView.xaml.cs">
+      <DependentUpon>CheckerActionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Constructors\Decomposition\ReturnScenarioValueView.xaml.cs">
       <DependentUpon>ReturnScenarioValueView.xaml</DependentUpon>
@@ -114,6 +144,9 @@
       <DependentUpon>ExecuteActionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Constructors\Decomposition\IConstructorElement.cs" />
+    <Compile Include="Constructors\Decomposition\SelectCheckerView.xaml.cs">
+      <DependentUpon>SelectCheckerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\FakeScenarioModel.cs" />
     <Compile Include="Constructors\IScenarioConstructorView.cs" />
     <Compile Include="Constructors\NewCompositeScenarioSelectionView.xaml.cs">
@@ -269,7 +302,39 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Constructors\Decomposition\ComplexCheckerOperatorPairView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Constructors\Decomposition\CheckerOperatorPairView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\Decomposition\CheckerOperatorSelectView2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Constructors\Decomposition\CheckerOperatorSelectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\Decomposition\CheckerOperatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\Decomposition\CheckerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Constructors\Decomposition\ActionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\Decomposition\ComparisonTypeSelectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\Decomposition\ComparisonTypeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -277,15 +342,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Constructors\Decomposition\ComplexCheckerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Constructors\Decomposition\EditActionButtonsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\Decomposition\CheckerActionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Constructors\Decomposition\ReturnScenarioValueView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Constructors\Decomposition\ExecuteActionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\Decomposition\SelectCheckerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

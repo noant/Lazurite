@@ -58,6 +58,7 @@
     <Compile Include="CheckerAction.cs" />
     <Compile Include="CheckerLogicalOperators\CheckerOperatorPair.cs" />
     <Compile Include="CheckerLogicalOperators\LogicalOperator.cs" />
+    <Compile Include="ComparisonTypes\NonEqualityComparisonType.cs" />
     <Compile Include="ComparisonTypes\MoreOrEqualComparisonType.cs" />
     <Compile Include="ComparisonTypes\MoreComparisonType.cs" />
     <Compile Include="ComparisonTypes\LessOrEqualComparisonType.cs" />

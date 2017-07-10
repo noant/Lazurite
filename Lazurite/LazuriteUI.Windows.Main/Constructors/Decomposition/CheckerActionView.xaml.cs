@@ -20,27 +20,24 @@ using Lazurite.ActionsDomain;
 namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 {
     /// <summary>
-    /// Логика взаимодействия для ExecuteActionView.xaml
+    /// Логика взаимодействия для CheckerActionView.xaml
     /// </summary>
-    public partial class ExecuteActionView : UserControl, IConstructorElement
+    public partial class CheckerActionView : UserControl, IConstructorElement
     {
-        public ExecuteActionView(ExecuteAction action)
+        private CheckerAction _action;
+
+        public CheckerActionView()
         {
             InitializeComponent();
-            this.ActionHolder = new ActionHolder() {
-                Action = action
-            };
-            this.action1View.Refresh(action.MasterActionHolder);
-            this.action2View.Refresh(action.InputValue);
-            Action2EqualizeToAction1();
+            
             this.action1View.Modified += (element) =>
             {
                 Modified?.Invoke(this);
                 Action2EqualizeToAction1();
-                if (!action2View.ActionHolder.Action.ValueType
-                    .IsCompatibleWith(action1View.ActionHolder.Action.ValueType))
+                if (action2View.ActionHolder.Action.ValueType.GetType() !=
+                    action1View.ActionHolder.Action.ValueType.GetType())
                 {
-                    action.InputValue.Action = Lazurite.CoreActions.Utils.Default(action1View.ActionHolder.Action.ValueType);
+                    _action.TargetAction2Holder.Action = Lazurite.CoreActions.Utils.Default(action1View.ActionHolder.Action.ValueType);
                     action2View.Refresh();
                 }
             };
@@ -49,17 +46,25 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             this.buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
         }
 
+        public void Refresh(CheckerAction action)
+        {
+            _action = action;
+            this.action1View.Refresh(action.TargetAction1Holder);
+            this.action2View.Refresh(action.TargetAction2Holder);
+            this.comparisonView.Refresh(action);
+            Action2EqualizeToAction1();
+        }
+
         private void Action2EqualizeToAction1()
         {
             action2View.MasterAction = action1View.ActionHolder.Action;
-            if (action1View.ActionHolder.Action.ValueType is ButtonValueType)
-                action2View.Visibility = tbEquals.Visibility = Visibility.Collapsed;
-            else action2View.Visibility = tbEquals.Visibility = Visibility.Visible;
         }
 
         public ActionHolder ActionHolder
         {
-            get; private set;
+            get {
+                return new ActionHolder() { Action = _action };
+            }
         }
 
         public bool EditMode
@@ -76,7 +81,9 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             }
             set
             {
-                action1View.AlgorithmContext = action2View.AlgorithmContext = value;
+                action1View.AlgorithmContext
+                    = action2View.AlgorithmContext
+                    = comparisonView.AlgorithmContext = value;
             }
         }
 

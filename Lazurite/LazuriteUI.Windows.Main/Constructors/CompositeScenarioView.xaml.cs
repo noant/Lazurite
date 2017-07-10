@@ -41,7 +41,8 @@ namespace LazuriteUI.Windows.Main.Constructors
             };
 
             btSettings.Click += (o, e) => {
-                ActionControlResolver.BeginCompositeScenarioSettings(_scenario, 
+                ActionControlResolver.BeginCompositeScenarioSettings(
+                    _scenario, 
                     (result) => {
                         if (result)
                             Modified?.Invoke();
@@ -51,8 +52,8 @@ namespace LazuriteUI.Windows.Main.Constructors
             complexActionView.MakeRemoveButtonInvisible();
             _scenario = scenario;
             Refresh();
-            complexActionView.Refresh(_scenario.TargetAction);
             complexActionView.ParentScenario = this._scenario;
+            complexActionView.Refresh(_scenario.TargetAction);
             complexActionView.Modified += (element) => Modified?.Invoke();
         }
 

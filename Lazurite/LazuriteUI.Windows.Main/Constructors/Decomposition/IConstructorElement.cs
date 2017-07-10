@@ -17,6 +17,6 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         bool EditMode { get; set; }
         ActionHolder ActionHolder { get; }
 
-        ScenarioBase ParentScenario { get; set; }
+        IAlgorithmContext AlgorithmContext { get; set; }
     }
 }

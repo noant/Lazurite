@@ -1,9 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.CoreActions;
-using Lazurite.CoreActions.ContextInitialization;
-using Lazurite.CoreActions.CoreActions;
+using Lazurite.CoreActions.CheckerLogicalOperators;
 using Lazurite.IOC;
-using Lazurite.MainDomain;
 using Lazurite.Windows.Modules;
 using System;
 using System.Collections.Generic;
@@ -23,18 +21,18 @@ using System.Windows.Shapes;
 namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 {
     /// <summary>
-    /// Логика взаимодействия для ComplexActionView.xaml
+    /// Логика взаимодействия для ComplexCheckerView.xaml
     /// </summary>
-    public partial class ComplexActionView : UserControl, IConstructorElement
+    public partial class ComplexCheckerView : UserControl, IConstructorElement
     {
         private PluginsManager _manager = Singleton.Resolve<PluginsManager>();
 
-        private ComplexAction _action;
-        
-        public ComplexActionView(ComplexAction action, IAlgorithmContext algorithmContext)
+        private ComplexCheckerAction _action;
+
+        public ComplexCheckerView(ComplexCheckerAction action, IAlgorithmContext algoContext)
         {
             InitializeComponent();
-            AlgorithmContext = algorithmContext;
+            AlgorithmContext = algoContext;
             buttons.AddNewClick += () =>
             {
                 SelectCoreActionView.Show((type) => {
@@ -42,7 +40,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     {
                         Action = _manager.CreateInstanceOf(type, AlgorithmContext)
                     };
-                    _action.ActionHolders.Insert(0, newActionHolder);
+                    _action.Che.Insert(0, newActionHolder);
                     Insert(newActionHolder, 0);
                     Modified?.Invoke(this);
                 });
@@ -51,7 +49,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             Refresh(action);
         }
 
-        public ComplexActionView() : this(new ComplexAction(), null)
+        public ComplexCheckerView() : this(new ComplexCheckerAction(), null)
         {
             //do nothing
         }
@@ -80,15 +78,15 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public event Action<IConstructorElement> NeedAddNext;
         public event Action<IConstructorElement> NeedRemove;
 
-        public void Refresh(ComplexAction action)
+        public void Refresh(ComplexCheckerAction action)
         {
             _action = action;
             stackPanel.Children.Clear();
-            foreach (var actionHolder in _action.ActionHolders)
+            foreach (var actionHolder in _action.CheckerOperations)
                 Insert(actionHolder);
         }
 
-        private void Insert(ActionHolder actionHolder, int position=-1)
+        private void Insert(CheckerOperatorPair operatorPair, int position = -1)
         {
             if (position == -1)
                 position = stackPanel.Children.Count;
@@ -98,15 +96,16 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             constructorElement.AlgorithmContext = this.AlgorithmContext;
             constructorElement.Modified += (element) => Modified?.Invoke(element);
             constructorElement.NeedRemove += (element) => {
-                _action.ActionHolders.Remove(actionHolder);
+                _action.CheckerOperations.Remove(actionHolder);
                 stackPanel.Children.Remove(control);
                 Modified?.Invoke(this);
             };
             constructorElement.NeedAddNext += (element) => {
                 SelectCoreActionView.Show((type) => {
-                    var index = stackPanel.Children.IndexOf(control)+1;
-                    var newActionHolder = new ActionHolder() {
-                        Action = _manager.CreateInstanceOf(type, this.AlgorithmContext)
+                    var index = stackPanel.Children.IndexOf(control) + 1;
+                    var newActionHolder = new ActionHolder()
+                    {
+                        Action = _manager.CreateInstanceOf(type, AlgorithmContext)
                     };
                     _action.ActionHolders.Insert(index, newActionHolder);
                     Insert(newActionHolder, index);
@@ -114,6 +113,11 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 });
             };
             stackPanel.Children.Insert(position, control);
+        }
+
+        public void MakeRemoveInvisible()
+        {
+            this.buttons.RemoveVisible = false;
         }
     }
 }

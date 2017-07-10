@@ -60,7 +60,7 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            return false;
+            return true;
         }
 
         public string GetValue(ExecutionContext context)

@@ -64,6 +64,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             }
         }
 
+
         public event Action<IConstructorElement> Modified;
         public event Action<IConstructorElement> NeedAddNext;
         public event Action<IConstructorElement> NeedRemove;

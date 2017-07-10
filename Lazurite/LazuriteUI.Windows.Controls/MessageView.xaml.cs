@@ -52,12 +52,15 @@ namespace LazuriteUI.Windows.Controls
         public void ShowInNewWindow()
         {
             var window = new Window();
+            window.Name = "messageView";
             window.Height = 190;
             window.Width = 500;
             window.WindowStyle = WindowStyle.None;
             window.ResizeMode = ResizeMode.NoResize;
             window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             window.Topmost = true;
+            window.ShowActivated = false;
+            window.ShowInTaskbar = false;
             window.Content = new Grid();
             _window = window;
             Show(window.Content as Grid);
