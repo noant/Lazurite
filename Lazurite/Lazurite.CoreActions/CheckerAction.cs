@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lazurite.MainDomain;
+using Lazurite.CoreActions.StandardValueTypeActions;
 
 namespace Lazurite.CoreActions
 {
@@ -18,8 +19,8 @@ namespace Lazurite.CoreActions
     [SuitableValueTypes(typeof(ToggleValueType))]
     public class CheckerAction : IAction, IMultipleAction, IChecker
     {
-        public ActionHolder TargetAction1Holder { get; set; } = new ActionHolder();
-        public ActionHolder TargetAction2Holder { get; set; } = new ActionHolder();
+        public ActionHolder TargetAction1Holder { get; set; } = new ActionHolder() { Action = new GetToggleVTAction() };
+        public ActionHolder TargetAction2Holder { get; set; } = new ActionHolder() { Action = new GetToggleVTAction() };
         public IComparisonType ComparisonType { get; set; } = new EqualityComparisonType();
         
         public string Caption

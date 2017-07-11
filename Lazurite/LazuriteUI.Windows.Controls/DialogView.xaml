@@ -12,12 +12,10 @@
     </UserControl.Resources>
     <Grid>        
         <Grid Background="Black" x:FieldModifier="private" Opacity="0.5" Name="gridBackground"></Grid>
-        <Grid Name="mainContent">
-            <DockPanel LastChildFill="True" Height="Auto" VerticalAlignment="Center" Width="Auto" MaxWidth="1000" MinWidth="200">
-                <TextBlock Margin="0,0,0,10" DockPanel.Dock="Top" Width="Auto" MaxWidth="400" TextWrapping="Wrap" x:Name="tbCaption" Foreground="SteelBlue" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-                <Grid x:FieldModifier="private" DockPanel.Dock="Bottom" Name="contentGrid"></Grid>
-            </DockPanel>
-        </Grid>
+        <DockPanel VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="dockControl" LastChildFill="True" Height="Auto" Width="Auto" MaxWidth="1000" MinWidth="200">
+            <TextBlock Margin="0,0,0,10" DockPanel.Dock="Top" Width="Auto" MaxWidth="400" TextWrapping="Wrap" x:Name="tbCaption" Foreground="SteelBlue" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+            <ContentPresenter Height="Auto" Width="Auto" DockPanel.Dock="Bottom" x:Name="contentControl"></ContentPresenter>
+        </DockPanel>
         <local:ItemView VerticalAlignment="Top" x:Name="closeitemView" Click="CloseItemView_Click" IconHorizontalAligment="Center" IconVerticalAligment="Center" HorizontalAlignment="Right" Opacity="0.5" Background="Crimson" Width="34" Icon="Close"></local:ItemView>
     </Grid>
 </UserControl>

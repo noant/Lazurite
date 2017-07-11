@@ -18,9 +18,9 @@ namespace Lazurite.CoreActions
     [HumanFriendlyName("Если")]
     public class IfAction : IAction, IMultipleAction
     {
-        public ComplexAction ActionIf { get; set; }
-        public ComplexAction ActionElse { get; set; }
-        public ComplexCheckerAction Checker { get; set; }
+        public ComplexAction ActionIf { get; set; } = new ComplexAction();
+        public ComplexAction ActionElse { get; set; } = new ComplexAction();
+        public ComplexCheckerAction Checker { get; set; } = new ComplexCheckerAction();
 
         public string Caption
         {

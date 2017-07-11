@@ -26,17 +26,10 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// </summary>
     public partial class CheckerView : UserControl, IConstructorElement
     {
-        public CheckerView() : this(new ActionHolder())
-        {
-            // do nothing
-        }
-
-        public CheckerView(ActionHolder actionHolder)
+        public CheckerView()
         {
             InitializeComponent();
-
-            Refresh(actionHolder);
-
+            
             buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
             buttons.RemoveClick += () => NeedRemove?.Invoke(this);
             buttons.EditClick += () => BeginEditAction();
@@ -83,7 +76,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                         }
                     },
                     MasterAction?.ValueType.GetType(),
-                    MasterAction == null ? Lazurite.Windows.Modules.ActionInstanceSide.OnlyLeft
+                    MasterAction == null ? Lazurite.Windows.Modules.ActionInstanceSide.Both
                     : Lazurite.Windows.Modules.ActionInstanceSide.OnlyRight,
                     ActionHolder?.Action.GetType());
         }
@@ -113,8 +106,9 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 MasterAction);
         }
 
-        public void Refresh(ActionHolder actionHolder)
+        public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
         {
+            AlgorithmContext = algoContext;
             ActionHolder = actionHolder;
             Model = new ActionModel();
             Model.Refresh(ActionHolder);
@@ -123,7 +117,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public void Refresh()
         {
-            this.Refresh(this.ActionHolder);
+            this.Refresh(this.ActionHolder, this.AlgorithmContext);
         }
 
         public IAction MasterAction { get; set; }

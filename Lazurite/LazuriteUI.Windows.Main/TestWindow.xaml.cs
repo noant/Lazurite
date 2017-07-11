@@ -39,9 +39,6 @@ namespace LazuriteUI.Windows.Main
         public TestWindow()
         {
             InitializeComponent();
-
-            var actionView = new ActionView(new ActionHolder() { Action = new ToggleTestAction() });
-            this.grid.Children.Add(actionView);
         }
 
         [HumanFriendlyName("Modbus устройство")]

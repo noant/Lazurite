@@ -17,6 +17,7 @@ using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.CoreActions.CoreActions;
 using Lazurite.MainDomain;
 using Lazurite.CoreActions.ContextInitialization;
+using Lazurite.ActionsDomain;
 
 namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 {
@@ -25,25 +26,20 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// </summary>
     public partial class ReturnScenarioValueView : UserControl, IConstructorElement
     {
-        public ReturnScenarioValueView(SetReturnValueAction action)
+        private SetReturnValueAction _action;
+
+        public ReturnScenarioValueView()
         {
             InitializeComponent();
-            this.action1View.Refresh(new ActionHolder() { Action = action });
-            this.action2View.Refresh(action.InputValue);
-            this.action2View.MasterAction = action;
-            this.action1View.MakeButtonsInvisible();
             this.action2View.Modified += (element) => Modified?.Invoke(this);
-
             this.buttons.RemoveClick += () => NeedRemove?.Invoke(this);
             this.buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
         }
         
         public ActionHolder ActionHolder
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            private set;
         }
 
         public bool EditMode
@@ -52,18 +48,22 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             set;
         }
         
-        public ScenarioBase ParentScenario
+        public IAlgorithmContext AlgorithmContext
         {
-            get
-            {
-                return action1View.ParentScenario;
-            }
-            set
-            {
-                action1View.ParentScenario = action2View.ParentScenario = value;
-            }
+            get;
+            private set;
         }
 
+        public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
+        {
+            ActionHolder = actionHolder;
+            AlgorithmContext = algoContext;
+            _action = (SetReturnValueAction)actionHolder.Action;
+            this.action1View.Refresh(actionHolder, algoContext);
+            this.action2View.Refresh(_action.InputValue, algoContext);
+            this.action2View.MasterAction = _action;
+            this.action1View.MakeButtonsInvisible();
+        }
 
         public event Action<IConstructorElement> Modified;
         public event Action<IConstructorElement> NeedAddNext;

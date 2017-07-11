@@ -14,6 +14,11 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
     [SuitableValueTypes(typeof(DateTimeValueType))]
     public class GetDateTimeVTAction : IAction, IStandardValueAction
     {
+        public GetDateTimeVTAction()
+        {
+            Value = DateTime.Now.ToString();
+        }
+
         public string Caption
         {
             get

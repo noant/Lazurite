@@ -29,7 +29,7 @@ namespace LazuriteUI.Windows.Controls
             InitializeComponent();
             this.KeyUp += DialogView_KeyUp;
             this.gridBackground.MouseLeftButtonDown += GridBackground_MouseLeftButtonDown;
-            this.contentGrid.Children.Add(child);
+            this.contentControl.Content = child;
         }
         
         public string Caption
@@ -70,36 +70,23 @@ namespace LazuriteUI.Windows.Controls
 
             if (ShowUnderCursor)
             {
-                mainContent.VerticalAlignment = VerticalAlignment.Top;
-                mainContent.HorizontalAlignment = HorizontalAlignment.Left;
-                this.Loaded += (o, e) => RefreshPosition();;
-                this.mainContent.SizeChanged += (o, e) => RefreshPositionByHeight();
+                dockControl.VerticalAlignment = VerticalAlignment.Top;
+                dockControl.HorizontalAlignment = HorizontalAlignment.Left;
+                this.Loaded += (o, e) => RefreshPosition();
             }
         }
         
         private void RefreshPosition()
         {
-            var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
-            var mouse = transform.Transform(GetMousePosition());
-            var margin = new Thickness(mouse.X, mouse.Y - contentGrid.ActualHeight / 2, 0, 0);
-
-            if (margin.Top + mainContent.ActualHeight > Utils.GetMainWindow().ActualHeight)
-                margin.Top = 0;
+            var mainWindow = Utils.GetMainWindow();
+            var mousePosition = GetMousePosition();
+            var margin = new Thickness(mousePosition.X, mousePosition.Y - dockControl.ActualHeight / 2, 0, 0);
             if (margin.Top < 0)
                 margin.Top = 0;
+            if (margin.Top + dockControl.ActualHeight > mainWindow.ActualHeight)
+                dockControl.Height = mainWindow.ActualHeight - margin.Top;
 
-            mainContent.Margin = new Thickness(margin.Left - ((Window)Utils.GetMainWindowPanel().Parent).Left, margin.Top - ((Window)Utils.GetMainWindowPanel().Parent).Top, 0, 0);
-        }
-
-        private void RefreshPositionByHeight()
-        {
-            var margin = contentGrid.Margin;
-            if (margin.Top + mainContent.ActualHeight >= Utils.GetMainWindow().ActualHeight - 50)
-                margin.Top = Utils.GetMainWindow().ActualHeight - margin.Top - 50;
-            if (margin.Top < 0)
-                margin.Top = 0;
-
-            mainContent.Margin = new Thickness(margin.Left, margin.Top, 0, 0);
+            dockControl.Margin = new Thickness(margin.Left - ((Window)Utils.GetMainWindowPanel().Parent).Left, margin.Top - ((Window)Utils.GetMainWindowPanel().Parent).Top, 0, 0);
         }
 
         public System.Windows.Point GetMousePosition()

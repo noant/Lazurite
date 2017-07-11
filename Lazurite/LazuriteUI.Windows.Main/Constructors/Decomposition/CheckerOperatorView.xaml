@@ -14,9 +14,9 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <controls:ItemView x:Name="btSelectOperator1" Height="30" Width="30" IconVisibility="Collapsed" Background="#005544"></controls:ItemView>
-        <TextBlock x:Name="tbOperator1" Foreground="White" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center">И</TextBlock>
+        <controls:ItemView x:Name="btSelectOperator1" Height="30" Width="45" IconVisibility="Collapsed" Background="#005544"></controls:ItemView>
+        <TextBlock IsHitTestVisible="False" x:Name="tbOperator1" Foreground="White" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center">И</TextBlock>
         <controls:ItemView Grid.Column="1" x:Name="btSelectOperator2" Height="30" Width="30" IconVisibility="Collapsed" Background="SeaGreen"></controls:ItemView>
-        <TextBlock Grid.Column="1" x:Name="tbOperator2" Foreground="White" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center">НЕ</TextBlock>
+        <TextBlock IsHitTestVisible="False" Grid.Column="1" x:Name="tbOperator2" Foreground="White" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center">НЕ</TextBlock>
     </Grid>
 </UserControl>

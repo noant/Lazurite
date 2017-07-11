@@ -29,37 +29,26 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         private ComplexCheckerAction _action;
 
-        public ComplexCheckerView(ComplexCheckerAction action, IAlgorithmContext algoContext)
+        public ComplexCheckerView()
         {
             InitializeComponent();
-            AlgorithmContext = algoContext;
             buttons.AddNewClick += () =>
             {
-                SelectCoreActionView.Show((type) => {
-                    var newActionHolder = new ActionHolder()
-                    {
-                        Action = _manager.CreateInstanceOf(type, AlgorithmContext)
-                    };
-                    _action.Che.Insert(0, newActionHolder);
-                    Insert(newActionHolder, 0);
+                SelectCheckerTypeView.Show((isGroup) => {
+                    CheckerOperatorPair operatorPair = new CheckerOperatorPair();
+                    if (isGroup)
+                        operatorPair.Checker = new ComplexCheckerAction();
+                    _action.CheckerOperations.Insert(0, operatorPair);
+                    Insert(operatorPair, 0);
                     Modified?.Invoke(this);
                 });
             };
-            buttons.RemoveClick += () => NeedRemove?.Invoke(this);
-            Refresh(action);
-        }
-
-        public ComplexCheckerView() : this(new ComplexCheckerAction(), null)
-        {
-            //do nothing
         }
 
         public ActionHolder ActionHolder
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            private set;
         }
 
         public bool EditMode
@@ -78,41 +67,61 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public event Action<IConstructorElement> NeedAddNext;
         public event Action<IConstructorElement> NeedRemove;
 
-        public void Refresh(ComplexCheckerAction action)
+        public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
         {
-            _action = action;
+            AlgorithmContext = algoContext;
+            ActionHolder = actionHolder;
+            _action = (ComplexCheckerAction)actionHolder.Action;
             stackPanel.Children.Clear();
-            foreach (var actionHolder in _action.CheckerOperations)
-                Insert(actionHolder);
+            foreach (var pair in _action.CheckerOperations)
+                Insert(pair);
         }
 
         private void Insert(CheckerOperatorPair operatorPair, int position = -1)
         {
             if (position == -1)
                 position = stackPanel.Children.Count;
-            var control = ActionControlResolver.Create(actionHolder.Action);
-            ((FrameworkElement)control).Margin = new Thickness(0, 1, 0, 0);
-            var constructorElement = control as IConstructorElement;
-            constructorElement.AlgorithmContext = this.AlgorithmContext;
+            FrameworkElement control = null;
+            if (operatorPair.Checker is CheckerAction)
+                control = new CheckerOperatorPairView();
+            else if (operatorPair.Checker is ComplexCheckerAction)
+                control = new ComplexCheckerOperatorPairView();
+            var constructorElement = ((IConstructorElement)control);
+            control.Margin = new Thickness(0, 1, 0, 0);
+            constructorElement.Refresh(new ActionHolder(operatorPair), this.AlgorithmContext);
             constructorElement.Modified += (element) => Modified?.Invoke(element);
             constructorElement.NeedRemove += (element) => {
-                _action.CheckerOperations.Remove(actionHolder);
+                _action.CheckerOperations.Remove(operatorPair);
                 stackPanel.Children.Remove(control);
                 Modified?.Invoke(this);
             };
             constructorElement.NeedAddNext += (element) => {
-                SelectCoreActionView.Show((type) => {
+                SelectCheckerTypeView.Show((isGroup) => {
                     var index = stackPanel.Children.IndexOf(control) + 1;
-                    var newActionHolder = new ActionHolder()
-                    {
-                        Action = _manager.CreateInstanceOf(type, AlgorithmContext)
-                    };
-                    _action.ActionHolders.Insert(index, newActionHolder);
-                    Insert(newActionHolder, index);
+                    CheckerOperatorPair newOperatorPair = new CheckerOperatorPair();
+                    if (isGroup)
+                        newOperatorPair.Checker = new ComplexCheckerAction();
+                    _action.CheckerOperations.Insert(index, newOperatorPair);
+                    Insert(newOperatorPair, index);
                     Modified?.Invoke(this);
                 });
             };
             stackPanel.Children.Insert(position, control);
+            MakeFirstRowOperatorInvisible();
+        }
+
+        private void MakeFirstRowOperatorInvisible()
+        {
+            if (this.stackPanel.Children.Count > 0)
+            {
+                foreach (var control in this.stackPanel.Children)
+                {
+                    (control as CheckerOperatorPairView)?.MakeOperatorVisible();
+                    (control as ComplexCheckerOperatorPairView)?.MakeOperatorVisible();
+                }
+                (this.stackPanel.Children[0] as CheckerOperatorPairView)?.MakeOperatorInvisible();
+                (this.stackPanel.Children[0] as ComplexCheckerOperatorPairView)?.MakeOperatorInvisible();
+            }
         }
 
         public void MakeRemoveInvisible()

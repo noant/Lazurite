@@ -35,6 +35,14 @@ namespace LazuriteUI.Windows.Main.Switches
         public UserVisualSettings VisualSettings { get; private set; }
         private VisualSettingsRepository _visualSettingsRepository = Singleton.Resolve<VisualSettingsRepository>();
 
+        private string[] GetAddictionalOrCalculatedData()
+        {
+            if (VisualSettings.AddictionalData == null || !VisualSettings.AddictionalData.Any())
+                return new[] { GetStandardIcon1(), GetStandardIcon2() };
+            else
+                return VisualSettings.AddictionalData;
+        }
+
         public void Refresh()
         {
             OnPropertyChanged(nameof(ScenarioName));
@@ -49,32 +57,11 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             get
             {
-                if (VisualSettings.AddictionalData == null)
-                    VisualSettings.AddictionalData = new string[0];
-                if (VisualSettings.AddictionalData.Any() && !string.IsNullOrEmpty(VisualSettings.AddictionalData[0]))
-                    return VisualSettings.AddictionalData[0];
-                else
-                {
-                    if (Scenario.ValueType is ToggleValueType)
-                        return "ButtonOn";
-                    else if (Scenario.ValueType is StateValueType)
-                        return "New";
-                    else if (Scenario.ValueType is FloatValueType)
-                        return "DimensionArrowLineWidth";
-                    else if (Scenario.ValueType is DateTimeValueType)
-                        return "Timer";
-                    else if (Scenario.ValueType is InfoValueType)
-                        return "PageText";
-                    return "New";
-                }
+                return GetAddictionalOrCalculatedData()[0];
             }
             set
             {
-                if (VisualSettings.AddictionalData == null)
-                    VisualSettings.AddictionalData = new string[0];
-                if (VisualSettings.AddictionalData.Any())
-                    VisualSettings.AddictionalData[0] = value;
-                else VisualSettings.AddictionalData = new string[] { value, value };
+                VisualSettings.AddictionalData[0] = value;
                 _visualSettingsRepository.Update(VisualSettings);
                 OnPropertyChanged(nameof(Icon1));
             }
@@ -84,29 +71,36 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             get
             {
-                if (VisualSettings.AddictionalData == null)
-                    VisualSettings.AddictionalData = new string[0];
-                if (VisualSettings.AddictionalData.Length > 1)
-                    return VisualSettings.AddictionalData[1];
-                else
-                {
-                    if (Scenario.ValueType is ToggleValueType)
-                        return "Off";
-                    else return "None";
-                }
+                return GetAddictionalOrCalculatedData()[1];
             }
             set
             {
-                if (VisualSettings.AddictionalData == null)
-                    VisualSettings.AddictionalData = new string[0];
-                if (VisualSettings.AddictionalData.Length > 1)
-                    VisualSettings.AddictionalData[1] = value;
-                else if (VisualSettings.AddictionalData.Length == 1)
-                    VisualSettings.AddictionalData = new string[] { VisualSettings.AddictionalData[0], value };
-                else VisualSettings.AddictionalData = new string[] { "ButtonOn", value };
+                VisualSettings.AddictionalData[1] = value;
                 _visualSettingsRepository.Update(VisualSettings);
                 OnPropertyChanged(nameof(Icon2));
             }
+        }
+
+        private string GetStandardIcon1()
+        {
+            if (Scenario.ValueType is ToggleValueType)
+                return "ButtonOn";
+            else if (Scenario.ValueType is StateValueType)
+                return "New";
+            else if (Scenario.ValueType is FloatValueType)
+                return "DimensionArrowLineWidth";
+            else if (Scenario.ValueType is DateTimeValueType)
+                return "Timer";
+            else if (Scenario.ValueType is InfoValueType)
+                return "PageText";
+            return "New";
+        }
+
+        private string GetStandardIcon2()
+        {
+            if (Scenario.ValueType is ToggleValueType)
+                return "Off";
+            else return "None";
         }
 
         public int PositionX
@@ -117,9 +111,12 @@ namespace LazuriteUI.Windows.Main.Switches
             }
             set
             {
-                VisualSettings.PositionX = value;
-                _visualSettingsRepository.Update(VisualSettings);
-                OnPropertyChanged(nameof(PositionX));
+                if (VisualSettings.PositionX != value)
+                {
+                    VisualSettings.PositionX = value;
+                    _visualSettingsRepository.Update(VisualSettings);
+                    OnPropertyChanged(nameof(PositionX));
+                }
             }
         }
 
@@ -131,9 +128,12 @@ namespace LazuriteUI.Windows.Main.Switches
             }
             set
             {
-                VisualSettings.PositionY = value;
-                _visualSettingsRepository.Update(VisualSettings);
-                OnPropertyChanged(nameof(PositionY));
+                if (VisualSettings.PositionY != value)
+                {
+                    VisualSettings.PositionY = value;
+                    _visualSettingsRepository.Update(VisualSettings);
+                    OnPropertyChanged(nameof(PositionY));
+                }
             }
         }
 

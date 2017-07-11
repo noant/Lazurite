@@ -98,6 +98,12 @@
     </Compile>
     <Compile Include="Constructors\Decomposition\ActionControlResolver.cs" />
     <Compile Include="Constructors\Decomposition\ActionModel.cs" />
+    <Compile Include="Constructors\Decomposition\IfActionView.xaml.cs">
+      <DependentUpon>IfActionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\Decomposition\SelectCheckerTypeView.xaml.cs">
+      <DependentUpon>SelectCheckerTypeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\Decomposition\ComplexCheckerOperatorPairView.xaml.cs">
       <DependentUpon>ComplexCheckerOperatorPairView.xaml</DependentUpon>
     </Compile>
@@ -301,6 +307,14 @@
     <Page Include="Constructors\CompositeScenarioView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\Decomposition\IfActionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\Decomposition\SelectCheckerTypeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Constructors\Decomposition\ComplexCheckerOperatorPairView.xaml">
       <Generator>MSBuild:Compile</Generator>

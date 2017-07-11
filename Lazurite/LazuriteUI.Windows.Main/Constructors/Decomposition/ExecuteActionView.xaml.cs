@@ -24,15 +24,11 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// </summary>
     public partial class ExecuteActionView : UserControl, IConstructorElement
     {
-        public ExecuteActionView(ExecuteAction action)
+        private ExecuteAction _action;
+
+        public ExecuteActionView()
         {
             InitializeComponent();
-            this.ActionHolder = new ActionHolder() {
-                Action = action
-            };
-            this.action1View.Refresh(action.MasterActionHolder);
-            this.action2View.Refresh(action.InputValue);
-            Action2EqualizeToAction1();
             this.action1View.Modified += (element) =>
             {
                 Modified?.Invoke(this);
@@ -40,13 +36,23 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 if (!action2View.ActionHolder.Action.ValueType
                     .IsCompatibleWith(action1View.ActionHolder.Action.ValueType))
                 {
-                    action.InputValue.Action = Lazurite.CoreActions.Utils.Default(action1View.ActionHolder.Action.ValueType);
+                    _action.InputValue.Action = Lazurite.CoreActions.Utils.Default(action1View.ActionHolder.Action.ValueType);
                     action2View.Refresh();
                 }
             };
             this.action2View.Modified += (element) => Modified?.Invoke(this);
             this.buttons.RemoveClick += () => NeedRemove?.Invoke(this);
             this.buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
+        }
+
+        public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
+        {
+            ActionHolder = actionHolder;
+            AlgorithmContext = algoContext;
+            _action = (ExecuteAction)actionHolder.Action;
+            this.action1View.Refresh(_action.MasterActionHolder, algoContext);
+            this.action2View.Refresh(_action.InputValue, algoContext);
+            Action2EqualizeToAction1();
         }
 
         private void Action2EqualizeToAction1()
@@ -70,14 +76,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public IAlgorithmContext AlgorithmContext
         {
-            get
-            {
-                return action1View.AlgorithmContext;
-            }
-            set
-            {
-                action1View.AlgorithmContext = action2View.AlgorithmContext = value;
-            }
+            get;
+            private set;
         }
 
         public event Action<IConstructorElement> Modified;

@@ -45,22 +45,28 @@ namespace LazuriteUI.Windows.Main
 
         private void SwitchesGrid_SelectedModelChanging(Switches.ScenarioModel arg1, ScenarioChangingEventArgs args)
         {
+            ThroughScenarioSave(args.Apply);
+        }
+
+        private void ThroughScenarioSave(Action callback)
+        {
             if (this.constructorsResolver.GetScenario() != null && this.constructorsResolver.IsModified)
             {
                 switchesGrid.CancelDragging();
                 MessageView.ShowYesNo(
                     "Сохранить изменения сценария [" + this.constructorsResolver.GetScenario().Name + "]?",
-                    "Выбран другой сценарий",
+                    "Окно редактирования текущего сценария будет закрыто",
                     Icon.Save,
                     (result) =>
                     {
                         if (result)
-                            constructorsResolver.Apply(() => args.Apply());
+                            constructorsResolver.Apply(() => callback?.Invoke());
                         else
-                            args.Apply();
+                            callback?.Invoke();
                     });
             }
-            else args.Apply();
+            else
+                callback?.Invoke();
         }
 
         private void SwitchesGrid_SelectedModelChanged(Switches.ScenarioModel obj)
@@ -84,33 +90,35 @@ namespace LazuriteUI.Windows.Main
 
         private void btCreateScenario_Click(object sender, RoutedEventArgs e)
         {
-            var selectScenarioTypeControl = new NewScenarioSelectionView();
-            var dialogView = new DialogView(selectScenarioTypeControl);
-            dialogView.Show();
+            ThroughScenarioSave(() => {
+                var selectScenarioTypeControl = new NewScenarioSelectionView();
+                var dialogView = new DialogView(selectScenarioTypeControl);
+                dialogView.Show();
 
-            selectScenarioTypeControl.SingleActionScenario += () => {
-                dialogView.Close();
-                NewScenario(new SingleActionScenario());
-            };
-
-            selectScenarioTypeControl.RemoteScenario += () => {
-                dialogView.Close();
-                NewScenario(new RemoteScenario());
-            };
-
-            selectScenarioTypeControl.CompositeScenario += () => {
-                dialogView.Close();
-                var selectCompositeScenarioType = new NewCompositeScenarioSelectionView();
-                var dialogViewComposite = new DialogView(selectCompositeScenarioType);
-                selectCompositeScenarioType.Selected += (valueType) => {
-                    dialogViewComposite.Close();
-                    var scenario = new CompositeScenario() { ValueType = valueType };
-                    if (valueType.AcceptedValues.Any())
-                        scenario.InitializeWithValue = valueType.AcceptedValues[0];
-                    NewScenario(scenario);
+                selectScenarioTypeControl.SingleActionScenario += () => {
+                    dialogView.Close();
+                    NewScenario(new SingleActionScenario());
                 };
-                dialogViewComposite.Show();
-            };
+
+                selectScenarioTypeControl.RemoteScenario += () => {
+                    dialogView.Close();
+                    NewScenario(new RemoteScenario());
+                };
+
+                selectScenarioTypeControl.CompositeScenario += () => {
+                    dialogView.Close();
+                    var selectCompositeScenarioType = new NewCompositeScenarioSelectionView();
+                    var dialogViewComposite = new DialogView(selectCompositeScenarioType);
+                    selectCompositeScenarioType.Selected += (valueType) => {
+                        dialogViewComposite.Close();
+                        var scenario = new CompositeScenario() { ValueType = valueType };
+                        if (valueType.AcceptedValues.Any())
+                            scenario.InitializeWithValue = valueType.AcceptedValues[0];
+                        NewScenario(scenario);
+                    };
+                    dialogViewComposite.Show();
+                };
+            });
         }
 
         private void NewScenario(ScenarioBase newScenario)

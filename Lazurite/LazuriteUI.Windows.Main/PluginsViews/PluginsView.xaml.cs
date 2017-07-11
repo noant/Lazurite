@@ -124,7 +124,7 @@ namespace LazuriteUI.Windows.Main.PluginsViews
                         var canRemoveResult = _manager.CanRemovePlugin(SelectedPlugin.Name);
                         if (!canRemoveResult.CanRemove)
                         {
-                            _warningHandler.WarnFormat("Невозможно удалить плагин \r\n[{0}];\r\nПричина: {1}", SelectedPlugin.Name, canRemoveResult.Message);
+                            MessageView.ShowMessage(string.Format("Невозможно удалить плагин \r\n[{0}];\r\nПричина: {1}", SelectedPlugin.Name, canRemoveResult.Message), "Внимание!", Icon.Warning);
                         }
                         else
                         {

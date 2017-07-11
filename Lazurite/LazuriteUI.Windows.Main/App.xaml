@@ -4,6 +4,5 @@
              StartupUri="MainWindow.xaml"
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main">
     <Application.Resources>
-         
     </Application.Resources>
 </Application>

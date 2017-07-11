@@ -55,7 +55,7 @@ namespace Lazurite.Tests
         {
             var list = CoreActions.Utils.GetComparisonTypes();
             foreach (var type in list)
-                Debug.WriteLine(type.Caption+" "+type.OnlyForNumbers);
+                Debug.WriteLine(type.Caption+" "+type.OnlyNumeric);
         }        
     }
 }

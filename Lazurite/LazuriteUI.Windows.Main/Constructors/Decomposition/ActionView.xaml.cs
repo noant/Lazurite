@@ -26,22 +26,14 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// </summary>
     public partial class ActionView : UserControl, IConstructorElement
     {
-        public ActionView() : this(new ActionHolder())
-        {
-            // do nothing
-        }
-
-        public ActionView(ActionHolder actionHolder)
+        public ActionView()
         {
             InitializeComponent();
-
-            Refresh(actionHolder);
-
+            
             buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
             buttons.RemoveClick += () => NeedRemove?.Invoke(this);
             buttons.EditClick += () => BeginEditAction();
             buttons.ChangeClick += () => BeginSelectAction();
-            
         }
 
         public void MakeButtonsInvisible()
@@ -114,9 +106,10 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 MasterAction);
         }
 
-        public void Refresh(ActionHolder actionHolder)
+        public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
         {
             ActionHolder = actionHolder;
+            this.AlgorithmContext = algoContext;
             Model = new ActionModel();
             Model.Refresh(ActionHolder);
             DataContext = Model;
@@ -124,7 +117,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public void Refresh()
         {
-            this.Refresh(this.ActionHolder);
+            this.Refresh(this.ActionHolder, this.AlgorithmContext);
         }
 
         public IAction MasterAction { get; set; }
@@ -154,7 +147,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public IAlgorithmContext AlgorithmContext
         {
             get;
-            set;
+            private set;
         }
 
         public event Action<IConstructorElement> NeedAddNext;

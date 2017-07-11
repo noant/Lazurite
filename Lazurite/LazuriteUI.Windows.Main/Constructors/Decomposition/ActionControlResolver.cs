@@ -18,13 +18,19 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 {
     public static class ActionControlResolver
     {
-        public static UIElement Create(IAction action)
+        public static IConstructorElement Create(ActionHolder actionHolder, IAlgorithmContext algoContext)
         {
-            if (action is ExecuteAction)
-                return new ExecuteActionView((ExecuteAction)action);
-            if (action is SetReturnValueAction)
-                return new ReturnScenarioValueView((SetReturnValueAction)action);
-            throw new NotImplementedException();
+            IConstructorElement element;
+            if (actionHolder.Action is ExecuteAction)
+                element = new ExecuteActionView();
+            else if (actionHolder.Action is SetReturnValueAction)
+                element = new ReturnScenarioValueView();
+            else if (actionHolder.Action is IfAction)
+                element = new IfActionView();
+            else
+                throw new NotImplementedException();
+            element.Refresh(actionHolder, algoContext);
+            return element;
         }
 
         public static void UserInitialize(Action<bool> callback, IAction action, ValueTypeBase valueType, bool inheritsSupportedValues, IAction masterAction)

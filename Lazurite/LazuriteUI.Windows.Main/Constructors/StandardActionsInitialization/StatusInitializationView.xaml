@@ -7,8 +7,8 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
              Background="{x:Static controls:Visual.Background}"
-             Width="400"
-             d:DesignHeight="300" d:DesignWidth="300">
+             Height="Auto"
+             Width="400">
     <Grid Margin="4">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

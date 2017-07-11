@@ -38,7 +38,7 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
         {
             get;
             set;
-        }
+        } = string.Empty;
 
         private StateValueType _valueType = new StateValueType();
         public ValueTypeBase ValueType

@@ -25,28 +25,31 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     public partial class ComplexCheckerOperatorPairView : StackPanel, IConstructorElement
     {
         private CheckerOperatorPair _pair;
-        public ComplexCheckerOperatorPairView(CheckerOperatorPair pair)
+        public ComplexCheckerOperatorPairView()
         {
             InitializeComponent();
 
-            _pair = pair;
-            
             operatorView.Modified += (e) => this.Modified?.Invoke(this);
             complexCheckerView.Modified += (e) => this.Modified?.Invoke(this);
 
             buttons.AddNewClick += () => this.NeedAddNext?.Invoke(this);
             buttons.RemoveClick += () => this.NeedRemove?.Invoke(this);
 
-            operatorView.Refresh(pair);
-            complexCheckerView.Refresh((ComplexCheckerAction)pair.Checker);
+        }
+
+        public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
+        {
+            ActionHolder = actionHolder;
+            AlgorithmContext = algoContext;
+            _pair = (CheckerOperatorPair)actionHolder.Action;
+            operatorView.Refresh(ActionHolder, AlgorithmContext);
+            complexCheckerView.Refresh(new ActionHolder((ComplexCheckerAction)_pair.Checker), algoContext);
         }
 
         public ActionHolder ActionHolder
         {
-            get
-            {
-                return new ActionHolder() { Action = (IAction)_pair?.Checker };
-            }
+            get;
+            private set;
         }
 
         public bool EditMode
@@ -63,8 +66,19 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             }
             set
             {
-                complexCheckerView.AlgorithmContext = operatorView.AlgorithmContext = value;
+                complexCheckerView.AlgorithmContext = 
+                    operatorView.AlgorithmContext = value;
             }
+        }
+
+        public void MakeOperatorInvisible()
+        {
+            this.operatorView.MakeOperatorInvisible();
+        }
+
+        public void MakeOperatorVisible()
+        {
+            this.operatorView.MakeOperatorVisible();
         }
 
         public event Action<IConstructorElement> Modified;

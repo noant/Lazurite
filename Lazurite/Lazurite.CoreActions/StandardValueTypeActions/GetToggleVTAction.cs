@@ -38,7 +38,7 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
         {
             get;
             set;
-        }
+        } = ToggleValueType.ValueOFF;
 
         private ToggleValueType _valueType = new ToggleValueType();
         public ValueTypeBase ValueType

@@ -30,7 +30,7 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
         {
             get;
             set;
-        }
+        } = string.Empty;
 
         private InfoValueType _valueType = new InfoValueType();
         public ValueTypeBase ValueType

@@ -28,7 +28,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
             var iconsControls = Enum.GetNames(typeof(Icon))
                 .OrderBy(x=>x)
                 .Select(x => new SwitchIconModel(scenarioModel, isSecondIcon) { Icon = x } )
-                .Select(x => new SwitchIconView() { DataContext = x });
+                .Select(x => new SwitchIconView() { DataContext = x, Margin = new Thickness(0,1,0,0) });
 
             foreach (var control in iconsControls)
                 stackPanel.Children.Add(control);

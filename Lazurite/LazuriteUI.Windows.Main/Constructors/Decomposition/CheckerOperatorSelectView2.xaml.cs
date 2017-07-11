@@ -43,6 +43,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             var control = new CheckerOperatorSelectView2(selectedValue);
             var dialog = new DialogView(control);
+            dialog.ShowUnderCursor = true;
             control.Selected += (result) => {
                 callback?.Invoke(result);
                 dialog.Close();

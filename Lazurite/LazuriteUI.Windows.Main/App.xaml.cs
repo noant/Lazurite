@@ -33,6 +33,10 @@ namespace LazuriteUI.Windows.Main
             var core = new LazuriteCore();
 
             core.WarningHandler.OnWrite += (o, e) => {
+#if DEBUG
+                if (e.Exception != null && (e.Type == WarnType.Error || e.Type == WarnType.Fatal))
+                    throw e.Exception;
+#endif
                 JournalManager.Set(e.Message, e.Type, e.Exception);
             };
 

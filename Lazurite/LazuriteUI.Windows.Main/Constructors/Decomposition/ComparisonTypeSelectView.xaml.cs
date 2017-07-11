@@ -26,20 +26,21 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             InitializeComponent();
 
-            foreach (var type in Lazurite.CoreActions.Utils.GetComparisonTypes().Where(x=> x.OnlyForNumbers == onlyNumeric || !onlyNumeric))
+            var comparisonTypes = Lazurite.CoreActions.Utils.GetComparisonTypes();
+            if (!onlyNumeric)
+                comparisonTypes = Lazurite.CoreActions.Utils.GetComparisonTypes().Where(x => !x.OnlyNumeric).ToArray();
+            foreach (var type in comparisonTypes)
             {
+                var cType = type;
                 var itemView = new ItemView();
                 if (type.GetType().Equals(comparisonType.GetType()))
                     this.Loaded += (o, e) => itemView.Selected = true;
                 itemView.Content = type.Caption;
                 itemView.Margin = new Thickness(0, 0, 0, 1);
-                itemView.Tag = type;
+                itemView.IconVisibility = Visibility.Collapsed;
+                itemView.Click += (o, e) => Selected?.Invoke(cType);
+                listItems.Children.Add(itemView);
             }
-
-            listItems.SelectionChanged += (o, e) => {
-                if (listItems.SelectedItem != null)
-                    Selected?.Invoke(((ItemView)listItems.SelectedItem).Tag as IComparisonType);
-            };
         }
 
         public event Action<IComparisonType> Selected;
@@ -48,6 +49,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             var control = new ComparisonTypeSelectView(selected, onlyNumeric);
             var dialog = new DialogView(control);
+            dialog.ShowUnderCursor = true;
             control.Selected += (type) => {
                 callback?.Invoke(type);
                 dialog.Close();

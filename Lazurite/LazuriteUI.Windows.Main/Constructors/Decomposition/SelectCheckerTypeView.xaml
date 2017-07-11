@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LazuriteUI.Windows.Main.Constructors.Decomposition.ComparisonTypeView"
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Constructors.Decomposition.SelectCheckerTypeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors.Decomposition"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
-             Height="30"
-             Width="30"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <controls:ItemView Background="DarkOliveGreen" Cursor="Hand" x:Name="button" Height="30" IconVisibility="Collapsed"></controls:ItemView>
-        <TextBlock IsHitTestVisible="False" x:Name="textBlock" Foreground="White" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-1,-3,0,0">>=</TextBlock>
-    </Grid>
+             Width="200"
+             Background="{x:Static controls:Visual.Background}"
+             d:DesignWidth="300">
+    <controls:ListItemsView Margin="4" x:Name="listItems" SelectionMode="Single">
+        <controls:ItemView Icon="Add" Margin="0,0,0,1">Условие</controls:ItemView>
+        <controls:ItemView Icon="AddMultiple">Группа условий</controls:ItemView>
+    </controls:ListItemsView>
 </UserControl>

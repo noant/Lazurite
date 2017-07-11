@@ -30,7 +30,7 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
         {
             get;
             set;
-        }
+        } = string.Empty;
 
         private ImageValueType _valueType = new ImageValueType();
         public ActionsDomain.ValueTypes.ValueTypeBase ValueType

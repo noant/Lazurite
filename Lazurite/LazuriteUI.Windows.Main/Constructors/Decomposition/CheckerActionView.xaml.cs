@@ -16,6 +16,7 @@ using Lazurite.CoreActions;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.MainDomain;
 using Lazurite.ActionsDomain;
+using Lazurite.CoreActions.ComparisonTypes;
 
 namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 {
@@ -37,21 +38,26 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 if (action2View.ActionHolder.Action.ValueType.GetType() !=
                     action1View.ActionHolder.Action.ValueType.GetType())
                 {
+                    _action.ComparisonType = new EqualityComparisonType();
                     _action.TargetAction2Holder.Action = Lazurite.CoreActions.Utils.Default(action1View.ActionHolder.Action.ValueType);
                     action2View.Refresh();
+                    comparisonView.Refresh();
                 }
             };
             this.action2View.Modified += (element) => Modified?.Invoke(this);
+            this.comparisonView.Modified += (element) => Modified?.Invoke(this);
             this.buttons.RemoveClick += () => NeedRemove?.Invoke(this);
             this.buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
         }
 
-        public void Refresh(CheckerAction action)
+        public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
         {
-            _action = action;
-            this.action1View.Refresh(action.TargetAction1Holder);
-            this.action2View.Refresh(action.TargetAction2Holder);
-            this.comparisonView.Refresh(action);
+            this.AlgorithmContext = algoContext;
+            this.ActionHolder = actionHolder;
+            _action = (CheckerAction)actionHolder.Action;
+            this.action1View.Refresh(_action.TargetAction1Holder, algoContext);
+            this.action2View.Refresh(_action.TargetAction2Holder, algoContext);
+            this.comparisonView.Refresh(actionHolder, algoContext);
             Action2EqualizeToAction1();
         }
 
@@ -62,9 +68,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public ActionHolder ActionHolder
         {
-            get {
-                return new ActionHolder() { Action = _action };
-            }
+            get;
+            private set;
         }
 
         public bool EditMode
@@ -75,16 +80,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public IAlgorithmContext AlgorithmContext
         {
-            get
-            {
-                return action1View.AlgorithmContext;
-            }
-            set
-            {
-                action1View.AlgorithmContext
-                    = action2View.AlgorithmContext
-                    = comparisonView.AlgorithmContext = value;
-            }
+            get;
+            private set;
         }
 
         public event Action<IConstructorElement> Modified;

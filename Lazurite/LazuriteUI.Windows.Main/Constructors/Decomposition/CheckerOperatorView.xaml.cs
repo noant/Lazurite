@@ -37,10 +37,18 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                         {
                             if (_operatorPair.Operator == LogicalOperator.And)
                                 _operatorPair.Operator = LogicalOperator.Or;
-                            if (_operatorPair.Operator == LogicalOperator.AndNot)
+                            else if (_operatorPair.Operator == LogicalOperator.AndNot)
                                 _operatorPair.Operator = LogicalOperator.OrNot;
-                            Modified?.Invoke(this);
                         }
+                        else
+                        {
+                            if (_operatorPair.Operator == LogicalOperator.Or)
+                                _operatorPair.Operator = LogicalOperator.And;
+                            else if (_operatorPair.Operator == LogicalOperator.OrNot)
+                                _operatorPair.Operator = LogicalOperator.AndNot;
+                        }
+                        Refresh();
+                        Modified?.Invoke(this);
                     }, 
                     _operatorPair.Operator == LogicalOperator.Or || _operatorPair.Operator == LogicalOperator.OrNot);
             };
@@ -52,10 +60,18 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                         {
                             if (_operatorPair.Operator == LogicalOperator.And)
                                 _operatorPair.Operator = LogicalOperator.AndNot;
-                            if (_operatorPair.Operator == LogicalOperator.Or)
+                            else if (_operatorPair.Operator == LogicalOperator.Or)
                                 _operatorPair.Operator = LogicalOperator.OrNot;
-                            Modified?.Invoke(this);
                         }
+                        else
+                        {
+                            if (_operatorPair.Operator == LogicalOperator.AndNot)
+                                _operatorPair.Operator = LogicalOperator.And;
+                            else if (_operatorPair.Operator == LogicalOperator.OrNot)
+                                _operatorPair.Operator = LogicalOperator.Or;
+                        }
+                        Refresh();
+                        Modified?.Invoke(this);
                     },
                     _operatorPair.Operator == LogicalOperator.AndNot || _operatorPair.Operator == LogicalOperator.OrNot);
             };
@@ -76,7 +92,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public ActionHolder ActionHolder
         {
             get;
-            set;
+            private set;
         }
 
         public bool EditMode
@@ -95,13 +111,20 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public event Action<IConstructorElement> NeedAddNext;
         public event Action<IConstructorElement> NeedRemove;
 
-        public void Refresh(CheckerOperatorPair operatorPair)
+        public void Refresh()
         {
-            _operatorPair = operatorPair;
+            Refresh(this.ActionHolder, this.AlgorithmContext);
+        }
+
+        public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
+        {
+            ActionHolder = actionHolder;
+            AlgorithmContext = algoContext;
+            _operatorPair = (CheckerOperatorPair)actionHolder.Action;
             this.tbOperator1.Text
-                = operatorPair.Operator == LogicalOperator.And || operatorPair.Operator == LogicalOperator.AndNot ? "И" : "ИЛИ";
+                = _operatorPair.Operator == LogicalOperator.And || _operatorPair.Operator == LogicalOperator.AndNot ? "И" : "ИЛИ";
             this.tbOperator2.Text
-                = operatorPair.Operator == LogicalOperator.AndNot || operatorPair.Operator == LogicalOperator.OrNot ? "И" : "ИЛИ";
+                = _operatorPair.Operator == LogicalOperator.AndNot || _operatorPair.Operator == LogicalOperator.OrNot ? "НЕ" : string.Empty;
         }
     }
 }

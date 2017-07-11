@@ -16,6 +16,7 @@ using Lazurite.MainDomain;
 using Lazurite.Scenarios.ScenarioTypes;
 using LazuriteUI.Windows.Main.Constructors.Decomposition;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.CoreActions;
 
 namespace LazuriteUI.Windows.Main.Constructors
 {
@@ -48,12 +49,10 @@ namespace LazuriteUI.Windows.Main.Constructors
                             Modified?.Invoke();
                     });
             };
-
-            complexActionView.MakeRemoveButtonInvisible();
+            
             _scenario = scenario;
             Refresh();
-            complexActionView.ParentScenario = this._scenario;
-            complexActionView.Refresh(_scenario.TargetAction);
+            complexActionView.Refresh(new ActionHolder(_scenario.TargetAction), _scenario);
             complexActionView.Modified += (element) => Modified?.Invoke();
         }
 
@@ -64,8 +63,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         public void Revert(ScenarioBase scenario)
         {
             _scenario = (CompositeScenario)scenario;
-            complexActionView.Refresh(_scenario.TargetAction);
-            complexActionView.ParentScenario = this._scenario;
+            complexActionView.Refresh(new ActionHolder(_scenario.TargetAction), _scenario);
             Refresh();
         }
 

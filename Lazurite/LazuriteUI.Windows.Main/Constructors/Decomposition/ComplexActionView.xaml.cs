@@ -31,10 +31,9 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         private ComplexAction _action;
         
-        public ComplexActionView(ComplexAction action, IAlgorithmContext algorithmContext)
+        public ComplexActionView()
         {
             InitializeComponent();
-            AlgorithmContext = algorithmContext;
             buttons.AddNewClick += () =>
             {
                 SelectCoreActionView.Show((type) => {
@@ -48,20 +47,12 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 });
             };
             buttons.RemoveClick += () => NeedRemove?.Invoke(this);
-            Refresh(action);
-        }
-
-        public ComplexActionView() : this(new ComplexAction(), null)
-        {
-            //do nothing
         }
 
         public ActionHolder ActionHolder
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            private set;
         }
 
         public bool EditMode
@@ -73,29 +64,36 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public IAlgorithmContext AlgorithmContext
         {
             get;
-            set;
+            private set;
         }
 
         public event Action<IConstructorElement> Modified;
         public event Action<IConstructorElement> NeedAddNext;
         public event Action<IConstructorElement> NeedRemove;
 
-        public void Refresh(ComplexAction action)
+        public void Refresh()
         {
-            _action = action;
+            Refresh(this.ActionHolder, this.AlgorithmContext);
+        }
+
+        public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
+        {
+            AlgorithmContext = algoContext;
+            ActionHolder = actionHolder;
+            _action = (ComplexAction)actionHolder.Action;
             stackPanel.Children.Clear();
-            foreach (var actionHolder in _action.ActionHolders)
-                Insert(actionHolder);
+            foreach (var holder in _action.ActionHolders)
+                Insert(holder);
         }
 
         private void Insert(ActionHolder actionHolder, int position=-1)
         {
             if (position == -1)
                 position = stackPanel.Children.Count;
-            var control = ActionControlResolver.Create(actionHolder.Action);
-            ((FrameworkElement)control).Margin = new Thickness(0, 1, 0, 0);
-            var constructorElement = control as IConstructorElement;
-            constructorElement.AlgorithmContext = this.AlgorithmContext;
+            var constructorElement = ActionControlResolver.Create(actionHolder, this.AlgorithmContext);
+            var control = ((FrameworkElement)constructorElement);
+            control.Margin = new Thickness(0, 1, 0, 0);
+            constructorElement.Refresh(actionHolder, this.AlgorithmContext);
             constructorElement.Modified += (element) => Modified?.Invoke(element);
             constructorElement.NeedRemove += (element) => {
                 _action.ActionHolders.Remove(actionHolder);

@@ -34,7 +34,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 ComparisonTypeSelectView.Show(
                     (type) => {
                         _checkerAction.ComparisonType = type;
-                        Refresh(_checkerAction);
+                        Refresh();
                         Modified?.Invoke(this);
                     },
                     _checkerAction.ComparisonType,
@@ -44,7 +44,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public ActionHolder ActionHolder
         {
-            get;set;
+            get;
+            private set;
         }
 
         public bool EditMode
@@ -56,17 +57,24 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public IAlgorithmContext AlgorithmContext
         {
             get;
-            set;
+            private set;
         }
 
         public event Action<IConstructorElement> Modified;
         public event Action<IConstructorElement> NeedAddNext;
         public event Action<IConstructorElement> NeedRemove;
 
-        public void Refresh(CheckerAction checkerAction)
+        public void Refresh()
         {
-            _checkerAction = checkerAction;
-            textBlock.Text = checkerAction.Caption;
+            Refresh(this.ActionHolder, this.AlgorithmContext);
+        }
+
+        public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
+        {
+            ActionHolder = actionHolder;
+            AlgorithmContext = algoContext;
+            _checkerAction = (CheckerAction)actionHolder.Action;
+            textBlock.Text = _checkerAction.ComparisonType.Caption;
         }
     }
 }

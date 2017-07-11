@@ -17,7 +17,7 @@ namespace Lazurite.MainDomain
         public string ScenarioId { get; set; } //guid
 
         [DataMember]
-        public string[] AddictionalData { get; set; }
+        public string[] AddictionalData { get; set; } = new string[0];
 
         [DataMember]
         public int PositionX { get; set; }

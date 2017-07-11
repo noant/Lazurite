@@ -30,7 +30,7 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
         {
             get;
             set;
-        }
+        } = "0";
 
         private FloatValueType _valueType = new FloatValueType();
         public ActionsDomain.ValueTypes.ValueTypeBase ValueType

@@ -22,7 +22,7 @@ namespace Lazurite.CoreActions.ComparisonTypes
             }
         }
 
-        public bool OnlyForNumbers
+        public bool OnlyNumeric
         {
             get
             {

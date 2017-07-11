@@ -12,10 +12,6 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 {
     public class ActionModel: ObservableObject
     {
-        public ActionModel()
-        {
-        }
-
         public void Refresh(ActionHolder actionHolder)
         {
             ActionHolder = actionHolder;

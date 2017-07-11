@@ -16,7 +16,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         event Action<IConstructorElement> Modified;
         bool EditMode { get; set; }
         ActionHolder ActionHolder { get; }
-
-        IAlgorithmContext AlgorithmContext { get; set; }
+        void Refresh(ActionHolder target, IAlgorithmContext aglorithmContext);
+        IAlgorithmContext AlgorithmContext { get; }
     }
 }
