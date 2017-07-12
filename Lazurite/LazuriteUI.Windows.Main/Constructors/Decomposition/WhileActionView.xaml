@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Constructors.Decomposition.WhileActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors.Decomposition"
+             mc:Ignorable="d" 
+             Height="Auto">
+    <StackPanel>
+        <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">ПОКА</Label>
+        <local:ComplexCheckerView Margin="15,0,0,0" x:Name="checkerView"></local:ComplexCheckerView>
+        <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">ВЫПОЛНИТЬ</Label>
+        <local:ComplexActionView  Margin="15,0,0,0" x:Name="actionView"></local:ComplexActionView>
+        <StackPanel Orientation="Horizontal">
+            <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">КОНЕЦ ЦИКЛА</Label>
+            <local:EditActionButtonsView x:Name="buttons" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

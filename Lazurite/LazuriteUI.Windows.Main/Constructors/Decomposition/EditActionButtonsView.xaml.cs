@@ -20,11 +20,35 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// </summary>
     public partial class EditActionButtonsView : Grid
     {
-        public static DependencyProperty RemoveVisibleProperty = DependencyProperty.Register(nameof(RemoveVisible), typeof(bool), typeof(EditActionButtonsView), new PropertyMetadata(true)); 
-        public static DependencyProperty AddVisibleProperty = DependencyProperty.Register(nameof(AddVisible), typeof(bool), typeof(EditActionButtonsView), new PropertyMetadata(true)); 
-        public static DependencyProperty EditVisibleProperty = DependencyProperty.Register(nameof(EditVisible), typeof(bool), typeof(EditActionButtonsView), new PropertyMetadata(true)); 
-        public static DependencyProperty ChangeVisibleProperty = DependencyProperty.Register(nameof(ChangeVisible), typeof(bool), typeof(EditActionButtonsView), new PropertyMetadata(true)); 
-        
+        public static readonly DependencyProperty RemoveVisibleProperty = DependencyProperty.Register(nameof(RemoveVisible), typeof(bool), typeof(EditActionButtonsView), new FrameworkPropertyMetadata(true)
+        {
+            PropertyChangedCallback = (o, e) => 
+            {
+                ((EditActionButtonsView)o).columnRemove.Width = (bool)e.NewValue ? GridLength.Auto : new GridLength(0);
+            }
+        });
+        public static readonly DependencyProperty AddVisibleProperty = DependencyProperty.Register(nameof(AddVisible), typeof(bool), typeof(EditActionButtonsView), new FrameworkPropertyMetadata(true)
+        {
+            PropertyChangedCallback = (o, e) =>
+            {
+                ((EditActionButtonsView)o).columnAddNew.Width = (bool)e.NewValue ? GridLength.Auto : new GridLength(0);
+            }
+        });
+        public static readonly DependencyProperty EditVisibleProperty = DependencyProperty.Register(nameof(EditVisible), typeof(bool), typeof(EditActionButtonsView), new FrameworkPropertyMetadata(true)
+        {
+            PropertyChangedCallback = (o, e) =>
+            {
+                ((EditActionButtonsView)o).columnEdit.Width = (bool)e.NewValue ? GridLength.Auto : new GridLength(0);
+            }
+        });
+        public static readonly DependencyProperty ChangeVisibleProperty = DependencyProperty.Register(nameof(ChangeVisible), typeof(bool), typeof(EditActionButtonsView), new FrameworkPropertyMetadata(true)
+        {
+            PropertyChangedCallback = (o, e) =>
+            {
+                ((EditActionButtonsView)o).columnChange.Width = (bool)e.NewValue ? GridLength.Auto : new GridLength(0);
+            }
+        });
+
         public EditActionButtonsView()
         {
             InitializeComponent();

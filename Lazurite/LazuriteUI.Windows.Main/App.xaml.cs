@@ -49,56 +49,7 @@ namespace LazuriteUI.Windows.Main
             //{
             //    Login = "user1",
             //    PasswordHash = CryptoUtils.CreatePasswordHash("pass")
-            //});
-
-            for (int i = 0; i <= -1; i++)
-            {
-                var scenario = new SingleActionScenario();
-                scenario.ActionHolder = new ActionHolder() { Action = new ToggleTestAction() };
-                scenario.Initialize(null);
-                scenario.Name = "Переключатель";
-                core.ScenariosRepository.AddScenario(scenario);
-
-                var scenario0 = new SingleActionScenario();
-                scenario0.ActionHolder = new ActionHolder() { Action = new ToggleTestAction() };
-                scenario0.Initialize(null);
-                scenario0.Name = "Свет в коридоре";
-                core.ScenariosRepository.AddScenario(scenario0);
-
-                var scenario3 = new SingleActionScenario();
-                scenario3.Name = "Свет в ванной";
-                scenario3.ActionHolder = new ActionHolder() { Action = new StatusTestAction() };
-                scenario3.Initialize(null);
-                core.ScenariosRepository.AddScenario(scenario3);
-
-                var scenario2 = new SingleActionScenario();
-                scenario2.ActionHolder = new ActionHolder()
-                {
-                    Action = new FloatTestAction() {
-                    ValueType = new FloatValueType() {
-                        AcceptedValues = new[] {"-1", "1" }
-                    }
-                    }
-                };
-                scenario2.Initialize(null);
-                scenario2.Name = "Уровень звука";
-                core.ScenariosRepository.AddScenario(scenario2);
-                core.VisualSettingsRepository.Add(new UserVisualSettings() { ScenarioId = scenario2.Id, AddictionalData = new[] { "Sound2" }, UserId="0" });
-
-                var scenario4 = new SingleActionScenario();
-                scenario4.Name = "Компьютер";
-                scenario4.ActionHolder = new ActionHolder() { Action = new ButtonTestAction() };
-                scenario4.Initialize(null);
-                core.ScenariosRepository.AddScenario(scenario4);
-                core.VisualSettingsRepository.Add(new UserVisualSettings() { ScenarioId = scenario4.Id, AddictionalData = new[] { "TvNews" }, UserId = "0" });
-
-                var scenario5 = new SingleActionScenario();
-                scenario5.Name = "Свет в ванной";
-                scenario5.ActionHolder = new ActionHolder() { Action = new DateTimeTestAction() };
-                scenario5.Initialize(null);
-                core.ScenariosRepository.AddScenario(scenario5);
-                core.VisualSettingsRepository.Add(new UserVisualSettings() { ScenarioId = scenario5.Id, AddictionalData = new[] { "TvNews" }, UserId = "0" });
-            }
+            //});            
         }
         
     }

@@ -110,9 +110,12 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             ActionHolder = actionHolder;
             this.AlgorithmContext = algoContext;
-            Model = new ActionModel();
+            if (Model == null)
+            {
+                Model = new ActionModel();
+                DataContext = Model;
+            }
             Model.Refresh(ActionHolder);
-            DataContext = Model;
         }
 
         public void Refresh()

@@ -44,19 +44,12 @@ namespace Lazurite.CoreActions
         {
             //
         }
-
-        private ToggleValueType _valueType = new ToggleValueType();
+        
         public ValueTypeBase ValueType
         {
-            get
-            {
-                return _valueType;
-            }
-            set
-            {
-                //
-            }
-        }
+            get;
+            set;
+        } = new ToggleValueType();
 
         public bool IsSupportsEvent
         {
@@ -65,7 +58,15 @@ namespace Lazurite.CoreActions
                 return ValueChanged != null;
             }
         }
-        
+
+        public bool IsSupportsModification
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public IAction[] GetAllActionsFlat()
         {
             return new[] { TargetAction1Holder.Action, TargetAction2Holder.Action };

@@ -19,7 +19,7 @@ namespace Lazurite.ActionsDomain
         }
 
         public IAlgorithmContext AlgorithmContext { get; private set; }
-        public string Input { get; private set; }
+        public string Input { get; set; }
         public OutputChangedDelegates OutputChanged { get; private set; }
         public CancellationToken CancellationToken { get; private set; }
     }

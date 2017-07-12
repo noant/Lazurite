@@ -27,6 +27,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 element = new ReturnScenarioValueView();
             else if (actionHolder.Action is IfAction)
                 element = new IfActionView();
+            else if (actionHolder.Action is WhileAction)
+                element = new WhileActionView();
             else
                 throw new NotImplementedException();
             element.Refresh(actionHolder, algoContext);

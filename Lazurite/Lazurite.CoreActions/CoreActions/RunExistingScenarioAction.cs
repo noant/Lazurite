@@ -53,6 +53,14 @@ namespace Lazurite.CoreActions.CoreActions
             }
         }
 
+        public bool IsSupportsModification
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public ValueTypeBase ValueType
         {
             get

@@ -51,6 +51,14 @@ namespace ZWavePlugin
             }
         }
 
+        public bool IsSupportsModification
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public event ValueChangedDelegate ValueChanged;
 
         public string GetValue(ExecutionContext context)

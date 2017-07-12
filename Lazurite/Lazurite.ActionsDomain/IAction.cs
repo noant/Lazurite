@@ -17,5 +17,6 @@ namespace Lazurite.ActionsDomain
         bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues);
         event ValueChangedDelegate ValueChanged;
         bool IsSupportsEvent { get; }
+        bool IsSupportsModification { get; }
     }
 }

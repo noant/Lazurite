@@ -13,15 +13,18 @@
              Background="#005544"
              d:DesignHeight="300">
     <Grid>
+        <Grid.Resources>
+            <local:StringToVisibility x:Key="stringToVisibility"></local:StringToVisibility>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <controls:IconView Icon="{Binding Icon}" Visibility="{Binding IconVisibility}"></controls:IconView>
+        <controls:IconView Icon="{Binding Icon}" Visibility="{Binding ActionIconVisibility}"></controls:IconView>
         <Label Grid.Column="1" Foreground="White" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Content="{Binding ActionName}"></Label>
-        <Label Grid.Column="2" Foreground="White" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Background="#004040" Content="{Binding ActionCaption}"></Label>
-        <local:EditActionButtonsView x:Name="buttons" VerticalAlignment="Center" AddVisible="False" RemoveVisible="False" Grid.Column="3" DataContext="{Binding Model}"></local:EditActionButtonsView>
+        <Label Grid.Column="2" Foreground="White" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Background="#004040" Content="{Binding ActionCaption}" Visibility="{Binding ActionCaption, Converter={StaticResource stringToVisibility}}"></Label>
+        <local:EditActionButtonsView x:Name="buttons" EditVisible="{Binding IsSupportsModification}" AddVisible="False" RemoveVisible="False" Grid.Column="3"></local:EditActionButtonsView>
     </Grid>
 </UserControl>

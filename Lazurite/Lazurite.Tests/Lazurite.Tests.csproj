@@ -75,7 +75,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ComplexCheckerActionTest.cs" />
     <Compile Include="DelayTest.cs" />
     <Compile Include="FileSaviorTest.cs" />
     <Compile Include="IOCTest.cs" />

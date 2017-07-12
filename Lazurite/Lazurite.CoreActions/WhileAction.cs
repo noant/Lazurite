@@ -18,8 +18,8 @@ namespace Lazurite.CoreActions
     [HumanFriendlyName("Пока")]
     public class WhileAction : IAction, IMultipleAction
     {
-        public ComplexAction Action { get; set; }
-        public ComplexCheckerAction Checker { get; set; }
+        public ComplexAction Action { get; set; } = new ComplexAction();
+        public ComplexCheckerAction Checker { get; set; } = new ComplexCheckerAction();
 
         public string Caption
         {
@@ -33,24 +33,25 @@ namespace Lazurite.CoreActions
             }
         }
         
-        private ButtonValueType _valueType = new ButtonValueType();
-        public ActionsDomain.ValueTypes.ValueTypeBase ValueType
+        public ValueTypeBase ValueType
         {
-            get
-            {
-                return _valueType;
-            }
-            set
-            {
-                //
-            }
-        }
+            get;
+            set;
+        } = new ButtonValueType();
 
         public bool IsSupportsEvent
         {
             get
             {
                 return ValueChanged != null;
+            }
+        }
+
+        public bool IsSupportsModification
+        {
+            get
+            {
+                return true;
             }
         }
 
@@ -84,6 +85,7 @@ namespace Lazurite.CoreActions
                 if (context.CancellationToken.IsCancellationRequested)
                     break;
                 Action.SetValue(context, string.Empty);
+                Task.Delay(1000).Wait();
             }
         }
 

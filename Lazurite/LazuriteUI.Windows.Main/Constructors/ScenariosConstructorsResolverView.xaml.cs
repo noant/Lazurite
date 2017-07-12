@@ -99,7 +99,8 @@ namespace LazuriteUI.Windows.Main.Constructors
                     Icons.Icon.Warning,
                     (result) =>
                     {
-                        ApplyInternal();
+                        if (result)
+                            ApplyInternal();
                         callback?.Invoke();
                     });
             }

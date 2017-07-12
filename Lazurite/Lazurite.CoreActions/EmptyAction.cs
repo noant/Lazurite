@@ -16,7 +16,7 @@ namespace Lazurite.CoreActions
         {
             get
             {
-                return "[параметры не выбраны]";
+                return string.Empty;
             }
 
             set
@@ -26,6 +26,14 @@ namespace Lazurite.CoreActions
         }
 
         public bool IsSupportsEvent
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public bool IsSupportsModification
         {
             get
             {

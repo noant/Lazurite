@@ -34,18 +34,11 @@ namespace Lazurite.CoreActions
             }
         }
         
-        private ButtonValueType _valueType = new ButtonValueType();
         public ValueTypeBase ValueType
         {
-            get
-            {
-                return _valueType;
-            }
-            set
-            {
-                //
-            }
-        }
+            get;
+            set;
+        } = new ButtonValueType();
 
         public IAction[] GetAllActionsFlat()
         {
@@ -61,6 +54,14 @@ namespace Lazurite.CoreActions
             get
             {
                 return ValueChanged != null;
+            }
+        }
+
+        public bool IsSupportsModification
+        {
+            get
+            {
+                return true;
             }
         }
 

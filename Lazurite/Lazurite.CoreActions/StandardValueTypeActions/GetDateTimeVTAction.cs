@@ -37,24 +37,25 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
             set;
         }
         
-        private DateTimeValueType _valueType = new DateTimeValueType();
         public ValueTypeBase ValueType
         {
-            get
-            {
-                return _valueType;
-            }
-            set
-            {
-                _valueType = (DateTimeValueType)value;
-            }
-        }
+            get;
+            set;
+        } = new DateTimeValueType();
 
         public bool IsSupportsEvent
         {
             get
             {
                 return ValueChanged != null;
+            }
+        }
+
+        public bool IsSupportsModification
+        {
+            get
+            {
+                return true;
             }
         }
 

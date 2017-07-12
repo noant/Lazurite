@@ -22,7 +22,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             ActionName = Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(ActionHolder.Action.GetType());
             Icon = Icons.LazuriteIconAttribute.GetIcon(ActionHolder.Action.GetType());
-            IconVisibility = Icon == Icon.None ? Visibility.Collapsed : Visibility.Visible;
+            ActionIconVisibility = Icon == Icon.None ? Visibility.Collapsed : Visibility.Visible;
+            OnPropertyChanged(nameof(IsSupportsModification));
             OnPropertyChanged(nameof(ActionName));
             OnPropertyChanged(nameof(ActionCaption));
             OnPropertyChanged(nameof(Icon));
@@ -34,7 +35,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             get
             {
-                return ActionHolder?.Action.Caption ?? "[null]";
+                return ActionHolder?.Action.Caption ?? string.Empty;
             }
         }
 
@@ -56,7 +57,15 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             }
         }
 
-        public Visibility IconVisibility { get; private set; }
+        public bool IsSupportsModification
+        {
+            get
+            {
+                return ActionHolder.Action.IsSupportsModification;
+            }
+        }
+
+        public Visibility ActionIconVisibility { get; private set; }
 
         public Icon Icon { get; private set; }
 

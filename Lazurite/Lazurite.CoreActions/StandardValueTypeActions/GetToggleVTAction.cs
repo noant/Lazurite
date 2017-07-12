@@ -39,17 +39,18 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
             get;
             set;
         } = ToggleValueType.ValueOFF;
-
-        private ToggleValueType _valueType = new ToggleValueType();
+        
         public ValueTypeBase ValueType
+        {
+            get;
+            set;
+        } = new ToggleValueType();
+
+        public bool IsSupportsModification
         {
             get
             {
-                return _valueType;
-            }
-            set
-            {
-                _valueType = (ToggleValueType)value;
+                return true;
             }
         }
 

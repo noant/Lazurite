@@ -31,25 +31,26 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
             get;
             set;
         } = "0";
-
-        private FloatValueType _valueType = new FloatValueType();
+        
         public ActionsDomain.ValueTypes.ValueTypeBase ValueType
         {
-            get
-            {
-                return _valueType;
-            }
-            set
-            {
-                _valueType = (FloatValueType)value;
-            }
-        }
+            get;
+            set;
+        } = new FloatValueType();
 
         public bool IsSupportsEvent
         {
             get
             {
                 return ValueChanged != null;
+            }
+        }
+
+        public bool IsSupportsModification
+        {
+            get
+            {
+                return true;
             }
         }
 

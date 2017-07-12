@@ -69,10 +69,19 @@ namespace Lazurite.CoreActions.ContextInitialization
             return string.Empty;
         }
 
+        public bool IsSupportsModification
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public void SetValue(ExecutionContext context, string value)
         {
             this.ValueType = context.AlgorithmContext.ValueType;
-            context.OutputChanged.Execute(InputValue.Action.GetValue(context));
+            context.Input = InputValue.Action.GetValue(context);
+            context.OutputChanged.Execute(context.Input);
         }
 
         public void Initialize(IAlgorithmContext algoContext)

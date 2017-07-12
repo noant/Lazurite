@@ -39,17 +39,18 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
             get;
             set;
         } = string.Empty;
-
-        private StateValueType _valueType = new StateValueType();
+        
         public ValueTypeBase ValueType
+        {
+            get;
+            set;
+        } = new StateValueType();
+
+        public bool IsSupportsModification
         {
             get
             {
-                return _valueType;
-            }
-            set
-            {
-                _valueType = (StateValueType)value;
+                return true;
             }
         }
 

@@ -31,25 +31,26 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
             get;
             set;
         } = string.Empty;
-
-        private InfoValueType _valueType = new InfoValueType();
+        
         public ValueTypeBase ValueType
         {
-            get
-            {
-                return _valueType;
-            }
-            set
-            {
-                _valueType = (InfoValueType)value;
-            }
-        }
+            get;
+            set;
+        } = new InfoValueType();
 
         public bool IsSupportsEvent
         {
             get
             {
                 return ValueChanged != null;
+            }
+        }
+
+        public bool IsSupportsModification
+        {
+            get
+            {
+                return true;
             }
         }
 

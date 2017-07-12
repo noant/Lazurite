@@ -36,6 +36,14 @@ namespace Lazurite.CoreActions.ContextInitialization
             }
         }
 
+        public bool IsSupportsModification
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public ValueTypeBase ValueType
         {
             get;

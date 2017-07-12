@@ -29,6 +29,14 @@ namespace Lazurite.CoreActions.CoreActions
             }
         }
 
+        public bool IsSupportsModification
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         private ScenarioBase _scenario;
 
         public event ValueChangedDelegate ValueChanged;

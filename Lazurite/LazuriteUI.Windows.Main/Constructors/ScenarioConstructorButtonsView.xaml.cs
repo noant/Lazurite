@@ -31,8 +31,11 @@ namespace LazuriteUI.Windows.Main.Constructors
             {
                 MessageView.ShowYesNo("Вы уверены, что хотите применить изменения сценария?", "Изменения сценария", Icons.Icon.Question,
                     (result) => {
-                        ApplyClicked?.Invoke();
-                        btCancel.IsEnabled = btApply.IsEnabled = false;
+                        if (result)
+                        {
+                            ApplyClicked?.Invoke();
+                            btCancel.IsEnabled = btApply.IsEnabled = false;
+                        }
                     });
             };
 
@@ -40,7 +43,8 @@ namespace LazuriteUI.Windows.Main.Constructors
             {
                 MessageView.ShowYesNo("Вы уверены, что хотите отменить все изменения сценария?", "Изменения сценария", Icons.Icon.Question,
                     (result) => {
-                        ResetClicked?.Invoke();
+                        if (result)
+                            ResetClicked?.Invoke();
                     });
             };
 

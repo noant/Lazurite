@@ -32,16 +32,17 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
             set;
         } = string.Empty;
 
-        private ImageValueType _valueType = new ImageValueType();
         public ActionsDomain.ValueTypes.ValueTypeBase ValueType
+        {
+            get;
+            set;
+        } = new ImageValueType();
+
+        public bool IsSupportsModification
         {
             get
             {
-                return _valueType;
-            }
-            set
-            {
-                _valueType = (ImageValueType)value;
+                return true;
             }
         }
 

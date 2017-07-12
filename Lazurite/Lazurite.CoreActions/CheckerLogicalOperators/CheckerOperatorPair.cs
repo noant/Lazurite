@@ -33,6 +33,14 @@ namespace Lazurite.CoreActions.CheckerLogicalOperators
             }
         }
 
+        public bool IsSupportsModification
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public LogicalOperator Operator { get; set; } = LogicalOperator.And;
 
         public ValueTypeBase ValueType

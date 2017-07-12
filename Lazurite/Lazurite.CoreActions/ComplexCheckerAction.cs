@@ -57,18 +57,19 @@ namespace Lazurite.CoreActions
             return result.Value;
         }
 
-        private ToggleValueType _valueType = new ToggleValueType();
-        public ActionsDomain.ValueTypes.ValueTypeBase ValueType
+        public bool IsSupportsModification
         {
             get
             {
-                return _valueType;
-            }
-            set
-            {
-                //do nothing
+                return true;
             }
         }
+
+        public ActionsDomain.ValueTypes.ValueTypeBase ValueType
+        {
+            get;
+            set;
+        } = new ToggleValueType();
 
         public List<CheckerOperatorPair> CheckerOperations { get; set; }
         
