@@ -5,16 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lazurite.ActionsDomain.ValueTypes;
-using LazuriteUI.Icons;
 using Lazurite.ActionsDomain.Attributes;
+using System.Threading;
+using LazuriteUI.Icons;
 
 namespace CommonPlugin
 {
-    [OnlyGetValue]
-    [HumanFriendlyName("Секунда сейчас")]
+    [OnlyExecute]
+    [HumanFriendlyName("Ожидание (часов)")]
     [SuitableValueTypes(typeof(FloatValueType))]
-    [LazuriteIcon(Icon.Timer)]
-    public class SecondNowAction : IAction
+    [LazuriteIcon(Icon.TimerPause)]
+    public class WaitActionHours : IAction
     {
         public string Caption
         {
@@ -42,13 +43,13 @@ namespace CommonPlugin
         {
             get;
             set;
-        } = new FloatValueType() { AcceptedValues = new[] { "0", "59" } };
+        } = new FloatValueType() { AcceptedValues = new[] { "0", int.MaxValue.ToString() } };
 
         public event ValueChangedDelegate ValueChanged;
 
-        public string GetValue(ExecutionContext context)
+        public string GetValue(Lazurite.ActionsDomain.ExecutionContext context)
         {
-            return DateTime.Now.Second.ToString();
+            return "0";
         }
 
         public void Initialize()
@@ -56,15 +57,16 @@ namespace CommonPlugin
             //do nothing
         }
 
-        public void SetValue(ExecutionContext context, string value)
+        public void SetValue(Lazurite.ActionsDomain.ExecutionContext context, string value)
         {
-            //do nothing
+            float val = 0;
+            float.TryParse(value, out val);
+            Thread.Sleep(TimeSpan.FromHours(val));
         }
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
             return true;
-            //do nothing
         }
     }
 }

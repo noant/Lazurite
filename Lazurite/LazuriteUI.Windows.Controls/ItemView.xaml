@@ -57,7 +57,7 @@
         <Grid>
             <Grid x:FieldModifier="private" Visibility="Collapsed" Name="backView" Background="SteelBlue"></Grid>
             <Label Style="{DynamicResource LabelStyle}" IsHitTestVisible="False" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" Name="label" x:FieldModifier="private"></Label>
-            <local:IconView IsHitTestVisible="False" x:Name="iconView" x:FieldModifier="private" Icon="AddMultiple" Visibility="{Binding IconVisibility}" Margin="4" VerticalAlignment="Center" HorizontalAlignment="Left"></local:IconView>
+            <local:IconView IsHitTestVisible="False" x:Name="iconView" x:FieldModifier="private" Icon="Acorn" Visibility="{Binding IconVisibility}" Margin="4" VerticalAlignment="Center" HorizontalAlignment="Left"></local:IconView>
         </Grid>
     </Button>
 </UserControl>

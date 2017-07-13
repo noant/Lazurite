@@ -76,8 +76,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                         }
                     },
                     MasterAction?.ValueType.GetType(),
-                    MasterAction == null ? Lazurite.Windows.Modules.ActionInstanceSide.Both
-                    : Lazurite.Windows.Modules.ActionInstanceSide.OnlyRight,
+                    ActionInstanceSide.OnlyRight,
                     ActionHolder?.Action.GetType());
         }
 

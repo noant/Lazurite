@@ -77,8 +77,8 @@ namespace Lazurite.CoreActions
         {
             return CheckerOperations
                 .Select(x => (IAction)x.Checker)
-                .Union(CheckerOperations.Where(x=>x is IMultipleAction)
-                .Select(x=>((IMultipleAction)x)
+                .Union(CheckerOperations.Where(x=>x.Checker is IMultipleAction)
+                .Select(x=>((IMultipleAction)x.Checker)
                 .GetAllActionsFlat())
                 .SelectMany(x=>x))
                 .ToArray();

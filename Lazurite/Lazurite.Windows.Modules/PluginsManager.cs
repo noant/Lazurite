@@ -223,12 +223,11 @@ namespace Lazurite.Windows.Modules
                     typeof(GetInputValueAction) })
                     .ToArray();
             
-            if (side == ActionInstanceSide.OnlyRight && valueType != null && valueType.Equals(typeof(InfoValueType)))
-                return allTypes;
-
             foreach (var type in allTypes)
             {
-                isValueTypeSupport = valueType == null || ActionsDomain.Utils.IsComparableWithValueType(type, valueType);
+                isValueTypeSupport = valueType == null || 
+                    (valueType.Equals(typeof(InfoValueType)) && side == ActionInstanceSide.OnlyRight) || 
+                    ActionsDomain.Utils.IsComparableWithValueType(type, valueType);
                 rightSide = (side == ActionInstanceSide.Both) ||
                     (side == ActionInstanceSide.OnlyLeft 
                     && !ActionsDomain.Utils.IsOnlyGetValue(type)) ||

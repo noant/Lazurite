@@ -8,17 +8,16 @@
              xmlns:switches="clr-namespace:LazuriteUI.Windows.Main.Switches"
              mc:Ignorable="d" 
              Background="{x:Static controls:Visual.Background}"
-             d:DesignHeight="300">
+             d:DesignHeight="600">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"></ColumnDefinition>
-            <ColumnDefinition Width="200"></ColumnDefinition>
             <ColumnDefinition Width="200"></ColumnDefinition>
             <ColumnDefinition Width="200"></ColumnDefinition>
             <ColumnDefinition Width="200"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Grid.ColumnSpan="6" Foreground="SteelBlue" FontSize="14" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center">Выберите тип создаваемого комплексного сценария</TextBlock>
@@ -69,7 +68,7 @@
             </switches:FloatView>
             <controls:ItemView Margin="8" x:Name="btFloatSelect" Grid.Row="2" Icon="Card3">Выбрать...</controls:ItemView>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="3">
+        <Grid Grid.Row="2" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
@@ -85,7 +84,7 @@
             </switches:StatusView>
             <controls:ItemView Margin="8" x:Name="btStatusSelect" Grid.Row="2" Icon="Card4">Выбрать...</controls:ItemView>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="4">
+        <Grid Grid.Row="2" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
@@ -100,6 +99,22 @@
                 </switches:DateTimeView.DataContext>
             </switches:DateTimeView>
             <controls:ItemView Margin="8" x:Name="btDateTimeSelect" Grid.Row="2" Icon="Card5">Выбрать...</controls:ItemView>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Foreground="White" HorizontalAlignment="Center" Margin="4">ИНФОРМАЦИЯ</TextBlock>
+            <switches:InfoView BorderBrush="Black" BorderThickness="4" IsEnabled="False" Grid.Row="1">
+                <switches:InfoView.DataContext>
+                    <local:FakeScenarioModel>
+                        <local:FakeScenarioModel.ScenarioValue>Строка</local:FakeScenarioModel.ScenarioValue>
+                    </local:FakeScenarioModel>
+                </switches:InfoView.DataContext>
+            </switches:InfoView>
+            <controls:ItemView Margin="8" x:Name="btInfoSelect" Grid.Row="2" Icon="Card6">Выбрать...</controls:ItemView>
         </Grid>
     </Grid>
 </UserControl>

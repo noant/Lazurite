@@ -32,6 +32,7 @@ namespace LazuriteUI.Windows.Main
     public partial class ScenariosConstructionView : UserControl
     {
         private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private ScenarioBase _lastDeletedScenario;
 
         public ScenariosConstructionView()
         {
@@ -50,7 +51,7 @@ namespace LazuriteUI.Windows.Main
 
         private void ThroughScenarioSave(Action callback)
         {
-            if (this.constructorsResolver.GetScenario() != null && this.constructorsResolver.IsModified)
+            if (this.constructorsResolver.GetScenario() != null && this.constructorsResolver.IsModified && _lastDeletedScenario != this.constructorsResolver.GetScenario())
             {
                 switchesGrid.CancelDragging();
                 MessageView.ShowYesNo(
@@ -81,6 +82,7 @@ namespace LazuriteUI.Windows.Main
                     if (result)
                     {
                         var scenario = this.switchesGrid.SelectedModel.Scenario;
+                        _lastDeletedScenario = scenario;
                         this.switchesGrid.Remove(scenario);
                         _repository.RemoveScenario(scenario);
                     }

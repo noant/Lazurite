@@ -11,10 +11,10 @@ using Lazurite.ActionsDomain.Attributes;
 namespace CommonPlugin
 {
     [OnlyGetValue]
-    [HumanFriendlyName("Секунда сейчас")]
+    [HumanFriendlyName("Минута сейчас")]
     [SuitableValueTypes(typeof(FloatValueType))]
     [LazuriteIcon(Icon.Timer)]
-    public class SecondNowAction : IAction
+    public class MinuteNowAction : IAction
     {
         public string Caption
         {
@@ -48,7 +48,7 @@ namespace CommonPlugin
 
         public string GetValue(ExecutionContext context)
         {
-            return DateTime.Now.Second.ToString();
+            return DateTime.Now.Minute.ToString();
         }
 
         public void Initialize()

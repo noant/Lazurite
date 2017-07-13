@@ -85,7 +85,6 @@ namespace Lazurite.CoreActions
                 if (context.CancellationToken.IsCancellationRequested)
                     break;
                 Action.SetValue(context, string.Empty);
-                Task.Delay(1000).Wait();
             }
         }
 

@@ -11,10 +11,10 @@ using Lazurite.ActionsDomain.Attributes;
 namespace CommonPlugin
 {
     [OnlyGetValue]
-    [HumanFriendlyName("Секунда сейчас")]
+    [HumanFriendlyName("День месяца сейчас")]
     [SuitableValueTypes(typeof(FloatValueType))]
-    [LazuriteIcon(Icon.Timer)]
-    public class SecondNowAction : IAction
+    [LazuriteIcon(Icon.CalendarDay)]
+    public class DayNowAction : IAction
     {
         public string Caption
         {
@@ -42,13 +42,13 @@ namespace CommonPlugin
         {
             get;
             set;
-        } = new FloatValueType() { AcceptedValues = new[] { "0", "59" } };
+        } = new FloatValueType() { AcceptedValues = new[] { "1", "31" } };
 
         public event ValueChangedDelegate ValueChanged;
 
         public string GetValue(ExecutionContext context)
         {
-            return DateTime.Now.Second.ToString();
+            return DateTime.Now.Day.ToString();
         }
 
         public void Initialize()

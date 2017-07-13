@@ -11,10 +11,10 @@ using Lazurite.ActionsDomain.Attributes;
 namespace CommonPlugin
 {
     [OnlyGetValue]
-    [HumanFriendlyName("Секунда сейчас")]
-    [SuitableValueTypes(typeof(FloatValueType))]
-    [LazuriteIcon(Icon.Timer)]
-    public class SecondNowAction : IAction
+    [HumanFriendlyName("Месяц сейчас")]
+    [SuitableValueTypes(typeof(StateValueType))]
+    [LazuriteIcon(Icon.CalendarMonth)]
+    public class MonthNowAction : IAction
     {
         public string Caption
         {
@@ -42,13 +42,15 @@ namespace CommonPlugin
         {
             get;
             set;
-        } = new FloatValueType() { AcceptedValues = new[] { "0", "59" } };
+        } = new StateValueType() {
+            AcceptedValues = new[] { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"}
+        };
 
         public event ValueChangedDelegate ValueChanged;
 
         public string GetValue(ExecutionContext context)
         {
-            return DateTime.Now.Second.ToString();
+            return ValueType.AcceptedValues[DateTime.Now.Month-1];
         }
 
         public void Initialize()

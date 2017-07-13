@@ -42,6 +42,7 @@ namespace LazuriteUI.Windows.Controls
         public IconView()
         {
             InitializeComponent();
+            this.Icon = Icon.None;
         }
         
         public Icon Icon

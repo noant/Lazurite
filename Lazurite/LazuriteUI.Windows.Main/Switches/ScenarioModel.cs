@@ -61,6 +61,8 @@ namespace LazuriteUI.Windows.Main.Switches
             }
             set
             {
+                if (VisualSettings.AddictionalData == null || !VisualSettings.AddictionalData.Any())
+                    VisualSettings.AddictionalData = GetAddictionalOrCalculatedData();
                 VisualSettings.AddictionalData[0] = value;
                 _visualSettingsRepository.Update(VisualSettings);
                 OnPropertyChanged(nameof(Icon1));
@@ -75,6 +77,8 @@ namespace LazuriteUI.Windows.Main.Switches
             }
             set
             {
+                if (VisualSettings.AddictionalData == null || !VisualSettings.AddictionalData.Any())
+                    VisualSettings.AddictionalData = GetAddictionalOrCalculatedData();
                 VisualSettings.AddictionalData[1] = value;
                 _visualSettingsRepository.Update(VisualSettings);
                 OnPropertyChanged(nameof(Icon2));

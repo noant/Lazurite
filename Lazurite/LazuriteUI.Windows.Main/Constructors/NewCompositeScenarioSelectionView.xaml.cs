@@ -31,6 +31,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             btFloatSelect.Click += (o, e) => Select(new FloatValueType());
             btDateTimeSelect.Click += (o, e) => Select(new DateTimeValueType());
             btStatusSelect.Click += (o, e) => Select(new StateValueType());
+            btInfoSelect.Click += (o, e) => Select(new InfoValueType());
         }
 
         private void Select(ValueTypeBase type)

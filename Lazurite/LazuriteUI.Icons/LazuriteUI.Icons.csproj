@@ -46,7 +46,6 @@
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Icons\Acorn.png" />
     <EmbeddedResource Include="Icons\Add.png" />
     <EmbeddedResource Include="Icons\AddMultiple.png" />
     <EmbeddedResource Include="Icons\AdobeAcrobat.png" />
@@ -1315,6 +1314,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icons\ButtonOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icons\Acorn.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>
