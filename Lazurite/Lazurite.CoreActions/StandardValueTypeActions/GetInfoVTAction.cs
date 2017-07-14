@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Lazurite.CoreActions.StandardValueTypeActions
 {
     [VisualInitialization]
-    [HumanFriendlyName("Стандартные: информация")]
+    [HumanFriendlyName("# Информация")]
     [SuitableValueTypes(typeof(InfoValueType))]
     public class GetInfoVTAction : IAction, IStandardValueAction
     {

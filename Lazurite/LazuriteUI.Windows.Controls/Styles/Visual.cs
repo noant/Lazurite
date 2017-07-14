@@ -24,7 +24,7 @@ namespace LazuriteUI.Windows.Controls
         public static readonly Brush BackgroundLazurite = new SolidColorBrush(Color.FromRgb(29,25,29));
         public static readonly Brush Foreground = Brushes.White;
         public static readonly int FontSize = 14;
-        public static readonly int BigFontSize = 19;
+        public static readonly int BigFontSize = 17;
         public static readonly FontFamily FontFamily = new FontFamily("Calibri");
         public static readonly FontWeight FontWeight = System.Windows.FontWeight.FromOpenTypeWeight(2);
 

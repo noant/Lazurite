@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Lazurite.CoreActions.StandardValueTypeActions
 {
     [VisualInitialization]
-    [HumanFriendlyName("Стандартные: статус")]
+    [HumanFriendlyName("# Статус")]
     [SuitableValueTypes(typeof(StateValueType))]
     public class GetStateVTAction : IAction, IStandardValueAction
     {

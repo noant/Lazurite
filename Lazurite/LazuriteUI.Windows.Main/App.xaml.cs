@@ -51,6 +51,5 @@ namespace LazuriteUI.Windows.Main
             //    PasswordHash = CryptoUtils.CreatePasswordHash("pass")
             //});            
         }
-        
     }
 }

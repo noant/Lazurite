@@ -62,6 +62,7 @@ namespace LazuriteUI.Windows.Main.PluginsViews
                 var itemView = new ItemView();
                 itemView.Icon = Icons.Icon.Layer;
                 itemView.Content = plugin.Name;
+                itemView.Margin = new Thickness(1);
                 itemView.Tag = _manager
                     .GetPluginsTypesInfos()
                     .Where(x => x.Plugin.Equals(plugin))

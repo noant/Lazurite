@@ -10,7 +10,7 @@
              Height="30"
              HorizontalAlignment="Left"
              VerticalAlignment="Top"
-             Background="#002233"
+             Background="{x:Static controls:Visual.ItemBackground}"
              d:DesignHeight="300">
     <Grid>
         <Grid.Resources>
@@ -22,9 +22,9 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <controls:IconView Icon="{Binding Icon}" Visibility="{Binding ActionIconVisibility}"></controls:IconView>
-        <Label Grid.Column="1" Foreground="White" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Content="{Binding ActionName}"></Label>
-        <Label Grid.Column="2" Foreground="White" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Background="#003030" Content="{Binding ActionCaption}" Visibility="{Binding ActionCaption, Converter={StaticResource stringToVisibility}}"></Label>
+        <controls:IconView Icon="{Binding Icon}" Opacity="0.5" Visibility="{Binding ActionIconVisibility}"></controls:IconView>
+        <Label Grid.Column="1" Opacity="0.5" Foreground="White" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Content="{Binding ActionName}"></Label>
+        <Label Grid.Column="2" Foreground="White" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Content="{Binding ActionCaption}" Visibility="{Binding ActionCaption, Converter={StaticResource stringToVisibility}}"></Label>
         <local:EditActionButtonsView x:Name="buttons" AddVisible="False" EditVisible="{Binding IsSupportsModification}" RemoveVisible="False" Grid.Column="3"></local:EditActionButtonsView>
     </Grid>
 </UserControl>

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Lazurite.CoreActions.StandardValueTypeActions
 {
     [VisualInitialization]
-    [HumanFriendlyName("Стандартные: число")]
+    [HumanFriendlyName("# Число")]
     [SuitableValueTypes(typeof(FloatValueType))]
     public class GetFloatVTAction : IAction, IStandardValueAction
     {

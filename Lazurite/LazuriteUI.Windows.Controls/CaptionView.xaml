@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Controls"
              mc:Ignorable="d"
              Background="{Binding Source={x:Static local:Visual.BrightItemBackground}}"
-             Height="40">
+             Height="30">
     <UserControl.Resources>
         <ResourceDictionary Source="/LazuriteUI.Windows.Controls;component/Styles/Styles.xaml" />
     </UserControl.Resources>
@@ -29,7 +29,7 @@
                     </BeginStoryboard>
                 </EventTrigger>
             </StackPanel.Triggers>
-            <local:IconView Height="45" Width="45" IsHitTestVisible="False" x:Name="iconView" x:FieldModifier="private" Icon="AddMultiple" Visibility="{Binding IconVisibility}" VerticalAlignment="Center" HorizontalAlignment="Left"></local:IconView>
+            <local:IconView Height="35" Width="35" IsHitTestVisible="False" x:Name="iconView" x:FieldModifier="private" Icon="AddMultiple" Visibility="{Binding IconVisibility}" VerticalAlignment="Center" HorizontalAlignment="Left"></local:IconView>
             <Label Style="{DynamicResource BigLabelStyle}" IsHitTestVisible="False" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" Name="label" x:FieldModifier="private"></Label>
         </StackPanel>
     </Grid>

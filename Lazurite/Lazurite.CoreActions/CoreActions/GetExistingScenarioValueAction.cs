@@ -55,7 +55,7 @@ namespace Lazurite.CoreActions.CoreActions
         {
             get
             {
-                return _scenario.Name;
+                return _scenario?.Name ?? "[сценарий не выбран]";
             }
             set
             {
@@ -67,7 +67,7 @@ namespace Lazurite.CoreActions.CoreActions
         {
             get
             {
-                return _scenario.ValueType;
+                return _scenario?.ValueType ?? new ButtonValueType();
             }
             set
             {

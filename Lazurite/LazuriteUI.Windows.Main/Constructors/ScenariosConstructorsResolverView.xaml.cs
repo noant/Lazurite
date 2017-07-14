@@ -42,6 +42,10 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         public void SetScenario(ScenarioBase scenario)
         {
+            var loadView = new MessageView();
+            loadView.Icon = Icons.Icon.Hourglass;
+            loadView.ContentText = "Формирование окна...";
+            loadView.ShowInNewWindow();
             if (scenario != null)
             {
                 _originalSenario = scenario;
@@ -67,6 +71,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                 EmptyScenarioModeOn();
             }
             IsModified = false;
+            loadView.Close();
         }
 
         private void EmptyScenarioModeOn()

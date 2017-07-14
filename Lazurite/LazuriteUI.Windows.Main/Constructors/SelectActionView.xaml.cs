@@ -28,6 +28,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         public SelectActionView()
         {
             InitializeComponent();
+            Loaded += (sender, e) => MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
         }
 
         public void Initialize(Type valueType = null, ActionInstanceSide side = ActionInstanceSide.Both, Type selectedType = null)
@@ -73,6 +74,17 @@ namespace LazuriteUI.Windows.Main.Constructors
                 dialogView.Close();
             };
             dialogView.Show();
+        }
+
+        private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var txt = tbSearch.Text.ToUpper().Trim();
+            foreach (ItemView item in itemsView.GetItems())
+            {
+                if (string.IsNullOrEmpty(txt) || item.Content.ToString().ToUpper().Contains(txt))
+                    item.Visibility = Visibility.Visible;
+                else item.Visibility = Visibility.Collapsed;
+            }
         }
 
         public Type SelectedType { get; private set; }

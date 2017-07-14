@@ -7,15 +7,24 @@
              mc:Ignorable="d" 
              Height="Auto">
     <StackPanel>
-        <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">ЕСЛИ</Label>
-        <local:ComplexCheckerView Margin="15,0,0,0" x:Name="checkerView"></local:ComplexCheckerView>
-        <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">ВЫПОЛНИТЬ</Label>
-        <local:ComplexActionView  Margin="15,0,0,0" x:Name="actionIfView"></local:ComplexActionView>
-        <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">ИНАЧЕ</Label>
-        <local:ComplexActionView  Margin="15,0,0,0" x:Name="actionElseView"></local:ComplexActionView>
+        <StackPanel Orientation="Horizontal">
+            <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">ЕСЛИ</Label>
+            <local:EditActionButtonsView x:Name="buttonsChecker" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+        </StackPanel>
+        <local:ComplexCheckerView Margin="30,0,0,0" x:Name="checkerView"></local:ComplexCheckerView>
+        <StackPanel Orientation="Horizontal">
+            <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">ВЫПОЛНИТЬ</Label>
+            <local:EditActionButtonsView x:Name="buttonsIf" EditVisible="False" ChangeVisible="False" RemoveVisible="False"></local:EditActionButtonsView>
+        </StackPanel>
+        <local:ComplexActionView  Margin="30,0,0,0" x:Name="actionIfView"></local:ComplexActionView>
+        <StackPanel Orientation="Horizontal">
+            <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">ИНАЧЕ</Label>
+            <local:EditActionButtonsView x:Name="buttonsElse" EditVisible="False" ChangeVisible="False" RemoveVisible="False"></local:EditActionButtonsView>
+        </StackPanel>
+        <local:ComplexActionView  Margin="30,0,0,0" x:Name="actionElseView"></local:ComplexActionView>
         <StackPanel Orientation="Horizontal">
             <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">КОНЕЦ УСЛОВИЯ</Label>
-            <local:EditActionButtonsView x:Name="buttons" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+            <local:EditActionButtonsView x:Name="buttonsEnd" EditVisible="False" RemoveVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
         </StackPanel>
     </StackPanel>
 </UserControl>

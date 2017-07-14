@@ -32,17 +32,18 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public ComplexCheckerView()
         {
             InitializeComponent();
-            buttons.AddNewClick += () =>
-            {
-                SelectCheckerTypeView.Show((isGroup) => {
-                    CheckerOperatorPair operatorPair = new CheckerOperatorPair();
-                    if (isGroup)
-                        operatorPair.Checker = new ComplexCheckerAction();
-                    _action.CheckerOperations.Insert(0, operatorPair);
-                    Insert(operatorPair, 0);
-                    Modified?.Invoke(this);
-                });
-            };
+        }
+
+        public void AddFirst()
+        {
+            SelectCheckerTypeView.Show((isGroup) => {
+                CheckerOperatorPair operatorPair = new CheckerOperatorPair();
+                if (isGroup)
+                    operatorPair.Checker = new ComplexCheckerAction();
+                _action.CheckerOperations.Insert(0, operatorPair);
+                Insert(operatorPair, 0);
+                Modified?.Invoke(this);
+            });
         }
 
         public ActionHolder ActionHolder
@@ -94,6 +95,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 _action.CheckerOperations.Remove(operatorPair);
                 stackPanel.Children.Remove(control);
                 Modified?.Invoke(this);
+                MakeFirstRowOperatorInvisible();
             };
             constructorElement.NeedAddNext += (element) => {
                 SelectCheckerTypeView.Show((isGroup) => {
@@ -122,11 +124,6 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 (this.stackPanel.Children[0] as CheckerOperatorPairView)?.MakeOperatorInvisible();
                 (this.stackPanel.Children[0] as ComplexCheckerOperatorPairView)?.MakeOperatorInvisible();
             }
-        }
-
-        public void MakeRemoveInvisible()
-        {
-            this.buttons.RemoveVisible = false;
         }
     }
 }

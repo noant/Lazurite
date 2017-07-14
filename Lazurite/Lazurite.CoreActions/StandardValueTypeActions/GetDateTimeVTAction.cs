@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Lazurite.CoreActions.StandardValueTypeActions
 {
     [VisualInitialization]
-    [HumanFriendlyName("Стандартные: дата и время")]
+    [HumanFriendlyName("# Дата и время")]
     [SuitableValueTypes(typeof(DateTimeValueType))]
     public class GetDateTimeVTAction : IAction, IStandardValueAction
     {

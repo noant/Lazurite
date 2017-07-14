@@ -39,13 +39,13 @@ namespace Lazurite.CoreActions.CoreActions
             return _scenario;
         }
 
-        public IAction InputValue { get; set; }
+        public ActionHolder InputValue { get; set; } = new ActionHolder();
         
         public string Caption
         {
             get
             {
-                return _scenario.Name + "(" + ActionsDomain.Utils.ExtractHumanFriendlyName(InputValue.GetType())+ " " + InputValue.Caption + ")";
+                return _scenario?.Name ?? "[сценарий не выбран]";
             }
             set
             {
@@ -63,15 +63,9 @@ namespace Lazurite.CoreActions.CoreActions
 
         public ValueTypeBase ValueType
         {
-            get
-            {
-                return _scenario.ValueType;
-            }
-            set
-            {
-                //
-            }
-        }
+            get;
+            set;
+        } = new ButtonValueType();
         
         public RunExistingScenarioMode Mode
         {
@@ -97,11 +91,11 @@ namespace Lazurite.CoreActions.CoreActions
         public void SetValue(ExecutionContext context, string value)
         {
             if (Mode == RunExistingScenarioMode.Asynchronously)
-                _scenario.ExecuteAsyncParallel(value, context.CancellationToken);
+                _scenario?.ExecuteAsyncParallel(InputValue.Action.GetValue(context), context.CancellationToken);
             else if (Mode == RunExistingScenarioMode.Synchronously)
-                _scenario.Execute(value, context.CancellationToken);
+                _scenario?.Execute(InputValue.Action.GetValue(context), context.CancellationToken);
             else if (Mode == RunExistingScenarioMode.MainExecutionContext)
-                _scenario.ExecuteAsync(value);
+                _scenario?.ExecuteAsync(InputValue.Action.GetValue(context));
         }
 
         public event ValueChangedDelegate ValueChanged;

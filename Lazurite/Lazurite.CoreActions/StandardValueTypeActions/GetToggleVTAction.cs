@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Lazurite.CoreActions.StandardValueTypeActions
 {
     [VisualInitialization]
-    [HumanFriendlyName("Стандартные: переключатель")]
+    [HumanFriendlyName("# Переключатель")]
     [SuitableValueTypes(typeof(ToggleValueType))]
     public class GetToggleVTAction : IAction, IStandardValueAction
     {

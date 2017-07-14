@@ -8,9 +8,10 @@
              mc:Ignorable="d" 
              Height="30"
              Width="30"
+             Background="{x:Static controls:Visual.ItemBackground}"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <controls:ItemView Background="DarkOliveGreen" Cursor="Hand" x:Name="button" Height="30" IconVisibility="Collapsed"></controls:ItemView>
+        <controls:ItemView Background="Transparent" Cursor="Hand" x:Name="button" Height="30" IconVisibility="Collapsed"></controls:ItemView>
         <TextBlock IsHitTestVisible="False" x:Name="textBlock" Foreground="White" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-1,-3,0,0">>=</TextBlock>
     </Grid>
 </UserControl>

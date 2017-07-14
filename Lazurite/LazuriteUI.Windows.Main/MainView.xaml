@@ -13,7 +13,7 @@
              d:DesignHeight="600" d:DesignWidth="1000">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto" x:Name="rowTop"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="{x:Static controls:Visual.ItemBackground}">
@@ -25,12 +25,12 @@
             </Grid.ColumnDefinitions>
             <Grid Background="BlueViolet" Opacity="0.3"></Grid>
             <controls:CornerView Opacity="0.3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" ></controls:CornerView>
-            <local:LazuriteView Grid.Column="2" Width="140"></local:LazuriteView>
-            <TextBlock Margin="10,1,0,0" FontFamily="Verdana" VerticalAlignment="Center" FontSize="18" Grid.Column="3" Opacity="0.5" Foreground="DarkGray">управление системами умного дома</TextBlock>
+            <local:LazuriteView Grid.Column="2" Width="100"></local:LazuriteView>
+            <TextBlock Margin="10,1,0,0" FontFamily="Verdana" VerticalAlignment="Center" FontSize="14" Grid.Column="3" Opacity="0.5" Foreground="DarkGray">управление системами умного дома</TextBlock>
         </Grid>
         <Grid Grid.Row="1" Margin="0,1,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="170"></ColumnDefinition>
+                <ColumnDefinition Width="170" x:Name="columnMenu"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Vertical">
@@ -44,6 +44,10 @@
                     <local:MenuItemView Type="{x:Type Button}" Margin="0,0,0,1" Icon="PeopleMultiple" Text="ГРУППЫ"></local:MenuItemView>
                     <local:MenuItemView Type="{x:Type journal:JournalView}" Margin="0,0,0,1" Icon="Journal" Text="ЖУРНАЛ"></local:MenuItemView>
                 </controls:ListItemsView>
+                <StackPanel Orientation="Horizontal">
+                    <local:MenuItemView Selectable="False" x:Name="btHide" Height="30" Margin="0,0,0,1" Width="50" HorizontalAlignment="Left" Icon="ArrowExpand"></local:MenuItemView>
+                    <controls:CornerView HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0"></controls:CornerView>
+                </StackPanel>
                 <controls:CornerView HorizontalAlignment="Left" Margin="-10,0,0,0"></controls:CornerView>
             </StackPanel>
             <local:MenuResolverView Grid.Column="1" x:Name="menuResolver"></local:MenuResolverView>

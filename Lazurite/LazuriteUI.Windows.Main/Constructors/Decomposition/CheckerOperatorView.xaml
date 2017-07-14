@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors.Decomposition"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             Background="{x:Static controls:Visual.ItemBackground}"
              mc:Ignorable="d" 
              Height="30"
              Width="Auto"
@@ -14,9 +15,9 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <controls:ItemView x:Name="btSelectOperator1" Height="30" Width="45" IconVisibility="Collapsed" Background="#005544"></controls:ItemView>
-        <TextBlock IsHitTestVisible="False" x:Name="tbOperator1" Foreground="White" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center">И</TextBlock>
-        <controls:ItemView Grid.Column="1" x:Name="btSelectOperator2" Height="30" Width="30" IconVisibility="Collapsed" Background="SeaGreen"></controls:ItemView>
-        <TextBlock IsHitTestVisible="False" Grid.Column="1" x:Name="tbOperator2" Foreground="White" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center">НЕ</TextBlock>
+        <controls:ItemView x:Name="btSelectOperator1" Height="30" Width="Auto" IconVisibility="Collapsed" Background="Transparent"></controls:ItemView>
+        <TextBlock Margin="8,0,8,0" IsHitTestVisible="False" x:Name="tbOperator1" Foreground="White" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center">И</TextBlock>
+        <controls:ItemView Grid.Column="1" x:Name="btSelectOperator2" Height="30" Width="Auto" IconVisibility="Collapsed" Background="Transparent"></controls:ItemView>
+        <TextBlock Margin="8,0,8,0" IsHitTestVisible="False" Grid.Column="1" x:Name="tbOperator2" Foreground="White" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center">НЕ</TextBlock>
     </Grid>
 </UserControl>

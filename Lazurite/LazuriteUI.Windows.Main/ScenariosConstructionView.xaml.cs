@@ -3,6 +3,7 @@ using Lazurite.CoreActions;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.Scenarios.ScenarioTypes;
+using Lazurite.Windows.Logging;
 using LazuriteUI.Icons;
 using LazuriteUI.Windows.Controls;
 using LazuriteUI.Windows.Main.Constructors;
@@ -33,6 +34,7 @@ namespace LazuriteUI.Windows.Main
     {
         private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();
         private ScenarioBase _lastDeletedScenario;
+        private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
 
         public ScenariosConstructionView()
         {
@@ -82,9 +84,17 @@ namespace LazuriteUI.Windows.Main
                     if (result)
                     {
                         var scenario = this.switchesGrid.SelectedModel.Scenario;
-                        _lastDeletedScenario = scenario;
-                        this.switchesGrid.Remove(scenario);
-                        _repository.RemoveScenario(scenario);
+                        try
+                        {
+                            _repository.RemoveScenario(scenario);
+                            this.switchesGrid.Remove(scenario);
+                            _lastDeletedScenario = scenario;
+                        }
+                        catch (Exception exception)
+                        {
+                            MessageView.ShowMessage(exception.Message, "Невозможно удалить сценарий", Icon.Warning);
+                            _warningHandler.Warn("Невозможно удалить сценарий", exception);
+                        }
                     }
                 }
             );

@@ -29,6 +29,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 element = new IfActionView();
             else if (actionHolder.Action is WhileAction)
                 element = new WhileActionView();
+            else if (actionHolder.Action is RunExistingScenarioAction)
+                element = new RunExistingScenarioView();
             else
                 throw new NotImplementedException();
             element.Refresh(actionHolder, algoContext);
@@ -49,6 +51,34 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     dialog.Close();
                 };
                 dialog.Show();
+            }
+            else if (action is RunExistingScenarioAction)
+            {
+                var runExistingScenarioAction = (RunExistingScenarioAction)action;
+                SelectScenarioView.Show(
+                    (selectedScenario) => {
+                        var id = selectedScenario.Id;
+                        runExistingScenarioAction.TargetScenarioId = id;
+                        runExistingScenarioAction.SetTargetScenario(selectedScenario);
+                        callback(true);
+                    },
+                    valueType?.GetType(),
+                    Lazurite.Windows.Modules.ActionInstanceSide.OnlyLeft,
+                    runExistingScenarioAction.TargetScenarioId);
+            }
+            else if (action is GetExistingScenarioValueAction)
+            {
+                var getScenarioValueAction = (GetExistingScenarioValueAction)action;
+                SelectScenarioView.Show(
+                    (selectedScenario) => {
+                        var id = selectedScenario.Id;
+                        getScenarioValueAction.TargetScenarioId = id;
+                        getScenarioValueAction.SetTargetScenario(selectedScenario);
+                        callback(true);
+                    },
+                    valueType?.GetType(),
+                    Lazurite.Windows.Modules.ActionInstanceSide.OnlyRight,
+                    getScenarioValueAction.TargetScenarioId);
             }
             else
                 callback(action.UserInitializeWith(valueType, inheritsSupportedValues));

@@ -25,6 +25,7 @@ namespace LazuriteUI.Windows.Main
         public static readonly DependencyProperty IconProperty;
         public static readonly DependencyProperty TextProperty;
         public static readonly DependencyProperty SelectedProperty;
+        public static readonly DependencyProperty SelectableProperty;
         public static readonly DependencyProperty TypeProperty;
 
         static MenuItemView()
@@ -33,6 +34,12 @@ namespace LazuriteUI.Windows.Main
                 PropertyChangedCallback = (o,e) => {
                     ((MenuItemView)o).itemView.Selected = (bool)e.NewValue;
                     ((MenuItemView)o).RaiseSelectionChanged();
+                }
+            });
+            SelectableProperty = DependencyProperty.Register(nameof(Selectable), typeof(bool), typeof(MenuItemView), new FrameworkPropertyMetadata(true)
+            {
+                PropertyChangedCallback = (o, e) => {
+                    ((MenuItemView)o).itemView.Selectable = (bool)e.NewValue;
                 }
             });
             IconProperty = DependencyProperty.Register(nameof(Icon), typeof(Icon), typeof(MenuItemView));
@@ -47,19 +54,7 @@ namespace LazuriteUI.Windows.Main
                 this.Selected = itemView.Selected;
             };
         }
-
-        public bool Selectable
-        {
-            get
-            {
-                return true;
-            }
-            set
-            {
-                //do nothing
-            }
-        }
-
+        
         public Icon Icon
         {
             get
@@ -108,9 +103,33 @@ namespace LazuriteUI.Windows.Main
             }
         }
 
+        public bool Selectable
+        {
+            get
+            {
+                return (bool)GetValue(SelectableProperty);
+            }
+            set
+            {
+                SetValue(SelectableProperty, value);
+            }
+        }
+
         private void RaiseSelectionChanged()
         {
             SelectionChanged?.Invoke(this, new RoutedEventArgs());
+        }
+
+        public event RoutedEventHandler Click
+        {
+            add
+            {
+                itemView.Click += value;
+            }
+            remove
+            {
+                itemView.Click -= value;
+            }
         }
 
         public event RoutedEventHandler SelectionChanged;

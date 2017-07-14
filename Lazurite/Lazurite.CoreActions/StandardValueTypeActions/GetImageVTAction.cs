@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Lazurite.CoreActions.StandardValueTypeActions
 {
     [VisualInitialization]
-    [HumanFriendlyName("Стандартные: изображение")]
+    [HumanFriendlyName("# Изображение")]
     [SuitableValueTypes(typeof(ImageValueType))]
     public class GetImageVTAction : IAction, IStandardValueAction
     {

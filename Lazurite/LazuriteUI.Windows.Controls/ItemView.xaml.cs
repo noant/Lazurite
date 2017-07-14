@@ -111,6 +111,13 @@ namespace LazuriteUI.Windows.Controls
             InitializeComponent();
             button.Click += (o, e) => Click?.Invoke(this, e);
             Click += (o, e) => this.Selected = !this.Selected;
+            SizeChanged += (o, e) =>
+            {
+                if (this.ActualWidth <= 50)
+                    this.label.Visibility = Visibility.Collapsed;
+                else
+                    this.label.Visibility = Visibility.Visible;
+            };
         }
 
         protected override void OnGotFocus(RoutedEventArgs e)

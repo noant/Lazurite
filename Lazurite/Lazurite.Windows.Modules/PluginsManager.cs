@@ -215,12 +215,14 @@ namespace Lazurite.Windows.Modules
             var allTypes = 
                 _allTypes.Select(x => x.Type)
                 .Union(new Type[] {
-                    typeof(GetStateVTAction),
-                    typeof(GetDateTimeVTAction),
-                    typeof(GetFloatVTAction),
-                    typeof(GetInfoVTAction),
-                    typeof(GetToggleVTAction),
-                    typeof(GetInputValueAction) })
+                        typeof(GetStateVTAction),
+                        typeof(GetDateTimeVTAction),
+                        typeof(GetFloatVTAction),
+                        typeof(GetInfoVTAction),
+                        typeof(GetToggleVTAction),
+                        typeof(GetInputValueAction),
+                        typeof(GetExistingScenarioValueAction)
+                    })
                     .ToArray();
             
             foreach (var type in allTypes)

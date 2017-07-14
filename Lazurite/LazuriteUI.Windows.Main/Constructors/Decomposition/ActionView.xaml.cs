@@ -41,6 +41,11 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             buttons.Visibility = Visibility.Collapsed;
         }
 
+        public void MakeChangeButtonInvisible()
+        {
+            buttons.ChangeVisible = false;
+        }
+
         public void BeginSelectAction()
         {
             SelectActionView.Show(
@@ -57,22 +62,20 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                                         ActionHolder.Action = newAction;
                                         Model.Refresh();
                                         Modified?.Invoke(this);
+
+                                        if (MasterAction != null && !MasterAction.ValueType.IsCompatibleWith(newAction.ValueType))
+                                        {
+                                            MessageView.ShowMessage(
+                                                "Тип действия не совпадает с типом действия главного действия. Нужно настроить подчиненное действие еще раз.",
+                                                "Внимание!",
+                                                Icons.Icon.WarningCircle);
+                                        }
                                     }
                                 },
                                 newAction,
                                 MasterAction?.ValueType,
                                 true,
                                 MasterAction);
-                            if (MasterAction != null && !MasterAction.ValueType.IsCompatibleWith(newAction.ValueType))
-                            {
-                                MessageView.ShowMessage(
-                                    "Тип действия не совпадает с типом действия главного действия. Нужно настроить подчиненное действие еще раз.",
-                                    "Внимание!",
-                                    Icons.Icon.WarningCircle, null, 
-                                    () => {
-                                        BeginSelectAction();
-                                    });
-                            }
                         }
                     },
                     MasterAction?.ValueType.GetType(),

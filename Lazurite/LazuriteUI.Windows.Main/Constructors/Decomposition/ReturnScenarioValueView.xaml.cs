@@ -34,6 +34,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             this.action2View.Modified += (element) => Modified?.Invoke(this);
             this.buttons.RemoveClick += () => NeedRemove?.Invoke(this);
             this.buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
+            this.action1View.MakeButtonsInvisible();
         }
         
         public ActionHolder ActionHolder
@@ -62,7 +63,6 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             this.action1View.Refresh(actionHolder, algoContext);
             this.action2View.Refresh(_action.InputValue, algoContext);
             this.action2View.MasterAction = _action;
-            this.action1View.MakeButtonsInvisible();
         }
 
         public event Action<IConstructorElement> Modified;

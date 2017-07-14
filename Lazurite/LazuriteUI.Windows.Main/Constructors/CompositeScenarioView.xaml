@@ -10,10 +10,15 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <controls:WheelScroll Margin="4,4,4,42" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
             <Grid.LayoutTransform>
                 <ScaleTransform x:Name="scale" CenterX="0" CenterY="0"></ScaleTransform>
             </Grid.LayoutTransform>
-            <decompos:ComplexActionView x:Name="complexActionView"></decompos:ComplexActionView>
+            <decompos:EditActionButtonsView x:Name="buttons" EditVisible="False" ChangeVisible="False" RemoveVisible="False"></decompos:EditActionButtonsView>
+            <decompos:ComplexActionView Grid.Row="1" x:Name="complexActionView"></decompos:ComplexActionView>
         </Grid>
     </controls:WheelScroll>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4,0,4,2">

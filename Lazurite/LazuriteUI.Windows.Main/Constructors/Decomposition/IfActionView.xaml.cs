@@ -27,8 +27,11 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public IfActionView()
         {
             InitializeComponent();
-            buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
-            buttons.RemoveClick += () => NeedRemove?.Invoke(this);
+            buttonsEnd.AddNewClick += () => NeedAddNext?.Invoke(this);
+            buttonsChecker.RemoveClick += () => NeedRemove?.Invoke(this);
+            buttonsChecker.AddNewClick += () => checkerView.AddFirst();
+            buttonsIf.AddNewClick += () => actionIfView.AddFirst();
+            buttonsElse.AddNewClick += () => actionElseView.AddFirst();
 
             this.actionElseView.Modified += (e) => Modified?.Invoke(this);
             this.actionIfView.Modified += (e) => Modified?.Invoke(this);

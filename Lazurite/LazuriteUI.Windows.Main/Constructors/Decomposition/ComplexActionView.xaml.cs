@@ -34,19 +34,19 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public ComplexActionView()
         {
             InitializeComponent();
-            buttons.AddNewClick += () =>
-            {
-                SelectCoreActionView.Show((type) => {
-                    var newActionHolder = new ActionHolder()
-                    {
-                        Action = _manager.CreateInstanceOf(type, AlgorithmContext)
-                    };
-                    _action.ActionHolders.Insert(0, newActionHolder);
-                    Insert(newActionHolder, 0);
-                    Modified?.Invoke(this);
-                });
-            };
-            buttons.RemoveClick += () => NeedRemove?.Invoke(this);
+        }
+
+        public void AddFirst()
+        {
+            SelectCoreActionView.Show((type) => {
+                var newActionHolder = new ActionHolder()
+                {
+                    Action = _manager.CreateInstanceOf(type, AlgorithmContext)
+                };
+                _action.ActionHolders.Insert(0, newActionHolder);
+                Insert(newActionHolder, 0);
+                Modified?.Invoke(this);
+            });
         }
 
         public ActionHolder ActionHolder

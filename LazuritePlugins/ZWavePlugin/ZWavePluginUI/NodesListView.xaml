@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <controls:CaptionView Name="captionView" VerticalAlignment="Top" Icon="Diagram">Доступные узлы</controls:CaptionView>
-        <controls:WheelScroll Margin="0,40,0,0">
+        <controls:WheelScroll Margin="0,30,0,0">
             <controls:ListItemsView SelectionMode="Single" Name="listItems" x:FieldModifier="private"></controls:ListItemsView>
         </controls:WheelScroll>
     </Grid>

@@ -8,6 +8,7 @@
              xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
              mc:Ignorable="d" 
              Height="110" 
+             MinWidth="800"
              Background="{x:Static controls:Visual.BackgroundLazurite}"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>

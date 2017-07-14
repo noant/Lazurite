@@ -32,8 +32,9 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             operatorView.Modified += (e) => this.Modified?.Invoke(this);
             complexCheckerView.Modified += (e) => this.Modified?.Invoke(this);
 
-            buttons.AddNewClick += () => this.NeedAddNext?.Invoke(this);
-            buttons.RemoveClick += () => this.NeedRemove?.Invoke(this);
+            buttonsEnd.AddNewClick += () => this.NeedAddNext?.Invoke(this);
+            buttonsGroup.RemoveClick += () => this.NeedRemove?.Invoke(this);
+            buttonsGroup.AddNewClick += () => complexCheckerView.AddFirst();
 
         }
 

@@ -28,6 +28,21 @@ namespace LazuriteUI.Windows.Main
                     menuResolver.Resolver = menuItems.SelectedItem as IViewTypeResolverItem;
                 this.menuItems.GetItems().First().Selected = true;
             };
+
+            btHide.Click += (o, e) => {
+                if (columnMenu.Width.Value == 170)
+                {
+                    columnMenu.Width = new GridLength(50);
+                    rowTop.Height = new GridLength(0);
+                    btHide.Icon = Icons.Icon.ArrowCollapsed;
+                }
+                else
+                {
+                    columnMenu.Width = new GridLength(170);
+                    rowTop.Height = GridLength.Auto;
+                    btHide.Icon = Icons.Icon.ArrowExpand;
+                }
+            };
         }
     }
 }

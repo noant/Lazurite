@@ -98,6 +98,9 @@
     </Compile>
     <Compile Include="Constructors\Decomposition\ActionControlResolver.cs" />
     <Compile Include="Constructors\Decomposition\ActionModel.cs" />
+    <Compile Include="Constructors\Decomposition\RunExistingScenarioView.xaml.cs">
+      <DependentUpon>RunExistingScenarioView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\Decomposition\StringToVisibility.cs" />
     <Compile Include="Constructors\Decomposition\WhileActionView.xaml.cs">
       <DependentUpon>WhileActionView.xaml</DependentUpon>
@@ -154,9 +157,6 @@
       <DependentUpon>ExecuteActionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Constructors\Decomposition\IConstructorElement.cs" />
-    <Compile Include="Constructors\Decomposition\SelectCheckerView.xaml.cs">
-      <DependentUpon>SelectCheckerView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Constructors\FakeScenarioModel.cs" />
     <Compile Include="Constructors\IScenarioConstructorView.cs" />
     <Compile Include="Constructors\NewCompositeScenarioSelectionView.xaml.cs">
@@ -182,6 +182,9 @@
     </Compile>
     <Compile Include="Constructors\SelectActionView.xaml.cs">
       <DependentUpon>SelectActionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\SelectScenarioView.xaml.cs">
+      <DependentUpon>SelectScenarioView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Constructors\SingleActionScenarioView.xaml.cs">
       <DependentUpon>SingleActionScenarioView.xaml</DependentUpon>
@@ -312,6 +315,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Constructors\Decomposition\RunExistingScenarioView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Constructors\Decomposition\WhileActionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -384,10 +391,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Constructors\Decomposition\SelectCheckerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Constructors\NewCompositeScenarioSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -417,6 +420,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Constructors\SelectActionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\SelectScenarioView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
