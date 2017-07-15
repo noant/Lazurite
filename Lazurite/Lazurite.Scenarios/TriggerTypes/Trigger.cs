@@ -10,6 +10,7 @@ using Lazurite.ActionsDomain.Attributes;
 using Lazurite.CoreActions;
 using Lazurite.Scenarios.ScenarioTypes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.IOC;
 
 namespace Lazurite.Scenarios.TriggerTypes
 {
@@ -17,6 +18,7 @@ namespace Lazurite.Scenarios.TriggerTypes
     public class Trigger : TriggerBase
     {
         private Action<ScenarioBase> _lastSubscribe;
+        private ISystemUtils _systemUtils = Singleton.Resolve<ISystemUtils>();
 
         public override IAction[] GetAllActionsFlat()
         {
@@ -79,7 +81,7 @@ namespace Lazurite.Scenarios.TriggerTypes
                         var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), cancellationToken);
                         Task.Factory.StartNew(() => TargetAction.SetValue(executionContext, string.Empty));
                     }
-                    MainDomain.Utils.Sleep(10, cancellationToken);
+                    _systemUtils.Sleep(300, cancellationToken);
                 }
             }
         }

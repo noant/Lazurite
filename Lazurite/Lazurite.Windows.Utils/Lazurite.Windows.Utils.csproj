@@ -46,7 +46,14 @@
   <ItemGroup>
     <Compile Include="CryptoUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemUtils.cs" />
     <Compile Include="Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lazurite.MainDomain\Lazurite.MainDomain.csproj">
+      <Project>{DCD8E6AF-A435-4556-AD74-84444B1DD816}</Project>
+      <Name>Lazurite.MainDomain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

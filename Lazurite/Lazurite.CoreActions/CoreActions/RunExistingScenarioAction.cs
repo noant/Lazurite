@@ -66,12 +66,12 @@ namespace Lazurite.CoreActions.CoreActions
             get;
             set;
         } = new ButtonValueType();
-        
+
         public RunExistingScenarioMode Mode
         {
             get;
             set;
-        }
+        } = RunExistingScenarioMode.Synchronously;
 
         public void Initialize()
         {

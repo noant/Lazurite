@@ -11,12 +11,12 @@
              d:DesignHeight="300">
         <local:CheckerOperatorView HorizontalAlignment="Left" x:Name="operatorView"></local:CheckerOperatorView>
     <StackPanel Orientation="Horizontal">
-        <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">НАЧАЛО ГРУППЫ УСЛОВИЙ</Label>
+        <Label Background="DarkSlateBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">НАЧАЛО ГРУППЫ УСЛОВИЙ</Label>
         <local:EditActionButtonsView x:Name="buttonsGroup" ChangeVisible="False" EditVisible="False"></local:EditActionButtonsView>
     </StackPanel>
     <local:ComplexCheckerView x:Name="complexCheckerView" Margin="30,0,0,0"></local:ComplexCheckerView>
     <StackPanel Orientation="Horizontal">
-        <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">КОНЕЦ ГРУППЫ УСЛОВИЙ</Label>
+        <Label Background="DarkSlateBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">КОНЕЦ ГРУППЫ УСЛОВИЙ</Label>
         <local:EditActionButtonsView x:Name="buttonsEnd" RemoveVisible="False" ChangeVisible="False" EditVisible="False"></local:EditActionButtonsView>
     </StackPanel>
 </StackPanel>

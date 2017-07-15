@@ -55,16 +55,18 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             else if (action is RunExistingScenarioAction)
             {
                 var runExistingScenarioAction = (RunExistingScenarioAction)action;
-                SelectScenarioView.Show(
-                    (selectedScenario) => {
+                SelectScenarioAndRunModeView.Show(
+                    (selectedScenario, selectedMode) => {
                         var id = selectedScenario.Id;
+                        runExistingScenarioAction.Mode = selectedMode;
                         runExistingScenarioAction.TargetScenarioId = id;
                         runExistingScenarioAction.SetTargetScenario(selectedScenario);
                         callback(true);
                     },
                     valueType?.GetType(),
                     Lazurite.Windows.Modules.ActionInstanceSide.OnlyLeft,
-                    runExistingScenarioAction.TargetScenarioId);
+                    runExistingScenarioAction.TargetScenarioId,
+                    runExistingScenarioAction.Mode);
             }
             else if (action is GetExistingScenarioValueAction)
             {

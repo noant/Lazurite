@@ -8,17 +8,17 @@
              Height="Auto">
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">ПОКА</Label>
+            <Label Background="DarkSlateBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">ПОКА</Label>
             <local:EditActionButtonsView x:Name="buttonsWhile" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
         </StackPanel>
         <local:ComplexCheckerView Margin="30,0,0,0" x:Name="checkerView"></local:ComplexCheckerView>
         <StackPanel Orientation="Horizontal">
-            <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">ВЫПОЛНИТЬ</Label>
+            <Label Background="DarkSlateBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">ВЫПОЛНИТЬ</Label>
             <local:EditActionButtonsView x:Name="buttonsDo" RemoveVisible="False" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
         </StackPanel>
         <local:ComplexActionView  Margin="30,0,0,0" x:Name="actionView"></local:ComplexActionView>
         <StackPanel Orientation="Horizontal">
-            <Label Background="SteelBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">КОНЕЦ ЦИКЛА</Label>
+            <Label Background="DarkSlateBlue" HorizontalAlignment="Left" Foreground="White" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="Auto">КОНЕЦ ЦИКЛА</Label>
             <local:EditActionButtonsView x:Name="buttonsEnd" RemoveVisible="False" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
         </StackPanel>
     </StackPanel>

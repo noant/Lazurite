@@ -9,6 +9,7 @@ using System.Threading;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.CoreActions.CoreActions;
+using Lazurite.IOC;
 
 namespace Lazurite.CoreActions
 {
@@ -18,9 +19,11 @@ namespace Lazurite.CoreActions
     [HumanFriendlyName("Пока")]
     public class WhileAction : IAction, IMultipleAction
     {
+        private ISystemUtils _systemUtils = Singleton.Resolve<ISystemUtils>();
+
         public ComplexAction Action { get; set; } = new ComplexAction();
         public ComplexCheckerAction Checker { get; set; } = new ComplexCheckerAction();
-
+        
         public string Caption
         {
             get
@@ -85,6 +88,7 @@ namespace Lazurite.CoreActions
                 if (context.CancellationToken.IsCancellationRequested)
                     break;
                 Action.SetValue(context, string.Empty);
+                _systemUtils.Sleep(1, context.CancellationToken);
             }
         }
 

@@ -183,6 +183,9 @@
     <Compile Include="Constructors\SelectActionView.xaml.cs">
       <DependentUpon>SelectActionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\SelectScenarioAndRunModeView.xaml.cs">
+      <DependentUpon>SelectScenarioAndRunModeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\SelectScenarioView.xaml.cs">
       <DependentUpon>SelectScenarioView.xaml</DependentUpon>
     </Compile>
@@ -422,6 +425,10 @@
     <Page Include="Constructors\SelectActionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\SelectScenarioAndRunModeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Constructors\SelectScenarioView.xaml">
       <SubType>Designer</SubType>

@@ -8,6 +8,7 @@ using Lazurite.Windows.Logging;
 using Lazurite.Windows.Modules;
 using Lazurite.Windows.Server;
 using Lazurite.Windows.ServiceClient;
+using Lazurite.Windows.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace Lazurite.Windows.Core
 
         private CoreSettings _settings;
 
+        public ISystemUtils SystemUtils { get; private set; }
         public ISavior Savior { get; private set; }
         public IClientFactory ClientsFactory { get; private set; }
         public WarningHandlerBase WarningHandler { get; private set; }
@@ -63,6 +65,7 @@ namespace Lazurite.Windows.Core
 
         public void Initialize()
         {
+            Singleton.Add(SystemUtils = new SystemUtils());
             Singleton.Add(Savior = new FileSavior());
             Singleton.Add(ClientsFactory = new ServiceClientFactory());
             Singleton.Add(ScenariosRepository = new ScenariosRepository());

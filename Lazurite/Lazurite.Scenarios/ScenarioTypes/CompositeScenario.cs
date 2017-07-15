@@ -11,12 +11,16 @@ using Lazurite.ActionsDomain.Attributes;
 using Lazurite.CoreActions.CoreActions;
 using Lazurite.IOC;
 using Lazurite.CoreActions.ContextInitialization;
+using System.Threading;
+using Lazurite.Logging;
 
 namespace Lazurite.Scenarios.ScenarioTypes
 {
     [HumanFriendlyName("Композитный сценарий")]
     public class CompositeScenario : ScenarioBase, IStandardValueAction
     {
+        private ILogger _log = Singleton.Resolve<ILogger>();
+
         public ComplexAction TargetAction { get; set; } = new ComplexAction();
 
         public override ValueTypeBase ValueType
@@ -35,6 +39,23 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             //just return last "returned" state
             return GetCurrentValue();
+        }
+        
+        public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    TargetAction.SetValue(
+                        new ExecutionContext(this, param, new OutputChangedDelegates(), cancelToken),
+                        string.Empty);
+                }
+                catch (Exception e)
+                {
+                    Log.ErrorFormat(e, "Error while executing scenario [{0}][{1}]", this.Name, this.Id);
+                }
+            }, cancelToken, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
         public override void ExecuteInternal(ExecutionContext context)

@@ -25,21 +25,38 @@ namespace LazuriteUI.Windows.Main.Constructors
     /// <summary>
     /// Логика взаимодействия для SelectScenarioView.xaml
     /// </summary>
-    public partial class SelectScenarioView : UserControl
+    public partial class SelectScenarioAndRunModeView : UserControl
     {
         private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();
         
         public ScenarioBase SelectedScenario { get; private set; }
+        public RunExistingScenarioMode SelectedMode { get; private set; }
 
-        public SelectScenarioView()
+        public SelectScenarioAndRunModeView()
         {
             InitializeComponent();
             Loaded += (sender, e) => MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
+            Loaded += (sender, e) => {
+                if (SelectedMode == RunExistingScenarioMode.Asynchronously)
+                    btModeAsyncPar.Selected = true;
+                else if (SelectedMode == RunExistingScenarioMode.MainExecutionContext)
+                    btModeAsync.Selected = true;
+                else if (SelectedMode == RunExistingScenarioMode.Synchronously)
+                    btModeSync.Selected = true;
+            };
+
+            btModeAsync.Click += (o, e) => this.SelectedMode = RunExistingScenarioMode.MainExecutionContext;
+            btModeAsyncPar.Click += (o, e) => this.SelectedMode = RunExistingScenarioMode.Asynchronously;
+            btModeSync.Click += (o, e) => this.SelectedMode = RunExistingScenarioMode.Synchronously;
+
+            btApply.Click += (o, e) => SelectionChanged?.Invoke(this);
         }
 
-        public void Initialize(Type valueType = null, ActionInstanceSide side = ActionInstanceSide.Both, string selectedScenarioId = "")
+        public void Initialize(Type valueType = null, ActionInstanceSide side = ActionInstanceSide.Both, string selectedScenarioId = "", RunExistingScenarioMode runMode = RunExistingScenarioMode.Synchronously)
         {
+            SelectedMode = runMode;            
             var scenarios = _repository.Scenarios.Where(x => valueType == null || x.ValueType.GetType().Equals(valueType));
+            this.SelectedScenario = _repository.Scenarios.FirstOrDefault(x => x.Id.Equals(selectedScenarioId));
             if (side == ActionInstanceSide.OnlyRight)
                 scenarios = scenarios.Where(x => x.ValueType is ButtonValueType == false);
             foreach (var scenario in scenarios)
@@ -54,7 +71,6 @@ namespace LazuriteUI.Windows.Main.Constructors
                 itemView.Click += (o, e) => 
                 {
                     this.SelectedScenario = itemView.Tag as ScenarioBase;
-                    SelectionChanged?.Invoke(this);
                 };
                 this.itemsView.Children.Add(itemView);
             }
@@ -77,17 +93,17 @@ namespace LazuriteUI.Windows.Main.Constructors
             }
         }
 
-        public Action<SelectScenarioView> SelectionChanged;
+        public Action<SelectScenarioAndRunModeView> SelectionChanged;
 
-        public static void Show(Action<ScenarioBase> selectedCallback, Type valueType = null, ActionInstanceSide side = ActionInstanceSide.Both, string selectedScenarioId = "")
+        public static void Show(Action<ScenarioBase, RunExistingScenarioMode> selectedCallback, Type valueType = null, ActionInstanceSide side = ActionInstanceSide.Both, string selectedScenarioId = "", RunExistingScenarioMode runMode = RunExistingScenarioMode.Synchronously)
         {
-            var control = new SelectScenarioView();
+            var control = new SelectScenarioAndRunModeView();
             var dialogView = new DialogView(control);
             dialogView.ShowUnderCursor = true;
-            control.Initialize(valueType, side, selectedScenarioId);
+            control.Initialize(valueType, side, selectedScenarioId, runMode);
             control.SelectionChanged += (ctrl) =>
             {
-                selectedCallback?.Invoke(control.SelectedScenario);
+                selectedCallback?.Invoke(control.SelectedScenario, control.SelectedMode);
                 dialogView.Close();
             };
             dialogView.Show();

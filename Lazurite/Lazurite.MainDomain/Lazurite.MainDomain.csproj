@@ -72,7 +72,7 @@
     <Compile Include="UserBase.cs" />
     <Compile Include="UserGroupBase.cs" />
     <Compile Include="UsersRepositoryBase.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="ISystemUtils.cs" />
     <Compile Include="UserVisualSettings.cs" />
   </ItemGroup>
   <ItemGroup>
