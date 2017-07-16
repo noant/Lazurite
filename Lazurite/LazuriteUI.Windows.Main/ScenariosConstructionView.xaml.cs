@@ -87,8 +87,8 @@ namespace LazuriteUI.Windows.Main
                         try
                         {
                             _repository.RemoveScenario(scenario);
-                            this.switchesGrid.Remove(scenario);
                             _lastDeletedScenario = scenario;
+                            this.switchesGrid.Remove(scenario);
                         }
                         catch (Exception exception)
                         {

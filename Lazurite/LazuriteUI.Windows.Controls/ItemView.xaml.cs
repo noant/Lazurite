@@ -25,6 +25,7 @@ namespace LazuriteUI.Windows.Controls
         public static readonly DependencyProperty IconProperty;
         public static readonly DependencyProperty SelectedProperty;
         public static new readonly DependencyProperty ContentProperty;
+        public static new readonly DependencyProperty BackgroundProperty;
         public static readonly DependencyProperty SelectableProperty;
         public static readonly DependencyProperty IconVerticalAligmentProperty;
         public static readonly DependencyProperty IconHorizontalAligmentProperty;
@@ -104,6 +105,14 @@ namespace LazuriteUI.Windows.Controls
                     itemView.button.Command = value;
                 }
             });
+            BackgroundProperty = DependencyProperty.Register(nameof(Background), typeof(Brush), typeof(ItemView), new FrameworkPropertyMetadata()
+            {
+                PropertyChangedCallback = (o, e) =>
+                {
+                    var element = ((UserControl)o);
+                    element.Background = (Brush)e.NewValue;
+                }
+            });
         }
 
         public ItemView()
@@ -149,7 +158,19 @@ namespace LazuriteUI.Windows.Controls
                 SetValue(IconProperty, value);
             }
         }
-        
+
+        public new Brush Background
+        {
+            get
+            {
+                return (Brush)GetValue(BackgroundProperty);
+            }
+            set
+            {
+                SetValue(BackgroundProperty, value);
+            }
+        }
+
         public new object Content
         {
             get

@@ -19,7 +19,7 @@
         </Grid.ColumnDefinitions>
         <controls:ItemView Selectable="True" x:Name="btOn" Height="Auto" Icon="ButtonOn" Margin="5,5,2,5" IconHorizontalAligment="Center" IconVerticalAligment="Center"></controls:ItemView>
         <controls:ItemView Selectable="True" x:Name="btOff" Grid.Column="1" Icon="BaseSelect" Height="Auto" Margin="2,5,5,5" IconHorizontalAligment="Center" IconVerticalAligment="Center"></controls:ItemView>
-        <TextBlock Margin="5,0,2,5" Foreground="SteelBlue" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">Включено</TextBlock>
-        <TextBlock Margin="2,0,5,5" Foreground="SteelBlue" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">Выключено</TextBlock>
+        <TextBlock Margin="5,0,2,5" Style="{StaticResource TextBlockCaption}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">Включено</TextBlock>
+        <TextBlock Margin="2,0,5,5" Style="{StaticResource TextBlockCaption}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">Выключено</TextBlock>
     </Grid>
 </UserControl>

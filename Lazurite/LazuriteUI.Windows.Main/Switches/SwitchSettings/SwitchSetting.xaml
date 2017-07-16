@@ -18,9 +18,9 @@
             <ColumnDefinition Width="70"></ColumnDefinition>
             <ColumnDefinition Width="60"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">Иконка 1:</Label>
+        <Label Style="{StaticResource LabelCaption}" VerticalAlignment="Center" HorizontalAlignment="Center">Иконка 1:</Label>
         <controls:ItemView Click="ItemView1_Click" Grid.Column="1" Height="60" IconHorizontalAligment="Center" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}}"></controls:ItemView>
-        <Label  Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center">Иконка 2:</Label>
+        <Label  Grid.Column="2" Style="{StaticResource LabelCaption}" VerticalAlignment="Center" HorizontalAlignment="Center">Иконка 2:</Label>
         <controls:ItemView Click="ItemView2_Click" Grid.Column="3" Height="60" IconHorizontalAligment="Center" Icon="{Binding Icon2, Converter={StaticResource stringToIcon}}"></controls:ItemView>
         <Border Grid.ColumnSpan="4" BorderThickness="2" BorderBrush="SteelBlue" Opacity="0.5"></Border>
     </Grid>

@@ -61,7 +61,7 @@ namespace LazuriteUI.Windows.Main.Constructors
 
             if (this.itemsView.Children.Count > 0)
             {
-                lblScensNotExist.Visibility = Visibility.Collapsed;
+                tbScensNotExist.Visibility = Visibility.Collapsed;
                 this.MinHeight = 0;
             }
         }

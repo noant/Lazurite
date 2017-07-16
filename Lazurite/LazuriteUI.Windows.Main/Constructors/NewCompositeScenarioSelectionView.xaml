@@ -20,14 +20,14 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.ColumnSpan="6" Foreground="SteelBlue" FontSize="14" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center">Выберите тип создаваемого комплексного сценария</TextBlock>
+        <TextBlock Grid.ColumnSpan="6"  Style="{StaticResource TextBlockCaption}" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center">Выберите тип создаваемого комплексного сценария</TextBlock>
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock Foreground="White" HorizontalAlignment="Center" Margin="4">КНОПКА</TextBlock>
+            <TextBlock Style="{StaticResource TextBlockCaptionLight}" HorizontalAlignment="Center" Margin="4">КНОПКА</TextBlock>
             <switches:ButtonView BorderBrush="Black" BorderThickness="4" IsEnabled="False" Grid.Row="1">
                 <switches:ButtonView.DataContext>
                     <local:FakeScenarioModel></local:FakeScenarioModel>
@@ -41,7 +41,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock Foreground="White" HorizontalAlignment="Center" Margin="4">ПЕРЕКЛЮЧАТЕЛЬ</TextBlock>
+            <TextBlock Style="{StaticResource TextBlockCaptionLight}" HorizontalAlignment="Center" Margin="4">ПЕРЕКЛЮЧАТЕЛЬ</TextBlock>
             <switches:ToggleView BorderBrush="Black" BorderThickness="4" IsEnabled="False" Grid.Row="1">
                 <switches:ToggleView.DataContext>
                     <local:FakeScenarioModel>
@@ -57,7 +57,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock Foreground="White" HorizontalAlignment="Center" Margin="4">ЧИСЛО</TextBlock>
+            <TextBlock Style="{StaticResource TextBlockCaptionLight}" HorizontalAlignment="Center" Margin="4">ЧИСЛО</TextBlock>
             <switches:FloatView BorderBrush="Black" BorderThickness="4" IsEnabled="False" Grid.Row="1">
                 <switches:FloatView.DataContext>
                     <local:FakeScenarioModel>
@@ -74,7 +74,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock Foreground="White" HorizontalAlignment="Center" Margin="4">СТАТУС</TextBlock>
+            <TextBlock Style="{StaticResource TextBlockCaptionLight}" HorizontalAlignment="Center" Margin="4">СТАТУС</TextBlock>
             <switches:StatusView BorderBrush="Black" BorderThickness="4" IsEnabled="False" Grid.Row="1">
                 <switches:StatusView.DataContext>
                     <local:FakeScenarioModel>
@@ -90,7 +90,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock Foreground="White" HorizontalAlignment="Center" Margin="4">ДАТА И ВРЕМЯ</TextBlock>
+            <TextBlock Style="{StaticResource TextBlockCaptionLight}" HorizontalAlignment="Center" Margin="4">ДАТА И ВРЕМЯ</TextBlock>
             <switches:DateTimeView BorderBrush="Black" BorderThickness="4" IsEnabled="False" Grid.Row="1">
                 <switches:DateTimeView.DataContext>
                     <local:FakeScenarioModel>
@@ -106,7 +106,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock Foreground="White" HorizontalAlignment="Center" Margin="4">ИНФОРМАЦИЯ</TextBlock>
+            <TextBlock Style="{StaticResource TextBlockCaptionLight}" HorizontalAlignment="Center" Margin="4">ИНФОРМАЦИЯ</TextBlock>
             <switches:InfoView BorderBrush="Black" BorderThickness="4" IsEnabled="False" Grid.Row="1">
                 <switches:InfoView.DataContext>
                     <local:FakeScenarioModel>

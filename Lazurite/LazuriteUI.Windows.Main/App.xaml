@@ -4,5 +4,6 @@
              StartupUri="MainWindow.xaml"
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main">
     <Application.Resources>
+        <ResourceDictionary Source="/LazuriteUI.Windows.Main;component/Common/Styles.xaml"/>
     </Application.Resources>
 </Application>

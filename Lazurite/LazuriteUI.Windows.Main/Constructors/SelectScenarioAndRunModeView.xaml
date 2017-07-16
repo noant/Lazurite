@@ -26,11 +26,11 @@
             <controls:ItemView Background="DarkSlateBlue" x:Name="btModeAsyncPar" Icon="None" Width="200" Margin="2" ToolTip="Выполнение будет происходить в другом потоке. Задачи, следующие ниже, будут выполнены сразу после того, как запустится текущая строчка, не ожидая ее полного выполнения. Если выполняется комплексный сценарий, то его статус не будет меняться, будет запущен лишь целевой алгоритм.">Асинхронно-параллельно</controls:ItemView>
         </controls:ListItemsView>
         <controls:IconView Grid.Row="1" Width="30" Icon="PageSearch"></controls:IconView>
-        <Label x:Name="lblScensNotExist" Grid.ColumnSpan="2" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="SteelBlue">Отсутствуют подходящие сценарии...</Label>
-        <TextBox TabIndex="0" Margin="2" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" TextChanged="tbSearch_TextChanged" FontSize="14" x:Name="tbSearch"></TextBox>
+        <TextBlock x:Name="tbScensNotExist" Grid.ColumnSpan="2" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource TextBlockCaption}">Отсутствуют подходящие сценарии...</TextBlock>
+        <TextBox TabIndex="0" Margin="2" Grid.Row="1" Grid.Column="1" TextChanged="tbSearch_TextChanged" Style="{StaticResource TextBoxSearch}" x:Name="tbSearch"></TextBox>
         <controls:WheelScroll Grid.ColumnSpan="2" Grid.Row="2">
             <controls:ListItemsView x:Name="itemsView"></controls:ListItemsView>
         </controls:WheelScroll>
-        <controls:ItemView x:Name="btApply" Background="{x:Static controls:Visual.BrightItemBackground}" Grid.Row="3" Grid.ColumnSpan="2" Margin="2,2,2,2" HorizontalAlignment="Stretch" Icon="Check">Применить</controls:ItemView>
+        <controls:ItemView x:Name="btApply" Style="{StaticResource ApplyButton}" Grid.Row="3" Grid.ColumnSpan="2" Margin="5">Применить</controls:ItemView>
     </Grid>
 </UserControl>

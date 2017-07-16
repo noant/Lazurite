@@ -25,7 +25,7 @@
             <controls:ItemView Click="updatePlugin_Click" x:Name="updatePlugin" Margin="2" Content="Обновить плагин" Width="170" Icon="Refresh"></controls:ItemView>
         </StackPanel>
         <Border Grid.Column="1" BorderBrush="{x:Static controls:Visual.SplitterBrush}" BorderThickness="1,0,0,0"></Border>
-        <Label Grid.Column="1" Foreground="SteelBlue">Типы в составе плагина:</Label>
+        <TextBlock Grid.Column="1" Style="{StaticResource TextBlockCaption}">Типы в составе плагина:</TextBlock>
         <StackPanel x:Name="spPluginTypes" Grid.Column="1" Margin="0,22,0,0"></StackPanel>
     </Grid>
 </UserControl>

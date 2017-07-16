@@ -1,0 +1,43 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+                    xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Common">
+    <Style x:Key="ApplyButton" TargetType="{x:Type controls:ItemView}">
+        <Setter Property="Background" Value="{x:Static controls:Visual.BrightItemBackground}"></Setter>
+        <Setter Property="Icon" Value="Check"></Setter> 
+    </Style>
+    <Style x:Key="TextBoxSearch" TargetType="TextBox">
+        <Setter Property="FontSize" Value="14"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+    </Style>
+    <Style x:Key="LabelCaption" TargetType="Label">
+        <Setter Property="Foreground" Value="SteelBlue"></Setter>
+    </Style>
+    <Style x:Key="TextBlockCaption" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="SteelBlue"></Setter>
+    </Style>
+    <Style x:Key="TextBlockCaptionLight" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="White"></Setter>
+    </Style>
+    <Style x:Key="ButtonRemove" TargetType="{x:Type controls:ItemView}">
+        <Setter Property="Background" Value="Crimson"></Setter>
+        <Setter Property="Icon" Value="Delete"></Setter>
+    </Style>
+    <Style x:Key="ButtonCancel" TargetType="{x:Type controls:ItemView}">
+        <Setter Property="Background" Value="Crimson"></Setter>
+        <Setter Property="Icon" Value="Cancel"></Setter>
+    </Style>
+    <Style x:Key="LabelIfView" TargetType="Label">
+        <Setter Property="Background" Value="DarkSlateBlue"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+    </Style>
+    <Style x:Key="LabelWhileView" TargetType="Label">
+        <Setter Property="Background" Value="#FF4B628B"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+    </Style>
+</ResourceDictionary>

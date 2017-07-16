@@ -20,8 +20,8 @@
             <ColumnDefinition Width="300"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Margin="0,5,0,15" Orientation="Horizontal" Grid.ColumnSpan="3" Grid.Row="0"  VerticalAlignment="Center" HorizontalAlignment="Center">
-            <controls:IconView Icon="ListCreate" Height="40"></controls:IconView>
-            <TextBlock Foreground="SteelBlue" FontSize="20" TextAlignment="Center" VerticalAlignment="Center">
+            <controls:IconView Icon="ListCreate" Height="20"></controls:IconView>
+            <TextBlock Style="{StaticResource TextBlockCaption}" TextAlignment="Center" VerticalAlignment="Center">
                 Выберите тип создаваемого сценария
             </TextBlock>
         </StackPanel>
@@ -31,7 +31,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock Foreground="White" HorizontalAlignment="Center" FontSize="18">ОДИНОЧНОЕ ДЕЙСТВИЕ</TextBlock>
+            <TextBlock Style="{StaticResource TextBlockCaptionLight}" HorizontalAlignment="Center" >ОДИНОЧНОЕ ДЕЙСТВИЕ</TextBlock>
             <TextBlock Foreground="Gray" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="10">Позволяет создавать простые сценарии, не требующие сложной логики, такие как включение света или изменение уровня звука с помощью "плитки" в меню переключателей.</TextBlock>
             <controls:ItemView Click="btSingleActionScenario_Click" x:Name="btSingleActionScenario" Grid.Row="2" Margin="5" Icon="ListOne">Создать...</controls:ItemView>
         </Grid>
@@ -41,7 +41,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock Foreground="White" HorizontalAlignment="Center" FontSize="18">КОМПЛЕКСНЫЙ СЦЕНАРИЙ</TextBlock>
+            <TextBlock Style="{StaticResource TextBlockCaptionLight}" HorizontalAlignment="Center">КОМПЛЕКСНЫЙ СЦЕНАРИЙ</TextBlock>
             <TextBlock Foreground="Gray" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="10">Позволяет создавать сценарии со сложной логикой, в которых будут циклы, условия, проверки. Настраивается тип значения сценария (число, строка, переключатель, статус и т.д.). Активируется сценарий также, как и сценарий одиночного действия.</TextBlock>
             <controls:ItemView Click="btComplexScenario_Click" x:Name="btComplexScenario" Grid.Row="2" Margin="5" Icon="List">Создать...</controls:ItemView>
         </Grid>
@@ -51,7 +51,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock Foreground="White" HorizontalAlignment="Center" FontSize="18">УДАЛЕННЫЙ СЦЕНАРИЙ</TextBlock>
+            <TextBlock Style="{StaticResource TextBlockCaptionLight}" HorizontalAlignment="Center">УДАЛЕННЫЙ СЦЕНАРИЙ</TextBlock>
             <TextBlock Foreground="Gray" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="10">Удаленный сценарий позволяет запускать сценарий другого сервера, словно он был создан на локальной машине. Дальнейшее использование этого сценария в интерфейсе меню переключателей или в алгоритме комплексного сценария будет аналогично использованию других двух видов сценариев. Для создания сценария потребуется ввести URL сервиса Lazurite другой машины, логин, пароль и секретный ключ сервера.</TextBlock>
             <controls:ItemView Click="btRemoteScenario_Click" x:Name="btRemoteScenario" Grid.Row="2" Margin="5" Icon="NetworkServerConnecting">Создать...</controls:ItemView>
         </Grid>

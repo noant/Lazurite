@@ -22,14 +22,14 @@
                     <ColumnDefinition Width="51"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Margin="3" Grid.Column="0" Foreground="SteelBlue">Час</TextBlock>
+                <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Margin="3" Grid.Column="0" Style="{StaticResource TextBlockCaption}">Час</TextBlock>
                 <controls:EntryView x:Name="tbHour" Grid.Column="1"></controls:EntryView>
-                <TextBlock Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="SteelBlue" Margin="3" Grid.Column="0">Минута</TextBlock>
+                <TextBlock Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlockCaption}" Margin="3" Grid.Column="0">Минута</TextBlock>
                 <controls:EntryView Grid.Row="1" x:Name="tbMinute" Grid.Column="1"></controls:EntryView>
-                <TextBlock Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="SteelBlue" Margin="3" Grid.Column="0">Секунда</TextBlock>
+                <TextBlock Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlockCaption}" Margin="3" Grid.Column="0">Секунда</TextBlock>
                 <controls:EntryView Grid.Row="2" x:Name="tbSecond" Grid.Column="1"></controls:EntryView>
             </Grid>
-            <controls:ItemView Icon="Check" x:Name="itemViewApply" Height="30" Margin="5">Применить</controls:ItemView>
+            <controls:ItemView Style="{StaticResource ApplyButton}" x:Name="itemViewApply" Height="30" Margin="0,5,0,0">Применить</controls:ItemView>
         </StackPanel>
     </Grid>
 </UserControl>

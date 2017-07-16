@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lazurite.ActionsDomain.ValueTypes
 {
-    [HumanFriendlyName("ДатаВремя")]
+    [HumanFriendlyName("Дата и время")]
     public class DateTimeValueType: ValueTypeBase
     {
         public DateTimeValueType()

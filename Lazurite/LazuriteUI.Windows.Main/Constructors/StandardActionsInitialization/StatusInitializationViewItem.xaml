@@ -13,6 +13,6 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <controls:ItemView x:Name="itemView" Icon="NavigateNext"></controls:ItemView>
-        <controls:ItemView x:Name="itemViewRemove" ToolTip="Удалить строку" Grid.Column="1" Background="Crimson" Icon="Delete"></controls:ItemView>
+        <controls:ItemView x:Name="itemViewRemove" ToolTip="Удалить строку" Grid.Column="1" Style="{StaticResource ButtonRemove}"></controls:ItemView>
     </Grid>
 </UserControl>

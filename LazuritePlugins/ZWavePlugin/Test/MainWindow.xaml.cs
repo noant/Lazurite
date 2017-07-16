@@ -27,7 +27,8 @@ namespace Test
             InitializeComponent();
             var b = new ZWaveNodeValue();
             b.UserInitializeWith(null, false);
-            b.SetValue(null, "8");
+            b.SetValue(null, "8,2");
+            b.SetValue(null, "8.2");
             while (true)
             {
                 Thread.Sleep(1000);

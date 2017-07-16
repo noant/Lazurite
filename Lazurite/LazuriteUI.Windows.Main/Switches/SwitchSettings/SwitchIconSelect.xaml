@@ -19,12 +19,12 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <controls:IconView Width="40" Height="40" Icon="PageSearch"></controls:IconView>
-        <TextBox HorizontalContentAlignment="Left" VerticalContentAlignment="Center" TextChanged="tbSearch_TextChanged" FontSize="18" x:Name="tbSearch" Grid.Column="1"></TextBox>
+        <controls:IconView Width="20" Height="20" Icon="PageSearch"></controls:IconView>
+        <TextBox TextChanged="tbSearch_TextChanged" Style="{StaticResource TextBoxSearch}" x:Name="tbSearch" Grid.Column="1"></TextBox>
         <controls:WheelScroll Grid.Row="1" Grid.ColumnSpan="2">
             <StackPanel x:Name="stackPanel" Orientation="Vertical">                
             </StackPanel>
         </controls:WheelScroll>
-        <controls:ItemView Margin="5" Grid.Row="2" Grid.ColumnSpan="2" Icon="Check" Content="OK" Click="ItemView_Click"></controls:ItemView>
+        <controls:ItemView Margin="5" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource ApplyButton}" Content="OK" Click="ItemView_Click"></controls:ItemView>
     </Grid>
 </UserControl>

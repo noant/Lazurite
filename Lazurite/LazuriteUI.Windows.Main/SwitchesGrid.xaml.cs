@@ -201,7 +201,8 @@ namespace LazuriteUI.Windows.Main
                 control.MouseLeftButtonUp += ElementMouseRelease;
                 grid.Children.Add(control);
                 Rearrange();
-                SelectInternal(model);
+                if (this.SelectedModel?.Scenario.Id == model.Scenario.Id)
+                    SelectInternal(model);
             }
         }
 
@@ -214,7 +215,6 @@ namespace LazuriteUI.Windows.Main
             });
             if (@switch != null)
             {
-                BindSwitchSettings(@switch);
                 var model = ((ScenarioModel)@switch.DataContext);
                 if (model?.Scenario.Id != SelectedModel?.Scenario.Id || SelectedModel == null)
                 {
@@ -235,6 +235,7 @@ namespace LazuriteUI.Windows.Main
                         {
                             if (model != null)
                                 model.Checked = true;
+                            BindSwitchSettings(model);
                             SelectedModel = model;
                             SelectedModelChanged?.Invoke(model);
                         }
@@ -244,6 +245,7 @@ namespace LazuriteUI.Windows.Main
             {
                 if (model != null)
                     model.Checked = true;
+                BindSwitchSettings(model);
                 SelectedModel = model;
                 SelectedModelChanged?.Invoke(model);
             }
@@ -258,7 +260,6 @@ namespace LazuriteUI.Windows.Main
             });
             if (firstSwitch != null)
             {
-                BindSwitchSettings(firstSwitch);
                 var model = ((ScenarioModel)firstSwitch.DataContext);
                 SelectInternal(model);
             }
@@ -277,7 +278,6 @@ namespace LazuriteUI.Windows.Main
         {
             if (this.EditMode)
             {
-                BindSwitchSettings((UserControl)sender);
                 if (_draggableCurrent != sender)
                 {
                     _draggableCurrent = (UserControl)sender;
@@ -290,14 +290,14 @@ namespace LazuriteUI.Windows.Main
             }
         }
 
-        private void BindSwitchSettings(UserControl control)
+        private void BindSwitchSettings(ScenarioModel model)
         {
             foreach (UserControl userControl in grid.Children)
             {
-                if (userControl != control)
+                if (userControl.DataContext != model)
                     ((ScenarioModel)userControl.DataContext).Checked = false;
             }
-            switchSetting.DataContext = control.DataContext;
+            switchSetting.DataContext = model;
         }
 
         public void Rearrange()

@@ -9,23 +9,23 @@
              Background="{x:Static controls:Visual.Background}"
              Height="Auto"
              Width="400">
-    <Grid Margin="4">
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:ListItemsView SelectionMode="Single" x:Name="listItemsStatus"></controls:ListItemsView>
-        <Grid Grid.Row="1" x:Name="gridAdd">
+        <controls:ListItemsView SelectionMode="Single" Margin="5" x:Name="listItemsStatus"></controls:ListItemsView>
+        <Grid Grid.Row="1" x:Name="gridAdd" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBlock Foreground="SteelBlue" Margin="5,3,5,5" VerticalAlignment="Center">Новый статус:</TextBlock>
+            <TextBlock Style="{StaticResource TextBlockCaption}" Margin="5,3,5,5" VerticalAlignment="Center">Новый статус:</TextBlock>
             <controls:EntryView x:Name="tbNewStatus" Grid.Column="1"></controls:EntryView>
             <controls:ItemView x:Name="btAddNew" Grid.Column="2" Icon="Add" ToolTip="Добавить"></controls:ItemView>
         </Grid>
-        <controls:ItemView x:Name="btApply" Grid.Row="2" Icon="Check" Margin="0,4,0,0">Применить</controls:ItemView>
+        <controls:ItemView Style="{StaticResource ApplyButton}" x:Name="btApply" Grid.Row="2" Margin="5">Применить</controls:ItemView>
     </Grid>
 </UserControl>

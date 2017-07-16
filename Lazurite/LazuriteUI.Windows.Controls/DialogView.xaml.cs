@@ -80,7 +80,7 @@ namespace LazuriteUI.Windows.Controls
         {
             var mainWindow = Utils.GetMainWindow();
             var mousePosition = GetMousePosition();
-            var margin = new Thickness(mousePosition.X, mousePosition.Y - dockControl.ActualHeight / 2, 0, 0);
+            var margin = new Thickness(mousePosition.X, mousePosition.Y-20, 0, 0);
             if (margin.Top < 0)
                 margin.Top = 0;
             if (margin.Top + dockControl.ActualHeight > mainWindow.ActualHeight)

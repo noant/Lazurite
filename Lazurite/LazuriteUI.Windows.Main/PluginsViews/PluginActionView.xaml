@@ -8,8 +8,8 @@
              xmlns:switches="clr-namespace:LazuriteUI.Windows.Main.Switches"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Height="40">
+    <Grid Height="30">
         <controls:IconView HorizontalAlignment="Left" Height="30" Icon="{Binding Icon}"></controls:IconView>
-        <Label VerticalAlignment="Center" Content="{Binding Text}" HorizontalAlignment="Left" Margin="40,0,0,0" Foreground="LightSkyBlue"></Label>
+        <TextBlock Style="{StaticResource TextBlockCaptionLight}" VerticalAlignment="Center" Text="{Binding Text}" HorizontalAlignment="Left" Margin="40,0,0,0"></TextBlock>
     </Grid>
 </UserControl>

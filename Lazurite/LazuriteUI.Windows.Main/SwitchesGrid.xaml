@@ -32,7 +32,7 @@
             <Grid x:Name="switchSettingsHolder" Grid.Row="2" Margin="10" HorizontalAlignment="Center">
                 <switchesSettings:SwitchSetting x:Name="switchSetting" Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SwitchesGrid}}}"></switchesSettings:SwitchSetting>
             </Grid>
-            <TextBlock x:Name="tbEmpty" Foreground="SteelBlue" Grid.RowSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center">Сценарии пока не созданы...</TextBlock>
+            <TextBlock x:Name="tbEmpty" Style="{StaticResource TextBlockCaption}" Grid.RowSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center">Сценарии пока не созданы...</TextBlock>
         </Grid>
     </Grid>
 </UserControl>

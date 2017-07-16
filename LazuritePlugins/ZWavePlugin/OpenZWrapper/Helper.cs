@@ -25,7 +25,7 @@ namespace OpenZWrapper
                 case ZWValueID.ValueType.Byte:
                     return manager.SetValue(valueId, (byte)value);
                 case ZWValueID.ValueType.Decimal:
-                    return manager.SetValue(valueId, (float)value);
+                    return manager.SetValue(valueId, (float)(decimal)value);
                 case ZWValueID.ValueType.Int:
                     return manager.SetValue(valueId, (int)value);
                 case ZWValueID.ValueType.Short:

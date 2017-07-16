@@ -25,6 +25,6 @@
         <Grid x:Name="buttonsViewHolder" Grid.Row="1">
             <local:ScenarioConstructorButtonsView x:Name="buttonsView"></local:ScenarioConstructorButtonsView>
         </Grid>
-        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.RowSpan="2" x:Name="tbScenarioEmpty" Foreground="SteelBlue">Сценарий не выбран...</TextBlock>
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.RowSpan="2" x:Name="tbScenarioEmpty" Style="{StaticResource TextBlockCaption}">Сценарий не выбран...</TextBlock>
     </Grid>
 </UserControl>

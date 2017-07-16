@@ -8,13 +8,13 @@
              mc:Ignorable="d" 
              Width="300"
              Background="{x:Static controls:Visual.Background}"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <controls:EntryView Margin="4" Height="40" x:Name="tbText"></controls:EntryView>
-        <controls:ItemView Grid.Row="1" x:Name="btApply" Margin="4" Icon="Check">Применить</controls:ItemView>
+        <controls:ItemView Style="{StaticResource ApplyButton}" Grid.Row="1" x:Name="btApply" Margin="5">Применить</controls:ItemView>
     </Grid>
 </UserControl>

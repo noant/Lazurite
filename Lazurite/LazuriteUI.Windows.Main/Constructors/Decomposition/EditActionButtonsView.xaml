@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
         <controls:ItemView Height="40" Margin="1,0,1,0" VerticalAlignment="Center" Cursor="Hand" x:Name="btEdit" ToolTip="Редактировать параметры" Opacity="0.5" Background="Transparent" Icon="Edit"></controls:ItemView>
         <controls:ItemView Height="40" Margin="0" VerticalAlignment="Center" Cursor="Hand" x:Name="btChange" ToolTip="Изменить тип действия" Opacity="0.5" Background="Transparent" Grid.Column="1" Icon="Reset"></controls:ItemView>
-        <controls:ItemView Height="40" Margin="1,0,1,0" VerticalAlignment="Center" Cursor="Hand" x:Name="btRemove" ToolTip="Удалить строку" Opacity="0.3" Grid.Column="2" Background="#441111" Icon="Close"></controls:ItemView>
+        <controls:ItemView Height="40" Margin="1,0,1,0" VerticalAlignment="Center" Cursor="Hand" x:Name="btRemove" ToolTip="Удалить строку" Opacity="0.3" Grid.Column="2" Style="{StaticResource ButtonRemove}"></controls:ItemView>
         <controls:ItemView Height="40" Margin="0" VerticalAlignment="Center" Cursor="Hand" x:Name="btAddNew" Background="Transparent" Opacity="0.3" ToolTip="Добавить новую строку" Grid.Column="3" Icon="Add"></controls:ItemView>
     </Grid>
 </Grid>

@@ -20,12 +20,12 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="200"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBlock Margin="5" Foreground="SteelBlue" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">Минимум</TextBlock>
-        <TextBlock Margin="5" Foreground="SteelBlue" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center">Максимум</TextBlock>
-        <TextBlock Margin="5" Foreground="SteelBlue" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center">Значение</TextBlock>
+        <TextBlock Margin="5" Style="{StaticResource TextBlockCaption}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">Минимум</TextBlock>
+        <TextBlock Margin="5" Style="{StaticResource TextBlockCaption}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center">Максимум</TextBlock>
+        <TextBlock Margin="5" Style="{StaticResource TextBlockCaption}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center">Значение</TextBlock>
         <controls:EntryView Grid.Row="1" Grid.Column="1" x:Name="tbMin">0</controls:EntryView>
         <controls:EntryView Grid.Row="2" Grid.Column="1" x:Name="tbMax">100</controls:EntryView>
         <controls:EntryView Grid.Row="3" Grid.Column="1" x:Name="tbVal">0</controls:EntryView>
-        <controls:ItemView Width="265" HorizontalAlignment="Stretch" Grid.Row="4" Grid.ColumnSpan="2" Margin="5" Icon="Check" x:Name="btApply">Применить</controls:ItemView>
+        <controls:ItemView Style="{StaticResource ApplyButton}" Width="265" HorizontalAlignment="Stretch" Grid.Row="4" Grid.ColumnSpan="2" Margin="5" x:Name="btApply">Применить</controls:ItemView>
     </Grid>
 </UserControl>
