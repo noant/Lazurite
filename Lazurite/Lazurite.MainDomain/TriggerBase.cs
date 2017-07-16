@@ -18,7 +18,12 @@ namespace Lazurite.MainDomain
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private string _id = Guid.NewGuid().ToString();
         
-        public ValueTypeBase ValueType { get; set; } = new ButtonValueType();
+        public ValueTypeBase ValueType
+        {
+            get {
+                return _scenario?.ValueType ?? new ButtonValueType();
+            }
+        }
 
         /// <summary>
         /// Trigger category

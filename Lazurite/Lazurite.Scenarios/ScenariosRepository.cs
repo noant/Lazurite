@@ -79,13 +79,23 @@ namespace Lazurite.Scenarios
         public override void RemoveScenario(ScenarioBase scenario)
         {
             var linkedScenarios = _scenarios.Except(new[] { scenario })
-                .Where(x => x.GetAllActionsFlat()
-                    .Any(z => (z is ICoreAction) && ((ICoreAction)z).TargetScenarioId.Equals(scenario.Id))).ToArray();
+                                    .Where(x => x.GetAllActionsFlat()
+                                        .Any(z => (z is ICoreAction) && ((ICoreAction)z).TargetScenarioId.Equals(scenario.Id))).ToArray();
 
             if (linkedScenarios.Any())
             {
                 throw new InvalidOperationException("Cannot remove scenario, because other scenarios has reference on it: " 
                     + linkedScenarios.Select(x => x.Name).Aggregate((z, y) => z + "; " + y));
+            }
+
+            var linkedTriggers = _triggers
+                                    .Where(x => x.TargetScenarioId.Equals(scenario.Id) || x.GetAllActionsFlat()
+                                        .Any(z => (z is ICoreAction) && ((ICoreAction)z).TargetScenarioId.Equals(scenario.Id))).ToArray();
+
+            if (linkedScenarios.Any())
+            {
+                throw new InvalidOperationException("Cannot remove scenario, because triggers has reference on it: "
+                    + linkedTriggers.Select(x => x.Name).Aggregate((z, y) => z + "; " + y));
             }
 
             scenario.TryCancelAll();

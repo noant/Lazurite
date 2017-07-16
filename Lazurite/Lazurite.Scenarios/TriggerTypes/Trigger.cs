@@ -64,7 +64,9 @@ namespace Lazurite.Scenarios.TriggerTypes
                 _lastSubscribe = (s) =>
                 {
                     var action = TargetAction;
-                    var executionContext = new ExecutionContext(this, s.GetCurrentValue(), new OutputChangedDelegates(), cancellationToken);
+                    var outputChanged = new OutputChangedDelegates();
+                    outputChanged.Add((value) => scenario.SetCurrentValueInternal(value));
+                    var executionContext = new ExecutionContext(this, s.GetCurrentValue(), outputChanged, cancellationToken);
                     Task.Factory.StartNew(() => action.SetValue(executionContext, string.Empty));
                 };
                 scenario.SetOnStateChanged(_lastSubscribe);

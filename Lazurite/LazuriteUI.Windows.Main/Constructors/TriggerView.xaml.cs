@@ -16,13 +16,22 @@ using System.Windows.Shapes;
 namespace LazuriteUI.Windows.Main.Constructors
 {
     /// <summary>
-    /// Логика взаимодействия для ScenarioParametersView.xaml
+    /// Логика взаимодействия для TriggerView.xaml
     /// </summary>
-    public partial class ScenarioParametersView : UserControl
+    public partial class TriggerView : UserControl, ITriggerConstructorView
     {
-        public ScenarioParametersView()
+        public TriggerView(Lazurite.MainDomain.TriggerBase trigger)
         {
             InitializeComponent();
         }
+
+        public void Revert(Lazurite.MainDomain.TriggerBase trigger)
+        {
+
+        }
+
+        public event Action Modified;
+        public event Action Failed;
+        public event Action Succeed;
     }
 }

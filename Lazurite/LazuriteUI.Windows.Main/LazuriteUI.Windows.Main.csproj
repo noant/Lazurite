@@ -158,6 +158,7 @@
     </Compile>
     <Compile Include="Constructors\Decomposition\IConstructorElement.cs" />
     <Compile Include="Constructors\FakeScenarioModel.cs" />
+    <Compile Include="Constructors\ITriggerConstructorView.cs" />
     <Compile Include="Constructors\IScenarioConstructorView.cs" />
     <Compile Include="Constructors\NewCompositeScenarioSelectionView.xaml.cs">
       <DependentUpon>NewCompositeScenarioSelectionView.xaml</DependentUpon>
@@ -171,11 +172,14 @@
     <Compile Include="Constructors\RemoteScenarioView.xaml.cs">
       <DependentUpon>RemoteScenarioView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\TriggerConstructorView.xaml.cs">
+      <DependentUpon>TriggerConstructorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\TriggerConstructorButtonsView.xaml.cs">
+      <DependentUpon>TriggerConstructorButtonsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\ScenarioConstructorButtonsView.xaml.cs">
       <DependentUpon>ScenarioConstructorButtonsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Constructors\ScenarioParametersView.xaml.cs">
-      <DependentUpon>ScenarioParametersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Constructors\ScenariosConstructorsResolverView.xaml.cs">
       <DependentUpon>ScenariosConstructorsResolverView.xaml</DependentUpon>
@@ -208,6 +212,9 @@
     </Compile>
     <Compile Include="Constructors\StandardActionsInitialization\ToggleInitializationView.xaml.cs">
       <DependentUpon>ToggleInitializationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\TriggerView.xaml.cs">
+      <DependentUpon>TriggerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="IInitializable.cs" />
     <Compile Include="IViewTypeResolverItem.cs" />
@@ -414,11 +421,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Constructors\ScenarioConstructorButtonsView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Constructors\TriggerConstructorView.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Constructors\ScenarioParametersView.xaml">
+    <Page Include="Constructors\TriggerConstructorButtonsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Constructors\ScenarioConstructorButtonsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -459,6 +470,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Constructors\StandardActionsInitialization\ToggleInitializationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\TriggerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
