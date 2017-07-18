@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.TriggersConstructionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main"
+             xmlns:constructors="clr-namespace:LazuriteUI.Windows.Main.Constructors"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <constructors:TriggerConstructorView Grid.RowSpan="2" x:Name="constructorsResolver"></constructors:TriggerConstructorView>
+        <local:TriggersListView x:Name="triggersListView" Grid.Column="1"></local:TriggersListView>
+        <controls:ListItemsView MinWidth="250" Grid.Row="1" SelectionMode="None" Grid.Column="1">
+            <controls:ItemView x:Name="btCreateTrigger" Margin="5,2,5,2" Click="btCreateScenario_Click" Icon="ListCreate">Добавить новый триггер</controls:ItemView>
+            <controls:ItemView x:Name="btDeleteTrigger" Margin="5,2,5,2" Click="btDeleteScenario_Click" Style="{StaticResource ButtonRemove}">Удалить выбранный триггер</controls:ItemView>
+        </controls:ListItemsView>
+    </Grid>
+</UserControl>

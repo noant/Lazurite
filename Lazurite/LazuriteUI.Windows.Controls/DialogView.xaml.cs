@@ -78,21 +78,17 @@ namespace LazuriteUI.Windows.Controls
         
         private void RefreshPosition()
         {
-            var mainWindow = Utils.GetMainWindow();
-            var mousePosition = GetMousePosition();
-            var margin = new Thickness(mousePosition.X, mousePosition.Y-20, 0, 0);
+            var mainWindowPanel = Utils.GetMainWindowPanel();
+            var mainWindon = Utils.GetMainWindow();
+            var mousePosition = mainWindowPanel.PointFromScreen(Utils.GetMousePosition());
+            var margin = new Thickness(mousePosition.X, mousePosition.Y, 0, 0);
             if (margin.Top < 0)
                 margin.Top = 0;
-            if (margin.Top + dockControl.ActualHeight > mainWindow.ActualHeight)
-                dockControl.Height = mainWindow.ActualHeight - margin.Top;
-
-            dockControl.Margin = new Thickness(margin.Left - ((Window)Utils.GetMainWindowPanel().Parent).Left, margin.Top - ((Window)Utils.GetMainWindowPanel().Parent).Top, 0, 0);
-        }
-
-        public System.Windows.Point GetMousePosition()
-        {
-            System.Drawing.Point point = System.Windows.Forms.Control.MousePosition;
-            return new System.Windows.Point(point.X, point.Y);
+            dockControl.Margin = 
+                new Thickness(
+                    margin.Left, 
+                    margin.Top - Utils.GetWindowTopBorderWithCaption(mainWindon), 
+                    0, 0);
         }
 
         public void Show()

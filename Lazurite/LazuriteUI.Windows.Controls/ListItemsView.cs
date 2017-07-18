@@ -23,6 +23,7 @@ namespace LazuriteUI.Windows.Controls
     {
         public static readonly DependencyProperty SelectionModeProperty;
         public static readonly DependencyProperty SelectedItemProperty;
+        private bool _lockSelectionChangedEvent = false;
         
         static ListItemsView()
         {
@@ -70,16 +71,20 @@ namespace LazuriteUI.Windows.Controls
                     item.Selectable = SelectionMode != ListViewItemsSelectionMode.None;
                     item.SelectionChanged += (o, e) =>
                     {
+                        if (_lockSelectionChangedEvent)
+                            return;
+
                         if (item.Selected)
                             this.SelectedItem = item;
+
+                        _lockSelectionChangedEvent = true;
                         if (this.SelectionMode == ListViewItemsSelectionMode.Single && item.Selected)
                         {
                             foreach (var child in this.Children.Cast<Control>())
-                            {
                                 if (child is ISelectable && item != child)
                                     ((ISelectable)child).Selected = false;
-                            }
                         }
+                        _lockSelectionChangedEvent = false;
                         RaiseSelectionChanged();
                     };
                     base.OnVisualChildrenChanged(visualAdded, visualRemoved);

@@ -75,6 +75,7 @@ namespace LazuriteUI.Windows.Main
         private void SwitchesGrid_SelectedModelChanged(Switches.ScenarioModel obj)
         {
             this.constructorsResolver.SetScenario(this.switchesGrid.SelectedModel?.Scenario);
+            btDeleteScenario.Visibility = this.switchesGrid.SelectedModel != null ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void btDeleteScenario_Click(object sender, RoutedEventArgs e)

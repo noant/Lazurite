@@ -47,7 +47,10 @@ namespace Lazurite.Scenarios
 
             //initialize triggers
             foreach (var trigger in _triggers)
+            {
                 trigger.Initialize(this);
+                trigger.AfterInitialize();
+            }
         }
 
         public override ScenarioBase[] Scenarios
@@ -89,7 +92,7 @@ namespace Lazurite.Scenarios
             }
 
             var linkedTriggers = _triggers
-                                    .Where(x => x.TargetScenarioId.Equals(scenario.Id) || x.GetAllActionsFlat()
+                                    .Where(x => (x.TargetScenarioId != null && x.TargetScenarioId.Equals(scenario.Id)) || x.GetAllActionsFlat()
                                         .Any(z => (z is ICoreAction) && ((ICoreAction)z).TargetScenarioId.Equals(scenario.Id))).ToArray();
 
             if (linkedScenarios.Any())
@@ -135,6 +138,9 @@ namespace Lazurite.Scenarios
         public override void SaveTrigger(TriggerBase trigger)
         {
             _savior.Set(trigger.Id, trigger);
+            var index = _triggers.IndexOf(_triggers.FirstOrDefault(x => x.Id.Equals(trigger.Id)));
+            _triggers.RemoveAll(x => x.Id.Equals(trigger.Id));
+            _triggers.Insert(index, trigger);
         }
     }
 }

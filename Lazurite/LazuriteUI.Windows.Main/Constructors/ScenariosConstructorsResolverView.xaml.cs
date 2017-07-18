@@ -38,6 +38,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             InitializeComponent();
             this.buttonsView.ApplyClicked += () => Apply();
             this.buttonsView.ResetClicked += () => Revert();
+            buttonsView.Modified += () => IsModified = true;
         }
 
         public void SetScenario(ScenarioBase scenario)
@@ -58,7 +59,6 @@ namespace LazuriteUI.Windows.Main.Constructors
                 else if (scenario is CompositeScenario)
                     this.contentPresenter.Content = _constructorView = new CompositeScenarioView((CompositeScenario)_clonedScenario);
                 buttonsView.SetScenario(_clonedScenario);
-                buttonsView.Modified += () => IsModified = true;
                 _constructorView.Modified += () => Modified?.Invoke();
                 _constructorView.Modified += () => buttonsView.ScenarioModified();
                 _constructorView.Modified += () => IsModified = true;

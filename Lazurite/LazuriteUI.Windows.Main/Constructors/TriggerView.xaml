@@ -4,9 +4,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             xmlns:decomposition="clr-namespace:LazuriteUI.Windows.Main.Constructors.Decomposition"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Style="{StaticResource TextBlockCaption}" Margin="8" VerticalAlignment="Center" HorizontalAlignment="Center">Триггер запускается тогда, когда значение сценария изменяется.</TextBlock>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
+            <TextBlock VerticalAlignment="Center" Style="{StaticResource TextBlockCaption}">
+                Выбранный сценарий:
+            </TextBlock>
+            <controls:EntryView x:Name="tbSelectedScenario" IsReadOnly="True" Margin="5,2,0,0">[Сценарий не выбран]</controls:EntryView>
+            <controls:ItemView x:Name="btSelectScenario" Margin="5,0,0,0" Icon="ListSelect" ToolTip="Выбрать сценарий"></controls:ItemView>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Margin="4">
+            <StackPanel.LayoutTransform>
+                <ScaleTransform x:Name="scale" CenterX="0" CenterY="0"></ScaleTransform>
+            </StackPanel.LayoutTransform>
+            <decomposition:EditActionButtonsView IsEnabled="False" x:Name="buttons" EditVisible="False" Grid.Row="2" ChangeVisible="False" RemoveVisible="False"></decomposition:EditActionButtonsView>
+            <decomposition:ComplexActionView x:Name="complexActionView" Grid.Row="3"></decomposition:ComplexActionView>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4,0,4,2">
+            <controls:ItemView IconHorizontalAligment="Center" x:Name="btScalePlus" Icon="Add"></controls:ItemView>
+            <controls:IconView Opacity="0.5" Background="Black" Width="30" Icon="Magnify"></controls:IconView>
+            <controls:ItemView IconHorizontalAligment="Center" x:Name="btScaleMinus" Icon="Minus"></controls:ItemView>
+        </StackPanel>
     </Grid>
 </UserControl>

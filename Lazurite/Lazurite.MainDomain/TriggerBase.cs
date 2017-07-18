@@ -16,6 +16,7 @@ namespace Lazurite.MainDomain
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private CancellationToken _previousCancellationToken;
         private string _id = Guid.NewGuid().ToString();
         
         public ValueTypeBase ValueType
@@ -55,7 +56,7 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Trigger body
         /// </summary>
-        public IAction TargetAction { get; set; }
+        public virtual IAction TargetAction { get; set; }
         
         /// <summary>
         /// Disable trigger executing
@@ -66,7 +67,7 @@ namespace Lazurite.MainDomain
             Enabled = false;
         }
 
-        public bool Enabled { get; set; }
+        public bool Enabled { get; set; } = true;
 
         private ScenarioBase _scenario;
 
@@ -91,11 +92,10 @@ namespace Lazurite.MainDomain
         /// </summary>
         /// <returns></returns>
         public abstract IAction[] GetAllActionsFlat();
-
-        /// <summary>
-        /// Runs on load
-        /// </summary>
+        
         public abstract void Initialize(ScenariosRepositoryBase scenariosRepository);
+
+        public abstract void AfterInitialize();
 
         /// <summary>
         /// Begin execute

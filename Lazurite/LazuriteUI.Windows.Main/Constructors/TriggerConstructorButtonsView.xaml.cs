@@ -53,6 +53,11 @@ namespace LazuriteUI.Windows.Main.Constructors
                 _trigger.Name = tbName.Text;
                 TriggerModified();
             };
+
+            btEnabled.SelectionChanged += (o, e) => {
+                _trigger.Enabled = btEnabled.Selected;
+                TriggerModified();
+            };
         }
 
         event Action ITriggerConstructorView.Failed
@@ -83,6 +88,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         private void Refresh()
         {
             tbName.Text = _trigger.Name;
+            btEnabled.Selected = _trigger.Enabled;
             btCancel.IsEnabled = btApply.IsEnabled = false;
         }
 

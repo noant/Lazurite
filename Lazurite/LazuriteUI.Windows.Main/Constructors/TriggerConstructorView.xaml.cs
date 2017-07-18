@@ -38,6 +38,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             InitializeComponent();
             this.buttonsView.ApplyClicked += () => Apply();
             this.buttonsView.ResetClicked += () => Revert();
+            buttonsView.Modified += () => IsModified = true;
         }
 
         public void SetTrigger(Lazurite.MainDomain.TriggerBase trigger)
@@ -51,14 +52,14 @@ namespace LazuriteUI.Windows.Main.Constructors
                 _originalTrigger = trigger;
                 _clonedTrigger = (Lazurite.MainDomain.TriggerBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalTrigger);
                 _clonedTrigger.Initialize(_repository);
-                this.contentPresenter.Content  = new TriggerView(_clonedTrigger);
                 buttonsView.SetTrigger(_clonedTrigger);
-                buttonsView.Modified += () => IsModified = true;
+                _constructorView = new TriggerView(_clonedTrigger);
                 _constructorView.Modified += () => Modified?.Invoke();
                 _constructorView.Modified += () => buttonsView.TriggerModified();
                 _constructorView.Modified += () => IsModified = true;
                 _constructorView.Failed += () => buttonsView.Failed();
                 _constructorView.Succeed += () => buttonsView.Success();
+                this.contentPresenter.Content = _constructorView;
                 EmptyTriggerModeOff();
             }
             else
@@ -98,6 +99,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             _originalTrigger.Stop();
             _repository.SaveTrigger(_clonedTrigger);
             _clonedTrigger.Initialize(_repository);
+            _clonedTrigger.AfterInitialize();
             SetTrigger(_clonedTrigger);
             Applied?.Invoke();
             IsModified = false;

@@ -11,6 +11,8 @@ using Lazurite.CoreActions;
 using Lazurite.Scenarios.ScenarioTypes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
+using Lazurite.CoreActions.ContextInitialization;
+using Lazurite.CoreActions.CoreActions;
 
 namespace Lazurite.Scenarios.TriggerTypes
 {
@@ -19,6 +21,12 @@ namespace Lazurite.Scenarios.TriggerTypes
     {
         private Action<ScenarioBase> _lastSubscribe;
         private ISystemUtils _systemUtils = Singleton.Resolve<ISystemUtils>();
+
+        public override IAction TargetAction
+        {
+            get;
+            set;
+        } = new ComplexAction();
 
         public override IAction[] GetAllActionsFlat()
         {
@@ -34,9 +42,22 @@ namespace Lazurite.Scenarios.TriggerTypes
 
         public override void Initialize(ScenariosRepositoryBase scenariosRepository)
         {
-            foreach (var action in GetAllActionsFlat())
-                action.Initialize();
-            SetScenario(scenariosRepository.Scenarios.Single(x=>x.Id.Equals(this.TargetScenarioId)));
+            SetScenario(scenariosRepository.Scenarios.FirstOrDefault(x=>x.Id.Equals(this.TargetScenarioId)));
+            foreach (var action in ((ComplexAction)this.TargetAction).GetAllActionsFlat())
+            {
+                if (action != null)
+                {
+                    var coreAction = action as ICoreAction;
+                    coreAction?.SetTargetScenario(scenariosRepository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
+                    var initializable = action as IContextInitializable;
+                    initializable?.Initialize(this);
+                    action.Initialize();
+                }
+            }
+        }
+
+        public override void AfterInitialize()
+        {
             if (Enabled)
                 Run();
             else
@@ -47,6 +68,9 @@ namespace Lazurite.Scenarios.TriggerTypes
         {
             var scenario = GetScenario();
 
+            if (scenario == null)
+                return;
+
             //удаляем старую подписку, если имеется
             if (_lastSubscribe != null)
                 scenario.RemoveOnStateChanged(_lastSubscribe);
@@ -55,10 +79,11 @@ namespace Lazurite.Scenarios.TriggerTypes
             var executeBySubscription = true;
 
             //если сценарий это одиночное действие и нельзя подписаться на изменение целевого действия
-            //то не выполняем по подписке, а выполняем просто черех цикл 
+            //то не выполняем по подписке, а выполняем просто через цикл 
             if (scenario is SingleActionScenario && !((SingleActionScenario)scenario).ActionHolder.Action.IsSupportsEvent)
                 executeBySubscription = false;
 
+            var contexCancellationTokenSource = new CancellationTokenSource();
             if (executeBySubscription)
             {
                 _lastSubscribe = (s) =>
@@ -66,7 +91,9 @@ namespace Lazurite.Scenarios.TriggerTypes
                     var action = TargetAction;
                     var outputChanged = new OutputChangedDelegates();
                     outputChanged.Add((value) => scenario.SetCurrentValueInternal(value));
-                    var executionContext = new ExecutionContext(this, s.GetCurrentValue(), outputChanged, cancellationToken);
+                    contexCancellationTokenSource.Cancel();
+                    contexCancellationTokenSource = new CancellationTokenSource();
+                    var executionContext = new ExecutionContext(this, s.GetCurrentValue(), outputChanged, contexCancellationTokenSource.Token);
                     Task.Factory.StartNew(() => action.SetValue(executionContext, string.Empty));
                 };
                 scenario.SetOnStateChanged(_lastSubscribe);
@@ -80,12 +107,15 @@ namespace Lazurite.Scenarios.TriggerTypes
                     if (!lastVal.Equals(curVal))
                     {
                         lastVal = curVal;
-                        var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), cancellationToken);
+                        contexCancellationTokenSource.Cancel();
+                        contexCancellationTokenSource = new CancellationTokenSource();
+                        var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), contexCancellationTokenSource.Token);
                         Task.Factory.StartNew(() => TargetAction.SetValue(executionContext, string.Empty));
                     }
                     _systemUtils.Sleep(300, cancellationToken);
                 }
             }
+            cancellationToken.Register(() => contexCancellationTokenSource.Cancel());
         }
     }
 }

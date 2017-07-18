@@ -248,6 +248,9 @@
     <Compile Include="ScenariosConstructionView.xaml.cs">
       <DependentUpon>ScenariosConstructionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TriggersConstructionView.xaml.cs">
+      <DependentUpon>TriggersConstructionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\SelectCoreActionView.xaml.cs">
       <DependentUpon>SelectCoreActionView.xaml</DependentUpon>
     </Compile>
@@ -312,6 +315,9 @@
     </Compile>
     <Compile Include="TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TriggersListView.xaml.cs">
+      <DependentUpon>TriggersListView.xaml</DependentUpon>
     </Compile>
     <Page Include="Common\CheckPanel.xaml">
       <SubType>Designer</SubType>
@@ -532,6 +538,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ScenariosConstructionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TriggersConstructionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -600,6 +610,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TriggersListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
