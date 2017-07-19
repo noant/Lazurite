@@ -12448,7 +12448,7 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:ATTR name="#Specializations" type="integer">2</XPD:ATTR>
 <XPD:REF name="Specializations[0]">vbHbMzdnp0+4JVs5lANdgwAA</XPD:REF>
 <XPD:REF name="Specializations[1]">v1G6BgP4jUW9Vi5ZUn7iZwAA</XPD:REF>
-<XPD:ATTR name="#Operations" type="integer">10</XPD:ATTR>
+<XPD:ATTR name="#Operations" type="integer">11</XPD:ATTR>
 <XPD:OBJ name="Operations[0]" type="UMLOperation" guid="ooQMOytoV0i1EDpmtYvP6AAA">
 <XPD:ATTR name="Name" type="string">GetScenariosInfo</XPD:ATTR>
 <XPD:REF name="Owner">qsciA6ceP0+tBIr4omBkIAAA</XPD:REF>
@@ -12612,6 +12612,21 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:ATTR name="Name" type="string">visualSettings</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">a2WghVZTy0aqbRSeveBTcgAA</XPD:REF>
 <XPD:REF name="Type_">Mxff9X4tkEi37yzdmsvgfAAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[10]" type="UMLOperation" guid="cXbXcOciyE6ceJbMFdAD8wAA">
+<XPD:ATTR name="Name" type="string">SyncAddictionalData</XPD:ATTR>
+<XPD:REF name="Owner">qsciA6ceP0+tBIr4omBkIAAA</XPD:REF>
+<XPD:ATTR name="#Parameters" type="integer">2</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="n2G6FrHiX0acHwiey6RbZQAA">
+<XPD:ATTR name="DirectionKind" type="UMLParameterDirectionKind">pdkReturn</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">string[]</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">cXbXcOciyE6ceJbMFdAD8wAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="LdPeHYyHqkSTjn5xeJEqKwAA">
+<XPD:ATTR name="Name" type="string">data</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">string[]</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">cXbXcOciyE6ceJbMFdAD8wAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:ATTR name="#TypedFeatures" type="integer">1</XPD:ATTR>
