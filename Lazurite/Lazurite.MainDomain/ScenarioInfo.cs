@@ -32,7 +32,7 @@ namespace Lazurite.MainDomain
             get {
                 return _currentValue;
             }
-            set{
+            set {
                 _currentValue = value;
                 ValueChanged?.Invoke(this);
             }
@@ -43,6 +43,9 @@ namespace Lazurite.MainDomain
 
         [DataMember]
         public UserVisualSettings VisualSettings { get; set; }
+
+        [DataMember]
+        public bool OnlyGetValue { get; set; }
 
         public event Action<ScenarioInfo> ValueChanged;
     }

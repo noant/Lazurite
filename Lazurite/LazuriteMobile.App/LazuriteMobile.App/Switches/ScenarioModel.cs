@@ -79,6 +79,7 @@ namespace LazuriteMobile.App.Switches
             OnPropertyChanged(nameof(Icon2));
             OnPropertyChanged(nameof(ScenarioName));
             OnPropertyChanged(nameof(ScenarioValue));
+            OnPropertyChanged(nameof(AllowClick));
         }
 
         public string Icon1
@@ -104,6 +105,14 @@ namespace LazuriteMobile.App.Switches
             {
                 VisualSettings.AddictionalData[1] = value;
                 OnPropertyChanged(nameof(Icon2));
+            }
+        }
+
+        public bool AllowClick
+        {
+            get
+            {
+                return !Scenario.OnlyGetValue;
             }
         }
 
@@ -143,21 +152,7 @@ namespace LazuriteMobile.App.Switches
                 return double.Parse((Scenario.ValueType as FloatValueType)?.AcceptedValues.Last());
             }
         }
-
-
-        public bool EditMode
-        {
-            get
-            {
-                return _editMode;
-            }
-            set
-            {
-                _editMode = value;
-                OnPropertyChanged(nameof(EditMode));
-            }
-        }
-
+                
         public bool Checked
         {
             get

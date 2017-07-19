@@ -10,6 +10,7 @@
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     BackgroundColor="#1D191D"
     HorizontalOptions="Start"
+    IsEnabled="{Binding AllowClick}"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches">
     <Grid.Resources>
         <ResourceDictionary>

@@ -9,6 +9,7 @@
              Background="{x:Static controls:Visual.BackgroundLazurite}"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              Height="110" Width="110"
+             IsEnabled="{Binding AllowClick}"
              d:DesignHeight="110" d:DesignWidth="110">
     <Grid >
         <Grid.Resources>

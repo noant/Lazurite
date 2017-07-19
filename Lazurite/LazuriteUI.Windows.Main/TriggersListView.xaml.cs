@@ -59,11 +59,7 @@ namespace LazuriteUI.Windows.Main
             foreach (var trigger in _repository.Triggers)
                 last = AddInternal(trigger);
             if (last != null)
-            {
-                tbTriggersEmpty.Visibility = Visibility.Collapsed;
                 last.Selected = true;
-            }
-            else tbTriggersEmpty.Visibility = Visibility.Visible;
         }
 
         public void Refresh(Lazurite.MainDomain.TriggerBase trigger)
@@ -91,6 +87,7 @@ namespace LazuriteUI.Windows.Main
             itemView.Tag = trigger;
             itemView.Margin = new Thickness(0, 1, 0, 0);
             itemsView.Children.Add(itemView);
+            tbTriggersEmpty.Visibility = Visibility.Collapsed;
             return itemView;
         }
 
@@ -108,6 +105,7 @@ namespace LazuriteUI.Windows.Main
             {
                 this.SelectedTrigger = null;
                 this.SelectionChanged?.Invoke(null);
+                tbTriggersEmpty.Visibility = Visibility.Collapsed;
             }
         }
 

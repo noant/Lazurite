@@ -23,6 +23,7 @@ namespace LazuriteUI.Windows.Main.Switches
             });
             OnPropertyChanged(nameof(Icon1));
             OnPropertyChanged(nameof(Icon2));
+            OnPropertyChanged(nameof(AllowClick));
         }
 
         public ScenarioModel() : this(null, null) { }
@@ -51,6 +52,17 @@ namespace LazuriteUI.Windows.Main.Switches
             OnPropertyChanged(nameof(Min));
             OnPropertyChanged(nameof(Icon1));
             OnPropertyChanged(nameof(Icon2));
+            OnPropertyChanged(nameof(AllowClick));
+        }
+        
+        public bool AllowClick
+        {
+            get
+            {
+                if (EditMode)
+                    return true;
+                else return !Scenario.OnlyGetValue;
+            }
         }
 
         public string Icon1
@@ -197,6 +209,7 @@ namespace LazuriteUI.Windows.Main.Switches
             {
                 _editMode = value;
                 OnPropertyChanged(nameof(EditMode));
+                OnPropertyChanged(nameof(AllowClick));
             }
         }
 

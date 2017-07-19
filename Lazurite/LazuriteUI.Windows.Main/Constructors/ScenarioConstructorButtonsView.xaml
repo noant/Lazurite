@@ -11,6 +11,7 @@
         <TextBlock Style="{StaticResource TextBlockCaption}" VerticalAlignment="Center" Margin="0,0,3,0">Имя сценария:</TextBlock>
         <controls:EntryView x:Name="tbName" Margin="4,4,4,0"></controls:EntryView>
         <controls:ItemView Background="#997700" x:Name="btSecurity" Width="160" Margin="4,2,2,2" Icon="Shield">Безопасность</controls:ItemView>
+        <controls:ItemView x:Name="btOnlyGetValue" Width="160" Selectable="True" Margin="4,2,2,2" Icon="CursorHand" ToolTip="Если выбрано значение 'Не изменяемый', то изменить значение сценария будет невозможно. Обычно выставляется для таких параметров, как температура, давление и других различных датчиков. Подразумевается, что другие сценарии будут использовать этот сценарий для получения значений.\r\nПользователям будет отображена плитка, которую невозможно будет редактировать">Не изменяемый</controls:ItemView>
         <controls:ItemView x:Name="btApply" Width="230" Margin="4,2,2,2" Icon="Save">Сохранить изменения</controls:ItemView>
         <controls:ItemView Style="{StaticResource ButtonCancel}" x:Name="btCancel" Margin="4,2,4,2" ToolTip="Сбросить изменения"></controls:ItemView>
     </StackPanel>

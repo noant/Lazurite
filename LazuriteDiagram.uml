@@ -3141,7 +3141,7 @@ in base64 text
 <XPD:ATTR name="Left" type="integer">1860</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">100</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">494</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">342</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">355</XPD:ATTR>
 <XPD:REF name="Model">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="IS9wRLU0YE2tv+EKTEj5NgAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="fL1lH3MYb0Gabz1EzTpOeAAA">
@@ -6630,7 +6630,7 @@ VisualCore
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="LineStyle" type="LineStyleKind">lsRectilinear</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">2842,1012;2842,1000;2624,1000;2624,964;2604,964</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">2842,1012;2842,1000;2624,1000;2624,972;2604,972</XPD:ATTR>
 <XPD:REF name="Model">bOj3fIALtkK8EZX2ElY2VQAA</XPD:REF>
 <XPD:REF name="Head">+ZdKsNV6jUKeQ0iLDAhc/wAA</XPD:REF>
 <XPD:REF name="Tail">mDWIn04N+0+eVYqmjwuqKAAA</XPD:REF>
@@ -9160,7 +9160,7 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="TypedParameters[4]">0KArSO84YUGlZnxdmRvXKwAA</XPD:REF>
 <XPD:ATTR name="#Associations" type="integer">1</XPD:ATTR>
 <XPD:REF name="Associations[0]">nNRvsztfgkmtUBl4L5D2dgAA</XPD:REF>
-<XPD:ATTR name="#Attributes" type="integer">7</XPD:ATTR>
+<XPD:ATTR name="#Attributes" type="integer">8</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="rEKt3YiKa0yHaYp4VDjFhQAA">
 <XPD:ATTR name="Name" type="string">Id</XPD:ATTR>
 <XPD:ATTR name="StereotypeName" type="string">guid</XPD:ATTR>
@@ -9197,6 +9197,11 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:OBJ name="Attributes[6]" type="UMLAttribute" guid="DyBnUaAUHkWhL0BwWHDa5QAA">
 <XPD:ATTR name="Name" type="string">LastChange</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">DateTime</XPD:ATTR>
+<XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Attributes[7]" type="UMLAttribute" guid="kP7jXx4l8kqjiXGexmVXYwAA">
+<XPD:ATTR name="Name" type="string">OnlyGetValue</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">bool</XPD:ATTR>
 <XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>

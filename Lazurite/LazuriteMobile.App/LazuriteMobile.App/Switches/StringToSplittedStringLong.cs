@@ -12,6 +12,8 @@ namespace LazuriteMobile.App.Switches
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+                return string.Empty;
             var str = value.ToString();
             if (str.Length > 55)
                 str = str.Substring(0, 53) + "...";

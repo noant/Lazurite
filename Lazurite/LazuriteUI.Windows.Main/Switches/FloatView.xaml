@@ -8,6 +8,7 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
              Height="110" Width="110"
+             IsEnabled="{Binding AllowClick}"
              Background="{x:Static controls:Visual.BackgroundLazurite}"
              d:DesignHeight="110" d:DesignWidth="110">
     <Grid>

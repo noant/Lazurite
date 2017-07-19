@@ -13,34 +13,10 @@ namespace LazuriteMobile.App
 {
     public partial class SwitchesGrid : Grid
     {
-        public static BindableProperty EditModeProperty;
-
         private static readonly int MaxX = 3;
         private static readonly int ElementSize = 111;
         private static readonly int ElementMargin = 6;
-
-        static SwitchesGrid()
-        {
-            EditModeProperty = BindableProperty.Create(nameof(EditMode), typeof(bool), typeof(SwitchesGrid), false, BindingMode.Default, null,
-                (o,oldVal,newVal) =>
-                {
-                    foreach (var view in ((SwitchesGrid)o).grid.Children)
-                        ((ScenarioModel)view.BindingContext).EditMode = (bool)newVal;
-                });
-        }
-
-        public bool EditMode
-        {
-            get
-            {
-                return (bool)GetValue(EditModeProperty);
-            }
-            set
-            {
-                SetValue(EditModeProperty, value);
-            }
-        }
-
+        
         public SwitchesGrid()
         {
             InitializeComponent();
@@ -183,26 +159,7 @@ namespace LazuriteMobile.App
                 return settings.PositionX.Equals(x) && settings.PositionY.Equals(y);
             });
         }
-
-        public void Move(View control, Point position)
-        {
-            var visualSettings = ((ScenarioModel)control.BindingContext).VisualSettings;
-            var controlAtPoint = this.grid.Children.FirstOrDefault(x =>
-                ((ScenarioModel)x.BindingContext).VisualSettings.PositionX == position.X &&
-                ((ScenarioModel)x.BindingContext).VisualSettings.PositionY == position.Y);
-
-            if (controlAtPoint != null)
-            {
-                ((ScenarioModel)controlAtPoint.BindingContext).VisualSettings.PositionX = visualSettings.PositionX;
-                ((ScenarioModel)controlAtPoint.BindingContext).VisualSettings.PositionY = visualSettings.PositionY;
-            }
-
-            visualSettings.PositionX = (int)position.X;
-            visualSettings.PositionY = (int)position.Y;
-
-            Rearrange();
-        }
-
+        
         public void ScenariosEmptyModeOn()
         {
             lblEmpty.IsVisible = true;

@@ -199,7 +199,8 @@ namespace Lazurite.Windows.Service
                     ScenarioId = scenario.Id,
                     ValueType = scenario.ValueType,
                     VisualSettings = GetVisualSettings(user, scenario.Id),
-                    Name = scenario.Name
+                    Name = scenario.Name,
+                    OnlyGetValue = scenario.OnlyGetValue
                 }, _secretKey);
             });
         }
@@ -218,7 +219,8 @@ namespace Lazurite.Windows.Service
                         ScenarioId = x.Id,
                         ValueType = x.ValueType,
                         Name = x.Name,
-                        VisualSettings = GetVisualSettings(user, x.Id)
+                        VisualSettings = GetVisualSettings(user, x.Id),
+                        OnlyGetValue = x.OnlyGetValue
                     }), _secretKey);
 
                 return result;

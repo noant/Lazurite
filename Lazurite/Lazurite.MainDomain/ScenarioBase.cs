@@ -25,6 +25,11 @@ namespace Lazurite.MainDomain
         public string Category { get; set; }
 
         /// <summary>
+        /// If true - scenario cannot be executed, just return value
+        /// </summary>
+        public bool OnlyGetValue { get; set; }
+
+        /// <summary>
         /// Scenario name
         /// </summary>
         public string Name { get; set; }

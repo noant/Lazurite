@@ -114,6 +114,15 @@ namespace Lazurite.Scenarios
             var index = _scenarios.IndexOf(_scenarios.FirstOrDefault(x => x.Id.Equals(scenario.Id)));
             _scenarios.RemoveAll(x => x.Id.Equals(scenario.Id));
             _scenarios.Insert(index, scenario);
+
+            var allActionsWithScen = 
+                _scenarios
+                .SelectMany(x => x.GetAllActionsFlat())
+                .Union(_triggers.SelectMany(x=>x.GetAllActionsFlat()))
+                .Where(x => x is ICoreAction && ((ICoreAction)x).TargetScenarioId == scenario.Id);
+
+            foreach (ICoreAction action in allActionsWithScen)
+                action.SetTargetScenario(scenario);
         }
 
         public override void AddTrigger(TriggerBase trigger)

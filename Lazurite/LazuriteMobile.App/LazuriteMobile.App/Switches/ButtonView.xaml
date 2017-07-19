@@ -16,10 +16,9 @@
             <ResourceDictionary>
                 <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
                 <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
-                <local:BoolInvert x:Key="boolInvert"></local:BoolInvert>
             </ResourceDictionary>
         </Grid.Resources>
-        <controls:ItemView BackgroundColor="Transparent" IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
+        <controls:ItemView BackgroundColor="Transparent" IsEnabled="{Binding AllowClick}" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"></RowDefinition>

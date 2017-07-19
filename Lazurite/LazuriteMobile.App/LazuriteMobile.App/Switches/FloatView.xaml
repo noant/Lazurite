@@ -20,7 +20,7 @@
                 <local:ValueTypeStringToDouble x:Key="valueTypeStringToDouble"></local:ValueTypeStringToDouble>
             </ResourceDictionary>
         </Grid.Resources>
-        <controls:ItemView IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" BackgroundColor="Transparent" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
+        <controls:ItemView IsEnabled="{Binding AllowClick}" BackgroundColor="Transparent" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"></RowDefinition>

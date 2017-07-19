@@ -53,6 +53,11 @@ namespace LazuriteUI.Windows.Main.Constructors
                 _scenario.Name = tbName.Text;
                 ScenarioModified();
             };
+
+            btOnlyGetValue.Click += (o, e) => {
+                _scenario.OnlyGetValue = btOnlyGetValue.Selected;
+                ScenarioModified();
+            };
         }
 
         event Action IScenarioConstructorView.Failed
@@ -83,6 +88,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         private void Refresh()
         {
             tbName.Text = _scenario.Name;
+            btOnlyGetValue.Selected = _scenario.OnlyGetValue;
             btCancel.IsEnabled = btApply.IsEnabled = false;
         }
 

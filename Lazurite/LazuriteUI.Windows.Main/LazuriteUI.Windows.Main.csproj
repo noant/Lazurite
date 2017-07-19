@@ -248,6 +248,21 @@
     <Compile Include="ScenariosConstructionView.xaml.cs">
       <DependentUpon>ScenariosConstructionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Security\GroupsListView.xaml.cs">
+      <DependentUpon>GroupsListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\PermissionsViews\PermissionViewBase.xaml.cs">
+      <DependentUpon>PermissionViewBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\UsersSelectView.xaml.cs">
+      <DependentUpon>UsersSelectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\GroupsSelectView.xaml.cs">
+      <DependentUpon>GroupsSelectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\UsersListView.xaml.cs">
+      <DependentUpon>UsersListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TriggersConstructionView.xaml.cs">
       <DependentUpon>TriggersConstructionView.xaml</DependentUpon>
     </Compile>
@@ -540,6 +555,26 @@
     <Page Include="ScenariosConstructionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\GroupsListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\PermissionsViews\PermissionViewBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Security\UsersSelectView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Security\GroupsSelectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Security\UsersListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TriggersConstructionView.xaml">
       <SubType>Designer</SubType>

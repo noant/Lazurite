@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Security.PermissionsViews.PermissionViewBase"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Security.PermissionsViews"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             Height="Auto"
+             Margin="0,1,0,0"
+             d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="5" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockCaption}">Permission</TextBlock>
+        <controls:ItemView Grid.Column="1" Icon="ListSelect"></controls:ItemView>
+        <controls:ItemView Grid.Column="2" Style="{StaticResource ButtonRemove}"></controls:ItemView>
+    </Grid>
+</UserControl>

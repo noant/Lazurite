@@ -42,6 +42,8 @@ namespace LazuriteUI.Windows.Main.Constructors
             var scenarios = _repository.Scenarios.Where(x => valueType == null || x.ValueType.GetType().Equals(valueType));
             if (side == ActionInstanceSide.OnlyRight)
                 scenarios = scenarios.Where(x => x.ValueType is ButtonValueType == false);
+            else if (side == ActionInstanceSide.OnlyLeft)
+                scenarios = scenarios.Where(x => !x.OnlyGetValue);
             foreach (var scenario in scenarios)
             {
                 var itemView = new ItemView();
