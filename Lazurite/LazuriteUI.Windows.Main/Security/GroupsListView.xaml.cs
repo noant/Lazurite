@@ -95,6 +95,6 @@ namespace LazuriteUI.Windows.Main.Security
             }
         }
 
-        public event Action<UsersListView> SelectionChanged;
+        public event Action<GroupsListView> SelectionChanged;
     }
 }

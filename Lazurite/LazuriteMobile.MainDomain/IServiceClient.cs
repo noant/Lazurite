@@ -40,14 +40,18 @@ namespace LazuriteMobile.MainDomain
         IAsyncResult BeginAsyncExecuteScenarioParallel(Encrypted<string> scenarioId, Encrypted<string> value, System.AsyncCallback callback, object asyncState);
 
         void EndAsyncExecuteScenarioParallel(IAsyncResult result);
-                
+        
         IAsyncResult BeginGetChangedScenarios(DateTime since, AsyncCallback callback, object asyncState);
 
         EncryptedList<ScenarioInfoLW> EndGetChangedScenarios(System.IAsyncResult result);
-                
+        
         IAsyncResult BeginSaveVisualSettings(Encrypted<UserVisualSettings> visualSettings, System.AsyncCallback callback, object asyncState);
 
         void EndSaveVisualSettings(System.IAsyncResult result);
+
+        IAsyncResult BeginSyncAddictionalData(EncryptedList<string> data);
+
+        EncryptedList<string> EndSyncAddictionalData(System.IAsyncResult result);
 
         void Close();
     }

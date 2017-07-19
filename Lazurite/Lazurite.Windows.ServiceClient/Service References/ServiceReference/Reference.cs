@@ -47,6 +47,9 @@ namespace Lazurite.Windows.ServiceClient.ServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServer/SaveVisualSettings", ReplyAction="http://tempuri.org/IServer/SaveVisualSettingsResponse")]
         void SaveVisualSettings(Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.UserVisualSettings> visualSettings);
+        
+        [System.ServiceModel.OperationContractAttribute(Action = "http://tempuri.org/IServer/SyncAddictionalData", ReplyAction = "http://tempuri.org/IServer/SyncAddictionalDataResponse")]
+        EncryptedList<string> SyncAddictionalData(EncryptedList<string> data);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -114,6 +117,11 @@ namespace Lazurite.Windows.ServiceClient.ServiceReference {
         
         public void SaveVisualSettings(Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.UserVisualSettings> visualSettings) {
             base.Channel.SaveVisualSettings(visualSettings);
+        }
+
+        public EncryptedList<string> SyncAddictionalData(EncryptedList<string> data)
+        {
+            return base.Channel.SyncAddictionalData(data);
         }
     }
 }

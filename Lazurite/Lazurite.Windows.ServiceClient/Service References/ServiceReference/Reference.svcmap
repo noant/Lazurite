@@ -20,14 +20,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:49755/LazuriteService.svc" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:49755/LazuriteService.svc/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="LazuriteService.disco" MetadataType="Disco" ID="9d6b3104-316d-4b34-96f8-90195dc2536b" SourceId="1" SourceUrl="https://localhost:44340/LazuriteService.svc?disco" />
-    <MetadataFile FileName="LazuriteService.wsdl" MetadataType="Wsdl" ID="79cc9183-a9bb-479b-a4bb-ccfcb17d1e04" SourceId="1" SourceUrl="https://localhost:44340/LazuriteService.svc?wsdl" />
-    <MetadataFile FileName="LazuriteService4.xsd" MetadataType="Schema" ID="d061b491-4d9d-484d-8670-a713d99f9756" SourceId="1" SourceUrl="https://localhost:44340/LazuriteService.svc?xsd=xsd0" />
-    <MetadataFile FileName="LazuriteService2.xsd" MetadataType="Schema" ID="3fdaf0d9-0dfa-4cf9-acdf-e5590e0004f5" SourceId="1" SourceUrl="https://localhost:44340/LazuriteService.svc?xsd=xsd2" />
-    <MetadataFile FileName="LazuriteService3.xsd" MetadataType="Schema" ID="bb085c7a-a8d1-4a38-89d0-6a2ada76b03d" SourceId="1" SourceUrl="https://localhost:44340/LazuriteService.svc?xsd=xsd1" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="827ff453-1dd8-4624-8b89-a7ba0f9b5b5a" SourceId="1" SourceUrl="http://localhost:49755/LazuriteService.svc/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="a56b8ec3-ee6a-456c-93cf-3252887ede3c" SourceId="1" SourceUrl="http://localhost:49755/LazuriteService.svc/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="7febab5a-529f-4a7a-ad59-0f8d43a617f4" SourceId="1" SourceUrl="http://localhost:49755/LazuriteService.svc/mex" />
+    <MetadataFile FileName="Lazurite.MainDomain.MessageSecurity.xsd" MetadataType="Schema" ID="2a0a5e35-8067-4016-9b7f-95ca7de62d36" SourceId="1" SourceUrl="http://localhost:49755/LazuriteService.svc/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

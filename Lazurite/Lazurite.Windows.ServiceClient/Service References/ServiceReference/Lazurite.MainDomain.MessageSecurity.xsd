@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:complexType name="EncryptedOfstring">
     <xs:annotation>
@@ -10,10 +10,11 @@
     </xs:annotation>
     <xs:sequence>
       <xs:element minOccurs="0" name="Data" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServerTime" type="xs:dateTime" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="EncryptedOfstring" nillable="true" type="tns:EncryptedOfstring" />
-  <xs:complexType name="EncryptedListOfScenarioInfoZ07PguPe">
+  <xs:complexType name="EncryptedListOfScenarioInfor1_S29lkD">
     <xs:annotation>
       <xs:appinfo>
         <GenericType Name="EncryptedListOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
@@ -22,11 +23,11 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="EncryptedOfScenarioInfoZ07PguPe" nillable="true" type="tns:EncryptedOfScenarioInfoZ07PguPe" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="EncryptedOfScenarioInfor1_S29lkD" nillable="true" type="tns:EncryptedOfScenarioInfor1_S29lkD" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="EncryptedListOfScenarioInfoZ07PguPe" nillable="true" type="tns:EncryptedListOfScenarioInfoZ07PguPe" />
-  <xs:complexType name="EncryptedOfScenarioInfoZ07PguPe">
+  <xs:element name="EncryptedListOfScenarioInfor1_S29lkD" nillable="true" type="tns:EncryptedListOfScenarioInfor1_S29lkD" />
+  <xs:complexType name="EncryptedOfScenarioInfor1_S29lkD">
     <xs:annotation>
       <xs:appinfo>
         <GenericType Name="EncryptedOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
@@ -36,10 +37,11 @@
     </xs:annotation>
     <xs:sequence>
       <xs:element minOccurs="0" name="Data" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServerTime" type="xs:dateTime" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="EncryptedOfScenarioInfoZ07PguPe" nillable="true" type="tns:EncryptedOfScenarioInfoZ07PguPe" />
-  <xs:complexType name="EncryptedListOfScenarioInfoLWZ07PguPe">
+  <xs:element name="EncryptedOfScenarioInfor1_S29lkD" nillable="true" type="tns:EncryptedOfScenarioInfor1_S29lkD" />
+  <xs:complexType name="EncryptedListOfScenarioInfoLWr1_S29lkD">
     <xs:annotation>
       <xs:appinfo>
         <GenericType Name="EncryptedListOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
@@ -48,11 +50,11 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="EncryptedOfScenarioInfoLWZ07PguPe" nillable="true" type="tns:EncryptedOfScenarioInfoLWZ07PguPe" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="EncryptedOfScenarioInfoLWr1_S29lkD" nillable="true" type="tns:EncryptedOfScenarioInfoLWr1_S29lkD" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="EncryptedListOfScenarioInfoLWZ07PguPe" nillable="true" type="tns:EncryptedListOfScenarioInfoLWZ07PguPe" />
-  <xs:complexType name="EncryptedOfScenarioInfoLWZ07PguPe">
+  <xs:element name="EncryptedListOfScenarioInfoLWr1_S29lkD" nillable="true" type="tns:EncryptedListOfScenarioInfoLWr1_S29lkD" />
+  <xs:complexType name="EncryptedOfScenarioInfoLWr1_S29lkD">
     <xs:annotation>
       <xs:appinfo>
         <GenericType Name="EncryptedOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
@@ -62,10 +64,11 @@
     </xs:annotation>
     <xs:sequence>
       <xs:element minOccurs="0" name="Data" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServerTime" type="xs:dateTime" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="EncryptedOfScenarioInfoLWZ07PguPe" nillable="true" type="tns:EncryptedOfScenarioInfoLWZ07PguPe" />
-  <xs:complexType name="EncryptedOfUserVisualSettingsZ07PguPe">
+  <xs:element name="EncryptedOfScenarioInfoLWr1_S29lkD" nillable="true" type="tns:EncryptedOfScenarioInfoLWr1_S29lkD" />
+  <xs:complexType name="EncryptedOfUserVisualSettingsr1_S29lkD">
     <xs:annotation>
       <xs:appinfo>
         <GenericType Name="EncryptedOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
@@ -75,7 +78,21 @@
     </xs:annotation>
     <xs:sequence>
       <xs:element minOccurs="0" name="Data" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServerTime" type="xs:dateTime" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="EncryptedOfUserVisualSettingsZ07PguPe" nillable="true" type="tns:EncryptedOfUserVisualSettingsZ07PguPe" />
+  <xs:element name="EncryptedOfUserVisualSettingsr1_S29lkD" nillable="true" type="tns:EncryptedOfUserVisualSettingsr1_S29lkD" />
+  <xs:complexType name="EncryptedListOfstring">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="EncryptedListOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="string" Namespace="http://www.w3.org/2001/XMLSchema" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="EncryptedOfstring" nillable="true" type="tns:EncryptedOfstring" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="EncryptedListOfstring" nillable="true" type="tns:EncryptedListOfstring" />
 </xs:schema>

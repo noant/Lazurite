@@ -86,20 +86,23 @@
     <None Include="Properties\DataSources\Lazurite.MainDomain.ScenarioInfo.datasource" />
     <None Include="Properties\DataSources\Lazurite.MainDomain.ScenarioInfoLW.datasource" />
     <None Include="Properties\DataSources\Lazurite.MainDomain.UserBase.datasource" />
-    <None Include="Service References\ServiceReference\Lazurite.Windows.ServiceClient.ServiceReference.EncryptedListOfScenarioInfoLWZ07PguPe.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ServiceReference\Lazurite.Windows.ServiceClient.ServiceReference.EncryptedListOfScenarioInfoZ07PguPe.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ServiceReference\LazuriteService.wsdl" />
-    <None Include="Service References\ServiceReference\LazuriteService2.xsd">
+    <None Include="Service References\ServiceReference\Lazurite.MainDomain.MessageSecurity.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ServiceReference\LazuriteService3.xsd">
+    <None Include="Service References\ServiceReference\Lazurite.Windows.ServiceClient.ServiceReference.EncryptedListOfScenarioInfoLWr1_S29lkD.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference\Lazurite.Windows.ServiceClient.ServiceReference.EncryptedListOfScenarioInfor1_S29lkD.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference\Lazurite.Windows.ServiceClient.ServiceReference.EncryptedListOfstring.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference\service.wsdl" />
+    <None Include="Service References\ServiceReference\service.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\ServiceReference\LazuriteService4.xsd">
+    <None Include="Service References\ServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -115,9 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\ServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ServiceReference\LazuriteService.disco" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ServiceReference\configuration91.svcinfo" />

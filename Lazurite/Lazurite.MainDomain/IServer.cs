@@ -31,5 +31,9 @@ namespace Lazurite.MainDomain
         EncryptedList<ScenarioInfoLW> GetChangedScenarios(DateTime since);
         [OperationContract]
         void SaveVisualSettings(Encrypted<UserVisualSettings> visualSettings);
+
+        //for future
+        [OperationContract]
+        EncryptedList<string> SyncAddictionalData(EncryptedList<string> data);
     }
 }

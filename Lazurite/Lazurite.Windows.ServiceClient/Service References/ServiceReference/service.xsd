@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="https://localhost:44340/LazuriteService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" />
   <xs:element name="IsScenarioValueChanged">
     <xs:complexType>
       <xs:sequence>
@@ -24,7 +24,7 @@
   <xs:element name="GetScenariosInfoResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" minOccurs="0" name="GetScenariosInfoResult" nillable="true" type="q3:EncryptedListOfScenarioInfoZ07PguPe" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" minOccurs="0" name="GetScenariosInfoResult" nillable="true" type="q3:EncryptedListOfScenarioInfor1_S29lkD" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -38,7 +38,7 @@
   <xs:element name="GetScenarioInfoResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" minOccurs="0" name="GetScenarioInfoResult" nillable="true" type="q5:EncryptedOfScenarioInfoZ07PguPe" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" minOccurs="0" name="GetScenarioInfoResult" nillable="true" type="q5:EncryptedOfScenarioInfor1_S29lkD" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -119,20 +119,34 @@
   <xs:element name="GetChangedScenariosResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" minOccurs="0" name="GetChangedScenariosResult" nillable="true" type="q16:EncryptedListOfScenarioInfoLWZ07PguPe" />
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" minOccurs="0" name="GetChangedScenariosResult" nillable="true" type="q16:EncryptedListOfScenarioInfoLWr1_S29lkD" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveVisualSettings">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" minOccurs="0" name="visualSettings" nillable="true" type="q17:EncryptedOfUserVisualSettingsZ07PguPe" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" minOccurs="0" name="visualSettings" nillable="true" type="q17:EncryptedOfUserVisualSettingsr1_S29lkD" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="SaveVisualSettingsResponse">
     <xs:complexType>
       <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SyncAddictionalData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" minOccurs="0" name="data" nillable="true" type="q18:EncryptedListOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SyncAddictionalDataResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/Lazurite.MainDomain.MessageSecurity" minOccurs="0" name="SyncAddictionalDataResult" nillable="true" type="q19:EncryptedListOfstring" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
 </xs:schema>
