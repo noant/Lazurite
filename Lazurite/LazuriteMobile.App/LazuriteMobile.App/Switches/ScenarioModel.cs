@@ -14,6 +14,9 @@ namespace LazuriteMobile.App.Switches
 {
     public class ScenarioModel: ObservableObject, IDisposable
     {
+        private static readonly string Icon1Key = "Icon1";
+        private static readonly string Icon2Key = "Icon2";
+
         private IScenariosManager _manager = Singleton.Resolve<IScenariosManager>(); 
 
         public ScenarioModel(ScenarioInfo scenario)
@@ -57,7 +60,6 @@ namespace LazuriteMobile.App.Switches
 
         private string _value;
         private bool _available;
-        private bool _editMode;
         private bool _checked;
 
         public UserVisualSettings VisualSettings {
@@ -73,8 +75,10 @@ namespace LazuriteMobile.App.Switches
             Scenario = scenario;
             Scenario.ValueChanged += ScenarioValueChanged;
             this._value = Scenario.CurrentValue;
-            if (VisualSettings.AddictionalData == null || !VisualSettings.AddictionalData.Any())
-                VisualSettings.AddictionalData = new[] { GetStandardIcon1(), GetStandardIcon2() };
+            if (!VisualSettings.AddictionalData.ContainsKey(Icon1Key))
+                VisualSettings.AddictionalData.Set(Icon1Key, GetStandardIcon1());
+            if (!VisualSettings.AddictionalData.ContainsKey(Icon2Key))
+                VisualSettings.AddictionalData.Set(Icon2Key, GetStandardIcon2());
             OnPropertyChanged(nameof(Icon1));
             OnPropertyChanged(nameof(Icon2));
             OnPropertyChanged(nameof(ScenarioName));
@@ -86,11 +90,11 @@ namespace LazuriteMobile.App.Switches
         {
             get
             {
-                return VisualSettings.AddictionalData[0];
+                return VisualSettings.AddictionalData[Icon1Key];
             }
             set
             {
-                VisualSettings.AddictionalData[0] = value;
+                VisualSettings.AddictionalData.Set(Icon1Key, value);
                 OnPropertyChanged(nameof(Icon1));
             }
         }
@@ -99,11 +103,11 @@ namespace LazuriteMobile.App.Switches
         {
             get
             {
-                return VisualSettings.AddictionalData[1];
+                return VisualSettings.AddictionalData[Icon2Key];
             }
             set
             {
-                VisualSettings.AddictionalData[1] = value;
+                VisualSettings.AddictionalData.Set(Icon2Key, value);
                 OnPropertyChanged(nameof(Icon2));
             }
         }

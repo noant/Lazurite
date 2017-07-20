@@ -34,6 +34,6 @@ namespace Lazurite.MainDomain
 
         //for future
         [OperationContract]
-        EncryptedList<string> SyncAddictionalData(EncryptedList<string> data);
+        Encrypted<AddictionalData> SyncAddictionalData(Encrypted<AddictionalData> data);
     }
 }

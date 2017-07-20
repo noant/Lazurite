@@ -12,6 +12,9 @@ namespace LazuriteUI.Windows.Main.Switches
 {
     public class ScenarioModel: ObservableObject, IDisposable
     {
+        private static readonly string Icon1Key = "Icon1";
+        private static readonly string Icon2Key = "Icon2";
+
         public ScenarioModel(ScenarioBase scenario, UserVisualSettings visualSettings)
         {
             Scenario = scenario;
@@ -21,6 +24,13 @@ namespace LazuriteUI.Windows.Main.Switches
                 _value = value;
                 OnPropertyChanged(nameof(ScenarioValue));
             });
+
+            if (!VisualSettings.AddictionalData.ContainsKey(Icon1Key))
+                VisualSettings.AddictionalData.Set(Icon1Key, GetStandardIcon1());
+
+            if (!VisualSettings.AddictionalData.ContainsKey(Icon2Key))
+                VisualSettings.AddictionalData.Set(Icon2Key, GetStandardIcon2());
+
             OnPropertyChanged(nameof(Icon1));
             OnPropertyChanged(nameof(Icon2));
             OnPropertyChanged(nameof(AllowClick));
@@ -35,15 +45,7 @@ namespace LazuriteUI.Windows.Main.Switches
         public ScenarioBase Scenario { get; private set; }
         public UserVisualSettings VisualSettings { get; private set; }
         private VisualSettingsRepository _visualSettingsRepository = Singleton.Resolve<VisualSettingsRepository>();
-
-        private string[] GetAddictionalOrCalculatedData()
-        {
-            if (VisualSettings.AddictionalData == null || !VisualSettings.AddictionalData.Any())
-                return new[] { GetStandardIcon1(), GetStandardIcon2() };
-            else
-                return VisualSettings.AddictionalData;
-        }
-
+        
         public void Refresh()
         {
             OnPropertyChanged(nameof(ScenarioName));
@@ -69,13 +71,11 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             get
             {
-                return GetAddictionalOrCalculatedData()[0];
+                return VisualSettings.AddictionalData[Icon1Key];
             }
             set
             {
-                if (VisualSettings.AddictionalData == null || !VisualSettings.AddictionalData.Any())
-                    VisualSettings.AddictionalData = GetAddictionalOrCalculatedData();
-                VisualSettings.AddictionalData[0] = value;
+                VisualSettings.AddictionalData[Icon1Key] = value;
                 _visualSettingsRepository.Update(VisualSettings);
                 OnPropertyChanged(nameof(Icon1));
             }
@@ -85,13 +85,11 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             get
             {
-                return GetAddictionalOrCalculatedData()[1];
+                return VisualSettings.AddictionalData[Icon2Key];
             }
             set
             {
-                if (VisualSettings.AddictionalData == null || !VisualSettings.AddictionalData.Any())
-                    VisualSettings.AddictionalData = GetAddictionalOrCalculatedData();
-                VisualSettings.AddictionalData[1] = value;
+                VisualSettings.AddictionalData[Icon2Key] = value;
                 _visualSettingsRepository.Update(VisualSettings);
                 OnPropertyChanged(nameof(Icon2));
             }

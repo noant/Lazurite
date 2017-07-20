@@ -23,7 +23,6 @@ namespace Lazurite.Windows.Server
 {
     public class LazuriteServer
     {
-        private static readonly string StandartCertificateSubject = "localhost";
         private static readonly string StandartSecretKey = "secretKey";
         private static readonly string StandartServiceName = "Lazurite";
         private static readonly ushort StandartServicePort = 8080;
@@ -107,7 +106,6 @@ namespace Lazurite.Windows.Server
             else
             {
                 _settings = new ServerSettings() {
-                    CertificateHash = StandartCertificateSubject,
                     Port = StandartServicePort,
                     SecretKey = StandartSecretKey,
                     ServiceName = StandartServiceName

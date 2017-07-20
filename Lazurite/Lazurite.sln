@@ -1467,17 +1467,11 @@ Global
 		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Debug|x86.Build.0 = Debug|x86
 		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Debug|x86.Deploy.0 = Debug|x86
 		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|Any CPU.ActiveCfg = Release|x86
-		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|ARM.ActiveCfg = Release|ARM
-		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|ARM.Build.0 = Release|ARM
-		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|ARM.Deploy.0 = Release|ARM
+		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|ARM.ActiveCfg = Release|x86
 		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|iPhone.ActiveCfg = Release|x86
 		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|iPhoneSimulator.ActiveCfg = Release|x86
-		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|x64.ActiveCfg = Release|x64
-		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|x64.Build.0 = Release|x64
-		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|x64.Deploy.0 = Release|x64
+		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|x64.ActiveCfg = Release|x86
 		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|x86.ActiveCfg = Release|x86
-		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|x86.Build.0 = Release|x86
-		{43EEB2E7-A47E-44D3-9F8D-7CC129DDBFEB}.Release|x86.Deploy.0 = Release|x86
 		{FEB516ED-901A-42E1-B3FC-332F65CDA112}.Ad-Hoc|Any CPU.ActiveCfg = Ad-Hoc|iPhone
 		{FEB516ED-901A-42E1-B3FC-332F65CDA112}.Ad-Hoc|ARM.ActiveCfg = Ad-Hoc|iPhone
 		{FEB516ED-901A-42E1-B3FC-332F65CDA112}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
@@ -1505,9 +1499,7 @@ Global
 		{FEB516ED-901A-42E1-B3FC-332F65CDA112}.Release|Any CPU.ActiveCfg = Release|iPhone
 		{FEB516ED-901A-42E1-B3FC-332F65CDA112}.Release|ARM.ActiveCfg = Release|iPhone
 		{FEB516ED-901A-42E1-B3FC-332F65CDA112}.Release|iPhone.ActiveCfg = Release|iPhone
-		{FEB516ED-901A-42E1-B3FC-332F65CDA112}.Release|iPhone.Build.0 = Release|iPhone
-		{FEB516ED-901A-42E1-B3FC-332F65CDA112}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
-		{FEB516ED-901A-42E1-B3FC-332F65CDA112}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{FEB516ED-901A-42E1-B3FC-332F65CDA112}.Release|iPhoneSimulator.ActiveCfg = Release|iPhone
 		{FEB516ED-901A-42E1-B3FC-332F65CDA112}.Release|x64.ActiveCfg = Release|iPhone
 		{FEB516ED-901A-42E1-B3FC-332F65CDA112}.Release|x86.ActiveCfg = Release|iPhone
 	EndGlobalSection

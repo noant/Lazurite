@@ -50,13 +50,7 @@ namespace Lazurite.Tests
             while (true)
                 Thread.Sleep(5000);
         }
-
-        [TestMethod]
-        public void TestNetshCertAdd()
-        {
-            Windows.Server.Utils.NetshAddSslCert("localhost", 666);
-        }
-
+        
         [TestMethod]
         public void TestAddCert()
         {

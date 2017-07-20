@@ -54,6 +54,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddictionalData.cs" />
     <Compile Include="IClientFactory.cs" />
     <Compile Include="MessageSecurity\DataContractSerializerExtension.cs" />
     <Compile Include="MessageSecurity\Encrypted.cs" />

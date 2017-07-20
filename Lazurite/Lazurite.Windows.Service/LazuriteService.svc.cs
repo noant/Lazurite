@@ -31,10 +31,10 @@ namespace Lazurite.Windows.Service
         public LazuriteService(string secretKey)
         {
             _secretKey = secretKey;
-            //_scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
-            //_usersRepository = Singleton.Resolve<UsersRepositoryBase>();
-            //_visualSettings = Singleton.Resolve<VisualSettingsRepository>();
-            //_warningHandler = Singleton.Resolve<WarningHandlerBase>();
+            _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+            _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
+            _visualSettings = Singleton.Resolve<VisualSettingsRepository>();
+            _warningHandler = Singleton.Resolve<WarningHandlerBase>();
         }
 
         public LazuriteService() : this("secretKey1234567") { }
@@ -262,10 +262,10 @@ namespace Lazurite.Windows.Service
             });
         }
 
-        public EncryptedList<string> SyncAddictionalData(EncryptedList<string> data)
+        public Encrypted<AddictionalData> SyncAddictionalData(Encrypted<AddictionalData> data)
         {
             //for future
-            return new EncryptedList<string>();
+            return new Encrypted<AddictionalData>();
         }
     }
 }

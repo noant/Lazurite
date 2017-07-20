@@ -29,27 +29,28 @@ namespace LazuriteUI.Windows.Main
         public App()
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            
-            var core = new LazuriteCore();
 
-            core.WarningHandler.OnWrite += (o, e) => {
+            var core = new LazuriteCore();
+            core.WarningHandler.OnWrite += (o, e) =>
+            {
 #if DEBUG
                 if (e.Exception != null && (e.Type == WarnType.Error || e.Type == WarnType.Fatal))
                     throw e.Exception;
 #endif
                 JournalManager.Set(e.Message, e.Type, e.Exception);
             };
-
-            core.Initialize();
-            Lazurite.Windows.Server.Utils.NetshAddUrlacl(core.Server.GetSettings().GetAddress());
-            Lazurite.Windows.Server.Utils.NetshAddSslCert(core.Server.GetSettings().CertificateHash, core.Server.GetSettings().Port);
-            core.Server.StartAsync(null);
-            Singleton.Add(core);
-            //core.UsersRepository.Add(new Lazurite.MainDomain.UserBase()
-            //{
-            //    Login = "user1",
-            //    PasswordHash = CryptoUtils.CreatePasswordHash("pass")
-            //});            
+            try
+            {
+                core.Initialize();
+                Lazurite.Windows.Server.Utils.NetshAddUrlacl(core.Server.GetSettings().GetAddress());
+                Lazurite.Windows.Server.Utils.NetshAddSslCert(core.Server.GetSettings().CertificateHash, core.Server.GetSettings().Port);
+                core.Server.StartAsync(null);
+                Singleton.Add(core);
+            }
+            catch (Exception e)
+            {
+                core.WarningHandler.Warn("Во время инициализации приложения возникла ошибка", e);
+            }
         }
     }
 }
