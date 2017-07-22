@@ -24,7 +24,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для ActionView.xaml
     /// </summary>
-    public partial class ActionView : UserControl, IConstructorElement
+    public partial class ActionView : Grid, IConstructorElement
     {
         public ActionView()
         {

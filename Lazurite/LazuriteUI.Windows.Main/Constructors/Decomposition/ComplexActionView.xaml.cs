@@ -25,7 +25,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для ComplexActionView.xaml
     /// </summary>
-    public partial class ComplexActionView : UserControl, IConstructorElement
+    public partial class ComplexActionView : StackPanel, IConstructorElement
     {
         private PluginsManager _manager = Singleton.Resolve<PluginsManager>();
 
@@ -81,7 +81,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             AlgorithmContext = algoContext;
             ActionHolder = actionHolder;
             _action = (ComplexAction)actionHolder.Action;
-            stackPanel.Children.Clear();
+            this.Children.Clear();
             foreach (var holder in _action.ActionHolders)
                 Insert(holder);
         }
@@ -89,7 +89,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         private void Insert(ActionHolder actionHolder, int position=-1)
         {
             if (position == -1)
-                position = stackPanel.Children.Count;
+                position = this.Children.Count;
             var constructorElement = ActionControlResolver.Create(actionHolder, this.AlgorithmContext);
             var control = ((FrameworkElement)constructorElement);
             control.Margin = new Thickness(0, 1, 0, 0);
@@ -97,12 +97,12 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             constructorElement.Modified += (element) => Modified?.Invoke(element);
             constructorElement.NeedRemove += (element) => {
                 _action.ActionHolders.Remove(actionHolder);
-                stackPanel.Children.Remove(control);
+                this.Children.Remove(control);
                 Modified?.Invoke(this);
             };
             constructorElement.NeedAddNext += (element) => {
                 SelectCoreActionView.Show((type) => {
-                    var index = stackPanel.Children.IndexOf(control)+1;
+                    var index = this.Children.IndexOf(control)+1;
                     var newActionHolder = new ActionHolder() {
                         Action = _manager.CreateInstanceOf(type, this.AlgorithmContext)
                     };
@@ -111,7 +111,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     Modified?.Invoke(this);
                 });
             };
-            stackPanel.Children.Insert(position, control);
+            this.Children.Insert(position, control);
         }
     }
 }

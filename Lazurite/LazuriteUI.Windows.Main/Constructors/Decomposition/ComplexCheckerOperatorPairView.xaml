@@ -1,22 +1,24 @@
-﻿<StackPanel x:Class="LazuriteUI.Windows.Main.Constructors.Decomposition.ComplexCheckerOperatorPairView"
+﻿<Grid x:Class="LazuriteUI.Windows.Main.Constructors.Decomposition.ComplexCheckerOperatorPairView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors.Decomposition"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             mc:Ignorable="d" 
-             Orientation="Vertical"
+             mc:Ignorable="d"
              Height="Auto"
              d:DesignHeight="300">
-        <local:CheckerOperatorView HorizontalAlignment="Left" x:Name="operatorView"></local:CheckerOperatorView>
-    <StackPanel Orientation="Horizontal">
-        <Label Style="{StaticResource LabelIfView}" HorizontalAlignment="Left" Height="30" Width="Auto">НАЧАЛО ГРУППЫ УСЛОВИЙ</Label>
-        <local:EditActionButtonsView x:Name="buttonsGroup" ChangeVisible="False" EditVisible="False"></local:EditActionButtonsView>
-    </StackPanel>
-    <local:ComplexCheckerView x:Name="complexCheckerView" Margin="30,0,0,0"></local:ComplexCheckerView>
-    <StackPanel Orientation="Horizontal">
-        <Label Style="{StaticResource LabelIfView}" HorizontalAlignment="Left" Height="30" Width="Auto">КОНЕЦ ГРУППЫ УСЛОВИЙ</Label>
-        <local:EditActionButtonsView x:Name="buttonsEnd" RemoveVisible="False" ChangeVisible="False" EditVisible="False"></local:EditActionButtonsView>
-    </StackPanel>
-</StackPanel>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="*"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+    </Grid.RowDefinitions>
+    <local:CheckerOperatorView Grid.Row="0" HorizontalAlignment="Left" x:Name="operatorView"></local:CheckerOperatorView>    
+    <Label Style="{StaticResource LabelIfView}" Grid.Row="1" Width="167" HorizontalAlignment="Left" Height="30">НАЧАЛО ГРУППЫ УСЛОВИЙ</Label>
+    <local:EditActionButtonsView Grid.Row="1" Margin="167,0,0,0" x:Name="buttonsGroup" ChangeVisible="False" EditVisible="False"></local:EditActionButtonsView>
+    <local:ComplexCheckerView Grid.Row="2" x:Name="complexCheckerView" Margin="30,0,0,0"></local:ComplexCheckerView>
+    <Label Style="{StaticResource LabelIfView}" Width="160" Grid.Row="3" HorizontalAlignment="Left" Height="30">КОНЕЦ ГРУППЫ УСЛОВИЙ</Label>
+    <local:EditActionButtonsView x:Name="buttonsEnd" Margin="160,0,0,0" Grid.Row="3" RemoveVisible="False" ChangeVisible="False" EditVisible="False"></local:EditActionButtonsView>
+
+</Grid>

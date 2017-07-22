@@ -22,7 +22,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для CheckerOperatorPairView.xaml
     /// </summary>
-    public partial class ComplexCheckerOperatorPairView : StackPanel, IConstructorElement
+    public partial class ComplexCheckerOperatorPairView : Grid, IConstructorElement
     {
         private CheckerOperatorPair _pair;
         public ComplexCheckerOperatorPairView()

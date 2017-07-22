@@ -20,7 +20,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для IfActionView.xaml
     /// </summary>
-    public partial class IfActionView : UserControl, IConstructorElement
+    public partial class IfActionView : Grid, IConstructorElement
     {
         private IfAction _action;
 

@@ -54,7 +54,9 @@ namespace LazuriteUI.Windows.Main.Constructors
             
             _scenario = scenario;
             Refresh();
+            complexActionView.BeginInit();
             complexActionView.Refresh(new ActionHolder(_scenario.TargetAction), _scenario);
+            complexActionView.EndInit();
             complexActionView.Modified += (element) => Modified?.Invoke();
         }
 
@@ -65,7 +67,9 @@ namespace LazuriteUI.Windows.Main.Constructors
         public void Revert(ScenarioBase scenario)
         {
             _scenario = (CompositeScenario)scenario;
+            complexActionView.BeginInit();
             complexActionView.Refresh(new ActionHolder(_scenario.TargetAction), _scenario);
+            complexActionView.EndInit();
             Refresh();
         }
 

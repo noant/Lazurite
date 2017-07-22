@@ -23,7 +23,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для CheckerActionView.xaml
     /// </summary>
-    public partial class CheckerActionView : UserControl, IConstructorElement
+    public partial class CheckerActionView : StackPanel, IConstructorElement
     {
         private CheckerAction _action;
 

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="LazuriteUI.Windows.Main.Constructors.Decomposition.WhileActionView"
+﻿<Grid x:Class="LazuriteUI.Windows.Main.Constructors.Decomposition.WhileActionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,20 +6,19 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors.Decomposition"
              mc:Ignorable="d" 
              Height="Auto">
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <Label Style="{StaticResource LabelWhileView}" HorizontalAlignment="Left" Height="30" Width="Auto">ПОКА</Label>
-            <local:EditActionButtonsView x:Name="buttonsWhile" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
-        </StackPanel>
-        <local:ComplexCheckerView Margin="30,0,0,0" x:Name="checkerView"></local:ComplexCheckerView>
-        <StackPanel Orientation="Horizontal">
-            <Label Style="{StaticResource LabelWhileView}" HorizontalAlignment="Left" Height="30" Width="Auto">ВЫПОЛНИТЬ</Label>
-            <local:EditActionButtonsView x:Name="buttonsDo" RemoveVisible="False" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
-        </StackPanel>
-        <local:ComplexActionView  Margin="30,0,0,0" x:Name="actionView"></local:ComplexActionView>
-        <StackPanel Orientation="Horizontal">
-            <Label Style="{StaticResource LabelWhileView}" HorizontalAlignment="Left" Height="30" Width="Auto">КОНЕЦ ЦИКЛА</Label>
-            <local:EditActionButtonsView x:Name="buttonsEnd" RemoveVisible="False" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
-        </StackPanel>
-    </StackPanel>
-</UserControl>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+    </Grid.RowDefinitions>
+    <Label Style="{StaticResource LabelWhileView}" Width="45" Grid.Row="0" HorizontalAlignment="Left" Height="30">ПОКА</Label>
+    <local:EditActionButtonsView Grid.Row="0" Margin="45,0,0,0" x:Name="buttonsWhile"  EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+    <local:ComplexCheckerView Margin="30,0,0,0" Grid.Row="1" x:Name="checkerView"></local:ComplexCheckerView>
+    <Label Style="{StaticResource LabelWhileView}" Width="83" Grid.Row="2" HorizontalAlignment="Left" Height="30">ВЫПОЛНИТЬ</Label>
+    <local:EditActionButtonsView x:Name="buttonsDo" Margin="83,0,0,0" Grid.Row="2" RemoveVisible="False" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+    <local:ComplexActionView  Margin="30,0,0,0" Grid.Row="3" x:Name="actionView"></local:ComplexActionView>
+    <Label Style="{StaticResource LabelWhileView}" Width="96" Grid.Row="4" HorizontalAlignment="Left" Height="30">КОНЕЦ ЦИКЛА</Label>
+    <local:EditActionButtonsView x:Name="buttonsEnd" Margin="96,0,0,0" Grid.Row="4" RemoveVisible="False" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+</Grid>

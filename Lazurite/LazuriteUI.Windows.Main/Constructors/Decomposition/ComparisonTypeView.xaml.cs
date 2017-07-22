@@ -22,7 +22,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для ComparisonTypeView.xaml
     /// </summary>
-    public partial class ComparisonTypeView : UserControl, IConstructorElement
+    public partial class ComparisonTypeView : Grid, IConstructorElement
     {
         private CheckerAction _checkerAction;
 

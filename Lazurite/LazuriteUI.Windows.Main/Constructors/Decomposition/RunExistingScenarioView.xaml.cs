@@ -23,7 +23,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для ExecuteActionView.xaml
     /// </summary>
-    public partial class RunExistingScenarioView : UserControl, IConstructorElement
+    public partial class RunExistingScenarioView : StackPanel, IConstructorElement
     {
         private RunExistingScenarioAction _action;
 

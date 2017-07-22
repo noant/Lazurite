@@ -24,5 +24,15 @@ namespace LazuriteUI.Windows.Main.Security.PermissionsViews
         {
             InitializeComponent();
         }
+
+        public virtual bool IsSelectButtonVisible
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public event Action<PermissionViewBase> RemoveClicked;
     }
 }

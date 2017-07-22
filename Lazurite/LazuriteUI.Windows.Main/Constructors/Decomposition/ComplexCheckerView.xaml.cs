@@ -23,7 +23,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для ComplexCheckerView.xaml
     /// </summary>
-    public partial class ComplexCheckerView : UserControl, IConstructorElement
+    public partial class ComplexCheckerView : StackPanel, IConstructorElement
     {
         private PluginsManager _manager = Singleton.Resolve<PluginsManager>();
 
@@ -73,7 +73,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             AlgorithmContext = algoContext;
             ActionHolder = actionHolder;
             _action = (ComplexCheckerAction)actionHolder.Action;
-            stackPanel.Children.Clear();
+            this.Children.Clear();
             foreach (var pair in _action.CheckerOperations)
                 Insert(pair);
         }
@@ -81,7 +81,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         private void Insert(CheckerOperatorPair operatorPair, int position = -1)
         {
             if (position == -1)
-                position = stackPanel.Children.Count;
+                position = this.Children.Count;
             FrameworkElement control = null;
             if (operatorPair.Checker is CheckerAction)
                 control = new CheckerOperatorPairView();
@@ -93,13 +93,13 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             constructorElement.Modified += (element) => Modified?.Invoke(element);
             constructorElement.NeedRemove += (element) => {
                 _action.CheckerOperations.Remove(operatorPair);
-                stackPanel.Children.Remove(control);
+                this.Children.Remove(control);
                 Modified?.Invoke(this);
                 MakeFirstRowOperatorInvisible();
             };
             constructorElement.NeedAddNext += (element) => {
                 SelectCheckerTypeView.Show((isGroup) => {
-                    var index = stackPanel.Children.IndexOf(control) + 1;
+                    var index = this.Children.IndexOf(control) + 1;
                     CheckerOperatorPair newOperatorPair = new CheckerOperatorPair();
                     if (isGroup)
                         newOperatorPair.Checker = new ComplexCheckerAction();
@@ -108,21 +108,21 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     Modified?.Invoke(this);
                 });
             };
-            stackPanel.Children.Insert(position, control);
+            this.Children.Insert(position, control);
             MakeFirstRowOperatorInvisible();
         }
 
         private void MakeFirstRowOperatorInvisible()
         {
-            if (this.stackPanel.Children.Count > 0)
+            if (this.Children.Count > 0)
             {
-                foreach (var control in this.stackPanel.Children)
+                foreach (var control in this.Children)
                 {
                     (control as CheckerOperatorPairView)?.MakeOperatorVisible();
                     (control as ComplexCheckerOperatorPairView)?.MakeOperatorVisible();
                 }
-                (this.stackPanel.Children[0] as CheckerOperatorPairView)?.MakeOperatorInvisible();
-                (this.stackPanel.Children[0] as ComplexCheckerOperatorPairView)?.MakeOperatorInvisible();
+                (this.Children[0] as CheckerOperatorPairView)?.MakeOperatorInvisible();
+                (this.Children[0] as ComplexCheckerOperatorPairView)?.MakeOperatorInvisible();
             }
         }
     }

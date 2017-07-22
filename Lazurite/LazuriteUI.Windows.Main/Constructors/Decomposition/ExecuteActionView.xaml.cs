@@ -22,7 +22,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для ExecuteActionView.xaml
     /// </summary>
-    public partial class ExecuteActionView : UserControl, IConstructorElement
+    public partial class ExecuteActionView : StackPanel, IConstructorElement
     {
         private ExecuteAction _action;
 

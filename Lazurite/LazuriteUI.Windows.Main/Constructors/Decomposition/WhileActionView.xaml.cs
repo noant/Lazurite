@@ -20,7 +20,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для IfActionView.xaml
     /// </summary>
-    public partial class WhileActionView : UserControl, IConstructorElement
+    public partial class WhileActionView : Grid, IConstructorElement
     {
         private WhileAction _action;
 

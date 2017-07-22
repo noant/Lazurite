@@ -24,7 +24,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для ExecuteActionView.xaml
     /// </summary>
-    public partial class ReturnScenarioValueView : UserControl, IConstructorElement
+    public partial class ReturnScenarioValueView : StackPanel, IConstructorElement
     {
         private SetReturnValueAction _action;
 

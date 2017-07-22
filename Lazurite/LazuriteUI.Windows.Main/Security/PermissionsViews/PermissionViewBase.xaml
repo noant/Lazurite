@@ -16,7 +16,7 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock Margin="5" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockCaption}">Permission</TextBlock>
-        <controls:ItemView Grid.Column="1" Icon="ListSelect"></controls:ItemView>
-        <controls:ItemView Grid.Column="2" Style="{StaticResource ButtonRemove}"></controls:ItemView>
+        <controls:ItemView x:Name="btSelect" Grid.Column="1" Icon="ListSelect"></controls:ItemView>
+        <controls:ItemView x:Name="btRemove" Grid.Column="2" Style="{StaticResource ButtonRemove}"></controls:ItemView>
     </Grid>
 </UserControl>
