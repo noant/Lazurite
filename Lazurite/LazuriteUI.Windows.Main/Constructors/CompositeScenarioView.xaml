@@ -17,7 +17,7 @@
             <Grid.LayoutTransform>
                 <ScaleTransform x:Name="scale" CenterX="0" CenterY="0"></ScaleTransform>
             </Grid.LayoutTransform>
-            <decompos:EditActionButtonsView x:Name="buttons" EditVisible="False" ChangeVisible="False" RemoveVisible="False"></decompos:EditActionButtonsView>
+            <decompos:AddRemoveActionButtonsView x:Name="buttons" RemoveVisible="False"></decompos:AddRemoveActionButtonsView>
             <decompos:ComplexActionView Grid.Row="1" x:Name="complexActionView"></decompos:ComplexActionView>
         </Grid>
     </controls:WheelScroll>

@@ -27,7 +27,7 @@
             <StackPanel.LayoutTransform>
                 <ScaleTransform x:Name="scale" CenterX="0" CenterY="0"></ScaleTransform>
             </StackPanel.LayoutTransform>
-            <decomposition:EditActionButtonsView IsEnabled="False" x:Name="buttons" EditVisible="False" Grid.Row="2" ChangeVisible="False" RemoveVisible="False"></decomposition:EditActionButtonsView>
+            <decomposition:AddRemoveActionButtonsView IsEnabled="False" x:Name="buttons" Grid.Row="2" RemoveVisible="False"></decomposition:AddRemoveActionButtonsView>
             <decomposition:ComplexActionView x:Name="complexActionView" Grid.Row="3"></decomposition:ComplexActionView>
         </StackPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4,0,4,2">

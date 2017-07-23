@@ -9,5 +9,5 @@
     <local:CheckerView x:Name="action1View"></local:CheckerView>
     <local:ComparisonTypeView x:Name="comparisonView"></local:ComparisonTypeView>
     <local:CheckerView x:Name="action2View"></local:CheckerView>
-    <local:EditActionButtonsView x:Name="buttons" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+    <local:AddRemoveActionButtonsView x:Name="buttons"></local:AddRemoveActionButtonsView>
 </StackPanel>

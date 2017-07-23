@@ -62,7 +62,8 @@ namespace LazuriteUI.Windows.Controls
                         itemView.Selected = false;
                 }
             });
-            SelectedProperty = DependencyProperty.Register(nameof(Selected), typeof(bool), typeof(ItemView), new FrameworkPropertyMetadata() {
+            SelectedProperty = DependencyProperty.Register(nameof(Selected), typeof(bool), typeof(ItemView), new FrameworkPropertyMetadata()
+            {
                 PropertyChangedCallback = (o, e) =>
                 {
                     var itemView = ((ItemView)o);
@@ -79,8 +80,9 @@ namespace LazuriteUI.Windows.Controls
                     else itemView.Selected = false;
                 }
             });
-            IconVerticalAligmentProperty = DependencyProperty.Register(nameof(IconVerticalAligment), typeof(VerticalAlignment), typeof(ItemView), new FrameworkPropertyMetadata() {
-                PropertyChangedCallback = (o,e) =>
+            IconVerticalAligmentProperty = DependencyProperty.Register(nameof(IconVerticalAligment), typeof(VerticalAlignment), typeof(ItemView), new FrameworkPropertyMetadata()
+            {
+                PropertyChangedCallback = (o, e) =>
                 {
                     var itemView = ((ItemView)o);
                     var value = (VerticalAlignment)e.NewValue;
@@ -118,6 +120,7 @@ namespace LazuriteUI.Windows.Controls
         public ItemView()
         {
             InitializeComponent();
+
             button.Click += (o, e) => Click?.Invoke(this, e);
             Click += (o, e) => this.Selected = !this.Selected;
             SizeChanged += (o, e) =>

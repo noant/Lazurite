@@ -14,50 +14,11 @@
     <UserControl.Resources>
         <ResourceDictionary Source="/LazuriteUI.Windows.Controls;component/Styles/Styles.xaml" />
     </UserControl.Resources>
-    <Button x:FieldModifier="private" Name="button" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">        
-        <Button.Template>
-            <ControlTemplate TargetType="{x:Type Button}">
-                <Grid x:Name="border" Background="Transparent">
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroup x:Name="FocusStates">
-                            <VisualState x:Name="Focused">
-                                <Storyboard>
-                                    <DoubleAnimation To="1" Storyboard.TargetName="bottomBorder" Storyboard.TargetProperty="Opacity" Duration="0:0:0.3" AutoReverse="False">
-                                    </DoubleAnimation>
-                                </Storyboard>
-                            </VisualState>
-                            <VisualState x:Name="Unfocused">
-                                <Storyboard>
-                                    <DoubleAnimation To="0" Storyboard.TargetName="bottomBorder" Storyboard.TargetProperty="Opacity" Duration="0:0:0.3" AutoReverse="False">
-                                    </DoubleAnimation>
-                                </Storyboard>
-                            </VisualState>
-                        </VisualStateGroup>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal" />
-                            <VisualState x:Name="MouseOver">
-                                <Storyboard>
-                                    <ColorAnimation To="Gray" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" Duration="0:0:0.1">
-                                    </ColorAnimation>
-                                </Storyboard>
-                            </VisualState>
-                            <VisualState x:Name="Pressed">
-                                <Storyboard>
-                                    <ColorAnimation To="SteelBlue" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" Duration="0:0:0.1" AutoReverse="True">
-                                    </ColorAnimation>
-                                </Storyboard>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateManager.VisualStateGroups>
-                    <Border x:Name="bottomBorder" Opacity="0" BorderBrush="DarkOrchid" BorderThickness="0,0,0,1" />
-                    <ContentPresenter></ContentPresenter>
-                </Grid>
-            </ControlTemplate>
-        </Button.Template>
+    <Button x:FieldModifier="private" Name="button" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Style="{StaticResource ItemButtonStyle}">
         <Grid>
             <Grid x:FieldModifier="private" Visibility="Collapsed" Name="backView" Background="SteelBlue"></Grid>
             <Label Style="{DynamicResource LabelStyle}" IsHitTestVisible="False" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" Name="label" x:FieldModifier="private"></Label>
-            <local:IconView IsHitTestVisible="False" x:Name="iconView" x:FieldModifier="private" Icon="Acorn" Visibility="{Binding IconVisibility}" Margin="4" VerticalAlignment="Center" HorizontalAlignment="Left"></local:IconView>
+            <local:IconView IsHitTestVisible="False" x:Name="iconView" x:FieldModifier="private" Visibility="{Binding IconVisibility}" Margin="4" VerticalAlignment="Center" HorizontalAlignment="Left"></local:IconView>
         </Grid>
     </Button>
 </UserControl>

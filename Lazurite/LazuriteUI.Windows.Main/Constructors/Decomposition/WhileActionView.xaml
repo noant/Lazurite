@@ -14,11 +14,11 @@
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
     <Label Style="{StaticResource LabelWhileView}" Width="45" Grid.Row="0" HorizontalAlignment="Left" Height="30">ПОКА</Label>
-    <local:EditActionButtonsView Grid.Row="0" Margin="45,0,0,0" x:Name="buttonsWhile"  EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+    <local:AddRemoveActionButtonsView Grid.Row="0" Margin="45,0,0,0" x:Name="buttonsWhile" ></local:AddRemoveActionButtonsView>
     <local:ComplexCheckerView Margin="30,0,0,0" Grid.Row="1" x:Name="checkerView"></local:ComplexCheckerView>
     <Label Style="{StaticResource LabelWhileView}" Width="83" Grid.Row="2" HorizontalAlignment="Left" Height="30">ВЫПОЛНИТЬ</Label>
-    <local:EditActionButtonsView x:Name="buttonsDo" Margin="83,0,0,0" Grid.Row="2" RemoveVisible="False" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+    <local:AddRemoveActionButtonsView x:Name="buttonsDo" Margin="83,0,0,0" Grid.Row="2" RemoveVisible="False"></local:AddRemoveActionButtonsView>
     <local:ComplexActionView  Margin="30,0,0,0" Grid.Row="3" x:Name="actionView"></local:ComplexActionView>
     <Label Style="{StaticResource LabelWhileView}" Width="96" Grid.Row="4" HorizontalAlignment="Left" Height="30">КОНЕЦ ЦИКЛА</Label>
-    <local:EditActionButtonsView x:Name="buttonsEnd" Margin="96,0,0,0" Grid.Row="4" RemoveVisible="False" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+    <local:AddRemoveActionButtonsView x:Name="buttonsEnd" Margin="96,0,0,0" Grid.Row="4" RemoveVisible="False"></local:AddRemoveActionButtonsView>
 </Grid>

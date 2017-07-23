@@ -25,7 +25,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для ComplexActionView.xaml
     /// </summary>
-    public partial class ComplexActionView : StackPanel, IConstructorElement
+    public partial class ComplexActionView : VirtualizingStackPanel, IConstructorElement
     {
         private PluginsManager _manager = Singleton.Resolve<PluginsManager>();
 

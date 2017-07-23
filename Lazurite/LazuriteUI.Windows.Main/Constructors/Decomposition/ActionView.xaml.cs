@@ -30,8 +30,6 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             InitializeComponent();
             
-            buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
-            buttons.RemoveClick += () => NeedRemove?.Invoke(this);
             buttons.EditClick += () => BeginEditAction();
             buttons.ChangeClick += () => BeginSelectAction();
         }

@@ -1,13 +1,14 @@
-﻿<UserControl x:Class="LazuriteUI.Windows.Controls.IconView"
+﻿<UserControl x:Class="LazuriteUI.Windows.Controls.ItemViewLE"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Controls"
-             mc:Ignorable="d"
-             ClipToBounds="False"
-             Height="Auto"
-             Width="Auto"
+             mc:Ignorable="d" 
+             Height="30"
+             Width="30"
+             ClipToBounds="True"
+             Cursor="Hand"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Image Stretch="Uniform" Name="iconControl"></Image>
+    <local:IconView x:Name="iconView" VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" Height="30"></local:IconView>
 </UserControl>

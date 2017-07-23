@@ -23,7 +23,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// <summary>
     /// Логика взаимодействия для ComplexCheckerView.xaml
     /// </summary>
-    public partial class ComplexCheckerView : StackPanel, IConstructorElement
+    public partial class ComplexCheckerView : VirtualizingStackPanel, IConstructorElement
     {
         private PluginsManager _manager = Singleton.Resolve<PluginsManager>();
 

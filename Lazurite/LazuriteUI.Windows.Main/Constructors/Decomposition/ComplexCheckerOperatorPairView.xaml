@@ -16,9 +16,8 @@
     </Grid.RowDefinitions>
     <local:CheckerOperatorView Grid.Row="0" HorizontalAlignment="Left" x:Name="operatorView"></local:CheckerOperatorView>    
     <Label Style="{StaticResource LabelIfView}" Grid.Row="1" Width="167" HorizontalAlignment="Left" Height="30">НАЧАЛО ГРУППЫ УСЛОВИЙ</Label>
-    <local:EditActionButtonsView Grid.Row="1" Margin="167,0,0,0" x:Name="buttonsGroup" ChangeVisible="False" EditVisible="False"></local:EditActionButtonsView>
+    <local:AddRemoveActionButtonsView Grid.Row="1" Margin="167,0,0,0" x:Name="buttonsGroup"></local:AddRemoveActionButtonsView>
     <local:ComplexCheckerView Grid.Row="2" x:Name="complexCheckerView" Margin="30,0,0,0"></local:ComplexCheckerView>
     <Label Style="{StaticResource LabelIfView}" Width="160" Grid.Row="3" HorizontalAlignment="Left" Height="30">КОНЕЦ ГРУППЫ УСЛОВИЙ</Label>
-    <local:EditActionButtonsView x:Name="buttonsEnd" Margin="160,0,0,0" Grid.Row="3" RemoveVisible="False" ChangeVisible="False" EditVisible="False"></local:EditActionButtonsView>
-
+    <local:AddRemoveActionButtonsView x:Name="buttonsEnd" Margin="160,0,0,0" Grid.Row="3" RemoveVisible="False"></local:AddRemoveActionButtonsView>
 </Grid>

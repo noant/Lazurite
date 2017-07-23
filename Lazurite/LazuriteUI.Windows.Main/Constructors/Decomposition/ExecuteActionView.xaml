@@ -9,5 +9,5 @@
     <local:ActionView x:Name="action1View"></local:ActionView>
     <TextBlock x:Name="tbEquals" FontSize="20" Foreground="White" Margin="-1,-5,-1,0" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Heavy">=</TextBlock>
     <local:ActionView x:Name="action2View"></local:ActionView>
-    <local:EditActionButtonsView x:Name="buttons" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+    <local:AddRemoveActionButtonsView x:Name="buttons"></local:AddRemoveActionButtonsView>
 </StackPanel>

@@ -10,18 +10,35 @@ namespace LazuriteUI.Icons
 {
     public static class Utils
     {
+        private static Dictionary<Icon, byte[]> AllIconsData = new Dictionary<Icon, byte[]>();
+
         public static Stream GetIconData(Icon icon)
         {
-            return GetIconData(Enum.GetName(typeof(Icon), icon));
+            if (AllIconsData.ContainsKey(icon))
+                return new MemoryStream(AllIconsData[icon]);
+            else
+            {
+                var data = GetIconData(Enum.GetName(typeof(Icon), icon));
+                var bytes = ReadFully(data);
+                AllIconsData.Add(icon, bytes);
+                return GetIconData(icon);
+            }
         }
         
         public static Stream GetIconData(string iconName)
         {
-            var data = typeof(Utils)
+            var stream = typeof(Utils)
                     .GetTypeInfo()
                     .Assembly
                     .GetManifestResourceStream(string.Format("LazuriteUI.Icons.Icons.{0}.png", iconName));
-            return data;
+            return stream;
+        }
+
+        public static byte[] ReadFully(Stream input)
+        {
+            var ms = new MemoryStream();
+            input.CopyTo(ms);
+            return ms.ToArray();
         }
     }
 }

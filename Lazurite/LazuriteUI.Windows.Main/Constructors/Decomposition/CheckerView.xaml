@@ -24,5 +24,5 @@
     <controls:IconView Opacity="0.5" Icon="{Binding Icon}" Visibility="{Binding ActionIconVisibility}"></controls:IconView>
     <Label Grid.Column="1" Foreground="White" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Opacity="0.5" Content="{Binding ActionName}"></Label>
     <Label Grid.Column="2" Foreground="White" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Content="{Binding ActionCaption}" Visibility="{Binding ActionCaption, Converter={StaticResource stringToVisibility}}"></Label>
-    <local:EditActionButtonsView x:Name="buttons" EditVisible="{Binding IsSupportsModification}" AddVisible="False" RemoveVisible="False" Grid.Column="3"></local:EditActionButtonsView>
+    <local:EditActionButtonsView x:Name="buttons" EditVisible="{Binding IsSupportsModification}" Grid.Column="3"></local:EditActionButtonsView>
 </Grid>

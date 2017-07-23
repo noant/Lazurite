@@ -16,14 +16,14 @@
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
     <Label Grid.Row="0" Width="40" Style="{StaticResource LabelIfView}" HorizontalAlignment="Left" Height="30">ЕСЛИ</Label>
-    <local:EditActionButtonsView Margin="40,0,0,0" Grid.Row="0" x:Name="buttonsChecker" EditVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+    <local:AddRemoveActionButtonsView Margin="40,0,0,0" Grid.Row="0" x:Name="buttonsChecker"></local:AddRemoveActionButtonsView>
     <local:ComplexCheckerView Grid.Row="1" Margin="30,0,0,0" x:Name="checkerView"></local:ComplexCheckerView>
     <Label Style="{StaticResource LabelIfView}" Width="83" Grid.Row="2" HorizontalAlignment="Left" Height="30">ВЫПОЛНИТЬ</Label>
-    <local:EditActionButtonsView Grid.Row="2" Margin="83,0,0,0" x:Name="buttonsIf" EditVisible="False" ChangeVisible="False" RemoveVisible="False"></local:EditActionButtonsView>
+    <local:AddRemoveActionButtonsView Grid.Row="2" Margin="83,0,0,0" x:Name="buttonsIf" RemoveVisible="False"></local:AddRemoveActionButtonsView>
     <local:ComplexActionView  Margin="30,0,0,0" Grid.Row="3" x:Name="actionIfView"></local:ComplexActionView>
     <Label Style="{StaticResource LabelIfView}" Width="49" Grid.Row="4" HorizontalAlignment="Left" Height="30">ИНАЧЕ</Label>
-    <local:EditActionButtonsView x:Name="buttonsElse" Margin="49,0,0,0" Grid.Row="4" EditVisible="False" ChangeVisible="False" RemoveVisible="False"></local:EditActionButtonsView>
+    <local:AddRemoveActionButtonsView x:Name="buttonsElse" Margin="49,0,0,0" Grid.Row="4" RemoveVisible="False"></local:AddRemoveActionButtonsView>
     <local:ComplexActionView  Margin="30,0,0,0"  Grid.Row="5" x:Name="actionElseView"></local:ComplexActionView>
     <Label Style="{StaticResource LabelIfView}" Width="107" Grid.Row="6" HorizontalAlignment="Left" Height="30">КОНЕЦ УСЛОВИЯ</Label>
-    <local:EditActionButtonsView  Grid.Row="6" Margin="107,0,0,0" x:Name="buttonsEnd" EditVisible="False" RemoveVisible="False" ChangeVisible="False"></local:EditActionButtonsView>
+    <local:AddRemoveActionButtonsView  Grid.Row="6" Margin="107,0,0,0" x:Name="buttonsEnd" RemoveVisible="False"></local:AddRemoveActionButtonsView>
 </Grid>

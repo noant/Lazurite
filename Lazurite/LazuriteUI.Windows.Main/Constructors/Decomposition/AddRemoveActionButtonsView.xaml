@@ -1,4 +1,4 @@
-﻿<Grid x:Class="LazuriteUI.Windows.Main.Constructors.Decomposition.EditActionButtonsView"
+﻿<Grid x:Class="LazuriteUI.Windows.Main.Constructors.Decomposition.AddRemoveActionButtonsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -10,9 +10,9 @@
              Height="30"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid.ColumnDefinitions>
-        <ColumnDefinition x:Name="columnEdit" Width="Auto"></ColumnDefinition>
-        <ColumnDefinition x:Name="columnChange" Width="Auto"></ColumnDefinition>
+        <ColumnDefinition x:Name="columnRemove" Width="Auto"></ColumnDefinition>
+        <ColumnDefinition x:Name="columnAddNew" Width="Auto"></ColumnDefinition>
     </Grid.ColumnDefinitions>
-    <controls:ItemViewLE VerticalAlignment="Center" x:Name="btEdit" ToolTip="Редактировать параметры" Opacity="0.5" Background="Transparent" Icon="Edit"></controls:ItemViewLE>
-    <controls:ItemViewLE VerticalAlignment="Center" x:Name="btChange" ToolTip="Изменить тип действия" Opacity="0.5" Background="Transparent" Grid.Column="1" Icon="Reset"></controls:ItemViewLE>
+    <controls:ItemViewLE VerticalAlignment="Center" x:Name="btRemove" ToolTip="Удалить строку" Opacity="0.3" Grid.Column="0" Icon="Delete" Background="Crimson"></controls:ItemViewLE>
+    <controls:ItemViewLE VerticalAlignment="Center" x:Name="btAddNew" Background="Transparent" Opacity="0.3" ToolTip="Добавить новую строку" Grid.Column="1" Icon="Add"></controls:ItemViewLE>
 </Grid>

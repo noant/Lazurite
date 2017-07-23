@@ -13,8 +13,8 @@
              Background="{x:Static controls:Visual.ItemBackground}"
              d:DesignHeight="300">
     <Grid.Resources>
-            <local:StringToVisibility x:Key="stringToVisibility"></local:StringToVisibility>
-        </Grid.Resources>
+        <local:StringToVisibility x:Key="stringToVisibility"></local:StringToVisibility>
+    </Grid.Resources>
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"></ColumnDefinition>
         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -24,5 +24,5 @@
     <controls:IconView Icon="{Binding Icon}" Opacity="0.5" Visibility="{Binding ActionIconVisibility}"></controls:IconView>
     <Label Grid.Column="1" Opacity="0.5" Foreground="White" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Content="{Binding ActionName}"></Label>
     <Label Grid.Column="2" Foreground="White" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Content="{Binding ActionCaption}" Visibility="{Binding ActionCaption, Converter={StaticResource stringToVisibility}}"></Label>
-    <local:EditActionButtonsView x:Name="buttons" AddVisible="False" EditVisible="{Binding IsSupportsModification}" RemoveVisible="False" Grid.Column="3"></local:EditActionButtonsView>
+    <local:EditActionButtonsView x:Name="buttons" EditVisible="{Binding IsSupportsModification}" Grid.Column="3"></local:EditActionButtonsView>
 </Grid>
