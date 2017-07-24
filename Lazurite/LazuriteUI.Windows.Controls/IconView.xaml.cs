@@ -1,6 +1,7 @@
 ﻿using LazuriteUI.Icons;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,18 +24,34 @@ namespace LazuriteUI.Windows.Controls
     {
         public static readonly DependencyProperty IconProperty;
 
+        private static Dictionary<Icon, BitmapImage> Cache = new Dictionary<Icon, BitmapImage>();
+
         static IconView()
         {
             IconProperty = DependencyProperty.Register(nameof(Icon), typeof(Icon), typeof(IconView), 
                 new FrameworkPropertyMetadata() {
                     PropertyChangedCallback = (o,e) =>
-                    {
+                    {   
                         var icon = (Icon)e.NewValue;
-                        var image = new BitmapImage();
-                        image.BeginInit();
-                        image.StreamSource = LazuriteUI.Icons.Utils.GetIconData(icon);
-                        image.EndInit();
-                        ((IconView)o).iconControl.Source = image;
+                        var control = (IconView)o;
+                        if (icon != Icon.None)
+                        {
+                            if (Cache.ContainsKey(icon))
+                            {
+                                control.iconControl.Source = Cache[icon];
+                            }
+                            else
+                            {
+                                var image = new BitmapImage();
+                                image.BeginInit();
+                                image.StreamSource = LazuriteUI.Icons.Utils.GetIconData(icon);
+                                image.CacheOption = BitmapCacheOption.OnDemand;
+                                image.EndInit();
+                                Cache.Add(icon, image);
+                                control.iconControl.Source = image;
+                            }
+                        }
+                        else control.iconControl.Source = null;
                     }
                 });
         }

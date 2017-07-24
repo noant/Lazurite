@@ -1,0 +1,30 @@
+﻿<Grid x:Class="LazuriteUI.Windows.Main.Security.ScenarioSecurityManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Security.PermissionsViews"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d"
+             Background="{x:Static controls:Visual.Background}"
+             MinWidth="400"
+             Height="500"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+    </Grid.RowDefinitions>
+    <controls:CaptionView Icon="ShieldAlert">Параметры безопасности сценария</controls:CaptionView>
+    <controls:WheelScroll Grid.Row="1">
+        <StackPanel x:Name="stackPanel"></StackPanel>
+    </controls:WheelScroll>
+    <Grid Grid.Row="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <controls:ItemView x:Name="btClose" Margin="5" Icon="Close">Закрыть</controls:ItemView>
+        <controls:ItemView x:Name="btAddNew" Margin="5" Icon="Add" Grid.Column="1">Добавить правило</controls:ItemView>
+    </Grid>
+</Grid>

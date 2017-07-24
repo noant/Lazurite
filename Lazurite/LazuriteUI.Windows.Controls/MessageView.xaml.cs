@@ -1,4 +1,6 @@
-﻿using LazuriteUI.Icons;
+﻿using Lazurite.IOC;
+using Lazurite.Logging;
+using LazuriteUI.Icons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +51,7 @@ namespace LazuriteUI.Windows.Controls
             Show(parent);
         }
 
-        public void ShowInNewWindow()
+        public void ShowInNewWindow(Action shownCallback = null)
         {
             var window = new Window();
             window.Name = "messageView";
@@ -61,6 +63,7 @@ namespace LazuriteUI.Windows.Controls
             window.Topmost = true;
             window.ShowActivated = false;
             window.ShowInTaskbar = false;
+            window.ContentRendered += (o,e) => shownCallback?.Invoke();
             window.Content = new Grid();
             _window = window;
             Show(window.Content as Grid);
@@ -223,6 +226,25 @@ namespace LazuriteUI.Windows.Controls
                 true)
             });
             messageView.Show(parent);
+        }
+
+        public static void ShowLoadCrutch(Action<Action> target, string caption)
+        {
+            var messageView = new MessageView();
+            messageView.ContentText = caption;
+            messageView.Icon = Icon.Hourglass;
+            messageView.ShowInNewWindow(() => 
+                target?.Invoke(() => 
+                {
+                    messageView
+                        .Dispatcher
+                        .BeginInvoke(new Action(() =>
+                            {
+                                messageView.Close();
+                            }
+                        ));
+                })
+            );
         }
     }
 }

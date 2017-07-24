@@ -13,6 +13,7 @@ using Lazurite.IOC;
 using Lazurite.CoreActions.ContextInitialization;
 using System.Threading;
 using Lazurite.Logging;
+using Lazurite.Security;
 
 namespace Lazurite.Scenarios.ScenarioTypes
 {
@@ -122,5 +123,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 InitializeWithValue = value;
             }
         }
+
+        public override SecuritySettingsBase SecuritySettings { get; set; } = new SecuritySettings();
     }
 }

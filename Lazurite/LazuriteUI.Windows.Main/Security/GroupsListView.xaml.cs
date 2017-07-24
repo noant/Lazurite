@@ -91,7 +91,7 @@ namespace LazuriteUI.Windows.Main.Security
             }
             set
             {
-                itemsView.GetItems().Where(x => value.Contains((UserGroupBase)((ItemView)x).Tag)).All(x=>x.Selected=true);
+                itemsView.GetItems().Where(x => value.Any(group=>((UserGroupBase)((ItemView)x).Tag).Name.Equals(group.Name))).All(x=>x.Selected=true);
             }
         }
 

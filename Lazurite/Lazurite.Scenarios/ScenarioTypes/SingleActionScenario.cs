@@ -5,6 +5,7 @@ using Lazurite.CoreActions;
 using Lazurite.CoreActions.CoreActions;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,5 +93,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             return new[] { ActionHolder.Action };
         }
+
+        public override SecuritySettingsBase SecuritySettings { get; set; } = new SecuritySettings();
     }
 }

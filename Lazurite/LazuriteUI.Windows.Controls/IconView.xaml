@@ -8,6 +8,7 @@
              ClipToBounds="False"
              Height="Auto"
              Width="Auto"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Image Stretch="Uniform" Name="iconControl"></Image>
+             d:DesignHeight="300" 
+             d:DesignWidth="300">
+    <Image Stretch="Uniform" Name="iconControl" RenderOptions.BitmapScalingMode="LowQuality"></Image>
 </UserControl>

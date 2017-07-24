@@ -28,6 +28,7 @@ using Lazurite.ActionsDomain.Attributes;
 using LazuriteUI.Windows.Main.Constructors.Decomposition;
 using LazuriteUI.Icons;
 using Lazurite.CoreActions;
+using LazuriteUI.Windows.Main.Security.PermissionsViews;
 
 namespace LazuriteUI.Windows.Main
 {
@@ -39,6 +40,8 @@ namespace LazuriteUI.Windows.Main
         public TestWindow()
         {
             InitializeComponent();
+
+            grid.Children.Add(new DenyForUsersPermissionView(new Lazurite.Security.Permissions.DenyForUsersPermission()));
         }
     }
 }

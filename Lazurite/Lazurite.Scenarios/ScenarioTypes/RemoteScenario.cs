@@ -11,6 +11,7 @@ using System.Threading;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.MainDomain.MessageSecurity;
 using Lazurite.Logging;
+using Lazurite.Security;
 
 namespace Lazurite.Scenarios.ScenarioTypes
 {
@@ -223,5 +224,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             return _server = _clientFactory.GetServer(AddressHost, Port, ServiceName, SecretKey, UserLogin, Password);
         }
+
+        public override SecuritySettingsBase SecuritySettings { get; set; } = new SecuritySettings();
     }
 }

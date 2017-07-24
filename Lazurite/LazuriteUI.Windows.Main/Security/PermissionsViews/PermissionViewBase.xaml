@@ -15,8 +15,8 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TextBlock Margin="5" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockCaption}">Permission</TextBlock>
-        <controls:ItemView x:Name="btSelect" Grid.Column="1" Icon="ListSelect"></controls:ItemView>
-        <controls:ItemView x:Name="btRemove" Grid.Column="2" Style="{StaticResource ButtonRemove}"></controls:ItemView>
+        <TextBlock x:Name="tbName" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockCaption}">Permission</TextBlock>
+        <controls:ItemView x:Name="btSelect" ToolTip="Настроить правило" Grid.Column="1" Icon="ListSelect"></controls:ItemView>
+        <controls:ItemView x:Name="btRemove" ToolTip="Удалить правило" Grid.Column="2" Style="{StaticResource ButtonRemove}"></controls:ItemView>
     </Grid>
 </UserControl>

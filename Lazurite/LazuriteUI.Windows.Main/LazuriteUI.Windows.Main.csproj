@@ -255,8 +255,23 @@
     <Compile Include="Security\GroupsListView.xaml.cs">
       <DependentUpon>GroupsListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Security\PermissionsViews\DenyAllUsersExceptPermissionView.cs" />
+    <Compile Include="Security\PermissionsViews\DenyForAllGroupsExceptPermissionView.cs" />
+    <Compile Include="Security\PermissionsViews\DenyForGroupsPermissionView.cs" />
+    <Compile Include="Security\PermissionsViews\DenyForUsersPermissionView.cs" />
+    <Compile Include="Security\PermissionsViews\DenyForPublicUsagePermissionView.cs" />
+    <Compile Include="Security\PermissionsViews\DenyForScenarioUsePermissionView.cs" />
+    <Compile Include="Security\PermissionsViews\DenyForAllPermissionView.cs" />
+    <Compile Include="Security\PermissionsViews\PermissionTypeAttribute.cs" />
     <Compile Include="Security\PermissionsViews\PermissionViewBase.xaml.cs">
       <DependentUpon>PermissionViewBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\PermissionsViews\PermissionViewsResolver.cs" />
+    <Compile Include="Security\PermissionsViews\SelectPermissionView.xaml.cs">
+      <DependentUpon>SelectPermissionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\ScenarioSecurityManagementView.xaml.cs">
+      <DependentUpon>ScenarioSecurityManagementView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Security\UsersSelectView.xaml.cs">
       <DependentUpon>UsersSelectView.xaml</DependentUpon>
@@ -572,6 +587,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Security\PermissionsViews\SelectPermissionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Security\ScenarioSecurityManagementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Security\UsersSelectView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -701,6 +724,10 @@
     <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj">
       <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
       <Name>Lazurite.IOC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Logging\Lazurite.Logging.csproj">
+      <Project>{0A02DE31-B9E4-4AB7-8002-7F477A0F52DE}</Project>
+      <Name>Lazurite.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.MainDomain\Lazurite.MainDomain.csproj">
       <Project>{DCD8E6AF-A435-4556-AD74-84444B1DD816}</Project>

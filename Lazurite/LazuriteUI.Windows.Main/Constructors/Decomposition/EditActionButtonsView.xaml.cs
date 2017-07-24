@@ -38,7 +38,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public EditActionButtonsView()
         {
             InitializeComponent();
-            
+
             btChange.Click += (o, e) => ChangeClick?.Invoke();
             btEdit.Click += (o, e) => EditClick?.Invoke();
         }

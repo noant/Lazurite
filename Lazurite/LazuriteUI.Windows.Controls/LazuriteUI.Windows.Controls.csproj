@@ -192,6 +192,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj">
+      <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
+      <Name>Lazurite.IOC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Logging\Lazurite.Logging.csproj">
+      <Project>{0A02DE31-B9E4-4AB7-8002-7F477A0F52DE}</Project>
+      <Name>Lazurite.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LazuriteUI.Icons\LazuriteUI.Icons.csproj">
       <Project>{c5d27a74-cb03-4830-b5e1-558ac2194d5f}</Project>
       <Name>LazuriteUI.Icons</Name>

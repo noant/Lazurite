@@ -17,7 +17,6 @@ namespace Lazurite.MainDomain
 
         private List<Action<ScenarioBase>> _events = new List<Action<ScenarioBase>>();        
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
-        private string _id = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Scenario category
@@ -37,17 +36,7 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Scenario id
         /// </summary>
-        public string Id
-        {
-            get
-            {
-                return _id;
-            }
-            set
-            {
-                _id = value;
-            }
-        }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Type of returning value
@@ -57,7 +46,7 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Security settings
         /// </summary>
-        public SecuritySettingsBase SecuritySettings { get; set; }
+        public abstract SecuritySettingsBase SecuritySettings { get; set; }
 
         /// <summary>
         /// Time when CurrentValue was changed last time

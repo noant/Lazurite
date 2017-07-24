@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Security"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
+             MinWidth="400"
              d:DesignHeight="300" d:DesignWidth="300">
     <controls:ListItemsView x:Name="itemsView" SelectionMode="Multiple">
         

@@ -10,7 +10,10 @@ namespace Lazurite.Security
 {
     public class SecuritySettings : SecuritySettingsBase
     {
-        public List<IPermission> Permissions = new List<IPermission>();
+        public List<IPermission> Permissions { get; set; } = new List<IPermission>() {
+            new DenyForAll()
+        };
+
         public override bool IsAvailableForUser(UserBase user, ScenarioStartupSource source)
         {
             var result = true;

@@ -8,10 +8,10 @@ using Lazurite.MainDomain;
 
 namespace Lazurite.Security.Permissions
 {
-    [HumanFriendlyName("Запретить для все пользователей кроме")]
+    [HumanFriendlyName("Запретить для всех пользователей, кроме...")]
     public class DenyForAllUsersExceptPermission : IPermission
     {
-        public List<UserBase> Users { get; set; }
+        public List<UserBase> Users { get; set; } = new List<UserBase>();
         public bool IsAvailableForUser(UserBase user, ScenarioStartupSource source)
         {
             return Users.Any(x => x.Id.Equals(user.Id));

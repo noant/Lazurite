@@ -1,5 +1,6 @@
 ﻿using Lazurite.MainDomain;
 using LazuriteUI.Windows.Controls;
+using LazuriteUI.Windows.Main.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,9 +55,15 @@ namespace LazuriteUI.Windows.Main.Constructors
                 ScenarioModified();
             };
 
-            btOnlyGetValue.Click += (o, e) => {
+            btOnlyGetValue.Click += (o, e) => 
+            {
                 _scenario.OnlyGetValue = btOnlyGetValue.Selected;
                 ScenarioModified();
+            };
+
+            btSecurity.Click += (o, e) => 
+            {
+                ScenarioSecurityManagementView.Show(_scenario, () => ScenarioModified());
             };
         }
 

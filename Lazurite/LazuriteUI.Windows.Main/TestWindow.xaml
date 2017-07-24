@@ -9,7 +9,6 @@
         mc:Ignorable="d"
         Background="Black"
         Title="TestWindows" Height="300" Width="300">
-    <Grid Name="grid" VerticalAlignment="Center" HorizontalAlignment="Center">
-        <controls:IconView Icon="Acorn" Width="40" Height="40"></controls:IconView>
+    <Grid Name="grid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
     </Grid>
 </Window>

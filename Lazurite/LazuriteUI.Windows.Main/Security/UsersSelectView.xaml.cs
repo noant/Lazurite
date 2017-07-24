@@ -1,4 +1,5 @@
-﻿using Lazurite.MainDomain;
+﻿using Lazurite.IOC;
+using Lazurite.MainDomain;
 using LazuriteUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace LazuriteUI.Windows.Main.Security
     /// </summary>
     public partial class UsersSelectView : UserControl
     {
+        private static UsersRepositoryBase Repository = Singleton.Resolve<UsersRepositoryBase>();
+
         public UsersSelectView(UserBase[] selectedUsers)
         {
             InitializeComponent();
@@ -45,14 +48,22 @@ namespace LazuriteUI.Windows.Main.Security
 
         public static void Show(Action<UserBase[]> callback, UserBase[] selectedUsers)
         {
-            var control = new UsersSelectView(selectedUsers);
-            var dialogView = new DialogView(control);
-            dialogView.Caption = "Выберите пользователей";
-            control.ApplyClicked += () => {
-                callback?.Invoke(control.SelectedGroups);
-                dialogView.Close();
-            };
-            dialogView.Show();
+            if (!Repository.Users.Any())
+            {
+                MessageView.ShowMessage("Пользователи не созданы!", "Выбор пользователей", Icons.Icon.Warning);
+            }
+            else
+            {
+                var control = new UsersSelectView(selectedUsers);
+                var dialogView = new DialogView(control);
+                dialogView.Caption = "Выберите пользователей";
+                control.ApplyClicked += () =>
+                {
+                    callback?.Invoke(control.SelectedGroups);
+                    dialogView.Close();
+                };
+                dialogView.Show();
+            }
         }
     }
 }

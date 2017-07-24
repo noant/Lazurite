@@ -1,4 +1,5 @@
 ﻿using Lazurite.IOC;
+using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.Scenarios.ScenarioTypes;
 using LazuriteUI.Windows.Controls;
@@ -41,37 +42,38 @@ namespace LazuriteUI.Windows.Main.Constructors
             buttonsView.Modified += () => IsModified = true;
         }
 
-        public void SetScenario(ScenarioBase scenario)
+        public void SetScenario(ScenarioBase scenario, Action callback = null)
         {
-            var loadView = new MessageView();
-            loadView.Icon = Icons.Icon.Hourglass;
-            loadView.ContentText = "Формирование окна...";
-            loadView.ShowInNewWindow();
-            if (scenario != null)
+            MessageView.ShowLoadCrutch((complete) =>
             {
-                _originalSenario = scenario;
-                _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
-                _clonedScenario.Initialize(_repository);
-                if (scenario is SingleActionScenario)
-                    this.contentPresenter.Content = _constructorView = new SingleActionScenarioView((SingleActionScenario)_clonedScenario);
-                else if (scenario is RemoteScenario)
-                    this.contentPresenter.Content = _constructorView = new RemoteScenarioView((RemoteScenario)_clonedScenario);
-                else if (scenario is CompositeScenario)
-                    this.contentPresenter.Content = _constructorView = new CompositeScenarioView((CompositeScenario)_clonedScenario);
-                buttonsView.SetScenario(_clonedScenario);
-                _constructorView.Modified += () => Modified?.Invoke();
-                _constructorView.Modified += () => buttonsView.ScenarioModified();
-                _constructorView.Modified += () => IsModified = true;
-                _constructorView.Failed += () => buttonsView.Failed();
-                _constructorView.Succeed += () => buttonsView.Success();
-                EmptyScenarioModeOff();
-            }
-            else
-            {
-                EmptyScenarioModeOn();
-            }
-            IsModified = false;
-            loadView.Close();
+                if (scenario != null)
+                {
+                    _originalSenario = scenario;
+                    _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
+                    _clonedScenario.Initialize(_repository);
+                    if (scenario is SingleActionScenario)
+                        this.contentPresenter.Content = _constructorView = new SingleActionScenarioView((SingleActionScenario)_clonedScenario);
+                    else if (scenario is RemoteScenario)
+                        this.contentPresenter.Content = _constructorView = new RemoteScenarioView((RemoteScenario)_clonedScenario);
+                    else if (scenario is CompositeScenario)
+                        this.contentPresenter.Content = _constructorView = new CompositeScenarioView((CompositeScenario)_clonedScenario);
+                    buttonsView.SetScenario(_clonedScenario);
+                    IsModified = false;
+                    _constructorView.Modified += () => Modified?.Invoke();
+                    _constructorView.Modified += () => buttonsView.ScenarioModified();
+                    _constructorView.Modified += () => IsModified = true;
+                    _constructorView.Failed += () => buttonsView.Failed();
+                    _constructorView.Succeed += () => buttonsView.Success();
+                    EmptyScenarioModeOff();
+                }
+                else
+                {
+                    EmptyScenarioModeOn();
+                }
+                complete?.Invoke();
+                callback?.Invoke();
+            },
+            "Компоновка окна...");
         }
 
         private void EmptyScenarioModeOn()
@@ -122,9 +124,11 @@ namespace LazuriteUI.Windows.Main.Constructors
             _repository.SaveScenario(_clonedScenario);
             _clonedScenario.Initialize(_repository);
             _clonedScenario.AfterInitilize();
-            SetScenario(_clonedScenario);
-            Applied?.Invoke();
-            IsModified = false;
+            SetScenario(_clonedScenario,
+                () => {
+                    Applied?.Invoke();
+                    IsModified = false;
+                });
         }
 
         public void Revert()

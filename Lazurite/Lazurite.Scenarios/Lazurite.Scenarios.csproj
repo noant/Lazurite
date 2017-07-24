@@ -60,6 +60,10 @@
       <Project>{dcd8e6af-a435-4556-ad74-84444b1dd816}</Project>
       <Name>Lazurite.MainDomain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Security\Lazurite.Security.csproj">
+      <Project>{3ACF6EAC-A7BE-4AFE-AA9C-80259157AE71}</Project>
+      <Name>Lazurite.Security</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ScenarioTypes\CompositeScenario.cs" />

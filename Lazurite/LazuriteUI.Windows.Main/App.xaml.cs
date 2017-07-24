@@ -18,6 +18,7 @@ using Lazurite.ActionsDomain.ValueTypes;
 using LazuriteUI.Windows.Main.Journal;
 using Lazurite.ActionsDomain;
 using Lazurite.CoreActions;
+using Lazurite.Security;
 
 namespace LazuriteUI.Windows.Main
 {
