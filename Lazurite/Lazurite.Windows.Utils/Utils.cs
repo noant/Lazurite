@@ -1,4 +1,6 @@
 ﻿using HierarchicalData;
+using Lazurite.IOC;
+using Lazurite.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,6 +14,8 @@ namespace Lazurite.Windows.Utils
 {
     public static class Utils
     {
+        private static ILogger Log = Singleton.Resolve<ILogger>();
+
         public static string GetAssemblyPath(Assembly assembly)
         {
             string codeBase = assembly.CodeBase;
@@ -36,6 +40,7 @@ namespace Lazurite.Windows.Utils
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.UseShellExecute = false;
+            Log.InfoFormat("command executing: [{0} {1}]", filePath, arguments);
             process.Start();
             process.WaitForExit();
             return process.StandardOutput.ReadToEnd()+"\r\n"+process.StandardError.ReadToEnd();

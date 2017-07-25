@@ -27,12 +27,14 @@ namespace LazuriteUI.Windows.Main
     /// </summary>
     public partial class App : Application
     {
+        public LazuriteCore Core { get; private set; }
+
         public App()
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            var core = new LazuriteCore();
-            core.WarningHandler.OnWrite += (o, e) =>
+            Core = new LazuriteCore();
+            Core.WarningHandler.OnWrite += (o, e) =>
             {
 #if DEBUG
                 if (e.Exception != null && (e.Type == WarnType.Error || e.Type == WarnType.Fatal))
@@ -42,16 +44,17 @@ namespace LazuriteUI.Windows.Main
             };
             try
             {
-                core.Initialize();
-                Lazurite.Windows.Server.Utils.NetshAddUrlacl(core.Server.GetSettings().GetAddress());
-                Lazurite.Windows.Server.Utils.NetshAddSslCert(core.Server.GetSettings().CertificateHash, core.Server.GetSettings().Port);
-                core.Server.StartAsync(null);
-                Singleton.Add(core);
+                Core.Initialize();
+                //Lazurite.Windows.Server.Utils.NetshAddUrlacl(Core.Server.GetSettings().GetAddress());
+                //Lazurite.Windows.Server.Utils.NetshAddSslCert(Core.Server.GetSettings().CertificateHash, Core.Server.GetSettings().Port);
+                Core.Server.StartAsync(null);
+                Singleton.Add(Core);
             }
             catch (Exception e)
             {
-                core.WarningHandler.Warn("Во время инициализации приложения возникла ошибка", e);
+                Core.WarningHandler.Warn("Во время инициализации приложения возникла ошибка", e);
             }
+            NotifyIconManager.Initialize();
         }
     }
 }

@@ -22,10 +22,12 @@
                 <ColumnDefinition Width="30"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid Background="BlueViolet" Opacity="0.3"></Grid>
             <controls:CornerView Opacity="0.3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" ></controls:CornerView>
             <local:LazuriteView Grid.Column="2" Width="100"></local:LazuriteView>
+            <controls:ItemView x:Name="btRestart" VerticalAlignment="Center" IconHorizontalAligment="Right" Opacity="0.5" Grid.Column="4" Icon="Refresh" Width="125" Margin="0,0,0,0" HorizontalAlignment="Right">ПЕРЕЗАПУСК</controls:ItemView>
             <TextBlock Margin="10,1,0,0" FontFamily="Verdana" VerticalAlignment="Center" FontSize="14" Grid.Column="3" Opacity="0.5" Foreground="DarkGray">управление системами умного дома</TextBlock>
         </Grid>
         <Grid Grid.Row="1" Margin="0,1,0,0">

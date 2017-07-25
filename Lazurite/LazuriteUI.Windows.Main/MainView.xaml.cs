@@ -43,6 +43,8 @@ namespace LazuriteUI.Windows.Main
                     btHide.Icon = Icons.Icon.ArrowExpand;
                 }
             };
+
+            btRestart.Click += (o, e) => Utils.RestartService();
         }
     }
 }

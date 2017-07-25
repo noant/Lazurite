@@ -1,8 +1,9 @@
-﻿<Application x:Class="LazuriteUI.Windows.Main.App"
+﻿<Application x:Class="LazuriteUI.Windows.Preparator.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:LazuriteUI.Windows.Main">
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Preparator"
+             StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary Source="/LazuriteUI.Windows.Main;component/Common/Styles.xaml"/>
+         
     </Application.Resources>
 </Application>

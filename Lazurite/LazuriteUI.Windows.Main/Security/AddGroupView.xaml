@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Security.AddGroupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Security"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             Background="{x:Static controls:Visual.Background}"
+             Height="250"
+             Width="400"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Style="{StaticResource LabelCaption}" HorizontalAlignment="Right">Наименование группы:</Label>
+            <controls:EntryView x:Name="tbName" Grid.Column="1"></controls:EntryView>
+            <TextBlock Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource TextBlockCaption}" x:Name="tbValidation"></TextBlock>
+        </Grid>
+        <controls:CaptionView Icon="Group">Группа пользователей</controls:CaptionView>
+        <controls:ItemView x:Name="btApply" Style="{StaticResource ApplyButton}" Grid.Row="2" Margin="5">Применить</controls:ItemView>
+    </Grid>
+</UserControl>
