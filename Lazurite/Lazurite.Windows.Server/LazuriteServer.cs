@@ -23,11 +23,7 @@ namespace Lazurite.Windows.Server
 {
     public class LazuriteServer
     {
-        private static readonly string StandartSecretKey = "secretKey";
-        private static readonly string StandartServiceName = "Lazurite";
-        private static readonly ushort StandartServicePort = 8080;
-        private static readonly string SettingsKey = "serverSettings";
-
+        public static readonly string SettingsKey = "serverSettings";
         private ISavior _savior = Singleton.Resolve<ISavior>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
         private ServerSettings _settings;
@@ -104,13 +100,7 @@ namespace Lazurite.Windows.Server
             if (_savior.Has(SettingsKey))
                 _settings = _savior.Get<ServerSettings>(SettingsKey);
             else
-            {
-                _settings = new ServerSettings() {
-                    Port = StandartServicePort,
-                    SecretKey = StandartSecretKey,
-                    ServiceName = StandartServiceName
-                };
-            }
+                _settings = new ServerSettings();
         }
     }
 }

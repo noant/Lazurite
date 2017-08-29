@@ -805,6 +805,10 @@
       <Project>{c5d27a74-cb03-4830-b5e1-558ac2194d5f}</Project>
       <Name>LazuriteUI.Icons</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LazuriteUI.Windows.Preparator\LazuriteUI.Windows.Preparator.csproj">
+      <Project>{e37cddd7-5c6b-48e7-a2b8-8195231fa8e9}</Project>
+      <Name>LazuriteUI.Windows.Preparator</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

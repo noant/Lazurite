@@ -3,6 +3,7 @@ using Lazurite.IOC;
 using Lazurite.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -28,22 +29,45 @@ namespace Lazurite.Windows.Utils
             return Path.GetDirectoryName(GetAssemblyPath(assembly));
         }
 
-        public static string ExecuteProcess(string filePath, string arguments)
+        public static string ExecuteProcess(string filePath, string arguments, bool asAdmin=false)
         {
             var process = new Process();
-            process.StartInfo.StandardErrorEncoding =
-                process.StartInfo.StandardOutputEncoding =
-                Encoding.GetEncoding(866);
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.FileName = filePath;
             process.StartInfo.Arguments = arguments;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.UseShellExecute = false;
-            Log.InfoFormat("command executing: [{0} {1}]", filePath, arguments);
-            process.Start();
-            process.WaitForExit();
-            return process.StandardOutput.ReadToEnd()+"\r\n"+process.StandardError.ReadToEnd();
+
+            var outstr = string.Empty;
+
+            if (asAdmin)
+            {
+                process.StartInfo.UseShellExecute = true;
+                process.StartInfo.Verb = "runas";
+            }
+            else
+            {
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.StandardErrorEncoding =
+                    process.StartInfo.StandardOutputEncoding =
+                    Encoding.GetEncoding(866);
+            }
+
+            try
+            {
+                Log.InfoFormat("command executing: [{0} {1}]", filePath, arguments);
+                process.Start();
+                process.WaitForExit();
+                if (!asAdmin)
+                    outstr = process.StandardOutput.ReadToEnd() + "\r\n" + process.StandardError.ReadToEnd();
+                else outstr = "command was executed as 'UseShellExecute'";
+            }
+            catch (Exception e)
+            {
+                Log.InfoFormat("command executing error: [{0} {1}]", e, e.Message);
+                outstr = "command executing error: " + e.Message;
+            }
+            return outstr;
         }
 
         public static object CloneObject(object obj)

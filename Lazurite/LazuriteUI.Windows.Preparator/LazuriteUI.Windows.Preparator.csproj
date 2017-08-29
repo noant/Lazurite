@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\TaskScheduler.2.5.28\lib\net452\JetBrains.Annotations.dll</HintPath>
@@ -63,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="TaskSchedulerUtils.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -94,6 +98,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -103,6 +108,39 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj">
+      <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
+      <Name>Lazurite.IOC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Data\Lazurite.Windows.Data.csproj">
+      <Project>{E71F185A-B90F-4145-BD38-97EB30D129FE}</Project>
+      <Name>Lazurite.Windows.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Logging\Lazurite.Windows.Logging.csproj">
+      <Project>{ACC84748-2884-44A2-8E45-84FF8338684B}</Project>
+      <Name>Lazurite.Windows.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Server\Lazurite.Windows.Server.csproj">
+      <Project>{89d16d58-ff5f-455b-a5ac-74e9b6ca8210}</Project>
+      <Name>Lazurite.Windows.Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Utils\Lazurite.Windows.Utils.csproj">
+      <Project>{09be5f23-3903-4547-9d56-12cae326c5cc}</Project>
+      <Name>Lazurite.Windows.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LazuriteUI.Icons\LazuriteUI.Icons.csproj">
+      <Project>{c5d27a74-cb03-4830-b5e1-558ac2194d5f}</Project>
+      <Name>LazuriteUI.Icons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LazuriteUI.Windows.Controls\LazuriteUI.Windows.Controls.csproj">
+      <Project>{df6cf289-fc2d-48ea-ac6a-c2f1db939d55}</Project>
+      <Name>LazuriteUI.Windows.Controls</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
