@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace LazuriteUI.Windows.Main
 {
-    public class Utils
+    public static class Utils
     {
-        public static readonly string ServiceName = "Lazurite";
-
-        public static void RestartService()
+        public static void RestartApp()
         {
-            throw new NotImplementedException();
+            System.Diagnostics.Process.Start(Lazurite.Windows.Utils.Utils.GetAssemblyPath(typeof(App).Assembly));
+            App.Current.Shutdown();
         }
     }
 }

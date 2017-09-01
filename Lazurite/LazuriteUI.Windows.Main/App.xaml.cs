@@ -45,8 +45,6 @@ namespace LazuriteUI.Windows.Main
             try
             {
                 Core.Initialize();
-                //Lazurite.Windows.Server.Utils.NetshAddUrlacl(Core.Server.GetSettings().GetAddress());
-                //Lazurite.Windows.Server.Utils.NetshAddSslCert(Core.Server.GetSettings().CertificateHash, Core.Server.GetSettings().Port);
                 Core.Server.StartAsync(null);
                 Singleton.Add(Core);
             }
@@ -55,6 +53,8 @@ namespace LazuriteUI.Windows.Main
                 Core.WarningHandler.Warn("Во время инициализации приложения возникла ошибка", e);
             }
             NotifyIconManager.Initialize();
+            DuplicatedProcessesListener.Found += (processes) => NotifyIconManager.Click();
+            DuplicatedProcessesListener.Start();
         }
     }
 }

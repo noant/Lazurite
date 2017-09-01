@@ -28,8 +28,8 @@ namespace LazuriteUI.Windows.Main
     /// <summary>
     /// Логика взаимодействия для ScenariosConstructionView.xaml
     /// </summary>
-    [LazuriteIcon(Icon.MovieClapperSelect)]
-    [DisplayName("Конструктор сценариев")]
+    [LazuriteIcon(Icon.TimerForward)]
+    [DisplayName("Триггеры")]
     public partial class TriggersConstructionView : UserControl
     {
         private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();

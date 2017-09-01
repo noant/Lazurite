@@ -1,0 +1,22 @@
+﻿<Window x:Class="LazuriteUI.Windows.Launcher.RequireAdminRightsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LazuriteUI.Windows.Launcher"
+        xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Topmost="True"
+        ResizeMode="NoResize"
+        Background="{x:Static controls:Visual.Background}"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <controls:CaptionView VerticalAlignment="Top" Icon="Alert">Запрос прав администратора</controls:CaptionView>
+        <controls:IconView Icon="Alert" Height="70" VerticalAlignment="Top" Margin="0,50,0,0"></controls:IconView>
+        <TextBlock Margin="0,150,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="14" MaxWidth="300" TextWrapping="Wrap" Foreground="White">Для продолжения работы Lazurite требуется повышение прав. Для запуска от имени администратора нажмите "Продолжить".</TextBlock>
+        <controls:ItemView TabIndex="1" x:Name="btCancel" VerticalAlignment="Bottom" Margin="60" HorizontalAlignment="Center" Width="300" Icon="Cancel" Opacity="0.5">Отменить запуск</controls:ItemView>
+        <controls:ItemView TabIndex="0" x:Name="btApply" VerticalAlignment="Bottom" Margin="15" HorizontalAlignment="Center" Width="300" Icon="Check">Продолжить</controls:ItemView>
+    </Grid>
+</Window>

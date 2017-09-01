@@ -24,14 +24,19 @@ namespace LazuriteUI.Windows.Main
                 if (e.Button == System.Windows.Forms.MouseButtons.Right)
                 {
                     if (_mainWindow == null)
-                        App.Current.Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            _mainWindow = new MainWindow();
-                            _mainWindow.Closing += (o1, e1) => _mainWindow = null;
-                            _mainWindow.Show();
-                        }));
+                        Click();
                 }
             };
+        }
+
+        public static void Click()
+        {
+            App.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                _mainWindow = new MainWindow();
+                _mainWindow.Closing += (o1, e1) => _mainWindow = null;
+                _mainWindow.Show();
+            }));
         }
     }
 }

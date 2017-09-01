@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,7 +30,7 @@ namespace Lazurite.Windows.Utils
             return Path.GetDirectoryName(GetAssemblyPath(assembly));
         }
 
-        public static string ExecuteProcess(string filePath, string arguments, bool asAdmin=false)
+        public static string ExecuteProcess(string filePath, string arguments, bool asAdmin=false, bool waitForExit=true)
         {
             var process = new Process();
             process.StartInfo.CreateNoWindow = true;
@@ -43,7 +44,7 @@ namespace Lazurite.Windows.Utils
                 process.StartInfo.UseShellExecute = true;
                 process.StartInfo.Verb = "runas";
             }
-            else
+            else if (waitForExit)
             {
                 process.StartInfo.RedirectStandardError = true;
                 process.StartInfo.RedirectStandardOutput = true;
@@ -57,10 +58,13 @@ namespace Lazurite.Windows.Utils
             {
                 Log.InfoFormat("command executing: [{0} {1}]", filePath, arguments);
                 process.Start();
-                process.WaitForExit();
-                if (!asAdmin)
-                    outstr = process.StandardOutput.ReadToEnd() + "\r\n" + process.StandardError.ReadToEnd();
-                else outstr = "command was executed as 'UseShellExecute'";
+                if (waitForExit)
+                {
+                    process.WaitForExit();
+                    if (!asAdmin)
+                        outstr = process.StandardOutput.ReadToEnd() + "\r\n" + process.StandardError.ReadToEnd();
+                    else outstr = "command was executed as 'UseShellExecute'";
+                }
             }
             catch (Exception e)
             {
@@ -68,6 +72,13 @@ namespace Lazurite.Windows.Utils
                 outstr = "command executing error: " + e.Message;
             }
             return outstr;
+        }
+
+        public static bool IsAdministrator()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
         public static object CloneObject(object obj)

@@ -224,6 +224,7 @@
     <Compile Include="Constructors\TriggerView.xaml.cs">
       <DependentUpon>TriggerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DuplicatedProcessesListener.cs" />
     <Compile Include="IInitializable.cs" />
     <Compile Include="IViewTypeResolverItem.cs" />
     <Compile Include="Journal\JournalItemViewModel.cs" />
@@ -729,7 +730,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="app.manifest" />
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -804,6 +807,10 @@
     <ProjectReference Include="..\LazuriteUI.Icons\LazuriteUI.Icons.csproj">
       <Project>{c5d27a74-cb03-4830-b5e1-558ac2194d5f}</Project>
       <Name>LazuriteUI.Icons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LazuriteUI.Windows.Launcher\LazuriteUI.Windows.Launcher.csproj">
+      <Project>{ebc23f57-8170-407b-a1ea-5e0dec37d851}</Project>
+      <Name>LazuriteUI.Windows.Launcher</Name>
     </ProjectReference>
     <ProjectReference Include="..\LazuriteUI.Windows.Preparator\LazuriteUI.Windows.Preparator.csproj">
       <Project>{e37cddd7-5c6b-48e7-a2b8-8195231fa8e9}</Project>

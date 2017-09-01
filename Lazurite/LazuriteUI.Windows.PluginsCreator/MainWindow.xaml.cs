@@ -29,6 +29,7 @@ namespace LazuriteUI.Windows.PluginsCreator
         public MainWindow()
         {
             InitializeComponent();
+            Icon = BitmapFrame.Create(Icons.Utils.GetIconData(Icons.Icon.Lazurite64));
             string[] args = Environment.GetCommandLineArgs();
             if (args != null && args.Length > 2)
             {

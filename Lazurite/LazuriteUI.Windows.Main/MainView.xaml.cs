@@ -44,7 +44,7 @@ namespace LazuriteUI.Windows.Main
                 }
             };
 
-            btRestart.Click += (o, e) => Utils.RestartService();
+            btRestart.Click += (o, e) => Utils.RestartApp();
         }
     }
 }

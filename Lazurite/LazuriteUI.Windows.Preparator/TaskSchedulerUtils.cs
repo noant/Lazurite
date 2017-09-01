@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32.TaskScheduler;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,8 @@ namespace LazuriteUI.Windows.Preparator
                     UserId = asUser
                 });
 
+                task.Triggers.Add(new RegistrationTrigger());
+
                 task.Actions.Add(new ExecAction(exePath));
                 task.Settings.Enabled = true;
                 task.Settings.Hidden = false;
@@ -41,9 +44,12 @@ namespace LazuriteUI.Windows.Preparator
                 task.Settings.RestartInterval = TimeSpan.FromSeconds(100);
                 task.Settings.UseUnifiedSchedulingEngine = true;
                 task.RegistrationInfo.Source = exePath;
-                task.RegistrationInfo.Description = "Start main Lazurite application";
+                task.RegistrationInfo.Description = "Start Lazurite launcher application";
                 task.Settings.ExecutionTimeLimit = new TimeSpan(0);
-                ts.RootFolder.RegisterTaskDefinition(Path.Combine("Lazurite", "Execute"), task, TaskCreation.CreateOrUpdate, asUser, logonType: TaskLogonType.InteractiveToken);
+
+                var path = Path.Combine("Lazurite", "Execute");
+
+                ts.RootFolder.RegisterTaskDefinition(path, task, TaskCreation.CreateOrUpdate, asUser, logonType: TaskLogonType.InteractiveToken);
             }
         }
     }
