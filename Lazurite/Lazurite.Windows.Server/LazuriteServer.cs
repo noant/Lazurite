@@ -30,6 +30,10 @@ namespace Lazurite.Windows.Server
         private ServiceHost _host;
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         
+        public bool Started { get; private set; }
+
+        public event Action<LazuriteServer> StatusChanged;
+
         public ServerSettings GetSettings()
         {
             return _settings;
@@ -48,6 +52,8 @@ namespace Lazurite.Windows.Server
 
             _tokenSource.Cancel();
             _tokenSource = new CancellationTokenSource();
+            Started = false;
+            StatusChanged?.Invoke(this);
         }
 
         public void StartAsync(Action<bool> callback)
@@ -77,11 +83,15 @@ namespace Lazurite.Windows.Server
                     _host.Open();
                     _warningHandler.Info("Service started: " + this._settings.GetAddress());
                     callback?.Invoke(true);
+                    Started = true;
+                    StatusChanged?.Invoke(this);
                 }
                 catch (Exception e)
                 {
                     _warningHandler.Error("Error while starting service: " + this._settings.GetAddress(), e);
                     callback?.Invoke(false);
+                    Started = false;
+                    StatusChanged?.Invoke(this);
                 }
             },
             _tokenSource.Token,

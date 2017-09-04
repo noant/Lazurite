@@ -73,7 +73,7 @@ namespace Lazurite.Windows.Core
             ScenariosRepository.Initialize();
             Singleton.Add(UsersRepository = new UsersRepository());
             Singleton.Add(VisualSettingsRepository = new VisualSettingsRepository());
-            Server = new LazuriteServer();
+            Singleton.Add(Server = new LazuriteServer());
             if (Savior.Has(SettingsKey))
                 SetSettings(Savior.Get<CoreSettings>(SettingsKey));
             else SetSettings(new CoreSettings());

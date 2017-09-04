@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Server.CertificateSelectView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Server"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             Background="{x:Static controls:Visual.Background}"
+             Width="460">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <controls:CaptionView Icon="List">Выбор сертификата</controls:CaptionView>
+        <controls:ListItemsView SelectionMode="Single" Grid.Row="1" x:Name="certListView"></controls:ListItemsView>
+        <controls:ItemView x:Name="btInstallNewCert" Grid.Row="2" Margin="5,5,5,0" Icon="Add">Установить новый сертификат из файла</controls:ItemView>
+        <controls:ItemView IsEnabled="False" x:Name="btApply" Style="{StaticResource ApplyButton}" Grid.Row="3" Margin="5">Выбрать</controls:ItemView>
+    </Grid>
+</UserControl>

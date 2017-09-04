@@ -43,6 +43,18 @@ namespace Lazurite.Windows.Server
             );
         }
 
+        public static CertificateInfo[] GetInstalledCertificates()
+        {
+            var store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+            store.Open(OpenFlags.ReadOnly);
+            return store
+                .Certificates
+                .Cast<X509Certificate2>().Select(x => new CertificateInfo() {
+                    Hash = x.GetCertHashString(),
+                    Description = x.IssuerName.Name + " / " + x.SubjectName.Name
+                }).ToArray();
+        }
+
         public static void NetshDeleteSslCert(ushort port)
         {
             var command = " http delete sslcert ipport=0.0.0.0:" + port;
@@ -78,6 +90,12 @@ namespace Lazurite.Windows.Server
             store.Add(cert);
             store.Close();
             return cert.GetCertHashString();
+        }
+
+        public class CertificateInfo
+        {
+            public string Description { get; set; }
+            public string Hash { get; set; }
         }
     }
 }

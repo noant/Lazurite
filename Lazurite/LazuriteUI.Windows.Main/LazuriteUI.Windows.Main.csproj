@@ -95,6 +95,9 @@
     <Compile Include="Common\CheckPanel.xaml.cs">
       <DependentUpon>CheckPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\EnterPasswordView.xaml.cs">
+      <DependentUpon>EnterPasswordView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Common\ScaleView.xaml.cs">
       <DependentUpon>ScaleView.xaml</DependentUpon>
     </Compile>
@@ -297,6 +300,12 @@
     <Compile Include="Security\UsersListView.xaml.cs">
       <DependentUpon>UsersListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Server\CertificateSelectView.xaml.cs">
+      <DependentUpon>CertificateSelectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Server\ServerSettingsView.xaml.cs">
+      <DependentUpon>ServerSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TriggersConstructionView.xaml.cs">
       <DependentUpon>TriggersConstructionView.xaml</DependentUpon>
     </Compile>
@@ -370,6 +379,10 @@
     </Compile>
     <Compile Include="Utils.cs" />
     <Page Include="Common\CheckPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Common\EnterPasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -632,6 +645,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Security\UsersListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Server\CertificateSelectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Server\ServerSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
