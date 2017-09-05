@@ -24,7 +24,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Label Style="{StaticResource LabelCaption}" HorizontalAlignment="Right">Наименование группы:</Label>
             <controls:EntryView x:Name="tbName" Grid.Column="1"></controls:EntryView>

@@ -30,7 +30,7 @@ namespace LazuriteUI.Windows.Main
     /// </summary>
     [LazuriteIcon(Icon.TimerForward)]
     [DisplayName("Триггеры")]
-    public partial class TriggersConstructionView : UserControl
+    public partial class TriggersConstructionView : UserControl, IAllowSave
     {
         private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();
         private Lazurite.MainDomain.TriggerBase _lastDeletedTrigger;
@@ -78,7 +78,7 @@ namespace LazuriteUI.Windows.Main
 
         private void btDeleteScenario_Click(object sender, RoutedEventArgs e)
         {
-            MessageView.ShowYesNo("Вы уверены, что хотите удалить выбранный триггер?", "Удаление триггера", Icon.ListDelete,
+            MessageView.ShowYesNo("Вы уверены что хотите удалить выбранный триггер?", "Удаление триггера", Icon.ListDelete,
                 (result) => {
                     if (result)
                     {
@@ -108,6 +108,11 @@ namespace LazuriteUI.Windows.Main
                 this.triggersListView.Add(trigger);
                 this.constructorsResolver.SetTrigger(trigger);
             });
+        }
+
+        public void Save(Action callback)
+        {
+            ThroughTriggerSave(callback);
         }
     }
 }

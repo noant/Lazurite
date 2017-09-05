@@ -28,18 +28,23 @@ namespace LazuriteUI.Windows.Main
         {
             ResolverProperty = DependencyProperty.Register(nameof(Resolver), typeof(IViewTypeResolverItem), typeof(MenuResolverView), new FrameworkPropertyMetadata() {
                 PropertyChangedCallback = (o,e) => {
-                    var type = ((IViewTypeResolverItem)e.NewValue).Type;
-                    var displayName = (DisplayNameAttribute)type.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault();
-                    var icon = LazuriteIconAttribute.GetIcon(type);
-                    var control = (UIElement)Activator.CreateInstance(type);
-
                     var resolverView = o as MenuResolverView;
-                    resolverView.captionView.Content = displayName?.DisplayName;
-                    resolverView.captionView.Icon = icon;
-                    resolverView.contentControl.Content = control;
+                    var @continue = new Action(() => {
+                        var type = ((IViewTypeResolverItem)e.NewValue).Type;
+                        var displayName = (DisplayNameAttribute)type.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault();
+                        var icon = LazuriteIconAttribute.GetIcon(type);
+                        var control = (UIElement)Activator.CreateInstance(type);
 
-                    if (control is IInitializable)
-                        ((IInitializable)control).Initialize();
+                        resolverView.captionView.Content = displayName?.DisplayName;
+                        resolverView.captionView.Icon = icon;
+                        resolverView.contentControl.Content = control;
+
+                        if (control is IInitializable)
+                            ((IInitializable)control).Initialize();
+                    });
+                    if (resolverView.contentControl.Content is IAllowSave)
+                        ((IAllowSave)resolverView.contentControl.Content).Save(@continue);
+                    else @continue();
                 }
             });
         }

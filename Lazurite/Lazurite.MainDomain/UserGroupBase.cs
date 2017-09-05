@@ -10,6 +10,6 @@ namespace Lazurite.MainDomain
     {
         public string Name { get; set; }
 
-        public List<UserBase> Users { get; set; }
+        public List<UserBase> Users { get; set; } = new List<UserBase>();
     }
 }

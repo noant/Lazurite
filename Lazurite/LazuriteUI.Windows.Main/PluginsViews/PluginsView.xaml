@@ -6,8 +6,9 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.PluginsViews"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
+             Background="{x:Static controls:Visual.Background}" 
              d:DesignHeight="300" d:DesignWidth="1200">
-    <Grid Background="{x:Static controls:Visual.Background}">
+    <Grid Margin="15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
@@ -24,8 +25,9 @@
             <controls:ItemView Click="btRemovePlugin_Click" x:Name="btRemovePlugin" Margin="2,0,2,2" Content="Удалить плагин" Width="170" Icon="AppRemove" Background="Crimson" VerticalAlignment="Bottom"></controls:ItemView>
             <controls:ItemView Click="updatePlugin_Click" x:Name="updatePlugin" Margin="2" Content="Обновить плагин" Width="170" Icon="Refresh"></controls:ItemView>
         </StackPanel>
-        <Border Grid.Column="1" BorderBrush="{x:Static controls:Visual.SplitterBrush}" BorderThickness="1,0,0,0"></Border>
-        <TextBlock Grid.Column="1" Style="{StaticResource TextBlockCaption}">Типы в составе плагина:</TextBlock>
+        <Border Grid.Column="1" BorderBrush="#112227" BorderThickness="2,2,2,2"></Border>
+        <Border BorderBrush="#112227" BorderThickness="2,2,0,2"></Border>
+        <TextBlock Grid.Column="1" Style="{StaticResource TextBlockCaption}" Margin="10,0,0,0">Типы в составе плагина:</TextBlock>
         <StackPanel x:Name="spPluginTypes" Grid.Column="1" Margin="0,22,0,0"></StackPanel>
     </Grid>
 </UserControl>

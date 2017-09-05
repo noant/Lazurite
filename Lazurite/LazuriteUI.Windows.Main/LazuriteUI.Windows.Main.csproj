@@ -228,6 +228,7 @@
       <DependentUpon>TriggerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DuplicatedProcessesListener.cs" />
+    <Compile Include="IAllowSave.cs" />
     <Compile Include="IInitializable.cs" />
     <Compile Include="IViewTypeResolverItem.cs" />
     <Compile Include="Journal\JournalItemViewModel.cs" />
@@ -273,6 +274,9 @@
     <Compile Include="Security\GroupsListView.xaml.cs">
       <DependentUpon>GroupsListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Security\GroupsListViewExtended.xaml.cs">
+      <DependentUpon>GroupsListViewExtended.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Security\PermissionsViews\DenyAllUsersExceptPermissionView.cs" />
     <Compile Include="Security\PermissionsViews\DenyForAllGroupsExceptPermissionView.cs" />
     <Compile Include="Security\PermissionsViews\DenyForGroupsPermissionView.cs" />
@@ -290,6 +294,9 @@
     </Compile>
     <Compile Include="Security\ScenarioSecurityManagementView.xaml.cs">
       <DependentUpon>ScenarioSecurityManagementView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Security\UsersListViewExtended.xaml.cs">
+      <DependentUpon>UsersListViewExtended.xaml</DependentUpon>
     </Compile>
     <Compile Include="Security\UsersSelectView.xaml.cs">
       <DependentUpon>UsersSelectView.xaml</DependentUpon>
@@ -376,6 +383,9 @@
     </Compile>
     <Compile Include="TriggersListView.xaml.cs">
       <DependentUpon>TriggersListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UsersAndGroupsView.xaml.cs">
+      <DependentUpon>UsersAndGroupsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
     <Page Include="Common\CheckPanel.xaml">
@@ -624,6 +634,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Security\GroupsListViewExtended.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Security\PermissionsViews\PermissionViewBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -633,6 +647,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Security\ScenarioSecurityManagementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Security\UsersListViewExtended.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -729,6 +747,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TriggersListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UsersAndGroupsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

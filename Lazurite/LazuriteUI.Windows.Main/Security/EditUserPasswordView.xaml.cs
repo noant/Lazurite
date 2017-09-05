@@ -53,6 +53,11 @@ namespace LazuriteUI.Windows.Main.Security
                 args.Success = false;
                 args.Message = "Необходимо повторить ввод пароля";
             }
+            else if (!args.Password.Equals(args.PasswordRepeat))
+            {
+                args.Success = false;
+                args.Message = "Пароли не совпадают";
+            }
             if (args.Success)
             {
                 tbValidation.Text = string.Empty;

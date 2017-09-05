@@ -1,5 +1,6 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Security;
 using LazuriteUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace LazuriteUI.Windows.Main.Security
     /// <summary>
     /// Логика взаимодействия для UsersListView.xaml
     /// </summary>
-    public partial class UsersListView : UserControl
+    public partial class UsersListView : Grid
     {
         private UsersRepositoryBase _repository = Singleton.Resolve<UsersRepositoryBase>();
 
@@ -29,10 +30,79 @@ namespace LazuriteUI.Windows.Main.Security
         {
             InitializeComponent();
 
+            Refresh();
+
+            this.itemsView.SelectionChanged += (o, e) => this.SelectionChanged?.Invoke(this);
+
+            btAdd.Click += (o, e) => {
+                var user = new User();
+                EditUserView.Show(
+                    () => {
+                        EditUserPasswordView.Show(() =>
+                        {
+                            _repository.Add(user);
+                            AddInternal(user);
+                        },
+                        (args) =>
+                        {
+                            if (args.Password.Length < 6)
+                            {
+                                args.Message = "Длина пароля должна быть не менее 6 символов";
+                                args.Success = false;
+                            }
+                            else args.Success = true;
+                        },
+                        user);
+                    },
+                    (args) => 
+                    {
+                        if (_repository.Users.Any(x => x.Login.Equals(args.Login)))
+                        {
+                            args.Message = "Пользователь с таким логином уже существует";
+                            args.Success = false;
+                        }
+                        else if (_repository.Users.Any(x => x.Name.Equals(args.Name)))
+                        {
+                            args.Message = "Пользователь с таким именем уже существует";
+                            args.Success = false;
+                        }
+                        else
+                            args.Success = true;
+                    },
+                    user);
+            };
+
+            btRemove.Click += (o, e) => {
+                MessageView.ShowYesNo("Вы уверены что хотите удалить выбранных пользователей?", "Удаление пользователей", Icons.Icon.UserDelete,
+                    (result) => {
+                        if (result)
+                        {
+                            var selectedUsers = SelectedUsers;
+                            foreach (var user in selectedUsers)
+                                Remove(user);
+                        }
+                    });
+            };
+
+            this.SelectionChanged += (ctrl) => btRemove.IsEnabled = SelectedUsers.Any();
+        }
+
+        public void HideButtons()
+        {
+            btRemove.Visibility = btAdd.Visibility = Visibility.Collapsed;
+        }
+
+        public void Refresh()
+        {
+            itemsView.Children.Clear();
+            var selectedUsers = SelectedUsers;
+
             foreach (var user in _repository.Users)
                 AddInternal(user);
 
-            this.itemsView.SelectionChanged += (o, e) => this.SelectionChanged?.Invoke(this);
+            SelectedUsers = selectedUsers;
+
+            btRemove.IsEnabled = selectedUsers.Any();
         }
 
         public void Add(UserBase user)
@@ -50,6 +120,7 @@ namespace LazuriteUI.Windows.Main.Security
         {
             var itemView = itemsView.Children.Cast<ItemView>().Single(x => ((UserBase)x.Tag).Id.Equals(user.Id));
             itemsView.Children.Remove(itemView);
+            _repository.Remove(user);
         }
 
         private ItemView AddInternal(UserBase user)

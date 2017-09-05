@@ -48,22 +48,15 @@ namespace LazuriteUI.Windows.Main.Security
 
         public static void Show(Action<UserGroupBase[]> callback, UserGroupBase[] selectedGroups)
         {
-            if (!Repository.Groups.Any())
+            var control = new GroupsSelectView(selectedGroups);
+            var dialogView = new DialogView(control);
+            dialogView.Caption = "Выберите группы";
+            control.ApplyClicked += () =>
             {
-                MessageView.ShowMessage("Группы пользователей не созданы!", "Выбор групп пользователей", Icons.Icon.Warning);
-            }
-            else
-            {
-                var control = new GroupsSelectView(selectedGroups);
-                var dialogView = new DialogView(control);
-                dialogView.Caption = "Выберите группы";
-                control.ApplyClicked += () =>
-                {
-                    callback?.Invoke(control.SelectedGroups);
-                    dialogView.Close();
-                };
-                dialogView.Show();
-            }
+                callback?.Invoke(control.SelectedGroups);
+                dialogView.Close();
+            };
+            dialogView.Show();
         }
     }
 }

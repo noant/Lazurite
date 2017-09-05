@@ -25,10 +25,12 @@ namespace LazuriteUI.Windows.Main.Security
     {
         private static UsersRepositoryBase Repository = Singleton.Resolve<UsersRepositoryBase>();
 
-        public UsersSelectView(UserBase[] selectedUsers)
+        public UsersSelectView(UserBase[] selectedUsers, bool hideButtons)
         {
             InitializeComponent();
             this.usersView.SelectedUsers = selectedUsers;
+            if (hideButtons)
+                this.usersView.HideButtons();
         }
 
         public UserBase[] SelectedGroups
@@ -46,7 +48,7 @@ namespace LazuriteUI.Windows.Main.Security
 
         public event Action ApplyClicked;
 
-        public static void Show(Action<UserBase[]> callback, UserBase[] selectedUsers)
+        public static void Show(Action<UserBase[]> callback, UserBase[] selectedUsers, bool hideButtons=false)
         {
             if (!Repository.Users.Any())
             {
@@ -54,7 +56,7 @@ namespace LazuriteUI.Windows.Main.Security
             }
             else
             {
-                var control = new UsersSelectView(selectedUsers);
+                var control = new UsersSelectView(selectedUsers, hideButtons);
                 var dialogView = new DialogView(control);
                 dialogView.Caption = "Выберите пользователей";
                 control.ApplyClicked += () =>

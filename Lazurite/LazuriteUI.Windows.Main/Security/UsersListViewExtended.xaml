@@ -1,4 +1,4 @@
-﻿<Grid x:Class="LazuriteUI.Windows.Main.Security.GroupsListView"
+﻿<Grid x:Class="LazuriteUI.Windows.Main.Security.UsersListViewExtended"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Security"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
-             MinWidth="400"
-             d:DesignHeight="300" d:DesignWidth="300">
+             MinWidth="400">
     <Grid.RowDefinitions>
         <RowDefinition></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
@@ -16,8 +15,7 @@
         <ColumnDefinition></ColumnDefinition>
         <ColumnDefinition></ColumnDefinition>
     </Grid.ColumnDefinitions>
-    <controls:ListItemsView Grid.ColumnSpan="3" x:Name="itemsView" SelectionMode="Multiple">
-    </controls:ListItemsView>
-    <controls:ItemView x:Name="btAdd" Grid.Row="1" Margin="5,5,5,0" Icon="Add">Создать группу</controls:ItemView>
-    <controls:ItemView x:Name="btRemove" Grid.Row="1" Grid.Column="1" Margin="5,5,5,0" Style="{StaticResource ButtonRemove}">Удалить</controls:ItemView>
+    <local:UsersListView x:Name="listView" Grid.ColumnSpan="2" Multiselect="False"></local:UsersListView>
+    <controls:ItemView x:Name="btEdit" Grid.Column="0" Grid.Row="1" Margin="5" Icon="Edit">Редактировать</controls:ItemView>
+    <controls:ItemView x:Name="btChangePass" Grid.Column="1" Grid.Row="1" Margin="5" Icon="KeyOld">Изменить пароль</controls:ItemView>
 </Grid>

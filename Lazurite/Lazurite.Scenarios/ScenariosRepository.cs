@@ -83,7 +83,7 @@ namespace Lazurite.Scenarios
         {
             var linkedScenarios = _scenarios.Except(new[] { scenario })
                                     .Where(x => x.GetAllActionsFlat()
-                                        .Any(z => (z is ICoreAction) && ((ICoreAction)z).TargetScenarioId.Equals(scenario.Id))).ToArray();
+                                        .Any(z => (z is ICoreAction) && ((ICoreAction)z).TargetScenarioId != null && ((ICoreAction)z).TargetScenarioId.Equals(scenario.Id))).ToArray();
 
             if (linkedScenarios.Any())
             {

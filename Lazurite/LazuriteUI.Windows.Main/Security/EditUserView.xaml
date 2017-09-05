@@ -24,7 +24,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Label Style="{StaticResource LabelCaption}" HorizontalAlignment="Right">Имя пользователя:</Label>
             <Label Style="{StaticResource LabelCaption}" HorizontalAlignment="Right" Grid.Row="1">Логин:</Label>

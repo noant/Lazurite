@@ -1,5 +1,6 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Security;
 using LazuriteUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace LazuriteUI.Windows.Main.Security
     /// <summary>
     /// Логика взаимодействия для UsersListView.xaml
     /// </summary>
-    public partial class GroupsListView : UserControl
+    public partial class GroupsListView : Grid
     {
         private UsersRepositoryBase _repository = Singleton.Resolve<UsersRepositoryBase>();
 
@@ -29,15 +30,55 @@ namespace LazuriteUI.Windows.Main.Security
         {
             InitializeComponent();
 
-            foreach (var group in _repository.Groups)
-                AddInternal(group);
+            Refresh();
 
-            this.itemsView.SelectionChanged += (o, e) => this.SelectionChanged?.Invoke(this);
+            btAdd.Click += (o, e) => {
+                var group = new UserGroup();
+                AddGroupView.Show(
+                        () => {
+                            _repository.Add(group);
+                            AddInternal(group);
+                        },
+                        (args) => args.Success = !_repository.Groups.Any(x => x.Name.Equals(args.Name)),
+                        group
+                    );
+            };
+
+            btRemove.Click += (o, e) => 
+            {
+                MessageView.ShowYesNo("Вы уверены что хотите удалить выбранные группы?", "Удаление групп", Icons.Icon.GroupDelete,
+                    (result) => {
+                        if (result)
+                        {
+                            var selectedGroups = SelectedGroups;
+                            foreach (var group in selectedGroups)
+                                Remove(group);
+                        }
+                    });
+            };
+
+            this.itemsView.SelectionChanged += (o, e) =>
+            {
+                this.SelectionChanged?.Invoke(this);
+                btRemove.IsEnabled = SelectedGroups.Any();
+            };
         }
 
         public void Add(UserGroupBase group)
         {
             AddInternal(group).Selected = true;
+        }
+
+        public void Refresh()
+        {
+            itemsView.Children.Clear();
+            var selectedGroups = SelectedGroups;
+
+            foreach (var group in _repository.Groups)
+                AddInternal(group);
+
+            SelectedGroups = selectedGroups;
+            btRemove.IsEnabled = selectedGroups.Any();
         }
 
         public void Refresh(UserGroupBase group)
@@ -50,6 +91,7 @@ namespace LazuriteUI.Windows.Main.Security
         {
             var itemView = itemsView.Children.Cast<ItemView>().Single(x => ((UserGroupBase)x.Tag).Name.Equals(group.Name));
             itemsView.Children.Remove(itemView);
+            _repository.Remove(group);
         }
 
         private ItemView AddInternal(UserGroupBase group)

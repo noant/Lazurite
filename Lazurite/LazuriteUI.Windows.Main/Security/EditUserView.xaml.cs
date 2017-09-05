@@ -18,7 +18,7 @@ using System.Windows.Shapes;
 namespace LazuriteUI.Windows.Main.Security
 {
     /// <summary>
-    /// Логика взаимодействия для AddUserView.xaml
+    /// Логика взаимодействия для EditUserView.xaml
     /// </summary>
     public partial class EditUserView : UserControl
     {
@@ -26,7 +26,7 @@ namespace LazuriteUI.Windows.Main.Security
         {
             InitializeComponent();
 
-            tbLogin.Validation = (str) => str.Replace(" ", "");
+            tbLogin.Validation = (str) => !str.Contains(" ");
             tbLogin.TextChanged += (o, e) => Validate();
             tbName.TextChanged += (o, e) => Validate();
 

@@ -118,7 +118,7 @@ namespace LazuriteUI.Windows.Main.PluginsViews
 
         private void btRemovePlugin_Click(object sender, RoutedEventArgs e)
         {
-            MessageView.ShowYesNo("Вы уверены, что хотите удалить плагин [" + SelectedPlugin.Name + "]?", "Удаленеи плагина", Icons.Icon.Delete,
+            MessageView.ShowYesNo("Вы уверены что хотите удалить плагин [" + SelectedPlugin.Name + "]?", "Удаленеи плагина", Icons.Icon.Delete,
                 (result) => {
                     if (result)
                     {

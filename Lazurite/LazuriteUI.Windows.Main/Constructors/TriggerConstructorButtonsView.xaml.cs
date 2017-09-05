@@ -29,7 +29,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             InitializeComponent();
             btApply.Click += (o, e) =>
             {
-                MessageView.ShowYesNo("Вы уверены, что хотите применить изменения триггера?", "Изменения триггера", Icons.Icon.Question,
+                MessageView.ShowYesNo("Вы уверены что хотите применить изменения триггера?", "Изменения триггера", Icons.Icon.Question,
                     (result) => {
                         if (result)
                         {
@@ -41,7 +41,7 @@ namespace LazuriteUI.Windows.Main.Constructors
 
             btCancel.Click += (o, e) =>
             {
-                MessageView.ShowYesNo("Вы уверены, что хотите отменить все изменения триггера?", "Изменения триггера", Icons.Icon.Question,
+                MessageView.ShowYesNo("Вы уверены что хотите отменить все изменения триггера?", "Изменения триггера", Icons.Icon.Question,
                     (result) => {
                         if (result)
                             ResetClicked?.Invoke();

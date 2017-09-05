@@ -14,6 +14,6 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <local:UsersListView x:Name="usersView"></local:UsersListView>
-        <controls:ItemView Click="ItemView_Click" Grid.Row="1" Margin="4" Style="{StaticResource ApplyButton}">Выбрать</controls:ItemView>
+        <controls:ItemView Click="ItemView_Click" Grid.Row="1" Margin="5" Style="{StaticResource ApplyButton}">Выбрать</controls:ItemView>
     </Grid>
 </UserControl>

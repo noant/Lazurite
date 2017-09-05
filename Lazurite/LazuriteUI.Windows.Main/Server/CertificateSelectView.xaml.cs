@@ -51,7 +51,7 @@ namespace LazuriteUI.Windows.Main.Server
                         {
                             _warningHandler.ErrorFormat(exception, "Ошибка при добавлении сертификата [{0}]", openFileDialog.FileName);
                         }
-                    }, null, "Если сертификат не запаролен, то нажмите \"Применить\"");
+                    }, null, "Если файл сертификата не имеет пароль, то нажмите \"Применить\"");
                 }
             };
 

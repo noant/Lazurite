@@ -30,7 +30,7 @@ namespace LazuriteUI.Windows.Main
     /// </summary>
     [LazuriteIcon(Icon.MovieClapperSelect)]
     [DisplayName("Конструктор сценариев")]
-    public partial class ScenariosConstructionView : UserControl
+    public partial class ScenariosConstructionView : UserControl, IAllowSave
     {
         private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();
         private ScenarioBase _lastDeletedScenario;
@@ -80,7 +80,7 @@ namespace LazuriteUI.Windows.Main
 
         private void btDeleteScenario_Click(object sender, RoutedEventArgs e)
         {
-            MessageView.ShowYesNo("Вы уверены, что хотите удалить выбранный сценарий?", "Удаление сценария", Icon.ListDelete,
+            MessageView.ShowYesNo("Вы уверены что хотите удалить выбранный сценарий?", "Удаление сценария", Icon.ListDelete,
                 (result) => {
                     if (result)
                     {
@@ -140,6 +140,11 @@ namespace LazuriteUI.Windows.Main
             _repository.AddScenario(newScenario);
             this.switchesGrid.Add(newScenario, null);
             this.constructorsResolver.SetScenario(newScenario);
+        }
+
+        public void Save(Action callback)
+        {
+            ThroughScenarioSave(callback);
         }
     }
 }
