@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Lazurite64.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -63,6 +66,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LauncherSettings.cs" />
+    <Compile Include="LauncherSettingsManager.cs" />
     <Compile Include="RequireAdminRightsWindow.xaml.cs">
       <DependentUpon>RequireAdminRightsWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -100,6 +105,10 @@
       <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
       <Name>Lazurite.IOC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Data\Lazurite.Windows.Data.csproj">
+      <Project>{E71F185A-B90F-4145-BD38-97EB30D129FE}</Project>
+      <Name>Lazurite.Windows.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Logging\Lazurite.Windows.Logging.csproj">
       <Project>{ACC84748-2884-44A2-8E45-84FF8338684B}</Project>
       <Name>Lazurite.Windows.Logging</Name>
@@ -116,6 +125,9 @@
       <Project>{df6cf289-fc2d-48ea-ac6a-c2f1db939d55}</Project>
       <Name>LazuriteUI.Windows.Controls</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Lazurite64.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

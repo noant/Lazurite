@@ -20,26 +20,31 @@ namespace LazuriteUI.Windows.Launcher
     {
         private static string MainExeName = "LazuriteUI.Windows.Main.exe";
         private static WarningHandlerBase Log = new WarningHandler();
+        
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            Log.OnWrite += (sender, args) =>
+            if (new LauncherSettingsManager().Settings.RunOnUserLogon)
             {
-                if (args.Type == WarnType.Error || args.Type == WarnType.Fatal)
-                    MessageBox.Show(args.Message, args.Exception?.Message);
-            };
-            Singleton.Add(Log);
-            if (Utils.IsAdministrator())
-            {
-                RunLazurite(false);
+                Log.OnWrite += (sender, args) =>
+                {
+                    if (args.Type == WarnType.Error || args.Type == WarnType.Fatal)
+                        MessageBox.Show(args.Message, args.Exception?.Message);
+                };
+                Singleton.Add(Log);
+                if (Utils.IsAdministrator())
+                {
+                    RunLazurite(false);
+                }
+                else
+                {
+                    var requireAdminRightsWindow = new RequireAdminRightsWindow();
+                    requireAdminRightsWindow.ApplyClick += () => RunLazurite(true);
+                    requireAdminRightsWindow.CancelClick += () => Shutdown();
+                    requireAdminRightsWindow.Show();
+                }
             }
-            else
-            {
-                var requireAdminRightsWindow = new RequireAdminRightsWindow();
-                requireAdminRightsWindow.ApplyClick += () => RunLazurite(true);
-                requireAdminRightsWindow.CancelClick += () => Shutdown();
-                requireAdminRightsWindow.Show();
-            }
+            else Shutdown();
         }
 
         public void RunLazurite(bool useShell)

@@ -31,7 +31,7 @@
             <local:LazuriteView Grid.Column="2" Width="100"></local:LazuriteView>
             <TextBlock Margin="10,0,0,0" FontFamily="Verdana" VerticalAlignment="Center" FontSize="14" Grid.Column="3" Opacity="0.5" Foreground="DarkGray">управление системами умного дома</TextBlock>
             <StackPanel Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right">
-                <controls:ItemView x:Name="btRestart" VerticalAlignment="Center" IconHorizontalAligment="Right" Opacity="0.5" Icon="Refresh" Width="125" Margin="0,0,0,0">ПЕРЕЗАПУСК</controls:ItemView>
+                <controls:ItemView x:Name="btShutdownParams" VerticalAlignment="Center" IconHorizontalAligment="Right" Opacity="0.8" Icon="ButtonOn" ToolTip="Выключение/Перезагрузка/Параметры" Margin="0,0,0,0"></controls:ItemView>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" Margin="0,1,0,0">

@@ -11,6 +11,9 @@ namespace LazuriteUI.Windows.Preparator
 {
     public static class TaskSchedulerUtils
     {
+        public static readonly string TaskFolder = "Lazurite";
+        public static readonly string TaskName = "Execute";
+
         public static void CreateLogonTask(string asUser, string exePath)
         {
             using (var ts = new TaskService())
@@ -47,9 +50,20 @@ namespace LazuriteUI.Windows.Preparator
                 task.RegistrationInfo.Description = "Start Lazurite launcher application";
                 task.Settings.ExecutionTimeLimit = new TimeSpan(0);
 
-                var path = Path.Combine("Lazurite", "Execute");
+                var path = Path.Combine(TaskFolder, TaskName);
 
                 ts.RootFolder.RegisterTaskDefinition(path, task, TaskCreation.CreateOrUpdate, asUser, logonType: TaskLogonType.InteractiveToken);
+            }
+        }
+
+        public static void RemoveLogonTask()
+        {
+            var path = Path.Combine("Lazurite", "Execute");
+
+            using (var ts = new TaskService())
+            {
+                ts.GetFolder(TaskFolder).DeleteTask(TaskName);
+                ts.RootFolder.DeleteFolder(TaskFolder);
             }
         }
     }

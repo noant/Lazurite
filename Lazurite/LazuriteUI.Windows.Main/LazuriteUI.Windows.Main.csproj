@@ -39,6 +39,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Lazurite64.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="HierarchicalData, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -252,6 +255,9 @@
     </Compile>
     <Compile Include="NotifyIconManager.cs" />
     <Compile Include="ObservableObject.cs" />
+    <Compile Include="OtherParamsView.xaml.cs">
+      <DependentUpon>OtherParamsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PluginsViews\PluginActionView.xaml.cs">
       <DependentUpon>PluginActionView.xaml</DependentUpon>
     </Compile>
@@ -606,6 +612,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="OtherParamsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PluginsViews\PluginActionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -776,6 +786,9 @@
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
+    <None Include="CopyToReleaseDir.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -860,11 +873,17 @@
       <Name>LazuriteUI.Windows.Preparator</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Lazurite64.ico" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icons\Lazurite32.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)" == "Release" start CopyToReleaseDir.bat
+exit</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

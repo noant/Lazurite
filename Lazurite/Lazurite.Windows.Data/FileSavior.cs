@@ -17,7 +17,9 @@ namespace Lazurite.Data
 
         public FileSavior()
         {
-            var path = new UriBuilder(Assembly.GetExecutingAssembly().CodeBase).Path;
+            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            UriBuilder uri = new UriBuilder(codeBase);
+            var path = Path.GetFullPath(Uri.UnescapeDataString(uri.Path));
             _baseDir = Path.GetDirectoryName(path);
         }
 
