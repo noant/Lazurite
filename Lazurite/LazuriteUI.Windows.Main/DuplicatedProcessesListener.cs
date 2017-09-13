@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,6 +15,10 @@ namespace LazuriteUI.Windows.Main
 
         public static void Start()
         {
+            var launcherAssembly = typeof(LazuriteUI.Windows.Launcher.App).Assembly;
+            var launcherExePath = Lazurite.Windows.Utils.Utils.GetAssemblyPath(launcherAssembly);
+            var launcherProcessName = Path.GetFileNameWithoutExtension(launcherExePath);
+
             var currentProcess = Process.GetCurrentProcess();
             var currentProcessName = currentProcess.ProcessName;
             var currentProcessLocation = currentProcess.StartInfo.FileName;
@@ -25,9 +30,10 @@ namespace LazuriteUI.Windows.Main
                 {
                     var processes = Process.GetProcesses();
                     var targetProcesses = processes.Where(x =>
-                        x.ProcessName == currentProcessName &&
+                        x.ProcessName == launcherProcessName ||
+                        (x.ProcessName == currentProcessName &&
                         x.StartInfo.FileName == currentProcessLocation &&
-                        x.Id != currentProcessId)
+                        x.Id != currentProcessId))
                         .ToArray();
                     if (targetProcesses.Any())
                     {
