@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Modbus.Device;
 using System.IO.Ports;
 
-namespace ModbusPlugin
+namespace NModbusWrapper
 {
     public class ModbusRtuTransport : IModbusTransport
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModbusPlugin
+namespace NModbusWrapper
 {
     public interface IModbusTransport
     {

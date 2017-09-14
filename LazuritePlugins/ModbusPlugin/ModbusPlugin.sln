@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusPlugin", "ModbusPlugi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{97F4ED37-F21A-4583-A06F-1A086005BA55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusPluginUI", "ModbusPluginUI\ModbusPluginUI.csproj", "{D4FFEF0A-2B88-438A-805B-97E3F19A5118}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NModbusWrapper", "NModbusWrapper\NModbusWrapper.csproj", "{9763C5A7-F8BA-4C5C-AC96-EB3AB1E5514F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{97F4ED37-F21A-4583-A06F-1A086005BA55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97F4ED37-F21A-4583-A06F-1A086005BA55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97F4ED37-F21A-4583-A06F-1A086005BA55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4FFEF0A-2B88-438A-805B-97E3F19A5118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4FFEF0A-2B88-438A-805B-97E3F19A5118}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4FFEF0A-2B88-438A-805B-97E3F19A5118}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4FFEF0A-2B88-438A-805B-97E3F19A5118}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9763C5A7-F8BA-4C5C-AC96-EB3AB1E5514F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9763C5A7-F8BA-4C5C-AC96-EB3AB1E5514F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9763C5A7-F8BA-4C5C-AC96-EB3AB1E5514F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9763C5A7-F8BA-4C5C-AC96-EB3AB1E5514F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

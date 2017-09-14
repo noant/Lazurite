@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.ActionsDomain.Attributes;
 using LazuriteUI.Icons;
+using NModbusWrapper;
 
 namespace ModbusPlugin
 {
     [HumanFriendlyName("ZWave устройство")]
-    [SuitableValueTypes(
-        typeof(InfoValueType), typeof(FloatValueType),
-        typeof(ToggleValueType))]
+    [SuitableValueTypes(typeof(ToggleValueType))]
     [LazuriteIcon(Icon.NetworkHome)]
     public class ModbusSingleCoilAction : IAction
     {

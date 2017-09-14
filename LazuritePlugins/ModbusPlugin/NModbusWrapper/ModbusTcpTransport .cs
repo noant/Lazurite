@@ -7,7 +7,7 @@ using Modbus.Device;
 using System.IO.Ports;
 using System.Net.Sockets;
 
-namespace ModbusPlugin
+namespace NModbusWrapper
 {
     public class ModbusTcpTransport : IModbusTransport
     {
