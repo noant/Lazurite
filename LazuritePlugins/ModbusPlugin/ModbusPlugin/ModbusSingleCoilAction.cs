@@ -11,7 +11,7 @@ using NModbusWrapper;
 
 namespace ModbusPlugin
 {
-    [HumanFriendlyName("ZWave устройство")]
+    [HumanFriendlyName("Modbus - чтение и запись ячейки")]
     [SuitableValueTypes(typeof(ToggleValueType))]
     [LazuriteIcon(Icon.NetworkHome)]
     public class ModbusSingleCoilAction : IAction
@@ -26,7 +26,7 @@ namespace ModbusPlugin
         {
             get
             {
-                return "Modbus - чтение и запись одной ячейки";
+                return string.Format("Modbus; {0}; устройство {1}; ячейка {2}", Manager.Transport.ToString(), SlaveAddress, CoilAddress);
             }
 
             set

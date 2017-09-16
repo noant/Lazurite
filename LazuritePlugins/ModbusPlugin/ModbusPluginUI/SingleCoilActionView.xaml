@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="ModbusPluginUI.SingleCoilActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModbusPluginUI"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             Height="300"
+             Width="500"
+             Background="{x:Static controls:Visual.Background}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <controls:CaptionView Icon="NetworkHome">Modbus - запись и чтение одной ячейки</controls:CaptionView>
+        <Label Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Foreground="SteelBlue">Позволяет записывать логическое значение (вкл. или выкл.) в ячейку</Label>
+        <local:SelectTransportView Grid.Row="2" HorizontalAlignment="Center" x:Name="transportView"></local:SelectTransportView>
+        
+    </Grid>
+</UserControl>

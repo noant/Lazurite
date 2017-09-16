@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.CoreActions.StandardValueTypeActions;
+using LazuriteUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,9 +28,9 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
         {
             InitializeComponent();
 
-            tbMax.Validation = (str) => double.Parse(str) > double.Parse(tbMin.Text);
-            tbMin.Validation = (str) => double.Parse(str) < double.Parse(tbMax.Text);
-            tbVal.Validation = (str) => double.Parse(tbMin.Text) <= double.Parse(str) && double.Parse(str) <= double.Parse(tbMax.Text);
+            tbMax.Validation = (o, v) => EntryViewValidation.DoubleValidation(min: double.Parse(tbMin.Text)).Invoke(o,v);
+            tbMin.Validation = (o, v) => EntryViewValidation.DoubleValidation(max: double.Parse(tbMax.Text)).Invoke(o, v);
+            tbVal.Validation = (o, v) => EntryViewValidation.DoubleValidation(max: double.Parse(tbMax.Text), min: double.Parse(tbMin.Text)).Invoke(o, v);
 
             tbMax.TextChanged += (o, e) =>
             {

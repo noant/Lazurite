@@ -1,6 +1,7 @@
 ﻿using ModbusPlugin;
 using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -25,18 +26,16 @@ namespace TestProject
         public MainWindow()
         {
             InitializeComponent();
-            var ushortArr = new ushort[] {
-                26948,
-                8308,
-                29545,
-                29728,
-                27493,
-                29811,
-                0,0,0,0,0,0
-            };
-            var strRes = Utils.GetString(ushortArr);
-            ushortArr = Utils.ConvertToUShort("фыфыфыф asasasas!!!$");
-            var result = Utils.ConvertFromUShort(ushortArr, typeof(string));
+            Test();
+        }
+
+        public void Test()
+        {
+            ModbusPluginUI.ConfigureTransportView.Show((t) => {
+                var transport = t;
+                t = null;
+                Test();
+            });
         }
     }
 }

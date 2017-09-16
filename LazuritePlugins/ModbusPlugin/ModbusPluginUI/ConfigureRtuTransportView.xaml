@@ -7,8 +7,8 @@
              xmlns:local="clr-namespace:ModbusPluginUI"
              mc:Ignorable="d" 
              MinWidth="500"
-             Background="{x:Static controls:Visual.Background}"
-             d:DesignHeight="300" d:DesignWidth="300">
+             Height="220"
+             Background="{x:Static controls:Visual.Background}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

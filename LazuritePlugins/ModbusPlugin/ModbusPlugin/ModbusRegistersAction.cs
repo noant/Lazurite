@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.ActionsDomain.Attributes;
 using LazuriteUI.Icons;
+using NModbusWrapper;
 
 namespace ModbusPlugin
 {
-    [HumanFriendlyName("ZWave устройство")]
+    [HumanFriendlyName("Modbus - чтение и запись регистров")]
     [SuitableValueTypes(typeof(FloatValueType), typeof(InfoValueType))]
     [LazuriteIcon(Icon.NetworkHome)]
     public class ModbusRegistersAction : IAction
@@ -31,7 +32,7 @@ namespace ModbusPlugin
         {
             get
             {
-                return "Modbus - чтение и запись регистров";
+                return string.Format("Modbus; {0}; устройство {1}; ячейка {2}", Manager.Transport.ToString(), SlaveAddress, RegisterAddress);
             }
 
             set

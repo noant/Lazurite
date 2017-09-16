@@ -101,9 +101,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ModbusPluginUI\ModbusPluginUI.csproj">
+      <Project>{d4ffef0a-2b88-438a-805b-97e3f19a5118}</Project>
+      <Name>ModbusPluginUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModbusPlugin\ModbusPlugin.csproj">
       <Project>{799a5359-447e-4bd2-ac4b-c59675bc329d}</Project>
       <Name>ModbusPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NModbusWrapper\NModbusWrapper.csproj">
+      <Project>{9763C5A7-F8BA-4C5C-AC96-EB3AB1E5514F}</Project>
+      <Name>NModbusWrapper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,5 @@
-﻿using NModbusWrapper;
+﻿using LazuriteUI.Windows.Controls;
+using NModbusWrapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +20,23 @@ namespace ModbusPluginUI
     /// <summary>
     /// Логика взаимодействия для ConfigureTcpTransport.xaml
     /// </summary>
-    public partial class ConfigureRtuTransportView : UserControl
+    public partial class ConfigureRtuTransportView : UserControl, ITransportView
     {
         public ConfigureRtuTransportView()
         {
             InitializeComponent();
-            tbSpeed.Validation = (str) => int.Parse(str) >= 75 && int.Parse(str) <= 128000;
-            tbDataBits.Validation = (str) => int.Parse(str) >= 4 && int.Parse(str) <= 8;
-            tbReadTimeout.Validation = (str) => ushort.Parse(str) > 100;
-            tbWriteTimeout.Validation = (str) => ushort.Parse(str) > 100;
+            tbSpeed.Validation = EntryViewValidation.IntValidation(max: 128000, min: 75);
+            tbDataBits.Validation = EntryViewValidation.IntValidation(max: 8, min: 4);
+            tbReadTimeout.Validation = EntryViewValidation.IntValidation(min: 100);
+            tbWriteTimeout.Validation = EntryViewValidation.IntValidation(min: 100);
+            tbComPort.Validation = (s, v) =>
+            {
+                if (v.InputString == "")
+                {
+                    v.OutputString = "COM1";
+                    v.SelectAll = true;
+                }
+            };
         }
 
         private System.IO.Ports.Parity GetSelectedParity()
@@ -86,7 +95,7 @@ namespace ModbusPluginUI
             return System.IO.Ports.StopBits.One;
         }
 
-        public ModbusRtuTransport Transport
+        public IModbusTransport Transport
         {
             get
             {
@@ -102,13 +111,14 @@ namespace ModbusPluginUI
             }
             set
             {
-                tbComPort.Text = value.ComPort;
-                tbDataBits.Text = value.PortDataBits.ToString();
-                tbReadTimeout.Text = value.ModbusReadTimeout.ToString();
-                tbWriteTimeout.Text = value.ModbusWriteTimeout.ToString();
-                tbSpeed.Text = value.PortBaudRate.ToString();
-                SelectParity(value.PortParity);
-                SelectStopBits(value.PortStopBits);
+                var val = (ModbusRtuTransport)value;
+                tbComPort.Text = val.ComPort;
+                tbDataBits.Text = val.PortDataBits.ToString();
+                tbReadTimeout.Text = val.ModbusReadTimeout.ToString();
+                tbWriteTimeout.Text = val.ModbusWriteTimeout.ToString();
+                tbSpeed.Text = val.PortBaudRate.ToString();
+                SelectParity(val.PortParity);
+                SelectStopBits(val.PortStopBits);
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LazuriteUI.Windows.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,9 +25,9 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             InitializeComponent();
             itemViewApply.Click += (o, e) => Apply?.Invoke(this, new RoutedEventArgs());
-            tbHour.Validation = (str) => int.Parse(str) >= 0 && int.Parse(str) <= 23;
-            tbMinute.Validation = (str) => int.Parse(str) >= 0 && int.Parse(str) <= 59;
-            tbSecond.Validation = (str) => int.Parse(str) >= 0 && int.Parse(str) <= 59;
+            tbHour.Validation = (s, v) => EntryViewValidation.IntValidation("Час", 0, 23).Invoke(s,v);
+            tbMinute.Validation = (s, v) => EntryViewValidation.IntValidation("Минута", 0, 59).Invoke(s, v);
+            tbSecond.Validation = (s, v) => EntryViewValidation.IntValidation("Секунда", 0, 59).Invoke(s, v);
         }
 
         public DateTime DateTime

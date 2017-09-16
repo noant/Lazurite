@@ -1,4 +1,5 @@
-﻿using NModbusWrapper;
+﻿using LazuriteUI.Windows.Controls;
+using NModbusWrapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +20,25 @@ namespace ModbusPluginUI
     /// <summary>
     /// Логика взаимодействия для ConfigureTcpTransport.xaml
     /// </summary>
-    public partial class ConfigureTcpTransportView : UserControl
+    public partial class ConfigureTcpTransportView : UserControl, ITransportView
     {
         public ConfigureTcpTransportView()
         {
             InitializeComponent();
-            tbPort.Validation = (str) => str == "" || ushort.Parse(str) > 0;
-            tbReadTimeout.Validation = (str) => ushort.Parse(str) > 100;
-            tbWriteTimeout.Validation = (str) => ushort.Parse(str) > 100;
+            tbPort.Validation = EntryViewValidation.UShortValidation();
+            tbReadTimeout.Validation = EntryViewValidation.IntValidation(min: 100);
+            tbWriteTimeout.Validation = EntryViewValidation.IntValidation(min: 100);
+            tbHost.Validation = (s, v) =>
+            {
+                if (v.InputString == "")
+                {
+                    v.OutputString = "localhost";
+                    v.SelectAll = true;
+                }
+            };
         }
 
-        public ModbusTcpTransport Transport
+        public IModbusTransport Transport
         {
             get
             {
@@ -43,11 +52,12 @@ namespace ModbusPluginUI
             }
             set
             {
-                tbHost.Text = value.Host;
-                tbPort.Text = value.Port.ToString();
-                tbReadTimeout.Text = value.ReadTimeout.ToString();
-                tbWriteTimeout.Text = value.WriteTimeout.ToString();
-                btUdp.Selected = value.UseUdp;
+                var val = (ModbusTcpTransport)value;
+                tbHost.Text = val.Host;
+                tbPort.Text = val.Port.ToString();
+                tbReadTimeout.Text = val.ReadTimeout.ToString();
+                tbWriteTimeout.Text = val.WriteTimeout.ToString();
+                btUdp.Selected = val.UseUdp;
             }
         }
     }

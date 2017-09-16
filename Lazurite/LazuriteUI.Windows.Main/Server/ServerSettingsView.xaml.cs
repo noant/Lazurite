@@ -2,6 +2,7 @@
 using Lazurite.Windows.Logging;
 using Lazurite.Windows.Server;
 using LazuriteUI.Icons;
+using LazuriteUI.Windows.Controls;
 using LazuriteUI.Windows.Main.Common;
 using System;
 using System.Collections.Generic;
@@ -36,8 +37,16 @@ namespace LazuriteUI.Windows.Main.Server
         {
             InitializeComponent();
             _settings = (ServerSettings)Lazurite.Windows.Utils.Utils.CloneObject(_server.GetSettings());
-            tbPort.Validation = (str) => ushort.Parse(str);
-            tbServiceName.Validation = (str) => str.Length > 0 && str.Count(x => x == ' ') == 0;
+            tbPort.Validation = (o,v) => EntryViewValidation.UShortValidation().Invoke(o, v);
+            tbServiceName.Validation = (o, v) => {
+                var value = v.InputString.Replace(" ", "");
+                if (value.Length == 0)
+                {
+                    value = "Lazurite";
+                    v.SelectAll = true;
+                }
+                v.OutputString = value;
+            };
             tbPort.TextChanged += (o, e) => SettingsChanged();
             tbServiceName.TextChanged += (o, e) => SettingsChanged();
             btChangeCert.Click += (o, e) => CertificateSelectView.Show(_settings, (s) => SettingsChanged());

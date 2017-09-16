@@ -55,5 +55,10 @@ namespace NModbusWrapper
         public int WriteTimeout { get; set; } = 2000;
 
         public bool UseUdp { get; set; } = false;
+
+        public override string ToString()
+        {
+            return string.Format("{0}; {1}; UDP: {2};", Host, Port, UseUdp ? "Да" : "Нет");
+        }
     }
 }
