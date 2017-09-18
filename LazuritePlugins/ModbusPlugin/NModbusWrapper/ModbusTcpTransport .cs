@@ -58,7 +58,7 @@ namespace NModbusWrapper
 
         public override string ToString()
         {
-            return string.Format("{0}; {1}; UDP: {2};", Host, Port, UseUdp ? "Да" : "Нет");
+            return string.Format("{0}; {1}; {2}", Host, Port, UseUdp ? "UDP" : "TCP");
         }
     }
 }

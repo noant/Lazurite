@@ -1,4 +1,5 @@
-﻿using ModbusPlugin;
+﻿using Lazurite.ActionsDomain.ValueTypes;
+using ModbusPlugin;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -31,11 +32,15 @@ namespace TestProject
 
         public void Test()
         {
-            ModbusPluginUI.ConfigureTransportView.Show((t) => {
-                var transport = t;
-                t = null;
-                Test();
-            });
+            //ModbusPluginUI.ConfigureTransportView.Show((t) => {
+            //    var transport = t;
+            //    t = null;
+            //    Test();
+            //});
+
+            var action = new ModbusSingleCoilAction();
+            var result = action.UserInitializeWith(new ToggleValueType(), false);
+            var a = 0;
         }
     }
 }

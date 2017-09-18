@@ -24,16 +24,22 @@ namespace ModbusPluginUI
         public SelectTransportView()
         {
             InitializeComponent();
-            btEdit.Click += (o, e) => 
-                ConfigureTransportView.Show(
-                    (transport) =>
-                    {
-                        RefreshWith(transport);
-                        TransportChanged?.Invoke(transport);
-                    },
-                    Transport);
-        }
 
+            this.Loaded += (o, e) => {
+                var window = Window.GetWindow(this);
+                var grid = window.Content as Grid;
+                btEdit.Click += (o1, e1) => 
+                    ConfigureTransportView.Show(
+                        (transport) =>
+                        {
+                            RefreshWith(transport);
+                            TransportChanged?.Invoke(transport);
+                        },
+                        Transport,
+                        grid);
+            };
+        }
+        
         public IModbusTransport Transport { get; private set; }
 
         public void RefreshWith(IModbusTransport transport)

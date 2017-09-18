@@ -33,7 +33,7 @@ namespace LazuriteUI.Windows.Preparator
 
                 task.Triggers.Add(new RegistrationTrigger());
 
-                task.Actions.Add(new ExecAction(exePath));
+                task.Actions.Add(new ExecAction(exePath, "-FromTaskManager"));
                 task.Settings.Enabled = true;
                 task.Settings.Hidden = false;
                 task.Settings.DisallowStartIfOnBatteries = false;

@@ -19,32 +19,41 @@ namespace LazuriteUI.Windows.Launcher
     public partial class App : Application
     {
         private static string MainExeName = "LazuriteUI.Windows.Main.exe";
+        private static string TaskSchedulerMode = "-FromTaskScheduler";
         private static WarningHandlerBase Log = new WarningHandler();
         
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            if (new LauncherSettingsManager().Settings.RunOnUserLogon)
+            Log.OnWrite += (sender, args) =>
             {
-                Log.OnWrite += (sender, args) =>
-                {
-                    if (args.Type == WarnType.Error || args.Type == WarnType.Fatal)
-                        MessageBox.Show(args.Message, args.Exception?.Message);
-                };
-                Singleton.Add(Log);
-                if (Utils.IsAdministrator())
-                {
-                    RunLazurite(false);
-                }
-                else
-                {
-                    var requireAdminRightsWindow = new RequireAdminRightsWindow();
-                    requireAdminRightsWindow.ApplyClick += () => RunLazurite(true);
-                    requireAdminRightsWindow.CancelClick += () => Shutdown();
-                    requireAdminRightsWindow.Show();
-                }
+                if (args.Type == WarnType.Error || args.Type == WarnType.Fatal)
+                    MessageBox.Show(args.Message, args.Exception?.Message);
+            };
+            Singleton.Add(Log);
+            if (e.Args.Any() && e.Args[0] == TaskSchedulerMode)
+            {
+                if (new LauncherSettingsManager().Settings.RunOnUserLogon)
+                    RunLazuriteWithAdminPrivileges();
+                else Shutdown();
             }
-            else Shutdown();
+            else
+                RunLazuriteWithAdminPrivileges();
+        }
+
+        public void RunLazuriteWithAdminPrivileges()
+        {
+            if (Utils.IsAdministrator())
+            {
+                RunLazurite(false);
+            }
+            else
+            {
+                var requireAdminRightsWindow = new RequireAdminRightsWindow();
+                requireAdminRightsWindow.ApplyClick += () => RunLazurite(true);
+                requireAdminRightsWindow.CancelClick += () => Shutdown();
+                requireAdminRightsWindow.Show();
+            }
         }
 
         public void RunLazurite(bool useShell)

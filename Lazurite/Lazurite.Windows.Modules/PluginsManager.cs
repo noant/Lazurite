@@ -23,7 +23,12 @@ namespace Lazurite.Windows.Modules
     {
         public static readonly string PluginFileExtension = ".pyp";
 
-        public PluginsManager()
+        public PluginsManager() : this(true)
+        {
+            //do nothing
+        }
+
+        public PluginsManager(bool initTypes)
         {
             //resolve plugin types
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
@@ -115,29 +120,32 @@ namespace Lazurite.Windows.Modules
             }
 
             //init target types
-            foreach (var plugin in _plugins)
+            if (initTypes)
             {
-                if (!updatedPlugins.Any(x=> x.Equals(plugin.Name)))
-                    foreach (var relativePath in plugin.TargetLibraries)
-                    {
-                        try
+                foreach (var plugin in _plugins)
+                {
+                    if (!updatedPlugins.Any(x => x.Equals(plugin.Name)))
+                        foreach (var relativePath in plugin.TargetLibraries)
                         {
-                            var absolutePath = Path.Combine(_baseDir, relativePath);
-                            _warningHandler.Debug("plugin " + plugin.Name + " lib path " + absolutePath);
-                            var assembly = Utils.LoadAssembly(absolutePath);
-                            var types = GetTargetTypes(assembly);
-                            _allTypes.AddRange(types.Select(x => new PluginTypeInfo()
+                            try
                             {
-                                Plugin = plugin,
-                                Type = x,
-                                Assembly = assembly
-                            }));
+                                var absolutePath = Path.Combine(_baseDir, relativePath);
+                                _warningHandler.Debug("plugin " + plugin.Name + " lib path " + absolutePath);
+                                var assembly = Utils.LoadAssembly(absolutePath);
+                                var types = GetTargetTypes(assembly);
+                                _allTypes.AddRange(types.Select(x => new PluginTypeInfo()
+                                {
+                                    Plugin = plugin,
+                                    Type = x,
+                                    Assembly = assembly
+                                }));
+                            }
+                            catch (Exception e)
+                            {
+                                _warningHandler.ErrorFormat(e, "Error while initializing plugin [{0}]", plugin.Name);
+                            }
                         }
-                        catch (Exception e)
-                        {
-                            _warningHandler.ErrorFormat(e, "Error while initializing plugin [{0}]", plugin.Name);
-                        }
-                    }
+                }
             }
 
             //clear temporary plugin directory
@@ -320,6 +328,18 @@ namespace Lazurite.Windows.Modules
                 )
             );
             _savior.Set(_saviorKey, _plugins);
+        }
+
+        public void HardReplacePlugin(string pluginPath)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(pluginPath);
+            var destDirectoryPath = Path.Combine(_baseDir, fileName);
+            if (Directory.Exists(destDirectoryPath))
+            {
+                Directory.Delete(destDirectoryPath, true);
+                RemovePluginInternal(fileName);
+            }
+            AddPlugin(pluginPath);
         }
         
         /// <summary>

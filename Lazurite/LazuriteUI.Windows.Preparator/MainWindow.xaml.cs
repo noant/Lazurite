@@ -68,12 +68,12 @@ namespace LazuriteUI.Windows.Preparator
             var pluginsFiles = Directory.GetFiles(pluginsFolderPath).Where(x => x.EndsWith(PluginsManager.PluginFileExtension)).ToArray();
             try
             {
-                var pluginsManager = new PluginsManager();
+                var pluginsManager = new PluginsManager(false);
                 foreach (var pluginPath in pluginsFiles)
                 {
                     try
                     {
-                        pluginsManager.AddPlugin(pluginPath);
+                        pluginsManager.HardReplacePlugin(pluginPath);
                     }
                     catch (Exception e)
                     {
@@ -87,7 +87,7 @@ namespace LazuriteUI.Windows.Preparator
             }
             catch (Exception e)
             {
-                var msg = "*!Ошибка при установке плагинов. Часть функционала будет недоступна.\r\n";
+                var msg = "*!Ошибка при установке плагинов. Часть функционала может быть недоступна.\r\n";
                 message += msg;
                 log.ErrorFormat(e, msg);
                 error = true;

@@ -26,13 +26,11 @@ namespace LazuriteUI.Windows.Preparator
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            Utils.KillAllLazuriteProcesses(); //to delete
-            App.Current.Shutdown();
             var log = new WarningHandler();
             var savior = new FileSavior();
             Singleton.Add(savior);
             Singleton.Add(log);
-            if (Lazurite.Windows.Utils.Utils.IsAdministrator() && e.Args.Length == 1)
+            if (e.Args.Length == 1)
             {
                 if (e.Args[0] == KillLazuriteProcessCommand)
                 {

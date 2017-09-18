@@ -12,7 +12,7 @@
         Top="50"
         ResizeMode="NoResize"
         Background="{x:Static controls:Visual.Background}"
-        Height="200" Width="600" Topmost="True">
+        Height="300" Width="600" Topmost="True">
     <Grid>
         <controls:CaptionView VerticalAlignment="Top" HorizontalAlignment="Stretch" Icon="Forklift" x:Name="captionView">Подготовка приложения</controls:CaptionView>
         <Label x:Name="label" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White">Подготовка приложения...</Label>

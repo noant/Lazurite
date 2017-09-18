@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IModbusSingleCoilAction.cs" />
     <Compile Include="IModbusTransport.cs" />
     <Compile Include="ModbusRtuTransport.cs" />
     <Compile Include="ModbusTcpTransport .cs" />

@@ -32,7 +32,7 @@ namespace ModbusPlugin
         {
             get
             {
-                return string.Format("Modbus; {0}; устройство {1}; ячейка {2}", Manager.Transport.ToString(), SlaveAddress, RegisterAddress);
+                return string.Format("{0}; устройство {1}; ячейка {2}", Manager.Transport.ToString(), SlaveAddress, RegisterAddress);
             }
 
             set

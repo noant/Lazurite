@@ -5,9 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ModbusPluginUI"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             mc:Ignorable="d" 
-             Height="300"
-             Width="500"
+             mc:Ignorable="d"
              Background="{x:Static controls:Visual.Background}">
     <Grid>
         <Grid.RowDefinitions>
@@ -15,11 +13,29 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <controls:CaptionView Icon="NetworkHome">Modbus - запись и чтение одной ячейки</controls:CaptionView>
         <Label Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Foreground="SteelBlue">Позволяет записывать логическое значение (вкл. или выкл.) в ячейку</Label>
         <local:SelectTransportView Grid.Row="2" HorizontalAlignment="Center" x:Name="transportView"></local:SelectTransportView>
-        
+        <Grid Grid.Row="3" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Foreground="SteelBlue" HorizontalAlignment="Right">Адрес устройства:</Label>
+            <controls:EntryView x:Name="tbAddress" Grid.Column="1"></controls:EntryView>
+            <Label Foreground="SteelBlue" Grid.Row="1" HorizontalAlignment="Right">Адрес ячейки:</Label>
+            <controls:EntryView x:Name="tbCoil" Grid.Row="1" Grid.Column="1"></controls:EntryView>
+        </Grid>
+        <StackPanel Margin="10" Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Right">
+            <controls:ItemView x:Name="btOk" Width="130" Icon="Check">ОK</controls:ItemView>
+            <controls:ItemView x:Name="btCancel" Width="130" Margin="10,0,0,0" Icon="Cancel">Отмена</controls:ItemView>
+        </StackPanel>
     </Grid>
 </UserControl>

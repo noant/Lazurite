@@ -61,7 +61,7 @@ namespace ModbusPluginUI
 
         public event Action<IModbusTransport> ApplyPressed;
 
-        public static void Show(Action<IModbusTransport> transportCreated, IModbusTransport transport=null)
+        public static void Show(Action<IModbusTransport> transportCreated, IModbusTransport transport=null, Grid parent=null)
         {
             if (transport == null)
                 transport = new ModbusRtuTransport();
@@ -72,7 +72,7 @@ namespace ModbusPluginUI
                 dialog.Close();
                 transportCreated(newTransport);
             };
-            dialog.Show();
+            dialog.Show(parent);
         }
     }
 }

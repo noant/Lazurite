@@ -68,6 +68,9 @@
     <Compile Include="SingleCoilActionView.xaml.cs">
       <DependentUpon>SingleCoilActionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SingleCoilActionWindow.xaml.cs">
+      <DependentUpon>SingleCoilActionWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="ConfigureRtuTransportView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -107,6 +110,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SingleCoilActionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SingleCoilActionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

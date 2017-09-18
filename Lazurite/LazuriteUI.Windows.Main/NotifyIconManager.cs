@@ -31,12 +31,13 @@ namespace LazuriteUI.Windows.Main
 
         public static void Click()
         {
-            App.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                _mainWindow = new MainWindow();
-                _mainWindow.Closing += (o1, e1) => _mainWindow = null;
-                _mainWindow.Show();
-            }));
+            if (_mainWindow == null)
+                App.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    _mainWindow = new MainWindow();
+                    _mainWindow.Closing += (o1, e1) => _mainWindow = null;
+                    _mainWindow.Show();
+                }));
         }
     }
 }

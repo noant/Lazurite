@@ -8,15 +8,16 @@ using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.ActionsDomain.Attributes;
 using LazuriteUI.Icons;
 using NModbusWrapper;
+using ModbusPluginUI;
 
 namespace ModbusPlugin
 {
     [HumanFriendlyName("Modbus - чтение и запись ячейки")]
     [SuitableValueTypes(typeof(ToggleValueType))]
     [LazuriteIcon(Icon.NetworkHome)]
-    public class ModbusSingleCoilAction : IAction
+    public class ModbusSingleCoilAction : IAction, IModbusSingleCoilAction
     {
-        public NModbusManager Manager { get; set; }
+        public NModbusManager Manager { get; set; } = new NModbusManager();
 
         public byte SlaveAddress { get; set; } = 1;
 
@@ -26,7 +27,7 @@ namespace ModbusPlugin
         {
             get
             {
-                return string.Format("Modbus; {0}; устройство {1}; ячейка {2}", Manager.Transport.ToString(), SlaveAddress, CoilAddress);
+                return string.Format("{0}; устройство {1}; ячейка {2}", Manager.Transport.ToString(), SlaveAddress, CoilAddress);
             }
 
             set
@@ -73,7 +74,7 @@ namespace ModbusPlugin
 
         public void Initialize()
         {
-            throw new NotImplementedException();
+            //don nothing
         }
 
         public void SetValue(ExecutionContext context, string value)
@@ -90,7 +91,7 @@ namespace ModbusPlugin
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            throw new NotImplementedException();
+            return new SingleCoilActionWindow(this).ShowDialog() ?? false;
         }
     }
 }

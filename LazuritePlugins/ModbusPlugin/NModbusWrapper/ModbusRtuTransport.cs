@@ -10,6 +10,14 @@ namespace NModbusWrapper
 {
     public class ModbusRtuTransport : IModbusTransport
     {
+        private static Dictionary<string, object> _portLockers = new Dictionary<string, object>();
+        private static object GetPortLocker(string port)
+        {
+            if (!_portLockers.ContainsKey(port))
+                _portLockers.Add(port, new object());
+            return _portLockers[port];
+        }
+
         protected SerialPort ConfigurePort()
         {
             SerialPort port = new SerialPort(ComPort);
@@ -40,26 +48,32 @@ namespace NModbusWrapper
 
         public void Execute(Action<IModbusMaster> action)
         {
-            var port = ConfigurePort();
-            var master = ConfigureMaster(port);
-            action.Invoke(master);
-            port.Dispose();
-            master.Dispose();
+            lock (GetPortLocker(ComPort))
+            {
+                var port = ConfigurePort();
+                var master = ConfigureMaster(port);
+                action.Invoke(master);
+                port.Dispose();
+                master.Dispose();
+            }
         }
 
         public object Execute(Func<IModbusMaster, object> action)
         {
-            var port = ConfigurePort();
-            var master = ConfigureMaster(port);
-            var result = action.Invoke(master);
-            port.Dispose();
-            master.Dispose();
-            return result;
+            lock (GetPortLocker(ComPort))
+            {
+                var port = ConfigurePort();
+                var master = ConfigureMaster(port);
+                var result = action.Invoke(master);
+                port.Dispose();
+                master.Dispose();
+                return result;
+            }
         }
 
         public override string ToString()
         {
-            return string.Format("{0}; {1}; {2};", ComPort, PortBaudRate, PortDataBits);
+            return string.Format("{0}; {1}; {2}", ComPort, PortBaudRate, PortDataBits);
         }
     }
 }

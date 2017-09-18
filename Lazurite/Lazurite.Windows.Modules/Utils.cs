@@ -93,7 +93,7 @@ namespace Lazurite.Windows.Modules
             var zip = new FastZip();
             zip.ExtractZip(filePath, destinationFolder, string.Empty);
         }
-
+        
         public static Assembly LoadAssembly(string path)
         {
             return Assembly.LoadFrom(path);
