@@ -6,6 +6,9 @@
              xmlns:local="clr-namespace:ZWavePluginUI"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
+             MinWidth="500"
+             MinHeight="200"
+             Background="{x:Static controls:Visual.Background}"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <controls:CaptionView Name="captionView" VerticalAlignment="Top" Icon="Diagram">Доступные узлы</controls:CaptionView>

@@ -24,24 +24,24 @@
             <ColumnDefinition Width="120"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Foreground="SteelBlue" VerticalAlignment="Center" HorizontalAlignment="Right">Порт</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" VerticalAlignment="Center" HorizontalAlignment="Right">Порт</Label>
         <controls:EntryView x:Name="tbComPort" Grid.Column="1"></controls:EntryView>
-        <Label Foreground="SteelBlue" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">Скорость (бод)</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">Скорость (бод)</Label>
         <controls:EntryView Grid.Row="1" x:Name="tbSpeed" Grid.Column="1"></controls:EntryView>
-        <Label Foreground="SteelBlue" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right">Биты данных</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right">Биты данных</Label>
         <controls:EntryView Grid.Row="2" x:Name="tbDataBits" Grid.Column="1"></controls:EntryView>
-        <Label Foreground="SteelBlue" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right">Таймаут чтения</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right">Таймаут чтения</Label>
         <controls:EntryView Grid.Row="3" x:Name="tbReadTimeout" Grid.Column="1"></controls:EntryView>
-        <Label Foreground="SteelBlue" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right">Таймаут записи</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right">Таймаут записи</Label>
         <controls:EntryView Grid.Row="4" x:Name="tbWriteTimeout" Grid.Column="1"></controls:EntryView>
-        <Label Foreground="SteelBlue" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right">Стоп-биты</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right">Стоп-биты</Label>
         <controls:ListItemsView x:Name="lvStopBits" SelectionMode="Single" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" Orientation="Horizontal">
             <controls:ItemView Width="51" Margin="3">Нет</controls:ItemView>
             <controls:ItemView Width="51" Margin="3">1</controls:ItemView>
             <controls:ItemView Width="51" Margin="3">1.5</controls:ItemView>
             <controls:ItemView Width="51" Margin="3">2</controls:ItemView>
         </controls:ListItemsView>
-        <Label Foreground="SteelBlue" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Right">Четность</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Right">Четность</Label>
         <controls:ListItemsView x:Name="lvParity" SelectionMode="Single" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" Orientation="Horizontal">
             <controls:ItemView Width="55" Margin="3">Четное</controls:ItemView>
             <controls:ItemView Width="51" Margin="3">1</controls:ItemView>

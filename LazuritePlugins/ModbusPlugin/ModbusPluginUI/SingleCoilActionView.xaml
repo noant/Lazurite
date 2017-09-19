@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <controls:CaptionView Icon="NetworkHome">Modbus - запись и чтение одной ячейки</controls:CaptionView>
-        <Label Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Foreground="SteelBlue">Позволяет записывать логическое значение (вкл. или выкл.) в ячейку</Label>
+        <Label Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Foreground="{x:Static controls:Visual.CaptionForeground}">Позволяет записывать логическое значение (вкл. или выкл.) в ячейку</Label>
         <local:SelectTransportView Grid.Row="2" HorizontalAlignment="Center" x:Name="transportView"></local:SelectTransportView>
         <Grid Grid.Row="3" Margin="5">
             <Grid.RowDefinitions>
@@ -28,9 +28,9 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Foreground="SteelBlue" HorizontalAlignment="Right">Адрес устройства:</Label>
+            <Label Foreground="{x:Static controls:Visual.CaptionForeground}" HorizontalAlignment="Right">Адрес устройства:</Label>
             <controls:EntryView x:Name="tbAddress" Grid.Column="1"></controls:EntryView>
-            <Label Foreground="SteelBlue" Grid.Row="1" HorizontalAlignment="Right">Адрес ячейки:</Label>
+            <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="1" HorizontalAlignment="Right">Адрес ячейки:</Label>
             <controls:EntryView x:Name="tbCoil" Grid.Row="1" Grid.Column="1"></controls:EntryView>
         </Grid>
         <StackPanel Margin="10" Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Right">

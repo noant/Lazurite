@@ -21,13 +21,13 @@
             <ColumnDefinition Width="120"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Foreground="SteelBlue" VerticalAlignment="Center" HorizontalAlignment="Right">Хост</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" VerticalAlignment="Center" HorizontalAlignment="Right">Хост</Label>
         <controls:EntryView x:Name="tbHost" Grid.Column="1"></controls:EntryView>
-        <Label Foreground="SteelBlue" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">Порт</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">Порт</Label>
         <controls:EntryView Grid.Row="1" x:Name="tbPort" Grid.Column="1"></controls:EntryView>
-        <Label Foreground="SteelBlue" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right">Таймаут чтения</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right">Таймаут чтения</Label>
         <controls:EntryView Grid.Row="2" x:Name="tbReadTimeout" Grid.Column="1"></controls:EntryView>
-        <Label Foreground="SteelBlue" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right">Таймаут записи</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right">Таймаут записи</Label>
         <controls:EntryView Grid.Row="3" x:Name="tbWriteTimeout" Grid.Column="1"></controls:EntryView>
         <controls:ListItemsView SelectionMode="Single" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal">
             <controls:ItemView Width="70" Selected="True" Margin="3">TCP</controls:ItemView>

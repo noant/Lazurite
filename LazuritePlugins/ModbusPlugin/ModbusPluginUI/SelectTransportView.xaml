@@ -13,7 +13,7 @@
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label x:Name="lblDescription" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="SteelBlue" Margin="0,0,5,0"></Label>
+        <Label x:Name="lblDescription" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{x:Static controls:Visual.CaptionForeground}" Margin="0,0,5,0"></Label>
         <controls:ItemView x:Name="btEdit" Margin="5" Width="130" Icon="Settings" Grid.Column="1">Изменить</controls:ItemView>
     </Grid>
 </UserControl>

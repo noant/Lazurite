@@ -23,7 +23,8 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <controls:WheelScroll Grid.Row="0">
+            <Border Margin="10" BorderThickness="2" BorderBrush="{x:Static controls:Visual.BorderBrush}"></Border>
+            <controls:WheelScroll Grid.Row="0" Margin="10">
                 <controls:ListItemsView SelectionChanged="controllersListView_SelectionChanged" x:Name="controllersListView" SelectionMode="Single"></controls:ListItemsView>
             </controls:WheelScroll>
             <Grid Grid.Row="1" Margin="10">
@@ -45,7 +46,7 @@
                 <controls:ItemView Click="itemViewAddNewController_Click" IsEnabled="False" Selectable="True" Width="250" Icon="Add" Content="Добавить новый контроллер" Grid.Column="2" x:Name="itemViewAddNewController"></controls:ItemView>
             </Grid>
             </Grid>
-                <controls:WheelScroll Grid.Row="1" Grid.Column="1">
+                <controls:WheelScroll Margin="10" Grid.Row="1" Grid.Column="1">
                     <StackPanel>
                     <Grid Name="gridControlPanel">
                         <controls:ListItemsView IsEnabled="False" SelectionMode="None" x:Name="itemsViewControllerCommands">
@@ -68,7 +69,7 @@
                     </Grid>
                 </StackPanel>
                 </controls:WheelScroll>
-            <Border Grid.Column="1" Grid.Row="1" BorderBrush="{x:Static controls:Visual.SplitterBrush}" BorderThickness="1,0,0,0"></Border>
+            <Border Grid.Column="1" Grid.Row="1" Margin="10" BorderThickness="2" BorderBrush="{x:Static controls:Visual.BorderBrush}"></Border>
         </Grid>
     </Grid>
 </UserControl>

@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
         <controls:CaptionView Icon="NetworkHome">Тип соединения Modbus</controls:CaptionView>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
-            <Label Foreground="SteelBlue">Тип соединения:</Label>
+            <Label Foreground="{x:Static controls:Visual.CaptionForeground}">Тип соединения:</Label>
             <controls:ListItemsView Orientation="Horizontal" x:Name="lvSelectType" SelectionMode="Single">
                 <controls:ItemView Width="100">Modbus RTU</controls:ItemView>
                 <controls:ItemView Width="100" Margin="2,0,0,0">Modbus TCP</controls:ItemView>

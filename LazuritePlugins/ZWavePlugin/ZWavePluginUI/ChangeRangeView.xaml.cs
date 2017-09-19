@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LazuriteUI.Windows.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,8 +24,8 @@ namespace ZWavePluginUI
         public ChangeRangeView()
         {
             InitializeComponent();
-            this.tbMin.Validation = (str) => decimal.Parse(str) < decimal.Parse(this.tbMax.Text);
-            this.tbMax.Validation = (str) => decimal.Parse(str) > decimal.Parse(this.tbMin.Text);
+            this.tbMin.Validation = EntryViewValidation.DecimalValidation(max: decimal.Parse(this.tbMax.Text));
+            this.tbMax.Validation = EntryViewValidation.DecimalValidation(min: decimal.Parse(this.tbMin.Text));
         }
 
         public decimal Max

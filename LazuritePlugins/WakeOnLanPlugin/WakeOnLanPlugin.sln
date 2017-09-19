@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WakeOnLanPlugin", "WakeOnLanPlugin\WakeOnLanPlugin.csproj", "{40009E7A-8D47-4134-A445-C0506FC2A92A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WakeOnLanUtils", "WakeOnLanUtils\WakeOnLanUtils.csproj", "{4075F70B-9B4C-4C92-914E-2FE78D1727C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WakeOnLanUI", "WakeOnLanUI\WakeOnLanUI.csproj", "{4A1597CD-87E5-4EE2-9C1B-3ED6BFA13D93}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40009E7A-8D47-4134-A445-C0506FC2A92A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40009E7A-8D47-4134-A445-C0506FC2A92A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40009E7A-8D47-4134-A445-C0506FC2A92A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40009E7A-8D47-4134-A445-C0506FC2A92A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4075F70B-9B4C-4C92-914E-2FE78D1727C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4075F70B-9B4C-4C92-914E-2FE78D1727C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4075F70B-9B4C-4C92-914E-2FE78D1727C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4075F70B-9B4C-4C92-914E-2FE78D1727C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A1597CD-87E5-4EE2-9C1B-3ED6BFA13D93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A1597CD-87E5-4EE2-9C1B-3ED6BFA13D93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A1597CD-87E5-4EE2-9C1B-3ED6BFA13D93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A1597CD-87E5-4EE2-9C1B-3ED6BFA13D93}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

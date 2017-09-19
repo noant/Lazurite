@@ -23,6 +23,8 @@ namespace LazuriteUI.Windows.Controls
         public static readonly Brush SplitterBrush = new SolidColorBrush(Color.FromRgb(38, 38, 38));
         public static readonly Brush BackgroundLazurite = new SolidColorBrush(Color.FromRgb(29,25,29));
         public static readonly Brush Foreground = Brushes.White;
+        public static readonly Brush BorderBrush = new SolidColorBrush(Color.FromRgb(17,34,39));
+        public static readonly Brush CaptionForeground = Brushes.SteelBlue;
         public static readonly int FontSize = 14;
         public static readonly int BigFontSize = 17;
         public static readonly FontFamily FontFamily = new FontFamily("Calibri");

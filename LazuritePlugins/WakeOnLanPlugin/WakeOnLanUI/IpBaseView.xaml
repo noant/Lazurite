@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="WakeOnLanUI.IpBaseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WakeOnLanUI"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             Width="150"
+             Height="30">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <controls:EntryView HorizontalContentAlignment="Center" x:Name="tbPart1">192</controls:EntryView>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" VerticalContentAlignment="Bottom" Grid.Column="1">.</Label>
+        <controls:EntryView HorizontalContentAlignment="Center" x:Name="tbPart2" Grid.Column="2">168</controls:EntryView>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" VerticalContentAlignment="Bottom" Grid.Column="3">.</Label>
+        <controls:EntryView HorizontalContentAlignment="Center" x:Name="tbPart3" Grid.Column="4">0</controls:EntryView>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" VerticalContentAlignment="Bottom" Grid.Column="5">.</Label>
+        <controls:EntryView HorizontalContentAlignment="Center" x:Name="tbPart4" IsReadOnly="True" IsEnabled="False" Grid.Column="6">***</controls:EntryView>
+    </Grid>
+</UserControl>

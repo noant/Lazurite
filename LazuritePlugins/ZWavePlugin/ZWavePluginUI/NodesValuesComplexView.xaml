@@ -12,7 +12,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <local:NodesListView Grid.Column="0" x:Name="nodesListView"></local:NodesListView>
-        <local:NodeValuesListView BorderBrush="{x:Static controls:Visual.SplitterBrush}" BorderThickness="1,0,0,0" Grid.Column="1" x:Name="valuesListView"></local:NodeValuesListView>
+        <local:NodesListView Margin="10" BorderBrush="{x:Static controls:Visual.BorderBrush}" BorderThickness="2" Grid.Column="0" x:Name="nodesListView"></local:NodesListView>
+        <local:NodeValuesListView Margin="10" BorderBrush="{x:Static controls:Visual.BorderBrush}" BorderThickness="2" Grid.Column="1" x:Name="valuesListView"></local:NodeValuesListView>
     </Grid>
 </UserControl>
