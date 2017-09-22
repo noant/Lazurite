@@ -12,7 +12,7 @@ namespace LazuriteMobile.App.Switches
 {
     public partial class FloatView : ContentView
     {
-        private ScenarioModel _model;
+        private SwitchScenarioModel _model;
         public FloatView()
         {
             InitializeComponent();
@@ -20,7 +20,7 @@ namespace LazuriteMobile.App.Switches
         
         public FloatView(ScenarioInfo scenario) : this()
         {
-            _model = new ScenarioModel(scenario);
+            _model = new SwitchScenarioModel(scenario);
             this.BindingContext = _model;
             itemView.Click += itemView_Click;
         }

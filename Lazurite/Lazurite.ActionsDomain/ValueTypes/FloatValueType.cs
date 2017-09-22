@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Lazurite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Число")]
-    [SuitableValueTypes(typeof(FloatValueType))]
+    [DataContract]
     public class FloatValueType: ValueTypeBase
     {
         public FloatValueType()

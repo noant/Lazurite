@@ -99,12 +99,12 @@ namespace WakeOnLanUtils
         public static string MacAddressParse(byte[] macAddress)
         {
             return string.Format("{0}:{1}:{2}:{3}:{4}:{5}",
-                Convert.ToString(macAddress[0]),
-                Convert.ToString(macAddress[1]),
-                Convert.ToString(macAddress[2]),
-                Convert.ToString(macAddress[3]),
-                Convert.ToString(macAddress[4]),
-                Convert.ToString(macAddress[5]));
+                Convert.ToString(macAddress[0], 16),
+                Convert.ToString(macAddress[1], 16),
+                Convert.ToString(macAddress[2], 16),
+                Convert.ToString(macAddress[3], 16),
+                Convert.ToString(macAddress[4], 16),
+                Convert.ToString(macAddress[5], 16)).ToUpper();
         }
 
         [System.Runtime.InteropServices.DllImport("Iphlpapi.dll", EntryPoint = "SendARP")]

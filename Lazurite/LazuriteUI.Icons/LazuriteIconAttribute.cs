@@ -22,7 +22,7 @@ namespace LazuriteUI.Icons
             var attribute = type.GetTypeInfo().GetCustomAttribute<LazuriteIconAttribute>();
             if (attribute != null)
                 return attribute.Icon;
-            else return Icon.None;
+            else return Icon._None;
         }
     }
 }

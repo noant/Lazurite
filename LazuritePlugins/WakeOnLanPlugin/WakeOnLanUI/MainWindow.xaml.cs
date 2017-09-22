@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WakeOnLanUtils;
 
 namespace WakeOnLanUI
 {
@@ -20,9 +21,12 @@ namespace WakeOnLanUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(IWakeOnLanAction action)
         {
             InitializeComponent();
+            actionView.Apply += () => DialogResult = true;
+            actionView.Cancel += () => DialogResult = false;
+            actionView.RefreshWith(action);
         }
     }
 }

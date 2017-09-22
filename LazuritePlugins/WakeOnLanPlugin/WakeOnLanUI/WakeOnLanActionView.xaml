@@ -18,5 +18,10 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <local:AddressSearchView Grid.Row="0" Grid.Column="1" Margin="15" x:Name="searchView" BorderThickness="2" BorderBrush="{x:Static controls:Visual.BorderBrush}"></local:AddressSearchView>
+        <local:WolSettingsView Margin="15" x:Name="paramsView" BorderThickness="2" BorderBrush="{x:Static controls:Visual.BorderBrush}"></local:WolSettingsView>
+        <StackPanel HorizontalAlignment="Right" Grid.Column="1" Margin="10" Grid.Row="1" Orientation="Horizontal">
+            <controls:ItemView x:Name="btApply" Width="150" Icon="Check">Применить</controls:ItemView>
+            <controls:ItemView x:Name="btCancel" Width="150" Margin="5,0,0,0" Icon="Cancel">Отмена</controls:ItemView>
+        </StackPanel>
     </Grid>
 </UserControl>

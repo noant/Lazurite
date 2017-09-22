@@ -15,7 +15,7 @@ namespace LazuriteUI.Windows.Main.Switches
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (string.IsNullOrEmpty(value as string))
-                return Icon.None;
+                return Icon._None;
             return Enum.Parse(typeof(Icon), value.ToString());
         }
 

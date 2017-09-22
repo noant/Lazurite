@@ -114,7 +114,7 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             if (Scenario.ValueType is ToggleValueType)
                 return "Off";
-            else return "None";
+            else return "_None";
         }
 
         public int PositionX

@@ -64,6 +64,9 @@
     <Compile Include="WakeOnLanActionView.xaml.cs">
       <DependentUpon>WakeOnLanActionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WolSettingsView.xaml.cs">
+      <DependentUpon>WolSettingsView.xaml</DependentUpon>
+    </Compile>
     <Page Include="AddressSearchView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -91,6 +94,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="WakeOnLanActionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WolSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

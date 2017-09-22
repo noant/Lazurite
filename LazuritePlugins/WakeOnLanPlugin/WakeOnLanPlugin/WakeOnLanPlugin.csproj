@@ -36,6 +36,8 @@
     <Reference Include="LazuriteUI.Icons">
       <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Icons.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +46,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="WakeOnLanAction.cs" />
@@ -51,12 +54,25 @@
     <Compile Include="UdpClientExt.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WakeOnLanUI\WakeOnLanUI.csproj">
+      <Project>{4A1597CD-87E5-4EE2-9C1B-3ED6BFA13D93}</Project>
+      <Name>WakeOnLanUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WakeOnLanUtils\WakeOnLanUtils.csproj">
       <Project>{4075F70B-9B4C-4C92-914E-2FE78D1727C5}</Project>
       <Name>WakeOnLanUtils</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="CreatePypFileAndCopy.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if "$(ConfigurationName)" == "Release" start CreatePypFileAndCopy.bat
+exit</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WakeOnLanUtils", "WakeOnLan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WakeOnLanUI", "WakeOnLanUI\WakeOnLanUI.csproj", "{4A1597CD-87E5-4EE2-9C1B-3ED6BFA13D93}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{4620E9F1-87F3-4356-9B9D-61AE2EE2F368}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4A1597CD-87E5-4EE2-9C1B-3ED6BFA13D93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A1597CD-87E5-4EE2-9C1B-3ED6BFA13D93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A1597CD-87E5-4EE2-9C1B-3ED6BFA13D93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4620E9F1-87F3-4356-9B9D-61AE2EE2F368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4620E9F1-87F3-4356-9B9D-61AE2EE2F368}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4620E9F1-87F3-4356-9B9D-61AE2EE2F368}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4620E9F1-87F3-4356-9B9D-61AE2EE2F368}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

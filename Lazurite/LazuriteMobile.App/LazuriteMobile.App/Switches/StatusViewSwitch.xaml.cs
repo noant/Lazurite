@@ -16,7 +16,7 @@ namespace LazuriteMobile.App.Switches
             InitializeComponent();
         }
 
-        public StatusViewSwitch(ScenarioModel scenarioModel) : this()
+        public StatusViewSwitch(SwitchScenarioModel scenarioModel) : this()
         {
             this.tbScenarioName.Text = scenarioModel.ScenarioName;
             foreach (var state in scenarioModel.AcceptedValues)

@@ -23,7 +23,7 @@
         <TextBlock x:Name="tbScensNotExist" Grid.ColumnSpan="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource TextBlockCaption}">Отсутствуют подходящие сценарии...</TextBlock>
         <TextBox TabIndex="0" Margin="2" Grid.Column="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" TextChanged="tbSearch_TextChanged" Style="{StaticResource TextBoxSearch}" x:Name="tbSearch"></TextBox>
         <controls:WheelScroll Grid.ColumnSpan="2" Grid.Row="1">
-            <controls:ListItemsView x:Name="itemsView"></controls:ListItemsView>
+            <controls:ListItemsView SelectionMode="Single" x:Name="itemsView"></controls:ListItemsView>
         </controls:WheelScroll>
     </Grid>
 </UserControl>

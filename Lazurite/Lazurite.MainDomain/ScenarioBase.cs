@@ -125,6 +125,7 @@ namespace Lazurite.MainDomain
             var context = new ExecutionContext(this, param, output, cancelToken);
             try
             {
+                SetCurrentValueInternal(param);
                 ExecuteInternal(context);
             }
             catch (Exception e)

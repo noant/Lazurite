@@ -39,7 +39,7 @@ namespace LazuriteMobile.App
         
         public void Refresh(ScenarioInfo[] scenarios)
         {
-            var modelsViews = grid.Children.ToDictionary(x => (ScenarioModel)x.BindingContext).ToList();
+            var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext).ToList();
             var models = modelsViews.Select(x=>x.Key).ToArray();
             //add new scenarios and refresh existing
             foreach (var scenario in scenarios)
@@ -76,8 +76,8 @@ namespace LazuriteMobile.App
                 var occupiedPoints = new List<Point>();
                 foreach (View control in grid.Children)
                 {
-                    var scenario = ((ScenarioModel)control.BindingContext).Scenario;
-                    var visualSettings = ((ScenarioModel)control.BindingContext).VisualSettings;
+                    var scenario = ((SwitchScenarioModel)control.BindingContext).Scenario;
+                    var visualSettings = ((SwitchScenarioModel)control.BindingContext).VisualSettings;
                     var targetPoint = new Point(visualSettings.PositionX, visualSettings.PositionY);
                     while (occupiedPoints.Any(x => x.Equals(targetPoint)))
                     {
@@ -102,7 +102,7 @@ namespace LazuriteMobile.App
 
                 //optimize
                 var controls = grid.Children.ToArray();
-                var controlsVisualSettings = controls.Select(x => ((ScenarioModel)x.BindingContext).VisualSettings).ToArray();
+                var controlsVisualSettings = controls.Select(x => ((SwitchScenarioModel)x.BindingContext).VisualSettings).ToArray();
 
                 for (int i = 0; i < controlsVisualSettings.Length; i++) //completely optimize
                 {
@@ -136,7 +136,7 @@ namespace LazuriteMobile.App
                 //move
                 foreach (var control in controls)
                 {
-                    var model = ((ScenarioModel)control.BindingContext);
+                    var model = ((SwitchScenarioModel)control.BindingContext);
                     var targetPoint = new Point(model.VisualSettings.PositionX, model.VisualSettings.PositionY);
                     control.Margin = new Thickness(margin * (1 + targetPoint.X) + elementSize * targetPoint.X, margin * (1 + targetPoint.Y) + elementSize * targetPoint.Y, 0, 0);
                 }
@@ -155,7 +155,7 @@ namespace LazuriteMobile.App
                 return true;
             return controls.Any(control =>
             {
-                var settings = ((ScenarioModel)control.BindingContext).VisualSettings;
+                var settings = ((SwitchScenarioModel)control.BindingContext).VisualSettings;
                 return settings.PositionX.Equals(x) && settings.PositionY.Equals(y);
             });
         }

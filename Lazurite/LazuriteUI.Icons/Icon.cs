@@ -8,6 +8,7 @@ namespace LazuriteUI.Icons
 {
     public enum Icon
     {
+        _None,
         Acorn,
         Add,
         AddMultiple,
@@ -1271,7 +1272,6 @@ namespace LazuriteUI.Icons
         Lazurite32,
         Lazurite16,
         Off,
-        ButtonOn,
-        None
+        ButtonOn
     }
 }

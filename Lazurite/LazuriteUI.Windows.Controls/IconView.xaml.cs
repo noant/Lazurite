@@ -28,13 +28,13 @@ namespace LazuriteUI.Windows.Controls
 
         static IconView()
         {
-            IconProperty = DependencyProperty.Register(nameof(Icon), typeof(Icon), typeof(IconView), 
-                new FrameworkPropertyMetadata() {
+            IconProperty = DependencyProperty.Register(nameof(Icon), typeof(Icon), typeof(IconView),
+                new FrameworkPropertyMetadata(Icon._None) {
                     PropertyChangedCallback = (o,e) =>
                     {   
                         var icon = (Icon)e.NewValue;
                         var control = (IconView)o;
-                        if (icon != Icon.None)
+                        if (icon != Icon._None)
                         {
                             if (Cache.ContainsKey(icon))
                             {
@@ -59,9 +59,8 @@ namespace LazuriteUI.Windows.Controls
         public IconView()
         {
             InitializeComponent();
-            this.Icon = Icon.None;
         }
-        
+
         public Icon Icon
         {
             get

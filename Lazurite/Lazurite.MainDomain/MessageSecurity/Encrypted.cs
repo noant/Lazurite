@@ -30,7 +30,7 @@ namespace Lazurite.MainDomain.MessageSecurity
             //do nothing
         }
 
-        public Encrypted(T obj, string secretKey)
+        public Encrypted(T obj, string secretKey): this()
         {
             var serializer = SerializersFactory.GetSerializer<T>();
             Data = GetSecureEncoding(secretKey).Encrypt(serializer.Serialize(obj));

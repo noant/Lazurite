@@ -9,11 +9,12 @@ using LazuriteUI.Icons;
 using System.ComponentModel;
 using Lazurite.ActionsDomain.Attributes;
 using WakeOnLanUtils;
+using WakeOnLanUI;
 
 namespace WakeOnLanPlugin
 {
     [LazuriteIcon(Icon.NetworkPort)]
-    [DisplayName("Wake-On-Lan")]
+    [HumanFriendlyName("Wake-On-Lan")]
     [SuitableValueTypes(typeof(ButtonValueType))]
     public class WakeOnLanAction : IAction, IWakeOnLanAction
     {
@@ -23,7 +24,6 @@ namespace WakeOnLanPlugin
             {
                 return MacAddress;
             }
-
             set
             {
                 //do nothing
@@ -71,7 +71,7 @@ namespace WakeOnLanPlugin
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            throw new NotImplementedException();
+            return new MainWindow(this).ShowDialog() ?? false;
         }
 
         public string MacAddress { get; set; } = "00:00:00:00:00:00";

@@ -22,7 +22,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             ActionName = Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(ActionHolder.Action.GetType());
             Icon = Icons.LazuriteIconAttribute.GetIcon(ActionHolder.Action.GetType());
-            ActionIconVisibility = Icon == Icon.None ? Visibility.Collapsed : Visibility.Visible;
+            ActionIconVisibility = Icon == Icon._None ? Visibility.Collapsed : Visibility.Visible;
             OnPropertyChanged(nameof(IsSupportsModification));
             OnPropertyChanged(nameof(ActionName));
             OnPropertyChanged(nameof(ActionCaption));

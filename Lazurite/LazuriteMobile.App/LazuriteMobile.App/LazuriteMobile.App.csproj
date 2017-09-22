@@ -98,7 +98,7 @@
     <Compile Include="Switches\InfoView.xaml.cs">
       <DependentUpon>InfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Switches\ScenarioModel.cs" />
+    <Compile Include="Switches\SwitchScenarioModel.cs" />
     <Compile Include="Switches\StatusView.xaml.cs">
       <DependentUpon>StatusView.xaml</DependentUpon>
     </Compile>

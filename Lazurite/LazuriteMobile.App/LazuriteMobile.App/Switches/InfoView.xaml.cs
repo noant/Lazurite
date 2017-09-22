@@ -18,7 +18,7 @@ namespace LazuriteMobile.App.Switches
 
         public InfoView(ScenarioInfo scenario) : this()
         {
-            this.BindingContext = new ScenarioModel(scenario);
+            this.BindingContext = new SwitchScenarioModel(scenario);
         }
     }
 }

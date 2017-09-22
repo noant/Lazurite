@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace LazuriteMobile.App.Switches
 {
-    public class ScenarioModel: ObservableObject, IDisposable
+    public class SwitchScenarioModel: ObservableObject, IDisposable
     {
         private static readonly string Icon1Key = "Icon1";
         private static readonly string Icon2Key = "Icon2";
 
         private IScenariosManager _manager = Singleton.Resolve<IScenariosManager>(); 
 
-        public ScenarioModel(ScenarioInfo scenario)
+        public SwitchScenarioModel(ScenarioInfo scenario)
         {
             _manager.ConnectionLost += _manager_ConnectionLost;
             _manager.ConnectionRestored += _manager_ConnectionRestored;
@@ -45,7 +45,7 @@ namespace LazuriteMobile.App.Switches
         {
             if (Scenario.ValueType is ToggleValueType)
                 return "Off";
-            else return "None";
+            else return "_None";
         }
 
         private void _manager_ConnectionRestored()
@@ -62,12 +62,14 @@ namespace LazuriteMobile.App.Switches
         private bool _available;
         private bool _checked;
 
-        public UserVisualSettings VisualSettings {
+        public UserVisualSettings VisualSettings
+        {
             get
             {
                 return Scenario.VisualSettings;
             }
         }
+
         public ScenarioInfo Scenario { get; private set; }
         
         public void RefreshWith(ScenarioInfo scenario)
@@ -94,7 +96,7 @@ namespace LazuriteMobile.App.Switches
             }
             set
             {
-                VisualSettings.AddictionalData.Set(Icon1Key, value);
+                VisualSettings.AddictionalData[Icon1Key] = value;
                 OnPropertyChanged(nameof(Icon1));
             }
         }
@@ -107,7 +109,7 @@ namespace LazuriteMobile.App.Switches
             }
             set
             {
-                VisualSettings.AddictionalData.Set(Icon2Key, value);
+                VisualSettings.AddictionalData[Icon2Key] = value;
                 OnPropertyChanged(nameof(Icon2));
             }
         }

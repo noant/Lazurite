@@ -7,22 +7,33 @@ using System.Threading.Tasks;
 
 namespace Lazurite.MainDomain.MessageSecurity
 {
-    [CollectionDataContract]
-    public class EncryptedList<T> : List<Encrypted<T>>
+    [DataContract]
+    public class EncryptedList<T>
     {
+        [DataMember]
+        public List<Encrypted<T>> SourceList { get; set; } = new List<Encrypted<T>>();
+
+        public DateTime ServerTime
+        {
+            get
+            {
+                return (SourceList.FirstOrDefault()?.ServerTime ?? DateTime.Now);
+            }
+        }
+
         public EncryptedList()
         {
             //
         }
-
-        public EncryptedList(IEnumerable<T> objs, string secretKey)
+        
+        public EncryptedList(IEnumerable<T> objs, string secretKey) : this()
         {
-            this.AddRange(objs.Select(x => new Encrypted<T>(x, secretKey)));
+            SourceList.AddRange(objs.Select(x => new Encrypted<T>(x, secretKey)));
         }
 
         public List<T> Decrypt(string secretKey)
         {
-            return this.Select(x => x.Decrypt(secretKey)).ToList();
+            return SourceList.Select(x => x.Decrypt(secretKey)).ToList();
         }
     }
 }

@@ -19,14 +19,14 @@ namespace LazuriteMobile.App.Switches
 
         public DateTimeView(ScenarioInfo scenario) : this()
         {
-            this.BindingContext = new ScenarioModel(scenario);
+            this.BindingContext = new SwitchScenarioModel(scenario);
             itemView.Click += ItemView_Click;
         }
 
         private void ItemView_Click(object sender, EventArgs e)
         {
             var dateTime = DateTime.Now;
-            DateTime.TryParse(((ScenarioModel)this.BindingContext).ScenarioValue, out dateTime);
+            DateTime.TryParse(((SwitchScenarioModel)this.BindingContext).ScenarioValue, out dateTime);
             var dateTimeSwitch = new DateTimeViewSwitch()
             {
                 DateTime = dateTime
@@ -35,7 +35,7 @@ namespace LazuriteMobile.App.Switches
             dateTimeSwitch.Apply += (o, args) =>
             {
                 dialog.Close();
-                ((ScenarioModel)this.BindingContext).ScenarioValue = dateTimeSwitch.DateTime.ToString();
+                ((SwitchScenarioModel)this.BindingContext).ScenarioValue = dateTimeSwitch.DateTime.ToString();
             };
             dialog.Show(Helper.GetLastParent(this));
         }

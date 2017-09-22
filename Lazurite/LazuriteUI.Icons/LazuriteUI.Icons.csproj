@@ -1310,7 +1310,7 @@
     <EmbeddedResource Include="Icons\Zune.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Icons\None.png" />
+    <EmbeddedResource Include="Icons\_None.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icons\ButtonOn.png" />

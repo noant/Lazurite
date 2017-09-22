@@ -104,6 +104,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             try
             {
+                SetCurrentValueInternal(param);
                 _server.ExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
             }
             catch (Exception e)

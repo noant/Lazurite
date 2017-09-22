@@ -134,7 +134,7 @@ namespace LazuriteMobile.App
             {
                 var encryptedResult = func();
                 result = encryptedResult.Decrypt(_clientSettings.SecretKey);
-                serverTime = encryptedResult.FirstOrDefault()?.ServerTime;
+                serverTime = encryptedResult.ServerTime;
             });
             return new OperationResult<List<T>>(result, success, serverTime);
         }
@@ -161,7 +161,8 @@ namespace LazuriteMobile.App
             
             _serviceClient = _clientManager.Create(host, port, serviceName, secretKey, login, password);
             Connected = true;
-            _serviceClient.BeginGetScenariosInfo((x) => {
+            _serviceClient.BeginGetScenariosInfo((x) =>
+            {
                 var result = Handle(() => _serviceClient.EndGetScenariosInfo(x));
                 if (result.Success)
                 {

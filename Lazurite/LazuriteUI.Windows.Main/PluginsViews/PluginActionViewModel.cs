@@ -13,7 +13,7 @@ namespace LazuriteUI.Windows.Main.PluginsViews
         {
             Text = Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(type);
             Icon = LazuriteUI.Icons.LazuriteIconAttribute.GetIcon(type);
-            if (Icon == Icon.None)
+            if (Icon == Icon._None)
                 Icon = Icon.LayerUp;
             OnPropertyChanged(nameof(Text));
             OnPropertyChanged(nameof(Icon));

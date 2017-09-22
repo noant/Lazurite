@@ -41,15 +41,11 @@ namespace LazuriteUI.Windows.Controls
                 try
                 {
                     Validation?.Invoke(this, validation);
-                    var oldErrorState = this.InputWrong;
+                    var oldErrorState = this.ErrorMessage;
                     if (!string.IsNullOrEmpty(validation.ErrorMessage))
                     {
                         ErrorMessage = validation.ErrorMessage;
                         InputWrong = true;
-                        ignoreTextChangedFlag = true;
-                        Text = _oldText;
-                        ignoreTextChangedFlag = false;
-                        CaretIndex = caretIndex;
                     }
                     else
                     {
@@ -57,7 +53,7 @@ namespace LazuriteUI.Windows.Controls
                         InputWrong = false;
                     }
 
-                    if (oldErrorState != this.InputWrong)
+                    if (oldErrorState != this.ErrorMessage)
                         ErrorStateChanged?.Invoke(this);
 
                     if (!string.IsNullOrEmpty(validation.OutputString))

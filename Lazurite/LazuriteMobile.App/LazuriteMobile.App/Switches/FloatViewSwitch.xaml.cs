@@ -18,7 +18,7 @@ namespace LazuriteMobile.App.Switches
             slider.ValueChanged += (o, e) => RaiseSliderValueChanged();
         }
 
-        public FloatViewSwitch(ScenarioModel model) : this()
+        public FloatViewSwitch(SwitchScenarioModel model) : this()
         {
             this.BindingContext = model;
             //binding works incorrectly
@@ -28,7 +28,7 @@ namespace LazuriteMobile.App.Switches
         //binding works incorrectly
         private void RaiseSliderValueChanged()
         {
-            var model = ((ScenarioModel)this.BindingContext);
+            var model = ((SwitchScenarioModel)this.BindingContext);
             var newVal = slider.Value.ToString();
             if (!model.ScenarioValue.Equals(newVal))
                 SomeOtherUtils.DoManyTimes(this, () => model.ScenarioValue = newVal);

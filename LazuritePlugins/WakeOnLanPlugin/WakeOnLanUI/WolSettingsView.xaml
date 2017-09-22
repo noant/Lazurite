@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="WakeOnLanUI.WolSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WakeOnLanUI"
+             mc:Ignorable="d" 
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             Background="{x:Static controls:Visual.Background}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <controls:CaptionView Grid.ColumnSpan="2" Icon="Power">Параметры Wake-on-Lan</controls:CaptionView>
+        <Label HorizontalAlignment="Right" Margin="5" Grid.Row="1" Foreground="{x:Static controls:Visual.CaptionForeground}">MAC-адрес:</Label>
+        <controls:EntryView Grid.Column="1" Margin="5" x:Name="tbMac" Grid.Row="1"></controls:EntryView>
+        <Label HorizontalAlignment="Right" Margin="5" Grid.Row="2" Foreground="{x:Static controls:Visual.CaptionForeground}">Количество попыток:</Label>
+        <controls:EntryView Grid.Column="1" Margin="5" x:Name="tbTryCount" Grid.Row="2"></controls:EntryView>
+        <Label HorizontalAlignment="Right" Margin="5" Grid.Row="3" Foreground="{x:Static controls:Visual.CaptionForeground}">Порт:</Label>
+        <controls:EntryView Grid.Column="1" Margin="5" x:Name="tbPort" Grid.Row="3"></controls:EntryView>
+        <TextBlock x:Name="tbError" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Orange"></TextBlock>
+    </Grid>
+</UserControl>

@@ -41,7 +41,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                 var itemView = new ItemView();
                 itemView.Content = Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(type);
                 itemView.Icon = Icons.LazuriteIconAttribute.GetIcon(type);
-                if (itemView.Icon == Icons.Icon.None)
+                if (itemView.Icon == Icons.Icon._None)
                     itemView.Icon = Icons.Icon.Brick;
                 itemView.Height = 30;
                 itemView.Margin = new Thickness(2);

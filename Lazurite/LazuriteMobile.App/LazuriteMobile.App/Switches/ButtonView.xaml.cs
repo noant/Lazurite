@@ -11,7 +11,7 @@ namespace LazuriteMobile.App.Switches
 {
     public partial class ButtonView : ContentView
     {
-        private ScenarioModel _model;
+        private SwitchScenarioModel _model;
         public ButtonView()
         {
             InitializeComponent();
@@ -19,7 +19,7 @@ namespace LazuriteMobile.App.Switches
         
         public ButtonView(ScenarioInfo scenario) : this()
         {
-            _model = new ScenarioModel(scenario);
+            _model = new SwitchScenarioModel(scenario);
             this.BindingContext = _model;
             itemView.Click += ItemView_Click;
         }
