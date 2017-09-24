@@ -90,8 +90,15 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     var coreAction = action as ICoreAction;
                     coreAction?.SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
                     var initializable = action as IContextInitializable;
-                    initializable?.Initialize(this);
-                    action.Initialize();
+                    try
+                    {
+                        initializable?.Initialize(this);
+                        action.Initialize();
+                    }
+                    catch (Exception e)
+                    {
+                        _log.ErrorFormat(e, "Во время инициализации части сценария [{0}] возникла ошибка", this.Name);
+                    }
                 }
             }
             return true;

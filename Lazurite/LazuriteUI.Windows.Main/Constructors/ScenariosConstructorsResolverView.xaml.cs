@@ -25,7 +25,7 @@ namespace LazuriteUI.Windows.Main.Constructors
     /// </summary>
     public partial class ScenariosConstructorsResolverView : UserControl
     {
-        private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>(); 
+        private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();
         private IScenarioConstructorView _constructorView;
         private ScenarioBase _originalSenario;
         private ScenarioBase _clonedScenario;

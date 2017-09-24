@@ -46,7 +46,7 @@ namespace VolumePlugin
         {
             get;
             set;
-        } = new FloatValueType() { AcceptedValues = new string[] { 0.ToString(), 1.ToString() } };
+        } = new FloatValueType() { AcceptedValues = new string[] { 0.ToString(), 100.ToString() } };
 
         public event ValueChangedDelegate ValueChanged;
 

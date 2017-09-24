@@ -1,4 +1,5 @@
 ﻿using Lazurite.IOC;
+using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.Scenarios.ScenarioTypes;
 using LazuriteUI.Windows.Controls;
@@ -24,7 +25,8 @@ namespace LazuriteUI.Windows.Main.Constructors
     /// </summary>
     public partial class TriggerConstructorView : UserControl
     {
-        private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>(); 
+        private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private ILogger _log = Singleton.Resolve<ILogger>();
         private TriggerView _constructorView;
         private Lazurite.MainDomain.TriggerBase _originalTrigger;
         private Lazurite.MainDomain.TriggerBase _clonedTrigger;
@@ -111,7 +113,14 @@ namespace LazuriteUI.Windows.Main.Constructors
         public void Revert()
         {
             _clonedTrigger = (Lazurite.MainDomain.TriggerBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalTrigger);
-            _clonedTrigger.Initialize(_repository);
+            try
+            {
+                _clonedTrigger.Initialize(_repository);
+            }
+            catch (Exception e)
+            {
+                _log.ErrorFormat(e, "Во время инициализации триггера {0} возникла ошибка.", _clonedTrigger.Name);
+            }
             buttonsView.Revert(_clonedTrigger);
             _constructorView.Revert(_clonedTrigger);
             IsModified = false;

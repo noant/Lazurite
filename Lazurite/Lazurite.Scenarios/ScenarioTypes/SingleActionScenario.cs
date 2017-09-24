@@ -4,6 +4,7 @@ using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.CoreActions;
 using Lazurite.CoreActions.CoreActions;
 using Lazurite.IOC;
+using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.Security;
 using System;
@@ -18,6 +19,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
     [HumanFriendlyName("Одиночный сценарий")]
     public class SingleActionScenario : ScenarioBase
     {
+        private ILogger _log = Singleton.Resolve<ILogger>();
+
         public ActionHolder ActionHolder { get; set; } = new ActionHolder();
 
         public override ValueTypeBase ValueType
@@ -52,10 +55,16 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override string CalculateCurrentValue()
         {
-            //if action not send some info when value changed then calculate value
-            if (!ActionHolder.Action.IsSupportsEvent)
-                return ActionHolder.Action.GetValue(new ExecutionContext(this, string.Empty, new OutputChangedDelegates(), new CancellationToken()));
-            //else - cached value is fresh
+            try
+            {
+                //if action not send some info when value changed then calculate value
+                if (!ActionHolder.Action.IsSupportsEvent)
+                    return ActionHolder.Action.GetValue(new ExecutionContext(this, string.Empty, new OutputChangedDelegates(), new CancellationToken()));
+                //else - cached value is fresh
+            }
+            catch (Exception e) {
+                _log.ErrorFormat(e, "Во время вычисления значения сценария [{0}] возникла ошибка", this.Name);
+            }
             return GetCurrentValue();
         }
 
@@ -73,15 +82,23 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override bool Initialize(ScenariosRepositoryBase repository)
         {
-            if (this.ActionHolder.Action is ICoreAction && repository != null)
+            try
             {
-                ((ICoreAction)ActionHolder.Action)
-                    .SetTargetScenario(repository.Scenarios.SingleOrDefault(x=>x.Id.Equals(((ICoreAction)ActionHolder).TargetScenarioId)));
+                if (this.ActionHolder.Action is ICoreAction && repository != null)
+                {
+                    ((ICoreAction)ActionHolder.Action)
+                        .SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(((ICoreAction)ActionHolder).TargetScenarioId)));
+                }
+                ActionHolder.Action.Initialize();
+                _currentValue = ActionHolder.Action.GetValue(null);
+                this.ActionHolder.Action.ValueChanged += (action, value) => SetCurrentValueInternal(value);
+                return true;
             }
-            ActionHolder.Action.Initialize();
-            _currentValue = ActionHolder.Action.GetValue(null);
-            this.ActionHolder.Action.ValueChanged += (action, value) => SetCurrentValueInternal(value);
-            return true;
+            catch (Exception e)
+            {
+                _log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", this.Name);
+                return false;
+            }
         }
 
         public override void AfterInitilize()

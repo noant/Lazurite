@@ -101,6 +101,8 @@ namespace LazuriteUI.Windows.Controls
         {
             if (this.Parent != null)
             {
+                if (this.contentControl.Content is IDisposable)
+                    ((IDisposable)this.contentControl.Content).Dispose();
                 foreach (FrameworkElement element in ((Panel)this.Parent).Children)
                 {
                     if (!_tempDisabledElements.Contains(element))

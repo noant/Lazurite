@@ -1,6 +1,7 @@
 ﻿using Lazurite.CoreActions.CoreActions;
 using Lazurite.Data;
 using Lazurite.IOC;
+using Lazurite.Logging;
 using Lazurite.MainDomain;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,12 @@ namespace Lazurite.Scenarios
         private List<string> _triggersIds;
         private List<ScenarioBase> _scenarios;
         private List<TriggerBase> _triggers;
+        private Logging.ILogger _log;
 
         public ScenariosRepository()
         {
             _savior = Singleton.Resolve<ISavior>();
+            _log = Singleton.Resolve<ILogger>();
         }
 
         public override void Initialize()

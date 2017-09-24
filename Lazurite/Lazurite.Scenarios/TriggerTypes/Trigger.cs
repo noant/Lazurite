@@ -13,6 +13,7 @@ using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
 using Lazurite.CoreActions.ContextInitialization;
 using Lazurite.CoreActions.CoreActions;
+using Lazurite.Logging;
 
 namespace Lazurite.Scenarios.TriggerTypes
 {
@@ -21,6 +22,7 @@ namespace Lazurite.Scenarios.TriggerTypes
     {
         private Action<ScenarioBase> _lastSubscribe;
         private ISystemUtils _systemUtils = Singleton.Resolve<ISystemUtils>();
+        private ILogger _log = Singleton.Resolve<ILogger>();
 
         public override IAction TargetAction
         {
@@ -42,17 +44,24 @@ namespace Lazurite.Scenarios.TriggerTypes
 
         public override void Initialize(ScenariosRepositoryBase scenariosRepository)
         {
-            SetScenario(scenariosRepository.Scenarios.FirstOrDefault(x=>x.Id.Equals(this.TargetScenarioId)));
-            foreach (var action in ((ComplexAction)this.TargetAction).GetAllActionsFlat())
+            try
             {
-                if (action != null)
+                SetScenario(scenariosRepository.Scenarios.FirstOrDefault(x => x.Id.Equals(this.TargetScenarioId)));
+                foreach (var action in ((ComplexAction)this.TargetAction).GetAllActionsFlat())
                 {
-                    var coreAction = action as ICoreAction;
-                    coreAction?.SetTargetScenario(scenariosRepository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
-                    var initializable = action as IContextInitializable;
-                    initializable?.Initialize(this);
-                    action.Initialize();
+                    if (action != null)
+                    {
+                        var coreAction = action as ICoreAction;
+                        coreAction?.SetTargetScenario(scenariosRepository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
+                        var initializable = action as IContextInitializable;
+                        initializable?.Initialize(this);
+                        action.Initialize();
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                _log.ErrorFormat(e, "Во время инициализации триггера [{0}] возникла ошибка", this.Name);
             }
         }
 
