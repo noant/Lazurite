@@ -84,6 +84,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             try
             {
+                TryInitialize();
                 return _currentValue = _server.CalculateScenarioValue(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
             }
             catch (Exception e)
@@ -104,6 +105,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             try
             {
+                TryInitialize();
                 SetCurrentValueInternal(param);
                 _server.ExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
             }
@@ -119,6 +121,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             try
             {
+                TryInitialize();
                 _server.AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
             }
             catch (Exception e)
@@ -133,6 +136,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             try
             {
+                TryInitialize();
                 _server.AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
             }
             catch (Exception e)
@@ -175,12 +179,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 _scenarioInfo = _server.GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
                 _valueType = _scenarioInfo.ValueType;
                 RemoteScenarioName = _scenarioInfo.Name;
-                return true;
+                return Initialized = true;
             }
             catch
             {
                 Log.Warn("Error while initializing remote scenario [" + Name + "]");
-                return false;
+                return Initialized = false;
             }
         }
 
@@ -215,6 +219,17 @@ namespace Lazurite.Scenarios.ScenarioTypes
             TaskCreationOptions.LongRunning);
             task.Start();
         }
+
+        public void TryInitialize()
+        {
+            if (!Initialized && Initialize(null))
+            {
+                _cancellationTokenSource?.Cancel();
+                AfterInitilize();
+            }
+        }
+
+        public bool Initialized { get; private set; }
 
         public override IAction[] GetAllActionsFlat()
         {
