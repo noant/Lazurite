@@ -220,18 +220,19 @@ namespace Lazurite.Windows.Modules
             bool isValueTypeSupport = false;
             bool rightSide = false;
 
-            var allTypes = 
-                _allTypes.Select(x => x.Type)
-                .Union(new Type[] {
-                        typeof(GetStateVTAction),
-                        typeof(GetDateTimeVTAction),
-                        typeof(GetFloatVTAction),
-                        typeof(GetInfoVTAction),
-                        typeof(GetToggleVTAction),
-                        typeof(GetInputValueAction),
-                        typeof(GetExistingScenarioValueAction)
-                    })
-                    .ToArray();
+            var allTypes =
+                new Type[] {
+                    typeof(GetStateVTAction),
+                    typeof(GetDateTimeVTAction),
+                    typeof(GetFloatVTAction),
+                    typeof(GetInfoVTAction),
+                    typeof(GetToggleVTAction),
+                    typeof(GetInputValueAction),
+                    typeof(GetExistingScenarioValueAction)
+                }.Union(
+                _allTypes
+                .OrderBy(x=>x.Plugin.Name)
+                .Select(x => x.Type));
             
             foreach (var type in allTypes)
             {

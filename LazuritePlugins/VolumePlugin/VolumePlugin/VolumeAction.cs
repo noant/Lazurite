@@ -12,13 +12,14 @@ namespace VolumePlugin
 {
     [LazuriteIcon(Icon.Sound3)]
     [HumanFriendlyName("Уровень звука")]
+    [SuitableValueTypes(typeof(FloatValueType))]
     public class VolumeAction : IAction
     {
         public string Caption
         {
             get
             {
-                return "Уровень звука";
+                return string.Empty;
             }
             set
             {

@@ -50,10 +50,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                                 (result) => {
                                     if (result)
                                     {
-                                        Model.Refresh(ActionHolder);
-                                        Modified?.Invoke(this);
                                         ActionHolder.Action = newAction;
-                                        Model.Refresh();
+                                        Model.Refresh(ActionHolder);
                                         Modified?.Invoke(this);
                                     }
                                 },

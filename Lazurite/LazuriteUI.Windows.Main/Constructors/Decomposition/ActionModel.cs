@@ -26,6 +26,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             OnPropertyChanged(nameof(IsSupportsModification));
             OnPropertyChanged(nameof(ActionName));
             OnPropertyChanged(nameof(ActionCaption));
+            OnPropertyChanged(nameof(ActionIconVisibility));
             OnPropertyChanged(nameof(Icon));
         }
 

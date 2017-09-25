@@ -12,13 +12,14 @@ namespace VolumePlugin
 {
     [LazuriteIcon(Icon.Sound3)]
     [HumanFriendlyName("Устройство воспроизведения")]
+    [SuitableValueTypes(typeof(FloatValueType))]
     public class ChangeOutputDeviceAction : IAction
     {
         public string Caption
         {
             get
             {
-                return "Устройство воспроизведения";
+                return string.Empty;
             }
 
             set

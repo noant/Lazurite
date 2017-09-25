@@ -33,8 +33,17 @@
     <Reference Include="Lazurite.ActionsDomain">
       <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.ActionsDomain.dll</HintPath>
     </Reference>
+    <Reference Include="Lazurite.Logging">
+      <HintPath>..\..\..\Releases\ReleaseBinaries\Lazurite.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Lazurite.Windows.Logging">
+      <HintPath>..\..\..\Releases\ReleaseBinaries\Lazurite.Windows.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="LazuriteUI.Icons">
       <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Icons.dll</HintPath>
+    </Reference>
+    <Reference Include="LazuriteUI.Windows.Main">
+      <HintPath>..\..\..\Releases\ReleaseBinaries\LazuriteUI.Windows.Main.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,6 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DateTimeNowAction.cs" />
+    <Compile Include="DayOfWeekNowAction.cs" />
+    <Compile Include="KillProcessAction.cs" />
+    <Compile Include="ExecuteCommandAction.cs" />
+    <Compile Include="ShowInfoAction.cs" />
     <Compile Include="WaitActionDays.cs" />
     <Compile Include="WaitActionHours.cs" />
     <Compile Include="WaitActionMinutes.cs" />

@@ -7,15 +7,16 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
              Background="{x:Static controls:Visual.Background}"
-             Height="Auto"
              Width="400">
-    <Grid >
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:ListItemsView SelectionMode="Single" Margin="5" x:Name="listItemsStatus"></controls:ListItemsView>
+        <controls:WheelScroll>
+            <controls:ListItemsView SelectionMode="Single" Margin="5" x:Name="listItemsStatus"></controls:ListItemsView>
+        </controls:WheelScroll>
         <Grid Grid.Row="1" x:Name="gridAdd" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>

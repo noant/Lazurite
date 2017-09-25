@@ -47,7 +47,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                 itemView.Margin = new Thickness(2);
                 itemView.Tag = type;
                 return itemView;
-            }).OrderBy(x => x.Content.ToString());
+            });
 
             foreach (var itemView in itemViews)
                 itemsView.Children.Add(itemView);

@@ -1,0 +1,25 @@
+﻿<Window x:Class="PingPluginUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PingPluginUI"
+        xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Topmost="True"
+        mc:Ignorable="d"
+        Background="{x:Static controls:Visual.Background}"
+        Title="Модуль PING" Height="210" Width="525">
+    <Grid>
+        <StackPanel Margin="0,-40,0,0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Label Foreground="{x:Static controls:Visual.CaptionForeground}">DNS или IP адрес устройства:</Label>
+            <controls:EntryView Width="200" x:Name="tbHost">127.0.0.1</controls:EntryView>
+        </StackPanel>
+        <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+            <controls:ItemView x:Name="btOk" Margin="10" Icon="Check" Width="150">Применить</controls:ItemView>
+            <controls:ItemView x:Name="btCancel" Margin="10" Icon="Cancel" Background="Crimson" Width="150">Отмена</controls:ItemView>
+        </StackPanel>
+    </Grid>
+</Window>

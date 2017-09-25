@@ -18,6 +18,7 @@ using Lazurite.IOC;
 using Lazurite.CoreActions;
 using Lazurite.MainDomain;
 using LazuriteUI.Windows.Controls;
+using Lazurite.Scenarios.ScenarioTypes;
 
 namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 {
@@ -46,6 +47,13 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public void BeginSelectAction()
         {
+            ActionInstanceSide actionInstanceSide;
+            if (this.AlgorithmContext is SingleActionScenario)
+                actionInstanceSide = ActionInstanceSide.Both;
+            else if (MasterAction == null)
+                actionInstanceSide = ActionInstanceSide.OnlyLeft;
+            else
+                actionInstanceSide = ActionInstanceSide.OnlyRight;
             SelectActionView.Show(
                     (type) => {
                         var newAction = Singleton.Resolve<PluginsManager>().CreateInstanceOf(type, AlgorithmContext);
@@ -55,10 +63,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                                 (result) => {
                                     if (result)
                                     {
-                                        Model.Refresh(ActionHolder);
-                                        Modified?.Invoke(this);
                                         ActionHolder.Action = newAction;
-                                        Model.Refresh();
+                                        Model.Refresh(ActionHolder);
                                         Modified?.Invoke(this);
 
                                         if (MasterAction != null && !MasterAction.ValueType.IsCompatibleWith(newAction.ValueType))
@@ -77,8 +83,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                         }
                     },
                     MasterAction?.ValueType.GetType(),
-                    MasterAction == null ? Lazurite.Windows.Modules.ActionInstanceSide.OnlyLeft
-                    : Lazurite.Windows.Modules.ActionInstanceSide.OnlyRight,
+                    actionInstanceSide,
                     ActionHolder?.Action.GetType());
         }
 

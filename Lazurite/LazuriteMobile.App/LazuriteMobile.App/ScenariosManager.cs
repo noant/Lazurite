@@ -92,7 +92,7 @@ namespace LazuriteMobile.App
                 {
                     //if login or password wrong; error 403
                     if (e is WebException && 
-                        ((HttpWebResponse)((WebException)e).Response).StatusCode == HttpStatusCode.Forbidden)
+                        ((HttpWebResponse)((WebException)e).Response)?.StatusCode == HttpStatusCode.Forbidden)
                     {
                         LoginOrPasswordInvalid?.Invoke();
                     }
