@@ -29,7 +29,7 @@
             </controls:WheelScroll>
             <Grid Grid.Row="1" Margin="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"></ColumnDefinition>
+                    <ColumnDefinition Width="51"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
