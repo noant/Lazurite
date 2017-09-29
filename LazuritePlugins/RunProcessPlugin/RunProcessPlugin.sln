@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunProcessPlugin", "RunProcessPlugin\RunProcessPlugin.csproj", "{2618D63A-9706-4580-8B78-FBE29E77F557}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunProcessPluginUI", "RunProcessPluginUI\RunProcessPluginUI.csproj", "{00EBE2DA-8724-4BE5-862F-BA617E29BE69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{7A811BC5-EB01-49CB-9591-581993E76A6A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2618D63A-9706-4580-8B78-FBE29E77F557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2618D63A-9706-4580-8B78-FBE29E77F557}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2618D63A-9706-4580-8B78-FBE29E77F557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2618D63A-9706-4580-8B78-FBE29E77F557}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00EBE2DA-8724-4BE5-862F-BA617E29BE69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00EBE2DA-8724-4BE5-862F-BA617E29BE69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00EBE2DA-8724-4BE5-862F-BA617E29BE69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00EBE2DA-8724-4BE5-862F-BA617E29BE69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A811BC5-EB01-49CB-9591-581993E76A6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A811BC5-EB01-49CB-9591-581993E76A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A811BC5-EB01-49CB-9591-581993E76A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A811BC5-EB01-49CB-9591-581993E76A6A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

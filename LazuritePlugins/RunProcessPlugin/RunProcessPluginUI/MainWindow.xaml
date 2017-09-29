@@ -1,0 +1,56 @@
+﻿<Window x:Class="RunProcessPluginUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RunProcessPluginUI"
+        mc:Ignorable="d"
+        WindowStyle="ToolWindow"
+        Topmost="True"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+        Background="{x:Static controls:Visual.Background}"
+        xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=mscorlib"
+        Height="350" Width="746">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <controls:CaptionView Grid.ColumnSpan="2" Icon="Console">Запуск процесса</controls:CaptionView>
+        <Label Margin="4" Grid.Row="1" HorizontalAlignment="Right" Foreground="{x:Static controls:Visual.CaptionForeground}">Путь до исполняемого файла:</Label>
+        <Label Margin="4" Grid.Row="2" HorizontalAlignment="Right" Foreground="{x:Static controls:Visual.CaptionForeground}">Аргументы:</Label>
+        <Label Margin="4" Grid.Row="3" HorizontalAlignment="Right" Foreground="{x:Static controls:Visual.CaptionForeground}">Приоритет процесса:</Label>
+        <Label Margin="4" Grid.Row="4" HorizontalAlignment="Right" Foreground="{x:Static controls:Visual.CaptionForeground}">Режим выключения процесса:</Label>
+        <controls:EntryView IsReadOnly="True" Grid.Row="1" Grid.Column="1" Margin="4,4,57,4" x:Name="tbExePath"></controls:EntryView>
+        <controls:ItemView x:Name="btSelectPath" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="4" Height="26" Width="51">...</controls:ItemView>
+        <controls:EntryView Grid.Row="2" Grid.Column="1" Margin="4,4,4,4" x:Name="tbArguments"></controls:EntryView>
+        <controls:ListItemsView x:Name="lvProcessPriority" Grid.Row="3" Grid.Column="1" Orientation="Horizontal" SelectionMode="Single">
+            <controls:ItemView Tag="BelowNormal" Margin="2" Width="100">Ниже среднего</controls:ItemView>
+            <controls:ItemView Tag="Normal" Margin="2" Width="65">Средний</controls:ItemView>
+            <controls:ItemView Tag="AboveNormal" Margin="2" Width="100">Выше среднего</controls:ItemView>
+            <controls:ItemView Tag="High" Margin="2" Width="65">Высокий</controls:ItemView>
+            <controls:ItemView Tag="RealTime" Margin="2" Width="130">Реального времени</controls:ItemView>
+            <controls:ItemView Tag="Idle" Margin="2" Width="51">Idle</controls:ItemView>
+        </controls:ListItemsView>
+        <controls:ListItemsView x:Name="lvCloseProcessMode" Grid.Row="4" Grid.Column="1" Orientation="Horizontal" SelectionMode="Single">
+            <controls:ItemView Tag="Close" Margin="2" Width="170">Выключить процесс</controls:ItemView>
+            <controls:ItemView Tag="Kill" Margin="2" Width="170">Убить процесс</controls:ItemView>
+            <controls:ItemView Tag="CloseMainWindow" Margin="2" Width="170">Закрыть главное окно</controls:ItemView>
+        </controls:ListItemsView>
+        <StackPanel Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="10">
+            <controls:ItemView x:Name="btApply" Icon="Check" Width="150" Margin="0,0,5,0">Применить</controls:ItemView>
+            <controls:ItemView x:Name="btCancel" Icon="Cancel" Background="Crimson" Width="150">Отмена</controls:ItemView>
+        </StackPanel>
+    </Grid>
+</Window>
