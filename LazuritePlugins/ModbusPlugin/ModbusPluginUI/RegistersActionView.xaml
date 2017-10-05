@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="ModbusPluginUI.RegistersActionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModbusPluginUI"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d"
+             Background="{x:Static controls:Visual.Background}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <controls:CaptionView Icon="NetworkHome">Modbus - запись и чтение регистров</controls:CaptionView>
+        <Label Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Foreground="{x:Static controls:Visual.CaptionForeground}">Позволяет записывать массив байт в регистры</Label>
+        <local:SelectTransportView Grid.Row="2" HorizontalAlignment="Center" x:Name="transportView"></local:SelectTransportView>
+        <local:SelectValueTypeView Grid.Row="3" HorizontalAlignment="Center" x:Name="valueTypeView"></local:SelectValueTypeView>
+        <Grid Grid.Row="4" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition x:Name="rowMax"></RowDefinition>
+                <RowDefinition x:Name="rowMin"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Foreground="{x:Static controls:Visual.CaptionForeground}" HorizontalAlignment="Right">Адрес устройства:</Label>
+            <controls:EntryView x:Name="tbAddress" Grid.Column="1"></controls:EntryView>
+            <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="1" HorizontalAlignment="Right">Адрес ячейки:</Label>
+            <controls:EntryView x:Name="tbCoil" Grid.Row="1" Grid.Column="1"></controls:EntryView>
+            <Label VerticalAlignment="Center" Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="2" HorizontalAlignment="Right">Тип регистров:</Label>
+            <controls:ListItemsView Orientation="Horizontal" Grid.Row="2" Grid.Column="1" x:Name="lvRegistersType" SelectionMode="Single">
+                <controls:ItemView x:Name="btRegistersModeHolding" Margin="4" Width="150">Только чтение (holding)</controls:ItemView>
+                <controls:ItemView x:Name="btRegistersModeInput" Width="150">Чтение и запись (input)</controls:ItemView>
+            </controls:ListItemsView>
+            <Label VerticalAlignment="Center" Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="3" HorizontalAlignment="Right">Максимум:</Label>
+            <controls:EntryView x:Name="tbMax" Grid.Row="3" Grid.Column="1"></controls:EntryView>
+            <Label VerticalAlignment="Center" Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="4" HorizontalAlignment="Right">Минимум:</Label>
+            <controls:EntryView x:Name="tbMin" Grid.Row="4" Grid.Column="1"></controls:EntryView>
+        </Grid>
+        <StackPanel Margin="10" Orientation="Horizontal" Grid.Row="5" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <controls:ItemView x:Name="btOk" Width="130" Icon="Check">ОK</controls:ItemView>
+            <controls:ItemView x:Name="btCancel" Width="130" Margin="10,0,0,0" Icon="Cancel" Background="Crimson">Отмена</controls:ItemView>
+        </StackPanel>
+    </Grid>
+</UserControl>

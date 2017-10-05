@@ -8,25 +8,26 @@ using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.ActionsDomain.Attributes;
 using LazuriteUI.Icons;
 using NModbusWrapper;
+using ModbusPluginUI;
 
 namespace ModbusPlugin
 {
     [HumanFriendlyName("Modbus - чтение и запись регистров")]
     [SuitableValueTypes(typeof(FloatValueType), typeof(InfoValueType))]
     [LazuriteIcon(Icon.NetworkHome)]
-    public class ModbusRegistersAction : IAction
+    public class ModbusRegistersAction : IAction, IModbusRegistersAction
     {
-        public NModbusManager Manager { get; set; }
+        public NModbusManager Manager { get; set; } = new NModbusManager();
 
         public byte SlaveAddress { get; set; } = 1;
 
         public byte RegisterAddress { get; set; } = 0;
 
-        public ushort WriteReadLength { get; set; } = 0;
+        public ushort WriteReadLength { get; set; } = 1;
 
         public RegistersMode RegistersMode { get; set; } = RegistersMode.Holding;
 
-        public ValueType ModbusValueType { get; set; } = ModbusPlugin.ValueType.Float;
+        public NModbusWrapper.ValueType ModbusValueType { get; set; } = NModbusWrapper.ValueType.Float;
 
         public string Caption
         {
@@ -34,7 +35,6 @@ namespace ModbusPlugin
             {
                 return string.Format("{0}; устройство {1}; ячейка {2}", Manager.Transport.ToString(), SlaveAddress, RegisterAddress);
             }
-
             set
             {
                 // do nothing
@@ -56,22 +56,12 @@ namespace ModbusPlugin
                 return true;
             }
         }
-
-        public FloatValueType FloatValueType { get; set; } = new FloatValueType();
-        public InfoValueType InfoValueType { get; set; } = new InfoValueType();
-
+        
         public ValueTypeBase ValueType
         {
-            get {
-                if (ModbusValueType == ModbusPlugin.ValueType.String)
-                    return InfoValueType;
-                else
-                    return FloatValueType;
-            }
-            set {
-                //do nothing
-            }
-        }
+            get;
+            set;
+        } = new FloatValueType() { AcceptedValues = new[] { double.MinValue.ToString(), double.MaxValue.ToString() } };
 
         public event ValueChangedDelegate ValueChanged;
 
@@ -81,16 +71,16 @@ namespace ModbusPlugin
             {
                 if (RegistersMode == RegistersMode.Input)
                     return Manager
-                        .ReadInputRegisters(SlaveAddress, RegisterAddress, GetTypeByEnum(ModbusValueType), ModbusValueType == ModbusPlugin.ValueType.String ? WriteReadLength : (ushort)0)
+                        .ReadInputRegisters(SlaveAddress, RegisterAddress, GetTypeByEnum(ModbusValueType), ModbusValueType == NModbusWrapper.ValueType.String ? WriteReadLength : (ushort)0)
                         .ToString();
                 else
                     return Manager
-                        .ReadHoldingRegisters(SlaveAddress, RegisterAddress, GetTypeByEnum(ModbusValueType), ModbusValueType == ModbusPlugin.ValueType.String ? WriteReadLength : (ushort)0)
+                        .ReadHoldingRegisters(SlaveAddress, RegisterAddress, GetTypeByEnum(ModbusValueType), ModbusValueType == NModbusWrapper.ValueType.String ? WriteReadLength : (ushort)0)
                         .ToString();
             }
             catch
             {
-                if (ModbusValueType == ModbusPlugin.ValueType.String)
+                if (ModbusValueType == NModbusWrapper.ValueType.String)
                     return "Error";
                 else return "0";
             }
@@ -98,101 +88,85 @@ namespace ModbusPlugin
 
         public void Initialize()
         {
-            throw new NotImplementedException();
+            //do nothing
         }
 
         public void SetValue(ExecutionContext context, string value)
         {
-            try
+            var val = Parse(ModbusValueType, value);
+            if (RegistersMode == RegistersMode.Holding)
             {
-                if (RegistersMode == RegistersMode.Holding)
-                {
-                    var modbusValue = Parse(ModbusValueType, value);
-                    Manager.WriteHoldingRegisters(SlaveAddress, RegisterAddress, Parse(ModbusValueType, value));
-                }
-            }
-            catch
-            {
-                // do nothing
+                var modbusValue = Parse(ModbusValueType, value);
+                Manager.WriteHoldingRegisters(SlaveAddress, RegisterAddress, val);
             }
         }
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
-            throw new NotImplementedException();
+            var mode = ValueTypeMode.All;
+            if (valueType != null)
+            {
+                if (valueType is InfoValueType)
+                    mode = ValueTypeMode.String;
+                else
+                    mode = ValueTypeMode.Numeric;
+            }
+            var window = new RegistersActionWindow(this, mode);
+            return window.ShowDialog() ?? false;
         }
 
-        private Type GetTypeByEnum(ValueType type)
+        private Type GetTypeByEnum(NModbusWrapper.ValueType type)
         {
             switch (type)
             {
-                case ModbusPlugin.ValueType.Double:
+                case NModbusWrapper.ValueType.Double:
                     return typeof(double);
-                case ModbusPlugin.ValueType.Float:
+                case NModbusWrapper.ValueType.Float:
                     return typeof(float);
-                case ModbusPlugin.ValueType.Int:
+                case NModbusWrapper.ValueType.Int:
                     return typeof(int);
-                case ModbusPlugin.ValueType.Long:
+                case NModbusWrapper.ValueType.Long:
                     return typeof(long);
-                case ModbusPlugin.ValueType.Short:
+                case NModbusWrapper.ValueType.Short:
                     return typeof(short);
-                case ModbusPlugin.ValueType.String:
+                case NModbusWrapper.ValueType.String:
                     return typeof(string);
-                case ModbusPlugin.ValueType.UInt:
+                case NModbusWrapper.ValueType.UInt:
                     return typeof(uint);
-                case ModbusPlugin.ValueType.ULong:
+                case NModbusWrapper.ValueType.ULong:
                     return typeof(ulong);
-                case ModbusPlugin.ValueType.UShort:
+                case NModbusWrapper.ValueType.UShort:
                     return typeof(ushort);
                 default:
-                    throw new NotSupportedException("type not [" + type + "] supported");
+                    throw new NotSupportedException("type [" + type + "] not supported");
             }
         }
 
-        private object Parse(ValueType type, string value)
+        private object Parse(NModbusWrapper.ValueType type, string value)
         {
             switch (type)
             {
-                case ModbusPlugin.ValueType.Double:
+                case NModbusWrapper.ValueType.Double:
                     return double.Parse(value);
-                case ModbusPlugin.ValueType.Float:
+                case NModbusWrapper.ValueType.Float:
                     return float.Parse(value);
-                case ModbusPlugin.ValueType.Int:
+                case NModbusWrapper.ValueType.Int:
                     return int.Parse(value);
-                case ModbusPlugin.ValueType.Long:
+                case NModbusWrapper.ValueType.Long:
                     return long.Parse(value);
-                case ModbusPlugin.ValueType.Short:
+                case NModbusWrapper.ValueType.Short:
                     return short.Parse(value);
-                case ModbusPlugin.ValueType.String:
+                case NModbusWrapper.ValueType.String:
                     return value;
-                case ModbusPlugin.ValueType.UInt:
+                case NModbusWrapper.ValueType.UInt:
                     return uint.Parse(value);
-                case ModbusPlugin.ValueType.ULong:
+                case NModbusWrapper.ValueType.ULong:
                     return ulong.Parse(value);
-                case ModbusPlugin.ValueType.UShort:
+                case NModbusWrapper.ValueType.UShort:
                     return ushort.Parse(value);
                 default:
-                    throw new NotSupportedException("type not [" + type + "] supported");
+                    throw new NotSupportedException("type [" + type + "] not supported");
             }
         }
-    }
-
-    public enum RegistersMode
-    {
-        Holding,
-        Input
-    }
-
-    public enum ValueType
-    {
-        Short,
-        UShort,
-        Int,
-        UInt,
-        Long,
-        ULong,
-        Float,
-        Double,
-        String
     }
 }

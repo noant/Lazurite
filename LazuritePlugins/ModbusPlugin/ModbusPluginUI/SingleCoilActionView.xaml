@@ -35,7 +35,7 @@
         </Grid>
         <StackPanel Margin="10" Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Right">
             <controls:ItemView x:Name="btOk" Width="130" Icon="Check">ОK</controls:ItemView>
-            <controls:ItemView x:Name="btCancel" Width="130" Margin="10,0,0,0" Icon="Cancel">Отмена</controls:ItemView>
+            <controls:ItemView x:Name="btCancel" Width="130" Margin="10,0,0,0" Icon="Cancel" Background="Crimson">Отмена</controls:ItemView>
         </StackPanel>
     </Grid>
 </UserControl>

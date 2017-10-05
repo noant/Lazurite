@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="ModbusPluginUI.ModbusValueTypeSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ModbusPluginUI"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             Height="Auto"
+             Background="{x:Static controls:Visual.Background}"
+             Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <controls:ListItemsView x:Name="lvItems" SelectionMode="Single">
+            <controls:ItemView Icon="ChevronRight" Margin="4,4,4,2" Tag="Short">Short (целочисленное / 2 байта)</controls:ItemView>
+            <controls:ItemView Icon="ChevronRight" Margin="4,4,4,2" Tag="UShort">UShort (целочисленное / без знака / 2 байта)</controls:ItemView>
+            <controls:ItemView Icon="ChevronRight" Margin="4,4,4,2" Tag="Int">Int (целочисленное / 4 байта)</controls:ItemView>
+            <controls:ItemView Icon="ChevronRight" Margin="4,4,4,2" Tag="UInt">UInt (целочисленное / без знака / 4 байта)</controls:ItemView>
+            <controls:ItemView Icon="ChevronRight" Margin="4,4,4,2" Tag="Long">Long (целочисленное / 8 байт)</controls:ItemView>
+            <controls:ItemView Icon="ChevronRight" Margin="4,4,4,2" Tag="ULong">ULong (целочисленное / без знака / 8 байт)</controls:ItemView>
+            <controls:ItemView Icon="ChevronRight" Margin="4,4,4,2" Tag="Float">Float (плавающая точка / 4 байта)</controls:ItemView>
+            <controls:ItemView Icon="ChevronRight" Margin="4,4,4,2" Tag="Double">Double (плавающая точка / 8 байт)</controls:ItemView>
+            <controls:ItemView Icon="ChevronRight" Margin="4,4,4,4" Tag="String">String (строка / длина настраивается)</controls:ItemView>
+        </controls:ListItemsView>
+        <StackPanel x:Name="spStringLength" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label Foreground="{x:Static controls:Visual.CaptionForeground}">Длина строки:</Label>
+            <controls:EntryView x:Name="tbLength" Width="100">30</controls:EntryView>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <controls:ItemView IsEnabled="False" x:Name="btOk" Width="150" Margin="5" Icon="Check">Применить</controls:ItemView>
+            <controls:ItemView x:Name="btCancel" Width="150" Margin="5" Icon="Cancel" Background="Crimson">Отмена</controls:ItemView>
+        </StackPanel>
+    </Grid>
+</UserControl>

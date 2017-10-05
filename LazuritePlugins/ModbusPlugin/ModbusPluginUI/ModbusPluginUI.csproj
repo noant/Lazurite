@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Lazurite.ActionsDomain">
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.ActionsDomain.dll</HintPath>
+    </Reference>
     <Reference Include="LazuriteUI.Icons">
       <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Icons.dll</HintPath>
     </Reference>
@@ -62,11 +65,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ModbusValueTypeSelectionView.xaml.cs">
+      <DependentUpon>ModbusValueTypeSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SelectTransportView.xaml.cs">
       <DependentUpon>SelectTransportView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SelectValueTypeView.xaml.cs">
+      <DependentUpon>SelectValueTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RegistersActionView.xaml.cs">
+      <DependentUpon>RegistersActionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SingleCoilActionView.xaml.cs">
       <DependentUpon>SingleCoilActionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RegistersActionWindow.xaml.cs">
+      <DependentUpon>RegistersActionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SingleCoilActionWindow.xaml.cs">
       <DependentUpon>SingleCoilActionWindow.xaml</DependentUpon>
@@ -105,13 +120,29 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ModbusValueTypeSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SelectTransportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SelectValueTypeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RegistersActionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SingleCoilActionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RegistersActionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SingleCoilActionWindow.xaml">
       <SubType>Designer</SubType>

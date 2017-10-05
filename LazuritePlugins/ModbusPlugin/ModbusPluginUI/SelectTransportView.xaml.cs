@@ -48,6 +48,6 @@ namespace ModbusPluginUI
             lblDescription.Content = transport.ToString();
         }
 
-        public Action<IModbusTransport> TransportChanged;
+        public event Action<IModbusTransport> TransportChanged;
     }
 }

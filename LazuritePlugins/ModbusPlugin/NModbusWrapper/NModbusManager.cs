@@ -43,4 +43,23 @@ namespace NModbusWrapper
             Transport.Execute((master) => master.WriteMultipleRegisters(slaveAddress, startAddress, Utils.ConvertToUShort(value)));
         }
     }
+    
+    public enum RegistersMode
+    {
+        Holding,
+        Input
+    }
+
+    public enum ValueType
+    {
+        Short,
+        UShort,
+        Int,
+        UInt,
+        Long,
+        ULong,
+        Float,
+        Double,
+        String
+    }
 }
