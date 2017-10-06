@@ -24,7 +24,9 @@ namespace LazuriteUI.Windows.Main.Switches
     {
         private volatile string _tempValue;
         private Task _syncTask;
-        private CancellationTokenSource _tokenSource = new CancellationTokenSource(); 
+        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private ScenarioModel _model;
+        private double _iteration; 
 
         public FloatViewSwitch()
         {
@@ -38,9 +40,9 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public FloatViewSwitch(ScenarioModel model): this()
         {
-            this.DataContext = model;
+            this.DataContext = _model = model;
             this._tempValue = model.ScenarioValue;
-
+            this._iteration = (model.Max - model.Min) / 20;
             this.slider.Value = double.Parse(_tempValue ?? "0");
             this.slider.ValueChanged += (o, e) =>
             {
@@ -55,6 +57,13 @@ namespace LazuriteUI.Windows.Main.Switches
                     Thread.Sleep(500);
                 }
             });
+        }
+
+        private void slider_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Delta < 0)
+                this.slider.Value -= _iteration;
+            else this.slider.Value += _iteration;
         }
     }
 }

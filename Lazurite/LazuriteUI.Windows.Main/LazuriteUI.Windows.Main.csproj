@@ -231,6 +231,9 @@
       <DependentUpon>TriggerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DuplicatedProcessesListener.cs" />
+    <Compile Include="FastSwitchWindow.xaml.cs">
+      <DependentUpon>FastSwitchWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IAllowSave.cs" />
     <Compile Include="IInitializable.cs" />
     <Compile Include="IViewTypeResolverItem.cs" />
@@ -563,6 +566,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Constructors\TriggerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FastSwitchWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

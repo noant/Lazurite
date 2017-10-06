@@ -52,7 +52,7 @@ namespace LazuriteUI.Windows.Main
                 Core.WarningHandler.Warn("Во время инициализации приложения возникла ошибка", e);
             }
             NotifyIconManager.Initialize();
-            DuplicatedProcessesListener.Found += (processes) => NotifyIconManager.Click();
+            DuplicatedProcessesListener.Found += (processes) => NotifyIconManager.ShowMainWindow();
             DuplicatedProcessesListener.Start();
         }
     }
