@@ -12,7 +12,7 @@ namespace OpenZWrapper
         public bool Successful {
             get
             {
-                return Manager.Initialized;
+                return Manager.State == ZWaveManagerState.Initialized;
             }
         }
     }

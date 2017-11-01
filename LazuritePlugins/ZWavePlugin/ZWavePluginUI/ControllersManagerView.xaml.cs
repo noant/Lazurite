@@ -35,7 +35,9 @@ namespace ZWavePluginUI
         public void InitializeWith(ZWaveManager manager)
         {
             _manager = manager;
-            if (!_manager.Initialized)
+            if (_manager.State == ZWaveManagerState.None)
+                _manager.Initialize();
+            if (_manager.State == ZWaveManagerState.Initializing)
             {
                 var messageView = new MessageView();
                 _manager.ManagerInitializedCallbacksPool.Add(new ManagerInitializedCallback() {
@@ -52,10 +54,8 @@ namespace ZWavePluginUI
                 messageView.ContentText = "Инициализация менеджера контроллеров...";
                 messageView.StartAnimateProgress();
                 messageView.Show(mainGrid);
-                if (!_manager.IsActive)
-                    _manager.Initialize();
             }
-            else
+            if (_manager.State == ZWaveManagerState.Initialized)
                 RefreshControllersList();
         }
 
@@ -64,9 +64,7 @@ namespace ZWavePluginUI
             controllersListView.Children.Clear();
             _selectedController = null;
             foreach (var controller in _manager.GetControllers())
-            {
                 controllersListView.Children.Add(new ControllerView(controller, _manager));
-            }
             UpdateControls();
         }
 
@@ -224,11 +222,13 @@ namespace ZWavePluginUI
 
         private void itemViewAddNewController_Click(object sender, RoutedEventArgs e)
         {
-            var action = new Action<Action<bool>>((callback) => _manager.AddController(new Controller()
-            {
-                Path = tbNewControllerName.Text,
-                IsHID = itemViewHID.Selected
-            }, callback));
+            var action = new Action<Action<bool>>((callback) => 
+                _manager.AddController(new Controller()
+                {
+                    Path = tbNewControllerName.Text,
+                    IsHID = itemViewHID.Selected
+                }, 
+                callback));
 
             ProgressAction("Добавление контроллера '" + tbNewControllerName.Text + "'...", action, true, false);
         }

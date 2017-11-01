@@ -14,7 +14,7 @@ namespace Lazurite.Security.Permissions
         public List<UserBase> Users { get; set; } = new List<UserBase>();
         public bool IsAvailableForUser(UserBase user, ScenarioStartupSource source)
         {
-            return Users.Any(x => x.Id.Equals(user.Id));
+            return user is SystemUser || Users.Any(x => x.Id.Equals(user.Id));
         }
     }
 }

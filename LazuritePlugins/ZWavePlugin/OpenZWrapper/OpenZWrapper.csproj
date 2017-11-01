@@ -87,6 +87,7 @@
     <Compile Include="NodeValueChangedEventArgs.cs" />
     <Compile Include="NodeValues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ZWaveManagerState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="config\device_classes.xsd">

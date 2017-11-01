@@ -43,9 +43,9 @@ namespace ZWavePluginUI
                     })),
                     RemoveAfterInvoke = true
                 });
-                if (!manager.IsActive)
+                if (manager.State == ZWaveManagerState.None)
                     manager.Initialize();
-                else if (manager.Initialized)
+                else if (manager.State == ZWaveManagerState.Initialized)
                 {
                     messageView.Close();
                     this.itemViewPrimary.Selected = true;
