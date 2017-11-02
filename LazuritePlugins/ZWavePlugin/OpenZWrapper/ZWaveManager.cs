@@ -30,6 +30,13 @@ namespace OpenZWrapper
 
         public ZWaveManagerState State { get; private set; } = ZWaveManagerState.None;
 
+        private void SaveControllersList()
+        {
+            var hobj = new HObject(_controllersInfoPath);
+            hobj.Zero = _controllers;
+            hobj.SaveToFile();
+        }
+
         public Controller[] GetControllers()
         {
             return _controllers.ToArray();
@@ -46,17 +53,14 @@ namespace OpenZWrapper
             if (!_controllers.Any(x => x.Equals(controller)))
             {
                 _controllers.Add(controller);
-                var hobj = new HObject(_controllersInfoPath);
-                hobj.Zero = _controllers;
-                hobj.SaveToFile();
+                SaveControllersList();
                 if (_manager != null)
                     _callbacksPool.ExecuteBool(() => _manager.AddDriver(controller.Path, controller.IsHID ? ZWControllerInterface.Hid : ZWControllerInterface.Serial), 
                         (result) => {
                             if (!result)
                             {
                                 _controllers.Remove(controller);
-                                hobj.Zero = _controllers;
-                                hobj.SaveToFile();
+                                SaveControllersList();
                             }
                             callback?.Invoke(result);
                         });
@@ -71,15 +75,9 @@ namespace OpenZWrapper
                 _callbacksPool.Add(callback);
                 _controllers.RemoveAll(x => x.Equals(controller));
                 if (_manager.RemoveDriver(controller.Path))
-                {
-                    var hobj = new HObject(_controllersInfoPath);
-                    hobj.Zero = _controllers;
-                    hobj.SaveToFile();
-                }
+                    SaveControllersList();
                 else
-                {
                     callback(false);
-                }
             }
             else
                 callback(false);
@@ -104,7 +102,7 @@ namespace OpenZWrapper
         
         public void UpdateNetwork(Controller controller, Node node, Action<bool> callback)
         {
-            _callbacksPool.ExecuteBool(() => _manager.RequestNetworkUpdate(controller.HomeID, node.Id), callback);
+            _callbacksPool.ExecuteBool(() => _manager.RequestNetworkUpdate(controller.HomeID, node.Id), callback, 60 * 5);
         }
 
         public void ReplaceFailedNode(Controller controller, Node node, Action<bool> callback)
@@ -124,12 +122,12 @@ namespace OpenZWrapper
 
         public void RecieveConfiguration(Controller controller, Action<bool> callback)
         {
-            _callbacksPool.ExecuteBool(() => _manager.ReceiveConfiguration(controller.HomeID), callback);
+            _callbacksPool.ExecuteBool(() => _manager.ReceiveConfiguration(controller.HomeID), callback, 5*60);
         }
 
         public void UpdateNodeNeighborList(Controller controller, Node node, Action<bool> callback)
         {
-            _callbacksPool.ExecuteBool(() => _manager.RequestNodeNeighborUpdate(controller.HomeID, node.Id), callback);
+            _callbacksPool.ExecuteBool(() => _manager.RequestNodeNeighborUpdate(controller.HomeID, node.Id), callback, 5*60);
         }
 
         public void CheckNodeFailed(Controller controller, Node node, Action<bool> callback)
@@ -139,12 +137,12 @@ namespace OpenZWrapper
 
         public void AddNewDevice(Controller controller, Action<bool> callback)
         {
-            _callbacksPool.ExecuteBool(() => _manager.AddNode(controller.HomeID, false), callback);
+            _callbacksPool.ExecuteBool(() => _manager.AddNode(controller.HomeID, false), callback, 5*60);
         }
 
         public void AddNewSecureDevice(Controller controller, Action<bool> callback)
         {
-            _callbacksPool.ExecuteBool(() => _manager.AddNode(controller.HomeID, true), callback);
+            _callbacksPool.ExecuteBool(() => _manager.AddNode(controller.HomeID, true), callback, 5*60);
         }
 
         public void ResetController(Controller controller, Action<bool> callback)
@@ -171,12 +169,12 @@ namespace OpenZWrapper
 
         public void TransferPrimaryRole(Controller controller, Action<bool> callback)
         {
-            _callbacksPool.ExecuteBool(() => _manager.TransferPrimaryRole(controller.HomeID), callback);
+            _callbacksPool.ExecuteBool(() => _manager.TransferPrimaryRole(controller.HomeID), callback, 5*60);
         }
 
         public void CreateNewPrimary(Controller controller, Action<bool> callback)
         {
-            _callbacksPool.ExecuteBool(() => _manager.CreateNewPrimary(controller.HomeID), callback);
+            _callbacksPool.ExecuteBool(() => _manager.CreateNewPrimary(controller.HomeID), callback, 5*60);
         }
 
         public bool SupportsCancellation(string methodName)
@@ -240,7 +238,6 @@ namespace OpenZWrapper
                         break;
                     case ZWControllerState.Completed:
                     case ZWControllerState.NodeOK:
-                    case ZWControllerState.Normal:
                         operationFailed = false;
                         break;
                 }
@@ -286,7 +283,7 @@ namespace OpenZWrapper
                                 State = ZWaveManagerState.Initialized;
                                 ManagerInitializedCallbacksPool.ExecuteAll(this);
                             }
-                            _callbacksPool.Dequeue(false, 
+                            _callbacksPool.Dequeue(false,
                                 nameof(AddController), 
                                 nameof(RemoveController));
                         }
@@ -383,16 +380,11 @@ namespace OpenZWrapper
             _manager.Create();
             int failedControllersCount = 0;
             foreach (var controller in _controllers)
-                try
-                {
-                    if (!_manager.AddDriver(controller.Path, controller.IsHID ? ZWControllerInterface.Hid : ZWControllerInterface.Serial))
-                        failedControllersCount++;
-                    _manager.TestNetwork(controller.HomeID, 1);
-                }
-                catch
-                {
+            {
+                if (!_manager.AddDriver(controller.Path, controller.IsHID ? ZWControllerInterface.Hid : ZWControllerInterface.Serial))
                     failedControllersCount++;
-                }
+                _manager.TestNetwork(controller.HomeID, 1);
+            }
             if (failedControllersCount == _controllers.Count)
                 hasAnyControllers = false;
             if (!hasAnyControllers)

@@ -29,6 +29,7 @@ namespace ZWavePluginUI
             _manager = manager;
 
             this.Loaded += (o, e) => {
+                BlockButtons(true);
                 var messageView = new MessageView();
                 messageView.HeaderText = "Пожалуйста, подождите...";
                 messageView.ContentText = "Инициализация контроллеров...";
@@ -39,6 +40,7 @@ namespace ZWavePluginUI
                     Callback = (o1, e1) => this.Dispatcher.BeginInvoke(new Action(() => 
                     {
                         messageView.Close();
+                        BlockButtons(false);
                         this.itemViewPrimary.Selected = true;
                     })),
                     RemoveAfterInvoke = true
@@ -79,9 +81,18 @@ namespace ZWavePluginUI
             {
                 mainContent.Children.Clear();
                 var managerView = new ControllersManagerView();
+                managerView.BlockUI = (block) => BlockButtons(block);
                 managerView.InitializeWith(_manager);
                 mainContent.Children.Add(managerView);
             }
+        }
+
+        private void BlockButtons(bool block)
+        {
+            this.cancelItem.IsEnabled =
+                this.itemViewPrimary.IsEnabled =
+                this.itemViewController.IsEnabled =
+                !block;
         }
 
         private void cancelItem_Click(object sender, RoutedEventArgs e)

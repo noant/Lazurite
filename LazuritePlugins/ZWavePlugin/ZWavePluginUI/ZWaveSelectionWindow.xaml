@@ -21,7 +21,7 @@
             <controls:ItemView Icon="Settings" Width="220" x:Name="itemViewController">Настройки контроллеров</controls:ItemView>
         </controls:ListItemsView>
         <controls:ListItemsView Grid.Row="1" HorizontalAlignment="Right" Margin="5" Orientation="Horizontal" SelectionMode="Single">
-            <controls:ItemView Click="okItem_Click" Background="#003355" x:Name="okItem" Icon="Check" Width="180" Selectable="False">Применить</controls:ItemView>
+            <controls:ItemView Click="okItem_Click" Background="#003355" IsEnabled="False" x:Name="okItem" Icon="Check" Width="180" Selectable="False">Применить</controls:ItemView>
             <controls:ItemView Click="cancelItem_Click" x:Name="cancelItem" Icon="Cancel" Width="180" Margin="10,0,10,0" Selectable="False" VerticalAlignment="Top">Отмена</controls:ItemView>
         </controls:ListItemsView>
     </Grid>

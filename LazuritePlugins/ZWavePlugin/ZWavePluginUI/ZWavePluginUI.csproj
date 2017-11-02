@@ -79,6 +79,7 @@
     <Compile Include="ControllerView.xaml.cs">
       <DependentUpon>ControllerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ICanBlockUI.cs" />
     <Compile Include="IRefreshable.cs" />
     <Compile Include="ZWaveSelectionWindow.xaml.cs">
       <DependentUpon>ZWaveSelectionWindow.xaml</DependentUpon>

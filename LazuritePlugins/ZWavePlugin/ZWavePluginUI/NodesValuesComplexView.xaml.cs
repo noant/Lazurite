@@ -19,7 +19,7 @@ namespace ZWavePluginUI
     /// <summary>
     /// Логика взаимодействия для NodesValuesComplexView.xaml
     /// </summary>
-    public partial class NodesValuesComplexView : UserControl, IRefreshable
+    public partial class NodesValuesComplexView : UserControl, IRefreshable, ICanBlockUI
     {
         public NodesValuesComplexView()
         {
@@ -72,6 +72,12 @@ namespace ZWavePluginUI
         }
 
         public Action NeedClose
+        {
+            get;
+            set;
+        }
+
+        public Action<bool> BlockUI
         {
             get;
             set;

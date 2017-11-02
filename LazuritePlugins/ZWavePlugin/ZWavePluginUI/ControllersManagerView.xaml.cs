@@ -21,11 +21,17 @@ namespace ZWavePluginUI
     /// <summary>
     /// Логика взаимодействия для ControllersManagerViiew.xaml
     /// </summary>
-    public partial class ControllersManagerView : UserControl
+    public partial class ControllersManagerView : UserControl, ICanBlockUI
     {
         private ZWaveManager _manager;
 
         private Controller _selectedController;
+
+        public Action<bool> BlockUI
+        {
+            get;
+            set;
+        }
 
         public ControllersManagerView()
         {
@@ -40,11 +46,13 @@ namespace ZWavePluginUI
             if (_manager.State == ZWaveManagerState.Initializing)
             {
                 var messageView = new MessageView();
+                BlockUI?.Invoke(true);
                 _manager.ManagerInitializedCallbacksPool.Add(new ManagerInitializedCallback() {
                     Callback = (sender, args) =>
                         this.Dispatcher.BeginInvoke(new Action(() =>
                         {
                             messageView.Close();
+                            BlockUI?.Invoke(false);
                             RefreshControllersList();
                         })),
                     RemoveAfterInvoke = true
@@ -240,6 +248,7 @@ namespace ZWavePluginUI
 
         private void ProgressAction(string text, Action<Action<bool>> action, bool needRefresh=false, bool cancel=true)
         {
+            BlockUI?.Invoke(true);
             var messageView = new MessageView();
             messageView.HeaderText = "Выполнение операции";
             messageView.ContentText = text;
@@ -251,6 +260,7 @@ namespace ZWavePluginUI
             messageView.StartAnimateProgress();
             var callback = new Action<bool>((success)=> {
                 this.Dispatcher.BeginInvoke(new Action(() => {
+                    BlockUI?.Invoke(false);
                     messageView.StopAnimateProgress();
                     if (!success)
                     {
@@ -265,7 +275,7 @@ namespace ZWavePluginUI
                             RefreshControllersList();
                     }
                     messageView.SetItems(new[] {
-                            new MessageItemInfo("OK", (m) => messageView.Close())
+                        new MessageItemInfo("OK", (m) => messageView.Close())
                     });
                 }));
             });
