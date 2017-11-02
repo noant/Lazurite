@@ -6,14 +6,13 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Switches.SwitchSettings"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
-             Width="400"
-             Background="{x:Static controls:Visual.Background}"
+             Width="800"
+             Background="{x:Static controls:Visual.ItemBackground}"
              d:DesignHeight="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -22,9 +21,16 @@
         <controls:IconView Width="20" Height="20" Icon="PageSearch"></controls:IconView>
         <TextBox TextChanged="tbSearch_TextChanged" Style="{StaticResource TextBoxSearch}" x:Name="tbSearch" Grid.Column="1"></TextBox>
         <controls:WheelScroll Grid.Row="1" Grid.ColumnSpan="2">
-            <StackPanel x:Name="stackPanel" Orientation="Vertical">                
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel x:Name="stackPanel1" Grid.Column="0" Orientation="Vertical"></StackPanel>
+                <StackPanel x:Name="stackPanel2" Grid.Column="1" Orientation="Vertical"></StackPanel>
+                <StackPanel x:Name="stackPanel3" Grid.Column="2" Orientation="Vertical"></StackPanel>
+            </Grid>
         </controls:WheelScroll>
-        <controls:ItemView Margin="5" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource ApplyButton}" Content="OK" Click="ItemView_Click"></controls:ItemView>
     </Grid>
 </UserControl>

@@ -63,6 +63,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
             ShowLoadDialog(() => {
                 var switchIconSelect = new SwitchIconSelect(((ScenarioModel)this.DataContext), true);
                 var dialog = new DialogView(switchIconSelect);
+                dialog.Caption = "Выберите иконку, которая будет отображаться над переключателем. Для поиска нужной иконки начните вводить текст в поле ввода.";
                 switchIconSelect.OkClick += (o, args) => dialog.Close();
                 dialog.Show();
             });

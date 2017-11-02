@@ -29,6 +29,7 @@ using LazuriteUI.Windows.Main.Constructors.Decomposition;
 using LazuriteUI.Icons;
 using Lazurite.CoreActions;
 using LazuriteUI.Windows.Main.Security.PermissionsViews;
+using LazuriteUI.Windows.Controls;
 
 namespace LazuriteUI.Windows.Main
 {
@@ -40,8 +41,12 @@ namespace LazuriteUI.Windows.Main
         public TestWindow()
         {
             InitializeComponent();
-
-            grid.Children.Add(new DenyForUsersPermissionView(new Lazurite.Security.Permissions.DenyForUsersPermission()));
+            foreach (Icon icon in Enum.GetValues(typeof(Icon)))
+            {
+                var iconCtrl = new IconView();
+                iconCtrl.Icon = icon;
+                this.sp.Children.Add(iconCtrl);
+            }
         }
     }
 }

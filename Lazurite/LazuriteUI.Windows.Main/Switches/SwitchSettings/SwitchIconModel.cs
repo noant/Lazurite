@@ -12,16 +12,14 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
         {
             ScenarioModel = scenarioModel;
             IsSecondIcon = isSecondIcon;
-            
-            if (ScenarioModel != null)
-                ScenarioModel.PropertyChanged += (o, e) => {
-                    if ((e.PropertyName == nameof(ScenarioModel.Icon1) && !IsSecondIcon) ||
-                        (e.PropertyName == nameof(ScenarioModel.Icon2) && IsSecondIcon))
-                    {
-                        OnPropertyChanged(nameof(ItemSelected));
-                    }
-                };
-            OnPropertyChanged(nameof(ItemSelected));
+
+            //if (ScenarioModel != null)
+            //    ScenarioModel.PropertyChanged += (o, e) =>
+            //    {
+            //        if ((e.PropertyName == nameof(ScenarioModel.Icon1) && !IsSecondIcon) ||
+            //            (e.PropertyName == nameof(ScenarioModel.Icon2) && IsSecondIcon))
+            //            Apply();
+            //    };
         }
 
         public ScenarioModel ScenarioModel { get; private set; }
@@ -42,22 +40,11 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
             }
         }
 
-        public bool ItemSelected
+        public void Apply()
         {
-            get
-            {
-                return _icon.Equals(IsSecondIcon ? ScenarioModel.Icon2 : ScenarioModel.Icon1);
-            }
-            set
-            {
-                if (value)
-                {
-                    if (IsSecondIcon)
-                        ScenarioModel.Icon2 = _icon;
-                    else ScenarioModel.Icon1 = _icon;
-                    OnPropertyChanged(nameof(ItemSelected));
-                }
-            }
+            if (IsSecondIcon)
+                ScenarioModel.Icon2 = _icon;
+            else ScenarioModel.Icon1 = _icon;
         }
     }
 }

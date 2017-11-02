@@ -8,7 +8,7 @@
         xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
         mc:Ignorable="d"
         Background="Black"
+        
         Title="TestWindows" Height="300" Width="300">
-    <Grid Name="grid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-    </Grid>
+    <StackPanel ScrollViewer.CanContentScroll="True" x:Name="sp"></StackPanel>
 </Window>
