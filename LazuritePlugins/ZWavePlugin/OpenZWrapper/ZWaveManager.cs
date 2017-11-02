@@ -291,9 +291,8 @@ namespace OpenZWrapper
                     case ZWNotification.Type.DriverReady:
                         {
                             controller.HomeID = homeId;
-                            var nodeIsFailed = GetControllerNode(controller) != null; //sic!
                             _callbacksPool.Dequeue(
-                                nodeIsFailed,
+                                true,
                                 nameof(AddController));
                         }
                         break;
@@ -381,13 +380,23 @@ namespace OpenZWrapper
             int failedControllersCount = 0;
             foreach (var controller in _controllers)
             {
+                var ctrl = controller;
+                _callbacksPool.ExecuteBool(
+                    () => _manager.AddDriver(ctrl.Path, ctrl.IsHID ? ZWControllerInterface.Hid : ZWControllerInterface.Serial),
+                    (result) =>
+                    {
+                        _controllers.Remove(ctrl);
+                        if (!_controllers.Any())
+                        {
+                            State = ZWaveManagerState.Initialized;
+                            ManagerInitializedCallbacksPool.ExecuteAll(this);
+                        }
+                    });
                 if (!_manager.AddDriver(controller.Path, controller.IsHID ? ZWControllerInterface.Hid : ZWControllerInterface.Serial))
                     failedControllersCount++;
                 _manager.TestNetwork(controller.HomeID, 1);
             }
-            if (failedControllersCount == _controllers.Count)
-                hasAnyControllers = false;
-            if (!hasAnyControllers)
+            if (!_controllers.Any())
             {
                 State = ZWaveManagerState.Initialized;
                 ManagerInitializedCallbacksPool.ExecuteAll(this);
