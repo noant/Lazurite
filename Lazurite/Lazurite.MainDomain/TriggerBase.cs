@@ -61,7 +61,7 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Disable trigger executing
         /// </summary>
-        public void Stop()
+        public virtual void Stop()
         {
             _tokenSource.Cancel();
             Enabled = false;

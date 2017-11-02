@@ -42,6 +42,13 @@ namespace Lazurite.Scenarios.TriggerTypes
             return GetAllActionsFlat().Select(x => x.GetType()).Distinct().ToArray();
         }
 
+        public override void Stop()
+        {
+            base.Stop();
+            if (_lastSubscribe != null && GetScenario() != null)
+                GetScenario().RemoveOnStateChanged(_lastSubscribe);
+        }
+
         public override void Initialize(ScenariosRepositoryBase scenariosRepository)
         {
             try
