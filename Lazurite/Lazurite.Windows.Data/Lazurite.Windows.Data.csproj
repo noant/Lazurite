@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PluginsDataManager.cs" />
     <Compile Include="FileSavior.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -55,6 +56,10 @@
     <ProjectReference Include="..\Lazurite.Data\Lazurite.Data.csproj">
       <Project>{47c6bac6-34d8-4013-9739-2c0f6dcb6ffa}</Project>
       <Name>Lazurite.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Utils\Lazurite.Windows.Utils.csproj">
+      <Project>{09BE5F23-3903-4547-9D56-12CAE326C5CC}</Project>
+      <Name>Lazurite.Windows.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

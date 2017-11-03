@@ -11,7 +11,7 @@ namespace Lazurite.Security
 {
     public class UsersRepository: UsersRepositoryBase
     {
-        private ISavior _savior = Singleton.Resolve<ISavior>();
+        private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
         private readonly string _usersKey = "users";
         private readonly string _groupsKey = "usersGroups";
         private UserBase _systemUser;

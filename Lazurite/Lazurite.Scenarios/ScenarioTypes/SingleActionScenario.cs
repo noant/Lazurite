@@ -62,7 +62,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     return ActionHolder.Action.GetValue(new ExecutionContext(this, string.Empty, new OutputChangedDelegates(), new CancellationToken()));
                 //else - cached value is fresh
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 _log.ErrorFormat(e, "Во время вычисления значения сценария [{0}] возникла ошибка", this.Name);
             }
             return GetCurrentValue();

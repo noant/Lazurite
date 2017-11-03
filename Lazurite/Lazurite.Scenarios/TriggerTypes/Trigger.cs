@@ -100,17 +100,28 @@ namespace Lazurite.Scenarios.TriggerTypes
                 executeBySubscription = false;
 
             var contexCancellationTokenSource = new CancellationTokenSource();
+            cancellationToken.Register(() => contexCancellationTokenSource.Cancel());
             if (executeBySubscription)
             {
                 _lastSubscribe = (s) =>
                 {
-                    var action = TargetAction;
-                    var outputChanged = new OutputChangedDelegates();
-                    outputChanged.Add((value) => scenario.SetCurrentValueInternal(value));
-                    contexCancellationTokenSource.Cancel();
-                    contexCancellationTokenSource = new CancellationTokenSource();
-                    var executionContext = new ExecutionContext(this, s.GetCurrentValue(), outputChanged, contexCancellationTokenSource.Token);
-                    Task.Factory.StartNew(() => action.SetValue(executionContext, string.Empty));
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        //crutch; scenario can be changed before initializing, then we need to remove 
+                        //current subscribe from previous scenario. CancellationToken.IsCancellationRequested
+                        //can be setted in true only when trigger stopped;
+                        s.RemoveOnStateChanged(_lastSubscribe);
+                    }
+                    else
+                    {
+                        var action = TargetAction;
+                        var outputChanged = new OutputChangedDelegates();
+                        outputChanged.Add((value) => scenario.SetCurrentValueInternal(value));
+                        contexCancellationTokenSource.Cancel();
+                        contexCancellationTokenSource = new CancellationTokenSource();
+                        var executionContext = new ExecutionContext(this, s.GetCurrentValue(), outputChanged, contexCancellationTokenSource.Token);
+                        Task.Factory.StartNew(() => action.SetValue(executionContext, string.Empty));
+                    }
                 };
                 scenario.SetOnStateChanged(_lastSubscribe);
             }
@@ -131,7 +142,6 @@ namespace Lazurite.Scenarios.TriggerTypes
                     _systemUtils.Sleep(300, cancellationToken);
                 }
             }
-            cancellationToken.Register(() => contexCancellationTokenSource.Cancel());
         }
     }
 }

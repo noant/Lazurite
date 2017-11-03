@@ -24,7 +24,7 @@ namespace Lazurite.Windows.Server
     public class LazuriteServer
     {
         public static readonly string SettingsKey = "serverSettings";
-        private ISavior _savior = Singleton.Resolve<ISavior>();
+        private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
         private ServerSettings _settings;
         private ServiceHost _host;

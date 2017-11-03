@@ -54,8 +54,11 @@
     <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HierarchicalData">
-      <HintPath>..\..\..\Libs\HierarchicalData.dll</HintPath>
+    <Reference Include="Lazurite.Data">
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Lazurite.IOC">
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.IOC.dll</HintPath>
     </Reference>
     <Reference Include="OpenZWaveDotNet, Version=1.0.5862.328, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\packages\OpenZWave.1.4.1.1\lib\OpenZWaveDotNet.dll</HintPath>

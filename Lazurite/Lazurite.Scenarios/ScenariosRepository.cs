@@ -15,7 +15,7 @@ namespace Lazurite.Scenarios
         private readonly string ScenariosIdsKey = "scenariosRepository";
         private readonly string TriggersIdsKey = "triggersRepository";
 
-        private ISavior _savior;
+        private SaviorBase _savior;
         private List<string> _scenariosIds;
         private List<string> _triggersIds;
         private List<ScenarioBase> _scenarios;
@@ -24,7 +24,7 @@ namespace Lazurite.Scenarios
 
         public ScenariosRepository()
         {
-            _savior = Singleton.Resolve<ISavior>();
+            _savior = Singleton.Resolve<SaviorBase>();
             _log = Singleton.Resolve<ILogger>();
         }
 

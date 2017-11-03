@@ -24,7 +24,7 @@ namespace Lazurite.Windows.Core
         private CoreSettings _settings;
 
         public ISystemUtils SystemUtils { get; private set; }
-        public ISavior Savior { get; private set; }
+        public SaviorBase Savior { get; private set; }
         public IClientFactory ClientsFactory { get; private set; }
         public WarningHandlerBase WarningHandler { get; private set; }
         public PluginsManager PluginsManager { get; private set; }
@@ -69,6 +69,7 @@ namespace Lazurite.Windows.Core
             Singleton.Add(Savior = new FileSavior());
             Singleton.Add(ClientsFactory = new ServiceClientFactory());
             Singleton.Add(ScenariosRepository = new ScenariosRepository());
+            Singleton.Add(new PluginsDataManager());
             Singleton.Add(PluginsManager = new PluginsManager());
             ScenariosRepository.Initialize();
             Singleton.Add(UsersRepository = new UsersRepository());

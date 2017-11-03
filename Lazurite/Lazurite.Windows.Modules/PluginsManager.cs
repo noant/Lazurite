@@ -193,7 +193,7 @@ namespace Lazurite.Windows.Modules
         private List<string> _pluginsToUpdate = new List<string>();
         private string _tmpDir;
         private ScenariosRepositoryBase _scenarioRepository = Singleton.Resolve<ScenariosRepositoryBase>();
-        private ISavior _savior = Singleton.Resolve<ISavior>();
+        private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
 
         public IAction CreateInstanceOf(Type type, IAlgorithmContext algoContext)

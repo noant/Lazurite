@@ -39,6 +39,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.ActionsDomain.dll</HintPath>
     </Reference>
+    <Reference Include="Lazurite.Data">
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Lazurite.IOC">
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.IOC.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />

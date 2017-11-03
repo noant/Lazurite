@@ -11,7 +11,7 @@ namespace Lazurite.Visual
 {
     public class VisualSettingsRepository
     {
-        private ISavior _savior = Singleton.Resolve<ISavior>();
+        private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
         private UsersRepositoryBase _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private ScenariosRepositoryBase _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private List<UserVisualSettings> _allSettings = new List<UserVisualSettings>();

@@ -1,4 +1,5 @@
-﻿using HierarchicalData;
+﻿using Lazurite.Data;
+using Lazurite.IOC;
 using OpenZWaveDotNet;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,10 @@ using System.Threading.Tasks;
 namespace OpenZWrapper
 {
     public class ZWaveManager
-    {
-        private readonly string _controllersInfoPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "controllers.xml");
-        
+    {        
+        private readonly string _key = "zwave_controllers";
         private CallbacksPool _callbacksPool = new CallbacksPool();
-
         private ZWManager _manager;
-
         private List<Controller> _controllers = new List<Controller>();
         private List<Node> _nodes = new List<Node>();
 
@@ -32,9 +30,7 @@ namespace OpenZWrapper
 
         private void SaveControllersList()
         {
-            var hobj = new HObject(_controllersInfoPath);
-            hobj.Zero = _controllers;
-            hobj.SaveToFile();
+            Singleton.Resolve<PluginsDataManagerBase>().Set(_key, _controllers);
         }
 
         public Controller[] GetControllers()
@@ -421,20 +417,20 @@ namespace OpenZWrapper
 
         private bool LoadControllers()
         {
+            var dataManager = Singleton.Resolve<PluginsDataManagerBase>();
             try
             {
-                var hobj = HObject.FromFile(_controllersInfoPath);
-                if (hobj.Zero is List<Controller>)
+                if (dataManager.Has(_key))
                 {
-                    _controllers = hobj.Zero;
-                    return _controllers.Any();
+                    _controllers = dataManager.Get<List<Controller>>(_key);
+                    return true;
                 }
+                else return false;
             }
             catch
             {
-                //do nothing
+                return false;
             }
-            return false;
         }
     }
 }

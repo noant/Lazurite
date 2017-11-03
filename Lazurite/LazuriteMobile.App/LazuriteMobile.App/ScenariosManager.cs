@@ -53,7 +53,7 @@ namespace LazuriteMobile.App
         private CancellationTokenSource _listenersCancellationTokenSource;
         private CancellationTokenSource _operationCancellationTokenSource;
         private IServiceClientManager _clientManager = Singleton.Resolve<IServiceClientManager>();
-        private ISavior _savior = Singleton.Resolve<ISavior>();
+        private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
         private IServiceClient _serviceClient;
         private ClientSettings _clientSettings;
         private DateTime _lastUpdateTime;

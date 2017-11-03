@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lazurite.Data
 {
-    public interface ISavior
+    public interface IDataManager
     {
         T Get<T>(string key);
         void Set<T>(string key, T data);
