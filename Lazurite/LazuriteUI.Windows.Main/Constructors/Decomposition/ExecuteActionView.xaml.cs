@@ -37,7 +37,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     .IsCompatibleWith(action1View.ActionHolder.Action.ValueType))
                 {
                     _action.InputValue.Action = Lazurite.CoreActions.Utils.Default(action1View.ActionHolder.Action.ValueType);
-                    action2View.Refresh();
+                    Refresh();
                 }
             };
             this.action2View.Modified += (element) => Modified?.Invoke(this);
@@ -53,6 +53,11 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             this.action1View.Refresh(_action.MasterActionHolder, algoContext);
             this.action2View.Refresh(_action.InputValue, algoContext);
             Action2EqualizeToAction1();
+        }
+
+        public void Refresh()
+        {
+            Refresh(this.ActionHolder, this.AlgorithmContext);
         }
 
         private void Action2EqualizeToAction1()
