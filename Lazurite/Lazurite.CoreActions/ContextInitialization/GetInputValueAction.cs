@@ -32,7 +32,7 @@ namespace Lazurite.CoreActions.ContextInitialization
         {
             get
             {
-                return ValueChanged != null;
+                return false;
             }
         }
 

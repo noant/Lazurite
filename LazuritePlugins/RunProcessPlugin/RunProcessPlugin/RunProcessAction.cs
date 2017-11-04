@@ -71,9 +71,11 @@ namespace RunProcessPlugin
 
         public void SetValue(ExecutionContext context, string value)
         {
-            CloseProcess();
             if (value == ToggleValueType.ValueON)
                 RunProcess();
+            else
+                CloseProcess();
+            ValueChanged?.Invoke(this, GetValue(null));
         }
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
@@ -83,8 +85,8 @@ namespace RunProcessPlugin
 
         private void CloseProcess()
         {
-            //try
-            //{
+            try
+            {
                 if (GetValue(null) != ToggleValueType.ValueOFF)
                 {
                     switch (CloseMode)
@@ -103,18 +105,18 @@ namespace RunProcessPlugin
                     _process.Dispose();
                     _process = null;
                 }
-            //}
-            //catch
-            //{
-            //    //do nothing
-            //}
+            }
+            catch
+            {
+                //do nothing
+            }
         }
 
         private void RunProcess()
         {
             var success = false;
-            //try
-            //{
+            try
+            {
                 _process = new Process();
                 _process.StartInfo.FileName = ExePath;
                 _process.StartInfo.Arguments = Arguments;
@@ -129,16 +131,13 @@ namespace RunProcessPlugin
                 {
                     //if current program runs as another user as program by "ExePath"
                 }
-            //}
-            //catch
-            //{
-            //    success = false;
-            //}
-            if (!success)
-            {
-                _process = null;
-                ValueChanged?.Invoke(this, GetValue(null));
             }
+            catch
+            {
+                success = false;
+            }
+            if (!success)
+                _process = null;
         }
     }
 }

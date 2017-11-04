@@ -82,21 +82,19 @@ namespace Lazurite.Scenarios.TriggerTypes
 
         protected override void RunInternal(CancellationToken cancellationToken)
         {
-            var scenario = GetScenario();
-
-            if (scenario == null)
+            if (GetScenario() == null)
                 return;
 
             //удаляем старую подписку, если имеется
             if (_lastSubscribe != null)
-                scenario.RemoveOnStateChanged(_lastSubscribe);
+                GetScenario().RemoveOnStateChanged(_lastSubscribe);
 
             //выполнение по подписке на изменение значения
             var executeBySubscription = true;
 
             //если сценарий это одиночное действие и нельзя подписаться на изменение целевого действия
             //то не выполняем по подписке, а выполняем просто через цикл 
-            if (scenario is SingleActionScenario && !((SingleActionScenario)scenario).ActionHolder.Action.IsSupportsEvent)
+            if (GetScenario() is SingleActionScenario && !((SingleActionScenario)GetScenario()).ActionHolder.Action.IsSupportsEvent)
                 executeBySubscription = false;
 
             var contexCancellationTokenSource = new CancellationTokenSource();
@@ -116,21 +114,21 @@ namespace Lazurite.Scenarios.TriggerTypes
                     {
                         var action = TargetAction;
                         var outputChanged = new OutputChangedDelegates();
-                        outputChanged.Add((value) => scenario.SetCurrentValueInternal(value));
+                        outputChanged.Add((value) => GetScenario().SetCurrentValueInternal(value));
                         contexCancellationTokenSource.Cancel();
                         contexCancellationTokenSource = new CancellationTokenSource();
                         var executionContext = new ExecutionContext(this, s.GetCurrentValue(), outputChanged, contexCancellationTokenSource.Token);
                         Task.Factory.StartNew(() => action.SetValue(executionContext, string.Empty));
                     }
                 };
-                scenario.SetOnStateChanged(_lastSubscribe);
+                GetScenario().SetOnStateChanged(_lastSubscribe);
             }
             else
             {
                 var lastVal = string.Empty;
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    var curVal = scenario.CalculateCurrentValue();
+                    var curVal = GetScenario().CalculateCurrentValue();
                     if (!lastVal.Equals(curVal))
                     {
                         lastVal = curVal;

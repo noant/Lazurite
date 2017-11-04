@@ -52,7 +52,7 @@ namespace Lazurite.MainDomain
             foreach (var trigger in Triggers)
                 trigger.Stop();
             foreach (var scenario in Scenarios)
-                scenario.TryCancelAll();
+                scenario.Dispose();
         }
 
         public event Action<ScenarioBase> OnScenarioRemoved;

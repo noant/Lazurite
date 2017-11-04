@@ -19,10 +19,6 @@ namespace ZWavePlugin
     [LazuriteIcon(Icon.ManSensor)]
     public class ZWaveNodeValue : IAction
     {
-        //флаг нужен для того, чтобы после ручного выставления значения не вызывалось событие ValueChanged повторно
-        private bool _flagValueChangedFromLazuriteJustNow = false;
-        private string _lastVal = string.Empty;
-
         public byte NodeId { get; set; }
         public uint HomeId { get; set; }
         public ulong ValueId { get; set; }
@@ -51,7 +47,7 @@ namespace ZWavePlugin
         {
             get
             {
-                return ValueChanged != null;
+                return true;
             }
         }
 
@@ -68,9 +64,7 @@ namespace ZWavePlugin
         public string GetValue(ExecutionContext context)
         {
             if (_nodeValue != null)
-            {
                 return _nodeValue.Current.ToString();
-            }
             return string.Empty;
         }
 
@@ -87,9 +81,7 @@ namespace ZWavePlugin
         private void NodeValue_Changed(object arg1, NodeValueChangedEventArgs arg2)
         {
             var value = _nodeValue.Current.ToString();
-            if (!value.Equals(_lastVal) || !_flagValueChangedFromLazuriteJustNow)
-                this.ValueChanged?.Invoke(this, _nodeValue.Current.ToString());
-            _flagValueChangedFromLazuriteJustNow = false;
+            this.ValueChanged?.Invoke(this, _nodeValue.Current.ToString());
         }
 
         public void SetValue(ExecutionContext context, string value)
@@ -101,8 +93,6 @@ namespace ZWavePlugin
                 _nodeValue.ValueType == OpenZWrapper.ValueType.Int ||
                 _nodeValue.ValueType == OpenZWrapper.ValueType.Short)
                 _nodeValue.Current = TranslateNumric(value, _nodeValue.ValueType);
-            _lastVal = _nodeValue.Current.ToString();
-            _flagValueChangedFromLazuriteJustNow = true;
         }
 
         private object TranslateNumric(string value, OpenZWrapper.ValueType valueType)

@@ -18,7 +18,7 @@ namespace LazuriteMobile.App.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
-            if (!Singleton.Any<ISavior>())
+            if (!Singleton.Any<SaviorBase>())
                 Singleton.Add(new JsonFileSavior());
 
             if (!Singleton.Any<IServiceClientManager>())

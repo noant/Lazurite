@@ -35,6 +35,28 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
         }
 
+        /// <summary>
+        /// Execute in current thread
+        /// </summary>
+        /// <param name="param"></param>
+        /// <param name="cancelToken"></param>
+        public override void Execute(string param, CancellationToken cancelToken)
+        {
+            var output = new OutputChangedDelegates();
+            output.Add(val => SetCurrentValueInternal(val));
+            var context = new ExecutionContext(this, param, output, cancelToken);
+            try
+            {
+                if (!ActionHolder.Action.IsSupportsEvent)
+                    SetCurrentValueInternal(param);
+                ExecuteInternal(context);
+            }
+            catch (Exception e)
+            {
+                Log.ErrorFormat(e, "Error while executing scenario [{0}][{1}]", this.Name, this.Id);
+            }
+        }
+
         public override void ExecuteInternal(ExecutionContext context)
         {
             ActionHolder.Action.SetValue(context, context.Input);
@@ -91,8 +113,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                         .SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(((ICoreAction)ActionHolder).TargetScenarioId)));
                 }
                 ActionHolder.Action.Initialize();
-                _currentValue = ActionHolder.Action.GetValue(null);
-                this.ActionHolder.Action.ValueChanged += (action, value) => SetCurrentValueInternal(value);
+                _currentValue = ActionHolder.Action.GetValue(null);                
                 return true;
             }
             catch (Exception e)
@@ -104,7 +125,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void AfterInitilize()
         {
-            //first getting action value
+            if (ActionHolder.Action.IsSupportsEvent)
+               ActionHolder.Action.ValueChanged += (action, value) => SetCurrentValueInternal(value);
         }
 
         public override IAction[] GetAllActionsFlat()

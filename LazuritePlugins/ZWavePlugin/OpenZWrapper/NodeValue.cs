@@ -52,8 +52,7 @@ namespace OpenZWrapper
                 return _current;
             }
             set {
-                if (Helper.SetValueSucceed(Node.Manager, Source, ZWValueType, value))
-                    InternalSet(value);                
+                Helper.SetValueSucceed(Node.Manager, Source, ZWValueType, value);
             }
         }
 

@@ -104,7 +104,7 @@ namespace Lazurite.Scenarios
                     + linkedTriggers.Select(x => x.Name).Aggregate((z, y) => z + "; " + y));
             }
 
-            scenario.TryCancelAll();
+            scenario.Dispose();
             _scenariosIds.Remove(scenario.Id);
             _scenarios.RemoveAll(x => x.Id.Equals(scenario.Id));
             _savior.Set(ScenariosIdsKey, _scenariosIds);
@@ -116,7 +116,7 @@ namespace Lazurite.Scenarios
             _savior.Set(scenario.Id, scenario);
             var index = _scenarios.IndexOf(_scenarios.FirstOrDefault(x => x.Id.Equals(scenario.Id)));
             var prevScenario = _scenarios.FirstOrDefault(x => x.Id.Equals(scenario.Id));
-            prevScenario?.TryCancelAll();
+            prevScenario?.Dispose();
             _scenarios.RemoveAll(x => x.Id.Equals(scenario.Id));
             _scenarios.Insert(index, scenario);
 
@@ -128,6 +128,16 @@ namespace Lazurite.Scenarios
 
             foreach (ICoreAction action in allActionsWithScen)
                 action.SetTargetScenario(scenario);
+
+            foreach (TriggerBase trigger in _triggers.Where(x => x.TargetScenarioId.Equals(scenario.Id)))
+            {
+                trigger.SetScenario(scenario);
+                if (trigger.Enabled)
+                {
+                    trigger.Stop();
+                    trigger.Run();
+                }
+            }
         }
 
         public override void AddTrigger(TriggerBase trigger)

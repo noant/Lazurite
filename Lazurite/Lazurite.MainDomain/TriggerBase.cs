@@ -100,7 +100,7 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Begin execute
         /// </summary>
-        protected void Run()
+        public void Run()
         {
             Enabled = true;
             _tokenSource.Cancel();

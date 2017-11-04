@@ -50,7 +50,7 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
         {
             get
             {
-                return ValueChanged != null;
+                return false;
             }
         }
 

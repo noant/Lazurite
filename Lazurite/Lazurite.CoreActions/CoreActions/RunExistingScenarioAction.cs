@@ -9,10 +9,10 @@ using Lazurite.ActionsDomain.ValueTypes;
 
 namespace Lazurite.CoreActions.CoreActions
 {
-    [HumanFriendlyName("Запуск сценария")]
+    [HumanFriendlyName("Выполнить существующий сценарий")]
     [VisualInitialization]
     [OnlyExecute]
-    [SuitableValueTypes(typeof(ButtonValueType))]
+    [SuitableValueTypes(true)]
     public class RunExistingScenarioAction : ICoreAction, IAction
     {
         public string TargetScenarioId
@@ -30,7 +30,7 @@ namespace Lazurite.CoreActions.CoreActions
         {
             get
             {
-                return ValueChanged != null;
+                return false;
             }
         }
 
@@ -63,9 +63,15 @@ namespace Lazurite.CoreActions.CoreActions
 
         public ValueTypeBase ValueType
         {
-            get;
-            set;
-        } = new ButtonValueType();
+            get
+            {
+                return _scenario?.ValueType ?? new ButtonValueType();
+            }
+            set
+            {
+                //do nothing
+            }
+        }
 
         public RunExistingScenarioMode Mode
         {

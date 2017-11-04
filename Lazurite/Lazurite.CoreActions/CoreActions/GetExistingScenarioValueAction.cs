@@ -25,7 +25,7 @@ namespace Lazurite.CoreActions.CoreActions
         {
             get
             {
-                return ValueChanged != null;
+                return false;
             }
         }
 

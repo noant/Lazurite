@@ -120,7 +120,6 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         private void ApplyInternal()
         {
-            _originalSenario.TryCancelAll();
             _repository.SaveScenario(_clonedScenario);
             _clonedScenario.Initialize(_repository);
             _clonedScenario.AfterInitilize();

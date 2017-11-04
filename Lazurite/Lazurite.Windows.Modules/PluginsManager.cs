@@ -228,7 +228,8 @@ namespace Lazurite.Windows.Modules
                     typeof(GetInfoVTAction),
                     typeof(GetToggleVTAction),
                     typeof(GetInputValueAction),
-                    typeof(GetExistingScenarioValueAction)
+                    typeof(GetExistingScenarioValueAction),
+                    typeof(RunExistingScenarioAction),
                 }.Union(
                 _allTypes
                 .OrderBy(x=>x.Plugin.Name)

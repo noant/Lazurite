@@ -24,18 +24,22 @@ namespace Test
     /// </summary>
     public partial class MainWindow : Window
     {
+        ZWaveNodeValue B;
+
         public MainWindow()
         {
             InitializeComponent();
             Singleton.Add(new DataManagerStub());
             var b = new ZWaveNodeValue();
             b.UserInitializeWith(null, false);
-            b.SetValue(null, "8,2");
-            b.SetValue(null, "8.2");
-            while (true)
-            {
-                Thread.Sleep(1000);
-            }
+            b.ValueChanged += B_ValueChanged;
+            B = b;
+
+        }
+
+        private void B_ValueChanged(Lazurite.ActionsDomain.IAction action, string value)
+        {
+            MessageBox.Show(DateTime.Now.ToString());
         }
 
         private class DataManagerStub : PluginsDataManagerBase
@@ -62,6 +66,11 @@ namespace Test
                     _cache[key] = data;
                 else _cache.Add(key, data);
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            B.SetValue(null, "TRUE");
         }
     }
 }

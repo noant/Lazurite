@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Lazurite.MainDomain
 {
-    public abstract class ScenarioBase : IAlgorithmContext
+    public abstract class ScenarioBase : IAlgorithmContext, IDisposable
     {
         protected static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
@@ -203,6 +203,12 @@ namespace Lazurite.MainDomain
                     Log.InfoFormat(e, "Error while raise events in scenario [{1}][{0}]", this.Name, this.Id);
                 }
             }
-        }        
+        }
+        
+        public void Dispose()
+        {
+            _events.Clear();
+            TryCancelAll();
+        }
     }
 }
