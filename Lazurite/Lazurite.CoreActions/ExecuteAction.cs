@@ -107,23 +107,14 @@ namespace Lazurite.CoreActions
         public ActionHolder InputValue {
             get
             {
-                //crutch; RunExistingScenarioAction;
-                if (MasterActionHolder.Action is RunExistingScenarioAction)
-                    return ((RunExistingScenarioAction)MasterActionHolder.Action).InputValue;
-                else
-                    return _inputValue;
+                return _inputValue;
             }
             set
             {
                 if (_actionHolder == null)
                     throw new InvalidOperationException("Cannot set InputValue if Action is null");
-
-                //crutch; RunExistingScenarioAction;
-                if (MasterActionHolder.Action is RunExistingScenarioAction)
-                    ((RunExistingScenarioAction)MasterActionHolder.Action).InputValue =
-                        this.InputValue;
-                else
-                    _inputValue = value;
+                
+                _inputValue = value;
             }
         }
         

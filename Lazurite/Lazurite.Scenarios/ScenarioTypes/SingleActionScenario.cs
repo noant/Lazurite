@@ -110,7 +110,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 if (this.ActionHolder.Action is ICoreAction && repository != null)
                 {
                     ((ICoreAction)ActionHolder.Action)
-                        .SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(((ICoreAction)ActionHolder).TargetScenarioId)));
+                        .SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(((ICoreAction)ActionHolder.Action).TargetScenarioId)));
                 }
                 ActionHolder.Action.Initialize();
                 _currentValue = ActionHolder.Action.GetValue(null);                

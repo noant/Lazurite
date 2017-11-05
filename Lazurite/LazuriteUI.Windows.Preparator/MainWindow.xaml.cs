@@ -44,22 +44,25 @@ namespace LazuriteUI.Windows.Preparator
             var message = string.Empty;
             var error = false;
 
-            //certificate installing
-            try
+            if (!fileSavior.Has(LazuriteServer.SettingsKey))
             {
-                var settingsStub = new ServerSettings();
-                settingsStub.CertificateHash = Lazurite.Windows.Server.Utils.AddCertificate(Path.Combine(assemblyFolder, CertificateFilename), "28021992");
-                fileSavior.Set(LazuriteServer.SettingsKey, settingsStub);
-                Lazurite.Windows.Server.Utils.NetshAddSslCert(settingsStub.CertificateHash, settingsStub.Port);
-                Lazurite.Windows.Server.Utils.NetshAddUrlacl(settingsStub.GetAddress());
-                message += "*Стандартный сертификат для HTTPS установлен.\r\n";
-            }
-            catch (Exception e)
-            {
-                var msg = "*!Ошибка при установке стандартного сертификата для HTTPS. Сервер не будет запущен.\r\n";
-                message += msg;
-                log.ErrorFormat(e, msg);
-                error = true;
+                //certificate installing
+                try
+                {
+                    var settingsStub = new ServerSettings();
+                    settingsStub.CertificateHash = Lazurite.Windows.Server.Utils.AddCertificate(Path.Combine(assemblyFolder, CertificateFilename), "28021992");
+                    fileSavior.Set(LazuriteServer.SettingsKey, settingsStub);
+                    Lazurite.Windows.Server.Utils.NetshAddSslCert(settingsStub.CertificateHash, settingsStub.Port);
+                    Lazurite.Windows.Server.Utils.NetshAddUrlacl(settingsStub.GetAddress());
+                    message += "*Стандартный сертификат для HTTPS установлен.\r\n";
+                }
+                catch (Exception e)
+                {
+                    var msg = "*!Ошибка при установке стандартного сертификата для HTTPS. Сервер не будет запущен.\r\n";
+                    message += msg;
+                    log.ErrorFormat(e, msg);
+                    error = true;
+                }
             }
 
             //plugins installing

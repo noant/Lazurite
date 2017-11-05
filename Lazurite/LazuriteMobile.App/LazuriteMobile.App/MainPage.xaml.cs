@@ -31,7 +31,7 @@ namespace LazuriteMobile.App
             _manager.SecretCodeInvalid += _manager_SecretCodeInvalid;
             settingsView.ConnectClicked += SettingsView_ConnectClicked;
         }
-
+                
         private void _manager_SecretCodeInvalid()
         {
             _currentContext.Post((t) => {

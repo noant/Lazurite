@@ -198,8 +198,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     try
                     {
                         var newScenInfo = _server.GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
-                        if (!newScenInfo.CurrentValue.Equals(_currentValue))
-                            SetCurrentValueInternal(newScenInfo.CurrentValue);
+                        if (!(newScenInfo.CurrentValue ?? string.Empty).Equals(_currentValue))
+                            SetCurrentValueInternal(newScenInfo.CurrentValue ?? string.Empty);
                         this.ValueType = newScenInfo.ValueType;
                         exceptionThrown = false;
                     }

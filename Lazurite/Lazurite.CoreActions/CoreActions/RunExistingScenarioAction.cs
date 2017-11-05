@@ -39,8 +39,6 @@ namespace Lazurite.CoreActions.CoreActions
             return _scenario;
         }
 
-        public ActionHolder InputValue { get; set; } = new ActionHolder();
-        
         public string Caption
         {
             get
@@ -97,11 +95,11 @@ namespace Lazurite.CoreActions.CoreActions
         public void SetValue(ExecutionContext context, string value)
         {
             if (Mode == RunExistingScenarioMode.Asynchronously)
-                _scenario?.ExecuteAsyncParallel(InputValue.Action.GetValue(context), context.CancellationToken);
+                _scenario?.ExecuteAsyncParallel(value, context.CancellationToken);
             else if (Mode == RunExistingScenarioMode.Synchronously)
-                _scenario?.Execute(InputValue.Action.GetValue(context), context.CancellationToken);
+                _scenario?.Execute(value, context.CancellationToken);
             else if (Mode == RunExistingScenarioMode.MainExecutionContext)
-                _scenario?.ExecuteAsync(InputValue.Action.GetValue(context));
+                _scenario?.ExecuteAsync(value);
         }
 
         public event ValueChangedDelegate ValueChanged;
