@@ -104,32 +104,17 @@ namespace LazuriteMobile.App
                 var controls = grid.Children.ToArray();
                 var controlsVisualSettings = controls.Select(x => ((SwitchScenarioModel)x.BindingContext).VisualSettings).ToArray();
 
-                for (int i = 0; i < controlsVisualSettings.Length; i++) //completely optimize
+                var curX = 0;
+                var curY = 0;
+                foreach (var visualSetting in controlsVisualSettings.OrderBy(x => x.PositionX).OrderBy(x => x.PositionY))
                 {
-                    foreach (var visualSetting in controlsVisualSettings.OrderBy(x => x.PositionY).OrderBy(x => x.PositionX))
+                    visualSetting.PositionX = curX;
+                    visualSetting.PositionY = curY;
+                    curX++;
+                    if (curX == 3)
                     {
-                        var x = visualSetting.PositionX;
-                        var y = visualSetting.PositionY;
-
-                        var prevX = x;
-                        var prevY = y;
-
-                        do
-                        {
-                            prevX = x;
-                            prevY = y;
-                            if (x == 0 && y != 0)
-                            {
-                                y--;
-                                x = maxX - 1;
-                            }
-                            else if (x != 0)
-                                x--;
-                        }
-                        while (!IsPointOccupied(controls, x, y) && !(prevX == 0 && prevY == 0));
-
-                        visualSetting.PositionX = prevX;
-                        visualSetting.PositionY = prevY;
+                        curX = 0;
+                        curY++;
                     }
                 }
 

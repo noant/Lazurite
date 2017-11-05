@@ -14,8 +14,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
                 return _acceptedValues;
             }
             set {
-                if (CanBeModified)
-                    _acceptedValues = value;
+                _acceptedValues = value;
             }
         }
         

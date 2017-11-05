@@ -336,34 +336,18 @@ namespace LazuriteUI.Windows.Main
                 //optimize
                 var controls = grid.Children.Cast<UserControl>().ToArray();
                 var controlsModels = controls.Select(x => ((ScenarioModel)x.DataContext)).ToArray();
-                var maxY = controlsModels.Select(x => x.VisualSettings).Max(x => x.PositionY);
-
-                for (int i = 0; i <= maxY; i++)
+                
+                var curX = 0;
+                var curY = 0;
+                foreach (var visualSetting in controlsModels.OrderBy(x => x.PositionX).OrderBy(x => x.PositionY))
                 {
-                    foreach (var visualSetting in controlsModels.OrderBy(x => x.PositionY).OrderBy(x => x.PositionX))
+                    visualSetting.PositionX = curX;
+                    visualSetting.PositionY = curY;
+                    curX++;
+                    if (curX == 3)
                     {
-                        var x = visualSetting.PositionX;
-                        var y = visualSetting.PositionY;
-
-                        var prevX = x;
-                        var prevY = y;
-
-                        do
-                        {
-                            prevX = x;
-                            prevY = y;
-                            if (x == 0 && y != 0)
-                            {
-                                y--;
-                                x = maxX - 1;
-                            }
-                            else if (x != 0)
-                                x--;
-                        }
-                        while (!IsPointOccupied(controls, x, y) && !(prevX == 0 && prevY == 0));
-
-                        visualSetting.PositionX = prevX;
-                        visualSetting.PositionY = prevY;
+                        curX = 0;
+                        curY++;
                     }
                 }
 
