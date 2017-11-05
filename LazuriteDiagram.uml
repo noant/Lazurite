@@ -10292,13 +10292,6 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Generalizations[0]">CqyabW7KwkWtHoc+FrgDywAA</XPD:REF>
 <XPD:REF name="Generalizations[1]">J2Qf0C80wEeMzFbxXsxFvQAA</XPD:REF>
 <XPD:REF name="Generalizations[2]">ycT4gudsV06XwCBPR5qwGgAA</XPD:REF>
-<XPD:ATTR name="#Attributes" type="integer">1</XPD:ATTR>
-<XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="GyRomjA6R0yFCQ8jLDDbEgAA">
-<XPD:ATTR name="Name" type="string">InputValue</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">ActionHolder</XPD:ATTR>
-<XPD:REF name="Type_">xAfmEIS6+0KnGk1mxNFWZwAA</XPD:REF>
-<XPD:REF name="Owner">vn/cOzBt90uI4oTJSNC8agAA</XPD:REF>
-</XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[2]" type="UMLClass" guid="UPT5tobS90+QGV/9J1z8HAAA">
 <XPD:ATTR name="Name" type="string">IMultipleAction</XPD:ATTR>
@@ -10960,7 +10953,7 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Views[1]">Yx5XdIqoDUeEad908e2vBQAA</XPD:REF>
 <XPD:REF name="Views[2]">baeKdCWUi06j7U2e9+rYngAA</XPD:REF>
 <XPD:REF name="Views[3]">tGu+ZSO82E24MejETSgLmAAA</XPD:REF>
-<XPD:ATTR name="#TypedFeatures" type="integer">8</XPD:ATTR>
+<XPD:ATTR name="#TypedFeatures" type="integer">7</XPD:ATTR>
 <XPD:REF name="TypedFeatures[0]">hQl+j0yFQEyUARqBnDlz1wAA</XPD:REF>
 <XPD:REF name="TypedFeatures[1]">fpSYSgQXVUe1Nh/PWHd7YAAA</XPD:REF>
 <XPD:REF name="TypedFeatures[2]">wDw4FKcSu0WfIE4IpwqhGwAA</XPD:REF>
@@ -10968,7 +10961,6 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="TypedFeatures[4]">6xw+Q0YJHkGYrOYpU2H/mgAA</XPD:REF>
 <XPD:REF name="TypedFeatures[5]">Df0ESz3QYkGTKodHwZUfSAAA</XPD:REF>
 <XPD:REF name="TypedFeatures[6]">35oToRB48Ey8cHCf3IasgwAA</XPD:REF>
-<XPD:REF name="TypedFeatures[7]">GyRomjA6R0yFCQ8jLDDbEgAA</XPD:REF>
 <XPD:ATTR name="#Attributes" type="integer">1</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="YasQSjcmEUS6WtyXVKGQZgAA">
 <XPD:ATTR name="Name" type="string">Action</XPD:ATTR>
