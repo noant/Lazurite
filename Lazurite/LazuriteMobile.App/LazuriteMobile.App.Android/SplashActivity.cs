@@ -14,7 +14,7 @@ using Android.Support.V7.App;
 
 namespace LazuriteMobile.App.Droid
 {
-    [Activity(Label = "Lazurite", Icon = "@drawable/icon", Theme = "@style/splashscreen", MainLauncher = true, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Lazurite", Icon = "@drawable/icon", Theme = "@style/splashscreen", MainLauncher = true, NoHistory = true, ScreenOrientation = ScreenOrientation.Portrait, LaunchMode = LaunchMode.SingleInstance)]
     public class SplashActivity : AppCompatActivity
     {
         protected override void OnResume()
