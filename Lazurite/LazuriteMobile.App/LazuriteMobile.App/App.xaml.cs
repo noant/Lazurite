@@ -26,7 +26,7 @@ namespace LazuriteMobile.App
         
         protected override void OnStart()
         {
-            // Handle when your app starts
+            _manager.Initialize();
         }
 
         protected override void OnSleep()
