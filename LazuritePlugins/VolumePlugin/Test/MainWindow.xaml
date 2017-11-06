@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Slider x:Name="slider" Maximum="100" HorizontalAlignment="Left" Margin="72,10,0,0" VerticalAlignment="Top" Height="21" Width="385"/>
+        <TextBox x:Name="tb" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100"></TextBox>
+        <TextBox x:Name="tb1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="100"></TextBox>
     </Grid>
 </Window>

@@ -53,9 +53,17 @@ namespace Lazurite.MainDomain.MessageSecurity
             {
                 if (Singleton.Any<ILogger>())
                     Singleton.Resolve<ILogger>()
-                        .ErrorFormat(e, "Ошибка при расшифровке строки [{0}]", this.Data);
-                throw e;
+                        .WarnFormat(e, "Ошибка при расшифровке строки");
+                throw new DecryptException(e);
             }
+        }
+    }
+
+    public class DecryptException : Exception
+    {
+        public DecryptException(Exception inner) : base("Ошибка при расшифровке строки", inner)
+        {
+            //do nothing
         }
     }
 }

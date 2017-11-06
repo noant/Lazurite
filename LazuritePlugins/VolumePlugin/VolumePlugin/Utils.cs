@@ -1,4 +1,5 @@
-﻿using AudioSwitcher.AudioApi.CoreAudio;
+﻿using AudioSwitcher.AudioApi;
+using AudioSwitcher.AudioApi.CoreAudio;
 using Lazurite.ActionsDomain.Attributes;
 using LazuriteUI.Icons;
 using System;
@@ -11,33 +12,78 @@ namespace VolumePlugin
 {
     public static class Utils
     {
+        private static CoreAudioController CoreAudioController = new CoreAudioController();
+        private static CoreAudioDevice CoreAudioDevice;
+
+        static Utils()
+        {
+            CoreAudioDevice = CoreAudioController.DefaultPlaybackDevice;
+            CoreAudioController.AudioDeviceChanged.Subscribe(new Observer<DeviceChangedArgs>((args) =>
+            {
+                switch (args.ChangedType)
+                {
+                    case DeviceChangedType.DefaultChanged:
+                    case DeviceChangedType.DeviceAdded:
+                    case DeviceChangedType.DeviceRemoved:
+                        {
+                            CoreAudioDevice = CoreAudioController.DefaultPlaybackDevice;
+                            break;
+                        }
+                }
+            }));
+        }
+
         public static double GetVolumeLevel()
         {
-            var defaultPlaybackDevice = new CoreAudioController().DefaultPlaybackDevice;
-            return (defaultPlaybackDevice?.Volume ?? 0);
+            if (CoreAudioDevice != null)
+                return (CoreAudioDevice?.Volume ?? 0);
+            else return 0;
         }
 
         public static void SetVolumeLevel(double value)
         {
-            var defaultPlaybackDevice = new CoreAudioController().DefaultPlaybackDevice;
-            if (defaultPlaybackDevice != null)
-                defaultPlaybackDevice.Volume = ((double)value);
+            if (CoreAudioDevice != null)
+                CoreAudioDevice.Volume = value;
         }
 
         public static void SetOutputAudioDevice(int index)
         {
-            var coreAudioController = new CoreAudioController();
-            var devices = coreAudioController.GetPlaybackDevices();
+            var devices = CoreAudioController.GetPlaybackDevices();
             if (devices.Count() <= index)
                 index = devices.Count() - 1;
-            devices.ElementAt(index).SetAsDefault();
+            var device = devices.ElementAt(index);
+            CoreAudioController.DefaultPlaybackDevice = device;
         }
 
         public static int GetDefaultOutputDeviceIndex()
         {
-            var coreAudioController = new CoreAudioController();
-            var devices = coreAudioController.GetPlaybackDevices().ToList();
-            return devices.IndexOf(coreAudioController.DefaultPlaybackDevice);
+            var devices = CoreAudioController.GetPlaybackDevices().ToList();
+            return devices.IndexOf(CoreAudioDevice);
+        }
+
+        private class Observer<T> : IObserver<T>
+        {
+            public Observer(Action<T> callback)
+            {
+                Callback = callback;
+            }
+
+            public Action<T> Callback { get; private set; }
+
+            public void OnCompleted()
+            {
+                //do nothing
+            }
+
+            public void OnError(Exception error)
+            {
+                //do nothing
+            }
+
+            public void OnNext(T value)
+            {
+                Callback?.Invoke(value);
+            }
         }
     }
 }

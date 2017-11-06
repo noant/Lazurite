@@ -82,17 +82,6 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override string CalculateCurrentValue()
         {
-            try
-            {
-                TryInitialize();
-                return _currentValue = _server.CalculateScenarioValue(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
-            }
-            catch (Exception e)
-            {
-                Log.WarnFormat(e,
-                    "Error while calculating remote scenario current value [{0}][{1}][{2} serviceName:{3}]",
-                    this.Name, this.Id, this.AddressHost, this.ServiceName);
-            }
             return _currentValue;
         }
 
@@ -105,9 +94,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             try
             {
-                TryInitialize();
-                SetCurrentValueInternal(param);
                 _server.ExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
+                SetCurrentValueInternal(param);
             }
             catch (Exception e)
             {
@@ -121,7 +109,6 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             try
             {
-                TryInitialize();
                 _server.AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
             }
             catch (Exception e)
@@ -136,7 +123,6 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             try
             {
-                TryInitialize();
                 _server.AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
             }
             catch (Exception e)
@@ -184,6 +170,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             catch
             {
                 Log.Warn("Error while initializing remote scenario [" + Name + "]");
+                SetDefaultValue();
                 return Initialized = false;
             }
         }
@@ -208,11 +195,16 @@ namespace Lazurite.Scenarios.ScenarioTypes
                         Log.WarnFormat(e,
                             "Error while listen remote scenario changes [{0}][{1}][{2} serviceName:{3}]",
                             this.Name, this.Id, this.AddressHost, this.ServiceName);
+                        SetDefaultValue();
                     }
                     //if connection was failed
                     if (exceptionThrown)
+                    {
                         Task.Delay(200000).Wait();
-                    Task.Delay(4000).Wait();
+                        ReInitialize();
+                    }
+                    else
+                        Task.Delay(6500).Wait();
                 }
             },
             _cancellationTokenSource.Token,
@@ -220,13 +212,24 @@ namespace Lazurite.Scenarios.ScenarioTypes
             task.Start();
         }
 
-        public void TryInitialize()
+        private void SetDefaultValue()
         {
-            if (!Initialized && Initialize(null))
+            if (ValueType == null)
             {
-                _cancellationTokenSource?.Cancel();
-                AfterInitilize();
+                ValueType = new ButtonValueType();
+                SetCurrentValueInternal(string.Empty);
             }
+            else
+            {
+                if (this.ValueType.AcceptedValues.Any())
+                    SetCurrentValueInternal(this.ValueType.AcceptedValues[0]);
+                else SetCurrentValueInternal(string.Empty);
+            }
+        }
+
+        public void ReInitialize()
+        {
+            Initialize(null);
         }
 
         public bool Initialized { get; private set; }
