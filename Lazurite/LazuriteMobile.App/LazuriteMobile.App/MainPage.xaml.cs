@@ -30,7 +30,11 @@ namespace LazuriteMobile.App
             _manager.LoginOrPasswordInvalid += _manager_LoginOrPasswordInvalid;
             _manager.CredentialsLoaded += _manager_CredentialsLoaded;
             _manager.SecretCodeInvalid += _manager_SecretCodeInvalid;
-            settingsView.ConnectClicked += SettingsView_ConnectClicked;            
+            settingsView.ConnectClicked += SettingsView_ConnectClicked;
+            if (_manager.Connected)
+            {
+                Refresh();
+            }
         }
         
         protected override bool OnBackButtonPressed()
@@ -113,12 +117,17 @@ namespace LazuriteMobile.App
         private void _manager_NeedRefresh()
         {
             _currentContext.Post((state) => {
-                settingsView.SetCredentials(_manager.GetClientSettings());
-                HideCaption();
-                swgrid.Refresh(_manager.Scenarios);
+                Refresh();
             }, null);
         }
         
+        private void Refresh()
+        {
+            settingsView.SetCredentials(_manager.GetClientSettings());
+            HideCaption();
+            swgrid.Refresh(_manager.Scenarios);
+        }
+
         public void HideCaption()
         {
             this.gridCaption.IsVisible = false;

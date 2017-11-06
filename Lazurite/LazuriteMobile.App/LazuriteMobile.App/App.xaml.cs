@@ -19,6 +19,8 @@ namespace LazuriteMobile.App
         {
             if (!Singleton.Any<IScenariosManager>())
                 Singleton.Add(_manager = new ScenariosManager());
+            else
+                _manager = Singleton.Resolve<IScenariosManager>();
 
             InitializeComponent();
             MainPage = new LazuriteMobile.App.MainPage();
@@ -26,7 +28,8 @@ namespace LazuriteMobile.App
         
         protected override void OnStart()
         {
-            _manager.Initialize();
+            if (!_manager.Connected)
+                _manager.Initialize();
         }
 
         protected override void OnSleep()
