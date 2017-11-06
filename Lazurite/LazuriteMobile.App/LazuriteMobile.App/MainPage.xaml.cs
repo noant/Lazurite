@@ -22,6 +22,7 @@ namespace LazuriteMobile.App
         public MainPage()
 		{
             this.InitializeComponent();
+            
             _manager.NeedRefresh += _manager_NeedRefresh;
             _manager.ConnectionLost += _manager_ConnectionLost;
             _manager.ConnectionRestored += _manager_ConnectionRestored;
@@ -29,9 +30,25 @@ namespace LazuriteMobile.App
             _manager.LoginOrPasswordInvalid += _manager_LoginOrPasswordInvalid;
             _manager.CredentialsLoaded += _manager_CredentialsLoaded;
             _manager.SecretCodeInvalid += _manager_SecretCodeInvalid;
-            settingsView.ConnectClicked += SettingsView_ConnectClicked;
+            settingsView.ConnectClicked += SettingsView_ConnectClicked;            
         }
-                
+        
+        protected override bool OnBackButtonPressed()
+        {
+            if (this.sliderMenu.MenuVisible)
+            {
+                this.sliderMenu.Hide();
+                return true;
+            }
+            else if (DialogView.AnyOpened)
+            {
+                DialogView.CloseLast();
+                return true;
+            }
+            else
+                return base.OnBackButtonPressed();
+        }
+        
         private void _manager_SecretCodeInvalid()
         {
             _currentContext.Post((t) => {

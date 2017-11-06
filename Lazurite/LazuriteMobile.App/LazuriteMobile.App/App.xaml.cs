@@ -13,17 +13,17 @@ namespace LazuriteMobile.App
 {
     public partial class App : Application
     {
+        private IScenariosManager _manager;
+
         public App()
         {
             if (!Singleton.Any<IScenariosManager>())
-                Singleton.Add(new ScenariosManager());
+                Singleton.Add(_manager = new ScenariosManager());
 
             InitializeComponent();
             MainPage = new LazuriteMobile.App.MainPage();
-
-            Singleton.Resolve<IScenariosManager>().Initialize();
         }
-
+        
         protected override void OnStart()
         {
             // Handle when your app starts
@@ -36,7 +36,8 @@ namespace LazuriteMobile.App
 
         protected override void OnResume()
         {
-            // Handle when your app resumes
+            if (!_manager.Connected)
+                _manager.Initialize();
         }
     }
 }

@@ -30,12 +30,14 @@ namespace LazuriteMobile.App.Controls
         public void Show(Grid parentElement)
         {
             parentElement.Children.Add(this);
+            AllOpened.Add(this);
         }
 
         public void Close()
         {
             Closed?.Invoke(this, new EventArgs());
             ((Grid)Parent).Children.Remove(this);
+            AllOpened.Remove(this);
         }
 
         private void CloseItemView_Click(object sender, EventArgs e)
@@ -44,5 +46,23 @@ namespace LazuriteMobile.App.Controls
         }
 
         public event Action<object, EventArgs> Closed;
+
+        ///static members
+        
+        private static List<DialogView> AllOpened = new List<DialogView>();
+
+        public static bool AnyOpened
+        {
+            get
+            {
+                return AllOpened.Any();
+            }
+        }
+
+        public static void CloseLast()
+        {
+            if (AnyOpened)
+                AllOpened.Last().Close();
+        }
     }
 }
