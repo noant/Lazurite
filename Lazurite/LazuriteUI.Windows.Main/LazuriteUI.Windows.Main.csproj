@@ -245,6 +245,9 @@
     <Compile Include="Journal\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Journal\SelectWarnTypeView.xaml.cs">
+      <DependentUpon>SelectWarnTypeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Journal\WarnTypeToBrush.cs" />
     <Compile Include="Journal\WarnTypeToString.cs" />
     <Compile Include="MenuItemView.xaml.cs">
@@ -578,6 +581,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Journal\SelectWarnTypeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LazuriteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -807,6 +814,10 @@
     <ProjectReference Include="..\Lazurite.CoreActions\Lazurite.CoreActions.csproj">
       <Project>{CB9EC852-4C16-4A34-98AB-EC569C35398C}</Project>
       <Name>Lazurite.CoreActions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Data\Lazurite.Data.csproj">
+      <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
+      <Name>Lazurite.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj">
       <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>

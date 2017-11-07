@@ -47,7 +47,7 @@ namespace LazuriteMobile.App
         }
 
         private readonly int _listenInterval = 7000;
-        private readonly int _fullRefreshInterval = 120;
+        private readonly int _fullRefreshInterval = 20;
         private readonly string _cachedScenariosKey = "scensCache";
         private readonly string _clientSettingsKey = "clientSettings";
         private CancellationTokenSource _listenersCancellationTokenSource;
@@ -59,7 +59,7 @@ namespace LazuriteMobile.App
         private DateTime _lastUpdateTime;
 
         public ScenarioInfo[] Scenarios { get; private set; }
-        public bool Connected { get; private set; }
+        public bool Connected { get; private set; } = false;
 
         public event Action<ScenarioInfo[]> ScenariosChanged;
         public event Action ConnectionLost;
@@ -84,7 +84,11 @@ namespace LazuriteMobile.App
             {
                 action();
                 success = true;
-                Connected = true;
+                if (!Connected)
+                {
+                    Connected = true;
+                    ConnectionRestored?.Invoke();
+                }
             }
             catch (Exception e)
             {
@@ -109,8 +113,6 @@ namespace LazuriteMobile.App
             }
             if (cancellationToken.IsCancellationRequested)
                 return false;
-            if (success && !Connected)
-                ConnectionRestored?.Invoke();
             return success;
         }
 
@@ -143,37 +145,28 @@ namespace LazuriteMobile.App
         {
             TryLoadClientSettings();
             if (_clientSettings != null)
-                Initialize(_clientSettings.Host, _clientSettings.Port, _clientSettings.ServiceName, _clientSettings.Login, _clientSettings.Password, _clientSettings.SecretKey);
+                InitializeInternal();
             else NeedClientSettings?.Invoke();
         }
 
-        private void Initialize(string host, ushort port, string serviceName, string login, string password, string secretKey)
+        private void InitializeInternal()
         {
+            TryLoadCachedScenarios();
             //cancel all operations
             if (_operationCancellationTokenSource != null)
                 _operationCancellationTokenSource.Cancel();
             _operationCancellationTokenSource = new CancellationTokenSource();
-
             StopListenChanges();
+            RecreateConnection();
+            Refresh();
+            StartListenChanges();
+        }
 
+        private void RecreateConnection()
+        {
             if (_serviceClient != null)
                 _serviceClient.Close();
-            
-            _serviceClient = _clientManager.Create(host, port, serviceName, secretKey, login, password);
-            Connected = true;
-            _serviceClient.BeginGetScenariosInfo((x) =>
-            {
-                var result = Handle(() => _serviceClient.EndGetScenariosInfo(x));
-                if (result.Success)
-                {
-                    _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
-                    Scenarios = result.Value.ToArray();
-                    CacheScenarios();
-                    NeedRefresh?.Invoke();
-                    StartListenChanges();
-                }
-            },
-            null);
+            _serviceClient = _clientManager.Create(_clientSettings.Host, _clientSettings.Port, _clientSettings.ServiceName, _clientSettings.SecretKey, _clientSettings.Login, _clientSettings.Password);
         }
         
         public void StartListenChanges()
@@ -192,29 +185,17 @@ namespace LazuriteMobile.App
                 if (fullRefreshIncrement == _fullRefreshInterval)
                 {
                     fullRefreshIncrement = 0;
-                    Refresh();
+                    Refresh(success => {
+                        if (!success)
+                            RecreateConnection();
+                    });
                 }
                 else
                 {
-                    _serviceClient.BeginGetChangedScenarios(_lastUpdateTime,
-                    (o) =>
-                    {
-                        var result = Handle(() => _serviceClient.EndGetChangedScenarios(o));
-                        if (result.Success && result.Value != null && result.Value.Any())
-                        {
-                            var changedScenariosLW = result.Value;
-                            var changedScenarios = Scenarios.Where(x => changedScenariosLW.Any(z => z.ScenarioId == x.ScenarioId)).ToArray();
-                            foreach (var changedScenario in changedScenariosLW)
-                            {
-                                var existingScenario = changedScenarios.FirstOrDefault(x => x.ScenarioId.Equals(changedScenario.ScenarioId));
-                                if (existingScenario != null)
-                                    existingScenario.CurrentValue = changedScenario.CurrentValue;
-                            }
-                            _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
-                            ScenariosChanged?.Invoke(changedScenarios);
-                        }
-                    },
-                    null);
+                    Update(success => {
+                        if (!success)
+                            RecreateConnection();
+                    });
                     fullRefreshIncrement++;
                 }
                 return true;
@@ -224,6 +205,8 @@ namespace LazuriteMobile.App
         public void StopListenChanges()
         {
             _listenersCancellationTokenSource?.Cancel();
+            _serviceClient?.Close();
+            Connected = false;
         }
 
         public void ExecuteScenario(string id, string value)
@@ -231,11 +214,11 @@ namespace LazuriteMobile.App
             _serviceClient.BeginAsyncExecuteScenario(new Encrypted<string>(id, _clientSettings.SecretKey), new Encrypted<string>(value, _clientSettings.SecretKey), 
                 (result) => {
                     HandleExceptions(() => _serviceClient.EndAsyncExecuteScenario(result));
-                }, 
+                },
             null);
         }
 
-        public void Refresh()
+        public void Refresh(Action<bool> callback)
         {
             _serviceClient.BeginGetScenariosInfo((x) => {
                 var result = Handle(() => _serviceClient.EndGetScenariosInfo(x));
@@ -246,6 +229,38 @@ namespace LazuriteMobile.App
                     CacheScenarios();
                     NeedRefresh?.Invoke();
                 }
+                callback?.Invoke(result.Success);
+            }, null);
+        }
+
+        public void Refresh()
+        {
+            Refresh(success => {
+                if (!success)
+                    RecreateConnection();
+            });
+        }
+
+        public void Update(Action<bool> callback)
+        {
+            _serviceClient.BeginGetChangedScenarios(_lastUpdateTime,
+            (o) =>
+            {
+                var result = Handle(() => _serviceClient.EndGetChangedScenarios(o));
+                if (result.Success && result.Value != null && result.Value.Any())
+                {
+                    var changedScenariosLW = result.Value;
+                    var changedScenarios = Scenarios.Where(x => changedScenariosLW.Any(z => z.ScenarioId == x.ScenarioId)).ToArray();
+                    foreach (var changedScenario in changedScenariosLW)
+                    {
+                        var existingScenario = changedScenarios.FirstOrDefault(x => x.ScenarioId.Equals(changedScenario.ScenarioId));
+                        if (existingScenario != null)
+                            existingScenario.CurrentValue = changedScenario.CurrentValue;
+                    }
+                    _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
+                    ScenariosChanged?.Invoke(changedScenarios);
+                }
+                callback?.Invoke(result.Success);
             }, null);
         }
 
@@ -300,7 +315,7 @@ namespace LazuriteMobile.App
         {
             _clientSettings = settings;
             SaveClientSettings();
-            Initialize(_clientSettings.Host, _clientSettings.Port, _clientSettings.ServiceName, _clientSettings.Login, _clientSettings.Password, _clientSettings.SecretKey);
+            InitializeInternal();
         }
     }
 }

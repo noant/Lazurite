@@ -6,17 +6,17 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main"
              mc:Ignorable="d" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             Background="{x:Static controls:Visual.Background}"
+             Background="Black"
              Width="400"
-             Height="200">
+             Height="159">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:ItemView x:Name="btShutdown" Margin="10,10,10,0" Height="50" Icon="Power">Отключить</controls:ItemView>
-        <controls:ItemView x:Name="btRestart" Margin="10,10,10,0" Grid.Row="1" Height="50" Icon="Repeat">Перезапустить</controls:ItemView>
-        <controls:ItemView x:Name="cbStartOnLogon" Selectable="True" Grid.Row="2" Margin="10" Height="50" Icon="Companioncube" Background="#111111">Запускать Lazurite при входе пользователя</controls:ItemView>
+        <controls:ItemView x:Name="btShutdown" Margin="3,3,3,0" Height="50" Icon="Power">Отключить</controls:ItemView>
+        <controls:ItemView x:Name="btRestart" Margin="3,3,3,0" Grid.Row="1" Height="50" Icon="Repeat">Перезапустить</controls:ItemView>
+        <controls:ItemView x:Name="cbStartOnLogon" Selectable="True" Grid.Row="2" Margin="3" Height="50" Icon="Companioncube" Background="#111111">Запускать Lazurite при входе пользователя</controls:ItemView>
     </Grid>
 </UserControl>

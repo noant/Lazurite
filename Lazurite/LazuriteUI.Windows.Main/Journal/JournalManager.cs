@@ -1,4 +1,6 @@
-﻿using Lazurite.Windows.Logging;
+﻿using Lazurite.Data;
+using Lazurite.IOC;
+using Lazurite.Windows.Logging;
 using LazuriteUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
@@ -12,12 +14,35 @@ namespace LazuriteUI.Windows.Main.Journal
 {
     public static class JournalManager
     {
+        private static SaviorBase Savior = Singleton.Resolve<SaviorBase>();
+
+        private static WarnType? _maxShowingWarnType = null;
+        public static WarnType MaxShowingWarnType
+        {
+            get
+            {
+                if (_maxShowingWarnType == null)
+                {
+                    if (Savior.Has(typeof(WarnType).Name))
+                        _maxShowingWarnType = Savior.Get<WarnType>(typeof(WarnType).Name);
+                    else
+                        MaxShowingWarnType = WarnType.Error;
+                }
+                return _maxShowingWarnType.Value;
+            }
+            set
+            {
+                _maxShowingWarnType = value;
+                Savior.Set(typeof(WarnType).Name, _maxShowingWarnType);
+            }
+        }
+
         private static readonly object _locker = new object();
 
         public static void Set(string message, WarnType type, Exception e = null)
         {
             JournalView.Set(message, type);
-            if (type != WarnType.Debug)
+            if (type <= MaxShowingWarnType)
                 JournalLightWindow.Show(message, type);
             if (type == WarnType.Error || type == WarnType.Fatal)
             {

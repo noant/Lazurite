@@ -32,7 +32,19 @@ namespace LazuriteUI.Windows.Main.Journal
         public JournalView()
         {
             InitializeComponent();
+            RefreshWarnTypeButton();
+            this.btWarnTypeSelect.Click += (o, e) => {
+                SelectWarnTypeView.Show((warnType) => {
+                    JournalManager.MaxShowingWarnType = warnType;
+                    RefreshWarnTypeButton();
+                });
+            };
             _current = this;
+        }
+
+        private void RefreshWarnTypeButton()
+        {
+            this.btWarnTypeSelect.Content = Enum.GetName(typeof(WarnType), JournalManager.MaxShowingWarnType);
         }
 
         private void ItemView_Click(object sender, RoutedEventArgs e)

@@ -6,15 +6,19 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Journal"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="800">
     <Grid Background="{x:Static controls:Visual.Background}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:WheelScroll Margin="5,0,5,5" x:Name="scrollView" Grid.Row="1">
+        <controls:WheelScroll Margin="5,5,5,5" x:Name="scrollView" Grid.Row="1">
             <StackPanel x:Name="stackPanel"></StackPanel>
         </controls:WheelScroll>
-        <controls:ItemView Selectable="False" Content="История журнала" Margin="5" HorizontalAlignment="Left" Width="200" Icon="TimerRewind" Click="ItemView_Click"></controls:ItemView>
+        <StackPanel Orientation="Horizontal" Background="{x:Static controls:Visual.BackgroundLazurite}">
+            <controls:ItemView Selectable="False" Content="История журнала" Margin="5" HorizontalAlignment="Left" Width="200" Icon="TimerRewind" Click="ItemView_Click"></controls:ItemView>
+            <TextBlock Margin="20,10,10,10" VerticalAlignment="Center" Style="{DynamicResource TextBlockCaption}">Максимальный отображаемый пользователю тип сообщений:</TextBlock>
+            <controls:ItemView x:Name="btWarnTypeSelect" Width="140" Icon="WindowRestore"></controls:ItemView>
+        </StackPanel>
     </Grid>
 </UserControl>

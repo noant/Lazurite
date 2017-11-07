@@ -32,6 +32,9 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Java.Interop">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Java.Interop.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.7.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.7\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -53,6 +56,14 @@
     <Compile Include="WarnType.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lazurite.Data\Lazurite.Data.csproj">
+      <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
+      <Name>Lazurite.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj">
+      <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
+      <Name>Lazurite.IOC</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Logging\Lazurite.Logging.csproj">
       <Project>{0a02de31-b9e4-4ab7-8002-7f477a0f52de}</Project>
       <Name>Lazurite.Logging</Name>

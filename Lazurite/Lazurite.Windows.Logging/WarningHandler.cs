@@ -1,4 +1,6 @@
-﻿using log4net;
+﻿using Lazurite.Data;
+using Lazurite.IOC;
+using log4net;
 using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;

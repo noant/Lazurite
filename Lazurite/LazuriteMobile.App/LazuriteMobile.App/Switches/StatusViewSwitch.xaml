@@ -8,7 +8,7 @@
     VerticalOptions="Center">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="28"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Label VerticalOptions="Fill" VerticalTextAlignment="Center" HorizontalOptions="Center" Grid.Row="0" Margin="5" x:Name="tbScenarioName" TextColor="#4682b4" FontSize="Small"></Label>

@@ -157,7 +157,6 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override bool Initialize(ScenariosRepositoryBase repository)
         {
-            _cancellationTokenSource = new CancellationTokenSource();
             _clientFactory = Singleton.Resolve<IClientFactory>();
             try
             {
@@ -177,6 +176,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void AfterInitilize()
         {
+            _cancellationTokenSource = new CancellationTokenSource();
             //changes listener
             var task = new Task(() => {
                 while (!_cancellationTokenSource.IsCancellationRequested)

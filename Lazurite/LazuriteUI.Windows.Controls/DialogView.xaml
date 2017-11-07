@@ -16,6 +16,6 @@
             <TextBlock Margin="0,0,0,10" DockPanel.Dock="Top" Width="Auto" MaxWidth="400" TextWrapping="Wrap" x:Name="tbCaption" Foreground="{x:Static local:Visual.CaptionForeground}" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
             <ContentPresenter Height="Auto" Width="Auto" DockPanel.Dock="Bottom" x:Name="contentControl"></ContentPresenter>
         </DockPanel>
-        <local:ItemView VerticalAlignment="Top" x:Name="closeitemView" Click="CloseItemView_Click" IconHorizontalAligment="Center" IconVerticalAligment="Center" HorizontalAlignment="Right" Opacity="0.5" Background="Crimson" Width="34" Icon="Close"></local:ItemView>
+        <local:ItemView VerticalAlignment="Top" x:Name="closeitemView" Click="CloseItemView_Click" IconHorizontalAligment="Center" IconVerticalAligment="Center" HorizontalAlignment="Right" Background="Crimson" Width="34" Icon="Close"></local:ItemView>
     </Grid>
 </UserControl>

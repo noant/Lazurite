@@ -36,6 +36,8 @@ namespace Lazurite.Windows.Core
         public LazuriteCore()
         {
             Singleton.Add(WarningHandler = new WarningHandler());
+            Singleton.Add(Savior = new FileSavior());
+            Singleton.Add(SystemUtils = new SystemUtils());
         }
 
         public CoreSettings GetSettings()
@@ -65,8 +67,6 @@ namespace Lazurite.Windows.Core
 
         public void Initialize()
         {
-            Singleton.Add(SystemUtils = new SystemUtils());
-            Singleton.Add(Savior = new FileSavior());
             Singleton.Add(ClientsFactory = new ServiceClientFactory());
             Singleton.Add(ScenariosRepository = new ScenariosRepository());
             Singleton.Add(new PluginsDataManager());

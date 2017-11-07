@@ -31,16 +31,13 @@ namespace LazuriteMobile.App
             if (!_manager.Connected)
                 _manager.Initialize();
         }
-
+        
         protected override void OnSleep()
         {
-            // Handle when your app sleeps
         }
 
         protected override void OnResume()
         {
-            if (!_manager.Connected)
-                _manager.Initialize();
         }
     }
 }

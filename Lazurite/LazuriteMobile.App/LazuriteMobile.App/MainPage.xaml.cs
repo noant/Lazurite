@@ -34,6 +34,7 @@ namespace LazuriteMobile.App
             if (_manager.Connected)
             {
                 Refresh();
+                HideCaption();
             }
         }
         
@@ -57,7 +58,8 @@ namespace LazuriteMobile.App
         {
             _currentContext.Post((t) => {
                 this.sliderMenu.Show();
-                ShowCaption("Ошибка при расшифровке данных...\r\nВозможно, секретный ключ сервера введен неверно", true, false);
+                this.swgrid.IsEnabled = false;
+                ShowCaption("Ошибка при расшифровке данных...\r\nВозможно, секретный ключ сервера введен неверно", true, true);
             }, null);
         }
 
@@ -65,7 +67,8 @@ namespace LazuriteMobile.App
         {
             _currentContext.Post((t) => {
                 this.sliderMenu.Show();
-                ShowCaption("Логин или пароль введен неверно", true, false);
+                this.swgrid.IsEnabled = false;
+                ShowCaption("Логин или пароль введен неверно", true, true);
             }, null);
         }
 
@@ -104,6 +107,7 @@ namespace LazuriteMobile.App
         {
             _currentContext.Post((state) => {
                 HideCaption();
+                swgrid.IsEnabled = true;
             }, null);
         }
 
@@ -111,6 +115,7 @@ namespace LazuriteMobile.App
         {
             _currentContext.Post((state) => {
                 ShowCaption("Соединение разорвано...", true);
+                swgrid.IsEnabled = false;
             }, null);
         }
 
@@ -124,7 +129,6 @@ namespace LazuriteMobile.App
         private void Refresh()
         {
             settingsView.SetCredentials(_manager.GetClientSettings());
-            HideCaption();
             swgrid.Refresh(_manager.Scenarios);
         }
 
