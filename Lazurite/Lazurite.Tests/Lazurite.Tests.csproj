@@ -81,6 +81,7 @@
     <Compile Include="ModulesManagerTest.cs" />
     <Compile Include="ReflectionHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecureEncodingTest.cs" />
     <Compile Include="ServerTest.cs" />
     <Compile Include="ServiceTest.cs" />
   </ItemGroup>

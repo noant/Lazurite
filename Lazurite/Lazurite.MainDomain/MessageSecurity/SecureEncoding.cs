@@ -1,10 +1,6 @@
 ﻿using PCLCrypto;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using static PCLCrypto.WinRTCrypto;
 
 namespace Lazurite.MainDomain.MessageSecurity
@@ -25,61 +21,57 @@ namespace Lazurite.MainDomain.MessageSecurity
 
         private void InitializeAlgorithmProvider()
         {
-            _algo = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmName.Aes, SymmetricAlgorithmMode.Cbc, SymmetricAlgorithmPadding.Zeros);
-            _key = _algo.CreateSymmetricKey(Encoding.UTF8.GetBytes(_secretKey));
+            lock (this)
+            {
+                _algo = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmName.Aes, SymmetricAlgorithmMode.Cbc, SymmetricAlgorithmPadding.Zeros);
+                _key = _algo.CreateSymmetricKey(Encoding.UTF8.GetBytes(_secretKey));
+            }
         }
 
         public string Encrypt(string data)
         {
-            try
-            {
-                return Convert.ToBase64String(CryptographicEngine.Encrypt(_key, Encoding.UTF8.GetBytes(data)));
-            }
-            catch (ObjectDisposedException)
-            {
-                InitializeAlgorithmProvider();
-                return Encrypt(data);
-            }
+            return Encrypt(Encoding.UTF8.GetBytes(data));
         }
 
         public string Encrypt(byte[] data)
         {
             try
             {
-                return Convert.ToBase64String(CryptographicEngine.Encrypt(_key, data));
+                return EncryptInternal(data);
             }
-            catch (ObjectDisposedException)
+            catch (Exception)
             {
                 InitializeAlgorithmProvider();
-                return Encrypt(data);
+                return EncryptInternal(data);
             }
+        }
+
+        private string EncryptInternal(byte[] data)
+        {
+            return Convert.ToBase64String(CryptographicEngine.Encrypt(_key, data));
         }
 
         public string Decrypt(string data)
         {
-            try
-            {
-                var bytes = CryptographicEngine.Decrypt(_key, Convert.FromBase64String(data));
-                return Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-            }
-            catch (ObjectDisposedException)
-            {
-                InitializeAlgorithmProvider();
-                return Decrypt(data);
-            }
+            var bytes = DecryptBytes(data);
+            return Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+        }
+
+        private byte[] DecryptBytesInternal(string data)
+        {
+            return CryptographicEngine.Decrypt(_key, Convert.FromBase64String(data));
         }
 
         public byte[] DecryptBytes(string data)
         {
             try
             {
-                var bytes = CryptographicEngine.Decrypt(_key, Convert.FromBase64String(data));
-                return bytes;
+                return DecryptBytesInternal(data);
             }
-            catch (ObjectDisposedException)
+            catch (Exception)
             {
                 InitializeAlgorithmProvider();
-                return DecryptBytes(data);
+                return DecryptBytesInternal(data);
             }
         }
     }
