@@ -7,11 +7,11 @@ using System.Windows;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("LazuriteUI.Windows.Main")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Lazurite")]
+[assembly: AssemblyDescription("Home automation software")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LazuriteUI.Windows.Main")]
+[assembly: AssemblyCompany("Novgorodcev Anton")]
+[assembly: AssemblyProduct("Lazurite")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

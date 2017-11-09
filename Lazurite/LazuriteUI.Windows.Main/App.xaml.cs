@@ -32,6 +32,9 @@ namespace LazuriteUI.Windows.Main
         
         public App()
         {
+            this.Exit += (o, e) => 
+                Core.WarningHandler.Info("Lazurite closing at " + DateTime.Now.ToString());            
+
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Core = new LazuriteCore();
             Core.WarningHandler.OnWrite += (o, e) =>

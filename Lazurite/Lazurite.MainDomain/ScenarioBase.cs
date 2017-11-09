@@ -144,9 +144,17 @@ namespace Lazurite.MainDomain
 
         public bool CanExecute(UserBase user, ScenarioStartupSource source)
         {
-            if (SecuritySettings == null)
-                return true;
-            return SecuritySettings.IsAvailableForUser(user, source);
+            try
+            {
+                if (SecuritySettings == null)
+                    throw new NullReferenceException("Security settings is null");
+                return SecuritySettings.IsAvailableForUser(user, source);
+            }
+            catch (Exception e)
+            {
+                Log.Error("Error while calculating user rights", e);
+                return false;
+            }
         }
 
         /// <summary>

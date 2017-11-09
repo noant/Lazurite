@@ -17,11 +17,7 @@ namespace LazuriteMobile.App
 
         public App()
         {
-            if (!Singleton.Any<IScenariosManager>())
-                Singleton.Add(_manager = new ScenariosManager());
-            else
-                _manager = Singleton.Resolve<IScenariosManager>();
-
+            _manager = Singleton.Resolve<IScenariosManager>();
             InitializeComponent();
             MainPage = new LazuriteMobile.App.MainPage();
         }

@@ -24,6 +24,9 @@ namespace LazuriteMobile.App.Droid
             if (!Singleton.Any<IServiceClientManager>())
                 Singleton.Add(new ServiceClientManager());
 
+            if (!Singleton.Any<IScenariosManager>())
+                Singleton.Add(new ScenariosManager());
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
