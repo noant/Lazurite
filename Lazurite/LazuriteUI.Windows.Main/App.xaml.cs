@@ -33,7 +33,12 @@ namespace LazuriteUI.Windows.Main
         public App()
         {
             this.Exit += (o, e) => 
-                Core.WarningHandler.Info("Lazurite closing at " + DateTime.Now.ToString());            
+                Core.WarningHandler.Info("Lazurite отключен");
+
+            this.DispatcherUnhandledException += (o, e) => {
+                Core.WarningHandler.FatalFormat(e.Exception, "Необработанная ошибка");
+                Application.Current.Shutdown(1);
+            };
 
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Core = new LazuriteCore();
