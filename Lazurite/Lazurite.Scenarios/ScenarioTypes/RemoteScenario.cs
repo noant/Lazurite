@@ -1,8 +1,6 @@
 ﻿using Lazurite.MainDomain;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.ValueTypes;
@@ -10,7 +8,6 @@ using Lazurite.IOC;
 using System.Threading;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.MainDomain.MessageSecurity;
-using Lazurite.Logging;
 using Lazurite.Security;
 
 namespace Lazurite.Scenarios.ScenarioTypes
@@ -90,47 +87,61 @@ namespace Lazurite.Scenarios.ScenarioTypes
             //
         }
 
-        public override void Execute(string param, CancellationToken cancelToken)
+        private bool HandleExceptions(Action action, Action onException = null, bool execution = true)
         {
+            var strErrPrefix = "Error while remote scenario connection";
+            if (execution)
+                strErrPrefix = "Error while remote scenario execution";
             try
             {
-                _server.ExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
-                SetCurrentValueInternal(param);
+                action?.Invoke();
+                return true;
             }
             catch (Exception e)
             {
-                Log.WarnFormat(e, 
-                    "Error while executing remote scenario [{0}][{1}][{2} serviceName:{3}]", 
-                    this.Name, this.Id, this.AddressHost, this.ServiceName);
+                if (e.ToString().Contains("EndpointNotFoundException"))//crutch
+                {
+                    Log.WarnFormat(strErrPrefix + ". Endpoint not found; [{0}][{1}][{2}:{3}/{4}]",
+                        this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName);
+                }
+                else if (
+                    e.Message.StartsWith("Scenario not found") ||
+                    e.Message.StartsWith("Decryption error") ||
+                    e.Message.StartsWith("Access denied"))
+                {
+                    Log.WarnFormat(strErrPrefix + ". " + e.Message+"; [{0}][{1}][{2}:{3}/{4}]",
+                        this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName, e.InnerException.Message);
+                }
+                else
+                {
+                    Log.WarnFormat(e, strErrPrefix + ". Unrecognized exception; [{0}][{1}][{2}:{3}/{4}]",
+                        this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName);
+                }
+                onException?.Invoke();
+                return false;
             }
+        }
+
+        public override void Execute(string param, CancellationToken cancelToken)
+        {
+            HandleExceptions(() => {
+                _server.ExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
+                SetCurrentValueInternal(param);
+            });
         }
 
         public override void ExecuteAsync(string param)
         {
-            try
-            {
+            HandleExceptions(() => {
                 _server.AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
-            }
-            catch (Exception e)
-            {
-                Log.WarnFormat(e,
-                    "Error while async executing remote scenario [{0}][{1}][{2} serviceName:{3}]",
-                    this.Name, this.Id, this.AddressHost, this.ServiceName);
-            }
+            });
         }
 
         public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
-            try
-            {
+            HandleExceptions(() => {
                 _server.AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
-            }
-            catch (Exception e)
-            {
-                Log.WarnFormat(e,
-                    "Error while async parallel executing remote scenario [{0}][{1}][{2} serviceName:{3}]",
-                    this.Name, this.Id, this.AddressHost, this.ServiceName);
-            }
+            });
         }
 
         public override void TryCancelAll()
@@ -158,20 +169,22 @@ namespace Lazurite.Scenarios.ScenarioTypes
         public override bool Initialize(ScenariosRepositoryBase repository)
         {
             _clientFactory = Singleton.Resolve<IClientFactory>();
-            try
+            var initialized = false;
+            HandleExceptions(
+            () =>
             {
                 _server = _clientFactory.GetServer(AddressHost, Port, ServiceName, SecretKey, UserLogin, Password);
                 _scenarioInfo = _server.GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
                 _valueType = _scenarioInfo.ValueType;
                 RemoteScenarioName = _scenarioInfo.Name;
-                return Initialized = true;
-            }
-            catch
-            {
-                Log.Warn("Error while initializing remote scenario [" + Name + "]");
+                initialized = true;
+            },
+            () => {
+                initialized = false;
                 SetDefaultValue();
-                return Initialized = false;
-            }
+            },
+            false);
+            return Initialized = initialized;
         }
 
         public override void AfterInitilize()
@@ -181,30 +194,22 @@ namespace Lazurite.Scenarios.ScenarioTypes
             var task = new Task(() => {
                 while (!_cancellationTokenSource.IsCancellationRequested)
                 {
-                    var exceptionThrown = true;
-                    try
+                    HandleExceptions(
+                    () =>
                     {
                         var newScenInfo = _server.GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
                         if (!(newScenInfo.CurrentValue ?? string.Empty).Equals(_currentValue))
                             SetCurrentValueInternal(newScenInfo.CurrentValue ?? string.Empty);
                         this.ValueType = newScenInfo.ValueType;
-                        exceptionThrown = false;
-                    }
-                    catch (Exception e)
+                        Task.Delay(6500).Wait();
+                    },
+                    ()=> 
                     {
-                        Log.WarnFormat(e,
-                            "Error while listen remote scenario changes [{0}][{1}][{2} serviceName:{3}]",
-                            this.Name, this.Id, this.AddressHost, this.ServiceName);
                         SetDefaultValue();
-                    }
-                    //if connection was failed
-                    if (exceptionThrown)
-                    {
                         Task.Delay(200000).Wait();
                         ReInitialize();
-                    }
-                    else
-                        Task.Delay(6500).Wait();
+                    }, 
+                    false);
                 }
             },
             _cancellationTokenSource.Token,

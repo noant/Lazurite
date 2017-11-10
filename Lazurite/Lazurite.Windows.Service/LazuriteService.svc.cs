@@ -86,17 +86,17 @@ namespace Lazurite.Windows.Service
             }
             catch (UnauthorizedAccessException e)
             {
-                _warningHandler.WarnFormat(e, "[{0}] execution error", memberName);
+                _warningHandler.WarnFormat("[{0}] execution error. Access denied;", memberName);
                 throw e;
             }
             catch (InvalidOperationException e)
             {
-                _warningHandler.WarnFormat(e, "[{0}] execution error", memberName);
+                _warningHandler.WarnFormat("[{0}] execution error. Invalid operation: {1};", memberName, e.Message);
                 throw e;
             }
             catch (DecryptException e)
             {
-                _warningHandler.WarnFormat(e, "[{0}] execution error", memberName);
+                _warningHandler.WarnFormat("[{0}] execution error. String decryption error;", memberName);
                 throw e;
             }
             catch (Exception e)

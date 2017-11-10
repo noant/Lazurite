@@ -61,7 +61,7 @@ namespace Lazurite.MainDomain.MessageSecurity
 
     public class DecryptException : Exception
     {
-        public DecryptException(Exception inner) : base("Ошибка при расшифровке строки", inner)
+        public DecryptException(Exception inner) : base("Decryption error", inner)
         {
             //do nothing
         }
