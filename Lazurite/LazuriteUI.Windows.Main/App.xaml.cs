@@ -21,32 +21,37 @@ using Lazurite.CoreActions;
 using Lazurite.Security;
 using Lazurite.Data;
 using System.IO;
+using System.Windows.Forms;
 
 namespace LazuriteUI.Windows.Main
 {
     /// <summary>
     /// Логика взаимодействия для App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : System.Windows.Application
     {
         public LazuriteCore Core { get; private set; }
         
         public App()
         {
-            AppDomain.CurrentDomain.ProcessExit += (o, e) =>
-            {
+            AppDomain.CurrentDomain.ProcessExit += (o, e) => {
                 Core.WarningHandler.Info("Lazurite отключен");
+            };
+
+            System.Windows.Forms.Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+
+            System.Windows.Forms.Application.ThreadException += (o, e) => {
+                HandleUnhandledException(e.Exception);
             };
             
             AppDomain.CurrentDomain.UnhandledException += (o, e) => {
-                var exception = e.ExceptionObject as Exception;
-                if (exception != null)
-                    Core.WarningHandler.FatalFormat(exception, "Необработанная ошибка");
-                else
-                    Core.WarningHandler.FatalFormat(new Exception("unknown exception"), "Необработанная неизвестная ошибка");
-                Application.Current.Shutdown(1);
+                HandleUnhandledException(e.ExceptionObject as Exception);
             };
 
+            this.DispatcherUnhandledException += (o, e) => {
+                HandleUnhandledException(e.Exception);
+            };
+            
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Core = new LazuriteCore();
             Core.WarningHandler.OnWrite += (o, e) =>
@@ -66,6 +71,15 @@ namespace LazuriteUI.Windows.Main
             NotifyIconManager.Initialize();
             DuplicatedProcessesListener.Found += (processes) => NotifyIconManager.ShowMainWindow();
             DuplicatedProcessesListener.Start();
+        }
+
+        private void HandleUnhandledException(Exception exception)
+        {
+            if (exception != null)
+                Core.WarningHandler.FatalFormat(exception, "Необработанная ошибка");
+            else
+                Core.WarningHandler.FatalFormat(new Exception("unknown exception"), "Необработанная неизвестная ошибка");
+            System.Windows.Application.Current.Shutdown(1);
         }
     }
 }

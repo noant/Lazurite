@@ -106,7 +106,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     Log.WarnFormat(strErrPrefix + ". Connection error; [{0}][{1}][{2}:{3}/{4}]",
                         this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName);
                 }
-                if (e.ToString().Contains("EndpointNotFoundException"))
+                else if (e.ToString().Contains("EndpointNotFoundException"))
                 {
                     Log.WarnFormat(strErrPrefix + ". Endpoint not found; [{0}][{1}][{2}:{3}/{4}]",
                         this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName);
