@@ -13,6 +13,7 @@ using Lazurite.Data;
 using System.ServiceModel;
 using System.Net;
 using System.Runtime.Serialization;
+using Lazurite.Utils;
 
 namespace LazuriteMobile.App
 {
@@ -90,7 +91,7 @@ namespace LazuriteMobile.App
                     ConnectionRestored?.Invoke();
                 }
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
                 if (!cancellationToken.IsCancellationRequested)
                 {
@@ -178,27 +179,29 @@ namespace LazuriteMobile.App
 
             int fullRefreshIncrement = 0;
 
-            Device.StartTimer(TimeSpan.FromMilliseconds(_listenInterval), () => {
-                var token = _listenersCancellationTokenSource.Token;
-                if (token.IsCancellationRequested)
-                    return false;
-                if (fullRefreshIncrement == _fullRefreshInterval)
+            TaskUtils.StartLongRunning(() => { 
+                while (!_listenersCancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    fullRefreshIncrement = 0;
-                    Refresh(success => {
-                        if (!success)
-                            RecreateConnection();
-                    });
+                    if (fullRefreshIncrement == _fullRefreshInterval)
+                    {
+                        fullRefreshIncrement = 0;
+                        Refresh(success =>
+                        {
+                            if (!success)
+                                RecreateConnection();
+                        });
+                    }
+                    else
+                    {
+                        Update(success =>
+                        {
+                            if (!success)
+                                RecreateConnection();
+                        });
+                        fullRefreshIncrement++;
+                    }
+                    Task.Delay(_listenInterval).Wait();
                 }
-                else
-                {
-                    Update(success => {
-                        if (!success)
-                            RecreateConnection();
-                    });
-                    fullRefreshIncrement++;
-                }
-                return true;
             });
         }
 

@@ -15,7 +15,7 @@ using Java.Lang;
 
 namespace LazuriteMobile.App.Droid
 {
-    [Service(Exported = false, DirectBootAware = true)]
+    [Service(Exported = false, Enabled = true)]
     public class LazuriteService : Service
     {
         public static bool Started { get; private set; } = false;
@@ -33,6 +33,8 @@ namespace LazuriteMobile.App.Droid
         public override void OnCreate()
         {
             base.OnCreate();
+            _messenger = new Messenger(_inHandler);
+            _inHandler.HasCome += InHandler_HasCome;
             _manager.Initialize();
             _manager.ConnectionLost += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.ConnectionLost);
             _manager.ConnectionRestored += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.ConnectionRestored);
@@ -41,8 +43,6 @@ namespace LazuriteMobile.App.Droid
             _manager.NeedRefresh += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.NeedRefresh);
             _manager.ScenariosChanged += (scenarios) => Utils.RaiseEvent(scenarios, _toActivityMessenger, _messenger, ServiceOperation.ScenariosChanged);
             _manager.SecretCodeInvalid += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.SecretCodeInvalid);
-            _inHandler.HasCome += InHandler_HasCome;
-            _messenger = new Messenger(_inHandler);
         }
 
         [return: GeneratedEnum]
