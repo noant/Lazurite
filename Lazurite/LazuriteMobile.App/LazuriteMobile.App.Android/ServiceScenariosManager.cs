@@ -81,7 +81,8 @@ namespace LazuriteMobile.App.Droid
 
         public void Initialize()
         {
-            _activity.StartService(new Intent(Application.Context, typeof(LazuriteService)));
+            if (!LazuriteService.Started)
+                _activity.StartService(new Intent(Application.Context, typeof(LazuriteService)));
             var serviceConnection = new ManagerServiceConnection();
             serviceConnection.Connected += ServiceConnection_Connected;
             _activity.BindService(new Intent(Application.Context, typeof(LazuriteService)), serviceConnection, Bind.AutoCreate);
@@ -116,6 +117,8 @@ namespace LazuriteMobile.App.Droid
             _callbacks.Add(ServiceOperation.GetIsConnected, (obj) => {
                 callback((bool)obj);
             });
+            if (_toServiceMessenger != null) //crutch
+                Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetIsConnected);
         }
 
         public void GetScenarios(Action<ScenarioInfo[]> callback)

@@ -18,11 +18,13 @@ namespace LazuriteMobile.App.Droid
     [Service(Exported = false, DirectBootAware = true)]
     public class LazuriteService : Service
     {
+        public static bool Started { get; private set; } = false;
+
         private IScenariosManager _manager = new ScenariosManager();
         private Messenger _messenger;
         IncomingHandler _inHandler = new IncomingHandler();
         Messenger _toActivityMessenger;
-
+        
         public override IBinder OnBind(Intent intent)
         {
             return _messenger.Binder;
@@ -46,7 +48,14 @@ namespace LazuriteMobile.App.Droid
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
+            Started = true;
             return StartCommandResult.Sticky;
+        }
+
+        public override void OnDestroy()
+        {
+            Started = false;
+            base.OnDestroy();
         }
 
         private void InHandler_HasCome(object sender, Message msg)

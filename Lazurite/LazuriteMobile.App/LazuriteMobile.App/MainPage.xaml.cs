@@ -38,6 +38,12 @@ namespace LazuriteMobile.App
                     Refresh();
                     HideCaption();
                 }
+                else
+                {
+                    _manager.GetClientSettings((settings) => {
+                        settingsView.SetCredentials(settings);
+                    });
+                }
             });
         }
         
