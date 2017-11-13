@@ -2,6 +2,7 @@
 using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.MessageSecurity;
+using Lazurite.Utils;
 using Lazurite.Windows.Logging;
 using Lazurite.Windows.Service;
 using Lazurite.Windows.Utils;
@@ -58,45 +59,38 @@ namespace Lazurite.Windows.Server
 
         public void StartAsync(Action<bool> callback)
         {
-            Task.Factory.StartNew(() =>
+            TaskUtils.StartLongRunning(() =>
             {
-                try
-                {
-                    _warningHandler.Info("Service starting: " + this._settings.GetAddress());
-                    var binding = new BasicHttpBinding(BasicHttpSecurityMode.Transport);
-                    binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
-                    binding.CloseTimeout =
-                        binding.OpenTimeout =
-                        binding.SendTimeout = TimeSpan.FromMinutes(5);
+                _warningHandler.Info("Service starting: " + this._settings.GetAddress());
+                var binding = new BasicHttpBinding(BasicHttpSecurityMode.Transport);
+                binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+                binding.CloseTimeout =
+                    binding.OpenTimeout =
+                    binding.SendTimeout = TimeSpan.FromMinutes(5);
 
-                    var address = new Uri(_settings.GetAddress());
-                    var service = new LazuriteService(_settings.SecretKey);
-                    _host = new WebServiceHost(service, address);
-                    _host.AddServiceEndpoint(typeof(IServer), binding, address);
-                    _host.Credentials.UserNameAuthentication.UserNamePasswordValidationMode = UserNamePasswordValidationMode.Custom;
-                    _host.Credentials.UserNameAuthentication.CustomUserNamePasswordValidator = new LoginValidator();
-                    _host.Credentials.ServiceCertificate.SetCertificate(
-                        StoreLocation.LocalMachine,
-                        StoreName.My,
-                        X509FindType.FindByThumbprint,
-                        _settings.CertificateHash);
-                    _host.Open();
-                    _warningHandler.Info("Service started: " + this._settings.GetAddress());
-                    callback?.Invoke(true);
-                    Started = true;
-                    StatusChanged?.Invoke(this);
-                }
-                catch (Exception e)
-                {
-                    _warningHandler.Error("Error while starting service: " + this._settings.GetAddress(), e);
-                    callback?.Invoke(false);
-                    Started = false;
-                    StatusChanged?.Invoke(this);
-                }
+                var address = new Uri(_settings.GetAddress());
+                var service = new LazuriteService(_settings.SecretKey);
+                _host = new WebServiceHost(service, address);
+                _host.AddServiceEndpoint(typeof(IServer), binding, address);
+                _host.Credentials.UserNameAuthentication.UserNamePasswordValidationMode = UserNamePasswordValidationMode.Custom;
+                _host.Credentials.UserNameAuthentication.CustomUserNamePasswordValidator = new LoginValidator();
+                _host.Credentials.ServiceCertificate.SetCertificate(
+                    StoreLocation.LocalMachine,
+                    StoreName.My,
+                    X509FindType.FindByThumbprint,
+                    _settings.CertificateHash);
+                _host.Open();
+                _warningHandler.Info("Service started: " + this._settings.GetAddress());
+                callback?.Invoke(true);
+                Started = true;
+                StatusChanged?.Invoke(this);
             },
-            _tokenSource.Token,
-            TaskCreationOptions.LongRunning,
-            TaskScheduler.Default);
+            (exception) => {
+                _warningHandler.Error("Error while starting service: " + this._settings.GetAddress(), exception);
+                callback?.Invoke(false);
+                Started = false;
+                StatusChanged?.Invoke(this);
+            });
         }
 
         public void Restart(Action<bool> callback)

@@ -1,4 +1,5 @@
-﻿using Lazurite.Windows.Logging;
+﻿using Lazurite.Utils;
+using Lazurite.Windows.Logging;
 using Lazurite.Windows.Modules;
 using System;
 using System.Collections.Generic;
@@ -56,7 +57,7 @@ namespace LazuriteUI.Windows.PluginsCreator
         private void CreatePlugin(Action callback=null)
         {
             cvTop.StartAnimateProgress();
-            Task.Factory.StartNew(() =>
+            TaskUtils.Start(() =>
             {
                 try
                 {

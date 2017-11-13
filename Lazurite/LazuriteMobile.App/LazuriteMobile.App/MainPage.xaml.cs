@@ -31,11 +31,14 @@ namespace LazuriteMobile.App
             _manager.CredentialsLoaded += _manager_CredentialsLoaded;
             _manager.SecretCodeInvalid += _manager_SecretCodeInvalid;
             settingsView.ConnectClicked += SettingsView_ConnectClicked;
-            if (_manager.Connected)
+            _manager.IsConnected((result) =>
             {
-                Refresh();
-                HideCaption();
-            }
+                if (result)
+                {
+                    Refresh();
+                    HideCaption();
+                }
+            });
         }
         
         protected override bool OnBackButtonPressed()
@@ -74,7 +77,9 @@ namespace LazuriteMobile.App
 
         private void _manager_CredentialsLoaded()
         {
-            settingsView.SetCredentials(_manager.GetClientSettings());
+            _manager.GetClientSettings((settings) => {
+                settingsView.SetCredentials(settings);
+            });
         }
 
         private void SettingsView_ConnectClicked(SettingsView obj)
@@ -128,8 +133,12 @@ namespace LazuriteMobile.App
         
         private void Refresh()
         {
-            settingsView.SetCredentials(_manager.GetClientSettings());
-            swgrid.Refresh(_manager.Scenarios);
+            _manager.GetClientSettings((settings) => {
+                settingsView.SetCredentials(settings);
+            });
+            _manager.GetScenarios((scenarios) => {
+                swgrid.Refresh(scenarios);
+            });
         }
 
         public void HideCaption()

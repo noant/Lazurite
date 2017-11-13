@@ -24,8 +24,11 @@ namespace LazuriteMobile.App
         
         protected override void OnStart()
         {
-            if (!_manager.Connected)
-                _manager.Initialize();
+            //_manager.IsConnected((result) =>
+            //{
+            //    if (!result)
+            //        _manager.Initialize();
+            //});
         }
         
         protected override void OnSleep()

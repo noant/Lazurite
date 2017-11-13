@@ -21,6 +21,8 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
     /// </summary>
     public partial class SwitchIconSelect : UserControl
     {
+        private static string LastSearch;
+
         private static Dictionary<string, SwitchIconView> CachedControls = new Dictionary<string, SwitchIconView>();
         private static SwitchIconView Resolve(string icon)
         {
@@ -68,11 +70,14 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
                 if (odd == 3)
                     odd = 0;
             }
+            this.tbSearch.Text = LastSearch;
         }
 
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             var txt = tbSearch.Text.ToLower();
+
+            LastSearch = txt;
 
             foreach (SwitchIconView iconView in stackPanel1.Children)
                 if (IsIconNodeApply(txt, iconView))

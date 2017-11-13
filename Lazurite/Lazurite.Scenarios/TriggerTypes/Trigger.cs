@@ -14,15 +14,16 @@ using Lazurite.IOC;
 using Lazurite.CoreActions.ContextInitialization;
 using Lazurite.CoreActions.CoreActions;
 using Lazurite.Logging;
+using Lazurite.Utils;
 
 namespace Lazurite.Scenarios.TriggerTypes
 {
     [HumanFriendlyName("Триггер")]
     public class Trigger : TriggerBase
     {
+        private static ILogger Log = Singleton.Resolve<ILogger>();
+        private static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         private Action<ScenarioBase> _lastSubscribe;
-        private ISystemUtils _systemUtils = Singleton.Resolve<ISystemUtils>();
-        private ILogger _log = Singleton.Resolve<ILogger>();
 
         public override IAction TargetAction
         {
@@ -68,7 +69,7 @@ namespace Lazurite.Scenarios.TriggerTypes
             }
             catch (Exception e)
             {
-                _log.ErrorFormat(e, "Во время инициализации триггера [{0}] возникла ошибка", this.Name);
+                Log.ErrorFormat(e, "Во время инициализации триггера [{0}] возникла ошибка", this.Name);
             }
         }
 
@@ -118,7 +119,9 @@ namespace Lazurite.Scenarios.TriggerTypes
                         contexCancellationTokenSource.Cancel();
                         contexCancellationTokenSource = new CancellationTokenSource();
                         var executionContext = new ExecutionContext(this, s.GetCurrentValue(), outputChanged, contexCancellationTokenSource.Token);
-                        Task.Factory.StartNew(() => action.SetValue(executionContext, string.Empty));
+                        TaskUtils.StartLongRunning(
+                            () => action.SetValue(executionContext, string.Empty),
+                            (exception) => Log.ErrorFormat(exception, "Error while executing trigger [{0}][{1}]", this.Name, this.Id));
                     }
                 };
                 GetScenario().SetOnStateChanged(_lastSubscribe);
@@ -135,9 +138,11 @@ namespace Lazurite.Scenarios.TriggerTypes
                         contexCancellationTokenSource.Cancel();
                         contexCancellationTokenSource = new CancellationTokenSource();
                         var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), contexCancellationTokenSource.Token);
-                        Task.Factory.StartNew(() => TargetAction.SetValue(executionContext, string.Empty));
+                        TaskUtils.StartLongRunning(
+                            () => TargetAction.SetValue(executionContext, string.Empty), 
+                            (exception) => Log.ErrorFormat(exception, "Error while executing trigger [{0}][{1}]", this.Name, this.Id));
                     }
-                    _systemUtils.Sleep(300, cancellationToken);
+                    SystemUtils.Sleep(300, cancellationToken);
                 }
             }
         }

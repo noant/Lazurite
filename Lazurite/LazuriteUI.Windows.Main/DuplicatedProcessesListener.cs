@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lazurite.Utils;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -24,8 +25,7 @@ namespace LazuriteUI.Windows.Main
             var currentProcessLocation = currentProcess.StartInfo.FileName;
             var currentProcessId = currentProcess.Id;
 
-            var listenerThread = new Thread(() =>
-            {
+            var action = (Action)(() => {
                 while (true)
                 {
                     var processes = Process.GetProcesses();
@@ -45,11 +45,9 @@ namespace LazuriteUI.Windows.Main
                     else
                         Thread.Sleep(700);
                 }
-            })
-            {
-                IsBackground = true
-            };
-            listenerThread.Start();
+            });
+
+            TaskUtils.StartLongRunning(action);
         }
     }
 }

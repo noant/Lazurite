@@ -3,6 +3,7 @@ using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.Scenarios;
 using Lazurite.Security;
+using Lazurite.Utils;
 using Lazurite.Visual;
 using Lazurite.Windows.Logging;
 using Lazurite.Windows.Modules;
@@ -58,7 +59,7 @@ namespace Lazurite.Windows.Core
 
         public void InitializeAsync(Action callback)
         {
-            Task.Factory.StartNew(() =>
+            TaskUtils.Start(() =>
             {
                 Initialize();
                 callback?.Invoke();

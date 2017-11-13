@@ -14,6 +14,7 @@ using Lazurite.CoreActions.ContextInitialization;
 using System.Threading;
 using Lazurite.Logging;
 using Lazurite.Security;
+using Lazurite.Utils;
 
 namespace Lazurite.Scenarios.ScenarioTypes
 {
@@ -44,19 +45,13 @@ namespace Lazurite.Scenarios.ScenarioTypes
         
         public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
-            Task.Factory.StartNew(() =>
+            TaskUtils.StartLongRunning(() =>
             {
-                try
-                {
-                    TargetAction.SetValue(
-                        new ExecutionContext(this, param, new OutputChangedDelegates(), cancelToken),
-                        string.Empty);
-                }
-                catch (Exception e)
-                {
-                    Log.ErrorFormat(e, "Error while executing scenario [{0}][{1}]", this.Name, this.Id);
-                }
-            }, cancelToken, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+                TargetAction.SetValue(
+                    new ExecutionContext(this, param, new OutputChangedDelegates(), cancelToken),
+                    string.Empty);
+            },
+            (exception) => Log.ErrorFormat(exception, "Error while executing scenario [{0}][{1}]", this.Name, this.Id));
         }
 
         public override void ExecuteInternal(ExecutionContext context)

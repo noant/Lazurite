@@ -9,6 +9,7 @@ using System.Threading;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.MainDomain.MessageSecurity;
 using Lazurite.Security;
+using Lazurite.Utils;
 
 namespace Lazurite.Scenarios.ScenarioTypes
 {
@@ -99,7 +100,13 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
             catch (Exception e)
             {
-                if (e.ToString().Contains("EndpointNotFoundException"))//crutch
+                //crutch
+                if (e.ToString().Contains("CommunicationException"))
+                {
+                    Log.WarnFormat(strErrPrefix + ". Connection error; [{0}][{1}][{2}:{3}/{4}]",
+                        this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName);
+                }
+                if (e.ToString().Contains("EndpointNotFoundException"))
                 {
                     Log.WarnFormat(strErrPrefix + ". Endpoint not found; [{0}][{1}][{2}:{3}/{4}]",
                         this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName);
@@ -125,7 +132,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         public override void Execute(string param, CancellationToken cancelToken)
         {
             HandleExceptions(() => {
-                _server.ExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
+                GetServer().ExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
                 SetCurrentValueInternal(param);
             });
         }
@@ -133,14 +140,14 @@ namespace Lazurite.Scenarios.ScenarioTypes
         public override void ExecuteAsync(string param)
         {
             HandleExceptions(() => {
-                _server.AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
+                GetServer().AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
             });
         }
 
         public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
             HandleExceptions(() => {
-                _server.AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
+                GetServer().AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
             });
         }
 
@@ -173,8 +180,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             HandleExceptions(
             () =>
             {
-                _server = _clientFactory.GetServer(AddressHost, Port, ServiceName, SecretKey, UserLogin, Password);
-                _scenarioInfo = _server.GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
+                _scenarioInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
                 _valueType = _scenarioInfo.ValueType;
                 RemoteScenarioName = _scenarioInfo.Name;
                 initialized = true;
@@ -191,30 +197,28 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             _cancellationTokenSource = new CancellationTokenSource();
             //changes listener
-            var task = new Task(() => {
+            TaskUtils.StartLongRunning(() =>
+            {
                 while (!_cancellationTokenSource.IsCancellationRequested)
                 {
                     HandleExceptions(
                     () =>
                     {
-                        var newScenInfo = _server.GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
+                        var newScenInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
                         if (!(newScenInfo.CurrentValue ?? string.Empty).Equals(_currentValue))
                             SetCurrentValueInternal(newScenInfo.CurrentValue ?? string.Empty);
                         this.ValueType = newScenInfo.ValueType;
                         Task.Delay(6500).Wait();
                     },
-                    ()=> 
+                    () =>
                     {
                         SetDefaultValue();
                         Task.Delay(200000).Wait();
                         ReInitialize();
-                    }, 
+                    },
                     false);
                 }
-            },
-            _cancellationTokenSource.Token,
-            TaskCreationOptions.LongRunning);
-            task.Start();
+            });
         }
 
         private void SetDefaultValue()

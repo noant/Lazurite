@@ -1,4 +1,5 @@
-﻿using LazuriteUI.Windows.Controls;
+﻿using Lazurite.Utils;
+using LazuriteUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
         {
             var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
             MessageView messageDialog;
-            Task.Factory.StartNew(() =>
+            TaskUtils.Start(() =>
             {
                 messageDialog = new MessageView();
                 messageDialog.Icon = Icons.Icon.ImageSelect;
@@ -44,7 +45,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
                     action();
                     messageDialog.Dispatcher.BeginInvoke(new Action(() => messageDialog.Close()));
                 }));
-            }, CancellationToken.None, TaskCreationOptions.None, scheduler);
+            });
         }
 
         private void ItemView1_Click(object sender, RoutedEventArgs e)

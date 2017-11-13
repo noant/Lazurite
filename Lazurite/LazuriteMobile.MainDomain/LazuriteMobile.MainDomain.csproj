@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientSettings.cs" />
-    <Compile Include="ILazuriteService.cs" />
     <Compile Include="IScenariosManager.cs" />
     <Compile Include="IServiceClient.cs" />
     <Compile Include="IServiceClientManager.cs" />

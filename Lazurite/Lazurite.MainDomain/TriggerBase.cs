@@ -2,6 +2,7 @@
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
 using Lazurite.Logging;
+using Lazurite.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -106,19 +107,9 @@ namespace Lazurite.MainDomain
             _tokenSource.Cancel();
             _tokenSource = new CancellationTokenSource();
             var cancellationToken = _tokenSource.Token;
-            Task.Factory.StartNew(() => {
-                try
-                {
-                    RunInternal(cancellationToken);
-                }
-                catch (Exception e)
-                {
-                    Log.InfoFormat(e, "error while starting trigger [{0}][{1}]", this.Name, this.Id);
-                }
-            }, 
-            cancellationToken, 
-            TaskCreationOptions.LongRunning,
-            TaskScheduler.Default);
+            TaskUtils.StartLongRunning(
+                () => RunInternal(cancellationToken),
+                (exception) => Log.ErrorFormat(exception, "Error while starting trigger [{0}][{1}]", this.Name, this.Id));
         }
 
         /// <summary>

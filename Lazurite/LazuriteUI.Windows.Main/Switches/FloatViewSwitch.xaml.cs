@@ -1,4 +1,5 @@
 ﻿using Lazurite.MainDomain;
+using Lazurite.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,6 @@ namespace LazuriteUI.Windows.Main.Switches
     public partial class FloatViewSwitch : UserControl, IDisposable
     {
         private volatile string _tempValue;
-        private Task _syncTask;
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private ScenarioModel _model;
         private double _iteration; 
@@ -49,7 +49,7 @@ namespace LazuriteUI.Windows.Main.Switches
                 _tempValue = slider.Value.ToString();
             };
 
-            _syncTask = Task.Factory.StartNew(() => {
+            TaskUtils.Start(() => {
                 while (!_tokenSource.IsCancellationRequested)
                 {
                     if (_tempValue != model.ScenarioValue)

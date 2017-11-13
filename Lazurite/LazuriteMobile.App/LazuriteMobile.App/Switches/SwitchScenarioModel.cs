@@ -147,7 +147,7 @@ namespace LazuriteMobile.App.Switches
             set
             {
                 _value = value;
-                _manager.ExecuteScenario(Scenario.ScenarioId, _value);
+                _manager.ExecuteScenario(new ExecuteScenarioArgs(Scenario.ScenarioId, _value));
                 OnPropertyChanged(nameof(ScenarioValue));
             }
         }

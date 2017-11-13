@@ -41,7 +41,7 @@ namespace LazuriteUI.Windows.Main.Journal
 
         public static void Show(string message, WarnType type)
         {
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
             {
                 if (_current == null || _closed)
                 {

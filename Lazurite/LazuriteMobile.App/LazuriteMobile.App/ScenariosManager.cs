@@ -46,7 +46,7 @@ namespace LazuriteMobile.App
             }
         }
 
-        private readonly int _listenInterval = 7000;
+        private readonly int _listenInterval = 12000;
         private readonly int _fullRefreshInterval = 20;
         private readonly string _cachedScenariosKey = "scensCache";
         private readonly string _clientSettingsKey = "clientSettings";
@@ -209,9 +209,9 @@ namespace LazuriteMobile.App
             Connected = false;
         }
 
-        public void ExecuteScenario(string id, string value)
+        public void ExecuteScenario(ExecuteScenarioArgs args)
         {
-            _serviceClient.BeginAsyncExecuteScenario(new Encrypted<string>(id, _clientSettings.SecretKey), new Encrypted<string>(value, _clientSettings.SecretKey), 
+            _serviceClient.BeginAsyncExecuteScenario(new Encrypted<string>(args.Id, _clientSettings.SecretKey), new Encrypted<string>(args.Value, _clientSettings.SecretKey), 
                 (result) => {
                     HandleExceptions(() => _serviceClient.EndAsyncExecuteScenario(result));
                 },
@@ -316,6 +316,21 @@ namespace LazuriteMobile.App
             _clientSettings = settings;
             SaveClientSettings();
             InitializeInternal();
+        }
+
+        public void GetClientSettings(Action<ClientSettings> callback)
+        {
+            callback(GetClientSettings());
+        }
+
+        public void IsConnected(Action<bool> callback)
+        {
+            callback(Connected);
+        }
+
+        public void GetScenarios(Action<ScenarioInfo[]> callback)
+        {
+            callback(Scenarios);
         }
     }
 }

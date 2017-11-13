@@ -182,12 +182,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IncomingHandler.cs" />
     <Compile Include="LazuriteService.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceOperation.cs" />
+    <Compile Include="ServiceScenarioManagerCallbacks.cs" />
+    <Compile Include="ServiceScenariosManager.cs" />
     <Compile Include="SplashActivity.cs" />
     <Compile Include="JsonFileSavior.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -217,6 +222,10 @@
     <ProjectReference Include="..\..\Lazurite.IOC\Lazurite.IOC.csproj">
       <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
       <Name>Lazurite.IOC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Lazurite.MainDomain\Lazurite.MainDomain.csproj">
+      <Project>{DCD8E6AF-A435-4556-AD74-84444B1DD816}</Project>
+      <Name>Lazurite.MainDomain</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\LazuriteMobile.Android.ServiceClient\LazuriteMobile.Android.ServiceClient.csproj">
       <Project>{c853093e-abb2-4c23-ac2b-18f92f45a574}</Project>

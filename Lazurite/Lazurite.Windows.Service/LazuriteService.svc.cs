@@ -51,24 +51,14 @@ namespace Lazurite.Windows.Service
                     _warningHandler.DebugFormat("[{0}] result: [{1}] items", memberName, ((IList)result).Count);
                 return result;
             }
-            catch (UnauthorizedAccessException e)
-            {
-                _warningHandler.WarnFormat(e, "[{0}] execution error", memberName);
-                throw e;
-            }
-            catch (InvalidOperationException e)
-            {
-                _warningHandler.WarnFormat(e, "[{0}] execution error", memberName);
-                throw e;
-            }
-            catch (DecryptException e)
-            {
-                _warningHandler.WarnFormat(e, "[{0}] execution error", memberName);
-                throw e;
-            }
             catch (Exception e)
             {
-                _warningHandler.ErrorFormat(e, "[{0}] execution error", memberName);
+                if (e is UnauthorizedAccessException 
+                    || e is InvalidOperationException 
+                    || e is DecryptException)
+                    _warningHandler.WarnFormat("[{0}] execution error. {1}", memberName, e.Message); //write only message
+                else
+                    _warningHandler.ErrorFormat(e, "[{0}] execution error", memberName); //unrecognized exception; write fully
                 throw e;
             }
             finally
@@ -84,24 +74,14 @@ namespace Lazurite.Windows.Service
                 _warningHandler.DebugFormat("[{0}] execution started", memberName);
                 action();
             }
-            catch (UnauthorizedAccessException e)
-            {
-                _warningHandler.WarnFormat("[{0}] execution error. Access denied;", memberName);
-                throw e;
-            }
-            catch (InvalidOperationException e)
-            {
-                _warningHandler.WarnFormat("[{0}] execution error. Invalid operation: {1};", memberName, e.Message);
-                throw e;
-            }
-            catch (DecryptException e)
-            {
-                _warningHandler.WarnFormat("[{0}] execution error. String decryption error;", memberName);
-                throw e;
-            }
             catch (Exception e)
             {
-                _warningHandler.ErrorFormat(e, "[{0}] execution error", memberName);
+                if (e is UnauthorizedAccessException 
+                    || e is InvalidOperationException 
+                    || e is DecryptException)
+                    _warningHandler.WarnFormat("[{0}] execution error. {1}", memberName, e.Message); //write only message
+                else
+                    _warningHandler.ErrorFormat(e, "[{0}] execution error", memberName); //unrecognized exception; write fully
                 throw e;
             }
             finally

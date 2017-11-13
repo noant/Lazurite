@@ -20,6 +20,7 @@ using Lazurite.ActionsDomain;
 using Lazurite.CoreActions;
 using Lazurite.Security;
 using Lazurite.Data;
+using System.IO;
 
 namespace LazuriteUI.Windows.Main
 {
@@ -32,11 +33,17 @@ namespace LazuriteUI.Windows.Main
         
         public App()
         {
-            this.Exit += (o, e) => 
+            AppDomain.CurrentDomain.ProcessExit += (o, e) =>
+            {
                 Core.WarningHandler.Info("Lazurite отключен");
-
-            this.DispatcherUnhandledException += (o, e) => {
-                Core.WarningHandler.FatalFormat(e.Exception, "Необработанная ошибка");
+            };
+            
+            AppDomain.CurrentDomain.UnhandledException += (o, e) => {
+                var exception = e.ExceptionObject as Exception;
+                if (exception != null)
+                    Core.WarningHandler.FatalFormat(exception, "Необработанная ошибка");
+                else
+                    Core.WarningHandler.FatalFormat(new Exception("unknown exception"), "Необработанная неизвестная ошибка");
                 Application.Current.Shutdown(1);
             };
 
@@ -54,7 +61,7 @@ namespace LazuriteUI.Windows.Main
             }
             catch (Exception e)
             {
-                Core.WarningHandler.Warn("Во время инициализации приложения возникла ошибка", e);
+                Core.WarningHandler.Fatal("Во время инициализации приложения возникла ошибка", e);
             }
             NotifyIconManager.Initialize();
             DuplicatedProcessesListener.Found += (processes) => NotifyIconManager.ShowMainWindow();

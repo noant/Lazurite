@@ -2,6 +2,7 @@
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
 using Lazurite.Logging;
+using Lazurite.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,11 @@ namespace Lazurite.MainDomain
 
         private List<Action<ScenarioBase>> _events = new List<Action<ScenarioBase>>();        
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+
+        private void Handle(Exception e)
+        {
+            Log.ErrorFormat(e, "Error while calculating current value. Scenario: {0}, {1};", this.Name, this.Id);
+        }
 
         /// <summary>
         /// Scenario category
@@ -63,10 +69,12 @@ namespace Lazurite.MainDomain
         /// </summary>
         public virtual void CalculateCurrentValueAsync(Action<string> callback)
         {
-            Task.Factory.StartNew(() => {
+            TaskUtils.Start(
+            () => {
                 var result = CalculateCurrentValue();
                 callback(result);
-            });
+            },
+            (exception) => Handle(exception));
         }
 
         /// <summary>
@@ -98,7 +106,7 @@ namespace Lazurite.MainDomain
         /// <param name="cancelToken"></param>
         public virtual void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
-            Task.Factory.StartNew(() => Execute(param, cancelToken), cancelToken, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            TaskUtils.StartLongRunning(() => Execute(param, cancelToken), Handle);
         }
 
         /// <summary>
@@ -110,7 +118,7 @@ namespace Lazurite.MainDomain
             _tokenSource.Cancel();
             _tokenSource = new CancellationTokenSource();
             var token = _tokenSource.Token;
-            Task.Factory.StartNew(() => Execute(param, token), token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            TaskUtils.StartLongRunning(() => Execute(param, token), Handle);
         }
         
         /// <summary>
