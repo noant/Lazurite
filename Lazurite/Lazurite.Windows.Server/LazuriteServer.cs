@@ -67,7 +67,6 @@ namespace Lazurite.Windows.Server
                 binding.CloseTimeout =
                     binding.OpenTimeout =
                     binding.SendTimeout = TimeSpan.FromMinutes(5);
-
                 var address = new Uri(_settings.GetAddress());
                 var service = new LazuriteService(_settings.SecretKey);
                 _host = new WebServiceHost(service, address);

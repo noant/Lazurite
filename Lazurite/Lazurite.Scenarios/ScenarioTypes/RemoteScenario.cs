@@ -101,23 +101,20 @@ namespace Lazurite.Scenarios.ScenarioTypes
             catch (Exception e)
             {
                 //crutch
-                if (e.ToString().Contains("CommunicationException"))
+                if (e is AggregatedCommunicationException)
                 {
-                    Log.WarnFormat(strErrPrefix + ". Connection error; [{0}][{1}][{2}:{3}/{4}]",
-                        this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName);
-                }
-                else if (e.ToString().Contains("EndpointNotFoundException"))
-                {
-                    Log.WarnFormat(strErrPrefix + ". Endpoint not found; [{0}][{1}][{2}:{3}/{4}]",
-                        this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName);
+                    Log.WarnFormat(strErrPrefix + ". {0}; [{1}][{2}][{3}:{4}/{5}]",
+                        e.Message, this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName);
                 }
                 else if (
                     e.Message.StartsWith("Scenario not found") ||
                     e.Message.StartsWith("Decryption error") ||
-                    e.Message.StartsWith("Access denied"))
+                    e.Message.StartsWith("Access denied") ||
+                    e.Message.Contains("(403)") ||
+                    e is InvalidOperationException)
                 {
-                    Log.WarnFormat(strErrPrefix + ". " + e.Message+"; [{0}][{1}][{2}:{3}/{4}]",
-                        this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName, e.InnerException.Message);
+                    Log.WarnFormat(strErrPrefix + ". " + e.Message + "; [{0}][{1}][{2}:{3}/{4}][{5}]",
+                        this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName, e.InnerException?.Message);
                 }
                 else
                 {
@@ -131,24 +128,30 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void Execute(string param, CancellationToken cancelToken)
         {
+            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
             HandleExceptions(() => {
                 GetServer().ExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
                 SetCurrentValueInternal(param);
             });
+            Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
         }
 
         public override void ExecuteAsync(string param)
         {
+            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
             HandleExceptions(() => {
                 GetServer().AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
             });
+            Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
         }
 
         public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
+            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
             HandleExceptions(() => {
                 GetServer().AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
             });
+            Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
         }
 
         public override void TryCancelAll()
@@ -175,6 +178,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override bool Initialize(ScenariosRepositoryBase repository)
         {
+            Log.DebugFormat("Scenario initialize begin: [{0}][{1}]", this.Name, this.Id);
             _clientFactory = Singleton.Resolve<IClientFactory>();
             var initialized = false;
             HandleExceptions(
@@ -190,6 +194,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 SetDefaultValue();
             },
             false);
+            Log.DebugFormat("Scenario initialize end: [{0}][{1}]", this.Name, this.Id);
             return Initialized = initialized;
         }
 
@@ -201,17 +206,22 @@ namespace Lazurite.Scenarios.ScenarioTypes
             {
                 while (!_cancellationTokenSource.IsCancellationRequested)
                 {
+                    Log.DebugFormat("Remote scenario refresh iteration begin: [{0}][{1}]", this.Name, this.Id);
                     HandleExceptions(
                     () =>
                     {
+                        if (SecretKey == null)
+                            throw new InvalidOperationException("Secret key is null");
                         var newScenInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
                         if (!(newScenInfo.CurrentValue ?? string.Empty).Equals(_currentValue))
                             SetCurrentValueInternal(newScenInfo.CurrentValue ?? string.Empty);
                         this.ValueType = newScenInfo.ValueType;
+                        Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", this.Name, this.Id);
                         Task.Delay(6500).Wait();
                     },
                     () =>
                     {
+                        Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", this.Name, this.Id);
                         SetDefaultValue();
                         Task.Delay(200000).Wait();
                         ReInitialize();

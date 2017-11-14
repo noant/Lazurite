@@ -1,4 +1,6 @@
-﻿using Lazurite.Logging;
+﻿using Lazurite.Data;
+using Lazurite.IOC;
+using Lazurite.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +10,26 @@ namespace Lazurite.Windows.Logging
 {
     public abstract class WarningHandlerBase: ILogger
     {
-        private WarnType _maxWritingWarnType;
+        private static SaviorBase Savior = Singleton.Resolve<SaviorBase>();
+
+        private WarnType? _maxWritingWarnType = null;
         public WarnType MaxWritingWarnType
         {
             get
             {
-                return _maxWritingWarnType;
+                if (_maxWritingWarnType == null)
+                {
+                    if (Savior.Has(nameof(MaxWritingWarnType)))
+                        _maxWritingWarnType = Savior.Get<WarnType>(nameof(MaxWritingWarnType));
+                    else
+                        MaxWritingWarnType = WarnType.Info;
+                }
+                return _maxWritingWarnType.Value;
             }
             set
             {
                 _maxWritingWarnType = value;
+                Savior.Set(nameof(MaxWritingWarnType), _maxWritingWarnType);
                 InternalWrite(WarnType.Info, "Выставлен уровень логирования: " + Enum.GetName(typeof(WarnType), _maxWritingWarnType));
             }
         }

@@ -23,8 +23,8 @@ namespace LazuriteUI.Windows.Main.Journal
             {
                 if (_maxShowingWarnType == null)
                 {
-                    if (Savior.Has(typeof(WarnType).Name))
-                        _maxShowingWarnType = Savior.Get<WarnType>(typeof(WarnType).Name);
+                    if (Savior.Has(nameof(MaxShowingWarnType)))
+                        _maxShowingWarnType = Savior.Get<WarnType>(nameof(MaxShowingWarnType));
                     else
                         MaxShowingWarnType = WarnType.Error;
                 }
@@ -33,7 +33,7 @@ namespace LazuriteUI.Windows.Main.Journal
             set
             {
                 _maxShowingWarnType = value;
-                Savior.Set(typeof(WarnType).Name, _maxShowingWarnType);
+                Savior.Set(nameof(MaxShowingWarnType), _maxShowingWarnType);
             }
         }
 

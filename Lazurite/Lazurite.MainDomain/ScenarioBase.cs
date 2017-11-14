@@ -128,6 +128,7 @@ namespace Lazurite.MainDomain
         /// <param name="cancelToken"></param>
         public virtual void Execute(string param, CancellationToken cancelToken)
         {
+            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
             var output = new OutputChangedDelegates();
             output.Add(val => SetCurrentValueInternal(val));
             var context = new ExecutionContext(this, param, output, cancelToken);
@@ -140,6 +141,7 @@ namespace Lazurite.MainDomain
             {
                 Log.ErrorFormat(e, "Error while executing scenario [{0}][{1}]", this.Name, this.Id);
             }
+            Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
         }
 
         /// <summary>
@@ -160,7 +162,7 @@ namespace Lazurite.MainDomain
             }
             catch (Exception e)
             {
-                Log.Error("Error while calculating user rights", e);
+                Log.ErrorFormat(e, "Error while calculating user rights for scenario [{0}][{1}]", this.Name, this.Id);
                 return false;
             }
         }
@@ -223,6 +225,7 @@ namespace Lazurite.MainDomain
         
         public void Dispose()
         {
+            Log.DebugFormat("Disposing scenario [{0}][{1}]", this.Name, this.Id);
             _events.Clear();
             TryCancelAll();
         }

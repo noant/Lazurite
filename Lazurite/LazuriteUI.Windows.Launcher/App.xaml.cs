@@ -1,4 +1,5 @@
-﻿using Lazurite.IOC;
+﻿using Lazurite.Data;
+using Lazurite.IOC;
 using Lazurite.Windows.Logging;
 using Lazurite.Windows.Utils;
 using System;
@@ -20,11 +21,13 @@ namespace LazuriteUI.Windows.Launcher
     {
         private static string MainExeName = "LazuriteUI.Windows.Main.exe";
         private static string TaskSchedulerMode = "-FromTaskScheduler";
-        private static WarningHandlerBase Log = new WarningHandler();
+        private static WarningHandlerBase Log;
         
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            Singleton.Add(new FileSavior());
+            Log = new WarningHandler();
             Log.OnWrite += (sender, args) =>
             {
                 if (args.Type == WarnType.Error || args.Type == WarnType.Fatal)

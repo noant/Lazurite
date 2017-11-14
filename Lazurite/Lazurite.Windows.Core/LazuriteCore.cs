@@ -36,8 +36,8 @@ namespace Lazurite.Windows.Core
 
         public LazuriteCore()
         {
-            Singleton.Add(WarningHandler = new WarningHandler());
             Singleton.Add(Savior = new FileSavior());
+            Singleton.Add(WarningHandler = new WarningHandler());
             Singleton.Add(SystemUtils = new SystemUtils());
         }
 

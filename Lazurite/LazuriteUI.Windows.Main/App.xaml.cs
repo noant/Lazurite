@@ -54,8 +54,7 @@ namespace LazuriteUI.Windows.Main
             
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Core = new LazuriteCore();
-            Core.WarningHandler.OnWrite += (o, e) =>
-            {
+            Core.WarningHandler.OnWrite += (o, e) => {
                 JournalManager.Set(e.Message, e.Type, e.Exception);
             };
             try

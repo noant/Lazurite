@@ -47,9 +47,11 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             TaskUtils.StartLongRunning(() =>
             {
+                Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
                 TargetAction.SetValue(
                     new ExecutionContext(this, param, new OutputChangedDelegates(), cancelToken),
                     string.Empty);
+                Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
             },
             (exception) => Log.ErrorFormat(exception, "Error while executing scenario [{0}][{1}]", this.Name, this.Id));
         }

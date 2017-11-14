@@ -41,7 +41,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
         /// <param name="param"></param>
         /// <param name="cancelToken"></param>
         public override void Execute(string param, CancellationToken cancelToken)
-        {
+        {            
+            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
             var output = new OutputChangedDelegates();
             output.Add(val => SetCurrentValueInternal(val));
             var context = new ExecutionContext(this, param, output, cancelToken);
@@ -55,6 +56,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             {
                 Log.ErrorFormat(e, "Error while executing scenario [{0}][{1}]", this.Name, this.Id);
             }
+            Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
         }
 
         public override void ExecuteInternal(ExecutionContext context)

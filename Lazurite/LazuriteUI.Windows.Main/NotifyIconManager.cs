@@ -31,37 +31,37 @@ namespace LazuriteUI.Windows.Main
 
         public static void ShowMainWindow()
         {
-            if (_mainWindow == null)
+            App.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                App.Current.Dispatcher.BeginInvoke(new Action(() =>
+                if (_mainWindow == null)
                 {
                     _mainWindow = new MainWindow();
                     _mainWindow.Closing += (o1, e1) => _mainWindow = null;
                     _mainWindow.Show();
-                }));
-            }
-            else
-            {
-                _mainWindow.WindowState = System.Windows.WindowState.Maximized;
-                _mainWindow.Activate();
-            }
+                }
+                else
+                {
+                    _mainWindow.WindowState = System.Windows.WindowState.Maximized;
+                    _mainWindow.Activate();
+                }
+            }));
         }
 
         public static void ShowFastSwitchWindow()
         {
-            if (_fastWindow == null)
-            { 
-                App.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
+            App.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (_fastWindow == null)
+                { 
                     _fastWindow = new FastSwitchWindow();
                     _fastWindow.Closing += (o1, e1) => _fastWindow = null;
                     _fastWindow.Show();
-                }));
-            }
-            else
-            {
-                _fastWindow.Activate();
-            }
+                }
+                else
+                {
+                    _fastWindow.Activate();
+                }
+            }));
         }
     }
 }
