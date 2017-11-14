@@ -53,6 +53,8 @@ namespace LazuriteMobile.App.Droid
 
         public static void SendData<T>(T data, Messenger msgr, Messenger answerMessenger, ServiceOperation operation)
         {
+            if (msgr == null)
+                return;
             var message = Message.Obtain();
             SetData(data, message, answerMessenger, operation);
             msgr.Send(message);
@@ -60,6 +62,8 @@ namespace LazuriteMobile.App.Droid
 
         public static void SendData(Messenger msgr, Messenger answerMessenger, ServiceOperation operation)
         {
+            if (msgr == null)
+                return;
             var message = Message.Obtain();
             message.What = (int)operation;
             message.Obj = answerMessenger;
@@ -68,6 +72,8 @@ namespace LazuriteMobile.App.Droid
 
         public static void RaiseEvent<T>(T data, Messenger msgr, Messenger answerMessenger, ServiceOperation operation)
         {
+            if (msgr == null)
+                return;
             var message = Message.Obtain();
             SetData(data, message, answerMessenger, operation);
             msgr.Send(message);

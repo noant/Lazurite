@@ -142,15 +142,19 @@ namespace LazuriteMobile.App
             return new OperationResult<List<T>>(result, success, serverTime);
         }
         
-        public void Initialize()
+        public void Initialize(Action<bool> callback)
         {
             TryLoadClientSettings();
             if (_clientSettings != null)
-                InitializeInternal();
-            else NeedClientSettings?.Invoke();
+                InitializeInternal(callback);
+            else 
+            {
+                callback?.Invoke(false);
+                NeedClientSettings?.Invoke();
+            }
         }
 
-        private void InitializeInternal()
+        private void InitializeInternal(Action<bool> callback)
         {
             TryLoadCachedScenarios();
             //cancel all operations
@@ -159,7 +163,7 @@ namespace LazuriteMobile.App
             _operationCancellationTokenSource = new CancellationTokenSource();
             StopListenChanges();
             RecreateConnection();
-            Refresh();
+            Refresh(callback);
             StartListenChanges();
         }
 
@@ -318,7 +322,7 @@ namespace LazuriteMobile.App
         {
             _clientSettings = settings;
             SaveClientSettings();
-            InitializeInternal();
+            InitializeInternal(null);
         }
 
         public void GetClientSettings(Action<ClientSettings> callback)
@@ -334,6 +338,11 @@ namespace LazuriteMobile.App
         public void GetScenarios(Action<ScenarioInfo[]> callback)
         {
             callback(Scenarios);
+        }
+
+        public void Close()
+        {
+            StopListenChanges();
         }
     }
 }

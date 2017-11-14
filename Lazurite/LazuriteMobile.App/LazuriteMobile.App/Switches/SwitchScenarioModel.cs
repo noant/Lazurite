@@ -17,7 +17,7 @@ namespace LazuriteMobile.App.Switches
         private static readonly string Icon1Key = "Icon1";
         private static readonly string Icon2Key = "Icon2";
 
-        private IScenariosManager _manager = Singleton.Resolve<IScenariosManager>(); 
+        private IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager; 
 
         public SwitchScenarioModel(ScenarioInfo scenario)
         {

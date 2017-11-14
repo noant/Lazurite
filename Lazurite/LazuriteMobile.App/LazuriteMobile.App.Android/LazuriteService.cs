@@ -12,6 +12,8 @@ using Java.IO;
 using Lazurite.IOC;
 using LazuriteMobile.MainDomain;
 using Java.Lang;
+using LazuriteMobile.Android.ServiceClient;
+using Lazurite.Data;
 
 namespace LazuriteMobile.App.Droid
 {
@@ -20,7 +22,7 @@ namespace LazuriteMobile.App.Droid
     {
         public static bool Started { get; private set; } = false;
 
-        private IScenariosManager _manager = new ScenariosManager();
+        private IScenariosManager _manager;
         private Messenger _messenger;
         IncomingHandler _inHandler = new IncomingHandler();
         Messenger _toActivityMessenger;
@@ -33,9 +35,14 @@ namespace LazuriteMobile.App.Droid
         public override void OnCreate()
         {
             base.OnCreate();
+            if (!Singleton.Any<SaviorBase>())
+                Singleton.Add(new JsonFileSavior());
+            if (!Singleton.Any<IServiceClientManager>())
+                Singleton.Add(new ServiceClientManager());
+            _manager = new ScenariosManager();
             _messenger = new Messenger(_inHandler);
             _inHandler.HasCome += InHandler_HasCome;
-            _manager.Initialize();
+            _manager.Initialize(null);
             _manager.ConnectionLost += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.ConnectionLost);
             _manager.ConnectionRestored += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.ConnectionRestored);
             _manager.LoginOrPasswordInvalid += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.CredentialsInvalid);

@@ -192,6 +192,7 @@
     <Compile Include="ServiceScenariosManager.cs" />
     <Compile Include="SplashActivity.cs" />
     <Compile Include="JsonFileSavior.cs" />
+    <Compile Include="StartReciever.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

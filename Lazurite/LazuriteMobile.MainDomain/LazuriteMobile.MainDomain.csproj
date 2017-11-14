@@ -35,6 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\Lazurite.Data\Lazurite.Data.csproj">
+      <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
+      <Name>Lazurite.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.MainDomain\Lazurite.MainDomain.csproj">
       <Project>{DCD8E6AF-A435-4556-AD74-84444B1DD816}</Project>
       <Name>Lazurite.MainDomain</Name>
@@ -42,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientSettings.cs" />
+    <Compile Include="Context.cs" />
     <Compile Include="IScenariosManager.cs" />
     <Compile Include="IServiceClient.cs" />
     <Compile Include="IServiceClientManager.cs" />

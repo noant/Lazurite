@@ -15,7 +15,7 @@ namespace LazuriteMobile.App
 {
 	public partial class MainPage : ContentPage
 	{
-        IScenariosManager _manager = Singleton.Resolve<IScenariosManager>();
+        IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
         
         SynchronizationContext _currentContext = SynchronizationContext.Current;
 
@@ -31,19 +31,26 @@ namespace LazuriteMobile.App
             _manager.CredentialsLoaded += _manager_CredentialsLoaded;
             _manager.SecretCodeInvalid += _manager_SecretCodeInvalid;
             settingsView.ConnectClicked += SettingsView_ConnectClicked;
-            _manager.IsConnected((result) =>
+            _manager.Initialize((initialized) =>
             {
-                if (result)
-                {
-                    Refresh();
-                    HideCaption();
-                }
-                else
-                {
-                    _manager.GetClientSettings((settings) => {
-                        settingsView.SetCredentials(settings);
+                if (initialized)
+                    _manager.IsConnected((connected) =>
+                    {
+                        if (connected)
+                        {
+                            Refresh();
+                            HideCaption();
+                        }
+                        else
+                        {
+                            _manager.GetClientSettings((settings) =>
+                            {
+                                settingsView.SetCredentials(settings);
+                            });
+                        }
                     });
-                }
+                else
+                    ShowCaption("Ошибка сервиса...", true, true);
             });
         }
         

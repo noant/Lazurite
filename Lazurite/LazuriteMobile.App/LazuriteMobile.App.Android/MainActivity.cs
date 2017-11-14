@@ -18,18 +18,11 @@ namespace LazuriteMobile.App.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
-            if (!Singleton.Any<SaviorBase>())
-                Singleton.Add(new JsonFileSavior());
+            if (!Singleton.Any<LazuriteContext>())
+                Singleton.Add(new LazuriteContext());
 
-            if (!Singleton.Any<IServiceClientManager>())
-                Singleton.Add(new ServiceClientManager());
-
-            if (!Singleton.Any<IScenariosManager>())
-            {
-                var manager = new ServiceScenariosManager(this);
-                manager.Initialize();
-                Singleton.Add(manager);
-            }
+            var context = Singleton.Resolve<LazuriteContext>();
+            context.Manager = new ServiceScenariosManager(this);
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
@@ -38,6 +31,12 @@ namespace LazuriteMobile.App.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
+        }
+
+        protected override void OnDestroy()
+        {
+            Singleton.Resolve<LazuriteContext>().Manager.Close();
+            base.OnDestroy();
         }
     }
 }

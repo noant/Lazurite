@@ -9,13 +9,14 @@ namespace LazuriteMobile.MainDomain
 {
     public interface IScenariosManager
     {
-        void Initialize(); 
+        void Initialize(Action<bool> callback); 
         
         void GetClientSettings(Action<ClientSettings> callback);
         void SetClientSettings(ClientSettings settings);
         void ExecuteScenario(ExecuteScenarioArgs args);
         void IsConnected(Action<bool> callback);
         void GetScenarios(Action<ScenarioInfo[]> callback);
+        void Close();
 
         event Action<ScenarioInfo[]> ScenariosChanged;
         event Action NeedRefresh;

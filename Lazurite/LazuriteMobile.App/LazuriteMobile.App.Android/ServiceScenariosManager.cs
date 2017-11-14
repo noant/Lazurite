@@ -17,6 +17,7 @@ namespace LazuriteMobile.App.Droid
     public class ServiceScenariosManager : IScenariosManager
     {
         private Activity _activity;
+        private ManagerServiceConnection _serviceConnection;
         private Messenger _messenger;
         private Messenger _toServiceMessenger;
         private ServiceScenarioManagerCallbacks _callbacks = new ServiceScenarioManagerCallbacks();
@@ -79,19 +80,22 @@ namespace LazuriteMobile.App.Droid
         public event Action<ScenarioInfo[]> ScenariosChanged;
         public event Action SecretCodeInvalid;
 
-        public void Initialize()
+        public void Initialize(Action<bool> callback)
         {
-            if (!LazuriteService.Started)
+            if (!IsServiceRunning(typeof(LazuriteService)))
                 _activity.StartService(new Intent(Application.Context, typeof(LazuriteService)));
-            var serviceConnection = new ManagerServiceConnection();
-            serviceConnection.Connected += ServiceConnection_Connected;
-            _activity.BindService(new Intent(Application.Context, typeof(LazuriteService)), serviceConnection, Bind.AutoCreate);
+            _serviceConnection = new ManagerServiceConnection();
+            _serviceConnection.Connected += ServiceConnection_Connected;
+            var result = _activity.BindService(new Intent(Application.Context, typeof(LazuriteService)), _serviceConnection, Bind.AutoCreate);
+            if (result)
+                _callbacks.Add(ServiceOperation.Initialize, (obj) => callback(true));
+            else callback(false);
         }
 
         private void ServiceConnection_Connected(object sender, Messenger msgr)
         {
             _toServiceMessenger = msgr;
-            Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetIsConnected);
+            _callbacks.Dequeue(ServiceOperation.Initialize, true);
         }
 
         public void ExecuteScenario(ExecuteScenarioArgs args)
@@ -117,8 +121,7 @@ namespace LazuriteMobile.App.Droid
             _callbacks.Add(ServiceOperation.GetIsConnected, (obj) => {
                 callback((bool)obj);
             });
-            if (_toServiceMessenger != null) //crutch
-                Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetIsConnected);
+            Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetIsConnected);
         }
 
         public void GetScenarios(Action<ScenarioInfo[]> callback)
@@ -127,6 +130,20 @@ namespace LazuriteMobile.App.Droid
                 callback((ScenarioInfo[])obj);
             });
             Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetScenarios);
+        }
+
+        private bool IsServiceRunning(System.Type type)
+        {
+            var manager = (ActivityManager)_activity.GetSystemService(Context.ActivityService);
+            foreach (var service in manager.GetRunningServices(int.MaxValue))
+                if (service.Service.ClassName.Equals(Java.Lang.Class.FromType(type).CanonicalName))
+                    return true;
+            return false;
+        }
+
+        public void Close()
+        {
+            _activity.UnbindService(_serviceConnection);
         }
     }
 

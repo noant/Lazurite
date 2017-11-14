@@ -26,6 +26,7 @@ namespace LazuriteMobile.App.Droid
         CredentialsInvalid = 512,
         SecretCodeInvalid = 1024,
         CredentialsLoaded = 2048,
-        GetScenarios = 4096
+        GetScenarios = 4096,
+        Initialize = 8192
     }
 }

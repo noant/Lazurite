@@ -13,22 +13,14 @@ namespace LazuriteMobile.App
 {
     public partial class App : Application
     {
-        private IScenariosManager _manager;
-
         public App()
         {
-            _manager = Singleton.Resolve<IScenariosManager>();
             InitializeComponent();
             MainPage = new LazuriteMobile.App.MainPage();
         }
         
         protected override void OnStart()
         {
-            //_manager.IsConnected((result) =>
-            //{
-            //    if (!result)
-            //        _manager.Initialize();
-            //});
         }
         
         protected override void OnSleep()
