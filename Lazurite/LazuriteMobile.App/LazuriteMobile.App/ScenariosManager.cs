@@ -55,6 +55,7 @@ namespace LazuriteMobile.App
         private CancellationTokenSource _operationCancellationTokenSource;
         private IServiceClientManager _clientManager = Singleton.Resolve<IServiceClientManager>();
         private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
+        private ISystemUtils _utils = Singleton.Resolve<ISystemUtils>();
         private IServiceClient _serviceClient;
         private ClientSettings _clientSettings;
         private DateTime _lastUpdateTime;
@@ -156,7 +157,6 @@ namespace LazuriteMobile.App
 
         private void InitializeInternal(Action<bool> callback)
         {
-            TryLoadCachedScenarios();
             //cancel all operations
             if (_operationCancellationTokenSource != null)
                 _operationCancellationTokenSource.Cancel();
@@ -186,7 +186,7 @@ namespace LazuriteMobile.App
             TaskUtils.StartLongRunning(() => { 
                 while (!_listenersCancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    if (fullRefreshIncrement == _fullRefreshInterval)
+                    if (fullRefreshIncrement == _fullRefreshInterval && Scenarios != null)
                     {
                         fullRefreshIncrement = 0;
                         Refresh(success =>
@@ -204,7 +204,7 @@ namespace LazuriteMobile.App
                         });
                         fullRefreshIncrement++;
                     }
-                    Task.Delay(_listenInterval).Wait();
+                    _utils.Sleep(_listenInterval, CancellationToken.None);
                 }
             });
         }
@@ -225,7 +225,7 @@ namespace LazuriteMobile.App
             null);
         }
 
-        public void Refresh(Action<bool> callback)
+        private void Refresh(Action<bool> callback)
         {
             _serviceClient.BeginGetScenariosInfo((x) => {
                 var result = Handle(() => _serviceClient.EndGetScenariosInfo(x));
@@ -233,7 +233,6 @@ namespace LazuriteMobile.App
                 {
                     _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
                     Scenarios = result.Value.ToArray();
-                    CacheScenarios();
                     NeedRefresh?.Invoke();
                 }
                 callback?.Invoke(result.Success);
@@ -248,7 +247,7 @@ namespace LazuriteMobile.App
             });
         }
 
-        public void Update(Action<bool> callback)
+        private void Update(Action<bool> callback)
         {
             _serviceClient.BeginGetChangedScenarios(_lastUpdateTime,
             (o) =>
@@ -262,7 +261,10 @@ namespace LazuriteMobile.App
                     {
                         var existingScenario = changedScenarios.FirstOrDefault(x => x.ScenarioId.Equals(changedScenario.ScenarioId));
                         if (existingScenario != null)
+                        {
                             existingScenario.CurrentValue = changedScenario.CurrentValue;
+                            existingScenario.IsAvailable = changedScenario.IsAvailable;
+                        }
                     }
                     _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
                     ScenariosChanged?.Invoke(changedScenarios);
@@ -315,19 +317,31 @@ namespace LazuriteMobile.App
 
         public ClientSettings GetClientSettings()
         {
-            return _clientSettings ?? new ClientSettings();
+            return _clientSettings;
         }
 
         public void SetClientSettings(ClientSettings settings)
         {
             _clientSettings = settings;
             SaveClientSettings();
+            if (_getClientSettingsCallbackCrutch != null)
+            {
+                _getClientSettingsCallbackCrutch(settings);
+                _getClientSettingsCallbackCrutch = null;
+            }
             InitializeInternal(null);
         }
 
+        private Action<ClientSettings> _getClientSettingsCallbackCrutch;
         public void GetClientSettings(Action<ClientSettings> callback)
         {
-            callback(GetClientSettings());
+            if (_clientSettings == null)
+            {
+                NeedClientSettings?.Invoke();
+                _getClientSettingsCallbackCrutch = callback;
+            }
+            else
+                callback(GetClientSettings());
         }
 
         public void IsConnected(Action<bool> callback)

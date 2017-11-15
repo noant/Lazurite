@@ -14,6 +14,8 @@ using LazuriteMobile.MainDomain;
 using Java.Lang;
 using LazuriteMobile.Android.ServiceClient;
 using Lazurite.Data;
+using Lazurite.Logging;
+using Lazurite.MainDomain;
 
 namespace LazuriteMobile.App.Droid
 {
@@ -39,10 +41,13 @@ namespace LazuriteMobile.App.Droid
                 Singleton.Add(new JsonFileSavior());
             if (!Singleton.Any<IServiceClientManager>())
                 Singleton.Add(new ServiceClientManager());
+            if (!Singleton.Any<ILogger>())
+                Singleton.Add(new LogStub());
+            if (!Singleton.Any<ISystemUtils>())
+                Singleton.Add(new SystemUtils());
             _manager = new ScenariosManager();
             _messenger = new Messenger(_inHandler);
             _inHandler.HasCome += InHandler_HasCome;
-            _manager.Initialize(null);
             _manager.ConnectionLost += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.ConnectionLost);
             _manager.ConnectionRestored += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.ConnectionRestored);
             _manager.LoginOrPasswordInvalid += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.CredentialsInvalid);
@@ -50,6 +55,7 @@ namespace LazuriteMobile.App.Droid
             _manager.NeedRefresh += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.NeedRefresh);
             _manager.ScenariosChanged += (scenarios) => Utils.RaiseEvent(scenarios, _toActivityMessenger, _messenger, ServiceOperation.ScenariosChanged);
             _manager.SecretCodeInvalid += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.SecretCodeInvalid);
+            _manager.Initialize(null);
         }
 
         [return: GeneratedEnum]

@@ -45,6 +45,9 @@ namespace Lazurite.MainDomain
         public UserVisualSettings VisualSettings { get; set; }
 
         [DataMember]
+        public bool IsAvailable { get; set; }
+
+        [DataMember]
         public bool OnlyGetValue { get; set; }
 
         public event Action<ScenarioInfo> ValueChanged;

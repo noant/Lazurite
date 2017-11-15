@@ -10,12 +10,10 @@
              Background="{x:Static controls:Visual.BackgroundLazurite}"
              xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
              IsEnabled="{Binding AllowClick}"
+             Opacity="{Binding IsAvailable, Converter={x:Static local:ConvertersStatic.BoolToDouble}}"
              d:DesignHeight="80" d:DesignWidth="80">
     <Grid>
-        <Grid.Resources>
-            <local:BoolToVisibility x:Key="boolToVisibility"></local:BoolToVisibility>
-        </Grid.Resources>
-        <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}}"></common:CheckPanel>
+        <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolToVisibility}}"></common:CheckPanel>
         <TextBlock IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Name="textBlock" x:FieldModifier="private" Foreground="Gray" FontSize="9" >[Изображение]</TextBlock>
     </Grid>
 </UserControl>

@@ -16,8 +16,10 @@ namespace Lazurite.MainDomain
     {
         protected static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
-        private List<Action<ScenarioBase>> _events = new List<Action<ScenarioBase>>();        
+        private List<Action<ScenarioBase>> _valueChangedEvents = new List<Action<ScenarioBase>>();
+        private List<Action<ScenarioBase>> _availabilityChangedEvents = new List<Action<ScenarioBase>>();
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private bool _isAvailable = true;
 
         private void Handle(Exception e)
         {
@@ -33,6 +35,23 @@ namespace Lazurite.MainDomain
         /// If true - scenario cannot be executed, just return value
         /// </summary>
         public bool OnlyGetValue { get; set; }
+
+        /// <summary>
+        /// Scenario availability
+        /// </summary>
+        public bool IsAvailable
+        {
+            get
+            {
+                return _isAvailable;
+            }
+            set
+            {
+                _isAvailable = value;
+                RaiseAvailabilityChangedEvents();
+                LastChange = DateTime.Now.ToUniversalTime();
+            }
+        }
 
         /// <summary>
         /// Scenario name
@@ -192,7 +211,7 @@ namespace Lazurite.MainDomain
         /// <param name="action"></param>
         public void SetOnStateChanged(Action<ScenarioBase> action)
         {
-            _events.Add(action);
+            _valueChangedEvents.Add(action);
         }
 
         /// <summary>
@@ -201,20 +220,38 @@ namespace Lazurite.MainDomain
         /// <param name="action"></param>
         public void RemoveOnStateChanged(Action<ScenarioBase> action)
         {
-            _events.Remove(action);
+            _valueChangedEvents.Remove(action);
+        }
+
+        /// <summary>
+        /// Set event on state changed
+        /// </summary>
+        /// <param name="action"></param>
+        public void SetOnAvailabilityChanged(Action<ScenarioBase> action)
+        {
+            _availabilityChangedEvents.Add(action);
+        }
+
+        /// <summary>
+        /// Remove event on state changed
+        /// </summary>
+        /// <param name="action"></param>
+        public void RemoveOnAvailabilityChanged(Action<ScenarioBase> action)
+        {
+            _availabilityChangedEvents.Remove(action);
         }
 
         /// <summary>
         /// Raise events when state changed
         /// </summary>
-        protected void RaiseEvents()
+        protected void RaiseValueChangedEvents()
         {
             LastChange = DateTime.Now.ToUniversalTime();
-            for (int i = 0; i < _events.Count; i++)
+            for (int i = 0; i < _valueChangedEvents.Count; i++)
             {
                 try
                 {
-                    _events[i](this);
+                    _valueChangedEvents[i](this);
                 }
                 catch(Exception e)
                 {
@@ -222,11 +259,30 @@ namespace Lazurite.MainDomain
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Raise events when availability changed
+        /// </summary>
+        protected void RaiseAvailabilityChangedEvents()
+        {
+            for (int i = 0; i < _availabilityChangedEvents.Count; i++)
+            {
+                try
+                {
+                    _availabilityChangedEvents[i](this);
+                }
+                catch (Exception e)
+                {
+                    Log.InfoFormat(e, "Error while raise events in scenario [{1}][{0}]", this.Name, this.Id);
+                }
+            }
+        }
+
         public void Dispose()
         {
             Log.DebugFormat("Disposing scenario [{0}][{1}]", this.Name, this.Id);
-            _events.Clear();
+            _valueChangedEvents.Clear();
+            _availabilityChangedEvents.Clear();
             TryCancelAll();
         }
     }

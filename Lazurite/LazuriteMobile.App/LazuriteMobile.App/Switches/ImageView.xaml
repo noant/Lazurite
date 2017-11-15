@@ -7,7 +7,9 @@
     WidthRequest="110"
     VerticalOptions="Start" 
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
+    xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
     BackgroundColor="#1D191D"
+    Opacity="{Binding IsAvailable, Converter={Static local:ConvertersStatic.BoolToDouble}}"
     IsEnabled="{Binding AllowClick}"
     HorizontalOptions="Start">
     <Label FontSize="Small" TextColor="Gray" Text="[Изображение]" VerticalOptions="Center" HorizontalOptions="Center"></Label>

@@ -15,6 +15,9 @@ namespace Lazurite.MainDomain
         public string ScenarioId { get; set; } //guid
 
         [DataMember]
+        public bool IsAvailable { get; set; }
+
+        [DataMember]
         public string CurrentValue { get; set; }
     }
 }

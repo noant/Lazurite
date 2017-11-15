@@ -9,7 +9,7 @@ namespace LazuriteMobile.MainDomain
     public class ClientSettings
     {
         public string Host { get; set; }
-        public ushort Port { get; set; }
+        public ushort Port { get; set; } = 1;
         public string ServiceName { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }

@@ -8,24 +8,19 @@
     WidthRequest="110"
     VerticalOptions="Start" 
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
+    xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
     BackgroundColor="#1D191D"
+    Opacity="{Binding IsAvailable, Converter={Static local:ConvertersStatic.BoolToDouble}}"
     HorizontalOptions="Start"
-    IsEnabled="{Binding AllowClick}"
-    xmlns:local="clr-namespace:LazuriteMobile.App.Switches">
-    <Grid.Resources>
-        <ResourceDictionary>
-            <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
-            <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
-        </ResourceDictionary>
-    </Grid.Resources>
+    IsEnabled="{Binding AllowClick}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:IconView WidthRequest="20" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}"></controls:IconView>
-        <Label Grid.Row="1" VerticalOptions="Center" Margin="4,-4,4,4" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="#4682b4"  FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
-        <Label Grid.Row="2" VerticalOptions="Center" Margin="4,-7,4,0" x:Name="textBlockScenValue" Text="{Binding ScenarioValue, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small"></Label>
+        <controls:IconView WidthRequest="20" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+        <Label Grid.Row="1" VerticalOptions="Center" Margin="4,-4,4,4" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="#4682b4"  FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
+        <Label Grid.Row="2" VerticalOptions="Center" Margin="4,-7,4,0" x:Name="textBlockScenValue" Text="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small"></Label>
     </Grid>
 </ContentView>

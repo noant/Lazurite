@@ -76,6 +76,8 @@
       <DependentUpon>SwitchesGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="Switches\BoolInvert.cs" />
+    <Compile Include="Switches\BoolToDouble.cs" />
+    <Compile Include="Switches\ConvertersStatic.cs" />
     <Compile Include="Switches\FloatView.xaml.cs">
       <DependentUpon>FloatView.xaml</DependentUpon>
     </Compile>

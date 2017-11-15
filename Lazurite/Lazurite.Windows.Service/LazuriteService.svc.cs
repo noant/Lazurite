@@ -190,6 +190,7 @@ namespace Lazurite.Windows.Service
                     )
                     .Select(x => new ScenarioInfoLW()
                     {
+                        IsAvailable = x.IsAvailable,
                         CurrentValue = x.CalculateCurrentValue(),
                         ScenarioId = x.Id
                     }), _secretKey);
@@ -210,7 +211,8 @@ namespace Lazurite.Windows.Service
                     ValueType = scenario.ValueType,
                     VisualSettings = GetVisualSettings(user, scenario.Id),
                     Name = scenario.Name,
-                    OnlyGetValue = scenario.OnlyGetValue
+                    OnlyGetValue = scenario.OnlyGetValue,
+                    IsAvailable = scenario.IsAvailable
                 }, _secretKey);
             });
         }
@@ -230,7 +232,8 @@ namespace Lazurite.Windows.Service
                         ValueType = x.ValueType,
                         Name = x.Name,
                         VisualSettings = GetVisualSettings(user, x.Id),
-                        OnlyGetValue = x.OnlyGetValue
+                        OnlyGetValue = x.OnlyGetValue,
+                        IsAvailable = x.IsAvailable
                     }), _secretKey);
 
                 return result;

@@ -97,7 +97,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         public override void SetCurrentValueInternal(string value)
         {
             _currentValue = value;
-            RaiseEvents();
+            RaiseValueChangedEvents();
         }
 
         public override string GetCurrentValue()

@@ -9,25 +9,17 @@
     HeightRequest="110"
     WidthRequest="110"
     VerticalOptions="Start"
+    Opacity="{Binding IsAvailable, Converter={Static local:ConvertersStatic.BoolToDouble}}"
     BackgroundColor="#1D191D" 
     HorizontalOptions="Start">
     <Grid x:Name="grid">
-        <Grid.Resources>
-            <ResourceDictionary>
-                <local:ValueTypeStringToBool x:Key="valueTypeStringToBool"></local:ValueTypeStringToBool>
-                <local:ValueTypeStringToBoolInvert x:Key="valueTypeStringToBoolInvert"></local:ValueTypeStringToBoolInvert>
-                <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
-                <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
-                <local:BoolInvert x:Key="boolInvert"></local:BoolInvert>
-            </ResourceDictionary>
-        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
         <controls:ItemView BackgroundColor="Transparent" IsEnabled="{Binding AllowClick}" AnimateView="{Binding Source={Reference Name=grid}}" Grid.RowSpan="2" x:Name="itemView" SelectionChanged="itemView_SelectionChanged" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False" Selectable="True" HorizontalOptions="FillAndExpand"></controls:ItemView>
-        <controls:IconView Grid.Row="0" Icon="{Binding Icon2, Converter={StaticResource stringToIcon}}" IsVisible="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToBool}}" InputTransparent="True" x:Name="iconViewOn" x:FieldModifier="private" Margin="0,12,0,0" WidthRequest="50" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="Center"></controls:IconView>
-        <controls:IconView Grid.Row="0" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}}" IsVisible="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToBoolInvert}}" InputTransparent="True" x:Name="iconViewOff" x:FieldModifier="private" Margin="0,12,0,0" WidthRequest="45" HeightRequest="45" VerticalOptions="Center" HorizontalOptions="Center"></controls:IconView>
-        <Label Margin="2,-7,2,2" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1" x:Name="textBlock" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" TextColor="White" FontSize="Small" HorizontalTextAlignment="Center"></Label>
+        <controls:IconView Grid.Row="0" Icon="{Binding Icon2, Converter={Static local:ConvertersStatic.StringToIcon}}" IsVisible="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToBool}}" InputTransparent="True" x:Name="iconViewOn" x:FieldModifier="private" Margin="0,12,0,0" WidthRequest="50" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="Center"></controls:IconView>
+        <controls:IconView Grid.Row="0" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}}" IsVisible="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToBoolInvert}}" InputTransparent="True" x:Name="iconViewOff" x:FieldModifier="private" Margin="0,12,0,0" WidthRequest="45" HeightRequest="45" VerticalOptions="Center" HorizontalOptions="Center"></controls:IconView>
+        <Label Margin="2,-7,2,2" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="1" x:Name="textBlock" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="White" FontSize="Small" HorizontalTextAlignment="Center"></Label>
     </Grid>
 </ContentView>

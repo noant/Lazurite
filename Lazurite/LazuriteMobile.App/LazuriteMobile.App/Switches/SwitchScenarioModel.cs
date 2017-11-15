@@ -86,6 +86,7 @@ namespace LazuriteMobile.App.Switches
             OnPropertyChanged(nameof(ScenarioName));
             OnPropertyChanged(nameof(ScenarioValue));
             OnPropertyChanged(nameof(AllowClick));
+            OnPropertyChanged(nameof(IsAvailable));
         }
 
         public string Icon1
@@ -119,6 +120,14 @@ namespace LazuriteMobile.App.Switches
             get
             {
                 return !Scenario.OnlyGetValue;
+            }
+        }
+
+        public bool IsAvailable
+        {
+            get
+            {
+                return Scenario.IsAvailable;
             }
         }
 

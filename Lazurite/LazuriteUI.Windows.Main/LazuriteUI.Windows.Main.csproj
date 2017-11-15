@@ -323,6 +323,8 @@
     <Compile Include="Server\ServerSettingsView.xaml.cs">
       <DependentUpon>ServerSettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Switches\BoolToDouble.cs" />
+    <Compile Include="Switches\ConvertersStatic.cs" />
     <Compile Include="TriggersConstructionView.xaml.cs">
       <DependentUpon>TriggersConstructionView.xaml</DependentUpon>
     </Compile>

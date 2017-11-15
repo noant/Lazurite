@@ -12,6 +12,7 @@ namespace Lazurite.MainDomain.MessageSecurity
     [DataContract]
     public class Encrypted<T>
     {
+        private static ILogger Log = Singleton.Resolve<ILogger>();
         private static Dictionary<string, SecureEncoding> Cached = new Dictionary<string, SecureEncoding>();
         private static SecureEncoding GetSecureEncoding(string key)
         {
@@ -32,9 +33,11 @@ namespace Lazurite.MainDomain.MessageSecurity
 
         public Encrypted(T obj, string secretKey): this()
         {
+            Log.Debug("Encrypted object creating...");
             var serializer = SerializersFactory.GetSerializer<T>();
             Data = GetSecureEncoding(secretKey).Encrypt(serializer.Serialize(obj));
             ServerTime = DateTime.Now;
+            Log.Debug("Encrypted object created");
         }
 
         [DataMember]
@@ -42,6 +45,7 @@ namespace Lazurite.MainDomain.MessageSecurity
 
         public T Decrypt(string secretKey)
         {
+            Log.Debug("Decryption begin...");
             try
             {
                 var secureEncoding = GetSecureEncoding(secretKey);
@@ -51,10 +55,12 @@ namespace Lazurite.MainDomain.MessageSecurity
             }
             catch (Exception e)
             {
-                if (Singleton.Any<ILogger>())
-                    Singleton.Resolve<ILogger>()
-                        .WarnFormat(e, "Ошибка при расшифровке строки");
+                Log.WarnFormat(e, "Ошибка при расшифровке строки");
                 throw new DecryptException(e);
+            }
+            finally
+            {
+                Log.Debug("Decryption end...");
             }
         }
     }

@@ -20,6 +20,7 @@ namespace LazuriteUI.Windows.Main.Switches
             Scenario = scenario;
             VisualSettings = visualSettings;
             Scenario.SetOnStateChanged(ScenarioValueChanged);
+            scenario.SetOnAvailabilityChanged(ScenarioAvailabilityChanged);
             Scenario.CalculateCurrentValueAsync((value) => {
                 _value = value;
                 OnPropertyChanged(nameof(ScenarioValue));
@@ -55,6 +56,7 @@ namespace LazuriteUI.Windows.Main.Switches
             OnPropertyChanged(nameof(Icon1));
             OnPropertyChanged(nameof(Icon2));
             OnPropertyChanged(nameof(AllowClick));
+            OnPropertyChanged(nameof(IsAvailable));
         }
         
         public bool AllowClick
@@ -63,7 +65,15 @@ namespace LazuriteUI.Windows.Main.Switches
             {
                 if (EditMode)
                     return true;
-                else return !Scenario.OnlyGetValue;
+                else return !Scenario.OnlyGetValue && IsAvailable;
+            }
+        }
+
+        public bool IsAvailable
+        {
+            get
+            {
+                return Scenario.IsAvailable;
             }
         }
 
@@ -230,9 +240,15 @@ namespace LazuriteUI.Windows.Main.Switches
             OnPropertyChanged(nameof(ScenarioValue));
         }
 
+        private void ScenarioAvailabilityChanged(ScenarioBase scenario)
+        {
+            OnPropertyChanged(nameof(IsAvailable));
+        }
+
         public void Dispose()
         {
             Scenario.RemoveOnStateChanged(ScenarioValueChanged);
+            Scenario.RemoveOnAvailabilityChanged(ScenarioAvailabilityChanged);
         }
     }
 }

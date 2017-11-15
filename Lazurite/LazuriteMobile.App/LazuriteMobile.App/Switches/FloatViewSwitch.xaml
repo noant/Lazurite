@@ -11,18 +11,11 @@
     HorizontalOptions="FillAndExpand"
     HeightRequest="110">
     <Grid>
-        <Grid.Resources>
-            <ResourceDictionary>
-                <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
-                <local:StringToSplittedStringLong x:Key="stringToSplittedStringLong"></local:StringToSplittedStringLong>
-                <local:ValueTypeStringToDoubleRoundStr x:Key="valueTypeStringToDoubleRoundStr"></local:ValueTypeStringToDoubleRoundStr>
-            </ResourceDictionary>
-        </Grid.Resources>
         <StackLayout Spacing="0" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start" Margin="10,15,0,0">
-            <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" VerticalOptions="Center" HeightRequest="45" WidthRequest="45" HorizontalOptions="End"></controls:IconView>
-            <Label Margin="10,0,0,0" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedStringLong}}" HorizontalTextAlignment="Start" HorizontalOptions="Start" FontSize="Small" TextColor="White"></Label>
+            <controls:IconView Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" VerticalOptions="Center" HeightRequest="45" WidthRequest="45" HorizontalOptions="End"></controls:IconView>
+            <Label Margin="10,0,0,0" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}" HorizontalTextAlignment="Start" HorizontalOptions="Start" FontSize="Small" TextColor="White"></Label>
         </StackLayout>
         <Slider x:Name="slider" Minimum="{Binding Min}" Maximum="{Binding Max}" x:FieldModifier="private" VerticalOptions="End" HorizontalOptions="FillAndExpand" Margin="5,5,5,15"></Slider>
-        <Label Opacity="0.5" InputTransparent="True" TextColor="#4682b4" Text="{Binding ScenarioValue, Converter={StaticResource valueTypeStringToDoubleRoundStr}}" FontSize="Large" Scale="2" x:Name="tbValue" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="0,-20,40,20"></Label>
+        <Label Opacity="0.5" InputTransparent="True" TextColor="#4682b4" Text="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToDoubleRoundStr}}" FontSize="Large" Scale="2" x:Name="tbValue" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="0,-20,40,20"></Label>
     </Grid>
 </ContentView>

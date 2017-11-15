@@ -10,24 +10,18 @@
              Height="110" Width="110"
              Background="{x:Static controls:Visual.BackgroundLazurite}"
              IsEnabled="{Binding AllowClick}"
+             Opacity="{Binding IsAvailable, Converter={x:Static local:ConvertersStatic.BoolToDouble}}"
              d:DesignHeight="110" d:DesignWidth="110">
-    <Grid>
-        <Grid.Resources>
-            <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
-            <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
-            <local:BoolToVisibilityInvert x:Key="boolToVisibilityInvert"></local:BoolToVisibilityInvert>
-            <local:BoolToVisibility x:Key="boolToVisibility"></local:BoolToVisibility>
-            <local:BoolInvert x:Key="boolInvert"></local:BoolInvert>
-        </Grid.Resources>
-        <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}}"></common:CheckPanel>
-        <controls:ItemView IsEnabled="{Binding EditMode, Converter={StaticResource boolInvert}}" Background="Transparent" Name="itemView" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed"  Selectable="False"  HorizontalAlignment="Stretch"></controls:ItemView>
+    <Grid >
+        <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolToVisibility}}"></common:CheckPanel>
+        <controls:ItemView IsEnabled="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolInvert}}" Background="Transparent" Name="itemView" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed"  Selectable="False"  HorizontalAlignment="Stretch"></controls:ItemView>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"></RowDefinition>
                 <RowDefinition Height="2*"></RowDefinition>
             </Grid.RowDefinitions>
-            <controls:IconView Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}" IsHitTestVisible="False" x:Name="iconViewOff" x:FieldModifier="private" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center"></controls:IconView>
-            <TextBlock Margin="3,3,3,3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" IsHitTestVisible="False" Name="textBlock" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" Foreground="White" ></TextBlock>
+            <controls:IconView Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" IsHitTestVisible="False" x:Name="iconViewOff" x:FieldModifier="private" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center"></controls:IconView>
+            <TextBlock Margin="3,3,3,3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" IsHitTestVisible="False" Name="textBlock" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" Foreground="White"></TextBlock>
         </Grid>
     </Grid>
 </UserControl>

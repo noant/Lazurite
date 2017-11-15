@@ -10,23 +10,19 @@
              Height="110" Width="110"
              IsEnabled="{Binding AllowClick}"
              Background="{x:Static controls:Visual.BackgroundLazurite}"
+             Opacity="{Binding IsAvailable, Converter={x:Static local:ConvertersStatic.BoolToDouble}}"
              d:DesignHeight="110" d:DesignWidth="110">
     <Grid>
-        <Grid.Resources>
-            <local:StringToIcon x:Key="stringToIcon"></local:StringToIcon>
-            <local:BoolToVisibility x:Key="boolToVisibility"></local:BoolToVisibility>
-            <local:StringToSplittedString x:Key="stringToSplittedString"></local:StringToSplittedString>
-        </Grid.Resources>
-        <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}}"></common:CheckPanel>
+        <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolToVisibility}}"></common:CheckPanel>
         <Grid IsHitTestVisible="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <controls:IconView Width="35" Icon="{Binding Icon1, Converter={StaticResource stringToIcon}, Mode=TwoWay}"></controls:IconView>
-            <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="0,-4,0,4" Name="textBlockScenName" Text="{Binding ScenarioName, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" Foreground="SteelBlue" TextAlignment="Center"></TextBlock>
-            <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-7,0,0" Name="textBlockScenValue" Text="{Binding ScenarioValue, Converter={StaticResource stringToSplittedString}}" x:FieldModifier="private" Foreground="White" TextAlignment="Center"></TextBlock>
+            <controls:IconView Width="35" Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+            <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="0,-4,0,4" Name="textBlockScenName" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" Foreground="SteelBlue" TextAlignment="Center"></TextBlock>
+            <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-7,0,0" Name="textBlockScenValue" Text="{Binding ScenarioValue, Converter={x:Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" Foreground="White" TextAlignment="Center"></TextBlock>
         </Grid>
     </Grid>
 </UserControl>

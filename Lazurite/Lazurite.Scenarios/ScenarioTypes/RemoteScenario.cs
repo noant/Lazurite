@@ -16,6 +16,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
     [HumanFriendlyName("Сценарий другой машины")]
     public class RemoteScenario : ScenarioBase
     {
+        private static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
+
         private IClientFactory _clientFactory;
         private IServer _server;
         private ValueTypeBase _valueType;
@@ -173,18 +175,21 @@ namespace Lazurite.Scenarios.ScenarioTypes
         public override void SetCurrentValueInternal(string value)
         {
             _currentValue = value;
-            RaiseEvents();
+            RaiseValueChangedEvents();
         }
 
         public override bool Initialize(ScenariosRepositoryBase repository)
         {
             Log.DebugFormat("Scenario initialize begin: [{0}][{1}]", this.Name, this.Id);
             _clientFactory = Singleton.Resolve<IClientFactory>();
+            IsAvailable = false;
+            var remoteScenarioAvailable = false;
             var initialized = false;
             HandleExceptions(
             () =>
             {
                 _scenarioInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
+                remoteScenarioAvailable = _scenarioInfo.IsAvailable;
                 _valueType = _scenarioInfo.ValueType;
                 RemoteScenarioName = _scenarioInfo.Name;
                 initialized = true;
@@ -195,6 +200,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             },
             false);
             Log.DebugFormat("Scenario initialize end: [{0}][{1}]", this.Name, this.Id);
+            IsAvailable = initialized && remoteScenarioAvailable;
             return Initialized = initialized;
         }
 
@@ -217,13 +223,13 @@ namespace Lazurite.Scenarios.ScenarioTypes
                             SetCurrentValueInternal(newScenInfo.CurrentValue ?? string.Empty);
                         this.ValueType = newScenInfo.ValueType;
                         Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", this.Name, this.Id);
-                        Task.Delay(6500).Wait();
+                        SystemUtils.Sleep(6500, CancellationToken.None);
                     },
                     () =>
                     {
                         Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", this.Name, this.Id);
                         SetDefaultValue();
-                        Task.Delay(200000).Wait();
+                        SystemUtils.Sleep(80000, CancellationToken.None);
                         ReInitialize();
                     },
                     false);
@@ -240,7 +246,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
             else
             {
-                if (this.ValueType.AcceptedValues.Any())
+                if (this.ValueType.AcceptedValues?.Any() ?? false)
                     SetCurrentValueInternal(this.ValueType.AcceptedValues[0]);
                 else SetCurrentValueInternal(string.Empty);
             }
