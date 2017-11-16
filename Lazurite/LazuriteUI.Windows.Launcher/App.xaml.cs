@@ -25,6 +25,7 @@ namespace LazuriteUI.Windows.Launcher
 
         private void HandleUnhandledException(Exception exception)
         {
+            WarningHandler.ExtremeLog("Launcher unhandled exception!", exception);
             if (exception != null)
                 Log.FatalFormat(exception, "Необработанная ошибка");
             else
@@ -45,8 +46,7 @@ namespace LazuriteUI.Windows.Launcher
             };
 
             Singleton.Add(new FileSavior());
-            Log = new WarningHandler();
-            Singleton.Add(Log);
+            Singleton.Add(Log = new WarningHandler());
             Log.OnWrite += (sender, args) =>
             {
                 if (args.Type == WarnType.Error || args.Type == WarnType.Fatal)
@@ -86,7 +86,7 @@ namespace LazuriteUI.Windows.Launcher
             }
             catch (Exception exception)
             {
-                Log.Error("При запуске Lazurite возникла ошибка.", exception);
+                Log.Fatal("При запуске Lazurite возникла ошибка.", exception);
             }
         }
     }
