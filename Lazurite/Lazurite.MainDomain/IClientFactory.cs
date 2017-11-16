@@ -8,6 +8,6 @@ namespace Lazurite.MainDomain
 {
     public interface IClientFactory
     {
-        IServer GetServer(string host, ushort port, string serviceName, string secretKey, string userLogin, string password);
+        IServer GetServer(ConnectionCredentials credentials);
     }
 }

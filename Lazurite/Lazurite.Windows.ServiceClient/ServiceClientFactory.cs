@@ -19,7 +19,8 @@ namespace Lazurite.Windows.ServiceClient
 {
     public class ServiceClientFactory : IClientFactory
     {
-        private static ILogger Log = Singleton.Resolve<ILogger>();
+        private static readonly ILogger Log = Singleton.Resolve<ILogger>();
+        private static readonly double ConnectionTimeout_Minutes = GlobalSettings.Get(nameof(ConnectionTimeout_Minutes), 1);
 
         static ServiceClientFactory()
         {
@@ -29,27 +30,22 @@ namespace Lazurite.Windows.ServiceClient
 
         private Dictionary<ConnectionCredentials, MainDomain.IServer> _cache = new Dictionary<ConnectionCredentials, MainDomain.IServer>();
 
-        public MainDomain.IServer GetServer(string host, ushort port, string serviceName, string secretKey, string userLogin, string password)
+        public MainDomain.IServer GetServer(ConnectionCredentials credentials)
         {
-            var credentials = new ConnectionCredentials() {
-                Host = host,
-                Login = userLogin,
-                Password = password,
-                Port = port,
-                ServiceName = serviceName,
-                SecretKey = secretKey
-            };
+            MainDomain.IServer @object;
 
             if (!_cache.ContainsKey(credentials))
-                _cache.Add(credentials, CreateProxyClient(credentials));
+                _cache.Add(credentials, @object = CreateProxyClient(credentials));
+            else
+                @object = _cache[credentials];
 
-            var @object = _cache[credentials];
-            var connection = (ServerClient)((Proxy)@object).Obj;
+            var proxy = (Proxy)@object;
+            var connection = (ServerClient)proxy.Obj;
 
             if (connection.State == CommunicationState.Faulted ||
                 connection.State == CommunicationState.Closed ||
                 connection.State == CommunicationState.Closing)
-                _cache[credentials] = @object = CreateProxyClient(credentials);
+                proxy.Obj = CreateClient(credentials);
 
             return @object;
         }
@@ -57,7 +53,7 @@ namespace Lazurite.Windows.ServiceClient
         private MainDomain.IServer CreateProxyClient(ConnectionCredentials credentials)
         {
             var connection = CreateClient(credentials);
-            var connectionProxy = ProxyObjectCreating.ProxyObject.Create<MainDomain.IServer>(connection, (args) => {
+            var connectionProxy = ProxyObject.Create<MainDomain.IServer>(connection, (args) => {
                 Log.DebugFormat("Service method entered: [{0}]", args.MethodName);
                 var result = args.DefaultReturnValue;
                 try
@@ -110,7 +106,7 @@ namespace Lazurite.Windows.ServiceClient
 
             binding.CloseTimeout =
                 binding.OpenTimeout =
-                binding.SendTimeout = TimeSpan.FromMinutes(5);
+                binding.SendTimeout = TimeSpan.FromMinutes(ConnectionTimeout_Minutes);
 
             var endpoint = new EndpointAddress(new Uri(credentials.GetAddress()));
 

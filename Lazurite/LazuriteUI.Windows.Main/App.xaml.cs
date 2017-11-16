@@ -53,27 +53,28 @@ namespace LazuriteUI.Windows.Main
             };
             
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
-            Core = new LazuriteCore();
-            Core.WarningHandler.OnWrite += (o, e) => {
-                JournalManager.Set(e.Message, e.Type, e.Exception);
-            };
             try
             {
+                Core = new LazuriteCore();
+                Core.WarningHandler.OnWrite += (o, e) => {
+                    JournalManager.Set(e.Message, e.Type, e.Exception);
+                };
                 Core.Initialize();
                 Core.Server.StartAsync(null);
                 Singleton.Add(Core);
+                NotifyIconManager.Initialize();
+                DuplicatedProcessesListener.Found += (processes) => NotifyIconManager.ShowMainWindow();
+                DuplicatedProcessesListener.Start();
             }
             catch (Exception e)
             {
                 Core.WarningHandler.Fatal("Во время инициализации приложения возникла ошибка", e);
             }
-            NotifyIconManager.Initialize();
-            DuplicatedProcessesListener.Found += (processes) => NotifyIconManager.ShowMainWindow();
-            DuplicatedProcessesListener.Start();
         }
 
         private void HandleUnhandledException(Exception exception)
         {
+            WarningHandler.ExtremeLog("Unhandled exception!", exception);
             if (exception != null)
                 Core.WarningHandler.FatalFormat(exception, "Необработанная ошибка");
             else

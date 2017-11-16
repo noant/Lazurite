@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Lazurite"
-#define MyAppVersion "1.0.0.0"
+#define MyAppVersion GetFileVersion('ReleaseBinaries\LazuriteUI.Windows.Main.exe')
 #define MyAppPublisher "anton.novgorodcev@gmail.com"
 #define MyAppURL "anton.novgorodcev@gmail.com"
 #define MyAppExeName "LazuriteUI.Windows.Launcher.exe"

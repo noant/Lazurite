@@ -46,7 +46,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             {
                 try
                 {
-                    var remoteScenarios = _scenario.GetServer().GetScenariosInfo().Decrypt(_scenario.SecretKey).ToArray();
+                    var remoteScenarios = _scenario.GetServer().GetScenariosInfo().Decrypt(_scenario.Credentials.SecretKey).ToArray();
                     if (!remoteScenarios.Any())
                         throw new Exception("На удаленном сервере отсутсвуют сценарии.");
                     var selectScenarioControl = new RemoteScenarioSelect(remoteScenarios, _scenario.RemoteScenarioId);
@@ -85,23 +85,26 @@ namespace LazuriteUI.Windows.Main.Constructors
         private void Refresh(RemoteScenario scenario)
         {
             _scenario = scenario;
-            tbHost.Text = _scenario.AddressHost;
-            tbLogin.Text = _scenario.UserLogin;
-            tbPassword.Password = _scenario.Password;
-            tbPort.Text = _scenario.Port.ToString();
+            tbHost.Text = _scenario.Credentials.Host;
+            tbLogin.Text = _scenario.Credentials.Login;
+            tbPassword.Password = _scenario.Credentials.Password;
+            tbPort.Text = _scenario.Credentials.Port.ToString();
             tbScenario.Text = _scenario.RemoteScenarioName;
-            tbSecretCode.Password = _scenario.SecretKey;
-            tbServiceName.Text = _scenario.ServiceName;
+            tbSecretCode.Password = _scenario.Credentials.SecretKey;
+            tbServiceName.Text = _scenario.Credentials.ServiceName;
         }
 
         private void ApplyCurrent()
         {
-            _scenario.AddressHost = tbHost.Text;
-            _scenario.UserLogin = tbLogin.Text;
-            _scenario.Password = tbPassword.Password;
-            _scenario.Port = ushort.Parse(string.IsNullOrEmpty(tbPort.Text) ? "0" : tbPort.Text);
-            _scenario.SecretKey = tbSecretCode.Password;
-            _scenario.ServiceName = tbServiceName.Text;
+            _scenario.Credentials = new ConnectionCredentials()
+            {
+                Host = tbHost.Text,
+                Login = tbLogin.Text,
+                Password = tbPassword.Password,
+                Port = ushort.Parse(string.IsNullOrEmpty(tbPort.Text) ? "0" : tbPort.Text),
+                SecretKey = tbSecretCode.Password,
+                ServiceName = tbServiceName.Text
+            };
             Modified?.Invoke();
             Failed?.Invoke();
         }

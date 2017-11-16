@@ -21,8 +21,10 @@ namespace Lazurite.Scenarios.TriggerTypes
     [HumanFriendlyName("Триггер")]
     public class Trigger : TriggerBase
     {
-        private static ILogger Log = Singleton.Resolve<ILogger>();
-        private static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
+        private readonly static ILogger Log = Singleton.Resolve<ILogger>();
+        private readonly static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
+        private readonly static int TriggerChangesListenInterval = GlobalSettings.Get(nameof(TriggerChangesListenInterval), 300);
+
         private Action<ScenarioBase> _lastSubscribe;
 
         public override IAction TargetAction
@@ -142,7 +144,7 @@ namespace Lazurite.Scenarios.TriggerTypes
                             () => TargetAction.SetValue(executionContext, string.Empty), 
                             (exception) => Log.ErrorFormat(exception, "Error while executing trigger [{0}][{1}]", this.Name, this.Id));
                     }
-                    SystemUtils.Sleep(300, cancellationToken);
+                    SystemUtils.Sleep(TriggerChangesListenInterval, cancellationToken);
                 }
             }
         }

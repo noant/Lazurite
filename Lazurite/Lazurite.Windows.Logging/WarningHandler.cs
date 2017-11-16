@@ -66,9 +66,9 @@ namespace Lazurite.Windows.Logging
                         break;
                     case WarnType.Fatal:
                         {
+                            ExtremeLog(message, exception);
                             _logger.Fatal(message, exception);
                             LogManager.Flush(0);
-                            ExtremeLog(message, exception);
                         }
                         break;
                     case WarnType.Info:
@@ -85,10 +85,9 @@ namespace Lazurite.Windows.Logging
             }
         }
 
-        private void ExtremeLog(string message, Exception e=null)
+        public static void ExtremeLog(string message, Exception e=null)
         {
-            lock (_logger)
-                File.AppendAllLines("extremeLog.txt", new[] { DateTime.Now.ToString(), message, e.Message });
+            File.AppendAllLines("extremeLog_"+Guid.NewGuid().ToString()+".txt", new[] { DateTime.Now.ToString(), message, e.Message, e.StackTrace });
         }
     }
 }

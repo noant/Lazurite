@@ -1,6 +1,7 @@
 ﻿using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.Logging;
+using Lazurite.MainDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,37 +11,17 @@ namespace Lazurite.Windows.Logging
 {
     public abstract class WarningHandlerBase: ILogger
     {
-        private static SaviorBase Savior = Singleton.Resolve<SaviorBase>();
-
-        private WarnType? _maxWritingWarnType = null;
-        public WarnType MaxWritingWarnType
-        {
-            get
-            {
-                if (_maxWritingWarnType == null)
-                {
-                    if (Savior.Has(nameof(MaxWritingWarnType)))
-                        _maxWritingWarnType = Savior.Get<WarnType>(nameof(MaxWritingWarnType));
-                    else
-                        MaxWritingWarnType = WarnType.Info;
-                }
-                return _maxWritingWarnType.Value;
-            }
-            set
-            {
-                _maxWritingWarnType = value;
-                Savior.Set(nameof(MaxWritingWarnType), _maxWritingWarnType);
-                InternalWrite(WarnType.Info, "Выставлен уровень логирования: " + Enum.GetName(typeof(WarnType), _maxWritingWarnType));
-            }
-        }
-
+        private WarnType? _maxWritingWarnType;
+        
         public abstract void InternalWrite(WarnType type, string message = null, Exception exception = null);
 
         public void Write(WarnType type, string message = null, Exception exception = null)
         {
+            if (_maxWritingWarnType == null)
+                _maxWritingWarnType = GlobalSettings.Get(nameof(_maxWritingWarnType), WarnType.Info);
             if (type == WarnType.Debug)
                 System.Diagnostics.Debug.WriteLine(message);
-            if (type <= MaxWritingWarnType)
+            if (type <= _maxWritingWarnType)
                 InternalWrite(type, message, exception);
             RaiseOnWrite(type, message, exception);
         }

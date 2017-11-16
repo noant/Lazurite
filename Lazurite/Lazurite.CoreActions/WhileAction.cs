@@ -19,7 +19,8 @@ namespace Lazurite.CoreActions
     [HumanFriendlyName("Пока")]
     public class WhileAction : IAction, IMultipleAction
     {
-        private ISystemUtils _systemUtils = Singleton.Resolve<ISystemUtils>();
+        private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
+        private static readonly int WhileIterationsInterval = GlobalSettings.Get(nameof(WhileIterationsInterval), 1);
 
         public ComplexAction Action { get; set; } = new ComplexAction();
         public ComplexCheckerAction Checker { get; set; } = new ComplexCheckerAction();
@@ -88,7 +89,7 @@ namespace Lazurite.CoreActions
                 if (context.CancellationToken.IsCancellationRequested)
                     break;
                 Action.SetValue(context, string.Empty);
-                _systemUtils.Sleep(1, context.CancellationToken);
+                SystemUtils.Sleep(WhileIterationsInterval, context.CancellationToken);
             }
         }
 

@@ -36,7 +36,7 @@ namespace LazuriteMobile.App.Droid
             switch ((ServiceOperation)msg.What)
             {
                 case ServiceOperation.GetClientSettings:
-                    _callbacks.Dequeue(ServiceOperation.GetClientSettings, Utils.GetData<ClientSettings>(msg));
+                    _callbacks.Dequeue(ServiceOperation.GetClientSettings, Utils.GetData<ConnectionCredentials>(msg));
                     break;
                 case ServiceOperation.GetIsConnected:
                     _callbacks.Dequeue(ServiceOperation.GetIsConnected, Utils.GetData<bool>(msg));
@@ -103,15 +103,15 @@ namespace LazuriteMobile.App.Droid
             Utils.SendData(args, _toServiceMessenger, _messenger, ServiceOperation.ExecuteScenario);
         }
 
-        public void SetClientSettings(ClientSettings settings)
+        public void SetClientSettings(ConnectionCredentials creds)
         {
-            Utils.SendData(settings, _toServiceMessenger, _messenger, ServiceOperation.SetClientSettings);
+            Utils.SendData(creds, _toServiceMessenger, _messenger, ServiceOperation.SetClientSettings);
         }
 
-        public void GetClientSettings(Action<ClientSettings> callback)
+        public void GetClientSettings(Action<ConnectionCredentials> callback)
         {
             _callbacks.Add(ServiceOperation.GetClientSettings, (obj) => {
-                callback((ClientSettings)obj);
+                callback((ConnectionCredentials)obj);
             });
             Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetClientSettings);
         }

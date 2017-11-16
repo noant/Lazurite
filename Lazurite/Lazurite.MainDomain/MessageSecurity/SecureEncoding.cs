@@ -10,8 +10,10 @@ namespace Lazurite.MainDomain.MessageSecurity
 {
     public class SecureEncoding
     {
-        private static ILogger Log = Singleton.Resolve<ILogger>();
-        private static ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
+        private readonly static ILogger Log = Singleton.Resolve<ILogger>();
+        private readonly static ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
+        private readonly static int WaitForAlgorithmProviderInitializedInterval = GlobalSettings.Get(nameof(WaitForAlgorithmProviderInitializedInterval), 1);
+
         private string _secretKey;
         private ISymmetricKeyAlgorithmProvider _algo;
         private ICryptographicKey _key;
@@ -37,7 +39,7 @@ namespace Lazurite.MainDomain.MessageSecurity
         private void WaitForAlgorithmProviderInitialized()
         {
             while (_key == null && _algo == null)
-                Utils.Sleep(10, CancellationToken.None);
+                Utils.Sleep(WaitForAlgorithmProviderInitializedInterval, CancellationToken.None);
         }
 
         public string Encrypt(string data)

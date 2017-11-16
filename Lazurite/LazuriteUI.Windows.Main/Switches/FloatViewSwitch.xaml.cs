@@ -23,6 +23,8 @@ namespace LazuriteUI.Windows.Main.Switches
     /// </summary>
     public partial class FloatViewSwitch : UserControl, IDisposable
     {
+        private static readonly int FloatView_ValueUpdateInterval = GlobalSettings.Get(nameof(FloatView_ValueUpdateInterval), 300);
+
         private volatile string _tempValue;
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private ScenarioModel _model;
@@ -54,7 +56,7 @@ namespace LazuriteUI.Windows.Main.Switches
                 {
                     if (_tempValue != model.ScenarioValue)
                         model.ScenarioValue = _tempValue;
-                    Thread.Sleep(500);
+                    Thread.Sleep(FloatView_ValueUpdateInterval);
                 }
             });
         }

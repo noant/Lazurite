@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lazurite.MainDomain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace LazuriteMobile.MainDomain
 {
     public interface IServiceClientManager
     {
-        IServiceClient Create(string host, ushort port, string serviceName, string secretKey, string userLogin, string password);
+        IServiceClient Create(ConnectionCredentials credentials);
     }
 }

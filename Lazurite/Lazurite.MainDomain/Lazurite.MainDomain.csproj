@@ -40,6 +40,10 @@
       <Project>{e6be3954-3d6f-447a-91bf-04d892a1c025}</Project>
       <Name>Lazurite.ActionsDomain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Data\Lazurite.Data.csproj">
+      <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
+      <Name>Lazurite.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj">
       <Project>{a002f2fb-6791-46a2-9061-38bbe59e1618}</Project>
       <Name>Lazurite.IOC</Name>
@@ -55,6 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddictionalData.cs" />
+    <Compile Include="ConnectionCredentials.cs" />
+    <Compile Include="GlobalSettings.cs" />
     <Compile Include="IClientFactory.cs" />
     <Compile Include="MessageSecurity\DataContractSerializerExtension.cs" />
     <Compile Include="MessageSecurity\Encrypted.cs" />

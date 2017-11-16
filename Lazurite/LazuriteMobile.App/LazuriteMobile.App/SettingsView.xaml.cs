@@ -1,4 +1,5 @@
-﻿using LazuriteMobile.MainDomain;
+﻿using Lazurite.MainDomain;
+using LazuriteMobile.MainDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace LazuriteMobile.App
             InitializeComponent();
         }
 
-        public void SetCredentials(ClientSettings credentials)
+        public void SetCredentials(ConnectionCredentials credentials)
         {
             tbHost.Text = credentials.Host;
             tbLogin.Text = credentials.Login;
@@ -26,9 +27,9 @@ namespace LazuriteMobile.App
             numPort.Value = credentials.Port;
         }
 
-        public ClientSettings GetCredentials()
+        public ConnectionCredentials GetCredentials()
         {
-            return new ClientSettings() {
+            return new ConnectionCredentials() {
                 Host = tbHost.Text,
                 Login = tbLogin.Text,
                 Password = tbPassword.Text,

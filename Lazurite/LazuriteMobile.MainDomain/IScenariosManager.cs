@@ -11,8 +11,8 @@ namespace LazuriteMobile.MainDomain
     {
         void Initialize(Action<bool> callback); 
         
-        void GetClientSettings(Action<ClientSettings> callback);
-        void SetClientSettings(ClientSettings settings);
+        void GetClientSettings(Action<ConnectionCredentials> callback);
+        void SetClientSettings(ConnectionCredentials settings);
         void ExecuteScenario(ExecuteScenarioArgs args);
         void IsConnected(Action<bool> callback);
         void GetScenarios(Action<ScenarioInfo[]> callback);

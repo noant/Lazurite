@@ -16,7 +16,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
     [HumanFriendlyName("Сценарий другой машины")]
     public class RemoteScenario : ScenarioBase
     {
-        private static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
+        private readonly static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
+        private readonly static int ScenarioListenInterval = GlobalSettings.Get(nameof(ScenarioListenInterval), 6500);
+        private readonly static int ScenarioListenInterval_onError = GlobalSettings.Get(nameof(ScenarioListenInterval_onError), 60000);
 
         private IClientFactory _clientFactory;
         private IServer _server;
@@ -26,34 +28,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
         private CancellationTokenSource _cancellationTokenSource;
 
         /// <summary>
-        /// Target server ip or name
+        /// Target server credentials
         /// </summary>
-        public string AddressHost { get; set; } = "localhost";
-
-        /// <summary>
-        /// Server port
-        /// </summary>
-        public ushort Port { get; set; } = 8080;
-
-        /// <summary>
-        /// Service name
-        /// </summary>
-        public string ServiceName { get; set; } = "Lazurite";
-
-        /// <summary>
-        /// Server secret key
-        /// </summary>
-        public string SecretKey { get; set; }
-
-        /// <summary>
-        /// Target server login
-        /// </summary>
-        public string UserLogin { get; set; }
-
-        /// <summary>
-        /// Target server password
-        /// </summary>
-        public string Password { get; set; }
+        public ConnectionCredentials Credentials { get; set; } = ConnectionCredentials.Default;
         
         /// <summary>
         /// Remote scenario guid
@@ -105,8 +82,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 //crutch
                 if (e is AggregatedCommunicationException)
                 {
-                    Log.WarnFormat(strErrPrefix + ". {0}; [{1}][{2}][{3}:{4}/{5}]",
-                        e.Message, this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName);
+                    Log.WarnFormat(strErrPrefix + ". {0}; [{1}][{2}][{3}]",
+                        e.Message, this.Name, this.Id, this.Credentials.GetAddress());
                 }
                 else if (
                     e.Message.StartsWith("Scenario not found") ||
@@ -115,13 +92,13 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     e.Message.Contains("(403)") ||
                     e is InvalidOperationException)
                 {
-                    Log.WarnFormat(strErrPrefix + ". " + e.Message + "; [{0}][{1}][{2}:{3}/{4}][{5}]",
-                        this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName, e.InnerException?.Message);
+                    Log.WarnFormat(strErrPrefix + ". " + e.Message + "; [{0}][{1}][{2}][{3}]",
+                        this.Name, this.Id, this.Credentials.GetAddress(), e.InnerException?.Message);
                 }
                 else
                 {
-                    Log.WarnFormat(e, strErrPrefix + ". Unrecognized exception; [{0}][{1}][{2}:{3}/{4}]",
-                        this.Name, this.Id, this.AddressHost, this.Port, this.ServiceName);
+                    Log.WarnFormat(e, strErrPrefix + ". Unrecognized exception; [{0}][{1}][{2}][{3}]",
+                        this.Name, this.Id, this.Credentials.GetAddress(), e.InnerException?.Message);
                 }
                 onException?.Invoke();
                 return false;
@@ -132,7 +109,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
             HandleExceptions(() => {
-                GetServer().ExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
+                GetServer().ExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
                 SetCurrentValueInternal(param);
             });
             Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
@@ -142,7 +119,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
             HandleExceptions(() => {
-                GetServer().AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
+                GetServer().AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
             });
             Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
         }
@@ -151,7 +128,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
             HandleExceptions(() => {
-                GetServer().AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, SecretKey), new Encrypted<string>(param, SecretKey));
+                GetServer().AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
             });
             Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
         }
@@ -188,7 +165,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             HandleExceptions(
             () =>
             {
-                _scenarioInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
+                _scenarioInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey)).Decrypt(Credentials.SecretKey);
                 remoteScenarioAvailable = _scenarioInfo.IsAvailable;
                 _valueType = _scenarioInfo.ValueType;
                 RemoteScenarioName = _scenarioInfo.Name;
@@ -216,20 +193,20 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     HandleExceptions(
                     () =>
                     {
-                        if (SecretKey == null)
+                        if (string.IsNullOrEmpty(Credentials.SecretKey))
                             throw new InvalidOperationException("Secret key is null");
-                        var newScenInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, SecretKey)).Decrypt(SecretKey);
+                        var newScenInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey)).Decrypt(Credentials.SecretKey);
                         if (!(newScenInfo.CurrentValue ?? string.Empty).Equals(_currentValue))
                             SetCurrentValueInternal(newScenInfo.CurrentValue ?? string.Empty);
                         this.ValueType = newScenInfo.ValueType;
                         Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", this.Name, this.Id);
-                        SystemUtils.Sleep(6500, CancellationToken.None);
+                        SystemUtils.Sleep(ScenarioListenInterval, CancellationToken.None);
                     },
                     () =>
                     {
                         Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", this.Name, this.Id);
                         SetDefaultValue();
-                        SystemUtils.Sleep(80000, CancellationToken.None);
+                        SystemUtils.Sleep(ScenarioListenInterval_onError, CancellationToken.None);
                         ReInitialize();
                     },
                     false);
@@ -247,7 +224,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
             else
             {
                 if (this.ValueType.AcceptedValues?.Any() ?? false)
-                    SetCurrentValueInternal(this.ValueType.AcceptedValues[0]);
+                {
+                    if (this.ValueType is ToggleValueType)
+                        SetCurrentValueInternal(ToggleValueType.ValueOFF);
+                    else
+                        SetCurrentValueInternal(this.ValueType.AcceptedValues[0]);
+                }
                 else SetCurrentValueInternal(string.Empty);
             }
         }
@@ -266,7 +248,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public IServer GetServer()
         {
-            return _server = _clientFactory.GetServer(AddressHost, Port, ServiceName, SecretKey, UserLogin, Password);
+            return _server = _clientFactory.GetServer(Credentials);
         }
 
         public override SecuritySettingsBase SecuritySettings { get; set; } = new SecuritySettings();

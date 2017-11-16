@@ -104,7 +104,7 @@ namespace LazuriteMobile.App.Droid
                     }
                 case ServiceOperation.SetClientSettings:
                     {
-                        var settings = Utils.GetData<ClientSettings>(msg);
+                        var settings = Utils.GetData<ConnectionCredentials>(msg);
                         _manager.SetClientSettings(settings);
                         break;
                     }

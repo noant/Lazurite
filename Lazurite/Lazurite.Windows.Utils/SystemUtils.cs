@@ -10,14 +10,14 @@ namespace Lazurite.Windows.Utils
 {
     public class SystemUtils : ISystemUtils
     {
-        private static int Iteration = 300;
+        private static readonly int SleepCancelTokenIterationInterval = GlobalSettings.Get(nameof(SleepCancelTokenIterationInterval), 300);
 
         public void Sleep(int ms, CancellationToken cancelToken)
         {
-            if (ms <= Iteration)
+            if (ms <= SleepCancelTokenIterationInterval || cancelToken.Equals(CancellationToken.None))
                 Thread.Sleep(ms);
-            for (int i = 0; i <= ms && !cancelToken.CanBeCanceled; i += Iteration)
-                Thread.Sleep(Iteration);
+            else for (int i = 0; i <= ms && !cancelToken.CanBeCanceled; i += SleepCancelTokenIterationInterval)
+                Thread.Sleep(SleepCancelTokenIterationInterval);
         }
     }
 }

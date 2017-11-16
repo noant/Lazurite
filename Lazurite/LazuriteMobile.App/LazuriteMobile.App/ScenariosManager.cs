@@ -47,17 +47,18 @@ namespace LazuriteMobile.App
             }
         }
 
-        private readonly int _listenInterval = 12000;
-        private readonly int _fullRefreshInterval = 20;
+        private static readonly int ScenariosManagerListenInterval = GlobalSettings.Get(nameof(ScenariosManagerListenInterval), 7500);
+        private static readonly int ScenariosManagerFullRefreshInterval = GlobalSettings.Get(nameof(ScenariosManagerFullRefreshInterval), 10);
+        private static readonly ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
+
         private readonly string _cachedScenariosKey = "scensCache";
-        private readonly string _clientSettingsKey = "clientSettings";
+        private readonly string _credentialsKey = "credentials";
         private CancellationTokenSource _listenersCancellationTokenSource;
         private CancellationTokenSource _operationCancellationTokenSource;
         private IServiceClientManager _clientManager = Singleton.Resolve<IServiceClientManager>();
         private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
-        private ISystemUtils _utils = Singleton.Resolve<ISystemUtils>();
         private IServiceClient _serviceClient;
-        private ClientSettings _clientSettings;
+        private ConnectionCredentials? _credentials;
         private DateTime _lastUpdateTime;
 
         public ScenarioInfo[] Scenarios { get; private set; }
@@ -124,7 +125,7 @@ namespace LazuriteMobile.App
             var success = HandleExceptions(() =>
             {
                 var encryptedResult = func();
-                result = encryptedResult.Decrypt(_clientSettings.SecretKey);
+                result = encryptedResult.Decrypt(_credentials.Value.SecretKey);
                 serverTime = encryptedResult.ServerTime;
             });
             return new OperationResult<T>(result, success, serverTime);
@@ -137,7 +138,7 @@ namespace LazuriteMobile.App
             var success = HandleExceptions(() =>
             {
                 var encryptedResult = func();
-                result = encryptedResult.Decrypt(_clientSettings.SecretKey);
+                result = encryptedResult.Decrypt(_credentials.Value.SecretKey);
                 serverTime = encryptedResult.ServerTime;
             });
             return new OperationResult<List<T>>(result, success, serverTime);
@@ -146,7 +147,7 @@ namespace LazuriteMobile.App
         public void Initialize(Action<bool> callback)
         {
             TryLoadClientSettings();
-            if (_clientSettings != null)
+            if (_credentials != null)
                 InitializeInternal(callback);
             else 
             {
@@ -171,7 +172,7 @@ namespace LazuriteMobile.App
         {
             if (_serviceClient != null)
                 _serviceClient.Close();
-            _serviceClient = _clientManager.Create(_clientSettings.Host, _clientSettings.Port, _clientSettings.ServiceName, _clientSettings.SecretKey, _clientSettings.Login, _clientSettings.Password);
+            _serviceClient = _clientManager.Create(_credentials.Value);
         }
         
         public void StartListenChanges()
@@ -186,7 +187,7 @@ namespace LazuriteMobile.App
             TaskUtils.StartLongRunning(() => { 
                 while (!_listenersCancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    if (fullRefreshIncrement == _fullRefreshInterval && Scenarios != null)
+                    if (fullRefreshIncrement == ScenariosManagerFullRefreshInterval && Scenarios != null)
                     {
                         fullRefreshIncrement = 0;
                         Refresh(success =>
@@ -204,7 +205,7 @@ namespace LazuriteMobile.App
                         });
                         fullRefreshIncrement++;
                     }
-                    _utils.Sleep(_listenInterval, CancellationToken.None);
+                    Utils.Sleep(ScenariosManagerListenInterval, CancellationToken.None);
                 }
             });
         }
@@ -218,7 +219,7 @@ namespace LazuriteMobile.App
 
         public void ExecuteScenario(ExecuteScenarioArgs args)
         {
-            _serviceClient.BeginAsyncExecuteScenario(new Encrypted<string>(args.Id, _clientSettings.SecretKey), new Encrypted<string>(args.Value, _clientSettings.SecretKey), 
+            _serviceClient.BeginAsyncExecuteScenario(new Encrypted<string>(args.Id, _credentials.Value.SecretKey), new Encrypted<string>(args.Value, _credentials.Value.SecretKey), 
                 (result) => {
                     HandleExceptions(() => _serviceClient.EndAsyncExecuteScenario(result));
                 },
@@ -296,52 +297,47 @@ namespace LazuriteMobile.App
 
         private void TryLoadClientSettings()
         {
-            if (_savior.Has(_clientSettingsKey))
+            if (_savior.Has(_credentialsKey))
             {
                 try
                 {
-                    _clientSettings = _savior.Get<ClientSettings>(_clientSettingsKey);
+                    _credentials = _savior.Get<ConnectionCredentials>(_credentialsKey);
                     CredentialsLoaded?.Invoke();
                 }
                 catch
                 {
-                    _savior.Clear(_clientSettingsKey);
+                    _savior.Clear(_credentialsKey);
                 }
             }
         }
 
         private void SaveClientSettings()
         {
-            _savior.Set(_clientSettingsKey, _clientSettings);
+            _savior.Set(_credentialsKey, _credentials);
         }
-
-        public ClientSettings GetClientSettings()
+        
+        public void SetClientSettings(ConnectionCredentials credentials)
         {
-            return _clientSettings;
-        }
-
-        public void SetClientSettings(ClientSettings settings)
-        {
-            _clientSettings = settings;
+            _credentials = credentials;
             SaveClientSettings();
             if (_getClientSettingsCallbackCrutch != null)
             {
-                _getClientSettingsCallbackCrutch(settings);
+                _getClientSettingsCallbackCrutch(credentials);
                 _getClientSettingsCallbackCrutch = null;
             }
             InitializeInternal(null);
         }
 
-        private Action<ClientSettings> _getClientSettingsCallbackCrutch;
-        public void GetClientSettings(Action<ClientSettings> callback)
+        private Action<ConnectionCredentials> _getClientSettingsCallbackCrutch;
+        public void GetClientSettings(Action<ConnectionCredentials> callback)
         {
-            if (_clientSettings == null)
+            if (_credentials == null)
             {
                 NeedClientSettings?.Invoke();
                 _getClientSettingsCallbackCrutch = callback;
             }
             else
-                callback(GetClientSettings());
+                callback(_credentials.Value);
         }
 
         public void IsConnected(Action<bool> callback)

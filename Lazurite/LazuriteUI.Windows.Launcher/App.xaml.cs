@@ -22,18 +22,36 @@ namespace LazuriteUI.Windows.Launcher
         private static string MainExeName = "LazuriteUI.Windows.Main.exe";
         private static string TaskSchedulerMode = "-FromTaskScheduler";
         private static WarningHandlerBase Log;
-        
+
+        private void HandleUnhandledException(Exception exception)
+        {
+            if (exception != null)
+                Log.FatalFormat(exception, "Необработанная ошибка");
+            else
+                Log.FatalFormat(new Exception("unknown exception"), "Необработанная неизвестная ошибка");
+            System.Windows.Application.Current.Shutdown(1);
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            AppDomain.CurrentDomain.UnhandledException += (o, args) => {
+                HandleUnhandledException(args.ExceptionObject as Exception);
+            };
+
+            this.DispatcherUnhandledException += (o, args) => {
+                HandleUnhandledException(args.Exception);
+            };
+
             Singleton.Add(new FileSavior());
             Log = new WarningHandler();
+            Singleton.Add(Log);
             Log.OnWrite += (sender, args) =>
             {
                 if (args.Type == WarnType.Error || args.Type == WarnType.Fatal)
                     MessageBox.Show(args.Message, args.Exception?.Message);
             };
-            Singleton.Add(Log);
             if (e.Args.Any() && e.Args[0] == TaskSchedulerMode)
             {
                 if (new LauncherSettingsManager().Settings.RunOnUserLogon)

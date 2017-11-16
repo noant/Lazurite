@@ -45,7 +45,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientSettings.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="IScenariosManager.cs" />
     <Compile Include="IServiceClient.cs" />
