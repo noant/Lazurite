@@ -29,15 +29,16 @@ namespace LazuriteUI.Windows.Main.Security
         {
             InitializeComponent();
             btUsers.IsEnabled = false;
-            listView.SelectionChanged += (ctrl) => btUsers.IsEnabled = listView.SelectedGroups.Any();
+            listView.SelectionChanged += (ctrl) => btUsers.IsEnabled = listView.SelectedGroupsIds.Any();
             btUsers.Click += (o, e) => {
-                var group = listView.SelectedGroups.First();
+                var groupId = listView.SelectedGroupsIds.First();
+                var group = _repository.Groups.First(x => x.Name.Equals(groupId));
                 UsersSelectView.Show(
                     (users) => {
-                        group.Users = users.ToList();
+                        group.UsersIds = users.Select(x=>x.Id).ToList();
                         _repository.Save(group);
                     },
-                    group.Users.ToArray(), 
+                    group.UsersIds.ToArray(), 
                     true);
             };
         }

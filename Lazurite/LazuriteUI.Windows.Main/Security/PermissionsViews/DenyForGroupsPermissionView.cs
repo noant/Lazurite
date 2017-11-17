@@ -28,10 +28,10 @@ namespace LazuriteUI.Windows.Main.Security.PermissionsViews
             var permission = (DenyForGroupsPermission)Permission;
             GroupsSelectView.Show(
                 (groups) => {
-                    permission.Groups = groups.ToList();
+                    permission.GroupsIds = groups.Select(x => x.Name).ToList();
                     OnModified();
                 },
-                permission.Groups.ToArray());
+                permission.GroupsIds.ToArray());
             base.OnSelectClick();
         }
         

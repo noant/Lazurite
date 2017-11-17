@@ -18,6 +18,11 @@ namespace Lazurite.Security
 
         public UsersRepository()
         {
+            //do nothing
+        }
+
+        public override void Initialize()
+        {
             _systemUser = new SystemUser();
             if (_savior.Has(_usersKey))
                 _users = _savior.Get<List<UserBase>>(_usersKey);
@@ -64,9 +69,9 @@ namespace Lazurite.Security
         public override void AddUserToGroup(UserGroupBase group, UserBase user)
         {
             group = _groups.Single(x => x.Name.Equals(group.Name));
-            if (!group.Users.Any(x => x.Id.Equals(user)))
+            if (!group.UsersIds.Any(x => x.Equals(user.Id)))
             {
-                group.Users.Add(user);
+                group.UsersIds.Add(user.Id);
                 SaveGroupsList();
             }
         }
@@ -81,7 +86,7 @@ namespace Lazurite.Security
         {
             _users.RemoveAll(x => x.Id.Equals(user.Id));
             foreach (var group in _groups)
-                group.Users.RemoveAll(x => x.Id.Equals(user.Id));
+                group.UsersIds.RemoveAll(x => x.Equals(user.Id));
             SaveUsersList();
             SaveGroupsList();
 
@@ -91,7 +96,7 @@ namespace Lazurite.Security
         public override void RemoveUserFromGroup(UserGroupBase group, UserBase user)
         {
             group = _groups.Single(x => x.Name.Equals(group.Name));
-            group.Users.RemoveAll(x => x.Id.Equals(user.Id));
+            group.UsersIds.RemoveAll(x => x.Equals(user.Id));
             SaveGroupsList();
         }
         
@@ -106,13 +111,7 @@ namespace Lazurite.Security
         {
             _users.RemoveAll(x => x.Id.Equals(user.Id));
             _users.Add(user);
-            foreach (var group in _groups.Where(x => x.Users.Any(z => z.Id.Equals(user.Id))))
-            {
-                group.Users.RemoveAll(x => x.Id.Equals(user.Id));
-                group.Users.Add(user);
-            }
             SaveUsersList();
-            SaveGroupsList();
         }
     }
 }

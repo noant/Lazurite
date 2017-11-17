@@ -24,6 +24,7 @@ namespace Lazurite.Windows.Server
 {
     public class LazuriteServer
     {
+        private static readonly int ServerTimoutMinutes = GlobalSettings.Get(nameof(ServerTimoutMinutes), 1);
         public static readonly string SettingsKey = "serverSettings";
         private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
@@ -66,7 +67,7 @@ namespace Lazurite.Windows.Server
                 binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
                 binding.CloseTimeout =
                     binding.OpenTimeout =
-                    binding.SendTimeout = TimeSpan.FromMinutes(5);
+                    binding.SendTimeout = TimeSpan.FromMinutes(ServerTimoutMinutes);
                 var address = new Uri(_settings.GetAddress());
                 var service = new LazuriteService(_settings.SecretKey);
                 _host = new WebServiceHost(service, address);

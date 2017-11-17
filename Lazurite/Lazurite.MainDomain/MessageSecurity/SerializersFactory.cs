@@ -7,11 +7,15 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Lazurite.Utils;
+using Lazurite.Logging;
+using Lazurite.IOC;
 
 namespace Lazurite.MainDomain.MessageSecurity
 {
     public static class SerializersFactory
     {
+        private static ILogger Log = Singleton.Resolve<ILogger>();
+
         static SerializersFactory()
         {
             var allTypes = typeof(ValueTypeBase).GetTypeInfo().Assembly.DefinedTypes
@@ -39,6 +43,7 @@ namespace Lazurite.MainDomain.MessageSecurity
             {
                 var serializer = new DataContractSerializer(type, KnownTypes);
                 Cached.Add(type, serializer);
+                Log.DebugFormat("Serializer for type [{0}] created", type.FullName);
             }
             return Cached[type];
         }

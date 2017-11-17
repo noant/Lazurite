@@ -25,19 +25,19 @@ namespace LazuriteUI.Windows.Main.Security
     {
         private static UsersRepositoryBase Repository = Singleton.Resolve<UsersRepositoryBase>();
 
-        public UsersSelectView(UserBase[] selectedUsers, bool hideButtons)
+        public UsersSelectView(string[] selectedUsersIds, bool hideButtons)
         {
             InitializeComponent();
-            this.usersView.SelectedUsers = selectedUsers;
+            this.usersView.SelectedUsersIds = selectedUsersIds;
             if (hideButtons)
                 this.usersView.HideButtons();
         }
 
-        public UserBase[] SelectedGroups
+        public UserBase[] SelectedUsers
         {
             get
             {
-                return this.usersView.SelectedUsers;
+                return this.usersView.SelectedUsersIds.Select(x=> Repository.Users.First(z=>z.Id.Equals(x))).ToArray();
             }
         }
 
@@ -48,7 +48,7 @@ namespace LazuriteUI.Windows.Main.Security
 
         public event Action ApplyClicked;
 
-        public static void Show(Action<UserBase[]> callback, UserBase[] selectedUsers, bool hideButtons=false)
+        public static void Show(Action<UserBase[]> callback, string[] selectedUsersIds, bool hideButtons=false)
         {
             if (!Repository.Users.Any())
             {
@@ -56,12 +56,12 @@ namespace LazuriteUI.Windows.Main.Security
             }
             else
             {
-                var control = new UsersSelectView(selectedUsers, hideButtons);
+                var control = new UsersSelectView(selectedUsersIds, hideButtons);
                 var dialogView = new DialogView(control);
                 dialogView.Caption = "Выберите пользователей";
                 control.ApplyClicked += () =>
                 {
-                    callback?.Invoke(control.SelectedGroups);
+                    callback?.Invoke(control.SelectedUsers);
                     dialogView.Close();
                 };
                 dialogView.Show();

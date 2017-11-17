@@ -5,16 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lazurite.MainDomain;
+using Lazurite.IOC;
 
 namespace Lazurite.Security.Permissions
 {
     [HumanFriendlyName("Запретить для групп...")]
     public class DenyForGroupsPermission : IPermission
     {
-        public List<UserGroupBase> Groups { get; set; } = new List<UserGroupBase>();
+        private static UsersRepositoryBase Repository = Singleton.Resolve<UsersRepositoryBase>();
+
+        public List<string> GroupsIds { get; set; } = new List<string>();
+
         public bool IsAvailableForUser(UserBase user, ScenarioStartupSource source)
         {
-            return !Groups.Any(x => x.Users.Any(z=>z.Id.Equals(user.Id)));
+            return !GroupsIds.Any(x => 
+                Repository.Groups.First(g => g.Name.Equals(x))
+                .UsersIds.Any(z=>z.Equals(user.Id)));
         }
     }
 }

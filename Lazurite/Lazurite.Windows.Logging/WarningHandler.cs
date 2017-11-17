@@ -36,11 +36,7 @@ namespace Lazurite.Windows.Logging
             roller.LockingModel = new FileAppender.MinimalLock();
             roller.ActivateOptions();
             hierarchy.Root.AddAppender(roller);
-
-            var memoryAppender = new MemoryAppender();
-            memoryAppender.ActivateOptions();
-            hierarchy.Root.AddAppender(memoryAppender);
-
+            
             hierarchy.Root.Level = Level.All;
             hierarchy.Configured = true;
 

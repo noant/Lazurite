@@ -50,7 +50,7 @@ namespace LazuriteUI.Windows.Main.Security
                     (result) => {
                         if (result)
                         {
-                            var selectedGroups = SelectedGroups;
+                            var selectedGroups = SelectedGroupsIds.Select(x=>_repository.Groups.First(z=>z.Name.Equals(x)));
                             foreach (var group in selectedGroups)
                                 Remove(group);
                         }
@@ -60,7 +60,7 @@ namespace LazuriteUI.Windows.Main.Security
             this.itemsView.SelectionChanged += (o, e) =>
             {
                 this.SelectionChanged?.Invoke(this);
-                btRemove.IsEnabled = SelectedGroups.Any();
+                btRemove.IsEnabled = SelectedGroupsIds.Any();
             };
         }
 
@@ -72,12 +72,12 @@ namespace LazuriteUI.Windows.Main.Security
         public void Refresh()
         {
             itemsView.Children.Clear();
-            var selectedGroups = SelectedGroups;
+            var selectedGroups = SelectedGroupsIds;
 
             foreach (var group in _repository.Groups)
                 AddInternal(group);
 
-            SelectedGroups = selectedGroups;
+            SelectedGroupsIds = selectedGroups;
             btRemove.IsEnabled = selectedGroups.Any();
         }
 
@@ -125,15 +125,15 @@ namespace LazuriteUI.Windows.Main.Security
             }
         }
 
-        public UserGroupBase[] SelectedGroups
+        public string[] SelectedGroupsIds
         {
             get
             {
-                return itemsView.GetSelectedItems().Select(x => (UserGroupBase)((ItemView)x).Tag).ToArray();
+                return itemsView.GetSelectedItems().Select(x => (UserGroupBase)((ItemView)x).Tag).Select(x=>x.Name).ToArray();
             }
             set
             {
-                itemsView.GetItems().Where(x => value.Any(group=>((UserGroupBase)((ItemView)x).Tag).Name.Equals(group.Name))).All(x=>x.Selected=true);
+                itemsView.GetItems().Where(x => value.Any(name => ((UserGroupBase)((ItemView)x).Tag).Name.Equals(name))).All(x => x.Selected=true);
             }
         }
 

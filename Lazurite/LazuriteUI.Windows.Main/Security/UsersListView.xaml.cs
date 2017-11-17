@@ -77,14 +77,14 @@ namespace LazuriteUI.Windows.Main.Security
                     (result) => {
                         if (result)
                         {
-                            var selectedUsers = SelectedUsers;
+                            var selectedUsers = SelectedUsersIds;
                             foreach (var user in selectedUsers)
-                                Remove(user);
+                                Remove(_repository.Users.First(x=>x.Id.Equals(user)));
                         }
                     });
             };
 
-            this.SelectionChanged += (ctrl) => btRemove.IsEnabled = SelectedUsers.Any();
+            this.SelectionChanged += (ctrl) => btRemove.IsEnabled = SelectedUsersIds.Any();
         }
 
         public void HideButtons()
@@ -95,12 +95,12 @@ namespace LazuriteUI.Windows.Main.Security
         public void Refresh()
         {
             itemsView.Children.Clear();
-            var selectedUsers = SelectedUsers;
+            var selectedUsers = SelectedUsersIds;
 
             foreach (var user in _repository.Users)
                 AddInternal(user);
 
-            SelectedUsers = selectedUsers;
+            SelectedUsersIds = selectedUsers;
 
             btRemove.IsEnabled = selectedUsers.Any();
         }
@@ -154,15 +154,15 @@ namespace LazuriteUI.Windows.Main.Security
             }
         }
 
-        public UserBase[] SelectedUsers
+        public string[] SelectedUsersIds
         {
             get
             {
-                return itemsView.GetSelectedItems().Select(x => (UserBase)((ItemView)x).Tag).ToArray();
+                return itemsView.GetSelectedItems().Select(x => (UserBase)((ItemView)x).Tag).Select(x=>x.Id).ToArray();
             }
             set
             {
-                itemsView.GetItems().Where(x => value.Any(user => ((UserBase)((ItemView)x).Tag).Id.Equals(user.Id))).All(x=>x.Selected=true);
+                itemsView.GetItems().Where(x => value.Any(id => ((UserBase)((ItemView)x).Tag).Id.Equals(id))).All(x=>x.Selected=true);
             }
         }
 

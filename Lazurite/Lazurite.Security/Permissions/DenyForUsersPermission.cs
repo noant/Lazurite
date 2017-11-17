@@ -11,10 +11,10 @@ namespace Lazurite.Security.Permissions
     [HumanFriendlyName("Запретить для пользователей...")]
     public class DenyForUsersPermission : IPermission
     {
-        public List<UserBase> Users { get; set; } = new List<UserBase>();
+        public List<string> UsersIds { get; set; } = new List<string>();
         public bool IsAvailableForUser(UserBase user, ScenarioStartupSource source)
         {
-            return !Users.Any(x => x.Id.Equals(user.Id));
+            return !UsersIds.Any(x => x.Equals(user.Id));
         }
     }
 }

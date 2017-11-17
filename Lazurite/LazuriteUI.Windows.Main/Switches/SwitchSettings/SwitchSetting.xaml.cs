@@ -32,7 +32,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
         {
             var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
             MessageView messageDialog;
-            TaskUtils.Start(() =>
+            Task.Factory.StartNew(() =>
             {
                 messageDialog = new MessageView();
                 messageDialog.Icon = Icons.Icon.ImageSelect;
@@ -45,7 +45,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
                     action();
                     messageDialog.Dispatcher.BeginInvoke(new Action(() => messageDialog.Close()));
                 }));
-            });
+            }, CancellationToken.None, TaskCreationOptions.None, scheduler);
         }
 
         private void ItemView1_Click(object sender, RoutedEventArgs e)

@@ -69,11 +69,12 @@ namespace Lazurite.Windows.Core
         public void Initialize()
         {
             Singleton.Add(ClientsFactory = new ServiceClientFactory());
+            Singleton.Add(UsersRepository = new UsersRepository());
+            UsersRepository.Initialize();
             Singleton.Add(ScenariosRepository = new ScenariosRepository());
             Singleton.Add(new PluginsDataManager());
             Singleton.Add(PluginsManager = new PluginsManager());
             ScenariosRepository.Initialize();
-            Singleton.Add(UsersRepository = new UsersRepository());
             Singleton.Add(VisualSettingsRepository = new VisualSettingsRepository());
             Singleton.Add(Server = new LazuriteServer());
             if (Savior.Has(SettingsKey))

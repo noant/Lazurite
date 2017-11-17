@@ -17,9 +17,7 @@ namespace Lazurite.MainDomain.MessageSecurity
         private static SecureEncoding GetSecureEncoding(string key)
         {
             if (!Cached.ContainsKey(key))
-            {
                 Cached.Add(key, new SecureEncoding(key));
-            }
             return Cached[key];
         }
 

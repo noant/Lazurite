@@ -22,19 +22,15 @@ namespace Lazurite.Windows.Service
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, IncludeExceptionDetailInFaults = true, AddressFilterMode = AddressFilterMode.Any)]
     public class LazuriteService : IServer
     {
-        private ScenariosRepositoryBase _scenariosRepository;
-        private UsersRepositoryBase _usersRepository;
-        private VisualSettingsRepository _visualSettings;
-        private WarningHandlerBase _warningHandler;
+        private static ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
+        private VisualSettingsRepository VisualSettings = Singleton.Resolve<VisualSettingsRepository>();
+        private WarningHandlerBase WarningHandler = Singleton.Resolve<WarningHandlerBase>();
         private string _secretKey;
 
         public LazuriteService(string secretKey)
         {
             _secretKey = secretKey;
-            _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
-            _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
-            _visualSettings = Singleton.Resolve<VisualSettingsRepository>();
-            _warningHandler = Singleton.Resolve<WarningHandlerBase>();
         }
 
         public LazuriteService() : this("secretKey1234567") { }
@@ -43,12 +39,12 @@ namespace Lazurite.Windows.Service
         {
             try
             {
-                _warningHandler.DebugFormat("[{0}] execution started", memberName);
+                WarningHandler.DebugFormat("[{0}] execution started", memberName);
                 var result = function();
                 if (result is Array)
-                    _warningHandler.DebugFormat("[{0}] result: [{1}] items", memberName, ((Array)(object)result).Length);
+                    WarningHandler.DebugFormat("[{0}] result: [{1}] items", memberName, ((Array)(object)result).Length);
                 else if (result is IList)
-                    _warningHandler.DebugFormat("[{0}] result: [{1}] items", memberName, ((IList)result).Count);
+                    WarningHandler.DebugFormat("[{0}] result: [{1}] items", memberName, ((IList)result).Count);
                 return result;
             }
             catch (Exception e)
@@ -56,14 +52,14 @@ namespace Lazurite.Windows.Service
                 if (e is UnauthorizedAccessException 
                     || e is InvalidOperationException 
                     || e is DecryptException)
-                    _warningHandler.WarnFormat("[{0}] execution error. {1}", memberName, e.Message); //write only message
+                    WarningHandler.WarnFormat("[{0}] execution error. {1}", memberName, e.Message); //write only message
                 else
-                    _warningHandler.ErrorFormat(e, "[{0}] execution error", memberName); //unrecognized exception; write fully
+                    WarningHandler.ErrorFormat(e, "[{0}] execution error", memberName); //unrecognized exception; write fully
                 throw e;
             }
             finally
             {
-                _warningHandler.DebugFormat("[{0}] executed", memberName);
+                WarningHandler.DebugFormat("[{0}] executed", memberName);
             }
         }
 
@@ -71,7 +67,7 @@ namespace Lazurite.Windows.Service
         {
             try
             {
-                _warningHandler.DebugFormat("[{0}] execution started", memberName);
+                WarningHandler.DebugFormat("[{0}] execution started", memberName);
                 action();
             }
             catch (Exception e)
@@ -79,21 +75,21 @@ namespace Lazurite.Windows.Service
                 if (e is UnauthorizedAccessException 
                     || e is InvalidOperationException 
                     || e is DecryptException)
-                    _warningHandler.WarnFormat("[{0}] execution error. {1}", memberName, e.Message); //write only message
+                    WarningHandler.WarnFormat("[{0}] execution error. {1}", memberName, e.Message); //write only message
                 else
-                    _warningHandler.ErrorFormat(e, "[{0}] execution error", memberName); //unrecognized exception; write fully
+                    WarningHandler.ErrorFormat(e, "[{0}] execution error", memberName); //unrecognized exception; write fully
                 throw e;
             }
             finally
             {
-                _warningHandler.DebugFormat("[{0}] executed", memberName);
+                WarningHandler.DebugFormat("[{0}] executed", memberName);
             }
         }
 
         private UserBase GetCurrentUser()
         {
             var login = OperationContext.Current.ServiceSecurityContext.PrimaryIdentity.Name;
-            var user = _usersRepository.Users.SingleOrDefault(x => x.Login.Equals(login));
+            var user = UsersRepository.Users.SingleOrDefault(x => x.Login.Equals(login));
             if (user == null)
                 ThrowUnauthorizedAccessException();
             return user;
@@ -103,7 +99,7 @@ namespace Lazurite.Windows.Service
         {
             var user = GetCurrentUser();
 
-            var scenario = _scenariosRepository
+            var scenario = ScenariosRepository
                 .Scenarios
                 .SingleOrDefault(x => x.Id.Equals(scenarioId));
 
@@ -129,15 +125,15 @@ namespace Lazurite.Windows.Service
         private UserVisualSettings GetVisualSettings(UserBase user, string scenarioId)
         {
             return Handle(() => {
-                var visualSettings = _visualSettings.VisualSettings
+                var visualSettings = VisualSettings.VisualSettings
                     .SingleOrDefault(x => x is UserVisualSettings &&
                     x.UserId.Equals(user.Id) && x.ScenarioId.Equals(scenarioId));
 
                 //if we can not found visualSettings then get visualSetting of SystemUser
                 if (visualSettings == null)
-                    visualSettings = _visualSettings.VisualSettings
+                    visualSettings = VisualSettings.VisualSettings
                         .SingleOrDefault(x => x is UserVisualSettings &&
-                        x.UserId.Equals(_usersRepository.SystemUser.Id) &&
+                        x.UserId.Equals(UsersRepository.SystemUser.Id) &&
                         x.ScenarioId.Equals(scenarioId));
 
                 //if we can not found visualSettings of SystemUser then create new VisualSettings
@@ -183,7 +179,7 @@ namespace Lazurite.Windows.Service
             {
                 since = since.ToUniversalTime();
                 var user = GetCurrentUser();
-                return new EncryptedList<ScenarioInfoLW>(_scenariosRepository
+                return new EncryptedList<ScenarioInfoLW>(ScenariosRepository
                     .Scenarios
                     .Where(x => 
                         x.LastChange >= since && x.CanExecute(user, ScenarioStartupSource.PublicUsage)
@@ -222,7 +218,7 @@ namespace Lazurite.Windows.Service
             return Handle(() =>
             {
                 var user = GetCurrentUser();
-                var result = new EncryptedList<ScenarioInfo>(_scenariosRepository
+                var result = new EncryptedList<ScenarioInfo>(ScenariosRepository
                     .Scenarios
                     .Where(x => x.CanExecute(user, ScenarioStartupSource.PublicUsage))
                     .Select(x => new ScenarioInfo()
@@ -271,7 +267,7 @@ namespace Lazurite.Windows.Service
                     ScenarioId = decryptedVS.ScenarioId,
                     UserId = user.Id
                 };
-                _visualSettings.Add(decryptedVS);
+                VisualSettings.Add(decryptedVS);
             });
         }
 

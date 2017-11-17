@@ -25,17 +25,17 @@ namespace LazuriteUI.Windows.Main.Security
     {
         private static UsersRepositoryBase Repository = Singleton.Resolve<UsersRepositoryBase>();
 
-        public GroupsSelectView(UserGroupBase[] selectedGroups)
+        public GroupsSelectView(string[] selectedGroupsIds)
         {
             InitializeComponent();
-            this.groupsView.SelectedGroups = selectedGroups;
+            this.groupsView.SelectedGroupsIds = selectedGroupsIds;
         }
 
         public UserGroupBase[] SelectedGroups
         {
             get
             {
-                return this.groupsView.SelectedGroups;
+                return this.groupsView.SelectedGroupsIds.Select(x=>Repository.Groups.First(z=>z.Name.Equals(x))).ToArray();
             }
         }
 
@@ -46,9 +46,9 @@ namespace LazuriteUI.Windows.Main.Security
 
         public event Action ApplyClicked;
 
-        public static void Show(Action<UserGroupBase[]> callback, UserGroupBase[] selectedGroups)
+        public static void Show(Action<UserGroupBase[]> callback, string[] selectedGroupsIds)
         {
-            var control = new GroupsSelectView(selectedGroups);
+            var control = new GroupsSelectView(selectedGroupsIds);
             var dialogView = new DialogView(control);
             dialogView.Caption = "Выберите группы";
             control.ApplyClicked += () =>

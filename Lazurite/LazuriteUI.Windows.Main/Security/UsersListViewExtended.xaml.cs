@@ -28,9 +28,10 @@ namespace LazuriteUI.Windows.Main.Security
         {
             InitializeComponent();
             btEdit.IsEnabled = btChangePass.IsEnabled = false;
-            listView.SelectionChanged += (ctrl) => btChangePass.IsEnabled = btEdit.IsEnabled = listView.SelectedUsers.Any();
+            listView.SelectionChanged += (ctrl) => btChangePass.IsEnabled = btEdit.IsEnabled = listView.SelectedUsersIds.Any();
             btChangePass.Click += (o, e) => {
-                var user = listView.SelectedUsers.First();
+                var userId = listView.SelectedUsersIds.First();
+                var user = _repository.Users.First(x => x.Id.Equals(userId));
                 EditUserPasswordView.Show(() =>
                     {
                         _repository.Save(user);
@@ -47,7 +48,8 @@ namespace LazuriteUI.Windows.Main.Security
                 user);
             };
             btEdit.Click += (o, e) => {
-                var user = listView.SelectedUsers.First();
+                var userId = listView.SelectedUsersIds.First();
+                var user = _repository.Users.First(x => x.Id.Equals(userId));
                 EditUserView.Show(
                     () => {
                         _repository.Save(user);
