@@ -9,5 +9,6 @@ namespace Lazurite.MainDomain
     public interface IClientFactory
     {
         IServer GetServer(ConnectionCredentials credentials);
+        event Action<IServer, bool> ConnectionStateChanged;
     }
 }

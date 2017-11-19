@@ -159,6 +159,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             Log.DebugFormat("Scenario initialize begin: [{0}][{1}]", this.Name, this.Id);
             _clientFactory = Singleton.Resolve<IClientFactory>();
+            _clientFactory.ConnectionStateChanged -= ClientFactory_ConnectionStateChanged; //crutch
+            _clientFactory.ConnectionStateChanged += ClientFactory_ConnectionStateChanged;
             IsAvailable = false;
             var remoteScenarioAvailable = false;
             var initialized = false;
@@ -179,6 +181,11 @@ namespace Lazurite.Scenarios.ScenarioTypes
             Log.DebugFormat("Scenario initialize end: [{0}][{1}]", this.Name, this.Id);
             IsAvailable = initialized && remoteScenarioAvailable;
             return Initialized = initialized;
+        }
+
+        private void ClientFactory_ConnectionStateChanged(IServer server, bool connected)
+        {
+            this.IsAvailable = connected;
         }
 
         public override void AfterInitilize()

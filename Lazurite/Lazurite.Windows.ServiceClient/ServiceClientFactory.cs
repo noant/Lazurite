@@ -53,17 +53,29 @@ namespace Lazurite.Windows.ServiceClient
         private MainDomain.IServer CreateProxyClient(ConnectionCredentials credentials)
         {
             var connection = CreateClient(credentials);
-            var connectionProxy = ProxyObject.Create<MainDomain.IServer>(connection, (args) => {
+            MainDomain.IServer connectionProxy = null;
+            var state = false;
+            connectionProxy = ProxyObject.Create<MainDomain.IServer>(connection, (args) => {
                 Log.DebugFormat("Service method entered: [{0}]", args.MethodName);
                 var result = args.DefaultReturnValue;
                 try
                 {
                     result = args.Run();
+                    if (!state)
+                    {
+                        state = true;
+                        ConnectionStateChanged?.Invoke(connectionProxy, state);
+                    }
                 }
                 catch (Exception e)
                 {
                     Log.DebugFormat("Service method error: [{0}]; {1}", args.MethodName, e.InnerException.Message);
                     var targetException = e.InnerException;
+                    if (state)
+                    {
+                        state = false;
+                        ConnectionStateChanged?.Invoke(connectionProxy, state);
+                    }
                     //if communication exception
                     if (targetException is System.ServiceModel.ServerTooBusyException ||
                         targetException is System.ServiceModel.ServiceActivationException ||
@@ -121,5 +133,7 @@ namespace Lazurite.Windows.ServiceClient
             
             return client;
         }
+
+        public event Action<MainDomain.IServer, bool> ConnectionStateChanged;
     }
 }

@@ -198,6 +198,7 @@ namespace LazuriteMobile.App.Switches
             {
                 _available = value;
                 OnPropertyChanged(nameof(Available));
+                OnPropertyChanged(nameof(AllowClick));
             }
         }
 

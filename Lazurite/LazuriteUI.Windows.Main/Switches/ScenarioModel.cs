@@ -243,6 +243,7 @@ namespace LazuriteUI.Windows.Main.Switches
         private void ScenarioAvailabilityChanged(ScenarioBase scenario)
         {
             OnPropertyChanged(nameof(IsAvailable));
+            OnPropertyChanged(nameof(AllowClick));
         }
 
         public void Dispose()
