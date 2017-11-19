@@ -18,7 +18,7 @@ namespace Lazurite.Windows.Logging
         public void Write(WarnType type, string message = null, Exception exception = null)
         {
             if (_maxWritingWarnType == null)
-                _maxWritingWarnType = GlobalSettings.Get(nameof(_maxWritingWarnType), WarnType.Info);
+                _maxWritingWarnType = GlobalSettings.Get(WarnType.Info, nameof(_maxWritingWarnType));
             if (type == WarnType.Debug)
                 System.Diagnostics.Debug.WriteLine(message);
             if (type <= _maxWritingWarnType)

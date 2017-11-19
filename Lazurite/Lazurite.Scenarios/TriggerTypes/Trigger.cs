@@ -23,7 +23,7 @@ namespace Lazurite.Scenarios.TriggerTypes
     {
         private readonly static ILogger Log = Singleton.Resolve<ILogger>();
         private readonly static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
-        private readonly static int TriggerChangesListenInterval = GlobalSettings.Get(nameof(TriggerChangesListenInterval), 300);
+        private readonly static int TriggerChangesListenInterval = GlobalSettings.Get(300);
 
         private Action<ScenarioBase> _lastSubscribe;
 

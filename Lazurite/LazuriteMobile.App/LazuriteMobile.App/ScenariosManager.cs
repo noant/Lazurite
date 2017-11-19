@@ -47,8 +47,8 @@ namespace LazuriteMobile.App
             }
         }
 
-        private static readonly int ScenariosManagerListenInterval = GlobalSettings.Get(nameof(ScenariosManagerListenInterval), 7500);
-        private static readonly int ScenariosManagerFullRefreshInterval = GlobalSettings.Get(nameof(ScenariosManagerFullRefreshInterval), 10);
+        private static readonly int ScenariosManagerListenInterval = GlobalSettings.Get(7500);
+        private static readonly int ScenariosManagerFullRefreshInterval = GlobalSettings.Get(10);
         private static readonly ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
 
         private readonly string _cachedScenariosKey = "scensCache";
@@ -187,7 +187,7 @@ namespace LazuriteMobile.App
             TaskUtils.StartLongRunning(() => { 
                 while (!_listenersCancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    if (fullRefreshIncrement == ScenariosManagerFullRefreshInterval && Scenarios != null)
+                    if (fullRefreshIncrement == ScenariosManagerFullRefreshInterval || Scenarios == null)
                     {
                         fullRefreshIncrement = 0;
                         Refresh(success =>

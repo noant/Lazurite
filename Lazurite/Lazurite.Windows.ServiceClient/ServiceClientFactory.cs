@@ -20,7 +20,7 @@ namespace Lazurite.Windows.ServiceClient
     public class ServiceClientFactory : IClientFactory
     {
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
-        private static readonly double ConnectionTimeout_Minutes = GlobalSettings.Get(nameof(ConnectionTimeout_Minutes), 1);
+        private static readonly double ConnectionTimeout_Minutes = GlobalSettings.Get(1.0d);
 
         static ServiceClientFactory()
         {

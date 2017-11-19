@@ -66,6 +66,28 @@ namespace LazuriteMobile.App
             Rearrange();
         }
 
+        public void RefreshLE(ScenarioInfo[] scenarios)
+        {
+            var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext).ToList();
+            var models = modelsViews.Select(x => x.Key).ToArray();
+            //add new scenarios and refresh existing
+            foreach (var scenario in scenarios)
+            {
+                var scenarioModel = models.FirstOrDefault(x => x.Scenario.ScenarioId.Equals(scenario.ScenarioId));
+                if (scenarioModel != null)
+                {
+                    scenarioModel.RefreshWith(scenario);
+                }
+                else
+                {
+                    var control = CreateControl(scenario);
+                    this.grid.Children.Add(control);
+                }
+            }
+
+            Rearrange();
+        }
+
         public void Rearrange()
         {
             if (grid.Children.Any())

@@ -19,7 +19,7 @@ namespace LazuriteMobile.Android.ServiceClient
 {
     public class ServiceClientManager: IServiceClientManager
     {
-        private static readonly double ConnectionTimeout_Minutes = GlobalSettings.Get(nameof(ConnectionTimeout_Minutes), 1);
+        private static readonly double ConnectionTimeout_Minutes = GlobalSettings.Get(1.0d);
 
         static ServiceClientManager()
         {

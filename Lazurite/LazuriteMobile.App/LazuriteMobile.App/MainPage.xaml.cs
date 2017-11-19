@@ -30,6 +30,7 @@ namespace LazuriteMobile.App
             _manager.LoginOrPasswordInvalid += _manager_LoginOrPasswordInvalid;
             _manager.CredentialsLoaded += _manager_CredentialsLoaded;
             _manager.SecretCodeInvalid += _manager_SecretCodeInvalid;
+            _manager.ScenariosChanged += _manager_ScenariosChanged;
             settingsView.ConnectClicked += SettingsView_ConnectClicked;
             _manager.Initialize((initialized) =>
             {
@@ -53,7 +54,12 @@ namespace LazuriteMobile.App
                     ShowCaption("Ошибка сервиса...", true, true);
             });
         }
-        
+
+        private void _manager_ScenariosChanged(Lazurite.MainDomain.ScenarioInfo[] changedScenarios)
+        {
+            swgrid.RefreshLE(changedScenarios);
+        }
+
         protected override bool OnBackButtonPressed()
         {
             if (this.sliderMenu.MenuVisible)

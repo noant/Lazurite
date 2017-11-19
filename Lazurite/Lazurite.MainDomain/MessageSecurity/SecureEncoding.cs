@@ -12,7 +12,7 @@ namespace Lazurite.MainDomain.MessageSecurity
     {
         private readonly static ILogger Log = Singleton.Resolve<ILogger>();
         private readonly static ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
-        private readonly static int WaitForAlgorithmProviderInitializedInterval = GlobalSettings.Get(nameof(WaitForAlgorithmProviderInitializedInterval), 1);
+        private readonly static int WaitForAlgorithmProviderInitializedInterval = GlobalSettings.Get(1);
 
         private string _secretKey;
         private ISymmetricKeyAlgorithmProvider _algo;

@@ -20,7 +20,7 @@ namespace Lazurite.CoreActions
     public class WhileAction : IAction, IMultipleAction
     {
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
-        private static readonly int WhileIterationsInterval = GlobalSettings.Get(nameof(WhileIterationsInterval), 1);
+        private static readonly int WhileIterationsInterval = GlobalSettings.Get(1);
 
         public ComplexAction Action { get; set; } = new ComplexAction();
         public ComplexCheckerAction Checker { get; set; } = new ComplexCheckerAction();

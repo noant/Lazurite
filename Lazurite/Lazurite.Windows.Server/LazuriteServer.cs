@@ -24,7 +24,7 @@ namespace Lazurite.Windows.Server
 {
     public class LazuriteServer
     {
-        private static readonly int ServerTimoutMinutes = GlobalSettings.Get(nameof(ServerTimoutMinutes), 1);
+        private static readonly int ServerTimoutMinutes = GlobalSettings.Get(1);
         public static readonly string SettingsKey = "serverSettings";
         private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();

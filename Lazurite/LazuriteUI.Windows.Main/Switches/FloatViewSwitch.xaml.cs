@@ -23,7 +23,7 @@ namespace LazuriteUI.Windows.Main.Switches
     /// </summary>
     public partial class FloatViewSwitch : UserControl, IDisposable
     {
-        private static readonly int FloatView_ValueUpdateInterval = GlobalSettings.Get(nameof(FloatView_ValueUpdateInterval), 300);
+        private static readonly int FloatView_ValueUpdateInterval = GlobalSettings.Get(300);
 
         private volatile string _tempValue;
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();

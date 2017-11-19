@@ -13,8 +13,8 @@ namespace LazuriteUI.Windows.Main
 {
     public static class DuplicatedProcessesListener
     {
-        public static readonly int DuplicatedProcessesListenerInterval = GlobalSettings.Get(nameof(DuplicatedProcessesListenerInterval), 1000);
-        public static readonly int DuplicatedProcessesListenerInterval_onFound = GlobalSettings.Get(nameof(DuplicatedProcessesListenerInterval), 2000);
+        public static readonly int DuplicatedProcessesListenerInterval = GlobalSettings.Get(1000);
+        public static readonly int DuplicatedProcessesListenerInterval_onFound = GlobalSettings.Get(2000);
 
         public static event Action<Process[]> Found;
 

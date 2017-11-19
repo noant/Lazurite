@@ -17,8 +17,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
     public class RemoteScenario : ScenarioBase
     {
         private readonly static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
-        private readonly static int ScenarioListenInterval = GlobalSettings.Get(nameof(ScenarioListenInterval), 6500);
-        private readonly static int ScenarioListenInterval_onError = GlobalSettings.Get(nameof(ScenarioListenInterval_onError), 13000);
+        private readonly static int ScenarioListenInterval = GlobalSettings.Get(6500);
+        private readonly static int ScenarioListenInterval_onError = GlobalSettings.Get(13000);
 
         private IClientFactory _clientFactory;
         private IServer _server;
@@ -259,5 +259,11 @@ namespace Lazurite.Scenarios.ScenarioTypes
         }
 
         public override SecuritySettingsBase SecuritySettings { get; set; } = new SecuritySettings();
+
+        public override void Dispose()
+        {
+            _clientFactory.ConnectionStateChanged -= ClientFactory_ConnectionStateChanged;
+            base.Dispose();
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Lazurite.Windows.Utils
 {
     public class SystemUtils : ISystemUtils
     {
-        private static readonly int SleepCancelTokenIterationInterval = GlobalSettings.Get(nameof(SleepCancelTokenIterationInterval), 300);
+        private static readonly int SleepCancelTokenIterationInterval = GlobalSettings.Get(300);
 
         public void Sleep(int ms, CancellationToken cancelToken)
         {

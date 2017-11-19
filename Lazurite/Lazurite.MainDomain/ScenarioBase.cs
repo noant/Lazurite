@@ -278,7 +278,7 @@ namespace Lazurite.MainDomain
             }
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             Log.DebugFormat("Disposing scenario [{0}][{1}]", this.Name, this.Id);
             _valueChangedEvents.Clear();
