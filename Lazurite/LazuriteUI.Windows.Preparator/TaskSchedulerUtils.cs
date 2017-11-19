@@ -46,6 +46,7 @@ namespace LazuriteUI.Windows.Preparator
                 task.Settings.RestartCount = 5;
                 task.Settings.RestartInterval = TimeSpan.FromSeconds(100);
                 task.Settings.UseUnifiedSchedulingEngine = true;
+                task.Settings.Priority = ProcessPriorityClass.High;
                 task.RegistrationInfo.Source = exePath;
                 task.RegistrationInfo.Description = "Start Lazurite launcher application";
                 task.Settings.ExecutionTimeLimit = new TimeSpan(0);

@@ -66,18 +66,19 @@ namespace Lazurite.Windows.ServiceClient
                     var targetException = e.InnerException;
                     //if communication exception
                     if (targetException is System.ServiceModel.ServerTooBusyException ||
-                                   targetException is System.ServiceModel.ServiceActivationException ||
-                                   targetException is System.ServiceModel.AddressAccessDeniedException ||
-                                   targetException is System.ServiceModel.AddressAlreadyInUseException ||
-                                   targetException is System.ServiceModel.ChannelTerminatedException ||
-                                   targetException is System.ServiceModel.CommunicationObjectAbortedException ||
-                                   targetException is System.ServiceModel.EndpointNotFoundException ||
-                                   targetException is System.ServiceModel.QuotaExceededException ||
-                                   targetException is System.ServiceModel.CommunicationObjectFaultedException ||
-                                   targetException.GetType().Equals(typeof(CommunicationException)) ||
-                                   connection.State == CommunicationState.Closed ||
-                                   connection.State == CommunicationState.Closing ||
-                                   connection.State == CommunicationState.Faulted)
+                        targetException is System.ServiceModel.ServiceActivationException ||
+                        targetException is System.ServiceModel.AddressAccessDeniedException ||
+                        targetException is System.ServiceModel.AddressAlreadyInUseException ||
+                        targetException is System.ServiceModel.ChannelTerminatedException ||
+                        targetException is System.ServiceModel.CommunicationObjectAbortedException ||
+                        targetException is System.ServiceModel.EndpointNotFoundException ||
+                        targetException is System.ServiceModel.QuotaExceededException ||
+                        targetException is System.ServiceModel.CommunicationObjectFaultedException ||
+                        targetException.GetType().Equals(typeof(CommunicationException)) ||
+                        targetException is System.TimeoutException ||
+                        connection.State == CommunicationState.Closed ||
+                        connection.State == CommunicationState.Closing ||
+                        connection.State == CommunicationState.Faulted)
                         AggregatedCommunicationException.Throw(targetException);
                     else if (targetException is MessageSecurityException && targetException.InnerException != null)
                         throw targetException.InnerException;

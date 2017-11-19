@@ -18,7 +18,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
     {
         private readonly static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         private readonly static int ScenarioListenInterval = GlobalSettings.Get(nameof(ScenarioListenInterval), 6500);
-        private readonly static int ScenarioListenInterval_onError = GlobalSettings.Get(nameof(ScenarioListenInterval_onError), 60000);
+        private readonly static int ScenarioListenInterval_onError = GlobalSettings.Get(nameof(ScenarioListenInterval_onError), 13000);
 
         private IClientFactory _clientFactory;
         private IServer _server;
