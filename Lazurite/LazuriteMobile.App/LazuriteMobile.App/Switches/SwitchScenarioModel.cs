@@ -119,7 +119,7 @@ namespace LazuriteMobile.App.Switches
         {
             get
             {
-                return !Scenario.OnlyGetValue;
+                return !Scenario.OnlyGetValue && Scenario.IsAvailable;
             }
         }
 
