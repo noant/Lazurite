@@ -22,7 +22,8 @@ namespace LazuriteMobile.App
         public MainPage()
 		{
             this.InitializeComponent();
-            
+
+            _manager.ConnectionError += _manager_ConnectionError;
             _manager.NeedRefresh += _manager_NeedRefresh;
             _manager.ConnectionLost += _manager_ConnectionLost;
             _manager.ConnectionRestored += _manager_ConnectionRestored;
@@ -53,6 +54,14 @@ namespace LazuriteMobile.App
                 else
                     ShowCaption("Ошибка сервиса...", true, true);
             });
+        }
+
+        private void _manager_ConnectionError()
+        {
+            _currentContext.Post((state) => {
+                ShowCaption("Ошибка соединения...", true);
+                swgrid.IsEnabled = false;
+            }, null);
         }
 
         private void _manager_ScenariosChanged(Lazurite.MainDomain.ScenarioInfo[] changedScenarios)

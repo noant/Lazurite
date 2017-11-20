@@ -25,6 +25,7 @@ namespace LazuriteMobile.MainDomain
         event Action NeedClientSettings;
         event Action LoginOrPasswordInvalid;
         event Action SecretCodeInvalid;
+        event Action ConnectionError;
         event Action CredentialsLoaded;
     }
 

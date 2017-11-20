@@ -68,6 +68,9 @@ namespace LazuriteMobile.App.Droid
                 case ServiceOperation.SecretCodeInvalid:
                     SecretCodeInvalid?.Invoke();
                     break;
+                case ServiceOperation.ConnectionError:
+                    ConnectionError?.Invoke();
+                    break;
             }
         }
 
@@ -79,6 +82,7 @@ namespace LazuriteMobile.App.Droid
         public event Action NeedRefresh;
         public event Action<ScenarioInfo[]> ScenariosChanged;
         public event Action SecretCodeInvalid;
+        public event Action ConnectionError;
 
         public void Initialize(Action<bool> callback)
         {

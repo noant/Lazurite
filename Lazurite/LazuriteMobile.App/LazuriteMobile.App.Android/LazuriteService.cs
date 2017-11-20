@@ -55,6 +55,7 @@ namespace LazuriteMobile.App.Droid
             _manager.NeedRefresh += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.NeedRefresh);
             _manager.ScenariosChanged += (scenarios) => Utils.RaiseEvent(scenarios, _toActivityMessenger, _messenger, ServiceOperation.ScenariosChanged);
             _manager.SecretCodeInvalid += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.SecretCodeInvalid);
+            _manager.ConnectionError += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.ConnectionError);
             _manager.Initialize(null);
         }
 

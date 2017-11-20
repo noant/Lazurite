@@ -72,6 +72,7 @@ namespace LazuriteMobile.App
         public event Action LoginOrPasswordInvalid;
         public event Action SecretCodeInvalid;
         public event Action CredentialsLoaded;
+        public event Action ConnectionError;
 
         public ScenariosManager()
         {
@@ -98,18 +99,23 @@ namespace LazuriteMobile.App
                 if (!cancellationToken.IsCancellationRequested)
                 {
                     //if login or password wrong; error 403
-                    if (e is WebException && 
+                    if (e is WebException &&
                         ((HttpWebResponse)((WebException)e).Response)?.StatusCode == HttpStatusCode.Forbidden)
                     {
                         LoginOrPasswordInvalid?.Invoke();
                     }
                     //if data is wrong or secretKey.Length is wrong
-                    else if (e is SerializationException || e.Message == "Key length not 128/192/256 bits.")
+                    else if (
+                        e is SerializationException
+                        || e is DecryptException
+                        || e.Message == "Key length not 128/192/256 bits.")
                     {
                         SecretCodeInvalid?.Invoke();
                     }
                     else if (Connected)
                         ConnectionLost?.Invoke();
+                    else
+                        ConnectionError?.Invoke();
                     Connected = false;
                     success = false;
                 }
