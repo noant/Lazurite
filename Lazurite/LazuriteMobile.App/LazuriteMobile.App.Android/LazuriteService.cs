@@ -69,12 +69,15 @@ namespace LazuriteMobile.App.Droid
             
             var notification = 
                 new Notification.Builder(this).
-                    SetContentTitle("Lazurite").
-                    SetContentInfo("Сейчас приложение следит за изменениями в Доме...").
+                    SetContentTitle("Lazurite запущен").
+                    SetContentInfo("...и готов к работе").
                     SetSmallIcon(Resource.Drawable.icon).
                     SetContentIntent(pendingIntent).Build();
+
             StartForeground(1, notification);
-            return StartCommandResult.Sticky;
+            SetForeground(true);
+
+            return base.OnStartCommand(intent, flags, startId);
         }
 
         public override void OnDestroy()

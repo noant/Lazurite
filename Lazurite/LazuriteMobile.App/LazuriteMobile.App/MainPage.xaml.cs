@@ -139,6 +139,7 @@ namespace LazuriteMobile.App
         private void _manager_ConnectionRestored()
         {
             _currentContext.Post((state) => {
+                this.sliderMenu.Hide();
                 HideCaption();
                 swgrid.IsEnabled = true;
             }, null);
