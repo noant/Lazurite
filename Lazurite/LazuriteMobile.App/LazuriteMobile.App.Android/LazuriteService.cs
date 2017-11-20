@@ -63,6 +63,7 @@ namespace LazuriteMobile.App.Droid
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
             Started = true;
+            StartForeground(1, new Notification(0, "Сервис Lazurite запущен")); //crutch
             return StartCommandResult.Sticky;
         }
 
