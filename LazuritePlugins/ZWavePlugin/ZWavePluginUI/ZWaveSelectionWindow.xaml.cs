@@ -40,8 +40,8 @@ namespace ZWavePluginUI
                     Callback = (o1, e1) => this.Dispatcher.BeginInvoke(new Action(() => 
                     {
                         messageView.Close();
-                        BlockButtons(false);
                         this.itemViewPrimary.Selected = true;
+                        BlockButtons(false);
                     })),
                     RemoveAfterInvoke = true
                 });
@@ -51,6 +51,7 @@ namespace ZWavePluginUI
                 {
                     messageView.Close();
                     this.itemViewPrimary.Selected = true;
+                    BlockButtons(false);
                 }
             };
         }

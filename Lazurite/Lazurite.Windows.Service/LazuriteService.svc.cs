@@ -119,7 +119,7 @@ namespace Lazurite.Windows.Service
 
         private void ThrowScenarioNotExistException(string scenarioId)
         {
-            throw new InvalidOperationException("Scenario not exist: "+scenarioId);
+            throw new InvalidOperationException("Scenario not exist: " + scenarioId);
         }
 
         private UserVisualSettings GetVisualSettings(UserBase user, string scenarioId)

@@ -71,7 +71,7 @@ namespace Lazurite.Windows.ServiceClient
                 {
                     Log.DebugFormat("Service method error: [{0}]; {1}", args.MethodName, e.InnerException.Message);
                     var targetException = e.InnerException;
-                    if (state)
+                    if (state && !targetException.Message.StartsWith("Scenario not exist"))
                     {
                         state = false;
                         ConnectionStateChanged?.Invoke(connectionProxy, state);

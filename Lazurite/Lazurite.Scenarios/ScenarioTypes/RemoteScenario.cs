@@ -262,7 +262,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void Dispose()
         {
-            _clientFactory.ConnectionStateChanged -= ClientFactory_ConnectionStateChanged;
+            if (_clientFactory != null)
+                _clientFactory.ConnectionStateChanged -= ClientFactory_ConnectionStateChanged;
             base.Dispose();
         }
     }

@@ -123,6 +123,10 @@
       <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
       <Name>Lazurite.IOC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Logging\Lazurite.Logging.csproj">
+      <Project>{0A02DE31-B9E4-4AB7-8002-7F477A0F52DE}</Project>
+      <Name>Lazurite.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Scenarios\Lazurite.Scenarios.csproj">
       <Project>{EE271212-1572-4525-BC27-B2F283238740}</Project>
       <Name>Lazurite.Scenarios</Name>
@@ -158,6 +162,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PluginsToInstall\info.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ToInstall\vc_redist.x64.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ToInstall\vc_redist.x86.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

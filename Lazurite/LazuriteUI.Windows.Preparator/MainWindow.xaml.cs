@@ -44,6 +44,8 @@ namespace LazuriteUI.Windows.Preparator
             var message = string.Empty;
             var error = false;
 
+            Utils.Install_VC_Redist();
+
             if (!fileSavior.Has(LazuriteServer.SettingsKey))
             {
                 //certificate installing
@@ -64,7 +66,7 @@ namespace LazuriteUI.Windows.Preparator
                     error = true;
                 }
             }
-
+            
             //plugins installing
             Singleton.Add(new ScenariosRepository()); //stub for pluginsManager
             var pluginsFolderPath = Path.Combine(Lazurite.Windows.Utils.Utils.GetAssemblyFolder(typeof(App).Assembly), "PluginsToInstall");
