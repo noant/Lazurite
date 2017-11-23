@@ -29,6 +29,7 @@ namespace LazuriteMobile.App.Common
         public SliderMenu()
         {
             InitializeComponent();
+            this.TranslationY = this.Height - 40;
             this.bt.Clicked += (o, e) => 
             {
                 if (this.MenuVisible)

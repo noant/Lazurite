@@ -13,8 +13,8 @@ namespace LazuriteUI.Windows.Preparator
     public static class Utils
     {
         public static readonly string LazuriteProcessName = "LazuriteUI.Windows.Main";
-        public static readonly string VcRedistPath_x64 = Path.Combine("ToInstall","vc_redist.x64.exe");
-        public static readonly string VcRedistPath_x86 = Path.Combine("ToInstall","vc_redist.x86.exe");
+        public static readonly string VcRedistx64_Path = Path.Combine("ToInstall","vc_redist.x64.exe");
+        public static readonly string VcRedistx86_Path = Path.Combine("ToInstall","vc_redist.x86.exe");
 
         public static void KillAllLazuriteProcesses()
         {
@@ -28,7 +28,7 @@ namespace LazuriteUI.Windows.Preparator
             try
             {
                 var basePath = Lazurite.Windows.Utils.Utils.GetAssemblyFolder(typeof(Utils).Assembly);
-                var vcredist = Environment.Is64BitOperatingSystem ? VcRedistPath_x64 : VcRedistPath_x86;
+                var vcredist = Environment.Is64BitOperatingSystem ? VcRedistx64_Path : VcRedistx86_Path;
                 var path = Path.Combine(basePath, vcredist);
                 var result = Lazurite.Windows.Utils.Utils.ExecuteProcess(path, "/install /quiet /norestart /log vcredist_installation_log.txt", false, true);
                 log.Info("VcRedist installed with result: [" + result + "]");
