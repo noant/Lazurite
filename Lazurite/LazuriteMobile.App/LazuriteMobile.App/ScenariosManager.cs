@@ -48,6 +48,8 @@ namespace LazuriteMobile.App
         }
 
         private static readonly int ScenariosManagerListenInterval = GlobalSettings.Get(7500);
+        private static readonly int WaitingForRefreshListenInterval = GlobalSettings.Get(120000);
+        private static readonly int ScenariosManagerListenInterval_onError = GlobalSettings.Get(25000);
         private static readonly int ScenariosManagerFullRefreshInterval = GlobalSettings.Get(10);
         private static readonly ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
 
@@ -76,8 +78,7 @@ namespace LazuriteMobile.App
 
         public ScenariosManager()
         {
-            this.SecretCodeInvalid += () => StopListenChanges();
-            this.LoginOrPasswordInvalid += () => StopListenChanges();
+            //
         }
 
         private bool HandleExceptions(Action action)
@@ -165,8 +166,7 @@ namespace LazuriteMobile.App
         private void InitializeInternal(Action<bool> callback)
         {
             //cancel all operations
-            if (_operationCancellationTokenSource != null)
-                _operationCancellationTokenSource.Cancel();
+            _operationCancellationTokenSource?.Cancel();
             _operationCancellationTokenSource = new CancellationTokenSource();
             StopListenChanges();
             RecreateConnection();
@@ -190,17 +190,20 @@ namespace LazuriteMobile.App
 
             int fullRefreshIncrement = 0;
 
-            TaskUtils.StartLongRunning(() => { 
+            TaskUtils.StartLongRunning(() => {
+                bool succeed = false;
                 while (!_listenersCancellationTokenSource.Token.IsCancellationRequested)
                 {
+                    var refreshEndingToken = new CancellationTokenSource();
                     if (fullRefreshIncrement == ScenariosManagerFullRefreshInterval || Scenarios == null)
                     {
-                        fullRefreshIncrement = 0;
                         Refresh(success =>
                         {
                             if (!success)
                                 RecreateConnection();
+                            refreshEndingToken.Cancel();
                         });
+                        fullRefreshIncrement = 0;
                     }
                     else
                     {
@@ -208,10 +211,14 @@ namespace LazuriteMobile.App
                         {
                             if (!success)
                                 RecreateConnection();
+                            refreshEndingToken.Cancel();
                         });
                         fullRefreshIncrement++;
                     }
-                    Utils.Sleep(ScenariosManagerListenInterval, CancellationToken.None);
+                    //sleep while update or refresh
+                    Utils.Sleep(WaitingForRefreshListenInterval, refreshEndingToken.Token);
+                    //between updates sleep
+                    Utils.Sleep(succeed ? ScenariosManagerListenInterval : ScenariosManagerListenInterval_onError, CancellationToken.None);
                 }
             });
         }
@@ -234,16 +241,24 @@ namespace LazuriteMobile.App
 
         private void Refresh(Action<bool> callback)
         {
-            _serviceClient.BeginGetScenariosInfo((x) => {
-                var result = Handle(() => _serviceClient.EndGetScenariosInfo(x));
-                if (result.Success)
+            try
+            {
+                _serviceClient.BeginGetScenariosInfo((x) =>
                 {
-                    _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
-                    Scenarios = result.Value.ToArray();
-                    NeedRefresh?.Invoke();
-                }
-                callback?.Invoke(result.Success);
-            }, null);
+                    var result = Handle(() => _serviceClient.EndGetScenariosInfo(x));
+                    if (result.Success)
+                    {
+                        _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
+                        Scenarios = result.Value.ToArray();
+                        NeedRefresh?.Invoke();
+                    }
+                    callback?.Invoke(result.Success);
+                }, null);
+            }
+            catch
+            {
+                callback(false);
+            }
         }
 
         public void Refresh()
@@ -256,28 +271,35 @@ namespace LazuriteMobile.App
 
         private void Update(Action<bool> callback)
         {
-            _serviceClient.BeginGetChangedScenarios(_lastUpdateTime,
-            (o) =>
+            try
             {
-                var result = Handle(() => _serviceClient.EndGetChangedScenarios(o));
-                if (result.Success && result.Value != null && result.Value.Any())
+                _serviceClient.BeginGetChangedScenarios(_lastUpdateTime,
+                (o) =>
                 {
-                    var changedScenariosLW = result.Value;
-                    var changedScenarios = Scenarios.Where(x => changedScenariosLW.Any(z => z.ScenarioId == x.ScenarioId)).ToArray();
-                    foreach (var changedScenario in changedScenariosLW)
+                    var result = Handle(() => _serviceClient.EndGetChangedScenarios(o));
+                    if (result.Success && result.Value != null && result.Value.Any())
                     {
-                        var existingScenario = changedScenarios.FirstOrDefault(x => x.ScenarioId.Equals(changedScenario.ScenarioId));
-                        if (existingScenario != null)
+                        var changedScenariosLW = result.Value;
+                        var changedScenarios = Scenarios.Where(x => changedScenariosLW.Any(z => z.ScenarioId == x.ScenarioId)).ToArray();
+                        foreach (var changedScenario in changedScenariosLW)
                         {
-                            existingScenario.CurrentValue = changedScenario.CurrentValue;
-                            existingScenario.IsAvailable = changedScenario.IsAvailable;
+                            var existingScenario = changedScenarios.FirstOrDefault(x => x.ScenarioId.Equals(changedScenario.ScenarioId));
+                            if (existingScenario != null)
+                            {
+                                existingScenario.CurrentValue = changedScenario.CurrentValue;
+                                existingScenario.IsAvailable = changedScenario.IsAvailable;
+                            }
                         }
+                        _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
+                        ScenariosChanged?.Invoke(changedScenarios);
                     }
-                    _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
-                    ScenariosChanged?.Invoke(changedScenarios);
-                }
-                callback?.Invoke(result.Success);
-            }, null);
+                    callback?.Invoke(result.Success);
+                }, null);
+            }
+            catch
+            {
+                callback(false);
+            }
         }
 
         private void CacheScenarios()

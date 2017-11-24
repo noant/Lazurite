@@ -15,9 +15,14 @@ namespace LazuriteMobile.App.Droid
 {
     public class SystemUtils : ISystemUtils
     {
+        private static readonly int SleepCancelTokenIterationInterval = GlobalSettings.Get(300);
+
         public void Sleep(int ms, CancellationToken cancelToken)
         {
-            Thread.Sleep(ms);
+            if (ms <= SleepCancelTokenIterationInterval || cancelToken.Equals(CancellationToken.None))
+                Thread.Sleep(ms);
+            else for (int i = 0; i <= ms && !cancelToken.CanBeCanceled; i += SleepCancelTokenIterationInterval)
+                Thread.Sleep(SleepCancelTokenIterationInterval);
         }
     }
 }
