@@ -37,6 +37,13 @@ namespace LazuriteMobile.App.Droid
         public override void OnCreate()
         {
             base.OnCreate();
+        }
+
+        [return: GeneratedEnum]
+        public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
+        {
+            Started = true;
+
             if (!Singleton.Any<SaviorBase>())
                 Singleton.Add(new JsonFileSavior());
             if (!Singleton.Any<IServiceClientManager>())
@@ -45,6 +52,7 @@ namespace LazuriteMobile.App.Droid
                 Singleton.Add(new LogStub());
             if (!Singleton.Any<ISystemUtils>())
                 Singleton.Add(new SystemUtils());
+
             _manager = new ScenariosManager();
             _messenger = new Messenger(_inHandler);
             _inHandler.HasCome += InHandler_HasCome;
@@ -57,12 +65,7 @@ namespace LazuriteMobile.App.Droid
             _manager.SecretCodeInvalid += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.SecretCodeInvalid);
             _manager.ConnectionError += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.ConnectionError);
             _manager.Initialize(null);
-        }
 
-        [return: GeneratedEnum]
-        public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
-        {
-            Started = true;
             Intent activityIntent = new Intent(this, typeof(MainActivity));
             PendingIntent pendingIntent = PendingIntent.GetActivity(Application.Context, 0,
                 activityIntent, PendingIntentFlags.UpdateCurrent);
