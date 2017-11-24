@@ -21,14 +21,13 @@ namespace LazuriteUI.Windows.Main
         public static void Start()
         {
             var launcherAssembly = typeof(LazuriteUI.Windows.Launcher.App).Assembly;
-            var launcherExePath = Lazurite.Windows.Utils.Utils.GetAssemblyPath(launcherAssembly);
+            var launcherExePath = Path.GetFullPath(Lazurite.Windows.Utils.Utils.GetAssemblyPath(launcherAssembly));
             var launcherProcessName = Path.GetFileNameWithoutExtension(launcherExePath);
 
             var currentProcess = Process.GetCurrentProcess();
             var currentProcessName = currentProcess.ProcessName;
-            var currentProcessLocation = currentProcess.StartInfo.FileName;
+            var currentProcessLocation = GetProcessFilePath(currentProcess);
             var currentProcessId = currentProcess.Id;
-
             var action = (Action)(() => {
                 while (true)
                 {
@@ -37,11 +36,11 @@ namespace LazuriteUI.Windows.Main
                         .Union(Process.GetProcessesByName(launcherProcessName))
                         .ToArray();                    
                     var targetProcesses = processes.Where(x =>
-                        (x.ProcessName == launcherProcessName && 
-                        x.StartInfo.FileName == launcherExePath) ||
-                        (x.ProcessName == currentProcessName &&
-                        x.StartInfo.FileName == currentProcessLocation &&
-                        x.Id != currentProcessId))
+                        x.Id != currentProcessId &&
+                        ((StringComparer.OrdinalIgnoreCase.Equals(x.ProcessName, launcherProcessName) && 
+                        StringComparer.OrdinalIgnoreCase.Equals(GetProcessFilePath(x), launcherExePath)) ||
+                        (StringComparer.OrdinalIgnoreCase.Equals(x.ProcessName, currentProcessName) &&
+                        StringComparer.OrdinalIgnoreCase.Equals(GetProcessFilePath(x), currentProcessLocation))))
                         .ToArray();
                     if (targetProcesses.Any())
                     {
@@ -59,6 +58,14 @@ namespace LazuriteUI.Windows.Main
             });
 
             TaskUtils.StartLongRunning(action);
+        }
+
+        private static string GetProcessFilePath(Process process)
+        {
+            if (string.IsNullOrEmpty(process.MainModule.FileName))
+                return string.Empty;
+            else
+                return Path.GetFullPath(process.MainModule.FileName);
         }
     }
 }
