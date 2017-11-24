@@ -32,9 +32,13 @@ namespace LazuriteUI.Windows.Main
             var action = (Action)(() => {
                 while (true)
                 {
-                    var processes = Process.GetProcesses();
+                    var processes = 
+                        Process.GetProcessesByName(currentProcessName)
+                        .Union(Process.GetProcessesByName(launcherProcessName))
+                        .ToArray();                    
                     var targetProcesses = processes.Where(x =>
-                        x.ProcessName == launcherProcessName ||
+                        (x.ProcessName == launcherProcessName && 
+                        x.StartInfo.FileName == launcherExePath) ||
                         (x.ProcessName == currentProcessName &&
                         x.StartInfo.FileName == currentProcessLocation &&
                         x.Id != currentProcessId))
@@ -48,6 +52,9 @@ namespace LazuriteUI.Windows.Main
                     }
                     else
                         Thread.Sleep(DuplicatedProcessesListenerInterval);
+                    //crutch
+                    foreach (var process in processes)
+                        process.Dispose();
                 }
             });
 
