@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="15" />
 	<application android:label="Lazurite"></application>
-  <receiver android:name="StartReceiver">
+  <receiver android:name="StartReceiver" android:enabled="true">
     <intent-filter>
       <action android:name="android.intent.action.BOOT_COMPLETED" />
     </intent-filter>

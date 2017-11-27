@@ -30,12 +30,12 @@
                         <Storyboard>
                             <ParallelTimeline>
                                 <ThicknessAnimation 
-                                                RenderOptions.BitmapScalingMode="NearestNeighbor"
-                                                RenderOptions.EdgeMode="Unspecified"
-                                                RenderOptions.ClearTypeHint="Auto"                                            
-                                                Storyboard.TargetProperty="Margin"
-                                                To="0,0,0,0" 
-                                                Duration="00:00:0.08"></ThicknessAnimation>
+                                    RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                    RenderOptions.EdgeMode="Unspecified"
+                                    RenderOptions.ClearTypeHint="Auto"                                            
+                                    Storyboard.TargetProperty="Margin"
+                                    To="0,0,0,0" 
+                                    Duration="00:00:0.08"></ThicknessAnimation>
                             </ParallelTimeline>
                         </Storyboard>
                     </BeginStoryboard>

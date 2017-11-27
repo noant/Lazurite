@@ -67,7 +67,7 @@ namespace CommonPlugin
 
         public void SetValue(ExecutionContext context, string value)
         {
-            JournalManager.Set(value, WarnType.Info);
+            JournalManager.Set(value, WarnType.Info, null, true);
         }
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)

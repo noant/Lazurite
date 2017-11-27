@@ -12,7 +12,9 @@ using Android.Widget;
 
 namespace LazuriteMobile.App.Droid
 {
-    public class StartReceiver : BroadcastReceiver
+    [BroadcastReceiver(Enabled = true, Exported = true)]
+    [IntentFilter(new[] { Intent.ActionBootCompleted })]
+    public class StartLazuriteServiceReceiver : BroadcastReceiver
     {
         public override void OnReceive(Context context, Intent intent)
         {

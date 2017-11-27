@@ -13,6 +13,7 @@ namespace LazuriteMobile.App
 {
     public partial class SwitchesGrid : Grid
     {
+        private static object Locker = new object();
         private static readonly int MaxX = 3;
         private static readonly int ElementSize = 111;
         private static readonly int ElementMargin = 6;
@@ -39,53 +40,59 @@ namespace LazuriteMobile.App
         
         public void Refresh(ScenarioInfo[] scenarios)
         {
-            var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext).ToList();
-            var models = modelsViews.Select(x=>x.Key).ToArray();
-            //add new scenarios and refresh existing
-            foreach (var scenario in scenarios)
+            lock (Locker)
             {
-                var scenarioModel = models.FirstOrDefault(x => x.Scenario.ScenarioId.Equals(scenario.ScenarioId));
-                if (scenarioModel != null)
+                var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext).ToList();
+                var models = modelsViews.Select(x => x.Key).ToArray();
+                //add new scenarios and refresh existing
+                foreach (var scenario in scenarios)
                 {
-                    scenarioModel.RefreshWith(scenario);
+                    var scenarioModel = models.FirstOrDefault(x => x.Scenario.ScenarioId.Equals(scenario.ScenarioId));
+                    if (scenarioModel != null)
+                    {
+                        scenarioModel.RefreshWith(scenario);
+                    }
+                    else
+                    {
+                        var control = CreateControl(scenario);
+                        this.grid.Children.Add(control);
+                    }
                 }
-                else
+
+                //remove not existing scenarios
+                foreach (var modelView in modelsViews)
                 {
-                    var control = CreateControl(scenario);
-                    this.grid.Children.Add(control);
+                    if (!scenarios.Any(x => x.ScenarioId.Equals(modelView.Key.Scenario.ScenarioId)))
+                        grid.Children.Remove(modelView.Value);
                 }
-            }
 
-            //remove not existing scenarios
-            foreach (var modelView in modelsViews)
-            {
-                if (!scenarios.Any(x => x.ScenarioId.Equals(modelView.Key.Scenario.ScenarioId)))
-                    grid.Children.Remove(modelView.Value);
+                Rearrange();
             }
-
-            Rearrange();
         }
 
         public void RefreshLE(ScenarioInfo[] scenarios)
         {
-            var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext).ToList();
-            var models = modelsViews.Select(x => x.Key).ToArray();
-            //add new scenarios and refresh existing
-            foreach (var scenario in scenarios)
+            lock (Locker)
             {
-                var scenarioModel = models.FirstOrDefault(x => x.Scenario.ScenarioId.Equals(scenario.ScenarioId));
-                if (scenarioModel != null)
+                var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext).ToList();
+                var models = modelsViews.Select(x => x.Key).ToArray();
+                //add new scenarios and refresh existing
+                foreach (var scenario in scenarios)
                 {
-                    scenarioModel.RefreshWith(scenario);
+                    var scenarioModel = models.FirstOrDefault(x => x.Scenario.ScenarioId.Equals(scenario.ScenarioId));
+                    if (scenarioModel != null)
+                    {
+                        scenarioModel.RefreshWith(scenario);
+                    }
+                    else
+                    {
+                        var control = CreateControl(scenario);
+                        this.grid.Children.Add(control);
+                    }
                 }
-                else
-                {
-                    var control = CreateControl(scenario);
-                    this.grid.Children.Add(control);
-                }
-            }
 
-            Rearrange();
+                Rearrange();
+            }
         }
 
         public void Rearrange()

@@ -11,6 +11,7 @@ using Android.Widget;
 using LazuriteMobile.MainDomain;
 using Lazurite.MainDomain;
 using Java.Lang;
+using Lazurite.IOC;
 
 namespace LazuriteMobile.App.Droid
 {
@@ -86,14 +87,20 @@ namespace LazuriteMobile.App.Droid
 
         public void Initialize(Action<bool> callback)
         {
-            if (!IsServiceRunning(typeof(LazuriteService)))
-                _activity.StartService(new Intent(Application.Context, typeof(LazuriteService)));
+            Application.Context.StartService(new Intent(Application.Context, typeof(LazuriteService)));
             _serviceConnection = new ManagerServiceConnection();
             _serviceConnection.Connected += ServiceConnection_Connected;
+            _serviceConnection.Disconnected += ServiceConnection_Disconnected;
             var result = _activity.BindService(new Intent(Application.Context, typeof(LazuriteService)), _serviceConnection, Bind.AutoCreate);
-            if (result)
+            if (result && callback != null)
                 _callbacks.Add(ServiceOperation.Initialize, (obj) => callback(true));
-            else callback(false);
+            else callback?.Invoke(false);
+        }
+
+        private void ServiceConnection_Disconnected(ManagerServiceConnection obj)
+        {
+            Close();
+            Initialize((r) => NeedRefresh?.Invoke());
         }
 
         private void ServiceConnection_Connected(object sender, Messenger msgr)
@@ -135,19 +142,13 @@ namespace LazuriteMobile.App.Droid
             });
             Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetScenarios);
         }
-
-        private bool IsServiceRunning(System.Type type)
-        {
-            var manager = (ActivityManager)_activity.GetSystemService(Context.ActivityService);
-            foreach (var service in manager.GetRunningServices(int.MaxValue))
-                if (service.Service.ClassName.Equals(Java.Lang.Class.FromType(type).CanonicalName))
-                    return true;
-            return false;
-        }
-
+        
         public void Close()
         {
             _activity.UnbindService(_serviceConnection);
+            _serviceConnection.Connected -= ServiceConnection_Connected;
+            _serviceConnection.Disconnected -= ServiceConnection_Disconnected;
+            _serviceConnection.Dispose();
         }
     }
 
@@ -160,9 +161,10 @@ namespace LazuriteMobile.App.Droid
 
         public void OnServiceDisconnected(ComponentName name)
         {
-
+            Disconnected?.Invoke(this);
         }
-
-        public event Action<object, Messenger> Connected;
+        
+        public event Action<ManagerServiceConnection, Messenger> Connected;
+        public event Action<ManagerServiceConnection> Disconnected;
     }
 }

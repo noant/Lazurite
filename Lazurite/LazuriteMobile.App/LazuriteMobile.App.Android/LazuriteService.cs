@@ -16,6 +16,7 @@ using LazuriteMobile.Android.ServiceClient;
 using Lazurite.Data;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
+using System.Threading;
 
 namespace LazuriteMobile.App.Droid
 {
@@ -26,9 +27,10 @@ namespace LazuriteMobile.App.Droid
 
         private IScenariosManager _manager;
         private Messenger _messenger;
-        IncomingHandler _inHandler = new IncomingHandler();
-        Messenger _toActivityMessenger;
-        
+        private IncomingHandler _inHandler = new IncomingHandler();
+        private Messenger _toActivityMessenger;
+        private Notification _currentNotification;
+
         public override IBinder OnBind(Intent intent)
         {
             return _messenger.Binder;
@@ -70,20 +72,23 @@ namespace LazuriteMobile.App.Droid
             PendingIntent pendingIntent = PendingIntent.GetActivity(Application.Context, 0,
                 activityIntent, PendingIntentFlags.UpdateCurrent);
             
-            var notification = 
+            _currentNotification = 
                 new Notification.Builder(this).
                     SetContentTitle("Lazurite работает...").
                     SetSmallIcon(Resource.Drawable.icon).
                     SetContentIntent(pendingIntent).Build();
 
-            StartForeground(1, notification);
-            SetForeground(true);
+            StartForeground(1, _currentNotification);
+            SetForeground(true);            
 
             return StartCommandResult.Sticky;
         }
+        
 
         public override void OnDestroy()
         {
+            _currentNotification.Dispose();
+            _manager.Close();
             Started = false;
             base.OnDestroy();
         }

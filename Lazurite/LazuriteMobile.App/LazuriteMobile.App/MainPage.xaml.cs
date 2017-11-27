@@ -39,34 +39,32 @@ namespace LazuriteMobile.App
                     _manager.IsConnected((connected) =>
                     {
                         if (connected)
-                        {
-                            Refresh();
-                            HideCaption();
-                        }
+                            Invoke(() => {
+                                Refresh();
+                                HideCaption();
+                            });
                         else
-                        {
                             _manager.GetClientSettings((settings) =>
                             {
-                                settingsView.SetCredentials(settings);
+                                Invoke(() => settingsView.SetCredentials(settings));
                             });
-                        }
                     });
                 else
-                    ShowCaption("Ошибка сервиса...", true, true);
+                    Invoke(() => ShowCaption("Ошибка сервиса...", true, true));
             });
         }
 
         private void _manager_ConnectionError()
         {
-            _currentContext.Post((state) => {
+            Invoke(() => {
                 ShowCaption("Ошибка соединения...", true);
                 swgrid.IsEnabled = false;
-            }, null);
+            });
         }
 
         private void _manager_ScenariosChanged(Lazurite.MainDomain.ScenarioInfo[] changedScenarios)
         {
-            swgrid.RefreshLE(changedScenarios);
+            Invoke(() => swgrid.RefreshLE(changedScenarios));
         }
 
         protected override bool OnBackButtonPressed()
@@ -87,26 +85,26 @@ namespace LazuriteMobile.App
         
         private void _manager_SecretCodeInvalid()
         {
-            _currentContext.Post((t) => {
+            Invoke(() => {
                 this.sliderMenu.Show();
                 this.swgrid.IsEnabled = false;
                 ShowCaption("Ошибка при расшифровке данных...\r\nВозможно, секретный ключ сервера введен неверно", true, true);
-            }, null);
+            });
         }
 
         private void _manager_LoginOrPasswordInvalid()
         {
-            _currentContext.Post((t) => {
+            Invoke(() => {
                 this.sliderMenu.Show();
                 this.swgrid.IsEnabled = false;
                 ShowCaption("Логин или пароль введен неверно", true, true);
-            }, null);
+            });
         }
 
         private void _manager_CredentialsLoaded()
         {
             _manager.GetClientSettings((settings) => {
-                settingsView.SetCredentials(settings);
+                Invoke(() => settingsView.SetCredentials(settings));
             });
         }
 
@@ -130,34 +128,32 @@ namespace LazuriteMobile.App
 
         private void _manager_NeedClientSettings()
         {
-            _currentContext.Post((t) => {
+            Invoke(() => {
                 this.sliderMenu.Show();
                 ShowCaption("Необходим ввод логина/пароля", false, false);
-            }, null);
+            });
         }
 
         private void _manager_ConnectionRestored()
         {
-            _currentContext.Post((state) => {
+            Invoke(() => {
                 this.sliderMenu.Hide();
                 HideCaption();
                 swgrid.IsEnabled = true;
-            }, null);
+            });
         }
 
         private void _manager_ConnectionLost()
         {
-            _currentContext.Post((state) => {
+            Invoke(() => {
                 ShowCaption("Соединение разорвано...", true);
                 swgrid.IsEnabled = false;
-            }, null);
+            });
         }
 
         private void _manager_NeedRefresh()
         {
-            _currentContext.Post((state) => {
-                Refresh();
-            }, null);
+            Invoke(Refresh);
         }
         
         private void Refresh()
@@ -184,6 +180,11 @@ namespace LazuriteMobile.App
             lblCaption.Text = text;
             lblCaption.TextColor = error ? Color.Purple : Color.White;
             this.settingsView.SetErrorMessage(text);
+        }
+
+        private void Invoke(Action action)
+        {
+            _currentContext.Post(new SendOrPostCallback((s) => action?.Invoke()), null);
         }
     }
 }

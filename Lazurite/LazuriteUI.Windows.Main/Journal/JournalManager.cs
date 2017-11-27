@@ -39,18 +39,17 @@ namespace LazuriteUI.Windows.Main.Journal
 
         private static readonly object _locker = new object();
 
-        public static void Set(string message, WarnType type, Exception e = null)
+        public static void Set(string message, WarnType type, Exception e = null, bool showAnyway = false)
         {
             JournalView.Set(message, type);
-            if (type <= MaxShowingWarnType)
+            if (type <= MaxShowingWarnType || showAnyway)
                 JournalLightWindow.Show(message, type);
             if (type == WarnType.Error || type == WarnType.Fatal)
             {
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    if (Application.Current.Windows.Cast<Window>().Any(x => x is MainWindow))
-                    {
-                        var mainWindow = Application.Current.Windows.Cast<Window>().First(x => x is MainWindow);
+                    var mainWindow = Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x is MainWindow);
+                    if (mainWindow != null)
                         switch (type)
                         {
                             case WarnType.Fatal:
@@ -64,7 +63,6 @@ namespace LazuriteUI.Windows.Main.Journal
                                     break;
                                 }
                         }
-                    }
                 }));
             }
         }
