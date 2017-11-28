@@ -133,7 +133,7 @@ namespace LazuriteUI.Windows.Main
         {
             var scenarios = _scenariosRepository.Scenarios;
             if (!IsConstructorMode)
-                scenarios = scenarios.Where(x => x.CanExecute(_usersRepository.SystemUser, ScenarioStartupSource.PublicUsage)).ToArray();
+                scenarios = scenarios.Where(x => x.CanExecute(_usersRepository.SystemUser, ScenarioStartupSource.SystemUI)).ToArray();
             Initialize(scenarios, _visualSettingsRepository.VisualSettings);
         }
 

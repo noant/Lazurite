@@ -61,8 +61,9 @@
     <Compile Include="Permissions\DenyForAllPermission.cs" />
     <Compile Include="Permissions\DenyForAllUsersExceptPermission.cs" />
     <Compile Include="Permissions\DenyForAllGroupsExceptPermission.cs" />
+    <Compile Include="Permissions\DenyForSystemUIUsage.cs" />
     <Compile Include="Permissions\DenyForScenarioUsePermission.cs" />
-    <Compile Include="Permissions\DenyForPublicUsagePermission.cs" />
+    <Compile Include="Permissions\DenyForNetworkUsage.cs" />
     <Compile Include="Permissions\DenyForUsersPermission.cs" />
     <Compile Include="Permissions\DenyForGroupsPermission.cs" />
     <Compile Include="Permissions\IPermission.cs" />

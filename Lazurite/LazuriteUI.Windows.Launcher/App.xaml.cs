@@ -81,7 +81,7 @@ namespace LazuriteUI.Windows.Launcher
         {
             try
             {
-                Utils.ExecuteProcess(Path.Combine(Utils.GetAssemblyFolder(typeof(App).Assembly), MainExeName), string.Empty, useShell, false);
+                Utils.ExecuteProcess(Path.Combine(Utils.GetAssemblyFolder(typeof(App).Assembly), MainExeName), string.Empty, useShell, false, System.Diagnostics.ProcessPriorityClass.High);
                 Shutdown();
             }
             catch (Exception exception)

@@ -290,8 +290,9 @@
     <Compile Include="Security\PermissionsViews\DenyAllUsersExceptPermissionView.cs" />
     <Compile Include="Security\PermissionsViews\DenyForAllGroupsExceptPermissionView.cs" />
     <Compile Include="Security\PermissionsViews\DenyForGroupsPermissionView.cs" />
+    <Compile Include="Security\PermissionsViews\DenyForSystemUIUsagePermissionView.cs" />
     <Compile Include="Security\PermissionsViews\DenyForUsersPermissionView.cs" />
-    <Compile Include="Security\PermissionsViews\DenyForPublicUsagePermissionView.cs" />
+    <Compile Include="Security\PermissionsViews\DenyForNetworkUsagePermissionView.cs" />
     <Compile Include="Security\PermissionsViews\DenyForScenarioUsePermissionView.cs" />
     <Compile Include="Security\PermissionsViews\DenyForAllPermissionView.cs" />
     <Compile Include="Security\PermissionsViews\PermissionTypeAttribute.cs" />

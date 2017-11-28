@@ -10,41 +10,22 @@ namespace Lazurite.MainDomain.MessageSecurity
 {
     public class SecureEncoding
     {
+        private readonly static Encoding Encoding = Encoding.UTF8;
         private readonly static ILogger Log = Singleton.Resolve<ILogger>();
         private readonly static ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
-        private readonly static int WaitForAlgorithmProviderInitializedInterval = GlobalSettings.Get(1);
 
         private string _secretKey;
-        private ISymmetricKeyAlgorithmProvider _algo;
-        private ICryptographicKey _key;
         
         public SecureEncoding(string secretKey)
         {
             _secretKey = secretKey;
-            InitializeAlgorithmProvider();
         }
 
         public SecureEncoding() : this("secret))01234567") { }
-
-        private void InitializeAlgorithmProvider()
-        {
-            _key = null;
-            _algo = null;
-            Log.Debug("[SecureEncoding] algorithm provider refreshing...");
-            _algo = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmName.Aes, SymmetricAlgorithmMode.Cbc, SymmetricAlgorithmPadding.Zeros);
-            _key = _algo.CreateSymmetricKey(Encoding.UTF8.GetBytes(_secretKey));
-            Log.Debug("[SecureEncoding] algorithm provider refreshed");
-        }
-
-        private void WaitForAlgorithmProviderInitialized()
-        {
-            while (_key == null && _algo == null)
-                Utils.Sleep(WaitForAlgorithmProviderInitializedInterval, CancellationToken.None);
-        }
-
+        
         public string Encrypt(string data)
         {
-            return Encrypt(Encoding.UTF8.GetBytes(data));
+            return Encrypt(Encoding.GetBytes(data));
         }
 
         public string Encrypt(byte[] data)
@@ -56,8 +37,7 @@ namespace Lazurite.MainDomain.MessageSecurity
             }
             catch (Exception)
             {
-                InitializeAlgorithmProvider();
-                return EncryptInternal(data);
+                throw;
             }
             finally
             {
@@ -67,20 +47,22 @@ namespace Lazurite.MainDomain.MessageSecurity
 
         private string EncryptInternal(byte[] data)
         {
-            WaitForAlgorithmProviderInitialized();
-            return Convert.ToBase64String(CryptographicEngine.Encrypt(_key, data));
+            var algo = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithm.AesCbcPkcs7);
+            var key = algo.CreateSymmetricKey(Encoding.GetBytes(_secretKey));
+            return Convert.ToBase64String(CryptographicEngine.Encrypt(key, data));
         }
 
         public string Decrypt(string data)
         {
             var bytes = DecryptBytes(data);
-            return Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+            return Encoding.GetString(bytes, 0, bytes.Length);
         }
 
         private byte[] DecryptBytesInternal(string data)
         {
-            WaitForAlgorithmProviderInitialized();
-            return CryptographicEngine.Decrypt(_key, Convert.FromBase64String(data));
+            var algo = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithm.AesCbcPkcs7);
+            var key = algo.CreateSymmetricKey(Encoding.GetBytes(_secretKey));
+            return CryptographicEngine.Decrypt(key, Convert.FromBase64String(data));
         }
 
         public byte[] DecryptBytes(string data)
@@ -92,8 +74,7 @@ namespace Lazurite.MainDomain.MessageSecurity
             }
             catch (Exception)
             {
-                InitializeAlgorithmProvider();
-                return DecryptBytesInternal(data);
+                throw;
             }
             finally
             {

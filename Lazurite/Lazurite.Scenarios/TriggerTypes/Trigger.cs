@@ -133,18 +133,25 @@ namespace Lazurite.Scenarios.TriggerTypes
                 var lastVal = string.Empty;
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    var curVal = GetScenario().CalculateCurrentValue();
-                    if (!lastVal.Equals(curVal))
+                    try
                     {
-                        lastVal = curVal;
-                        contexCancellationTokenSource.Cancel();
-                        contexCancellationTokenSource = new CancellationTokenSource();
-                        var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), contexCancellationTokenSource.Token);
-                        TaskUtils.StartLongRunning(
-                            () => TargetAction.SetValue(executionContext, string.Empty), 
-                            (exception) => Log.ErrorFormat(exception, "Error while executing trigger [{0}][{1}]", this.Name, this.Id));
+                        var curVal = GetScenario().CalculateCurrentValue();
+                        if (!lastVal.Equals(curVal))
+                        {
+                            lastVal = curVal;
+                            contexCancellationTokenSource.Cancel();
+                            contexCancellationTokenSource = new CancellationTokenSource();
+                            var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), contexCancellationTokenSource.Token);
+                            TaskUtils.StartLongRunning(
+                                () => TargetAction.SetValue(executionContext, string.Empty),
+                                (exception) => Log.ErrorFormat(exception, "Error while executing trigger [{0}][{1}]", this.Name, this.Id));
+                        }
+                        SystemUtils.Sleep(TriggerChangesListenInterval, cancellationToken);
                     }
-                    SystemUtils.Sleep(TriggerChangesListenInterval, cancellationToken);
+                    catch (Exception e)
+                    {
+                        Log.ErrorFormat(e, "Error while execution trugger: [{0}][{1}]", this.Name, this.Id);
+                    }
                 }
             }
         }

@@ -9,6 +9,7 @@ namespace Lazurite.MainDomain
     public enum ScenarioStartupSource
     {
         OtherScenario,
-        PublicUsage
+        Network,
+        SystemUI
     }
 }

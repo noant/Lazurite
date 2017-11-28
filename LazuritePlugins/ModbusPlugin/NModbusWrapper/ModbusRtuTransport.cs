@@ -13,9 +13,13 @@ namespace NModbusWrapper
         private static Dictionary<string, object> _portLockers = new Dictionary<string, object>();
         private static object GetPortLocker(string port)
         {
-            if (!_portLockers.ContainsKey(port))
-                _portLockers.Add(port, new object());
-            return _portLockers[port];
+            port = port.ToUpper();
+            lock (_portLockers)
+            {
+                if (!_portLockers.ContainsKey(port))
+                    _portLockers.Add(port, new object());
+                return _portLockers[port];
+            }
         }
 
         protected SerialPort ConfigurePort()

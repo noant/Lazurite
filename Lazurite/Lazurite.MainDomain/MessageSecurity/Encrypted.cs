@@ -14,11 +14,15 @@ namespace Lazurite.MainDomain.MessageSecurity
     {
         private static ILogger Log = Singleton.Resolve<ILogger>();
         private static Dictionary<string, SecureEncoding> Cached = new Dictionary<string, SecureEncoding>();
+        private static object Locker_GetSecureEncoding = new object();
         private static SecureEncoding GetSecureEncoding(string key)
         {
-            if (!Cached.ContainsKey(key))
-                Cached.Add(key, new SecureEncoding(key));
-            return Cached[key];
+            lock (Locker_GetSecureEncoding)
+            {
+                if (!Cached.ContainsKey(key))
+                    Cached.Add(key, new SecureEncoding(key));
+                return Cached[key];
+            }
         }
 
         [DataMember]

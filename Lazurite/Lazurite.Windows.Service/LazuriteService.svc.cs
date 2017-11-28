@@ -106,7 +106,7 @@ namespace Lazurite.Windows.Service
             if (scenario == null)
                 ThrowScenarioNotExistException(scenarioId);
 
-            if (!scenario.CanExecute(user, ScenarioStartupSource.PublicUsage))
+            if (!scenario.CanExecute(user, ScenarioStartupSource.Network))
                 ThrowUnauthorizedAccessException();
 
             return scenario;
@@ -182,7 +182,7 @@ namespace Lazurite.Windows.Service
                 return new EncryptedList<ScenarioInfoLW>(ScenariosRepository
                     .Scenarios
                     .Where(x => 
-                        x.LastChange >= since && x.CanExecute(user, ScenarioStartupSource.PublicUsage)
+                        x.LastChange >= since && x.CanExecute(user, ScenarioStartupSource.Network)
                     )
                     .Select(x => new ScenarioInfoLW()
                     {
@@ -220,7 +220,7 @@ namespace Lazurite.Windows.Service
                 var user = GetCurrentUser();
                 var result = new EncryptedList<ScenarioInfo>(ScenariosRepository
                     .Scenarios
-                    .Where(x => x.CanExecute(user, ScenarioStartupSource.PublicUsage))
+                    .Where(x => x.CanExecute(user, ScenarioStartupSource.Network))
                     .Select(x => new ScenarioInfo()
                     {
                         CurrentValue = x.CalculateCurrentValue(),

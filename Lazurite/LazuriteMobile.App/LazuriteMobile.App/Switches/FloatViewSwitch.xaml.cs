@@ -15,14 +15,16 @@ namespace LazuriteMobile.App.Switches
         public FloatViewSwitch()
         {
             InitializeComponent();
-            slider.ValueChanged += (o, e) => RaiseSliderValueChanged();
         }
 
         public FloatViewSwitch(SwitchScenarioModel model) : this()
         {
             this.BindingContext = model;
             //binding works incorrectly
+            slider.Maximum = model.Max; //crutch
+            slider.Minimum = model.Min; //crutch
             slider.Value = double.Parse(model.ScenarioValue);
+            slider.ValueChanged += (o, e) => RaiseSliderValueChanged();
         }
 
         //binding works incorrectly

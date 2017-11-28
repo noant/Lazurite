@@ -31,7 +31,7 @@ namespace Lazurite.Windows.Utils
             return Path.GetDirectoryName(GetAssemblyPath(assembly));
         }
 
-        public static string ExecuteProcess(string filePath, string arguments, bool asAdmin=false, bool waitForExit=true)
+        public static string ExecuteProcess(string filePath, string arguments, bool asAdmin=false, bool waitForExit=true, ProcessPriorityClass priority = ProcessPriorityClass.Normal)
         {
             var process = new Process();
             process.StartInfo.CreateNoWindow = true;
@@ -59,6 +59,7 @@ namespace Lazurite.Windows.Utils
             {
                 Log.InfoFormat("command executing: [{0} {1}]", filePath, arguments);
                 process.Start();
+                process.PriorityClass = priority;
                 if (waitForExit)
                 {
                     process.WaitForExit();

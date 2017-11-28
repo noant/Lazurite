@@ -93,11 +93,18 @@ namespace ModbusPlugin
 
         public void SetValue(ExecutionContext context, string value)
         {
-            var val = Parse(ModbusValueType, value);
-            if (RegistersMode == RegistersMode.Holding)
+            try
             {
-                var modbusValue = Parse(ModbusValueType, value);
-                Manager.WriteHoldingRegisters(SlaveAddress, RegisterAddress, val);
+                var val = Parse(ModbusValueType, value);
+                if (RegistersMode == RegistersMode.Holding)
+                {
+                    var modbusValue = Parse(ModbusValueType, value);
+                    Manager.WriteHoldingRegisters(SlaveAddress, RegisterAddress, val);
+                }
+            }
+            catch
+            {
+                //do nothing
             }
         }
 

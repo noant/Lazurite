@@ -15,6 +15,7 @@ namespace Lazurite.MainDomain.MessageSecurity
     public static class SerializersFactory
     {
         private static ILogger Log = Singleton.Resolve<ILogger>();
+        private static object Locker_SerializatorCreating = new object();
 
         static SerializersFactory()
         {
@@ -39,13 +40,24 @@ namespace Lazurite.MainDomain.MessageSecurity
         public static DataContractSerializer GetSerializer<T>()
         {
             var type = typeof(T);
-            if (!Cached.ContainsKey(type))
+            try
             {
-                var serializer = new DataContractSerializer(type, KnownTypes);
-                Cached.Add(type, serializer);
-                Log.DebugFormat("Serializer for type [{0}] created", type.FullName);
+                lock (Locker_SerializatorCreating)
+                {
+                    if (!Cached.ContainsKey(type))
+                    {
+                        var serializer = new DataContractSerializer(type, KnownTypes);
+                        Cached.Add(type, serializer);
+                        Log.DebugFormat("Serializer for type [{0}] created", type.FullName);
+                    }
+                }
+                return Cached[type];
             }
-            return Cached[type];
+            catch (Exception e)
+            {
+                Log.ErrorFormat(e, "Error while creating serializer for type [{0}];", type.FullName);
+                throw e;
+            }
         }
     }
 }
