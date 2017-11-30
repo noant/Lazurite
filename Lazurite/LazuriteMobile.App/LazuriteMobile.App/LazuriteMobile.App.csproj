@@ -166,6 +166,10 @@
       <Project>{a002f2fb-6791-46a2-9061-38bbe59e1618}</Project>
       <Name>Lazurite.IOC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Lazurite.Logging\Lazurite.Logging.csproj">
+      <Project>{0A02DE31-B9E4-4AB7-8002-7F477A0F52DE}</Project>
+      <Name>Lazurite.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Lazurite.MainDomain\Lazurite.MainDomain.csproj">
       <Project>{dcd8e6af-a435-4556-ad74-84444b1dd816}</Project>
       <Name>Lazurite.MainDomain</Name>
