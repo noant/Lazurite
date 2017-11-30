@@ -58,14 +58,14 @@ namespace LazuriteMobile.App.Droid
             _manager = new ScenariosManager();
             _messenger = new Messenger(_inHandler);
             _inHandler.HasCome += InHandler_HasCome;
-            _manager.ConnectionLost += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.ConnectionLost);
-            _manager.ConnectionRestored += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.ConnectionRestored);
-            _manager.LoginOrPasswordInvalid += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.CredentialsInvalid);
-            _manager.NeedClientSettings += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.NeedClientSettings);
-            _manager.NeedRefresh += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.NeedRefresh);
-            _manager.ScenariosChanged += (scenarios) => Utils.RaiseEvent(scenarios, _toActivityMessenger, _messenger, ServiceOperation.ScenariosChanged);
-            _manager.SecretCodeInvalid += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.SecretCodeInvalid);
-            _manager.ConnectionError += () => Utils.RaiseEvent(_toActivityMessenger, _messenger, ServiceOperation.ConnectionError);
+            _manager.ConnectionLost += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionLost));
+            _manager.ConnectionRestored += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionRestored));
+            _manager.LoginOrPasswordInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.CredentialsInvalid));
+            _manager.NeedClientSettings += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedClientSettings));
+            _manager.NeedRefresh += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedRefresh));
+            _manager.ScenariosChanged += (scenarios) => Handle((messenger) => Utils.RaiseEvent(scenarios, messenger, _messenger, ServiceOperation.ScenariosChanged));
+            _manager.SecretCodeInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.SecretCodeInvalid));
+            _manager.ConnectionError += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionError));
             _manager.Initialize(null);
 
             Intent activityIntent = new Intent(this, typeof(MainActivity));
@@ -91,6 +91,12 @@ namespace LazuriteMobile.App.Droid
             _manager.Close();
             Started = false;
             base.OnDestroy();
+        }
+
+        private void Handle(Action<Messenger> action)
+        {
+            if (_toActivityMessenger != null)
+                action?.Invoke(_toActivityMessenger);
         }
 
         private void InHandler_HasCome(object sender, Message msg)
