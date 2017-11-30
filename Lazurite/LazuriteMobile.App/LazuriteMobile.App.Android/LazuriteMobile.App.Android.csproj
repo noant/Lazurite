@@ -182,6 +182,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackgroundReciever.cs" />
     <Compile Include="IncomingHandler.cs" />
     <Compile Include="LazuriteService.cs" />
     <Compile Include="LogStub.cs" />

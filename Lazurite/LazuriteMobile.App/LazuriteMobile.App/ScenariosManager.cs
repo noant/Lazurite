@@ -15,6 +15,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using Lazurite.Utils;
 using Lazurite.Logging;
+using Java.Util;
 
 namespace LazuriteMobile.App
 {
@@ -189,7 +190,7 @@ namespace LazuriteMobile.App
             _listenersCancellationTokenSource = new CancellationTokenSource();
 
             int fullRefreshIncrement = 0;
-
+            
             TaskUtils.StartLongRunning(() => {
                 bool succeed = true;
                 while (!_listenersCancellationTokenSource.Token.IsCancellationRequested)
