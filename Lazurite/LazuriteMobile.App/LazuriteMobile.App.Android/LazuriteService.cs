@@ -23,13 +23,29 @@ namespace LazuriteMobile.App.Droid
     [Service(Exported = false, Enabled = true)]
     public class LazuriteService : Service
     {
+        static LazuriteService()
+        {
+            if (!Singleton.Any<ILogger>())
+                Singleton.Add(new LogStub());
+            if (!Singleton.Any<SaviorBase>())
+                Singleton.Add(new JsonFileSavior());
+            if (!Singleton.Any<ISystemUtils>())
+                Singleton.Add(new SystemUtils());
+            ScenariosManagerListenInterval = GlobalSettings.Get(10000);
+            Log = Singleton.Resolve<ILogger>();
+        }
+        private static readonly int ScenariosManagerListenInterval;
+        private const string Tag = "bgservice";
+        private static ILogger Log;
         public static bool Started { get; private set; } = false;
 
-        private IScenariosManager _manager;
+        private ScenariosManager _manager;
         private Messenger _messenger;
         private IncomingHandler _inHandler = new IncomingHandler();
         private Messenger _toActivityMessenger;
         private Notification _currentNotification;
+        private System.Timers.Timer _timer;
+        private PowerManager.WakeLock wakelock = null;
 
         public override IBinder OnBind(Intent intent)
         {
@@ -39,6 +55,9 @@ namespace LazuriteMobile.App.Droid
         public override void OnCreate()
         {
             base.OnCreate();
+            PowerManager pmanager = (PowerManager)GetSystemService(Context.PowerService);
+            wakelock = pmanager.NewWakeLock(WakeLockFlags.Partial, "servicewakelock");
+            wakelock.SetReferenceCounted(false);
         }
 
         [return: GeneratedEnum]
@@ -46,14 +65,8 @@ namespace LazuriteMobile.App.Droid
         {
             Started = true;
 
-            if (!Singleton.Any<SaviorBase>())
-                Singleton.Add(new JsonFileSavior());
             if (!Singleton.Any<IServiceClientManager>())
                 Singleton.Add(new ServiceClientManager());
-            if (!Singleton.Any<ILogger>())
-                Singleton.Add(new LogStub());
-            if (!Singleton.Any<ISystemUtils>())
-                Singleton.Add(new SystemUtils());
 
             _manager = new ScenariosManager();
             _messenger = new Messenger(_inHandler);
@@ -69,21 +82,55 @@ namespace LazuriteMobile.App.Droid
             _manager.Initialize(null);
 
             Intent activityIntent = new Intent(this, typeof(MainActivity));
-            PendingIntent pendingIntent = PendingIntent.GetActivity(Application.Context, 0,
+
+            PendingIntent showActivityIntent = PendingIntent.GetActivity(Application.Context, 0,
                 activityIntent, PendingIntentFlags.UpdateCurrent);
             
             _currentNotification = 
                 new Notification.Builder(this).
                     SetContentTitle("Lazurite работает...").
                     SetSmallIcon(Resource.Drawable.icon).
-                    SetContentIntent(pendingIntent).Build();
+                    SetContentIntent(showActivityIntent).Build();
+
+            AlarmManager manager = (AlarmManager)GetSystemService(AlarmService);
+            long triggerAtTime = SystemClock.ElapsedRealtime() + (10 * 60 * 1000);
+            Intent onAndroidAvailable = new Intent(this, typeof(BackgroundReceiver));
+            PendingIntent startServiceIntent = PendingIntent.GetBroadcast(this, 0, onAndroidAvailable, 0);
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            {
+                manager.Cancel(startServiceIntent);
+                manager.SetAndAllowWhileIdle(AlarmType.ElapsedRealtimeWakeup, triggerAtTime, startServiceIntent);
+            }
+            else if (Build.VERSION.SdkInt == BuildVersionCodes.Kitkat || Build.VERSION.SdkInt == BuildVersionCodes.Lollipop)
+            {
+                manager.Cancel(startServiceIntent);
+                manager.SetExact(AlarmType.ElapsedRealtimeWakeup, triggerAtTime, startServiceIntent);
+            }
+            
+            if (_timer != null)
+            {
+                _timer.Enabled = false;
+                _timer.Dispose();
+                _timer = null;
+            }
+
+            _timer = new System.Timers.Timer();
+            _timer.Interval = ScenariosManagerListenInterval;
+            _timer.Elapsed += _timer_Elapsed;
+            _timer.Enabled = true;
+            _timer.AutoReset = true;
+            _timer.Start();
 
             StartForeground(1, _currentNotification);
-            SetForeground(true);            
+            SetForeground(true);
 
             return StartCommandResult.Sticky;
         }
-        
+
+        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            _manager.RefreshIteration();
+        }
 
         public override void OnDestroy()
         {
@@ -93,49 +140,65 @@ namespace LazuriteMobile.App.Droid
             base.OnDestroy();
         }
 
-        private void Handle(Action<Messenger> action)
+        private new void Handle(Action<Messenger> action)
         {
-            if (_toActivityMessenger != null)
-                action?.Invoke(_toActivityMessenger);
+            try
+            {
+                if (_toActivityMessenger != null)
+                    action?.Invoke(_toActivityMessenger);
+            }
+            catch (System.Exception e)
+            {
+                Log.Warn(null, e);
+            }
         }
 
         private void InHandler_HasCome(object sender, Message msg)
         {
-            _toActivityMessenger = Utils.GetAnswerMessenger(msg);
-            switch((ServiceOperation)msg.What)
+            try
             {
-                case ServiceOperation.ExecuteScenario:
-                    {
-                        _manager.ExecuteScenario(Utils.GetData<ExecuteScenarioArgs>(msg));
-                        break;
-                    }
-                case ServiceOperation.GetClientSettings:
-                    {
-                        _manager.GetClientSettings((settings) => {
-                            Utils.SendData(settings, _toActivityMessenger, _messenger, ServiceOperation.GetClientSettings);
-                        });
-                        break;
-                    }
-                case ServiceOperation.GetIsConnected:
-                    {
-                        _manager.IsConnected((isConnected) => {
-                            Utils.SendData(isConnected, _toActivityMessenger, _messenger, ServiceOperation.GetIsConnected);
-                        });
-                        break;
-                    }
-                case ServiceOperation.GetScenarios:
-                    {
-                        _manager.GetScenarios((scenarios) => {
-                            Utils.SendData(scenarios, _toActivityMessenger, _messenger, ServiceOperation.GetScenarios);
-                        });
-                        break;
-                    }
-                case ServiceOperation.SetClientSettings:
-                    {
-                        var settings = Utils.GetData<ConnectionCredentials>(msg);
-                        _manager.SetClientSettings(settings);
-                        break;
-                    }
+                _toActivityMessenger = Utils.GetAnswerMessenger(msg);
+                switch ((ServiceOperation)msg.What)
+                {
+                    case ServiceOperation.ExecuteScenario:
+                        {
+                            _manager.ExecuteScenario(Utils.GetData<ExecuteScenarioArgs>(msg));
+                            break;
+                        }
+                    case ServiceOperation.GetClientSettings:
+                        {
+                            _manager.GetClientSettings((settings) =>
+                            {
+                                Handle((messenger) => Utils.SendData(settings, messenger, _messenger, ServiceOperation.GetClientSettings));
+                            });
+                            break;
+                        }
+                    case ServiceOperation.GetIsConnected:
+                        {
+                            _manager.IsConnected((isConnected) =>
+                            {
+                                Handle((messenger) => Utils.SendData(isConnected, messenger, _messenger, ServiceOperation.GetIsConnected));
+                            });
+                            break;
+                        }
+                    case ServiceOperation.GetScenarios:
+                        {
+                            _manager.GetScenarios((scenarios) =>
+                            {
+                                Handle((messenger) => Utils.SendData(scenarios, _toActivityMessenger, _messenger, ServiceOperation.GetScenarios));
+                            });
+                            break;
+                        }
+                    case ServiceOperation.SetClientSettings:
+                        {
+                            _manager.SetClientSettings(Utils.GetData<ConnectionCredentials>(msg));
+                            break;
+                        }
+                }
+            }
+            catch (System.Exception e)
+            {
+                Log.Warn("Error on Handler_HasCome", e);
             }
         }
     }

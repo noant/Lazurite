@@ -17,13 +17,7 @@ namespace LazuriteMobile.App.Droid
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            PowerManager pm = (PowerManager)context.GetSystemService(Context.PowerService);
-            PowerManager.WakeLock wakeLock = pm.NewWakeLock(WakeLockFlags.Partial, "BackgroundReceiver");
-            wakeLock.Acquire();
-
             Application.Context.StartService(new Intent(Application.Context, typeof(LazuriteService)));
-            
-            wakeLock.Release();
         }
     }
 }

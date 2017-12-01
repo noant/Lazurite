@@ -15,7 +15,6 @@ using System.Net;
 using System.Runtime.Serialization;
 using Lazurite.Utils;
 using Lazurite.Logging;
-using Java.Util;
 
 namespace LazuriteMobile.App
 {
@@ -50,12 +49,12 @@ namespace LazuriteMobile.App
         }
 
         private static readonly int ScenariosManagerListenInterval = GlobalSettings.Get(7500);
-        private static readonly int ScenariosManagerListenInterval_onError = GlobalSettings.Get(25000);
+        private static readonly int ScenariosManagerListenInterval_onError = GlobalSettings.Get(40000);
         private static readonly int WaitingForRefreshListenInterval = GlobalSettings.Get(120000);
         private static readonly int ScenariosManagerFullRefreshInterval = GlobalSettings.Get(10);
         private static readonly ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
-
+        
         private readonly string _cachedScenariosKey = "scensCache";
         private readonly string _credentialsKey = "credentials";
         private CancellationTokenSource _listenersCancellationTokenSource;
@@ -65,10 +64,13 @@ namespace LazuriteMobile.App
         private IServiceClient _serviceClient;
         private ConnectionCredentials? _credentials;
         private DateTime _lastUpdateTime;
-
+        
         public ScenarioInfo[] Scenarios { get; private set; }
         public bool Connected { get; private set; } = false;
-
+        private bool _succeed = true;
+        private int _fullRefreshIncrement = 0;
+        private CancellationTokenSource _refreshEndingToken;
+        
         public event Action<ScenarioInfo[]> ScenariosChanged;
         public event Action ConnectionLost;
         public event Action ConnectionRestored;
@@ -174,7 +176,6 @@ namespace LazuriteMobile.App
             StopListenChanges();
             RecreateConnection();
             Refresh(callback);
-            StartListenChanges();
         }
 
         private void RecreateConnection()
@@ -188,49 +189,50 @@ namespace LazuriteMobile.App
         {
             _listenersCancellationTokenSource?.Cancel();
             _listenersCancellationTokenSource = new CancellationTokenSource();
-
-            int fullRefreshIncrement = 0;
             
             TaskUtils.StartLongRunning(() => {
-                bool succeed = true;
                 while (!_listenersCancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    try
-                    {
-                        //recreate connection if error
-                        if (!succeed)
-                            RecreateConnection();
-
-                        var refreshEndingToken = new CancellationTokenSource(); //for threads sync
-                        if (fullRefreshIncrement == ScenariosManagerFullRefreshInterval || Scenarios == null)
-                        {
-                            Refresh(success =>
-                            {
-                                succeed = success;
-                                refreshEndingToken.Cancel();
-                            });
-                            fullRefreshIncrement = 0;
-                        }
-                        else
-                        {
-                            Update(success =>
-                            {
-                                succeed = success;
-                                refreshEndingToken.Cancel();
-                            });
-                            fullRefreshIncrement++;
-                        }
-                        //sleep while update or refresh
-                        Utils.Sleep(WaitingForRefreshListenInterval, refreshEndingToken.Token);
-                        //between updates sleep
-                        Utils.Sleep(succeed ? ScenariosManagerListenInterval : ScenariosManagerListenInterval_onError, CancellationToken.None);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Error("Error in listen changes iteration",e);
-                    }
+                    RefreshIteration();
+                    //sleep while update or refresh
+                    Utils.Sleep(WaitingForRefreshListenInterval, _refreshEndingToken.Token);
+                    //between updates sleep
+                    Utils.Sleep(_succeed ? ScenariosManagerListenInterval : ScenariosManagerListenInterval_onError, CancellationToken.None);
                 }
             });
+        }
+
+        public void RefreshIteration()
+        {
+            try
+            {
+                //recreate connection if error
+                if (!_succeed)
+                    RecreateConnection();
+                _refreshEndingToken = new CancellationTokenSource();
+                if (_fullRefreshIncrement == ScenariosManagerFullRefreshInterval || Scenarios == null)
+                {
+                    Refresh(success =>
+                    {
+                        _succeed = success;
+                        _refreshEndingToken.Cancel();
+                    });
+                    _fullRefreshIncrement = 0;
+                }
+                else
+                {
+                    Update(success =>
+                    {
+                        _succeed = success;
+                        _refreshEndingToken.Cancel();
+                    });
+                    _fullRefreshIncrement++;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error("Error in listen changes iteration", e);
+            }
         }
 
         public void StopListenChanges()
