@@ -1,10 +1,6 @@
 ﻿//from https://forums.xamarin.com/discussion/92662/viewbox-implementation-for-xamarin-forms
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Common

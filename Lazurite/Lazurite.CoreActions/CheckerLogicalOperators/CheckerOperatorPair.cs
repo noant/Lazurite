@@ -1,9 +1,4 @@
 ﻿using Lazurite.ActionsDomain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Lazurite.ActionsDomain.ValueTypes;
 
 namespace Lazurite.CoreActions.CheckerLogicalOperators
@@ -49,7 +44,7 @@ namespace Lazurite.CoreActions.CheckerLogicalOperators
             set;
         } = new ButtonValueType();
 
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
 
         public string GetValue(ExecutionContext context)
         {

@@ -1,11 +1,6 @@
 ﻿using Lazurite.ActionsDomain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.ActionsDomain.Attributes;
+using Lazurite.ActionsDomain.ValueTypes;
 using LazuriteUI.Icons;
 
 namespace VolumePlugin
@@ -52,7 +47,7 @@ namespace VolumePlugin
             AcceptedValues = new [] {"0","100"}
         };
 
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
 
         public string GetValue(ExecutionContext context)
         {

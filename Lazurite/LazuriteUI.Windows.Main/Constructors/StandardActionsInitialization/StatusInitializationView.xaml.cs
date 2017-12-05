@@ -76,7 +76,7 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
             itemView.IsRemoveButtonVisible = _masterAction == null;
             if (_action.Value == state)
                 this.Loaded += (o, e) => itemView.Selected = true;
-            itemView.RemoveClick += (item) => listItemsStatus.Children.Remove(itemView);
+            itemView.RemoveClick += (o, args) => listItemsStatus.Children.Remove(itemView);
             listItemsStatus.Children.Add(itemView);
         }
 

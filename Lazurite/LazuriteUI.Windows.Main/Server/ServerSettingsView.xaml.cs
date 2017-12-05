@@ -1,4 +1,6 @@
 ﻿using Lazurite.IOC;
+using Lazurite.MainDomain;
+using Lazurite.Shared;
 using Lazurite.Windows.Logging;
 using Lazurite.Windows.Server;
 using LazuriteUI.Icons;
@@ -37,8 +39,8 @@ namespace LazuriteUI.Windows.Main.Server
         {
             InitializeComponent();
             _settings = (ServerSettings)Lazurite.Windows.Utils.Utils.CloneObject(_server.GetSettings());
-            tbPort.Validation = (o,v) => EntryViewValidation.UShortValidation().Invoke(o, v);
-            tbServiceName.Validation = (o, v) => {
+            tbPort.Validation = (v) => EntryViewValidation.UShortValidation().Invoke(v);
+            tbServiceName.Validation = (v) => {
                 var value = v.InputString.Replace(" ", "");
                 if (value.Length == 0)
                 {
@@ -81,7 +83,7 @@ namespace LazuriteUI.Windows.Main.Server
             Refresh();
         }
 
-        private void _server_StatusChanged(LazuriteServer obj)
+        private void _server_StatusChanged(object sender, EventsArgs<LazuriteServer> args)
         {
             this.Dispatcher.BeginInvoke(new Action(() => UpdateServerInfo()));
         }

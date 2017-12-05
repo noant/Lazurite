@@ -1,19 +1,13 @@
 ﻿using Lazurite.IOC;
-using Lazurite.MainDomain.MessageSecurity;
 using LazuriteMobile.App.Controls;
-using LazuriteMobile.App.Switches;
 using LazuriteMobile.MainDomain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App
 {
-	public partial class MainPage : ContentPage
+    public partial class MainPage : ContentPage
 	{
         IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
         

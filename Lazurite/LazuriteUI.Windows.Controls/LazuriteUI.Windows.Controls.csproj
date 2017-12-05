@@ -200,6 +200,14 @@
       <Project>{0A02DE31-B9E4-4AB7-8002-7F477A0F52DE}</Project>
       <Name>Lazurite.Logging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.MainDomain\Lazurite.MainDomain.csproj">
+      <Project>{DCD8E6AF-A435-4556-AD74-84444B1DD816}</Project>
+      <Name>Lazurite.MainDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Shared\Lazurite.Shared.csproj">
+      <Project>{9D1FABF0-1A55-47D2-8F0F-BD0BB14F65AA}</Project>
+      <Name>Lazurite.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LazuriteUI.Icons\LazuriteUI.Icons.csproj">
       <Project>{c5d27a74-cb03-4830-b5e1-558ac2194d5f}</Project>
       <Name>LazuriteUI.Icons</Name>

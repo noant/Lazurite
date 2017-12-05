@@ -1,4 +1,6 @@
-﻿using LazuriteUI.Windows.Controls;
+﻿using Lazurite.MainDomain;
+using Lazurite.Shared;
+using LazuriteUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +27,7 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
         {
             InitializeComponent();
             this.itemView.SelectionChanged += (o, e) => SelectionChanged?.Invoke(this, e);
-            this.itemViewRemove.Click += (o, e) => RemoveClick(this);
+            this.itemViewRemove.Click += (o, e) => RemoveClick(this, new EventsArgs<StatusInitializationViewItem>(this));
         }
 
         public bool IsRemoveButtonVisible
@@ -78,6 +80,6 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
 
         public event RoutedEventHandler SelectionChanged;
 
-        public event Action<StatusInitializationViewItem> RemoveClick;
+        public event EventsHandler<StatusInitializationViewItem> RemoveClick;
     }
 }

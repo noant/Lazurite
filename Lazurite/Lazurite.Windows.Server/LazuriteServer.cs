@@ -1,24 +1,16 @@
 ﻿using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
-using Lazurite.MainDomain.MessageSecurity;
+using Lazurite.Shared;
 using Lazurite.Utils;
 using Lazurite.Windows.Logging;
 using Lazurite.Windows.Service;
-using Lazurite.Windows.Utils;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
-using System.ServiceModel.Description;
 using System.ServiceModel.Security;
 using System.ServiceModel.Web;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Lazurite.Windows.Server
 {
@@ -34,7 +26,7 @@ namespace Lazurite.Windows.Server
         
         public bool Started { get; private set; }
 
-        public event Action<LazuriteServer> StatusChanged;
+        public event EventsHandler<LazuriteServer> StatusChanged;
 
         public ServerSettings GetSettings()
         {
@@ -55,7 +47,7 @@ namespace Lazurite.Windows.Server
             _tokenSource.Cancel();
             _tokenSource = new CancellationTokenSource();
             Started = false;
-            StatusChanged?.Invoke(this);
+            StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
         }
 
         public void StartAsync(Action<bool> callback)
@@ -83,13 +75,13 @@ namespace Lazurite.Windows.Server
                 _warningHandler.Info("Service started: " + this._settings.GetAddress());
                 callback?.Invoke(true);
                 Started = true;
-                StatusChanged?.Invoke(this);
+                StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
             },
             (exception) => {
                 _warningHandler.Error("Error while starting service: " + this._settings.GetAddress(), exception);
                 callback?.Invoke(false);
                 Started = false;
-                StatusChanged?.Invoke(this);
+                StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
             });
         }
 

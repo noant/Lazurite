@@ -1,19 +1,6 @@
 ﻿using LazuriteUI.Windows.Controls;
 using NModbusWrapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ModbusPluginUI
 {
@@ -28,7 +15,7 @@ namespace ModbusPluginUI
             tbPort.Validation = EntryViewValidation.UShortValidation();
             tbReadTimeout.Validation = EntryViewValidation.IntValidation(min: 100);
             tbWriteTimeout.Validation = EntryViewValidation.IntValidation(min: 100);
-            tbHost.Validation = (s, v) =>
+            tbHost.Validation = (v) =>
             {
                 if (v.InputString == "")
                 {

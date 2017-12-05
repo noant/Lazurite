@@ -1,13 +1,9 @@
 ﻿using Lazurite.ActionsDomain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.ActionsDomain.Attributes;
-using System.Threading;
+using Lazurite.ActionsDomain.ValueTypes;
 using LazuriteUI.Icons;
+using System;
+using System.Threading;
 
 namespace CommonPlugin
 {
@@ -45,7 +41,7 @@ namespace CommonPlugin
             set;
         } = new FloatValueType() { AcceptedValues = new[] { "0", int.MaxValue.ToString() } };
 
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
 
         public string GetValue(Lazurite.ActionsDomain.ExecutionContext context)
         {

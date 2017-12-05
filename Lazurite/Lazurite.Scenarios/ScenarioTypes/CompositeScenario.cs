@@ -1,20 +1,17 @@
-﻿using Lazurite.MainDomain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lazurite.ActionsDomain;
+﻿using Lazurite.ActionsDomain;
+using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.CoreActions;
-using Lazurite.ActionsDomain.Attributes;
+using Lazurite.CoreActions.ContextInitialization;
 using Lazurite.CoreActions.CoreActions;
 using Lazurite.IOC;
-using Lazurite.CoreActions.ContextInitialization;
-using System.Threading;
 using Lazurite.Logging;
+using Lazurite.MainDomain;
 using Lazurite.Security;
 using Lazurite.Utils;
+using System;
+using System.Linq;
+using System.Threading;
 
 namespace Lazurite.Scenarios.ScenarioTypes
 {

@@ -1,11 +1,7 @@
-﻿using Lazurite.Data;
-using Lazurite.IOC;
-using Lazurite.Logging;
+﻿using Lazurite.Logging;
 using Lazurite.MainDomain;
+using Lazurite.Shared;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Lazurite.Windows.Logging
 {
@@ -91,6 +87,6 @@ namespace Lazurite.Windows.Logging
             OnWrite?.Invoke(this, new WarningEventArgs(type, message, exception));
         }
 
-        public event Action<object, WarningEventArgs> OnWrite;
+        public event EventsHandler<WarnType> OnWrite;
     }
 }

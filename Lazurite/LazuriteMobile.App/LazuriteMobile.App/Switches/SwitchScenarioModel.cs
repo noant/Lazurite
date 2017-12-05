@@ -1,14 +1,10 @@
 ﻿using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
-using LazuriteMobile.App;
+using Lazurite.Shared;
 using LazuriteMobile.MainDomain;
-using LazuriteUI.Icons;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LazuriteMobile.App.Switches
 {
@@ -202,9 +198,9 @@ namespace LazuriteMobile.App.Switches
             }
         }
 
-        private void ScenarioValueChanged(ScenarioInfo scenario)
+        private void ScenarioValueChanged(object sender, EventsArgs<ScenarioInfo> args)
         {
-            _value = scenario.CurrentValue;
+            _value = args.Value.CurrentValue;
             OnPropertyChanged(nameof(ScenarioValue));
         }
 

@@ -8,12 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Lazurite.Windows.ServiceClient.ServiceReference {
-    using System.Runtime.Serialization;
-    using System;
+namespace Lazurite.Windows.ServiceClient.ServiceReference
+{
     using MainDomain;
     using MainDomain.MessageSecurity;
-        
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference.IServer")]
     public interface IServer {

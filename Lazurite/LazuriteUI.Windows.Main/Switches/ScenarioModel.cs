@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Shared;
 using Lazurite.Visual;
 using System;
 using System.Collections.Generic;
@@ -234,13 +235,13 @@ namespace LazuriteUI.Windows.Main.Switches
             }
         }
 
-        private void ScenarioValueChanged(ScenarioBase scenario)
+        private void ScenarioValueChanged(object sender, EventsArgs<ScenarioBase> args)
         {
-            _value = scenario.GetCurrentValue();
+            _value = args.Value.GetCurrentValue();
             OnPropertyChanged(nameof(ScenarioValue));
         }
 
-        private void ScenarioAvailabilityChanged(ScenarioBase scenario)
+        private void ScenarioAvailabilityChanged(object sender, EventsArgs<ScenarioBase> args)
         {
             OnPropertyChanged(nameof(IsAvailable));
             OnPropertyChanged(nameof(AllowClick));

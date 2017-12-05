@@ -66,7 +66,6 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             var control = new SelectActionView();
             var dialogView = new DialogView(control);
-            dialogView.ShowUnderCursor = true;
             control.Initialize(valueType, side, selectedType);
             control.SelectionChanged += (ctrl) =>
             {

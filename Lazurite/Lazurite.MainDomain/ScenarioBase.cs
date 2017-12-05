@@ -2,13 +2,11 @@
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
 using Lazurite.Logging;
+using Lazurite.Shared;
 using Lazurite.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Lazurite.MainDomain
 {
@@ -16,8 +14,8 @@ namespace Lazurite.MainDomain
     {
         protected static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
-        private List<Action<ScenarioBase>> _valueChangedEvents = new List<Action<ScenarioBase>>();
-        private List<Action<ScenarioBase>> _availabilityChangedEvents = new List<Action<ScenarioBase>>();
+        private List<EventsHandler<ScenarioBase>> _valueChangedEvents = new List<EventsHandler<ScenarioBase>>();
+        private List<EventsHandler<ScenarioBase>> _availabilityChangedEvents = new List<EventsHandler<ScenarioBase>>();
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private bool _isAvailable = true;
 
@@ -209,7 +207,7 @@ namespace Lazurite.MainDomain
         /// Set event on state changed
         /// </summary>
         /// <param name="action"></param>
-        public void SetOnStateChanged(Action<ScenarioBase> action)
+        public void SetOnStateChanged(EventsHandler<ScenarioBase> action)
         {
             _valueChangedEvents.Add(action);
         }
@@ -218,7 +216,7 @@ namespace Lazurite.MainDomain
         /// Remove event on state changed
         /// </summary>
         /// <param name="action"></param>
-        public void RemoveOnStateChanged(Action<ScenarioBase> action)
+        public void RemoveOnStateChanged(EventsHandler<ScenarioBase> action)
         {
             _valueChangedEvents.Remove(action);
         }
@@ -227,7 +225,7 @@ namespace Lazurite.MainDomain
         /// Set event on state changed
         /// </summary>
         /// <param name="action"></param>
-        public void SetOnAvailabilityChanged(Action<ScenarioBase> action)
+        public void SetOnAvailabilityChanged(EventsHandler<ScenarioBase> action)
         {
             _availabilityChangedEvents.Add(action);
         }
@@ -236,7 +234,7 @@ namespace Lazurite.MainDomain
         /// Remove event on state changed
         /// </summary>
         /// <param name="action"></param>
-        public void RemoveOnAvailabilityChanged(Action<ScenarioBase> action)
+        public void RemoveOnAvailabilityChanged(EventsHandler<ScenarioBase> action)
         {
             _availabilityChangedEvents.Remove(action);
         }
@@ -251,7 +249,7 @@ namespace Lazurite.MainDomain
             {
                 try
                 {
-                    _valueChangedEvents[i](this);
+                    _valueChangedEvents[i](this, new EventsArgs<ScenarioBase>(this));
                 }
                 catch(Exception e)
                 {
@@ -269,7 +267,7 @@ namespace Lazurite.MainDomain
             {
                 try
                 {
-                    _availabilityChangedEvents[i](this);
+                    _availabilityChangedEvents[i](this, new EventsArgs<ScenarioBase>(this));
                 }
                 catch (Exception e)
                 {

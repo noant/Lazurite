@@ -34,7 +34,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             InitializeComponent();
             Refresh(scenario);
             
-            tbPort.Validation = (o,v) => EntryViewValidation.UShortValidation().Invoke(o,v);
+            tbPort.Validation = (v) => EntryViewValidation.UShortValidation().Invoke(v);
 
             tbServiceName.TextChanged += (o, e) => ApplyCurrent();
             tbSecretCode.PasswordChanged += (o, e) => ApplyCurrent();

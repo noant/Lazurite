@@ -3,7 +3,6 @@ using Lazurite.Logging;
 using PCLCrypto;
 using System;
 using System.Text;
-using System.Threading;
 using static PCLCrypto.WinRTCrypto;
 
 namespace Lazurite.MainDomain.MessageSecurity

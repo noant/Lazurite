@@ -1,12 +1,10 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
+using Lazurite.ActionsDomain.ValueTypes;
+using LazuriteUI.Icons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lazurite.ActionsDomain.ValueTypes;
-using LazuriteUI.Icons;
 using System.Windows.Forms;
 
 namespace MultimediaKeysPlugin
@@ -52,7 +50,7 @@ namespace MultimediaKeysPlugin
             set;
         }
 
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
 
         public string LastValue { get; set; }
 

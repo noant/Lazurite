@@ -27,8 +27,8 @@ namespace LazuriteUI.Windows.Main.Switches
 
         private volatile string _tempValue;
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
-        private ScenarioModel _model;
         private double _iteration; 
+        private ScenarioModel _model;
 
         public FloatViewSwitch()
         {

@@ -1,15 +1,9 @@
 ﻿using Lazurite.ActionsDomain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using LazuriteUI.Icons;
-using System.ComponentModel;
-using Lazurite.ActionsDomain.Attributes;
-using WakeOnLanUtils;
 using WakeOnLanUI;
+using WakeOnLanUtils;
 
 namespace WakeOnLanPlugin
 {
@@ -52,7 +46,7 @@ namespace WakeOnLanPlugin
             set;
         } = new ButtonValueType();
 
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
 
         public string GetValue(ExecutionContext context)
         {

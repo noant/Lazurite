@@ -1,14 +1,10 @@
 ﻿using Lazurite.ActionsDomain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.ActionsDomain.Attributes;
+using Lazurite.ActionsDomain.ValueTypes;
 using LazuriteUI.Icons;
-using NModbusWrapper;
 using ModbusPluginUI;
+using NModbusWrapper;
+using System;
 
 namespace ModbusPlugin
 {
@@ -63,7 +59,7 @@ namespace ModbusPlugin
             set;
         } = new FloatValueType() { AcceptedValues = new[] { double.MinValue.ToString(), double.MaxValue.ToString() } };
 
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
 
         public string GetValue(ExecutionContext context)
         {

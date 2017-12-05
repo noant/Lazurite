@@ -1,14 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Lazurite.Shared;
 
 namespace Lazurite.MainDomain
 {
     public interface IClientFactory
     {
         IServer GetServer(ConnectionCredentials credentials);
-        event Action<IServer, bool> ConnectionStateChanged;
+        event EventsHandler<bool> ConnectionStateChanged;
+    }
+
+    public class ConnectionStateChangedEventArgs : EventsArgs<bool>
+    {
+        public ConnectionStateChangedEventArgs(IServer server, bool isConnected):
+            base(isConnected)
+        {
+            Server = server;
+        }
+
+        public IServer Server { get; private set; }
     }
 }

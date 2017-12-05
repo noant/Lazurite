@@ -101,7 +101,6 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             var control = new SelectScenarioAndRunModeView();
             var dialogView = new DialogView(control);
-            dialogView.ShowUnderCursor = true;
             control.Initialize(valueType, side, selectedScenarioId, runMode);
             control.SelectionChanged += (ctrl) =>
             {

@@ -1,12 +1,7 @@
-﻿using System.Linq;
-using Lazurite.MainDomain;
-using Lazurite.IOC;
-using Lazurite.ActionsDomain;
-using Lazurite.CoreActions.CoreActions;
-using System;
-using System.Threading;
+﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.MainDomain;
 
 namespace Lazurite.CoreActions.CoreActions
 {
@@ -39,7 +34,7 @@ namespace Lazurite.CoreActions.CoreActions
 
         private ScenarioBase _scenario;
 
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
 
         public void SetTargetScenario(ScenarioBase scenario)
         {

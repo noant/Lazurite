@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Lazurite.MainDomain;
+using Lazurite.Shared;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,9 +9,9 @@ namespace LazuriteUI.Windows.Controls
 {
     public class EntryView: TextBox
     {
-        public Action<EntryView, EntryViewValidation> Validation;
+        public Action<EntryViewValidation> Validation;
 
-        public event Action<EntryView> ErrorStateChanged;
+        public event EventsHandler<EntryView> ErrorStateChanged;
 
         public string ErrorMessage { get; private set; }
 
@@ -40,7 +38,7 @@ namespace LazuriteUI.Windows.Controls
                 validation.InputString = text;
                 try
                 {
-                    Validation?.Invoke(this, validation);
+                    Validation?.Invoke(validation);
                     var oldErrorState = this.ErrorMessage;
                     if (!string.IsNullOrEmpty(validation.ErrorMessage))
                     {
@@ -54,7 +52,7 @@ namespace LazuriteUI.Windows.Controls
                     }
 
                     if (oldErrorState != this.ErrorMessage)
-                        ErrorStateChanged?.Invoke(this);
+                        ErrorStateChanged?.Invoke(this, new EventsArgs<EntryView>(this));
 
                     if (!string.IsNullOrEmpty(validation.OutputString))
                     {
@@ -96,9 +94,9 @@ namespace LazuriteUI.Windows.Controls
         public EntryView EntryView { get; private set; }
         public Action<EntryView> AfterValidation { get; set; }
 
-        public static Action<EntryView, EntryViewValidation> IntValidation(string fieldDescription = "", int min = int.MinValue, int max = int.MaxValue, bool roundToMargin = true)
+        public static Action<EntryViewValidation> IntValidation(string fieldDescription = "", int min = int.MinValue, int max = int.MaxValue, bool roundToMargin = true)
         {
-            return (sender, v) => {
+            return (v) => {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
@@ -128,9 +126,9 @@ namespace LazuriteUI.Windows.Controls
             };
         }
 
-        public static Action<EntryView, EntryViewValidation> UIntValidation(string fieldDescription = "", uint min = uint.MinValue, uint max = uint.MaxValue, bool roundToMargin = true)
+        public static Action<EntryViewValidation> UIntValidation(string fieldDescription = "", uint min = uint.MinValue, uint max = uint.MaxValue, bool roundToMargin = true)
         {
-            return (sender, v) => {
+            return (v) => {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
@@ -160,9 +158,9 @@ namespace LazuriteUI.Windows.Controls
             };
         }
 
-        public static Action<EntryView, EntryViewValidation> UShortValidation(string fieldDescription = "", ushort min = ushort.MinValue, ushort max = ushort.MaxValue, bool roundToMargin = true)
+        public static Action<EntryViewValidation> UShortValidation(string fieldDescription = "", ushort min = ushort.MinValue, ushort max = ushort.MaxValue, bool roundToMargin = true)
         {
-            return (sender, v) => {
+            return (v) => {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
@@ -192,9 +190,9 @@ namespace LazuriteUI.Windows.Controls
             };
         }
 
-        public static Action<EntryView, EntryViewValidation> ShortValidation(string fieldDescription = "", short min = short.MinValue, short max = short.MaxValue, bool roundToMargin = true)
+        public static Action<EntryViewValidation> ShortValidation(string fieldDescription = "", short min = short.MinValue, short max = short.MaxValue, bool roundToMargin = true)
         {
-            return (sender, v) => {
+            return (v) => {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
@@ -224,9 +222,9 @@ namespace LazuriteUI.Windows.Controls
             };
         }
 
-        public static Action<EntryView, EntryViewValidation> DoubleValidation(string fieldDescription = "", double min = double.MinValue, double max = double.MaxValue, bool roundToMargin = true)
+        public static Action<EntryViewValidation> DoubleValidation(string fieldDescription = "", double min = double.MinValue, double max = double.MaxValue, bool roundToMargin = true)
         {
-            return (sender, v) => {
+            return (v) => {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
@@ -256,9 +254,9 @@ namespace LazuriteUI.Windows.Controls
             };
         }
 
-        public static Action<EntryView, EntryViewValidation> FloatValidation(string fieldDescription = "", float min = float.MinValue, float max = float.MaxValue, bool roundToMargin = true)
+        public static Action<EntryViewValidation> FloatValidation(string fieldDescription = "", float min = float.MinValue, float max = float.MaxValue, bool roundToMargin = true)
         {
-            return (sender, v) => {
+            return (v) => {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
@@ -288,9 +286,9 @@ namespace LazuriteUI.Windows.Controls
             };
         }
 
-        public static Action<EntryView, EntryViewValidation> LongValidation(string fieldDescription = "", long min = long.MinValue, long max = long.MaxValue, bool roundToMargin = true)
+        public static Action<EntryViewValidation> LongValidation(string fieldDescription = "", long min = long.MinValue, long max = long.MaxValue, bool roundToMargin = true)
         {
-            return (sender, v) => {
+            return (v) => {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
@@ -320,9 +318,9 @@ namespace LazuriteUI.Windows.Controls
             };
         }
 
-        public static Action<EntryView, EntryViewValidation> ULongValidation(string fieldDescription = "", ulong min = ulong.MinValue, ulong max = ulong.MaxValue, bool roundToMargin = true)
+        public static Action<EntryViewValidation> ULongValidation(string fieldDescription = "", ulong min = ulong.MinValue, ulong max = ulong.MaxValue, bool roundToMargin = true)
         {
-            return (sender, v) => {
+            return (v) => {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
@@ -352,9 +350,9 @@ namespace LazuriteUI.Windows.Controls
             };
         }
 
-        public static Action<EntryView, EntryViewValidation> DecimalValidation(string fieldDescription = "", decimal min = decimal.MinValue, decimal max = decimal.MaxValue, bool roundToMargin = true)
+        public static Action<EntryViewValidation> DecimalValidation(string fieldDescription = "", decimal min = decimal.MinValue, decimal max = decimal.MaxValue, bool roundToMargin = true)
         {
-            return (sender, v) => {
+            return (v) => {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();

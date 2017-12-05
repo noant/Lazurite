@@ -1,9 +1,4 @@
 ﻿using Lazurite.ActionsDomain.ValueTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lazurite.ActionsDomain
 {
@@ -15,7 +10,7 @@ namespace Lazurite.ActionsDomain
         ValueTypeBase ValueType { get; set; }
         void Initialize();
         bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues);
-        event ValueChangedDelegate ValueChanged;
+        event ValueChangedEventHandler ValueChanged;
         bool IsSupportsEvent { get; }
         bool IsSupportsModification { get; }
     }

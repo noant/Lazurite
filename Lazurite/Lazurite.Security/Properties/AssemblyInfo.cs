@@ -1,7 +1,5 @@
-﻿using System.Resources;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+﻿using System.Reflection;
+using System.Resources;
 
 // Общие сведения о сборке определяются следующим 
 // набором атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,

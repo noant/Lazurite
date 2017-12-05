@@ -28,9 +28,9 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
         {
             InitializeComponent();
 
-            tbMax.Validation = (o, v) => EntryViewValidation.DoubleValidation(min: double.Parse(tbMin.Text)).Invoke(o,v);
-            tbMin.Validation = (o, v) => EntryViewValidation.DoubleValidation(max: double.Parse(tbMax.Text)).Invoke(o, v);
-            tbVal.Validation = (o, v) => EntryViewValidation.DoubleValidation(max: double.Parse(tbMax.Text), min: double.Parse(tbMin.Text)).Invoke(o, v);
+            tbMax.Validation = (v) => EntryViewValidation.DoubleValidation(min: double.Parse(tbMin.Text)).Invoke(v);
+            tbMin.Validation = (v) => EntryViewValidation.DoubleValidation(max: double.Parse(tbMax.Text)).Invoke(v);
+            tbVal.Validation = (v) => EntryViewValidation.DoubleValidation(max: double.Parse(tbMax.Text), min: double.Parse(tbMin.Text)).Invoke(v);
 
             tbMax.TextChanged += (o, e) =>
             {

@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Lazurite.MainDomain;
+using Lazurite.Shared;
+using System;
 
 namespace Lazurite.Windows.Logging
 {
-    public class WarningEventArgs : EventArgs
+    public class WarningEventArgs : EventsArgs<WarnType>
     {
-        public WarnType Type { get; private set; }
         public string Message { get; private set; }
         public Exception Exception { get; private set; }
 
-        public WarningEventArgs(WarnType type, string message = null, Exception exception = null)
+        public WarningEventArgs(WarnType type, string message = null, Exception exception = null):
+            base(type)
         {
-            Type = type;
             Message = message;
             Exception = exception;
         }

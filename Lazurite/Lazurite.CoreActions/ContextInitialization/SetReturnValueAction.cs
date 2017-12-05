@@ -1,12 +1,6 @@
 ﻿using Lazurite.ActionsDomain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lazurite.MainDomain;
-using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.ActionsDomain.Attributes;
+using Lazurite.ActionsDomain.ValueTypes;
 
 namespace Lazurite.CoreActions.ContextInitialization
 {
@@ -89,6 +83,6 @@ namespace Lazurite.CoreActions.ContextInitialization
             this.ValueType = algoContext.ValueType;
         }
 
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
     }
 }

@@ -1,15 +1,15 @@
-﻿using Lazurite.MainDomain;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Lazurite.ActionsDomain;
+﻿using Lazurite.ActionsDomain;
+using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
-using System.Threading;
-using Lazurite.ActionsDomain.Attributes;
+using Lazurite.MainDomain;
 using Lazurite.MainDomain.MessageSecurity;
 using Lazurite.Security;
+using Lazurite.Shared;
 using Lazurite.Utils;
+using System;
+using System.Linq;
+using System.Threading;
 
 namespace Lazurite.Scenarios.ScenarioTypes
 {
@@ -183,9 +183,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return Initialized = initialized;
         }
 
-        private void ClientFactory_ConnectionStateChanged(IServer server, bool connected)
+        private void ClientFactory_ConnectionStateChanged(object sender, EventsArgs<bool> args)
         {
-            this.IsAvailable = connected;
+            this.IsAvailable = args.Value;
         }
 
         public override void AfterInitilize()

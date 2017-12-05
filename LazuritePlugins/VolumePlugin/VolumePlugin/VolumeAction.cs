@@ -1,12 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using LazuriteUI.Icons;
-using Lazurite.ActionsDomain.Attributes;
 
 namespace VolumePlugin
 {
@@ -49,7 +44,7 @@ namespace VolumePlugin
             set;
         } = new FloatValueType() { AcceptedValues = new string[] { 0.ToString(), 100.ToString() } };
 
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
 
         public string GetValue(ExecutionContext context)
         {

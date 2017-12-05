@@ -26,7 +26,7 @@ namespace LazuriteUI.Windows.Main.Security
         {
             InitializeComponent();
 
-            tbLogin.Validation = (o,v) => v.OutputString = v.InputString.Replace(" ","");
+            tbLogin.Validation = (v) => v.OutputString = v.InputString.Replace(" ","");
             tbLogin.TextChanged += (o, e) => Validate();
             tbName.TextChanged += (o, e) => Validate();
 

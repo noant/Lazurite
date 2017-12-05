@@ -1,11 +1,7 @@
-﻿using System;
+﻿using Lazurite.ActionsDomain.ValueTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Lazurite.ActionsDomain;
+using System;
 using System.Diagnostics;
-using Lazurite.MainDomain;
-using Lazurite.ActionsDomain.ValueTypes;
-using Lazurite.Utils;
-using System.Reflection;
 
 namespace Lazurite.Tests
 {

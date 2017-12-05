@@ -1,11 +1,7 @@
-﻿using System.Linq;
-using Lazurite.MainDomain;
-using Lazurite.IOC;
-using Lazurite.ActionsDomain;
-using System;
-using System.Threading;
+﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.MainDomain;
 
 namespace Lazurite.CoreActions.CoreActions
 {
@@ -102,6 +98,6 @@ namespace Lazurite.CoreActions.CoreActions
                 _scenario?.ExecuteAsync(value);
         }
 
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
     }
 }

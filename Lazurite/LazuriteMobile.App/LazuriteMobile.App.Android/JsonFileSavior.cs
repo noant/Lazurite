@@ -1,17 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Lazurite.Data;
-using System.IO;
-using System.Xml.Serialization;
 using Newtonsoft.Json;
+using System;
+using System.IO;
 
 namespace LazuriteMobile.App.Droid
 {

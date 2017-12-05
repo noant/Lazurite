@@ -2,10 +2,6 @@
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lazurite.CoreActions.StandardValueTypeActions
 {
@@ -79,6 +75,6 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
             Value = value;
         }
 
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
     }
 }

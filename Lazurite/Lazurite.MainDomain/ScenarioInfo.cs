@@ -1,11 +1,6 @@
 ﻿using Lazurite.ActionsDomain.ValueTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Lazurite.Shared;
 using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lazurite.MainDomain
 {
@@ -34,7 +29,7 @@ namespace Lazurite.MainDomain
             }
             set {
                 _currentValue = value;
-                ValueChanged?.Invoke(this);
+                ValueChanged?.Invoke(this, new EventsArgs<ScenarioInfo>(this));
             }
         }
 
@@ -50,6 +45,6 @@ namespace Lazurite.MainDomain
         [DataMember]
         public bool OnlyGetValue { get; set; }
 
-        public event Action<ScenarioInfo> ValueChanged;
+        public event EventsHandler<ScenarioInfo> ValueChanged;
     }
 }

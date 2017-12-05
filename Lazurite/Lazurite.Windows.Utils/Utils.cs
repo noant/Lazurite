@@ -2,16 +2,11 @@
 using Lazurite.IOC;
 using Lazurite.Logging;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Lazurite.Windows.Utils
 {

@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ZWavePluginUI.Properties {
-    using System;
-    
-    
+namespace ZWavePluginUI.Properties
+{
+
+
     /// <summary>
     ///   Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
     /// </summary>

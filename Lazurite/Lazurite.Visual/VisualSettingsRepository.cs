@@ -1,11 +1,7 @@
 ﻿using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lazurite.Visual
 {
@@ -26,9 +22,9 @@ namespace Lazurite.Visual
                 _allSettings.RemoveAll(x => x.UserId.Equals(user.Id));
                 Save();
             };
-            _scenariosRepository.OnScenarioRemoved += (scenario) =>
+            _scenariosRepository.OnScenarioRemoved += (sender, args) =>
             {
-                _allSettings.RemoveAll(x => x.ScenarioId.Equals(scenario.Id));
+                _allSettings.RemoveAll(x => x.ScenarioId.Equals(args.Value.Id));
                 Save();
             };
         }

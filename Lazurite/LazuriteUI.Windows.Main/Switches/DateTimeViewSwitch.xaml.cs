@@ -25,9 +25,9 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             InitializeComponent();
             itemViewApply.Click += (o, e) => Apply?.Invoke(this, new RoutedEventArgs());
-            tbHour.Validation = (s, v) => EntryViewValidation.IntValidation("Час", 0, 23).Invoke(s,v);
-            tbMinute.Validation = (s, v) => EntryViewValidation.IntValidation("Минута", 0, 59).Invoke(s, v);
-            tbSecond.Validation = (s, v) => EntryViewValidation.IntValidation("Секунда", 0, 59).Invoke(s, v);
+            tbHour.Validation = (v) => EntryViewValidation.IntValidation("Час", 0, 23).Invoke(v);
+            tbMinute.Validation = (v) => EntryViewValidation.IntValidation("Минута", 0, 59).Invoke(v);
+            tbSecond.Validation = (v) => EntryViewValidation.IntValidation("Секунда", 0, 59).Invoke(v);
         }
 
         public DateTime DateTime

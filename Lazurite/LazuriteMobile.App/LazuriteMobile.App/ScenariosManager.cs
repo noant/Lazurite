@@ -1,20 +1,16 @@
-﻿using LazuriteMobile.MainDomain;
+﻿using Lazurite.Data;
+using Lazurite.IOC;
+using Lazurite.Logging;
+using Lazurite.MainDomain;
+using Lazurite.MainDomain.MessageSecurity;
+using Lazurite.Utils;
+using LazuriteMobile.MainDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lazurite.MainDomain;
-using Lazurite.IOC;
-using Lazurite.MainDomain.MessageSecurity;
-using System.Threading;
-using Xamarin.Forms;
-using Lazurite.Data;
-using System.ServiceModel;
 using System.Net;
 using System.Runtime.Serialization;
-using Lazurite.Utils;
-using Lazurite.Logging;
+using System.Threading;
 
 namespace LazuriteMobile.App
 {

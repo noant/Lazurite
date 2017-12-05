@@ -1,19 +1,15 @@
 ﻿using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
+using Lazurite.Shared;
 using Lazurite.Utils;
-using Lazurite.Windows.ServiceClient;
 using Lazurite.Windows.ServiceClient.ServiceReference;
 using ProxyObjectCreating;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
 using System.ServiceModel.Security;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lazurite.Windows.ServiceClient
 {
@@ -64,7 +60,7 @@ namespace Lazurite.Windows.ServiceClient
                     if (!state)
                     {
                         state = true;
-                        ConnectionStateChanged?.Invoke(connectionProxy, state);
+                        ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connectionProxy, state));
                     }
                 }
                 catch (Exception e)
@@ -74,7 +70,7 @@ namespace Lazurite.Windows.ServiceClient
                     if (state && !targetException.Message.StartsWith("Scenario not exist"))
                     {
                         state = false;
-                        ConnectionStateChanged?.Invoke(connectionProxy, state);
+                        ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connectionProxy, state));
                     }
                     //if communication exception
                     if (targetException is System.ServiceModel.ServerTooBusyException ||
@@ -134,6 +130,6 @@ namespace Lazurite.Windows.ServiceClient
             return client;
         }
 
-        public event Action<MainDomain.IServer, bool> ConnectionStateChanged;
+        public event EventsHandler<bool> ConnectionStateChanged;
     }
 }

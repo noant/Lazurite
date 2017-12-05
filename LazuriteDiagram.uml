@@ -3139,9 +3139,9 @@ in base64 text
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">1860</XPD:ATTR>
-<XPD:ATTR name="Top" type="integer">100</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">96</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">494</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">368</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">381</XPD:ATTR>
 <XPD:REF name="Model">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="IS9wRLU0YE2tv+EKTEj5NgAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="fL1lH3MYb0Gabz1EzTpOeAAA">
@@ -5302,7 +5302,7 @@ VisualCore
 <XPD:ATTR name="Left" type="integer">3632</XPD:ATTR>
 <XPD:ATTR name="Top" type="integer">712</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">293</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">108</XPD:ATTR>
+<XPD:ATTR name="Height" type="integer">121</XPD:ATTR>
 <XPD:REF name="Model">GQ6Ot0R9r0m7tC4ua6Qd7AAA</XPD:REF>
 <XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="tVLb2b7T/ESWvUj3M5vyRQAA">
 <XPD:OBJ name="NameLabel" type="LabelView" guid="f82f/11ETUW2tyEIkrgvEwAA">
@@ -9273,7 +9273,7 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Specializations[0]">ej3y/9mdBEyuBIqH1uXqzwAA</XPD:REF>
 <XPD:REF name="Specializations[1]">kQE6z5Qeu0ytFIqkEZF9vgAA</XPD:REF>
 <XPD:REF name="Specializations[2]">I0CkQt5Y1k25snhMBq7n0gAA</XPD:REF>
-<XPD:ATTR name="#Operations" type="integer">15</XPD:ATTR>
+<XPD:ATTR name="#Operations" type="integer">17</XPD:ATTR>
 <XPD:OBJ name="Operations[0]" type="UMLOperation" guid="BJL3CoZYXE2JyzkpxthjFQAA">
 <XPD:ATTR name="Name" type="string">GetAllUsedActionTypes</XPD:ATTR>
 <XPD:ATTR name="StereotypeName" type="string">Where type derived from IAction</XPD:ATTR>
@@ -9443,6 +9443,26 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="BehavioralFeature">ImPrUixeCEOoSUqyERjgtwAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
+<XPD:OBJ name="Operations[15]" type="UMLOperation" guid="LVRNO9NODkeucnqTRml4LwAA">
+<XPD:ATTR name="Name" type="string">SetOnStateChanged</XPD:ATTR>
+<XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
+<XPD:ATTR name="#Parameters" type="integer">1</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="2tq15lFHy0msaNHykNO85wAA">
+<XPD:ATTR name="Name" type="string">action</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">EventHandler&lt;ScenarioBase&gt;</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">LVRNO9NODkeucnqTRml4LwAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
+<XPD:OBJ name="Operations[16]" type="UMLOperation" guid="hWb84nY0RkyLJpcBcEqCzQAA">
+<XPD:ATTR name="Name" type="string">SetOnAvailabilityChanged</XPD:ATTR>
+<XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
+<XPD:ATTR name="#Parameters" type="integer">1</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="0LMzVZVX10CIgy+HsKKxbwAA">
+<XPD:ATTR name="Name" type="string">action</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">EventHandler&lt;ScenarioBase&gt;</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">hWb84nY0RkyLJpcBcEqCzQAA</XPD:REF>
+</XPD:OBJ>
+</XPD:OBJ>
 <XPD:ATTR name="#TypedFeatures" type="integer">2</XPD:ATTR>
 <XPD:REF name="TypedFeatures[0]">fxPWs4NtaUmge0qeLJs/2QAA</XPD:REF>
 <XPD:REF name="TypedFeatures[1]">ClGWi0wvy0S7Qdyad4THAgAA</XPD:REF>
@@ -9454,7 +9474,7 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="TypedParameters[4]">0KArSO84YUGlZnxdmRvXKwAA</XPD:REF>
 <XPD:ATTR name="#Associations" type="integer">1</XPD:ATTR>
 <XPD:REF name="Associations[0]">nNRvsztfgkmtUBl4L5D2dgAA</XPD:REF>
-<XPD:ATTR name="#Attributes" type="integer">9</XPD:ATTR>
+<XPD:ATTR name="#Attributes" type="integer">8</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="rEKt3YiKa0yHaYp4VDjFhQAA">
 <XPD:ATTR name="Name" type="string">Id</XPD:ATTR>
 <XPD:ATTR name="StereotypeName" type="string">guid</XPD:ATTR>
@@ -9467,38 +9487,33 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Type_">wtaN1/7btkOUN8izgVINXgAA</XPD:REF>
 <XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Attributes[2]" type="UMLAttribute" guid="wdWk8/ZuDkyCgy9mbxm5qwAA">
-<XPD:ATTR name="Name" type="string">SetOnStateChanged(action</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">Action&lt;ScenarioBase&gt;)</XPD:ATTR>
-<XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Attributes[3]" type="UMLAttribute" guid="SI2U8kmr9UOFc6mGkc3IwwAA">
+<XPD:OBJ name="Attributes[2]" type="UMLAttribute" guid="SI2U8kmr9UOFc6mGkc3IwwAA">
 <XPD:ATTR name="Name" type="string">Security</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">ISecuritySettings</XPD:ATTR>
 <XPD:REF name="Type_">yGpB09qankqnMgi0xSDwdAAA</XPD:REF>
 <XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Attributes[4]" type="UMLAttribute" guid="ekAd6BvbJU+rXpjScgEtiQAA">
+<XPD:OBJ name="Attributes[3]" type="UMLAttribute" guid="ekAd6BvbJU+rXpjScgEtiQAA">
 <XPD:ATTR name="Name" type="string">CurrentValue</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Attributes[5]" type="UMLAttribute" guid="LK4RmaZ78kK8dnzaqJI+xwAA">
+<XPD:OBJ name="Attributes[4]" type="UMLAttribute" guid="LK4RmaZ78kK8dnzaqJI+xwAA">
 <XPD:ATTR name="Name" type="string">Category</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Attributes[6]" type="UMLAttribute" guid="DyBnUaAUHkWhL0BwWHDa5QAA">
+<XPD:OBJ name="Attributes[5]" type="UMLAttribute" guid="DyBnUaAUHkWhL0BwWHDa5QAA">
 <XPD:ATTR name="Name" type="string">LastChange</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">DateTime</XPD:ATTR>
 <XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Attributes[7]" type="UMLAttribute" guid="kP7jXx4l8kqjiXGexmVXYwAA">
+<XPD:OBJ name="Attributes[6]" type="UMLAttribute" guid="kP7jXx4l8kqjiXGexmVXYwAA">
 <XPD:ATTR name="Name" type="string">OnlyGetValue</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">bool</XPD:ATTR>
 <XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Attributes[8]" type="UMLAttribute" guid="UvNYj+KKG0m6+HMxLhpgswAA">
+<XPD:OBJ name="Attributes[7]" type="UMLAttribute" guid="UvNYj+KKG0m6+HMxLhpgswAA">
 <XPD:ATTR name="Name" type="string">IsAvailable</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">bool</XPD:ATTR>
 <XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
@@ -12658,7 +12673,7 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 </XPD:OBJ>
 <XPD:OBJ name="Attributes[2]" type="UMLAttribute" guid="z0AxF8zz1E6X4VMwV0Y/aQAA">
 <XPD:ATTR name="Name" type="string">ValueChanged</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">ValueChangedDelegate</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">ValueChangedEventHandler</XPD:ATTR>
 <XPD:REF name="Owner">ENBgQYWst0qsGiIOQGFwZwAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Attributes[3]" type="UMLAttribute" guid="+eu4nLsxD0SeegUA8CTqEQAA">
@@ -14562,6 +14577,12 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Associations[0]">96rzv3yTwkSw8kyZXkrKiAAA</XPD:REF>
 <XPD:REF name="Associations[1]">mkbavZ6IMkCl29kg4PoDmQAA</XPD:REF>
 <XPD:REF name="Associations[2]">M1z8UEJNW02KTUtWNoP/QgAA</XPD:REF>
+<XPD:ATTR name="#Attributes" type="integer">1</XPD:ATTR>
+<XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="IdEbWigfKE6TQfavu2TftgAA">
+<XPD:ATTR name="Name" type="string">StatusChanged</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">EventHandler&lt;LazuriteServer&gt;</XPD:ATTR>
+<XPD:REF name="Owner">GQ6Ot0R9r0m7tC4ua6Qd7AAA</XPD:REF>
+</XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[1]" type="UMLClass" guid="l1KbnhuqLEatECGFEiufOAAA">
 <XPD:ATTR name="Name" type="string">ServerSettings</XPD:ATTR>

@@ -1,9 +1,7 @@
 ﻿using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lazurite.MainDomain
 {
@@ -44,7 +42,7 @@ namespace Lazurite.MainDomain
 
         protected void RaiseOnScenarioRemoved(ScenarioBase scenario)
         {
-            OnScenarioRemoved?.Invoke(scenario);
+            OnScenarioRemoved?.Invoke(this, new EventsArgs<ScenarioBase>(scenario));
         }
 
         public void Dispose()
@@ -55,7 +53,7 @@ namespace Lazurite.MainDomain
                 scenario.Dispose();
         }
 
-        public event Action<ScenarioBase> OnScenarioRemoved;
+        public event EventsHandler<ScenarioBase> OnScenarioRemoved;
 
         public abstract void Initialize();
     }

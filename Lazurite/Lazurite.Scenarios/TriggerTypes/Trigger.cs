@@ -1,20 +1,17 @@
-﻿using Lazurite.MainDomain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lazurite.ActionsDomain;
-using System.Threading;
+﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.CoreActions;
-using Lazurite.Scenarios.ScenarioTypes;
-using Lazurite.ActionsDomain.ValueTypes;
-using Lazurite.IOC;
 using Lazurite.CoreActions.ContextInitialization;
 using Lazurite.CoreActions.CoreActions;
+using Lazurite.IOC;
 using Lazurite.Logging;
+using Lazurite.MainDomain;
+using Lazurite.Scenarios.ScenarioTypes;
+using Lazurite.Shared;
 using Lazurite.Utils;
+using System;
+using System.Linq;
+using System.Threading;
 
 namespace Lazurite.Scenarios.TriggerTypes
 {
@@ -25,7 +22,7 @@ namespace Lazurite.Scenarios.TriggerTypes
         private readonly static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         private readonly static int TriggerChangesListenInterval = GlobalSettings.Get(300);
 
-        private Action<ScenarioBase> _lastSubscribe;
+        private EventsHandler<ScenarioBase> _lastSubscribe;
 
         public override IAction TargetAction
         {
@@ -104,14 +101,14 @@ namespace Lazurite.Scenarios.TriggerTypes
             cancellationToken.Register(() => contexCancellationTokenSource.Cancel());
             if (executeBySubscription)
             {
-                _lastSubscribe = (s) =>
+                _lastSubscribe = (sender, args) =>
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
                         //crutch; scenario can be changed before initializing, then we need to remove 
                         //current subscribe from previous scenario. CancellationToken.IsCancellationRequested
                         //can be setted in true only when trigger stopped;
-                        s.RemoveOnStateChanged(_lastSubscribe);
+                        args.Value.RemoveOnStateChanged(_lastSubscribe);
                     }
                     else
                     {
@@ -120,7 +117,7 @@ namespace Lazurite.Scenarios.TriggerTypes
                         outputChanged.Add((value) => GetScenario().SetCurrentValueInternal(value));
                         contexCancellationTokenSource.Cancel();
                         contexCancellationTokenSource = new CancellationTokenSource();
-                        var executionContext = new ExecutionContext(this, s.GetCurrentValue(), outputChanged, contexCancellationTokenSource.Token);
+                        var executionContext = new ExecutionContext(this, args.Value.GetCurrentValue(), outputChanged, contexCancellationTokenSource.Token);
                         TaskUtils.StartLongRunning(
                             () => action.SetValue(executionContext, string.Empty),
                             (exception) => Log.ErrorFormat(exception, "Error while executing trigger [{0}][{1}]", this.Name, this.Id));

@@ -1,9 +1,6 @@
 ﻿using Lazurite.MainDomain;
 using Lazurite.MainDomain.MessageSecurity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace LazuriteMobile.MainDomain
 {

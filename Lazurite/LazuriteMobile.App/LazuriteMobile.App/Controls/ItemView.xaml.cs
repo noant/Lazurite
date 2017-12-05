@@ -1,15 +1,11 @@
 ﻿using LazuriteUI.Icons;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Controls
 {
-	public partial class ItemView : Grid, ISelectable
+    public partial class ItemView : Grid, ISelectable
     {
         public static readonly BindableProperty IconVisibilityProperty;
         public static readonly BindableProperty IconProperty;

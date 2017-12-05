@@ -1,14 +1,9 @@
 ﻿using Lazurite.ActionsDomain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lazurite.ActionsDomain.ValueTypes;
-using LazuriteUI.Windows.Main.Journal;
-using Lazurite.Windows.Logging;
 using Lazurite.ActionsDomain.Attributes;
+using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Windows.Logging;
 using LazuriteUI.Icons;
+using LazuriteUI.Windows.Main.Journal;
 
 namespace CommonPlugin
 {
@@ -53,7 +48,7 @@ namespace CommonPlugin
             set;
         } = new InfoValueType();
 
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
 
         public string GetValue(ExecutionContext context)
         {

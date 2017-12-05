@@ -1,11 +1,8 @@
 ﻿using Lazurite.ActionsDomain.Attributes;
-using System;
+using Lazurite.IOC;
+using Lazurite.MainDomain;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lazurite.MainDomain;
-using Lazurite.IOC;
 
 namespace Lazurite.Security.Permissions
 {

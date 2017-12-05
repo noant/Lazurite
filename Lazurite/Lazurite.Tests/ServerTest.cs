@@ -1,21 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Lazurite.Data;
+﻿using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
-using Lazurite.MainDomain.MessageSecurity;
 using Lazurite.Scenarios;
 using Lazurite.Security;
 using Lazurite.Visual;
+using Lazurite.Windows.Logging;
 using Lazurite.Windows.Server;
 using Lazurite.Windows.ServiceClient;
 using Lazurite.Windows.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Lazurite.Windows.Logging;
 
 namespace Lazurite.Tests
 {

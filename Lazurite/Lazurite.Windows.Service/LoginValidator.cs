@@ -3,12 +3,9 @@ using Lazurite.MainDomain;
 using Lazurite.Windows.Logging;
 using Lazurite.Windows.Utils;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Selectors;
 using System.Linq;
 using System.ServiceModel;
-using System.ServiceModel.Security;
-using System.Web;
 
 namespace Lazurite.Windows.Service
 {

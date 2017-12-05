@@ -52,6 +52,10 @@
       <Project>{0A02DE31-B9E4-4AB7-8002-7F477A0F52DE}</Project>
       <Name>Lazurite.Logging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Shared\Lazurite.Shared.csproj">
+      <Project>{9D1FABF0-1A55-47D2-8F0F-BD0BB14F65AA}</Project>
+      <Name>Lazurite.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Utils\Lazurite.Utils.csproj">
       <Project>{d4fdb9f4-f897-4f15-85fc-26e8d933af6d}</Project>
       <Name>Lazurite.Utils</Name>

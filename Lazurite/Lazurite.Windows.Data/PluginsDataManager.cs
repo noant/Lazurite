@@ -1,12 +1,8 @@
-﻿using System;
-using HierarchicalData;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HierarchicalData;
+using Lazurite.Windows.Utils;
+using System;
 using System.IO;
 using System.Reflection;
-using Lazurite.Windows.Utils;
 
 namespace Lazurite.Data
 {

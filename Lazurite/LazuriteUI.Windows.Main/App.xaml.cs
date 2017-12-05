@@ -57,7 +57,8 @@ namespace LazuriteUI.Windows.Main
             {
                 Core = new LazuriteCore();
                 Core.WarningHandler.OnWrite += (o, e) => {
-                    JournalManager.Set(e.Message, e.Type, e.Exception);
+                    var args = (WarningEventArgs)e;
+                    JournalManager.Set(args.Message, args.Value, args.Exception);
                 };
                 Core.Initialize();
                 Core.Server.StartAsync(null);

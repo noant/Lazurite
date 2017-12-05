@@ -2,19 +2,8 @@
 using LazuriteUI.Windows.Controls;
 using NModbusWrapper;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ModbusPluginUI
 {
@@ -113,50 +102,50 @@ namespace ModbusPluginUI
             {
                 case NModbusWrapper.ValueType.Double:
                     {
-                        tbMin.Validation = (o, e) => EntryViewValidation.DoubleValidation(max: double.Parse(tbMax.Text)).Invoke(o, e);
-                        tbMax.Validation = (o, e) => EntryViewValidation.DoubleValidation(min: double.Parse(tbMin.Text)).Invoke(o, e);
+                        tbMin.Validation = (e) => EntryViewValidation.DoubleValidation(max: double.Parse(tbMax.Text)).Invoke(e);
+                        tbMax.Validation = (e) => EntryViewValidation.DoubleValidation(min: double.Parse(tbMin.Text)).Invoke(e);
                         break;
                     }
                 case NModbusWrapper.ValueType.Float:
                     {
-                        tbMin.Validation = (o, e) => EntryViewValidation.FloatValidation(max: float.Parse(tbMax.Text)).Invoke(o, e);
-                        tbMax.Validation = (o, e) => EntryViewValidation.FloatValidation(min: float.Parse(tbMin.Text)).Invoke(o, e);
+                        tbMin.Validation = (e) => EntryViewValidation.FloatValidation(max: float.Parse(tbMax.Text)).Invoke(e);
+                        tbMax.Validation = (e) => EntryViewValidation.FloatValidation(min: float.Parse(tbMin.Text)).Invoke(e);
                         break;
                     }
                 case NModbusWrapper.ValueType.Int:
                     {
-                        tbMin.Validation = (o, e) => EntryViewValidation.IntValidation(max: int.Parse(tbMax.Text)).Invoke(o, e);
-                        tbMax.Validation = (o, e) => EntryViewValidation.IntValidation(min: int.Parse(tbMin.Text)).Invoke(o, e);
+                        tbMin.Validation = (e) => EntryViewValidation.IntValidation(max: int.Parse(tbMax.Text)).Invoke(e);
+                        tbMax.Validation = (e) => EntryViewValidation.IntValidation(min: int.Parse(tbMin.Text)).Invoke(e);
                         break;
                     }
                 case NModbusWrapper.ValueType.Long:
                     {
-                        tbMin.Validation = (o, e) => EntryViewValidation.LongValidation(max: long.Parse(tbMax.Text)).Invoke(o, e);
-                        tbMax.Validation = (o, e) => EntryViewValidation.LongValidation(min: long.Parse(tbMin.Text)).Invoke(o, e);
+                        tbMin.Validation = (e) => EntryViewValidation.LongValidation(max: long.Parse(tbMax.Text)).Invoke(e);
+                        tbMax.Validation = (e) => EntryViewValidation.LongValidation(min: long.Parse(tbMin.Text)).Invoke(e);
                         break;
                     }
                 case NModbusWrapper.ValueType.Short:
                     {
-                        tbMin.Validation = (o, e) => EntryViewValidation.LongValidation(max: short.Parse(tbMax.Text)).Invoke(o, e);
-                        tbMax.Validation = (o, e) => EntryViewValidation.LongValidation(min: short.Parse(tbMin.Text)).Invoke(o, e);
+                        tbMin.Validation = (e) => EntryViewValidation.LongValidation(max: short.Parse(tbMax.Text)).Invoke(e);
+                        tbMax.Validation = (e) => EntryViewValidation.LongValidation(min: short.Parse(tbMin.Text)).Invoke(e);
                         break;
                     }
                 case NModbusWrapper.ValueType.UInt:
                     {
-                        tbMin.Validation = (o, e) => EntryViewValidation.UIntValidation(max: uint.Parse(tbMax.Text)).Invoke(o, e);
-                        tbMax.Validation = (o, e) => EntryViewValidation.UIntValidation(min: uint.Parse(tbMin.Text)).Invoke(o, e);
+                        tbMin.Validation = (e) => EntryViewValidation.UIntValidation(max: uint.Parse(tbMax.Text)).Invoke(e);
+                        tbMax.Validation = (e) => EntryViewValidation.UIntValidation(min: uint.Parse(tbMin.Text)).Invoke(e);
                         break;
                     }
                 case NModbusWrapper.ValueType.ULong:
                     {
-                        tbMin.Validation = (o, e) => EntryViewValidation.ULongValidation(max: ulong.Parse(tbMax.Text)).Invoke(o, e);
-                        tbMax.Validation = (o, e) => EntryViewValidation.ULongValidation(min: ulong.Parse(tbMin.Text)).Invoke(o, e);
+                        tbMin.Validation = (e) => EntryViewValidation.ULongValidation(max: ulong.Parse(tbMax.Text)).Invoke(e);
+                        tbMax.Validation = (e) => EntryViewValidation.ULongValidation(min: ulong.Parse(tbMin.Text)).Invoke(e);
                         break;
                     }
                 case NModbusWrapper.ValueType.UShort:
                     {
-                        tbMin.Validation = (o, e) => EntryViewValidation.UShortValidation(max: ushort.Parse(tbMax.Text)).Invoke(o, e);
-                        tbMax.Validation = (o, e) => EntryViewValidation.UShortValidation(min: ushort.Parse(tbMin.Text)).Invoke(o, e);
+                        tbMin.Validation = (e) => EntryViewValidation.UShortValidation(max: ushort.Parse(tbMax.Text)).Invoke(e);
+                        tbMax.Validation = (e) => EntryViewValidation.UShortValidation(min: ushort.Parse(tbMin.Text)).Invoke(e);
                         break;
                     }
                 case NModbusWrapper.ValueType.String:

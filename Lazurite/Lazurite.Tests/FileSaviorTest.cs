@@ -1,11 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Lazurite.Data;
+﻿using Lazurite.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lazurite.Tests
 {

@@ -13,8 +13,7 @@
 // 
 namespace LazuriteMobile.Android.ServiceClient
 {
-    using System.Runtime.Serialization;
-    
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName = "LazuriteMobile.Android.ServiceClient.IServer")]
     public interface IServer

@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using Java.IO;
-using Lazurite.IOC;
-using LazuriteMobile.MainDomain;
-using Java.Lang;
-using LazuriteMobile.Android.ServiceClient;
 using Lazurite.Data;
+using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
-using System.Threading;
+using LazuriteMobile.Android.ServiceClient;
+using LazuriteMobile.MainDomain;
+using System;
 
 namespace LazuriteMobile.App.Droid
 {

@@ -1,14 +1,12 @@
 ﻿using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.IOC;
+using Lazurite.Logging;
+using Lazurite.Utils;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using Lazurite.Utils;
-using Lazurite.Logging;
-using Lazurite.IOC;
 
 namespace Lazurite.MainDomain.MessageSecurity
 {

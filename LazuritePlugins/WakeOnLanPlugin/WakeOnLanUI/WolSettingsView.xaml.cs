@@ -1,18 +1,6 @@
 ﻿using LazuriteUI.Windows.Controls;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WakeOnLanUtils;
 
 namespace WakeOnLanUI
@@ -27,20 +15,20 @@ namespace WakeOnLanUI
             InitializeComponent();
             tbTryCount.Validation = EntryViewValidation.UShortValidation(min: 1);
             tbPort.Validation = EntryViewValidation.UShortValidation();
-            tbMac.Validation = (s, v) => {
+            tbMac.Validation = (v) => {
                 try
                 {
-                    LanUtils.MacAddressParse(s.Text);
+                    LanUtils.MacAddressParse(v.EntryView.Text);
                 }
                 catch
                 {
                     v.ErrorMessage = "МAC-адрес должен состоять из шести\r\nшестнадцатеричных чисел (от 00 до FF), разделенных двоеточием";
                 }
             };
-            tbMac.ErrorStateChanged += (s) => {
-                var isError = s.InputWrong;
+            tbMac.ErrorStateChanged += (o, args) => {
+                var isError = args.Value.InputWrong;
                 if (isError)
-                    tbError.Text = s.ErrorMessage;
+                    tbError.Text = args.Value.ErrorMessage;
                 else
                     tbError.Text = null;
                 ErrorStateChanged?.Invoke(isError);

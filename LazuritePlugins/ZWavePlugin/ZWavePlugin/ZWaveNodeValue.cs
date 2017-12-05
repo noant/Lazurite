@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenZWrapper;
-using ZWavePluginUI;
+﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
-using Lazurite.ActionsDomain;
 using LazuriteUI.Icons;
+using OpenZWrapper;
+using System;
+using System.Linq;
+using ZWavePluginUI;
 
 namespace ZWavePlugin
 {
@@ -59,7 +56,7 @@ namespace ZWavePlugin
             }
         }
 
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
 
         public string GetValue(ExecutionContext context)
         {

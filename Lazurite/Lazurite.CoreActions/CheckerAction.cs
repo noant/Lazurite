@@ -2,13 +2,6 @@
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.CoreActions.ComparisonTypes;
-using Lazurite.CoreActions.CoreActions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lazurite.MainDomain;
 using Lazurite.CoreActions.StandardValueTypeActions;
 
 namespace Lazurite.CoreActions
@@ -87,6 +80,6 @@ namespace Lazurite.CoreActions
             return GetValue(context) == ToggleValueType.ValueON;
         }
         
-        public event ValueChangedDelegate ValueChanged;
+        public event ValueChangedEventHandler ValueChanged;
     }
 }

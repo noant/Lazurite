@@ -47,9 +47,10 @@ namespace LazuriteUI.Windows.Launcher
 
             Singleton.Add(new FileSavior());
             Singleton.Add(Log = new WarningHandler());
-            Log.OnWrite += (sender, args) =>
+            Log.OnWrite += (sender, eventArgs) =>
             {
-                if (args.Type == WarnType.Error || args.Type == WarnType.Fatal)
+                var args = (WarningEventArgs)eventArgs;
+                if (args.Value == WarnType.Error || args.Value == WarnType.Fatal)
                     MessageBox.Show(args.Message, args.Exception?.Message);
             };
             if (e.Args.Any() && e.Args[0] == TaskSchedulerMode)

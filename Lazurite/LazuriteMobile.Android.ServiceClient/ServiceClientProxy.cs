@@ -1,18 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.MessageSecurity;
 using LazuriteMobile.MainDomain;
-using LazuriteMobile.Android.ServiceClient;
+using System;
 
 namespace LazuriteMobile.Android.ServiceClient
 {
