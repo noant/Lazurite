@@ -164,6 +164,12 @@ namespace LazuriteMobile.App
             }
         }
 
+        public void ReConnect()
+        {
+            RecreateConnection();
+            Refresh();
+        }
+
         private void InitializeInternal(Action<bool> callback)
         {
             //cancel all operations

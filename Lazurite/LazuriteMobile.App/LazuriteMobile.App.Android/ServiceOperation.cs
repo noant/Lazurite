@@ -16,6 +16,7 @@
         CredentialsLoaded = 2048,
         GetScenarios = 4096,
         Initialize = 8192,
-        ConnectionError = 16384
+        ConnectionError = 16384,
+        ReConnect = 32768
     }
 }

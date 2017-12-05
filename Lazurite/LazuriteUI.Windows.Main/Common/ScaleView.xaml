@@ -10,6 +10,6 @@
     <Grid>
         <TextBlock x:Name="tbValue" Foreground="White" HorizontalAlignment="Right" Margin="0,0,8,0">0</TextBlock>
         <Grid HorizontalAlignment="Right" Width="4" Background="Gray" Opacity="0.2"></Grid>
-        <Border HorizontalAlignment="Right" x:Name="borderValue" BorderThickness="4,0,0,0" VerticalAlignment="Bottom" BorderBrush="SteelBlue"></Border>
+        <Border HorizontalAlignment="Right" x:Name="borderValue" BorderThickness="4,0,0,0" VerticalAlignment="Bottom" BorderBrush="LightSkyBlue"></Border>
     </Grid>
 </UserControl>

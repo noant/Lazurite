@@ -134,7 +134,12 @@ namespace LazuriteMobile.App.Droid
             });
             Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetScenarios);
         }
-        
+
+        public void ReConnect()
+        {
+            Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.ReConnect);
+        }
+
         public void Close()
         {
             _activity.UnbindService(_serviceConnection);

@@ -12,7 +12,7 @@ namespace LazuriteMobile.App
         IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
         
         SynchronizationContext _currentContext = SynchronizationContext.Current;
-
+        
         public MainPage()
 		{
             this.InitializeComponent();
@@ -33,15 +33,14 @@ namespace LazuriteMobile.App
                     _manager.IsConnected((connected) =>
                     {
                         if (connected)
-                            Invoke(() => {
-                                Refresh();
-                                HideCaption();
-                            });
+                        {
+                            Refresh();
+                            Invoke(() => HideCaption());
+                        }
                         else
-                            _manager.GetClientSettings((settings) =>
-                            {
-                                Invoke(() => settingsView.SetCredentials(settings));
-                            });
+                        {
+                            ReConnectAndRefresh();
+                        }
                     });
                 else
                     Invoke(() => ShowCaption("Ошибка сервиса...", true, true));
@@ -51,7 +50,15 @@ namespace LazuriteMobile.App
         private void _manager_ConnectionError()
         {
             Invoke(() => {
-                ShowCaption("Ошибка соединения...", true);
+                ShowCaption("Восстановление соединения...");
+                swgrid.IsEnabled = false;
+            });
+        }
+
+        private void _manager_ConnectionLost()
+        {
+            Invoke(() => {
+                ShowCaption("Восстановление соединения...");
                 swgrid.IsEnabled = false;
             });
         }
@@ -137,14 +144,6 @@ namespace LazuriteMobile.App
             });
         }
 
-        private void _manager_ConnectionLost()
-        {
-            Invoke(() => {
-                ShowCaption("Соединение разорвано...", true);
-                swgrid.IsEnabled = false;
-            });
-        }
-
         private void _manager_NeedRefresh()
         {
             Invoke(Refresh);
@@ -153,10 +152,19 @@ namespace LazuriteMobile.App
         private void Refresh()
         {
             _manager.GetClientSettings((settings) => {
-                settingsView.SetCredentials(settings);
+                Invoke(() => settingsView.SetCredentials(settings));
             });
             _manager.GetScenarios((scenarios) => {
-                swgrid.Refresh(scenarios);
+                Invoke(() => swgrid.Refresh(scenarios));
+            });
+        }
+
+        private void ReConnectAndRefresh()
+        {
+            _manager.ReConnect();
+            _manager.GetClientSettings((settings) =>
+            {
+                Invoke(() => settingsView.SetCredentials(settings));
             });
         }
 

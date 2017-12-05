@@ -15,13 +15,14 @@
         Background="Transparent"
         WindowState="Maximized"
         xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-        Title="LazuriteFastSwitchWindow">
+        Title="LazuriteFastSwitchWindow"
+        UIElement.MouseWheel="Window_MouseWheel" >
     <Grid>
         <Grid Background="Black" Opacity="0.1" Name="gridBack" MouseDown="gridBack_MouseDown"></Grid>
         <Grid MouseDown="gridBack_MouseDown"
                       Width="Auto" 
                       HorizontalAlignment="Right"
-                      RenderOptions.BitmapScalingMode="LowQuality" 
+                      RenderOptions.BitmapScalingMode="LowQuality"
                       RenderOptions.EdgeMode="Unspecified"
                       Margin="0,0,-348,0">
             <Grid.Triggers>

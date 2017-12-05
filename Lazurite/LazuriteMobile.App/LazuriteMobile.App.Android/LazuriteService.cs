@@ -186,6 +186,11 @@ namespace LazuriteMobile.App.Droid
                             _manager.SetClientSettings(Utils.GetData<ConnectionCredentials>(msg));
                             break;
                         }
+                    case ServiceOperation.ReConnect:
+                        {
+                            _manager.ReConnect();
+                            break;
+                        }
                 }
             }
             catch (System.Exception e)

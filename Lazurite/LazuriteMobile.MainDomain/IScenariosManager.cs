@@ -5,8 +5,9 @@ namespace LazuriteMobile.MainDomain
 {
     public interface IScenariosManager
     {
-        void Initialize(Action<bool> callback); 
-        
+        void Initialize(Action<bool> callback);
+
+        void ReConnect();
         void GetClientSettings(Action<ConnectionCredentials> callback);
         void SetClientSettings(ConnectionCredentials settings);
         void ExecuteScenario(ExecuteScenarioArgs args);

@@ -1,4 +1,5 @@
-﻿using Lazurite.MainDomain;
+﻿using Lazurite.IOC;
+using Lazurite.MainDomain;
 using Lazurite.Utils;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace LazuriteUI.Windows.Main.Switches
     {
         private static readonly int FloatView_ValueUpdateInterval = GlobalSettings.Get(300);
 
+        private IHardwareVolumeChanger _changer;
         private volatile string _tempValue;
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private double _iteration; 
@@ -33,10 +35,28 @@ namespace LazuriteUI.Windows.Main.Switches
         public FloatViewSwitch()
         {
             InitializeComponent();
+            if (Singleton.Any<IHardwareVolumeChanger>())
+            {
+                _changer = Singleton.Resolve<IHardwareVolumeChanger>();
+                _changer.VolumeDown += _changer_VolumeChanged;
+                _changer.VolumeUp += _changer_VolumeChanged;
+            }
+        }
+
+        private void _changer_VolumeChanged(object sender, Lazurite.Shared.EventsArgs<int> args)
+        {
+            if (args.Value < 0)
+                this.slider.Value -= _iteration;
+            else this.slider.Value += _iteration;
         }
 
         public void Dispose()
         {
+            if (_changer != null)
+            {
+                _changer.VolumeDown -= _changer_VolumeChanged;
+                _changer.VolumeUp -= _changer_VolumeChanged;
+            }
             _tokenSource.Cancel();
         }
 
@@ -44,7 +64,7 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             this.DataContext = _model = model;
             this._tempValue = model.ScenarioValue;
-            this._iteration = (model.Max - model.Min) / 20;
+            this._iteration = (model.Max - model.Min) / 40;
             this.slider.Value = double.Parse(_tempValue ?? "0");
             this.slider.ValueChanged += (o, e) =>
             {
@@ -59,13 +79,6 @@ namespace LazuriteUI.Windows.Main.Switches
                     Thread.Sleep(FloatView_ValueUpdateInterval);
                 }
             });
-        }
-
-        private void slider_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (e.Delta < 0)
-                this.slider.Value -= _iteration;
-            else this.slider.Value += _iteration;
         }
     }
 }

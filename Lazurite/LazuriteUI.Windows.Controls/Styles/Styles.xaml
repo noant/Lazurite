@@ -490,7 +490,7 @@
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <ColorAnimation To="Gray" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" Duration="0:0:0.1">
+                                            <ColorAnimation To="DarkSlateBlue" Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" Duration="0:0:0.1">
                                             </ColorAnimation>
                                         </Storyboard>
                                     </VisualState>

@@ -91,6 +91,10 @@
       <Project>{DCD8E6AF-A435-4556-AD74-84444B1DD816}</Project>
       <Name>Lazurite.MainDomain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Shared\Lazurite.Shared.csproj">
+      <Project>{9d1fabf0-1a55-47d2-8f0f-bd0bb14f65aa}</Project>
+      <Name>Lazurite.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LazuriteMobile.MainDomain\LazuriteMobile.MainDomain.csproj">
       <Project>{194252D3-C234-4435-BAF0-F6F7AFFBE299}</Project>
       <Name>LazuriteMobile.MainDomain</Name>
