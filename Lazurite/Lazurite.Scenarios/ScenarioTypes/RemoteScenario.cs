@@ -117,20 +117,27 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void ExecuteAsync(string param)
         {
-            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
-            HandleExceptions(() => {
-                GetServer().AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
+            TaskUtils.Start(() =>
+            {
+                Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
+                HandleExceptions(() =>
+                {
+                    GetServer().AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
+                });
+                Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
             });
-            Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
         }
 
         public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
-            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
-            HandleExceptions(() => {
-                GetServer().AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
+            TaskUtils.Start(() =>
+            {
+                Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
+                HandleExceptions(() => {
+                    GetServer().AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
+                });
+                Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
             });
-            Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
         }
 
         public override void TryCancelAll()

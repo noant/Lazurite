@@ -46,8 +46,11 @@ namespace VolumePlugin
             var devices = CoreAudioController.GetPlaybackDevices();
             if (devices.Count() <= index)
                 index = devices.Count() - 1;
-            var device = devices.ElementAt(index);
-            CoreAudioController.DefaultPlaybackDevice = device;
+            if (index > -1)
+            {
+                var device = devices.ElementAt(index);
+                CoreAudioController.DefaultPlaybackDevice = device;
+            }
         }
 
         public static int GetDefaultOutputDeviceIndex()

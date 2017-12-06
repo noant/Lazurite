@@ -11,12 +11,13 @@
         Topmost="True"
         ResizeMode="NoResize"
         Background="{x:Static controls:Visual.Background}"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525"
+        FocusManager.FocusedElement="{Binding ElementName=btApply}">
     <Grid>
         <controls:CaptionView VerticalAlignment="Top" Icon="Alert">Запрос прав администратора</controls:CaptionView>
         <controls:IconView Icon="Alert" Height="70" VerticalAlignment="Top" Margin="0,50,0,0"></controls:IconView>
-        <TextBlock Margin="0,150,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="14" MaxWidth="300" TextWrapping="Wrap" Foreground="White">Для продолжения работы Lazurite требуется повышение прав. Для запуска от имени администратора нажмите "Продолжить".</TextBlock>
-        <controls:ItemView TabIndex="1" x:Name="btCancel" VerticalAlignment="Bottom" Margin="60" HorizontalAlignment="Center" Width="300" Icon="Cancel" Opacity="0.5">Отменить запуск</controls:ItemView>
+        <TextBlock TextAlignment="Justify" Margin="0,150,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="14" MaxWidth="300" TextWrapping="Wrap" Foreground="White">Для продолжения работы Lazurite требуется повышение прав. Для запуска от имени администратора нажмите "Продолжить".</TextBlock>
+        <controls:ItemView TabIndex="1" x:Name="btCancel" VerticalAlignment="Bottom" Margin="60" HorizontalAlignment="Center" Width="300" Icon="Cancel">Отменить запуск</controls:ItemView>
         <controls:ItemView TabIndex="0" x:Name="btApply" VerticalAlignment="Bottom" Margin="15" HorizontalAlignment="Center" Width="300" Icon="Check">Продолжить</controls:ItemView>
     </Grid>
 </Window>

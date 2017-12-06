@@ -20,6 +20,8 @@ namespace LazuriteUI.Windows.Controls
             this.KeyUp += DialogView_KeyUp;
             this.gridBackground.MouseLeftButtonDown += GridBackground_MouseLeftButtonDown;
             this.contentControl.Content = child;
+            this.Loaded += (sender, e) =>
+                MoveFocus(new TraversalRequest(FocusNavigationDirection.Next)); //crutch; initial focus
         }
         
         public string Caption

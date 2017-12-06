@@ -41,30 +41,32 @@ namespace LazuriteUI.Windows.Main.Journal
 
         public static void Show(string message, WarnType type)
         {
-            Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                if (_current == null || _closed)
+            if (!string.IsNullOrEmpty(message))
+                Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    _current = new JournalLightWindow();
-                    _current.Show();
-                }
-                _current.Set(message, type);
-            }));
+                    if (_current == null || _closed)
+                    {
+                        _current = new JournalLightWindow();
+                        _current.Show();
+                    }
+                    _current.Set(message, type);
+                }));
         }
 
         private void Set(string message, WarnType type)
         {
-            progressView.StartProgress();
-            if (stackPanel.Children.Count == 10)
+            if (!string.IsNullOrEmpty(message))
             {
-                stackPanel.Children.Clear();
-                this.Height = 50;
+                if (stackPanel.Children.Count == 10)
+                {
+                    stackPanel.Children.Clear();
+                    this.Height = 50;
+                }
+                var itemView = new JournaltemView();
+                itemView.DataContext = new JournalItemViewModel(message, type);
+                stackPanel.Children.Add(itemView);
+                this.Height += itemView.Height;
             }
-            var itemView = new JournaltemView();
-            itemView.DataContext = new JournalItemViewModel(message, type);
-            stackPanel.Children.Add(itemView);
-            this.Height += itemView.Height;
-            progressView.StopProgress();
         }
 
         private void ItemView_Click(object sender, RoutedEventArgs e)

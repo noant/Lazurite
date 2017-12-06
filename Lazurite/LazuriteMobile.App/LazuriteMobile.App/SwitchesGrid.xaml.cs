@@ -98,28 +98,10 @@ namespace LazuriteMobile.App
                 var maxX = MaxX;
                 var margin = ElementMargin;
                 var elementSize = ElementSize;
-                var occupiedPoints = new List<Point>();
                 foreach (View control in grid.Children)
                 {
                     var scenario = ((SwitchScenarioModel)control.BindingContext).Scenario;
                     var visualSettings = ((SwitchScenarioModel)control.BindingContext).VisualSettings;
-                    var targetPoint = new Point(visualSettings.PositionX, visualSettings.PositionY);
-                    while (occupiedPoints.Any(x => x.Equals(targetPoint)))
-                    {
-                        targetPoint.X++;
-                        if (targetPoint.X.Equals(maxX))
-                        {
-                            targetPoint.X = 0;
-                            targetPoint.Y++;
-                        }
-                        else if (control is FloatView)
-                            targetPoint.X++;
-                    }
-                    visualSettings.PositionX = (int)targetPoint.X;
-                    visualSettings.PositionY = (int)targetPoint.Y;
-
-                    occupiedPoints.Add(targetPoint);
-
                     control.VerticalOptions = new LayoutOptions(LayoutAlignment.Start, false);
                     control.HorizontalOptions = new LayoutOptions(LayoutAlignment.Start, false);
                     control.WidthRequest = control.HeightRequest = elementSize;
@@ -136,7 +118,7 @@ namespace LazuriteMobile.App
                     visualSetting.PositionX = curX;
                     visualSetting.PositionY = curY;
                     curX++;
-                    if (curX == 3)
+                    if (curX == maxX)
                     {
                         curX = 0;
                         curY++;
@@ -157,17 +139,6 @@ namespace LazuriteMobile.App
             {
                 ScenariosEmptyModeOn();
             }
-        }
-
-        private bool IsPointOccupied(View[] controls, int x, int y)
-        {
-            if (x < 0 || y < 0 || x >= MaxX-1)
-                return true;
-            return controls.Any(control =>
-            {
-                var settings = ((SwitchScenarioModel)control.BindingContext).VisualSettings;
-                return settings.PositionX.Equals(x) && settings.PositionY.Equals(y);
-            });
         }
         
         public void ScenariosEmptyModeOn()

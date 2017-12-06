@@ -307,32 +307,15 @@ namespace LazuriteUI.Windows.Main
                 var maxX = MaxX;
                 var margin = ElementMargin;
                 var elementSize = ElementSize;
-                var occupiedPoints = new List<Point>();
                 foreach (UserControl control in grid.Children.Cast<UserControl>())
                 {
                     var scenario = ((ScenarioModel)control.DataContext).Scenario;
                     var model = ((ScenarioModel)control.DataContext);
-                    var targetPoint = new Point(model.PositionX, model.PositionY);
-                    while (occupiedPoints.Any(x => x.Equals(targetPoint)))
-                    {
-                        targetPoint.X++;
-                        if (targetPoint.X.Equals(maxX))
-                        {
-                            targetPoint.X = 0;
-                            targetPoint.Y++;
-                        }
-                        else if (control is FloatView)
-                            targetPoint.X++;
-                    }
-                    model.PositionX = (int)targetPoint.X;
-                    model.PositionY = (int)targetPoint.Y;
-
-                    occupiedPoints.Add(targetPoint);
-
                     control.VerticalAlignment = VerticalAlignment.Top;
                     control.HorizontalAlignment = HorizontalAlignment.Left;
                     control.Width = control.Height = elementSize;
                 }
+
                 //optimize
                 var controls = grid.Children.Cast<UserControl>().ToArray();
                 var controlsModels = controls.Select(x => ((ScenarioModel)x.DataContext)).ToArray();
@@ -344,7 +327,7 @@ namespace LazuriteUI.Windows.Main
                     visualSetting.PositionX = curX;
                     visualSetting.PositionY = curY;
                     curX++;
-                    if (curX == 3)
+                    if (curX == maxX)
                     {
                         curX = 0;
                         curY++;
@@ -364,17 +347,6 @@ namespace LazuriteUI.Windows.Main
             {
                 ScenariosEmptyModeOn();
             }
-        }
-
-        private bool IsPointOccupied(UserControl[] controls, int x, int y)
-        {
-            if (x < 0 || y < 0)
-                return true;
-            return controls.Any(control =>
-            {
-                var model = ((ScenarioModel)control.DataContext);
-                return model.PositionX.Equals(x) && model.PositionY.Equals(y);
-            });
         }
 
         public void Move(UserControl control, Point position)
