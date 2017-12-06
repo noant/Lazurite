@@ -11,7 +11,7 @@ namespace LazuriteMobile.MainDomain
         void GetClientSettings(Action<ConnectionCredentials> callback);
         void SetClientSettings(ConnectionCredentials settings);
         void ExecuteScenario(ExecuteScenarioArgs args);
-        void IsConnected(Action<bool> callback);
+        void IsConnected(Action<ManagerConnectionState> callback);
         void GetScenarios(Action<ScenarioInfo[]> callback);
         void Close();
 
@@ -38,5 +38,12 @@ namespace LazuriteMobile.MainDomain
 
         public string Id { get; set; }
         public string Value { get; set; }
+    }
+
+    public enum ManagerConnectionState
+    {
+        Connected,
+        Disconnected,
+        Connecting
     }
 }

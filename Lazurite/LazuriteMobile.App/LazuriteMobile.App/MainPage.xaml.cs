@@ -30,16 +30,20 @@ namespace LazuriteMobile.App
             _manager.Initialize((initialized) =>
             {
                 if (initialized)
-                    _manager.IsConnected((connected) =>
+                    _manager.IsConnected((state) =>
                     {
-                        if (connected)
+                        if (state == ManagerConnectionState.Connected)
                         {
                             Refresh();
                             Invoke(() => HideCaption());
                         }
-                        else
+                        else if (state == ManagerConnectionState.Disconnected)
                         {
                             ReConnectAndRefresh();
+                        }
+                        else
+                        {
+                            RefreshCredentials();
                         }
                     });
                 else
@@ -151,9 +155,7 @@ namespace LazuriteMobile.App
         
         private void Refresh()
         {
-            _manager.GetClientSettings((settings) => {
-                Invoke(() => settingsView.SetCredentials(settings));
-            });
+            RefreshCredentials();
             _manager.GetScenarios((scenarios) => {
                 Invoke(() => swgrid.Refresh(scenarios));
             });
@@ -162,6 +164,11 @@ namespace LazuriteMobile.App
         private void ReConnectAndRefresh()
         {
             _manager.ReConnect();
+            RefreshCredentials();
+        }
+
+        private void RefreshCredentials()
+        {
             _manager.GetClientSettings((settings) =>
             {
                 Invoke(() => settingsView.SetCredentials(settings));

@@ -62,7 +62,7 @@ namespace LazuriteMobile.App
         private DateTime _lastUpdateTime;
         
         public ScenarioInfo[] Scenarios { get; private set; }
-        public bool Connected { get; private set; } = false;
+        public ManagerConnectionState ConnectionState { get; private set; } = ManagerConnectionState.Disconnected;
         private bool _succeed = true;
         private int _fullRefreshIncrement = 0;
         private CancellationTokenSource _refreshEndingToken;
@@ -88,11 +88,13 @@ namespace LazuriteMobile.App
             bool success = false;
             try
             {
+                if (ConnectionState == ManagerConnectionState.Disconnected)
+                    ConnectionState = ManagerConnectionState.Connecting;
                 action();
                 success = true;
-                if (!Connected)
+                if (ConnectionState != ManagerConnectionState.Connected)
                 {
-                    Connected = true;
+                    ConnectionState = ManagerConnectionState.Connected;
                     ConnectionRestored?.Invoke();
                 }
             }
@@ -114,11 +116,11 @@ namespace LazuriteMobile.App
                     {
                         SecretCodeInvalid?.Invoke();
                     }
-                    else if (Connected)
+                    else if (ConnectionState != ManagerConnectionState.Connected)
                         ConnectionLost?.Invoke();
                     else
                         ConnectionError?.Invoke();
-                    Connected = false;
+                    ConnectionState = ManagerConnectionState.Disconnected;
                     success = false;
                 }
             }
@@ -182,6 +184,7 @@ namespace LazuriteMobile.App
 
         private void RecreateConnection()
         {
+            ConnectionState = ManagerConnectionState.Connecting;
             if (_serviceClient != null)
                 _serviceClient.Close();
             _serviceClient = _clientManager.Create(_credentials.Value);
@@ -198,7 +201,7 @@ namespace LazuriteMobile.App
                     RefreshIteration();
                     //sleep while update or refresh
                     Utils.Sleep(WaitingForRefreshListenInterval, _refreshEndingToken.Token);
-                    //between updates sleep
+                    //beetwen updates sleep
                     Utils.Sleep(_succeed ? ScenariosManagerListenInterval : ScenariosManagerListenInterval_onError, CancellationToken.None);
                 }
             });
@@ -241,7 +244,7 @@ namespace LazuriteMobile.App
         {
             _listenersCancellationTokenSource?.Cancel();
             _serviceClient?.Close();
-            Connected = false;
+            ConnectionState = ManagerConnectionState.Disconnected;
         }
 
         public void ExecuteScenario(ExecuteScenarioArgs args)
@@ -257,9 +260,10 @@ namespace LazuriteMobile.App
         {
             try
             {
-                _serviceClient.BeginGetScenariosInfo((x) =>
+                var client = _serviceClient;
+                client.BeginGetScenariosInfo((x) =>
                 {
-                    var result = Handle(() => _serviceClient.EndGetScenariosInfo(x));
+                    var result = Handle(() => client.EndGetScenariosInfo(x));
                     if (result.Success)
                     {
                         _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
@@ -382,9 +386,9 @@ namespace LazuriteMobile.App
                 callback(_credentials.Value);
         }
 
-        public void IsConnected(Action<bool> callback)
+        public void IsConnected(Action<ManagerConnectionState> callback)
         {
-            callback(Connected);
+            callback(this.ConnectionState);
         }
 
         public void GetScenarios(Action<ScenarioInfo[]> callback)

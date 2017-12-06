@@ -32,7 +32,7 @@ namespace LazuriteMobile.App.Droid
                     _callbacks.Dequeue(ServiceOperation.GetClientSettings, Utils.GetData<ConnectionCredentials>(msg));
                     break;
                 case ServiceOperation.GetIsConnected:
-                    _callbacks.Dequeue(ServiceOperation.GetIsConnected, Utils.GetData<bool>(msg));
+                    _callbacks.Dequeue(ServiceOperation.GetIsConnected, Utils.GetData<ManagerConnectionState>(msg));
                     break;
                 case ServiceOperation.GetScenarios:
                     _callbacks.Dequeue(ServiceOperation.GetScenarios, Utils.GetData<ScenarioInfo[]>(msg));
@@ -119,10 +119,10 @@ namespace LazuriteMobile.App.Droid
             Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetClientSettings);
         }
 
-        public void IsConnected(Action<bool> callback)
+        public void IsConnected(Action<ManagerConnectionState> callback)
         {
             _callbacks.Add(ServiceOperation.GetIsConnected, (obj) => {
-                callback((bool)obj);
+                callback((ManagerConnectionState)obj);
             });
             Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetIsConnected);
         }
