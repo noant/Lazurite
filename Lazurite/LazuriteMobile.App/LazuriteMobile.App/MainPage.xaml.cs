@@ -10,6 +10,7 @@ namespace LazuriteMobile.App
     public partial class MainPage : ContentPage
 	{
         IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
+        ISupportsResume _supportsResume = Singleton.Resolve<ISupportsResume>();
         
         SynchronizationContext _currentContext = SynchronizationContext.Current;
         
@@ -17,6 +18,8 @@ namespace LazuriteMobile.App
 		{
             this.InitializeComponent();
 
+            _supportsResume.OnResume = (s) => InitializeManager();
+            settingsView.ConnectClicked += SettingsView_ConnectClicked;
             _manager.ConnectionError += _manager_ConnectionError;
             _manager.NeedRefresh += _manager_NeedRefresh;
             _manager.ConnectionLost += _manager_ConnectionLost;
@@ -26,7 +29,10 @@ namespace LazuriteMobile.App
             _manager.CredentialsLoaded += _manager_CredentialsLoaded;
             _manager.SecretCodeInvalid += _manager_SecretCodeInvalid;
             _manager.ScenariosChanged += _manager_ScenariosChanged;
-            settingsView.ConnectClicked += SettingsView_ConnectClicked;
+        }
+
+        private void InitializeManager()
+        {
             _manager.Initialize((initialized) =>
             {
                 if (initialized)
@@ -184,6 +190,9 @@ namespace LazuriteMobile.App
 
         public void ShowCaption(string text, bool error = false, bool show = true)
         {
+            //close dialogviews
+            DialogView.CloseLast();
+
             if (show)
                 this.gridCaption.IsVisible = true;
             lblCaption.Text = text;

@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
@@ -12,12 +13,21 @@ using LazuriteMobile.MainDomain;
 namespace LazuriteMobile.App.Droid
 {
     [Activity(Label = "Lazurite", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = false, ScreenOrientation = ScreenOrientation.Portrait, LaunchMode = LaunchMode.SingleTop, HardwareAccelerated = true)]
-    public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IHardwareVolumeChanger
+    public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IHardwareVolumeChanger, ISupportsResume
     {
+        Action<ISupportsResume> ISupportsResume.OnResume
+        {
+            get;
+            set;
+        }
+
         protected override void OnCreate(Bundle bundle)
         {
             Singleton.Clear<IHardwareVolumeChanger>();
             Singleton.Add((IHardwareVolumeChanger)this);
+
+            Singleton.Clear<ISupportsResume>();
+            Singleton.Add((ISupportsResume)this);
 
             if (!Singleton.Any<LazuriteContext>())
                 Singleton.Add(new LazuriteContext());
@@ -36,6 +46,8 @@ namespace LazuriteMobile.App.Droid
 
         protected override void OnDestroy()
         {
+            Singleton.Clear<IHardwareVolumeChanger>();
+            Singleton.Clear<ISupportsResume>();
             Singleton.Resolve<LazuriteContext>().Manager.Close();
             base.OnDestroy();
         }
@@ -53,6 +65,12 @@ namespace LazuriteMobile.App.Droid
                 return true;
             }
             return base.OnKeyDown(keyCode, e);
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            ((ISupportsResume)this).OnResume?.Invoke(this);
         }
 
         public event EventsHandler<int> VolumeUp;

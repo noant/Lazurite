@@ -49,6 +49,7 @@
     <Compile Include="IScenariosManager.cs" />
     <Compile Include="IServiceClient.cs" />
     <Compile Include="IServiceClientManager.cs" />
+    <Compile Include="ISupportsResume.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
