@@ -8,6 +8,7 @@ using System.Collections;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
 using System.Threading;
 
@@ -270,7 +271,9 @@ namespace Lazurite.Windows.Service
         public Encrypted<AddictionalData> SyncAddictionalData(Encrypted<AddictionalData> data)
         {
             //for future
-            return new Encrypted<AddictionalData>();
+            var dataSend = new AddictionalData();
+            dataSend.Set("test1", "test23");
+            return new Encrypted<AddictionalData>(dataSend, this._secretKey);
         }
     }
 }

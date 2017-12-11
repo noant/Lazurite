@@ -5,6 +5,8 @@ using Lazurite.MainDomain;
 using Lazurite.MainDomain.MessageSecurity;
 using Lazurite.Utils;
 using LazuriteMobile.MainDomain;
+using Plugin.Geolocator;
+using Plugin.Geolocator.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,9 +50,11 @@ namespace LazuriteMobile.App
         private static readonly int ScenariosManagerListenInterval_onError = GlobalSettings.Get(40000);
         private static readonly int WaitingForRefreshListenInterval = GlobalSettings.Get(120000);
         private static readonly int ScenariosManagerFullRefreshInterval = GlobalSettings.Get(10);
+        private static readonly int AddictionalDataRefreshInterval = GlobalSettings.Get(2);
         private static readonly ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
-        
+
+        private readonly AddictionalDataManager _addictionalDataManager = new AddictionalDataManager();
         private readonly string _cachedScenariosKey = "scensCache";
         private readonly string _credentialsKey = "credentials";
         private CancellationTokenSource _listenersCancellationTokenSource;
@@ -64,7 +68,7 @@ namespace LazuriteMobile.App
         public ScenarioInfo[] Scenarios { get; private set; }
         public ManagerConnectionState ConnectionState { get; private set; } = ManagerConnectionState.Disconnected;
         private bool _succeed = true;
-        private int _fullRefreshIncrement = 0;
+        private int _refreshIncrement = 0;
         private CancellationTokenSource _refreshEndingToken;
         
         public event Action<ScenarioInfo[]> ScenariosChanged;
@@ -215,14 +219,13 @@ namespace LazuriteMobile.App
                 if (!_succeed)
                     RecreateConnection();
                 _refreshEndingToken = new CancellationTokenSource();
-                if (_fullRefreshIncrement == ScenariosManagerFullRefreshInterval || Scenarios == null)
+                if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || Scenarios == null)
                 {
                     Refresh(success =>
                     {
                         _succeed = success;
                         _refreshEndingToken.Cancel();
                     });
-                    _fullRefreshIncrement = 0;
                 }
                 else
                 {
@@ -231,13 +234,26 @@ namespace LazuriteMobile.App
                         _succeed = success;
                         _refreshEndingToken.Cancel();
                     });
-                    _fullRefreshIncrement++;
                 }
+                if (IsMultiples(_refreshIncrement, AddictionalDataRefreshInterval))
+                {
+                    SyncAddictionalData(success =>
+                    {
+                        _succeed = success;
+                        _refreshEndingToken.Cancel();
+                    });
+                }
+                _refreshIncrement++;
             }
             catch (Exception e)
             {
                 Log.Error("Error in listen changes iteration", e);
             }
+        }
+
+        private bool IsMultiples(int sum, int num)
+        {
+            return (sum >= num && sum % num == 0);
         }
 
         public void StopListenChanges()
@@ -315,6 +331,26 @@ namespace LazuriteMobile.App
                 }, null);
             }
             catch
+            {
+                callback(false);
+            }
+        }
+
+        private void SyncAddictionalData(Action<bool> callback)
+        {
+            try
+            {
+                _serviceClient.BeginSyncAddictionalData(new Encrypted<AddictionalData>(_addictionalDataManager.Prepare(), _credentials.Value.SecretKey), 
+                    (o) => {
+                        var result = Handle(() => _serviceClient.EndSyncAddictionalData(o));
+                        if (result.Success && result.Value != null && result.Value.Any())
+                        {
+                            _addictionalDataManager.Handle(result.Value);
+                        }
+                    },
+                null);
+            }
+            catch (Exception e)
             {
                 callback(false);
             }

@@ -46,9 +46,9 @@ namespace LazuriteMobile.MainDomain
 
         void EndSaveVisualSettings(System.IAsyncResult result);
 
-        IAsyncResult BeginSyncAddictionalData(EncryptedList<string> data);
+        IAsyncResult BeginSyncAddictionalData(Encrypted<AddictionalData> data, System.AsyncCallback callback, object asyncState);
 
-        EncryptedList<string> EndSyncAddictionalData(System.IAsyncResult result);
+        Encrypted<AddictionalData> EndSyncAddictionalData(System.IAsyncResult result);
 
         void Close();
     }

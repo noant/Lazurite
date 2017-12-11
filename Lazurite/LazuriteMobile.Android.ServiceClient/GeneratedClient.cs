@@ -68,6 +68,11 @@ namespace LazuriteMobile.Android.ServiceClient
         System.IAsyncResult BeginSaveVisualSettings(Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.UserVisualSettings> visualSettings, System.AsyncCallback callback, object asyncState);
 
         void EndSaveVisualSettings(System.IAsyncResult result);
+
+        [System.ServiceModel.OperationContractAttribute(AsyncPattern = true, Action = "http://tempuri.org/IServer/SyncAddictionalData", ReplyAction = "http://tempuri.org/IServer/SyncAddictionalDataResponse")]
+        System.IAsyncResult BeginSyncAddictionalData(Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> data, System.AsyncCallback callback, object asyncState);
+
+        Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> EndSyncAddictionalData(System.IAsyncResult result);
     }
 
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -212,7 +217,30 @@ namespace LazuriteMobile.Android.ServiceClient
             }
         }
     }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class SyncAddictionalDataCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs
+    {
 
+        private object[] results;
+
+        public SyncAddictionalDataCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
+                base(exception, cancelled, userState)
+        {
+            this.results = results;
+        }
+
+        public Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> Result
+        {
+            get
+            {
+                base.RaiseExceptionIfNecessary();
+                return ((Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData>)(this.results[0]));
+            }
+        }
+    }
+    
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public partial class ServerClient : System.ServiceModel.ClientBase<LazuriteMobile.Android.ServiceClient.IServer>, LazuriteMobile.Android.ServiceClient.IServer
@@ -277,6 +305,12 @@ namespace LazuriteMobile.Android.ServiceClient
         private EndOperationDelegate onEndSaveVisualSettingsDelegate;
 
         private System.Threading.SendOrPostCallback onSaveVisualSettingsCompletedDelegate;
+
+        private BeginOperationDelegate onBeginSyncAddictionalDataDelegate;
+
+        private EndOperationDelegate onEndSyncAddictionalDataDelegate;
+
+        private System.Threading.SendOrPostCallback onSyncAddictionalDataCompletedDelegate;
 
         private BeginOperationDelegate onBeginOpenDelegate;
 
@@ -360,6 +394,8 @@ namespace LazuriteMobile.Android.ServiceClient
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> AsyncExecuteScenarioParallelCompleted;
 
         public event System.EventHandler<GetChangedScenariosCompletedEventArgs> GetChangedScenariosCompleted;
+
+        public event System.EventHandler<SyncAddictionalDataCompletedEventArgs> SyncAddictionalDataCompleted;
 
         public event System.EventHandler<System.ComponentModel.AsyncCompletedEventArgs> SaveVisualSettingsCompleted;
 
@@ -938,7 +974,63 @@ namespace LazuriteMobile.Android.ServiceClient
             base.InvokeAsync(this.onBeginSaveVisualSettingsDelegate, new object[] {
                         visualSettings}, this.onEndSaveVisualSettingsDelegate, this.onSaveVisualSettingsCompletedDelegate, userState);
         }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.IAsyncResult LazuriteMobile.Android.ServiceClient.IServer.BeginSyncAddictionalData(Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> data, System.AsyncCallback callback, object asyncState)
+        {
+            return base.Channel.BeginSyncAddictionalData(data, callback, asyncState);
+        }
 
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> LazuriteMobile.Android.ServiceClient.IServer.EndSyncAddictionalData(System.IAsyncResult result)
+        {
+            return base.Channel.EndSyncAddictionalData(result);
+        }
+
+        private System.IAsyncResult OnBeginSyncAddictionalData(object[] inValues, System.AsyncCallback callback, object asyncState)
+        {
+            Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> data = ((Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData>)(inValues[0]));
+            return ((LazuriteMobile.Android.ServiceClient.IServer)(this)).BeginSyncAddictionalData(data, callback, asyncState);
+        }
+
+        private object[] OnEndSyncAddictionalData(System.IAsyncResult result)
+        {
+            ((LazuriteMobile.Android.ServiceClient.IServer)(this)).EndSyncAddictionalData(result);
+            return null;
+        }
+
+        private void OnSyncAddictionalDataCompleted(object state)
+        {
+            if ((this.SyncAddictionalDataCompleted != null))
+            {
+                InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
+                this.SyncAddictionalDataCompleted(this, new SyncAddictionalDataCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+            }
+        }
+
+        public void SyncAddictionalDataAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> data)
+        {
+            this.SyncAddictionalDataAsync(data, null);
+        }
+
+        public void SyncAddictionalDataAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> data, object userState)
+        {
+            if ((this.onBeginSyncAddictionalDataDelegate == null))
+            {
+                this.onBeginSyncAddictionalDataDelegate = new BeginOperationDelegate(this.OnBeginSyncAddictionalData);
+            }
+            if ((this.onEndSyncAddictionalDataDelegate == null))
+            {
+                this.onEndSyncAddictionalDataDelegate = new EndOperationDelegate(this.OnEndSyncAddictionalData);
+            }
+            if ((this.onSyncAddictionalDataCompletedDelegate == null))
+            {
+                this.onSyncAddictionalDataCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncAddictionalDataCompleted);
+            }
+            base.InvokeAsync(this.onBeginSyncAddictionalDataDelegate, new object[] {
+                        data}, this.onEndSyncAddictionalDataDelegate, this.onSyncAddictionalDataCompletedDelegate, userState);
+        }
+        
         private System.IAsyncResult OnBeginOpen(object[] inValues, System.AsyncCallback callback, object asyncState)
         {
             return ((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(callback, asyncState);
@@ -1183,6 +1275,21 @@ namespace LazuriteMobile.Android.ServiceClient
             {
                 object[] _args = new object[0];
                 base.EndInvoke("SaveVisualSettings", _args, result);
+            }
+            
+            public System.IAsyncResult BeginSyncAddictionalData(Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> data, System.AsyncCallback callback, object asyncState)
+            {
+                object[] _args = new object[1];
+                _args[0] = data;
+                System.IAsyncResult _result = base.BeginInvoke("SyncAddictionalData", _args, callback, asyncState);
+                return _result;
+            }
+
+            public Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> EndSyncAddictionalData(System.IAsyncResult result)
+            {
+                object[] _args = new object[0];
+                Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> _result = ((Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData>)(base.EndInvoke("SyncAddictionalData", _args, result)));
+                return _result;
             }
         }
     }

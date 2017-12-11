@@ -82,7 +82,7 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             get
             {
-                return VisualSettings.AddictionalData[Icon1Key];
+                return VisualSettings.AddictionalData[Icon1Key].ToString();
             }
             set
             {
@@ -96,7 +96,7 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             get
             {
-                return VisualSettings.AddictionalData[Icon2Key];
+                return VisualSettings.AddictionalData[Icon2Key].ToString();
             }
             set
             {

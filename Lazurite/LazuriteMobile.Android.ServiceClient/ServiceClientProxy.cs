@@ -115,14 +115,14 @@ namespace LazuriteMobile.Android.ServiceClient
             _channel.EndIsScenarioValueChanged(result);
         }
 
-        public IAsyncResult BeginSyncAddictionalData(EncryptedList<string> data)
+        public IAsyncResult BeginSyncAddictionalData(Encrypted<AddictionalData> data, AsyncCallback callback, object asyncState)
         {
-            throw new NotImplementedException();
+            return _channel.BeginSyncAddictionalData(data, callback, asyncState);
         }
 
-        public EncryptedList<string> EndSyncAddictionalData(IAsyncResult result)
+        public Encrypted<AddictionalData> EndSyncAddictionalData(IAsyncResult result)
         {
-            throw new NotImplementedException();
+            return _channel.EndSyncAddictionalData(result);
         }
 
         public void Close()

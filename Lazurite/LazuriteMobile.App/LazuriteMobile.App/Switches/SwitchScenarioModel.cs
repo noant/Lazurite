@@ -89,7 +89,7 @@ namespace LazuriteMobile.App.Switches
         {
             get
             {
-                return VisualSettings.AddictionalData[Icon1Key];
+                return VisualSettings.AddictionalData[Icon1Key].ToString();
             }
             set
             {
@@ -102,7 +102,7 @@ namespace LazuriteMobile.App.Switches
         {
             get
             {
-                return VisualSettings.AddictionalData[Icon2Key];
+                return VisualSettings.AddictionalData[Icon2Key].ToString();
             }
             set
             {
