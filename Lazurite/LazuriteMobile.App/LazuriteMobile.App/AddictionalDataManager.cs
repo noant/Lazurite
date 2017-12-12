@@ -11,6 +11,24 @@ namespace LazuriteMobile.App
 {
     public class AddictionalDataManager
     {
+        private static Geolocation LastGeolocation;
+
+        static AddictionalDataManager()
+        {
+            CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
+            CrossGeolocator.Current.GetPositionAsync().ContinueWith((t) =>
+                {
+                    if (t.Result != null)
+                        LastGeolocation = new Geolocation(t.Result.Latitude, t.Result.Longitude);
+                }
+            );
+        }
+
+        private static void Current_PositionChanged(object sender, PositionEventArgs e)
+        {
+            LastGeolocation = new Geolocation(e.Position.Latitude, e.Position.Longitude);
+        }
+
         private bool IsLocationAvailable()
         {
             if (!CrossGeolocator.IsSupported)
@@ -19,19 +37,16 @@ namespace LazuriteMobile.App
             return CrossGeolocator.Current.IsGeolocationAvailable;
         }
 
-        private Position GetGeolocation()
+        private Geolocation GetGeolocation()
         {
-            var task = CrossGeolocator.Current.GetPositionAsync();
-            task.Wait();
-            return task.Result;
+            return LastGeolocation;
         }
 
         public AddictionalData Prepare()
         {
             var data = new AddictionalData();
-            data.Set("test_cl", "test_cl_val");
-            if (IsLocationAvailable())
-                data.Set(GetGeolocation());
+            if (LastGeolocation != null)
+                data.Set(LastGeolocation);
             return data;
         }
 

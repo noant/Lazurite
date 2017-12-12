@@ -81,6 +81,7 @@
     <Compile Include="SecuritySettingsBase.cs" />
     <Compile Include="TriggerBase.cs" />
     <Compile Include="UserBase.cs" />
+    <Compile Include="Geolocation.cs" />
     <Compile Include="UserGroupBase.cs" />
     <Compile Include="UsersRepositoryBase.cs" />
     <Compile Include="ISystemUtils.cs" />
