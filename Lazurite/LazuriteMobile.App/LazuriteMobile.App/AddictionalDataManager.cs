@@ -12,6 +12,7 @@ namespace LazuriteMobile.App
         static AddictionalDataManager()
         {
             CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
+            LastGeolocation = new Geolocation(-1, -1);
             CrossGeolocator.Current.GetLastKnownLocationAsync().ContinueWith((t) => {
                 if (t.Result != null)
                     LastGeolocation = new Geolocation(t.Result.Latitude, t.Result.Longitude);
@@ -50,7 +51,7 @@ namespace LazuriteMobile.App
 
         public void Handle(AddictionalData data)
         {
-            var data1 = data;
+            //fo future
         }
     }
 }

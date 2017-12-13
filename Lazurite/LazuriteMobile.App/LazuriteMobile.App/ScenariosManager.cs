@@ -341,7 +341,7 @@ namespace LazuriteMobile.App
                 _serviceClient.BeginSyncAddictionalData(new Encrypted<AddictionalData>(_addictionalDataManager.Prepare(), _credentials.Value.SecretKey), 
                     (o) => {
                         var result = Handle(() => _serviceClient.EndSyncAddictionalData(o));
-                        if (result.Success && result.Value != null && result.Value.Any())
+                        if (result.Success && result.Value != null && result.Value.Data.Any())
                         {
                             _addictionalDataManager.Handle(result.Value);
                         }

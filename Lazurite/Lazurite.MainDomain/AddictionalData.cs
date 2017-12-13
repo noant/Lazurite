@@ -1,14 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Lazurite.MainDomain
 {
-    public class AddictionalData: Dictionary<string, object>
+    [KnownType(typeof(Geolocation))]
+    [DataContract]
+    public class AddictionalData
     {
+        [DataMember]
+        public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
+
         public void Set(string key, object value)
         {
-            if (this.ContainsKey(key))
-                this[key] = value;
-            else this.Add(key, value);
+            if (Data.ContainsKey(key))
+                Data[key] = value;
+            else Data.Add(key, value);
         }
 
         public void Set(object value)
@@ -20,9 +26,23 @@ namespace Lazurite.MainDomain
         public T Resolve<T>()
         {
             var key = typeof(T).Name;
-            if (!this.ContainsKey(key))
+            if (!Data.ContainsKey(key))
                 return default(T);
-            else return (T)this[key];
+            else return (T)Data[key];
         }
+
+        public object this[string key]
+        {
+            get
+            {
+                return Data[key];
+            }
+            set
+            {
+                Data[key] = value;
+            }
+        }
+
+        public bool ContainsKey(string key) => Data.ContainsKey(key);
     }
 }

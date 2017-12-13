@@ -1,5 +1,8 @@
-﻿namespace Lazurite.MainDomain
+﻿using System.Runtime.Serialization;
+
+namespace Lazurite.MainDomain
 {
+    [DataContract]
     public class Geolocation
     {
         public Geolocation(double latitude, double longtitude)
@@ -8,7 +11,14 @@
             Longtitude = longtitude;
         }
 
-        public double Latitude { get; private set; }
-        public double Longtitude { get; private set; }
+        public Geolocation()
+        {
+            //stub
+        }
+
+        [DataMember]
+        public double Latitude { get; set; }
+        [DataMember]
+        public double Longtitude { get; set; }
     }
 }

@@ -267,12 +267,15 @@ namespace Lazurite.Windows.Service
             });
         }
 
-        public Encrypted<AddictionalData> SyncAddictionalData(Encrypted<AddictionalData> data)
+        public Encrypted<AddictionalData> SyncAddictionalData(Encrypted<AddictionalData> encryptedData)
         {
-            //for future
-            var dataSend = new AddictionalData();
-            dataSend.Set("test1", "test23");
-            return new Encrypted<AddictionalData>(dataSend, this._secretKey);
+            return Handle(() => {
+                var data = encryptedData.Decrypt(_secretKey);
+                var location = data.Resolve<Geolocation>();
+                if (location != null)
+                    WarningHandler.InfoFormat("User [{0}] new geolocation: [{1}];[{2}];", GetCurrentUser().Name, location.Latitude, location.Longtitude);
+                return new Encrypted<AddictionalData>(new AddictionalData(), this._secretKey);
+            });
         }
     }
 }
