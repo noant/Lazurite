@@ -312,7 +312,10 @@ namespace LazuriteUI.Windows.Main
                 
                 var curX = 0;
                 var curY = 0;
-                foreach (var visualSetting in controlsModels.OrderBy(x => x.PositionX).OrderBy(x => x.PositionY))
+                foreach (var visualSetting in controlsModels
+                    .OrderBy(x=>x.Scenario.Id)
+                    .OrderBy(x => x.PositionX)
+                    .OrderBy(x => x.PositionY))
                 {
                     visualSetting.PositionX = curX;
                     visualSetting.PositionY = curY;

@@ -112,7 +112,10 @@ namespace LazuriteMobile.App
 
                 var curX = 0;
                 var curY = 0;
-                foreach (var visualSetting in controlsVisualSettings.OrderBy(x => x.PositionX).OrderBy(x => x.PositionY))
+                foreach (var visualSetting in controlsVisualSettings
+                    .OrderBy(x => x.ScenarioId)
+                    .OrderBy(x => x.PositionX)
+                    .OrderBy(x => x.PositionY))
                 {
                     visualSetting.PositionX = curX;
                     visualSetting.PositionY = curY;
