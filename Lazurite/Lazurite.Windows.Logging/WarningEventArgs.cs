@@ -1,5 +1,4 @@
-﻿using Lazurite.MainDomain;
-using Lazurite.Shared;
+﻿using Lazurite.Shared;
 using System;
 
 namespace Lazurite.Windows.Logging

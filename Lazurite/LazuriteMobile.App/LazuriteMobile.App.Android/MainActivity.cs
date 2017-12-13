@@ -1,14 +1,13 @@
 ﻿
-using System;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Lazurite.IOC;
 using Lazurite.Shared;
 using Lazurite.Utils;
 using LazuriteMobile.MainDomain;
+using System;
 
 namespace LazuriteMobile.App.Droid
 {

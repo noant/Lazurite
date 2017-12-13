@@ -14,7 +14,7 @@
     HorizontalOptions="Start">
     <Grid x:Name="grid">
         <controls:ItemView IsEnabled="{Binding AllowClick}" BackgroundColor="Transparent" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
-        <Grid>
+        <Grid InputTransparent="True">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"></RowDefinition>
                 <RowDefinition Height="2*"></RowDefinition>
@@ -22,6 +22,6 @@
             <controls:IconView Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" InputTransparent="True" x:Name="iconView" x:FieldModifier="private" WidthRequest="45" HeightRequest="45" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,12,0,0"></controls:IconView>
             <Label Grid.Row="1" Margin="4,-7,4,2" InputTransparent="True" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="White" FontSize="Small"></Label>
         </Grid>
-        <common:ScaleView Opacity="0.5" VerticalOptions="FillAndExpand" HorizontalOptions="End" Max="{Binding Max}" Min="{Binding Min}" Value="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToDouble}}"></common:ScaleView>
+        <common:ScaleView InputTransparent="True" Opacity="0.5" VerticalOptions="FillAndExpand" HorizontalOptions="End" Max="{Binding Max}" Min="{Binding Min}" Value="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToDouble}}"></common:ScaleView>
     </Grid>
 </ContentView>

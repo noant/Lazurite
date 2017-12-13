@@ -5,8 +5,6 @@ using Lazurite.MainDomain;
 using Lazurite.MainDomain.MessageSecurity;
 using Lazurite.Utils;
 using LazuriteMobile.MainDomain;
-using Plugin.Geolocator;
-using Plugin.Geolocator.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

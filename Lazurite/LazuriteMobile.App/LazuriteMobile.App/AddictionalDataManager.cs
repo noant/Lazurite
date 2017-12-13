@@ -2,10 +2,6 @@
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LazuriteMobile.App
 {
@@ -16,12 +12,14 @@ namespace LazuriteMobile.App
         static AddictionalDataManager()
         {
             CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
-            CrossGeolocator.Current.GetPositionAsync().ContinueWith((t) =>
-                {
-                    if (t.Result != null)
-                        LastGeolocation = new Geolocation(t.Result.Latitude, t.Result.Longitude);
-                }
-            );
+            CrossGeolocator.Current.GetLastKnownLocationAsync().ContinueWith((t) => {
+                if (t.Result != null)
+                    LastGeolocation = new Geolocation(t.Result.Latitude, t.Result.Longitude);
+            });
+            CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromMinutes(10)).ContinueWith((t) => {
+                if (t.Result != null)
+                    LastGeolocation = new Geolocation(t.Result.Latitude, t.Result.Longitude);
+            });
         }
 
         private static void Current_PositionChanged(object sender, PositionEventArgs e)

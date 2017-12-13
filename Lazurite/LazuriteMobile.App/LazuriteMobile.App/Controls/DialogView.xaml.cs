@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Controls
 {
-	public partial class DialogView : ContentView
+    public partial class DialogView : ContentView
 	{
 		private View _child;
 		public DialogView(View child)

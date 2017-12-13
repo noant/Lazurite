@@ -1,6 +1,5 @@
 ﻿using Lazurite.MainDomain;
 using LazuriteMobile.App.Switches;
-using System.Collections.Generic;
 using System.Linq;
 
 using Xamarin.Forms;

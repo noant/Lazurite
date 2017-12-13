@@ -3,15 +3,10 @@ using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.CoreActions;
 using Lazurite.CoreActions.ContextInitialization;
 using Lazurite.CoreActions.CoreActions;
-using Lazurite.CoreActions.StandardValueTypeActions;
 using Lazurite.Scenarios.ScenarioTypes;
 using LazuriteUI.Windows.Controls;
 using LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace LazuriteUI.Windows.Main.Constructors.Decomposition

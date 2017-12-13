@@ -1,11 +1,5 @@
-﻿using Lazurite.ActionsDomain;
-using Lazurite.CoreActions;
+﻿using Lazurite.CoreActions;
 using LazuriteUI.Icons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace LazuriteUI.Windows.Main.Constructors.Decomposition
