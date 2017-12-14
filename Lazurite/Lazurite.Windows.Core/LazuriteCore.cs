@@ -29,12 +29,14 @@ namespace Lazurite.Windows.Core
         public UsersRepositoryBase UsersRepository { get; private set; }
         public VisualSettingsRepository VisualSettingsRepository { get; private set; }
         public LazuriteServer Server { get; private set; }
+        public AddictionalDataManager AddictionalDataManager { get; private set; }
 
         public LazuriteCore()
         {
             Singleton.Add(Savior = new FileSavior());
             Singleton.Add(WarningHandler = new WarningHandler());
             Singleton.Add(SystemUtils = new SystemUtils());
+            Singleton.Add(AddictionalDataManager = new AddictionalDataManager());
         }
 
         public CoreSettings GetSettings()

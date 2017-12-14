@@ -108,14 +108,16 @@ namespace LazuriteMobile.App
 
                 //optimize
                 var controls = grid.Children.ToArray();
-                var controlsVisualSettings = controls.Select(x => ((SwitchScenarioModel)x.BindingContext).VisualSettings).ToArray();
+                var controlsModels = controls.Select(x => ((SwitchScenarioModel)x.BindingContext)).ToArray();
 
                 var curX = 0;
                 var curY = 0;
-                foreach (var visualSetting in controlsVisualSettings
-                    .OrderBy(x => x.ScenarioId)
-                    .OrderBy(x => x.PositionX)
-                    .OrderBy(x => x.PositionY))
+                foreach (var visualSetting in controlsModels
+                    .OrderBy(x => x.VisualSettings.ScenarioId)
+                    .OrderBy(x => x.ScenarioName)
+                    .OrderBy(x => x.VisualSettings.PositionX)
+                    .OrderBy(x => x.VisualSettings.PositionY)
+                    .Select(x=>x.VisualSettings))
                 {
                     visualSetting.PositionX = curX;
                     visualSetting.PositionY = curY;
@@ -130,9 +132,10 @@ namespace LazuriteMobile.App
                 //move
                 foreach (var control in controls)
                 {
-                    var model = ((SwitchScenarioModel)control.BindingContext);
-                    var targetPoint = new Point(model.VisualSettings.PositionX, model.VisualSettings.PositionY);
-                    control.Margin = new Thickness(margin * (1 + targetPoint.X) + elementSize * targetPoint.X, margin * (1 + targetPoint.Y) + elementSize * targetPoint.Y, 0, 0);
+                    var model = ((SwitchScenarioModel)control.BindingContext);                    
+                    control.Margin = new Thickness(
+                        margin * (1 + model.VisualSettings.PositionX) + elementSize * model.VisualSettings.PositionX, 
+                        margin * (1 + model.VisualSettings.PositionY) + elementSize * model.VisualSettings.PositionY, 0, 0);
                 }
 
                 ScenariosEmptyModeOff();

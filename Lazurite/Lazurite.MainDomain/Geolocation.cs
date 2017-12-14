@@ -20,5 +20,15 @@ namespace Lazurite.MainDomain
         public double Latitude { get; set; }
         [DataMember]
         public double Longtitude { get; set; }
+
+        public override int GetHashCode()
+        {
+            return Latitude.GetHashCode() ^ Longtitude.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Geolocation && GetHashCode() == obj.GetHashCode();
+        }
     }
 }

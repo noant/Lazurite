@@ -63,8 +63,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddictionalData.cs" />
+    <Compile Include="AddictionalDataManager.cs" />
+    <Compile Include="ClientAddictionalDataInfo.cs" />
     <Compile Include="ConnectionCredentials.cs" />
+    <Compile Include="GeolocationInfo.cs" />
     <Compile Include="GlobalSettings.cs" />
+    <Compile Include="IAddictionalDataHandler.cs" />
     <Compile Include="IClientFactory.cs" />
     <Compile Include="MessageSecurity\DataContractSerializerExtension.cs" />
     <Compile Include="MessageSecurity\Encrypted.cs" />
@@ -83,6 +87,7 @@
     <Compile Include="UserBase.cs" />
     <Compile Include="Geolocation.cs" />
     <Compile Include="UserGroupBase.cs" />
+    <Compile Include="UserInfo.cs" />
     <Compile Include="UsersRepositoryBase.cs" />
     <Compile Include="ISystemUtils.cs" />
     <Compile Include="UserVisualSettings.cs" />

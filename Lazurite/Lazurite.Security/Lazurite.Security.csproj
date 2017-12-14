@@ -58,6 +58,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeolocationDataHandler.cs" />
     <Compile Include="Permissions\DenyForAllPermission.cs" />
     <Compile Include="Permissions\DenyForAllUsersExceptPermission.cs" />
     <Compile Include="Permissions\DenyForAllGroupsExceptPermission.cs" />

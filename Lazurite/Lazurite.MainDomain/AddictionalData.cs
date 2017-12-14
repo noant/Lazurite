@@ -10,6 +10,17 @@ namespace Lazurite.MainDomain
         [DataMember]
         public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
 
+        public AddictionalData()
+        {
+            //stub
+        }
+
+        public AddictionalData(params object[] items)
+        {
+            foreach (var item in items)
+                this.Set(item);
+        }
+
         public void Set(string key, object value)
         {
             if (Data.ContainsKey(key))

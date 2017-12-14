@@ -52,7 +52,7 @@ namespace LazuriteMobile.App
         private static readonly ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
-        private readonly AddictionalDataManager _addictionalDataManager = new AddictionalDataManager();
+        private readonly Geolocationmanager _addictionalDataManager = new Geolocationmanager();
         private readonly string _cachedScenariosKey = "scensCache";
         private readonly string _credentialsKey = "credentials";
         private CancellationTokenSource _listenersCancellationTokenSource;

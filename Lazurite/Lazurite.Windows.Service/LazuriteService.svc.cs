@@ -18,10 +18,12 @@ namespace Lazurite.Windows.Service
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, IncludeExceptionDetailInFaults = true, AddressFilterMode = AddressFilterMode.Any)]
     public class LazuriteService : IServer
     {
-        private static ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
-        private UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
-        private VisualSettingsRepository VisualSettings = Singleton.Resolve<VisualSettingsRepository>();
-        private WarningHandlerBase WarningHandler = Singleton.Resolve<WarningHandlerBase>();
+        private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
+        private static readonly VisualSettingsRepository VisualSettings = Singleton.Resolve<VisualSettingsRepository>();
+        private static readonly WarningHandlerBase WarningHandler = Singleton.Resolve<WarningHandlerBase>();
+        private static readonly AddictionalDataManager AddictionalDataManager = Singleton.Resolve<AddictionalDataManager>();
+
         private string _secretKey;
 
         public LazuriteService(string secretKey)
@@ -31,12 +33,13 @@ namespace Lazurite.Windows.Service
 
         public LazuriteService() : this("secretKey1234567") { }
 
-        private T Handle<T>(Func<T> function, [CallerMemberName] string memberName="")
+        private T Handle<T>(Func<UserBase,T> function, [CallerMemberName] string memberName="")
         {
             try
             {
                 WarningHandler.DebugFormat("[{0}] execution started", memberName);
-                var result = function();
+                var currentUser = GetCurrentUser();
+                var result = function(currentUser);
                 if (result is Array)
                     WarningHandler.DebugFormat("[{0}] result: [{1}] items", memberName, ((Array)(object)result).Length);
                 else if (result is IList)
@@ -59,12 +62,13 @@ namespace Lazurite.Windows.Service
             }
         }
 
-        private void Handle(Action action, [CallerMemberName] string memberName = "")
+        private void Handle(Action<UserBase> action, [CallerMemberName] string memberName = "")
         {
             try
             {
                 WarningHandler.DebugFormat("[{0}] execution started", memberName);
-                action();
+                var currentUser = GetCurrentUser();
+                action(currentUser);
             }
             catch (Exception e)
             {
@@ -91,10 +95,8 @@ namespace Lazurite.Windows.Service
             return user;
         }
 
-        private ScenarioBase GetScenarioWithPrivileges(string scenarioId)
+        private ScenarioBase GetScenarioWithPrivileges(string scenarioId, UserBase user)
         {
-            var user = GetCurrentUser();
-
             var scenario = ScenariosRepository
                 .Scenarios
                 .SingleOrDefault(x => x.Id.Equals(scenarioId));
@@ -120,61 +122,58 @@ namespace Lazurite.Windows.Service
 
         private UserVisualSettings GetVisualSettings(UserBase user, string scenarioId)
         {
-            return Handle(() => {
-                var visualSettings = VisualSettings.VisualSettings
+            var visualSettings = VisualSettings.VisualSettings
+                .SingleOrDefault(x => x is UserVisualSettings &&
+                x.UserId.Equals(user.Id) && x.ScenarioId.Equals(scenarioId));
+
+            //if we can not found visualSettings then get visualSetting of SystemUser
+            if (visualSettings == null)
+                visualSettings = VisualSettings.VisualSettings
                     .SingleOrDefault(x => x is UserVisualSettings &&
-                    x.UserId.Equals(user.Id) && x.ScenarioId.Equals(scenarioId));
+                    x.UserId.Equals(UsersRepository.SystemUser.Id) &&
+                    x.ScenarioId.Equals(scenarioId));
 
-                //if we can not found visualSettings then get visualSetting of SystemUser
-                if (visualSettings == null)
-                    visualSettings = VisualSettings.VisualSettings
-                        .SingleOrDefault(x => x is UserVisualSettings &&
-                        x.UserId.Equals(UsersRepository.SystemUser.Id) &&
-                        x.ScenarioId.Equals(scenarioId));
+            //if we can not found visualSettings of SystemUser then create new VisualSettings
+            if (visualSettings == null)
+                visualSettings = new UserVisualSettings()
+                {
+                    PositionX = 0,
+                    PositionY = 0,
+                    ScenarioId = scenarioId,
+                    UserId = user.Id
+                };
 
-                //if we can not found visualSettings of SystemUser then create new VisualSettings
-                if (visualSettings == null)
-                    visualSettings = new UserVisualSettings()
-                    {
-                        PositionX = 0,
-                        PositionY = 0,
-                        ScenarioId = scenarioId,
-                        UserId = user.Id
-                    };
-
-                return visualSettings;
-            });
+            return visualSettings;
         }
 
         public Encrypted<string> CalculateScenarioValue(Encrypted<string> scenarioId)
         {
-            return Handle(() => new Encrypted<string>(GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey)).CalculateCurrentValue(), _secretKey));
+            return Handle((user) => new Encrypted<string>(GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).CalculateCurrentValue(), _secretKey));
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
         public void ExecuteScenario(Encrypted<string> scenarioId, Encrypted<string> value)
         {
-            Handle(() => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey)).Execute(value.Decrypt(_secretKey), new CancellationToken()));
+            Handle((user) => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).Execute(value.Decrypt(_secretKey), new CancellationToken()));
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
         public void AsyncExecuteScenario(Encrypted<string> scenarioId, Encrypted<string> value)
         {
-            Handle(() => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey)).ExecuteAsync(value.Decrypt(_secretKey)));
+            Handle((user) => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).ExecuteAsync(value.Decrypt(_secretKey)));
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
         public void AsyncExecuteScenarioParallel(Encrypted<string> scenarioId, Encrypted<string> value)
         {
-            Handle(() => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey)).ExecuteAsyncParallel(value.Decrypt(_secretKey), new CancellationToken()));
+            Handle((user) => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).ExecuteAsyncParallel(value.Decrypt(_secretKey), new CancellationToken()));
         }
 
         public EncryptedList<ScenarioInfoLW> GetChangedScenarios(DateTime since)
         {
-            return Handle(() =>
+            return Handle((user) =>
             {
                 since = since.ToUniversalTime();
-                var user = GetCurrentUser();
                 return new EncryptedList<ScenarioInfoLW>(ScenariosRepository
                     .Scenarios
                     .Where(x => 
@@ -191,10 +190,9 @@ namespace Lazurite.Windows.Service
         
         public Encrypted<ScenarioInfo> GetScenarioInfo(Encrypted<string> scenarioId)
         {
-            return Handle(() =>
+            return Handle((user) =>
             {
-                var user = GetCurrentUser();
-                var scenario = GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey));
+                var scenario = GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user);
 
                 return new Encrypted<ScenarioInfo>(new ScenarioInfo()
                 {
@@ -211,9 +209,8 @@ namespace Lazurite.Windows.Service
 
         public EncryptedList<ScenarioInfo> GetScenariosInfo()
         {
-            return Handle(() =>
+            return Handle((user) =>
             {
-                var user = GetCurrentUser();
                 var result = new EncryptedList<ScenarioInfo>(ScenariosRepository
                     .Scenarios
                     .Where(x => x.CanExecute(user, ScenarioStartupSource.Network))
@@ -226,7 +223,8 @@ namespace Lazurite.Windows.Service
                         VisualSettings = GetVisualSettings(user, x.Id),
                         OnlyGetValue = x.OnlyGetValue,
                         IsAvailable = x.IsAvailable
-                    }), _secretKey);
+                    }), 
+                    _secretKey);
 
                 return result;
             });
@@ -234,16 +232,16 @@ namespace Lazurite.Windows.Service
 
         public Encrypted<string> GetScenarioValue(Encrypted<string> scenarioId)
         {
-            return Handle(() => new Encrypted<string>(GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey)).GetCurrentValue(), _secretKey));
+            return Handle((user) => new Encrypted<string>(GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).GetCurrentValue(), _secretKey));
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
         public bool IsScenarioValueChanged(Encrypted<string> scenarioId, Encrypted<string> lastKnownValue)
         {
-            return Handle(() =>
+            return Handle((user) =>
             {
                 var decryptedLastKnown = lastKnownValue.Decrypt(_secretKey);
-                return !GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey))
+                return !GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user)
                     .CalculateCurrentValue()
                     .Equals(decryptedLastKnown);
             });
@@ -251,10 +249,9 @@ namespace Lazurite.Windows.Service
         
         public void SaveVisualSettings(Encrypted<UserVisualSettings> visualSettings)
         {
-            Handle(() =>
+            Handle((user) =>
             {
                 var decryptedVS = visualSettings.Decrypt(_secretKey);
-                var user = GetCurrentUser();
                 decryptedVS = new UserVisualSettings()
                 {
                     AddictionalData = decryptedVS.AddictionalData,
@@ -269,12 +266,14 @@ namespace Lazurite.Windows.Service
 
         public Encrypted<AddictionalData> SyncAddictionalData(Encrypted<AddictionalData> encryptedData)
         {
-            return Handle(() => {
+            return Handle((user) => {
                 var data = encryptedData.Decrypt(_secretKey);
+                data.Set(new ClientAddictionalDataInfo(user, "device")); //crutch to identify current user in global data bus
+                AddictionalDataManager.Handle(data);
                 var location = data.Resolve<Geolocation>();
                 if (location != null)
-                    WarningHandler.InfoFormat("User [{0}] new geolocation: [{1}];[{2}];", GetCurrentUser().Name, location.Latitude, location.Longtitude);
-                return new Encrypted<AddictionalData>(new AddictionalData(), this._secretKey);
+                    WarningHandler.InfoFormat("User [{0}] new geolocation: [{1}];[{2}];", user.Name, location.Latitude, location.Longtitude);
+                return new Encrypted<AddictionalData>(AddictionalDataManager.Prepare(), this._secretKey);
             });
         }
     }

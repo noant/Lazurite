@@ -313,7 +313,8 @@ namespace LazuriteUI.Windows.Main
                 var curX = 0;
                 var curY = 0;
                 foreach (var visualSetting in controlsModels
-                    .OrderBy(x=>x.Scenario.Id)
+                    .OrderBy(x => x.Scenario.Id)
+                    .OrderBy(x => x.ScenarioName)
                     .OrderBy(x => x.PositionX)
                     .OrderBy(x => x.PositionY))
                 {
@@ -331,8 +332,9 @@ namespace LazuriteUI.Windows.Main
                 foreach (var control in grid.Children.Cast<UserControl>())
                 {
                     var model = ((ScenarioModel)control.DataContext);
-                    var targetPoint = new Point(model.PositionX, model.PositionY);
-                    control.Margin = new Thickness(margin * (1 + targetPoint.X) + elementSize * targetPoint.X, margin * (1 + targetPoint.Y) + elementSize * targetPoint.Y, 0, 0);
+                    control.Margin = new Thickness(
+                        margin * (1 + model.PositionX) + elementSize * model.PositionX, 
+                        margin * (1 + model.PositionY) + elementSize * model.PositionY, 0, 0);
                 }
                 ScenariosEmptyModeOff();
             }
