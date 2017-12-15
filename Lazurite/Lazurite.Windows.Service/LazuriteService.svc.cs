@@ -267,8 +267,9 @@ namespace Lazurite.Windows.Service
         public Encrypted<AddictionalData> SyncAddictionalData(Encrypted<AddictionalData> encryptedData)
         {
             return Handle((user) => {
+                var headers = OperationContext.Current.IncomingMessageHeaders;
                 var data = encryptedData.Decrypt(_secretKey);
-                data.Set(new ClientAddictionalDataInfo(user, "device")); //crutch to identify current user in global data bus
+                data.Set(user); //crutch to identify current user in global data bus
                 AddictionalDataManager.Handle(data);
                 var location = data.Resolve<Geolocation>();
                 if (location != null)

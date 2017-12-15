@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionName="First">
 	<uses-sdk android:minSdkVersion="15" />
-	<application android:label="Lazurite" android:icon="@drawable/icon"></application>
+	<application android:label="Lazurite" android:icon="@drawable/splashscreen"></application>
 	<receiver android:name="StartReceiver" android:enabled="true">
 		<intent-filter>
 			<action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -10,4 +10,5 @@
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 </manifest>

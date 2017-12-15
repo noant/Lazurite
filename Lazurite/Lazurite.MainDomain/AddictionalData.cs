@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 namespace Lazurite.MainDomain
 {
     [KnownType(typeof(Geolocation))]
+    [KnownType(typeof(DeviceInfo))]
     [DataContract]
     public class AddictionalData
     {

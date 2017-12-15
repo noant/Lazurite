@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using Lazurite.IOC;
+using Lazurite.MainDomain;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
@@ -10,6 +12,7 @@ namespace LazuriteMobile.App
         {
             InitializeComponent();
             MainPage = new LazuriteMobile.App.MainPage();
+            Singleton.Add(new AddictionalDataManager());
         }
         
         protected override void OnStart()

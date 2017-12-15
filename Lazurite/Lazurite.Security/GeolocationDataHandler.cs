@@ -11,10 +11,11 @@ namespace Lazurite.Security
     {
         public void Handle(AddictionalData data)
         {
-            var clientInfo = data.Resolve<ClientAddictionalDataInfo>();
+            var user = data.Resolve<User>();
+            var device = data.Resolve<DeviceInfo>();
             var geolocation = data.Resolve<Geolocation>();
-            if (clientInfo != null && geolocation != null)
-                clientInfo.CurrentUser.UpdateLocation(new GeolocationInfo(geolocation, clientInfo.Device));
+            if (user != null && geolocation != null)
+                user.UpdateLocation(new GeolocationInfo(geolocation, device.Name));
         }
 
         public void Initialize()

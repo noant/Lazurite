@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Lazurite.MainDomain
 {
-    public class AddictionalDataManager
+    public class AddictionalDataManager: IDisposable
     {
         private List<IAddictionalDataHandler> _handlers = new List<IAddictionalDataHandler>();
-        
+
+        public bool Any<T>() => _handlers.Any(x => x is T);
+
         public void Register<T>() where T: IAddictionalDataHandler
         {
             if (!_handlers.Any(x=> x is T))
@@ -24,7 +26,14 @@ namespace Lazurite.MainDomain
         public void Unregister<T>() where T : IAddictionalDataHandler
         {
             lock (_handlers)
-                _handlers.RemoveAll(x => x is T);
+            {
+                var handlers = _handlers.Where(x => x is T);
+                foreach (var handler in handlers)
+                {
+                    if (handler is IDisposable)
+                        ((IDisposable)handler).Dispose();
+                }
+            }
         }
 
         public void Handle(AddictionalData data)
@@ -39,6 +48,16 @@ namespace Lazurite.MainDomain
             foreach (var handler in _handlers)
                 handler.Prepare(data);
             return data;
+        }
+
+        public void Dispose()
+        {
+            foreach (var handler in _handlers)
+            {
+                if (handler is IDisposable)
+                    ((IDisposable)handler).Dispose();
+            }
+            _handlers = null;
         }
     }
 }

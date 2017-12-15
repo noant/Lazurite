@@ -64,8 +64,8 @@
   <ItemGroup>
     <Compile Include="AddictionalData.cs" />
     <Compile Include="AddictionalDataManager.cs" />
-    <Compile Include="ClientAddictionalDataInfo.cs" />
     <Compile Include="ConnectionCredentials.cs" />
+    <Compile Include="DeviceInfo.cs" />
     <Compile Include="GeolocationInfo.cs" />
     <Compile Include="GlobalSettings.cs" />
     <Compile Include="IAddictionalDataHandler.cs" />

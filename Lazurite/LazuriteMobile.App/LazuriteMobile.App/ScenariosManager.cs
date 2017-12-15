@@ -51,13 +51,13 @@ namespace LazuriteMobile.App
         private static readonly int AddictionalDataRefreshInterval = GlobalSettings.Get(2);
         private static readonly ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
-
-        private readonly Geolocationmanager _addictionalDataManager = new Geolocationmanager();
+        
         private readonly string _cachedScenariosKey = "scensCache";
         private readonly string _credentialsKey = "credentials";
         private CancellationTokenSource _listenersCancellationTokenSource;
         private CancellationTokenSource _operationCancellationTokenSource;
         private IServiceClientManager _clientManager = Singleton.Resolve<IServiceClientManager>();
+        private AddictionalDataManager _bus = Singleton.Resolve<AddictionalDataManager>();
         private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
         private IServiceClient _serviceClient;
         private ConnectionCredentials? _credentials;
@@ -81,7 +81,10 @@ namespace LazuriteMobile.App
 
         public ScenariosManager()
         {
-            //
+            if (!_bus.Any<GeolocationDataHandler>())
+                _bus.Register<GeolocationDataHandler>();
+            if (!_bus.Any<DeviceDataHandler>())
+                _bus.Register<DeviceDataHandler>();
         }
 
         private bool HandleExceptions(Action action)
@@ -338,13 +341,11 @@ namespace LazuriteMobile.App
         {
             try
             {
-                _serviceClient.BeginSyncAddictionalData(new Encrypted<AddictionalData>(_addictionalDataManager.Prepare(), _credentials.Value.SecretKey), 
+                _serviceClient.BeginSyncAddictionalData(new Encrypted<AddictionalData>(_bus.Prepare(), _credentials.Value.SecretKey), 
                     (o) => {
                         var result = Handle(() => _serviceClient.EndSyncAddictionalData(o));
                         if (result.Success && result.Value != null && result.Value.Data.Any())
-                        {
-                            _addictionalDataManager.Handle(result.Value);
-                        }
+                            _bus.Handle(result.Value);
                     },
                 null);
             }
