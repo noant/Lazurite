@@ -1,6 +1,7 @@
-﻿using LazuriteUI.Icons;
+﻿using Lazurite.Shared;
+using LazuriteUI.Icons;
 using System;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Controls
@@ -13,7 +14,8 @@ namespace LazuriteMobile.App.Controls
         public static readonly BindableProperty SelectedProperty;
         public static readonly BindableProperty SelectableProperty;
         public static readonly BindableProperty AnimateViewProperty;
-
+        public static readonly BindableProperty StrokeVisibleProperty;
+        
         static ItemView()
         {
             IconVisibilityProperty = BindableProperty.Create(nameof(IconVisibility), typeof(bool), typeof(ItemView), true, BindingMode.OneWay, null,
@@ -39,8 +41,15 @@ namespace LazuriteMobile.App.Controls
             SelectedProperty = BindableProperty.Create(nameof(SelectedProperty), typeof(bool), typeof(ItemView), false, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) =>
                 {
-                    ((ItemView)sender).backGrid.IsVisible = (bool)newVal;
+                    ((ItemView)sender).backGrid.Opacity = (bool)newVal ? 1 : 0; //crutch; IsVisibile not works (sic!);
                     ((ItemView)sender).RaiseSelectionChanged();
+                });
+            StrokeVisibleProperty = BindableProperty.Create(nameof(StrokeVisible), typeof(bool), typeof(ItemView), false, BindingMode.OneWay, null,
+                (sender, oldVal, newVal) =>
+                {
+                    ((ItemView)sender).strokeGrid.Opacity = (bool)newVal ? 1 : 0; //crutch; IsVisibile not works (sic!)
+                    if ((bool)newVal)
+                        ((ItemView)sender).StartWaitingAndStrokeActions();
                 });
             AnimateViewProperty = BindableProperty.Create(nameof(AnimateView), typeof(View), typeof(ItemView), null, BindingMode.OneWay);
         }
@@ -55,7 +64,19 @@ namespace LazuriteMobile.App.Controls
                     this.backGrid.IsVisible = this.IsEnabled && this.Selected;
                 }
             };
-		}
+        }
+
+        public bool StrokeVisible
+        {
+            get
+            {
+                return (bool)GetValue(StrokeVisibleProperty);
+            }
+            set
+            {
+                SetValue(StrokeVisibleProperty, value);
+            }
+        } 
 
         public bool IconVisibility
         {
@@ -139,16 +160,23 @@ namespace LazuriteMobile.App.Controls
                 );
                 if (this.Selectable)
                     this.Selected = !this.Selected;
-                Click?.Invoke(this, new EventArgs());
+                Click?.Invoke(this, new EventsArgs<object>(this));
             }
+        }
+
+        async private void StartWaitingAndStrokeActions()
+        {
+            await Task.Delay(1000);
+            if (StrokeVisible && !this.Selected)
+                this.Selected = true;
         }
 
         private void RaiseSelectionChanged()
         {
-            SelectionChanged?.Invoke(this, new EventArgs());
+            SelectionChanged?.Invoke(this, new EventsArgs<object>(this));
         }
 
-        public event Action<object, EventArgs> Click;
-        public event Action<object, EventArgs> SelectionChanged;
+        public event EventsHandler<object> Click;
+        public event EventsHandler<object> SelectionChanged;
     }
 }

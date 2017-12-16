@@ -30,10 +30,14 @@ namespace LazuriteUI.Windows.Main.Switches
 
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (e.Delta < 0)
-                VolumeDown?.Invoke(this, new EventsArgs<int>(-1));
-            else
-                VolumeUp?.Invoke(this, new EventsArgs<int>(1));
+            if (_model.AllowClick)
+            {
+                if (e.Delta < 0)
+                    VolumeDown?.Invoke(this, new EventsArgs<int>(-1));
+                else
+                    VolumeUp?.Invoke(this, new EventsArgs<int>(1));
+                e.Handled = true;
+            }
         }
 
         private void _changer_VolumeChanged(object sender, Lazurite.Shared.EventsArgs<int> args)

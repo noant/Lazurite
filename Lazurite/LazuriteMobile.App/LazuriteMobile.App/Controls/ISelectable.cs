@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lazurite.Shared;
+using System;
 
 namespace LazuriteMobile.App.Controls
 {
@@ -6,6 +7,6 @@ namespace LazuriteMobile.App.Controls
     {
         bool Selected { get; set; }
         bool Selectable { get; set; }
-        event Action<object, EventArgs> SelectionChanged;
+        event EventsHandler<object> SelectionChanged;
     }
 }

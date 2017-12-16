@@ -133,7 +133,7 @@ namespace LazuriteUI.Windows.Main
             {
                 var visualSetting = visualSettings.FirstOrDefault(x => x.ScenarioId.Equals(scenario.Id));
                 if (visualSetting == null)
-                    visualSetting = new UserVisualSettings() { ScenarioId = scenario.Id, UserId = _usersRepository.SystemUser.Id };
+                    visualSetting = CreateVisualSettings(scenario);
                 var control = SwitchesCreator.CreateScenarioControl(scenario, visualSetting);
                 control.MouseLeftButtonDown += ElementClick;
                 control.MouseLeftButtonUp += ElementMouseRelease;
@@ -143,10 +143,27 @@ namespace LazuriteUI.Windows.Main
             SelectFirst();
         }
 
+        private UserVisualSettings CreateVisualSettings(ScenarioBase scenario)
+        {
+            var visualSetting = new UserVisualSettings() { ScenarioId = scenario.Id, UserId = _usersRepository.SystemUser.Id };
+            var models = grid.Children.Cast<UserControl>()
+                .Select(x => ((ScenarioModel)x.DataContext));
+            var maxY = models.Max(x => x.PositionY);
+            var maxX = models.Where(x => x.PositionY == maxY).Max(x => x.PositionX) + 1;
+            if (maxX == MaxX)
+            {
+                maxX = 0;
+                maxY++;
+            }
+            visualSetting.PositionX = maxX;
+            visualSetting.PositionY = maxY;
+            return visualSetting;
+        }
+
         public void Add(ScenarioBase scenario, UserVisualSettings visualSettings)
         {
             if (visualSettings == null)
-                visualSettings = new UserVisualSettings() { ScenarioId = scenario.Id, UserId = _usersRepository.SystemUser.Id };
+                visualSettings = CreateVisualSettings(scenario);
             var control = SwitchesCreator.CreateScenarioControl(scenario, visualSettings);
             ((ScenarioModel)control.DataContext).EditMode = this.EditMode;
             control.MouseLeftButtonDown += ElementClick;

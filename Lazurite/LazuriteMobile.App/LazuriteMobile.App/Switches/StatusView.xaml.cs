@@ -23,7 +23,11 @@ namespace LazuriteMobile.App.Switches
         {
             var statusSwitch = new StatusViewSwitch((SwitchScenarioModel)this.BindingContext);
             var dialog = new DialogView(statusSwitch);
-            statusSwitch.StateChanged += (o, e2) => dialog.Close();
+            statusSwitch.StateChanged += (o, args) =>
+            {
+                if (args.Value == StatusViewSwitch.StateChangedSource.Tap)
+                    dialog.Close();
+            };
             dialog.Show(Helper.GetLastParent(this));
         }
     }

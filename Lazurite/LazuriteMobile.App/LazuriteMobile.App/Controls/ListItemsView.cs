@@ -31,15 +31,6 @@ namespace LazuriteMobile.App.Controls
         {
             this.Orientation = StackOrientation.Vertical;
             this.Spacing = 3;
-            this.SizeChanged += ListItemsView_SizeChanged;
-        }
-        
-        private void ListItemsView_SizeChanged(object sender, EventArgs e)
-        {
-            //foreach (var children in this.Children)
-            //{
-            //    children.WidthRequest = this.Width;
-            //}
         }
 
         protected override void OnChildAdded(Element child)

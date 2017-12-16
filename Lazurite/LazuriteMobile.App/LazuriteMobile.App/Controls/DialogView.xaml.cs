@@ -13,16 +13,7 @@ namespace LazuriteMobile.App.Controls
 		{
 			InitializeComponent();
 			_child = child;
-			this.contentGrid.Children.Add(child);
-
-			var tapGesture = new TapGestureRecognizer();
-			tapGesture.Tapped += TapGesture_Tapped;
-			gridBackground.GestureRecognizers.Add(tapGesture);
-		}
-
-		private void TapGesture_Tapped(object sender, EventArgs e)
-		{
-			Close();
+			this.contentGrid.Children.Add(child);            
 		}
 
 		public void Show(Grid parentElement)
@@ -52,18 +43,8 @@ namespace LazuriteMobile.App.Controls
 		
 		private static List<DialogView> AllOpened = new List<DialogView>();
 
-		public static bool AnyOpened
-		{
-			get
-			{
-				return AllOpened.Any();
-			}
-		}
+		public static bool AnyOpened => AllOpened.Any();
 
-		public static void CloseLast()
-		{
-			if (AnyOpened)
-				AllOpened.Last().Close();
-		}
+		public static void CloseLast() => AllOpened.LastOrDefault()?.Close();
 	}
 }
