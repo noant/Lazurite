@@ -3228,7 +3228,7 @@ in base64 text
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="LineStyle" type="LineStyleKind">lsRectilinear</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">1872,860;1872,508</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">1872,860;1872,512</XPD:ATTR>
 <XPD:REF name="Model">XsYzv/A6wUe407wAZ5sbwAAA</XPD:REF>
 <XPD:REF name="Head">Y1QCqXr+702YsAx8WPrcEgAA</XPD:REF>
 <XPD:REF name="Tail">NcPVAddI6UWWYCQwVjFZ8QAA</XPD:REF>
@@ -3961,8 +3961,8 @@ in base64 text
 <XPD:OBJ name="OwnedViews[99]" type="UMLClassView" guid="Y1QCqXr+702YsAx8WPrcEgAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Left" type="integer">1860</XPD:ATTR>
-<XPD:ATTR name="Top" type="integer">440</XPD:ATTR>
+<XPD:ATTR name="Left" type="integer">1848</XPD:ATTR>
+<XPD:ATTR name="Top" type="integer">444</XPD:ATTR>
 <XPD:ATTR name="Width" type="integer">279</XPD:ATTR>
 <XPD:ATTR name="Height" type="integer">69</XPD:ATTR>
 <XPD:REF name="Model">yGpB09qankqnMgi0xSDwdAAA</XPD:REF>
@@ -3993,7 +3993,7 @@ in base64 text
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="LineStyle" type="LineStyleKind">lsRectilinear</XPD:ATTR>
-<XPD:ATTR name="Points" type="Points">2385,712;2385,636;1896,636;1896,508</XPD:ATTR>
+<XPD:ATTR name="Points" type="Points">2385,712;2385,636;1896,636;1896,512</XPD:ATTR>
 <XPD:REF name="Model">VZU8NTDbbUuxJpQH3hNAPQAA</XPD:REF>
 <XPD:REF name="Head">Y1QCqXr+702YsAx8WPrcEgAA</XPD:REF>
 <XPD:REF name="Tail">cLtdaj/6F06tI6Hv0JEOBAAA</XPD:REF>
@@ -9923,16 +9923,21 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:OBJ name="Operations[8]" type="UMLOperation" guid="qIWUaB4XmUSsmjP/2oJjxQAA">
 <XPD:ATTR name="Name" type="string">Initialize</XPD:ATTR>
 <XPD:REF name="Owner">UBvdFEhRE0CrWCc/DPhj5gAA</XPD:REF>
-<XPD:ATTR name="#Parameters" type="integer">2</XPD:ATTR>
-<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="Zf95E+xbGkWr2kyz8Z7vUAAA">
+<XPD:ATTR name="#Parameters" type="integer">3</XPD:ATTR>
+<XPD:OBJ name="Parameters[0]" type="UMLParameter" guid="dw3QN4s7e0i+Ja3JRq10FwAA">
 <XPD:ATTR name="DirectionKind" type="UMLParameterDirectionKind">pdkReturn</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">bool</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">void</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">qIWUaB4XmUSsmjP/2oJjxQAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="4NktYgAtnEmoUq9Ga/kHJwAA">
+<XPD:OBJ name="Parameters[1]" type="UMLParameter" guid="EzH4THQsuUCkzMoHQ1BbWAAA">
 <XPD:ATTR name="Name" type="string">scenariosRepository</XPD:ATTR>
 <XPD:REF name="BehavioralFeature">qIWUaB4XmUSsmjP/2oJjxQAA</XPD:REF>
 <XPD:REF name="Type_">U/gqPxArwUqnoOHrUnXqlwAA</XPD:REF>
+</XPD:OBJ>
+<XPD:OBJ name="Parameters[2]" type="UMLParameter" guid="SKUcNR/qEkyRPbwH30560gAA">
+<XPD:ATTR name="Name" type="string">callback</XPD:ATTR>
+<XPD:ATTR name="TypeExpression" type="string">Action&lt;bool&gt;</XPD:ATTR>
+<XPD:REF name="BehavioralFeature">qIWUaB4XmUSsmjP/2oJjxQAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="Operations[9]" type="UMLOperation" guid="LpDgzIIsL0qEtBvG5ehQ1wAA">
@@ -13748,9 +13753,10 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="BehavioralFeature">IjRt6UYbN0e5rN9PcJMEvQAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:ATTR name="#TypedParameters" type="integer">2</XPD:ATTR>
+<XPD:ATTR name="#TypedParameters" type="integer">3</XPD:ATTR>
 <XPD:REF name="TypedParameters[0]">3FxCPOEwAEe2QIsSuGTaQQAA</XPD:REF>
-<XPD:REF name="TypedParameters[1]">4NktYgAtnEmoUq9Ga/kHJwAA</XPD:REF>
+<XPD:REF name="TypedParameters[1]" pathname="scenariosRepository">4NktYgAtnEmoUq9Ga/kHJwAA</XPD:REF>
+<XPD:REF name="TypedParameters[2]">EzH4THQsuUCkzMoHQ1BbWAAA</XPD:REF>
 <XPD:ATTR name="#Attributes" type="integer">2</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="fxPWs4NtaUmge0qeLJs/2QAA">
 <XPD:ATTR name="Name" type="string">Scenarios</XPD:ATTR>

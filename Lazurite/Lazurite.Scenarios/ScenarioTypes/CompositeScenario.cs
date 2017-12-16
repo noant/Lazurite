@@ -75,27 +75,28 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return _currentValue;
         }
 
-        public override bool Initialize(ScenariosRepositoryBase repository)
+        public override void Initialize(ScenariosRepositoryBase repository, Action<bool> callback)
         {
-            foreach (var action in this.TargetAction.GetAllActionsFlat())
+            try
             {
-                if (action != null)
+                foreach (var action in this.TargetAction.GetAllActionsFlat())
                 {
-                    var coreAction = action as ICoreAction;
-                    coreAction?.SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
-                    var initializable = action as IContextInitializable;
-                    try
+                    if (action != null)
                     {
+                        var coreAction = action as ICoreAction;
+                        coreAction?.SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
+                        var initializable = action as IContextInitializable;
                         initializable?.Initialize(this);
                         action.Initialize();
                     }
-                    catch (Exception e)
-                    {
-                        _log.ErrorFormat(e, "Во время инициализации части сценария [{0}] возникла ошибка", this.Name);
-                    }
                 }
             }
-            return true;
+            catch (Exception e)
+            {
+                _log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", this.Name);
+                this.IsAvailable = false;
+            }
+            callback?.Invoke(this.IsAvailable);
         }
 
         public override void AfterInitilize()

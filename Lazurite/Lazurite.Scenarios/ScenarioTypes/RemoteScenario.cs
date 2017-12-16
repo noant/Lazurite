@@ -162,7 +162,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             RaiseValueChangedEvents();
         }
 
-        public override bool Initialize(ScenariosRepositoryBase repository)
+        private bool InitializeInternal()
         {
             Log.DebugFormat("Scenario initialize begin: [{0}][{1}]", this.Name, this.Id);
             _clientFactory = Singleton.Resolve<IClientFactory>();
@@ -188,6 +188,15 @@ namespace Lazurite.Scenarios.ScenarioTypes
             Log.DebugFormat("Scenario initialize end: [{0}][{1}]", this.Name, this.Id);
             IsAvailable = initialized && remoteScenarioAvailable;
             return Initialized = initialized;
+        }
+
+        public override void Initialize(ScenariosRepositoryBase repository, Action<bool> callback)
+        {
+            TaskUtils.Start(() =>
+            {
+                var result = InitializeInternal();
+                callback?.Invoke(result);
+            });
         }
 
         private void ClientFactory_ConnectionStateChanged(object sender, EventsArgs<bool> args)
@@ -250,7 +259,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public void ReInitialize()
         {
-            Initialize(null);
+            InitializeInternal();
         }
 
         public bool Initialized { get; private set; }

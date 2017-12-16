@@ -109,7 +109,7 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Method runs after creating of all scenario parameters
         /// </summary>
-        public abstract bool Initialize(ScenariosRepositoryBase repository);
+        public abstract void Initialize(ScenariosRepositoryBase repository, Action<bool> callback = null);
         
         /// <summary>
         /// Method runs after initializing

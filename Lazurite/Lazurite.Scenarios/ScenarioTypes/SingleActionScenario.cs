@@ -102,7 +102,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return _currentValue;
         }
 
-        public override bool Initialize(ScenariosRepositoryBase repository)
+        public override void Initialize(ScenariosRepositoryBase repository, Action<bool> callback)
         {
             try
             {
@@ -112,13 +112,13 @@ namespace Lazurite.Scenarios.ScenarioTypes
                         .SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(((ICoreAction)ActionHolder.Action).TargetScenarioId)));
                 }
                 ActionHolder.Action.Initialize();
-                _currentValue = ActionHolder.Action.GetValue(null);                
-                return true;
+                _currentValue = ActionHolder.Action.GetValue(null);
+                callback?.Invoke(true);
             }
             catch (Exception e)
             {
                 _log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", this.Name);
-                return false;
+                callback?.Invoke(false);
             }
         }
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -69,15 +70,14 @@ namespace LazuriteUI.Windows.Controls
             }
             else
             {
-                if (this.Parent != null)
-                {
+                this.Parent?.Dispatcher.BeginInvoke(new Action(() => {
                     foreach (FrameworkElement element in ((Panel)this.Parent).Children)
                     {
                         if (!_tempDisabledElements.Contains(element))
                             element.IsEnabled = true;
                     }
-                    ((Panel)Parent).Children.Remove(this);
-                }
+                ((Panel)Parent).Children.Remove(this);
+                }));
             }
         }
 
@@ -172,20 +172,46 @@ namespace LazuriteUI.Windows.Controls
 
         public static void ShowMessage(string message, string header, Icon icon, Panel parent = null, Action okCallback = null)
         {
-            if (parent == null)
-                parent = Utils.GetMainWindowPanel();
-            var messageView = new MessageView();
-            messageView.ContentText = message;
-            messageView.HeaderText = header;
-            messageView.Icon = icon;
-            messageView.SetItems(new MessageItemInfo[] {
-                new MessageItemInfo("OK", 
+            App.Current.Dispatcher.BeginInvoke(new Action(() => {
+                if (parent == null)
+                    parent = Utils.GetMainWindowPanel();
+                var messageView = new MessageView();
+                messageView.ContentText = message;
+                messageView.HeaderText = header;
+                messageView.Icon = icon;
+                messageView.SetItems(new MessageItemInfo[] {
+                new MessageItemInfo("OK",
                 (v) => {
                     v.Close();
                     okCallback?.Invoke();
                 }, Icon.Check, true)
             });
-            messageView.Show(parent);
+                messageView.Show(parent);
+            }));
+        }
+
+        public static CancellationTokenSource ShowLoad(string message, Panel parent = null)
+        {
+            var tokenSource = new CancellationTokenSource();
+
+            if (parent == null)
+                parent = Utils.GetMainWindowPanel();
+
+            parent.Dispatcher.BeginInvoke((Action)(() =>
+            {
+                var messageView = new MessageView();
+                messageView.ContentText = message;
+                messageView.HeaderText = "Пожалуйста, подождите...";
+                messageView.Icon = Icons.Icon.Progress;
+                messageView.Show(parent);
+
+                tokenSource.Token.Register(() => messageView.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    messageView.Close();
+                })));
+            }));
+
+            return tokenSource;
         }
 
         public static void ShowYesNo(string message, string header, Icon icon, Action<bool> callback = null, Panel parent = null)
