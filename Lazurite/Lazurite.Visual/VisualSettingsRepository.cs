@@ -57,7 +57,7 @@ namespace Lazurite.Visual
 
         public void Update(UserVisualSettings settings)
         {
-            Add(settings); //operation equals
+            Add(settings); //operations equals
         }
     }
 }

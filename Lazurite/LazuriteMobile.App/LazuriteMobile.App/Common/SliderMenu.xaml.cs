@@ -51,7 +51,7 @@ namespace LazuriteMobile.App.Common
         public void Hide()
         {
             this.BackgroundColor = Color.Transparent;
-            this.iconView.Icon = Icon.LinesHorizontal4;
+            this.iconView.Icon = Icon.ChevronUp;
             this.TranslateTo(0, this.Height - 40, 100, Easing.Linear);
             MenuVisible = false;
         }
@@ -61,7 +61,7 @@ namespace LazuriteMobile.App.Common
             if (_initialized)
             {
                 this.BackgroundColor = Color.Black;
-                this.iconView.Icon = Icon.ArrowDown;
+                this.iconView.Icon = Icon.ChevronDown;
                 this.TranslateTo(0, 0, 100, Easing.Linear);
                 MenuVisible = true;
             }

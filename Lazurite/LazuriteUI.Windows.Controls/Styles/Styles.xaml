@@ -502,7 +502,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Border x:Name="bottomBorder" Opacity="0" BorderBrush="DarkOrchid" BorderThickness="0,0,0,1" />
+                            <Border x:Name="bottomBorder" Opacity="0" BorderBrush="DarkOrchid" BorderThickness="0,0,0,3" />
                             <ContentPresenter></ContentPresenter>
                         </Grid>
                     </ControlTemplate>

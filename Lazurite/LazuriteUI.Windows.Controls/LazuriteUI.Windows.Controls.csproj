@@ -92,6 +92,9 @@
     <Compile Include="Progress.xaml.cs">
       <DependentUpon>Progress.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StuckUILoadingWindow.xaml.cs">
+      <DependentUpon>StuckUILoadingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Styles\Visual.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="WheelScroll.cs" />
@@ -153,6 +156,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Progress.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StuckUILoadingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

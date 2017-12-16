@@ -89,7 +89,7 @@ namespace LazuriteMobile.App
                 Rearrange();
             }
         }
-
+        
         public void Rearrange()
         {
             if (grid.Children.Any())

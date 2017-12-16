@@ -202,7 +202,8 @@ namespace LazuriteUI.Windows.Controls
                 var messageView = new MessageView();
                 messageView.ContentText = message;
                 messageView.HeaderText = "Пожалуйста, подождите...";
-                messageView.Icon = Icons.Icon.Progress;
+                messageView.Icon = Icons.Icon.MoonSleep;
+                messageView.StartAnimateProgress();
                 messageView.Show(parent);
 
                 tokenSource.Token.Register(() => messageView.Dispatcher.BeginInvoke(new Action(() =>
@@ -242,25 +243,6 @@ namespace LazuriteUI.Windows.Controls
                 true)
             });
             messageView.Show(parent);
-        }
-
-        public static void ShowLoadCrutch(Action<Action> target, string caption)
-        {
-            var messageView = new MessageView();
-            messageView.ContentText = caption;
-            messageView.Icon = Icon.Hourglass;
-            messageView.ShowInNewWindow(() => 
-                target?.Invoke(() => 
-                {
-                    messageView
-                        .Dispatcher
-                        .BeginInvoke(new Action(() =>
-                            {
-                                messageView.Close();
-                            }
-                        ));
-                })
-            );
         }
     }
 }

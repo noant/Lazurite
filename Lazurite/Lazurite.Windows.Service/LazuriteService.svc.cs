@@ -132,17 +132,7 @@ namespace Lazurite.Windows.Service
                     .SingleOrDefault(x => x is UserVisualSettings &&
                     x.UserId.Equals(UsersRepository.SystemUser.Id) &&
                     x.ScenarioId.Equals(scenarioId));
-
-            //if we can not found visualSettings of SystemUser then create new VisualSettings
-            if (visualSettings == null)
-                visualSettings = new UserVisualSettings()
-                {
-                    PositionX = 0,
-                    PositionY = 0,
-                    ScenarioId = scenarioId,
-                    UserId = user.Id
-                };
-
+            
             return visualSettings;
         }
 

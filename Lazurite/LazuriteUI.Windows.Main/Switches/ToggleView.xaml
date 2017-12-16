@@ -22,5 +22,6 @@
         <controls:IconView Grid.Row="0" Icon="{Binding Icon2, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" Visibility="{Binding Selected, ElementName=itemView, Converter={x:Static local:ConvertersStatic.BoolToVisibility}}" IsHitTestVisible="False" x:Name="iconViewOff" x:FieldModifier="private" Margin="5" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center"></controls:IconView>
         <controls:IconView Grid.Row="0" Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" Visibility="{Binding Selected, ElementName=itemView, Converter={x:Static local:ConvertersStatic.BoolToVisibilityInvert}}" IsHitTestVisible="False" x:Name="iconViewOn" x:FieldModifier="private" Margin="5" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center"></controls:IconView>
         <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0,3,3" TextAlignment="Center" IsHitTestVisible="False" Name="textBlock" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" Foreground="White" ></TextBlock>
+        <local:SwitchBottomBorder Grid.Row="1"></local:SwitchBottomBorder>
     </Grid>
 </UserControl>

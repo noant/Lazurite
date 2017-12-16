@@ -12,7 +12,7 @@
         </Grid.RowDefinitions>
         <Grid x:Name="menu">
             <Grid x:Name="gridBackground" BackgroundColor="Black" Opacity="0.5"></Grid>
-            <controls:IconView x:Name="iconView" Icon="ArrowDown" VerticalOptions="Center" HorizontalOptions="Center" Opacity="0.7"></controls:IconView>
+            <controls:IconView x:Name="iconView" Icon="ChevronDown" VerticalOptions="Center" HorizontalOptions="Center" Opacity="0.6"></controls:IconView>
             <Button x:Name="bt" Opacity="0"></Button>
         </Grid>
         <ContentView x:Name="contentView" Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"></ContentView>

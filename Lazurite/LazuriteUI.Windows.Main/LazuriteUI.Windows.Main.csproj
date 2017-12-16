@@ -326,6 +326,9 @@
     </Compile>
     <Compile Include="Switches\BoolToDouble.cs" />
     <Compile Include="Switches\ConvertersStatic.cs" />
+    <Compile Include="Switches\SwitchBottomBorder.xaml.cs">
+      <DependentUpon>SwitchBottomBorder.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TriggersConstructionView.xaml.cs">
       <DependentUpon>TriggersConstructionView.xaml</DependentUpon>
     </Compile>
@@ -692,6 +695,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Server\ServerSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Switches\SwitchBottomBorder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

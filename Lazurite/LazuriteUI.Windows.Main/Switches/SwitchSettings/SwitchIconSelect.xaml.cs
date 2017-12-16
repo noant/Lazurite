@@ -1,4 +1,5 @@
 ﻿using LazuriteUI.Icons;
+using LazuriteUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,10 +36,9 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
         public SwitchIconSelect(ScenarioModel scenarioModel, bool isSecondIcon)
         {
             InitializeComponent();
-
             var iconsControls = Enum.GetNames(typeof(Icon))
                 .OrderBy(x => x)
-                .Select(x => new SwitchIconModel(scenarioModel, isSecondIcon) { Icon = x } )
+                .Select(x => new SwitchIconModel(scenarioModel, isSecondIcon) { Icon = x })
                 .Select(x =>
                 {
                     var control = Resolve(x.Icon);
@@ -47,7 +47,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
                     control.Selected = () => OkClick?.Invoke(this, new RoutedEventArgs());
                     return control;
                 });
-            
+
             int odd = 0;
             foreach (var control in iconsControls)
             {
@@ -61,6 +61,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
                 if (odd == 3)
                     odd = 0;
             }
+
             this.tbSearch.Text = LastSearch;
         }
 

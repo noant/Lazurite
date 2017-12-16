@@ -25,5 +25,6 @@
             <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="0,-4,0,4" Name="textBlockScenName" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private" Foreground="SteelBlue" TextAlignment="Center" ></TextBlock>
             <TextBlock Grid.Row="2" VerticalAlignment="Center" Margin="0,-7,0,0" Name="textBlockDate" Text="{Binding ScenarioValue, Converter={x:Static local:ConvertersStatic.DateTimeValueTypeToSplittedString}}" x:FieldModifier="private" Foreground="White" TextAlignment="Center" ></TextBlock>
         </Grid>
+        <local:SwitchBottomBorder></local:SwitchBottomBorder>
     </Grid>
 </UserControl>

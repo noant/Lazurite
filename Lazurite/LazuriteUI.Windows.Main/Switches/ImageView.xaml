@@ -15,5 +15,6 @@
     <Grid>
         <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolToVisibility}}"></common:CheckPanel>
         <TextBlock IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center" Name="textBlock" x:FieldModifier="private" Foreground="Gray" FontSize="9" >[Изображение]</TextBlock>
+        <local:SwitchBottomBorder></local:SwitchBottomBorder>
     </Grid>
 </UserControl>

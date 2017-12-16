@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public partial class StatusViewSwitch : Grid
+    public partial class StatusViewSwitch : Grid, IDisposable
     {
         private static readonly int FloatView_ValueUpdateInterval = GlobalSettings.Get(300);
         private static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();

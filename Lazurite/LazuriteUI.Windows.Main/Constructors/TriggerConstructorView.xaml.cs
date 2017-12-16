@@ -33,32 +33,33 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         public void SetTrigger(Lazurite.MainDomain.TriggerBase trigger, Action callback = null)
         {
-            MessageView.ShowLoadCrutch((complete) =>
-            {
-                if (trigger != null)
+            StuckUILoadingWindow.Show(
+                "Компоновка окна...",
+                () =>
                 {
-                    _originalTrigger = trigger;
-                    _clonedTrigger = (Lazurite.MainDomain.TriggerBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalTrigger);
-                    _clonedTrigger.Initialize(_repository);
-                    buttonsView.SetTrigger(_clonedTrigger);
-                    IsModified = false;
-                    _constructorView = new TriggerView(_clonedTrigger);
-                    _constructorView.Modified += () => Modified?.Invoke();
-                    _constructorView.Modified += () => buttonsView.TriggerModified();
-                    _constructorView.Modified += () => IsModified = true;
-                    _constructorView.Failed += () => buttonsView.Failed();
-                    _constructorView.Succeed += () => buttonsView.Success();
-                    this.contentPresenter.Content = _constructorView;
-                    EmptyTriggerModeOff();
+                    if (trigger != null)
+                    {
+                        _originalTrigger = trigger;
+                        _clonedTrigger = (Lazurite.MainDomain.TriggerBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalTrigger);
+                        _clonedTrigger.Initialize(_repository);
+                        buttonsView.SetTrigger(_clonedTrigger);
+                        IsModified = false;
+                        _constructorView = new TriggerView(_clonedTrigger);
+                        _constructorView.Modified += () => Modified?.Invoke();
+                        _constructorView.Modified += () => buttonsView.TriggerModified();
+                        _constructorView.Modified += () => IsModified = true;
+                        _constructorView.Failed += () => buttonsView.Failed();
+                        _constructorView.Succeed += () => buttonsView.Success();
+                        this.contentPresenter.Content = _constructorView;
+                        EmptyTriggerModeOff();
+                    }
+                    else
+                    {
+                        EmptyTriggerModeOn();
+                    }
+                    callback?.Invoke();
                 }
-                else
-                {
-                    EmptyTriggerModeOn();
-                }
-                complete?.Invoke();
-                callback?.Invoke();
-            }, 
-            "Компоновка окна...");
+            );
         }
 
         private void EmptyTriggerModeOn()

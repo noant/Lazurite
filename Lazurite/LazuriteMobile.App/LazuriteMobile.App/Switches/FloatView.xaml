@@ -23,5 +23,6 @@
             <Label Grid.Row="1" Margin="4,-7,4,2" InputTransparent="True" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="White" FontSize="Small"></Label>
         </Grid>
         <common:ScaleView InputTransparent="True" Opacity="0.5" VerticalOptions="FillAndExpand" HorizontalOptions="End" Max="{Binding Max}" Min="{Binding Min}" Value="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToDouble}}"></common:ScaleView>
+        <local:SwitchBottomBorder></local:SwitchBottomBorder>
     </Grid>
 </ContentView>
