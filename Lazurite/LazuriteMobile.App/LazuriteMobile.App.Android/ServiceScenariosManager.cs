@@ -79,7 +79,8 @@ namespace LazuriteMobile.App.Droid
 
         public void Initialize(Action<bool> callback)
         {
-            Application.Context.StartService(new Intent(Application.Context, typeof(LazuriteService)));
+            if (!LazuriteService.Started)
+                Application.Context.StartService(new Intent(Application.Context, typeof(LazuriteService)));
             _serviceConnection = new ManagerServiceConnection();
             _serviceConnection.Connected += ServiceConnection_Connected;
             _serviceConnection.Disconnected += ServiceConnection_Disconnected;
