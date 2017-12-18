@@ -37,6 +37,8 @@ namespace LazuriteMobile.App
         {
             lock (Locker)
             {
+                this.BatchBegin();
+                
                 var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext);
                 var models = modelsViews.Select(x => x.Key).ToArray();
                 //add new scenarios and refresh existing
@@ -70,6 +72,8 @@ namespace LazuriteMobile.App
                 }
 
                 Rearrange();
+
+                this.BatchCommit();
             }
         }
 
@@ -77,6 +81,8 @@ namespace LazuriteMobile.App
         {
             lock (Locker)
             {
+                this.BatchBegin();
+
                 var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext).ToList();
                 var models = modelsViews.Select(x => x.Key).ToArray();
                 //add new scenarios and refresh existing
@@ -95,6 +101,8 @@ namespace LazuriteMobile.App
                 }
 
                 Rearrange();
+
+                this.BatchCommit();
             }
         }
         
