@@ -12,12 +12,11 @@ namespace Lazurite.ActionsDomain.ValueTypes
             _acceptedValues = new string[] { };
         }
 
-        public override string HumanFriendlyName
+        public override string HumanFriendlyName => "Изображение";
+
+        public override ValueTypeInterpreteResult Interprete(string param)
         {
-            get
-            {
-                return "Изображение";
-            }
+            throw new System.NotImplementedException();
         }
     }
 }

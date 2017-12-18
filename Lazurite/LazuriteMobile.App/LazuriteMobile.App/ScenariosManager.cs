@@ -93,6 +93,8 @@ namespace LazuriteMobile.App
             bool success = false;
             try
             {
+                if (_credentials != null && (_serviceClient?.IsClosedOrFaulted ?? false))
+                    _serviceClient = _clientManager.Create(_credentials.Value);
                 if (ConnectionState == ManagerConnectionState.Disconnected)
                     ConnectionState = ManagerConnectionState.Connecting;
                 action();
@@ -349,7 +351,7 @@ namespace LazuriteMobile.App
                     },
                 null);
             }
-            catch (Exception e)
+            catch
             {
                 callback(false);
             }

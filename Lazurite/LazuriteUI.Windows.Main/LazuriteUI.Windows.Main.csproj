@@ -178,6 +178,9 @@
     <Compile Include="Constructors\NewScenarioSelectionView.xaml.cs">
       <DependentUpon>NewScenarioSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\ExistingConnectionSelect.xaml.cs">
+      <DependentUpon>ExistingConnectionSelect.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\RemoteScenarioSelect.xaml.cs">
       <DependentUpon>RemoteScenarioSelect.xaml</DependentUpon>
     </Compile>
@@ -507,6 +510,10 @@
     <Page Include="Constructors\NewScenarioSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\ExistingConnectionSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Constructors\RemoteScenarioSelect.xaml">
       <SubType>Designer</SubType>

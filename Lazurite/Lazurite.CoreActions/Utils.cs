@@ -24,15 +24,15 @@ namespace Lazurite.CoreActions
         public static IAction Default(ValueTypeBase valueType)
         {
             if (valueType is StateValueType)
-                return new GetStateVTAction() { ValueType = valueType, Value = valueType.AcceptedValues.First() };
+                return new GetStateVTAction() { ValueType = valueType, Value = valueType.DefaultValue };
             else if (valueType is FloatValueType)
-                return new GetFloatVTAction() { ValueType = valueType, Value = valueType.AcceptedValues.First() };
+                return new GetFloatVTAction() { ValueType = valueType, Value = valueType.DefaultValue };
             else if (valueType is ToggleValueType)
-                return new GetToggleVTAction() { ValueType = valueType, Value = ToggleValueType.ValueOFF };
+                return new GetToggleVTAction() { ValueType = valueType, Value = valueType.DefaultValue };
             else if (valueType is InfoValueType)
-                return new GetInfoVTAction() { ValueType = valueType, Value = string.Empty };
+                return new GetInfoVTAction() { ValueType = valueType, Value = valueType.DefaultValue };
             else if (valueType is DateTimeValueType)
-                return new GetDateTimeVTAction() { ValueType = valueType, Value = DateTime.Now.ToString() };
+                return new GetDateTimeVTAction() { ValueType = valueType, Value = valueType.DefaultValue };
             else return new EmptyAction();
         }
     }

@@ -41,6 +41,7 @@
     <Compile Include="IStandardValueAction.cs" />
     <Compile Include="OutputChangedDelegates.cs" />
     <Compile Include="ValueChangedDelegate.cs" />
+    <Compile Include="ValueTypes\ValueTypeInterpreteResult.cs" />
     <Compile Include="ValueTypes\ButtonValueType.cs" />
     <Compile Include="ValueTypes\DateTimeValueType.cs" />
     <Compile Include="ValueTypes\FloatValueType.cs" />

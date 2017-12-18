@@ -36,8 +36,9 @@
             <controls:PasswordView Grid.Row="5" x:Name="tbPassword" Grid.Column="1" Height="40"></controls:PasswordView>
             <TextBlock Grid.Row="6" Margin="5,5,5,8" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockCaption}">Удаленный сценарий</TextBlock>
             <controls:EntryView IsReadOnly="True" Grid.Row="6" x:Name="tbScenario" Grid.Column="1" Height="40"></controls:EntryView>
-            <controls:ItemView x:Name="btScenariosList" Grid.Row="6" Grid.Column="2" HorizontalAlignment="Right" Icon="List"></controls:ItemView>
-            <controls:ItemView HorizontalAlignment="Right" Width="100" Height="25" x:Name="btTest" Grid.Row="7" Grid.Column="1" Icon="Check">Тест</controls:ItemView>
+            <controls:ItemView x:Name="btScenariosList" ToolTip="Выбрать сценарий" Grid.Row="6" Grid.Column="2" HorizontalAlignment="Right" Icon="List"></controls:ItemView>
+            <controls:ItemView x:Name="btExitingCredentials" ToolTip="Выбрать существующее подключение" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" Icon="List"></controls:ItemView>
+            <controls:ItemView Margin="4,4,0,4" HorizontalAlignment="Right" Width="100" Height="25" x:Name="btTest" Grid.Row="7" Grid.Column="1" Icon="Check">Тест</controls:ItemView>
         </Grid>
     </Grid>
 </UserControl>

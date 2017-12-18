@@ -51,5 +51,7 @@ namespace LazuriteMobile.MainDomain
         Encrypted<AddictionalData> EndSyncAddictionalData(System.IAsyncResult result);
 
         void Close();
+
+        bool IsClosedOrFaulted { get; }
     }
 }

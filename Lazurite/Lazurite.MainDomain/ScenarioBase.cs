@@ -24,6 +24,12 @@ namespace Lazurite.MainDomain
             Log.ErrorFormat(e, "Error while calculating current value. Scenario: {0}, {1};", this.Name, this.Id);
         }
 
+        public void CheckValue(string param)
+        {
+            if (!this.ValueType.Interprete(param).Success)
+                throw new InvalidOperationException(string.Format("Value [{0}] is not compatible with value type [{1}]", param, this.ValueType.GetType().Name));
+        }
+
         /// <summary>
         /// Scenario category
         /// </summary>
@@ -145,6 +151,7 @@ namespace Lazurite.MainDomain
         /// <param name="cancelToken"></param>
         public virtual void Execute(string param, CancellationToken cancelToken)
         {
+            CheckValue(param);
             Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
             var output = new OutputChangedDelegates();
             output.Add(val => SetCurrentValueInternal(val));

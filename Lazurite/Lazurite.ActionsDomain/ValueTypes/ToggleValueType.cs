@@ -1,4 +1,5 @@
 ﻿using Lazurite.ActionsDomain.Attributes;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Lazurite.ActionsDomain.ValueTypes
@@ -12,28 +13,14 @@ namespace Lazurite.ActionsDomain.ValueTypes
             _acceptedValues = new string[] { ValueON, ValueOFF  };
         }
 
-        public override string HumanFriendlyName
-        {
-            get
-            {
-                return "Переключатель";
-            }
-        }
+        public override string HumanFriendlyName => "Переключатель";
 
-        public static string ValueON
-        {
-            get
-            {
-                return true.ToString();
-            }
-        }
+        public static readonly string ValueON = true.ToString();
 
-        public static string ValueOFF
-        {
-            get
-            {
-                return false.ToString();
-            }
-        }
+        public static readonly string ValueOFF = false.ToString();
+
+        public override ValueTypeInterpreteResult Interprete(string param) => new ValueTypeInterpreteResult(AcceptedValues.Contains(param), param);
+
+        public override string DefaultValue => ValueOFF;
     }
 }

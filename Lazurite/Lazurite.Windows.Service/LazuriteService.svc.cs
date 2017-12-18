@@ -251,6 +251,7 @@ namespace Lazurite.Windows.Service
                     UserId = user.Id
                 };
                 VisualSettings.Add(decryptedVS);
+                VisualSettings.Save();
             });
         }
 

@@ -17,12 +17,6 @@ namespace LazuriteMobile.App.Droid
     {
         static LazuriteService()
         {
-            if (!Singleton.Any<ILogger>())
-                Singleton.Add(new LogStub());
-            if (!Singleton.Any<SaviorBase>())
-                Singleton.Add(new JsonFileSavior());
-            if (!Singleton.Any<ISystemUtils>())
-                Singleton.Add(new SystemUtils());
             ScenariosManagerListenInterval = GlobalSettings.Get(10000);
             Log = Singleton.Resolve<ILogger>();
         }

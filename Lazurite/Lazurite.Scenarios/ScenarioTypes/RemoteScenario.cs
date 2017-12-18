@@ -109,6 +109,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
             HandleExceptions(() => {
+                CheckValue(param);
                 GetServer().ExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
                 SetCurrentValueInternal(param);
             });
@@ -119,6 +120,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             TaskUtils.Start(() =>
             {
+                CheckValue(param);
                 Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
                 HandleExceptions(() =>
                 {
@@ -132,6 +134,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             TaskUtils.Start(() =>
             {
+                CheckValue(param);
                 Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
                 HandleExceptions(() => {
                     GetServer().AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
@@ -164,6 +167,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         private bool InitializeInternal()
         {
+            UpdateValueAsDefault();
             Log.DebugFormat("Scenario initialize begin: [{0}][{1}]", this.Name, this.Id);
             _clientFactory = Singleton.Resolve<IClientFactory>();
             _clientFactory.ConnectionStateChanged -= ClientFactory_ConnectionStateChanged; //crutch
@@ -240,21 +244,15 @@ namespace Lazurite.Scenarios.ScenarioTypes
         private void SetDefaultValue()
         {
             if (ValueType == null)
-            {
                 ValueType = new ButtonValueType();
-                SetCurrentValueInternal(string.Empty);
-            }
-            else
-            {
-                if (this.ValueType.AcceptedValues?.Any() ?? false)
-                {
-                    if (this.ValueType is ToggleValueType)
-                        SetCurrentValueInternal(ToggleValueType.ValueOFF);
-                    else
-                        SetCurrentValueInternal(this.ValueType.AcceptedValues[0]);
-                }
-                else SetCurrentValueInternal(string.Empty);
-            }
+            SetCurrentValueInternal(this.ValueType.DefaultValue);
+        }
+
+        private void UpdateValueAsDefault()
+        {
+            if (ValueType == null)
+                ValueType = new ButtonValueType();
+            _currentValue = this.ValueType.DefaultValue;
         }
 
         public void ReInitialize()

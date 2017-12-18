@@ -29,7 +29,7 @@ namespace Lazurite.Visual
             };
         }
 
-        private void Save()
+        public void Save()
         {
             _savior.Set(_key, _allSettings);
         }
@@ -46,13 +46,11 @@ namespace Lazurite.Visual
         {
             _allSettings.RemoveAll(x => x.SameAs(settings));
             _allSettings.Add(settings);
-            Save();
         }
 
         public void Remove(UserVisualSettings settings)
         {
             _allSettings.RemoveAll(x => x.SameAs(settings));
-            Save();
         }
 
         public void Update(UserVisualSettings settings)

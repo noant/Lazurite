@@ -44,6 +44,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             TaskUtils.StartLongRunning(() =>
             {
+                CheckValue(param);
                 Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
                 TargetAction.SetValue(
                     new ExecutionContext(this, param, new OutputChangedDelegates(), cancelToken),
@@ -55,6 +56,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void ExecuteInternal(ExecutionContext context)
         {
+            CheckValue(context.Input);
             TargetAction.SetValue(context, string.Empty);
         }
 
@@ -79,6 +81,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             try
             {
+                if (InitializeWithValue == null)
+                    InitializeWithValue = this.ValueType.DefaultValue;
                 foreach (var action in this.TargetAction.GetAllActionsFlat())
                 {
                     if (action != null)

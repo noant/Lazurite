@@ -37,13 +37,21 @@ namespace LazuriteMobile.App
         {
             lock (Locker)
             {
-                var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext).ToList();
+                var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext);
                 var models = modelsViews.Select(x => x.Key).ToArray();
                 //add new scenarios and refresh existing
                 foreach (var scenario in scenarios)
                 {
                     var scenarioModel = models.FirstOrDefault(x => x.Scenario.ScenarioId.Equals(scenario.ScenarioId));
-                    if (scenarioModel != null)
+                    if (scenarioModel != null && 
+                        scenarioModel.Scenario.ValueType.Equals(scenario.ValueType))
+                    {
+                        var control = modelsViews[scenarioModel];
+                        this.grid.Children.Remove(control);
+                        control = CreateControl(scenario);
+                        this.grid.Children.Add(control);
+                    }
+                    else if (scenarioModel != null)
                     {
                         scenarioModel.RefreshWith(scenario);
                     }

@@ -45,6 +45,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             var context = new ExecutionContext(this, param, output, cancelToken);
             try
             {
+                CheckValue(param);
                 if (!ActionHolder.Action.IsSupportsEvent)
                     SetCurrentValueInternal(param);
                 ExecuteInternal(context);
@@ -58,6 +59,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void ExecuteInternal(ExecutionContext context)
         {
+            CheckValue(context.Input);
             ActionHolder.Action.SetValue(context, context.Input);
         }
 

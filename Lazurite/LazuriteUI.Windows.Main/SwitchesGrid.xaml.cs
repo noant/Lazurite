@@ -161,6 +161,8 @@ namespace LazuriteUI.Windows.Main
             }
             visualSetting.PositionX = maxX;
             visualSetting.PositionY = maxY;
+            _visualSettingsRepository.Add(visualSetting);
+            _visualSettingsRepository.Save();
             return visualSetting;
         }
 
@@ -169,7 +171,6 @@ namespace LazuriteUI.Windows.Main
             if (visualSettings == null)
             {
                 visualSettings = CreateVisualSettings(scenario);
-                _visualSettingsRepository.Update(visualSettings);
             }
             var control = SwitchesCreator.CreateScenarioControl(scenario, visualSettings);
             ((ScenarioModel)control.DataContext).EditMode = this.EditMode;
@@ -382,6 +383,8 @@ namespace LazuriteUI.Windows.Main
 
             model.PositionX = (int)position.X;
             model.PositionY = (int)position.Y;
+
+            _visualSettingsRepository.Save();
 
             Rearrange();
         }

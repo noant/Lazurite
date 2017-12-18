@@ -51,7 +51,7 @@ namespace LazuriteUI.Windows.Main
                     (result) =>
                     {
                         if (result)
-                            constructorsResolver.Apply(() => callback?.Invoke());
+                            constructorsResolver.Apply(() => callback?.Invoke(), false);
                         else
                             callback?.Invoke();
                     });
@@ -113,8 +113,6 @@ namespace LazuriteUI.Windows.Main
                     selectCompositeScenarioType.Selected += (valueType) => {
                         dialogViewComposite.Close();
                         var scenario = new CompositeScenario() { ValueType = valueType };
-                        if (valueType.AcceptedValues.Any())
-                            scenario.InitializeWithValue = valueType.AcceptedValues[0];
                         NewScenario(scenario);
                     };
                     dialogViewComposite.Show();
@@ -124,6 +122,10 @@ namespace LazuriteUI.Windows.Main
 
         private void NewScenario(ScenarioBase newScenario)
         {
+            newScenario.Initialize(_repository, (res) => {
+                if (res)
+                    newScenario.AfterInitilize();
+            });
             newScenario.Name = "Новый сценарий";
             _repository.AddScenario(newScenario);
             this.switchesGrid.Add(newScenario, null);

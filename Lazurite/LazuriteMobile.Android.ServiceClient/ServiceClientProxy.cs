@@ -129,14 +129,22 @@ namespace LazuriteMobile.Android.ServiceClient
         {
             try
             {
-                if (_client.State != System.ServiceModel.CommunicationState.Closed &&
-                    _client.State != System.ServiceModel.CommunicationState.Closing &&
-                    _client.State != System.ServiceModel.CommunicationState.Faulted)
+                if (!IsClosedOrFaulted)
                     _client.Close();
             }
             catch
             {
                 //do nothing
+            }
+        }
+
+        public bool IsClosedOrFaulted
+        {
+            get
+            {
+                return _client.State == System.ServiceModel.CommunicationState.Closed ||
+                    _client.State == System.ServiceModel.CommunicationState.Closing ||
+                    _client.State == System.ServiceModel.CommunicationState.Faulted;
             }
         }
     }

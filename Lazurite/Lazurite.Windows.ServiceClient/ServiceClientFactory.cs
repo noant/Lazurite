@@ -7,6 +7,7 @@ using Lazurite.Windows.ServiceClient.ServiceReference;
 using ProxyObjectCreating;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Security;
@@ -26,14 +27,19 @@ namespace Lazurite.Windows.ServiceClient
 
         private Dictionary<ConnectionCredentials, MainDomain.IServer> _cache = new Dictionary<ConnectionCredentials, MainDomain.IServer>();
 
+        public ConnectionCredentials[] ConnectionCredentials => _cache.Keys.ToArray();
+
         public MainDomain.IServer GetServer(ConnectionCredentials credentials)
         {
             MainDomain.IServer @object;
 
-            if (!_cache.ContainsKey(credentials))
-                _cache.Add(credentials, @object = CreateProxyClient(credentials));
-            else
-                @object = _cache[credentials];
+            lock (_cache)
+            {
+                if (!_cache.ContainsKey(credentials))
+                    _cache.Add(credentials, @object = CreateProxyClient(credentials));
+                else
+                    @object = _cache[credentials];
+            }
 
             var proxy = (Proxy)@object;
             var connection = (ServerClient)proxy.Obj;

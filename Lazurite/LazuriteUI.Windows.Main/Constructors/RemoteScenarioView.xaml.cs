@@ -14,10 +14,12 @@ namespace LazuriteUI.Windows.Main.Constructors
     /// </summary>
     public partial class RemoteScenarioView : UserControl, IScenarioConstructorView
     {
+        public static readonly WarningHandlerBase WarningHandler = Singleton.Resolve<WarningHandlerBase>();
+        public static readonly ScenariosRepositoryBase Repository = Singleton.Resolve<ScenariosRepositoryBase>();
+        public static readonly IClientFactory ClientFactory = Singleton.Resolve<IClientFactory>();
+
         private RemoteScenario _scenario;
-        private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
-        private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();
-        
+
         public RemoteScenarioView(RemoteScenario scenario)
         {
             InitializeComponent();
@@ -31,6 +33,21 @@ namespace LazuriteUI.Windows.Main.Constructors
             tbPassword.PasswordChanged += (o, e) => ApplyCurrent();
             tbLogin.TextChanged += (o, e) => ApplyCurrent();
             tbHost.TextChanged += (o, e) => ApplyCurrent();
+            btExitingCredentials.Click += (o, e) => {
+                var credentialsSelect = new ExistingConnectionSelect(ClientFactory.ConnectionCredentials);
+                var dialog = new DialogView(credentialsSelect);
+                credentialsSelect.SelectedCredentialsChanged += (o1, args) => {
+                    this.tbHost.Text = args.Value.Host;
+                    this.tbLogin.Text = args.Value.Login;
+                    this.tbPassword.Password = args.Value.Password;
+                    this.tbPort.Text = args.Value.Port.ToString();
+                    this.tbSecretCode.Password = args.Value.SecretKey;
+                    this.tbServiceName.Text = args.Value.ServiceName;
+                    Modified?.Invoke();
+                    dialog.Close();
+                };
+                dialog.Show();
+            };
             btScenariosList.Click += (o, e) =>
             {
                 try
@@ -47,7 +64,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                         _scenario.RemoteScenarioName = info.Name;
                         tbScenario.Text = _scenario.RemoteScenarioName;
                         var loadWindowCloseToken = MessageView.ShowLoad("Соединение с удаленным сервером...");
-                        _scenario.Initialize(_repository, (result) =>
+                        _scenario.Initialize(Repository, (result) =>
                         {
                             loadWindowCloseToken.Cancel();
                             this.Dispatcher.BeginInvoke(new Action(() => {
@@ -58,7 +75,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                                 }
                                 else
                                 {
-                                    _warningHandler.Error("Невозможно получить список сценариев.");
+                                    WarningHandler.Error("Невозможно получить список сценариев.");
                                     Failed?.Invoke();
                                 }
                             }));
@@ -68,13 +85,13 @@ namespace LazuriteUI.Windows.Main.Constructors
                 }
                 catch (Exception exception)
                 {
-                    _warningHandler.Error("Невозможно получить список сценариев.", exception);
+                    WarningHandler.Error("Невозможно получить список сценариев.", exception);
                     Failed?.Invoke();
                 }
             };
             btTest.Click += (o, e) => {
                 var loadWindowCloseToken = MessageView.ShowLoad("Соединение с удаленным сервером...");
-                _scenario.Initialize(_repository, (result) => {
+                _scenario.Initialize(Repository, (result) => {
                     loadWindowCloseToken.Cancel();
                     if (result)
                     {

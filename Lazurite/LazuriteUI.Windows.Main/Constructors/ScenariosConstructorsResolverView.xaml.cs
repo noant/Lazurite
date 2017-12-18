@@ -83,7 +83,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             return _originalSenario;
         }
 
-        public void Apply(Action callback = null)
+        public void Apply(Action callback = null, bool reset = true)
         {
             if (_originalSenario.ValueType != null && !_originalSenario.ValueType.IsCompatibleWith(_clonedScenario.ValueType))
             {
@@ -96,27 +96,30 @@ namespace LazuriteUI.Windows.Main.Constructors
                     (result) =>
                     {
                         if (result)
-                            ApplyInternal();
+                            ApplyInternal(reset);
                         callback?.Invoke();
                     });
             }
             else
             {
-                ApplyInternal();
+                ApplyInternal(reset);
                 callback?.Invoke();
             }
         }
 
-        private void ApplyInternal()
+        private void ApplyInternal(bool reset = true)
         {
             _repository.SaveScenario(_clonedScenario);
             _clonedScenario.Initialize(_repository);
             _clonedScenario.AfterInitilize();
-            SetScenario(_clonedScenario,
-                () => {
-                    Applied?.Invoke();
-                    IsModified = false;
-                });
+            IsModified = false;
+            if (reset)
+                SetScenario(_clonedScenario, Applied);
+            else
+            {
+                _originalSenario = _clonedScenario; //crutch
+                Applied?.Invoke();
+            }
         }
 
         public void Revert()
