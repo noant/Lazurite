@@ -37,7 +37,7 @@ namespace LazuriteMobile.App.Droid
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Logger.Fatal("Необработанная ошибка!", (Exception)e.ExceptionObject);
+            Logger.Fatal("Необработанная ошибка!", e.ExceptionObject as Exception);
         }
 
         public override void OnTerminate()

@@ -120,7 +120,7 @@ namespace Lazurite.Scenarios.TriggerTypes
                         var executionContext = new ExecutionContext(this, args.Value.GetCurrentValue(), outputChanged, contexCancellationTokenSource.Token);
                         TaskUtils.StartLongRunning(
                             () => action.SetValue(executionContext, string.Empty),
-                            (exception) => Log.ErrorFormat(exception, "Error while executing trigger [{0}][{1}]", this.Name, this.Id));
+                            (exception) => Log.ErrorFormat(exception, "Error while trigger execute [{0}][{1}]", this.Name, this.Id));
                     }
                 };
                 GetScenario().SetOnStateChanged(_lastSubscribe);
@@ -147,7 +147,7 @@ namespace Lazurite.Scenarios.TriggerTypes
                     }
                     catch (Exception e)
                     {
-                        Log.ErrorFormat(e, "Error while execution trugger: [{0}][{1}]", this.Name, this.Id);
+                        Log.ErrorFormat(e, "Error while trigger execute: [{0}][{1}]", this.Name, this.Id);
                     }
                 }
             }

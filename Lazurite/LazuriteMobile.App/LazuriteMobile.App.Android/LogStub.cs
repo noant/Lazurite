@@ -6,17 +6,17 @@ namespace LazuriteMobile.App.Droid
 {
     public class LogStub : ILogger
     {
-        private string _logFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "log.txt");
+        private string _logFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "log.txt");
         private object _locker = new object();
 
         public void Debug(string message = null, Exception exception = null)
         {
-            InternalWrite(WriteType.Debug, exception, message);
+            //InternalWrite(WriteType.Debug, exception, message);
         }
 
         public void DebugFormat(string message, params object[] @params)
         {
-            InternalWrite(WriteType.Debug, null, string.Format(message, @params));
+            //InternalWrite(WriteType.Debug, null, string.Format(message, @params));
         }
 
         public void Error(string message = null, Exception exception = null)
@@ -41,32 +41,32 @@ namespace LazuriteMobile.App.Droid
 
         public void Info(string message = null, Exception exception = null)
         {
-            InternalWrite(WriteType.Info, exception, message);
+            //InternalWrite(WriteType.Info, exception, message);
         }
 
         public void InfoFormat(string message, params object[] @params)
         {
-            InternalWrite(WriteType.Info, null, string.Format(message, @params));
+            //InternalWrite(WriteType.Info, null, string.Format(message, @params));
         }
 
         public void InfoFormat(Exception exception, string message, params object[] @params)
         {
-            InternalWrite(WriteType.Info, exception, string.Format(message, @params));
+            //InternalWrite(WriteType.Info, exception, string.Format(message, @params));
         }
 
         public void Warn(string message = null, Exception exception = null)
         {
-            InternalWrite(WriteType.Warn, exception, message);
+            //InternalWrite(WriteType.Warn, exception, message);
         }
 
         public void WarnFormat(string message, params object[] @params)
         {
-            InternalWrite(WriteType.Warn, null, string.Format(message, @params));
+            //InternalWrite(WriteType.Warn, null, string.Format(message, @params));
         }
 
         public void WarnFormat(Exception exception, string message, params object[] @params)
         {
-            InternalWrite(WriteType.Warn, exception, string.Format(message, @params));
+            //InternalWrite(WriteType.Warn, exception, string.Format(message, @params));
         }
 
         private enum WriteType
@@ -90,7 +90,7 @@ namespace LazuriteMobile.App.Droid
 
         private string PrepareLine(WriteType type, Exception exception, string message)
         {
-            if (exception == null)
+            if (exception != null)
                 return string.Format("{0} {1} {2} {3} {4}\r\n{5}\r\n",
                     DateTime.Now.ToShortDateString(),
                     DateTime.Now.ToShortTimeString(),
