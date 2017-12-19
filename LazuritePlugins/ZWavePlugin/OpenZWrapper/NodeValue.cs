@@ -52,7 +52,8 @@ namespace OpenZWrapper
                 return _current;
             }
             set {
-                Helper.SetValueSucceed(Node.Manager, Source, ZWValueType, value);
+                if (!Helper.SetValueSucceed(Node.Manager, Source, ZWValueType, value, PossibleValues))
+                    throw new OperationCanceledException(string.Format("Значение [{0}] не выставлено для параметра [{1}][{2}]", value, this.Name, this.Id));
             }
         }
 

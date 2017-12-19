@@ -52,7 +52,7 @@ namespace ZWavePluginUI
             private set
             {
                 _nodeValue = value;
-                this.itemView.Content = _nodeValue.Name;
+                this.itemView.Content = string.Format("{0} (ID={1})", _nodeValue.Name, _nodeValue.Id);
             }
         }
 

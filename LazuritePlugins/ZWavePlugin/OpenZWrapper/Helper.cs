@@ -9,7 +9,7 @@ namespace OpenZWrapper
 {
     internal static class Helper
     {
-        public static bool SetValueSucceed(ZWManager manager, ZWValueID valueId, ZWValueID.ValueType valueType, object value)
+        public static bool SetValueSucceed(ZWManager manager, ZWValueID valueId, ZWValueID.ValueType valueType, object value, string[] possibleValues)
         {
             switch (valueType)
             {
@@ -33,7 +33,7 @@ namespace OpenZWrapper
                 case ZWValueID.ValueType.String:
                     return manager.SetValue(valueId, (string)value);
                 case ZWValueID.ValueType.List:
-                    return manager.SetValueListSelection(valueId, value.ToString());
+                    return manager.SetValueListSelection(valueId, (string)value);
             }
             return false;
         }
@@ -44,7 +44,7 @@ namespace OpenZWrapper
             {
                 case ZWValueID.ValueType.Button:
                     {                        
-                        return null;
+                        return string.Empty;
                     }
                 case ZWValueID.ValueType.Bool:
                     {

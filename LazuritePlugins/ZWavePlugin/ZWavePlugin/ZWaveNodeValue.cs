@@ -26,7 +26,7 @@ namespace ZWavePlugin
         {
             get
             {
-                return _nodeValue?.Node.ProductName + " -> " + _nodeValue?.Name;
+                return _nodeValue?.Node.ProductName + " -> " + _nodeValue?.Name + " (ID=" + _nodeValue?.Id + ")";
             }
             set
             {
@@ -90,6 +90,8 @@ namespace ZWavePlugin
                 _nodeValue.ValueType == OpenZWrapper.ValueType.Int ||
                 _nodeValue.ValueType == OpenZWrapper.ValueType.Short)
                 _nodeValue.Current = TranslateNumric(value, _nodeValue.ValueType);
+            else
+                _nodeValue.Current = value;
         }
 
         private object TranslateNumric(string value, OpenZWrapper.ValueType valueType)
