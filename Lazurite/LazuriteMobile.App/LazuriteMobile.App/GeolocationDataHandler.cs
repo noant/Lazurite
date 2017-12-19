@@ -8,16 +8,9 @@ namespace LazuriteMobile.App
     public class GeolocationDataHandler: IAddictionalDataHandler, IDisposable
     {
         private static readonly double GeolocationMetersMinimumDistance = GlobalSettings.Get(10.0);
-        private static readonly int GeolocationMinutesMinimumInterval = GlobalSettings.Get(5);
         private Geolocation _lastLocation;
-        
-        private bool IsLocationAvailable()
-        {
-            if (!CrossGeolocator.IsSupported)
-                return false;
 
-            return CrossGeolocator.Current.IsGeolocationAvailable;
-        }
+        private bool IsLocationAvailable() => CrossGeolocator.IsSupported;
 
         public void Handle(AddictionalData data)
         {
@@ -26,7 +19,7 @@ namespace LazuriteMobile.App
 
         public void Prepare(AddictionalData data)
         {
-            if (IsLocationAvailable() && _lastLocation != null)
+            if (_lastLocation != null)
                 data.Set(_lastLocation);
         }
 
@@ -46,11 +39,11 @@ namespace LazuriteMobile.App
                         _lastLocation = new Geolocation(t.Result.Latitude, t.Result.Longitude);
                 });
                 CrossGeolocator.Current.StartListeningAsync(
-                    minimumTime: TimeSpan.FromMinutes(GeolocationMinutesMinimumInterval),
+                    minimumTime: TimeSpan.FromMinutes(2),
                     minimumDistance: GeolocationMetersMinimumDistance,
                     listenerSettings: new ListenerSettings()
                     {
-                        ActivityType = ActivityType.Other
+                        ActivityType = ActivityType.AutomotiveNavigation
                     });
             }
         }

@@ -4,7 +4,7 @@ using Android.Content;
 
 namespace LazuriteMobile.App.Droid
 {
-    [BroadcastReceiver]
+    [BroadcastReceiver(Enabled = true, Exported = true)]
     public class BackgroundReceiver : BroadcastReceiver
     {
         public override void OnReceive(Context context, Intent intent)
