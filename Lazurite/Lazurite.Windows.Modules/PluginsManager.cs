@@ -44,6 +44,12 @@ namespace Lazurite.Windows.Modules
                         Utils.GetAssemblyPath(
                             Assembly.GetExecutingAssembly())),
                     "tmp_plugins");
+            _tmpDirCheck =
+                Path.Combine(
+                    Path.GetDirectoryName(
+                        Utils.GetAssemblyPath(
+                            Assembly.GetExecutingAssembly())),
+                    "tmp_plugins_check");
 
             try
             {
@@ -157,6 +163,18 @@ namespace Lazurite.Windows.Modules
             {
                 _warningHandler.ErrorFormat(e, "Error while clear temporary plugins directory");
             }
+
+            //clear temporary plugin check directory
+            try
+            {
+                if (Directory.Exists(_tmpDirCheck))
+                    Directory.Delete(_tmpDirCheck, true);
+                Directory.CreateDirectory(_tmpDirCheck);
+            }
+            catch (Exception e)
+            {
+                _warningHandler.ErrorFormat(e, "Error while clear temporary plugins check directory");
+            }
         }
         
         private void CurrentDomain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
@@ -190,6 +208,7 @@ namespace Lazurite.Windows.Modules
         private List<PluginInfo> _pluginsToRemove = new List<PluginInfo>();
         private List<string> _pluginsToUpdate = new List<string>();
         private string _tmpDir;
+        private string _tmpDirCheck;
         private ScenariosRepositoryBase _scenarioRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
@@ -400,7 +419,7 @@ namespace Lazurite.Windows.Modules
             var pluginName = Path.GetFileNameWithoutExtension(pluginPath);
             if (!_plugins.Any(x => x.Name.Equals(pluginName)))
                 result = new CanUpdatePluginResult(false, "Plugin not exist");
-            var tmpPluginDir = Path.Combine(_tmpDir, pluginName);
+            var tmpPluginDir = Path.Combine(_tmpDirCheck, pluginName);
             if (Directory.Exists(tmpPluginDir))
                 Directory.Delete(tmpPluginDir, true);
             Utils.UnpackFile(pluginPath, tmpPluginDir);

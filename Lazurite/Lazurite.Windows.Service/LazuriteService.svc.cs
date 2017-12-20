@@ -245,8 +245,7 @@ namespace Lazurite.Windows.Service
                 decryptedVS = new UserVisualSettings()
                 {
                     AddictionalData = decryptedVS.AddictionalData,
-                    PositionX = decryptedVS.PositionX,
-                    PositionY = decryptedVS.PositionY,
+                    VisualIndex = decryptedVS.VisualIndex,
                     ScenarioId = decryptedVS.ScenarioId,
                     UserId = user.Id
                 };

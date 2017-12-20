@@ -52,13 +52,20 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             this.DataContext = _model = model;
             this._tempValue = model.ScenarioValue;
+            //crutch #1
+            _model.PropertyChanged += (o, e) =>
+            {
+                if (e.PropertyName == nameof(_model.ScenarioValue))
+                    slider.Dispatcher.BeginInvoke(
+                        new Action(() => slider.Value = double.Parse(this._tempValue = model.ScenarioValue)));
+            };
             this._iteration = (model.Max - model.Min) / 40;
             this.slider.Value = double.Parse(_tempValue ?? "0");
-            this.slider.ValueChanged += (o, e) =>
-            {
-                _tempValue = slider.Value.ToString();
-            };
 
+            //crutch #2
+            this.slider.ValueChanged += (o, e) => _tempValue = slider.Value.ToString();
+
+            //crutch #3
             TaskUtils.Start(() => {
                 while (!_tokenSource.IsCancellationRequested)
                 {

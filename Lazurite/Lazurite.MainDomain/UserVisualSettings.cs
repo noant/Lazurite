@@ -15,10 +15,7 @@ namespace Lazurite.MainDomain
         public AddictionalData AddictionalData { get; set; } = new AddictionalData();
 
         [DataMember]
-        public int PositionX { get; set; }
-
-        [DataMember]
-        public int PositionY { get; set; }
+        public int VisualIndex { get; set; }
         
         public bool SameAs(UserVisualSettings settings)
         {

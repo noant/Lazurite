@@ -102,11 +102,12 @@ namespace LazuriteUI.Windows.Main
                 var margin = ElementMargin;
                 var elementSize = ElementSize;
                 var position = e.GetPosition(this.grid);
-                var positionExt = new Point(position.X / (elementSize + margin), position.Y / (elementSize + margin));
+                var potentialPosition = new Point(position.X / (elementSize + margin), position.Y / (elementSize + margin));
                 var model = ((ScenarioModel)_draggableCurrent.DataContext);
-                if ((model.PositionX != (int)positionExt.X || model.PositionY != (int)positionExt.Y) && (int)positionExt.X < MaxX)
+                var currentPosition = CreatePositionByIndex(CreateRealVisualIndex(model.VisualSettings));
+                if ((currentPosition.Item1 != (int)potentialPosition.X || currentPosition.Item2 != (int)potentialPosition.Y) && (int)potentialPosition.X < MaxX)
                 {
-                    Move(_draggableCurrent, new Point((int)positionExt.X >= 0 ? (int)positionExt.X : 0, (int)positionExt.Y >= 0 ? (int)positionExt.Y : 0));
+                    Move(_draggableCurrent, new Point((int)potentialPosition.X >= 0 ? (int)potentialPosition.X : 0, (int)potentialPosition.Y >= 0 ? (int)potentialPosition.Y : 0));
                 }
             }
         }
@@ -129,56 +130,56 @@ namespace LazuriteUI.Windows.Main
 
         private void Initialize(ScenarioBase[] scenarios, UserVisualSettings[] visualSettings)
         {
-            foreach (var scenario in scenarios)
+            if (scenarios.Any())
             {
-                var visualSetting = visualSettings.FirstOrDefault(x => x.ScenarioId.Equals(scenario.Id));
-                if (visualSetting == null)
-                    visualSetting = CreateVisualSettings(scenario);
-                var control = SwitchesCreator.CreateScenarioControl(scenario, visualSetting);
-                control.MouseLeftButtonDown += ElementClick;
-                control.MouseLeftButtonUp += ElementMouseRelease;
-                grid.Children.Add(control);
+                foreach (var scenario in scenarios)
+                {
+                    var visualSetting = visualSettings.FirstOrDefault(x => x.ScenarioId.Equals(scenario.Id));
+                    var control = CreateControl(scenario, visualSetting);
+                    grid.Children.Add(control);
+                }
+                ScenariosEmptyModeOff();
             }
-            Rearrange();
+            else
+                ScenariosEmptyModeOn();
             SelectFirst();
         }
-
-        private UserVisualSettings CreateVisualSettings(ScenarioBase scenario)
-        {
-            var visualSetting = new UserVisualSettings() { ScenarioId = scenario.Id, UserId = _usersRepository.SystemUser.Id };
-            var models = grid.Children.Cast<UserControl>()
-                .Select(x => ((ScenarioModel)x.DataContext));
-            int maxX = 0, maxY = 0;
-            if (models.Any())
-            {
-                maxY = models.Max(x => x.PositionY);
-                maxX = models.Where(x => x.PositionY == maxY).Max(x => x.PositionX) + 1;
-                if (maxX == MaxX)
-                {
-                    maxX = 0;
-                    maxY++;
-                }
-            }
-            visualSetting.PositionX = maxX;
-            visualSetting.PositionY = maxY;
-            _visualSettingsRepository.Add(visualSetting);
-            _visualSettingsRepository.Save();
-            return visualSetting;
-        }
-
-        public void Add(ScenarioBase scenario, UserVisualSettings visualSettings)
+        
+        private UserControl CreateControl(ScenarioBase scenario, UserVisualSettings visualSettings)
         {
             if (visualSettings == null)
             {
-                visualSettings = CreateVisualSettings(scenario);
+                visualSettings = new UserVisualSettings();
+                var userVS = _visualSettingsRepository
+                    .VisualSettings
+                    .Where(x => x.UserId.Equals(_usersRepository.SystemUser.Id))
+                    .ToArray();
+                visualSettings.VisualIndex = userVS.Any() ? userVS.Max(x => x.VisualIndex) + 1 : 0;
+                visualSettings.ScenarioId = scenario.Id;
+                visualSettings.UserId = _usersRepository.SystemUser.Id;
+                _visualSettingsRepository.Add(visualSettings);
             }
+
             var control = SwitchesCreator.CreateScenarioControl(scenario, visualSettings);
-            ((ScenarioModel)control.DataContext).EditMode = this.EditMode;
             control.MouseLeftButtonDown += ElementClick;
             control.MouseLeftButtonUp += ElementMouseRelease;
+            control.VerticalAlignment = VerticalAlignment.Top;
+            control.HorizontalAlignment = HorizontalAlignment.Left;
+            control.Width = control.Height = ElementSize;
+            control.Margin = CreateControlMargin(visualSettings);
+            return control;
+        }
+        
+        public void Add(ScenarioBase scenario, UserVisualSettings visualSettings)
+        {
+            var control = CreateControl(scenario, visualSettings);
+            ((ScenarioModel)control.DataContext).EditMode = this.EditMode;
             grid.Children.Add(control);
             Rearrange();
             Select(scenario);
+
+            if (grid.Children.Count > 0)
+                ScenariosEmptyModeOff();
         }
 
         public void Remove(ScenarioBase scenario)
@@ -188,6 +189,9 @@ namespace LazuriteUI.Windows.Main
             grid.Children.Remove(control);
             Rearrange();
             SelectFirst();
+
+            if (grid.Children.Count == 0)
+                ScenariosEmptyModeOn();
         }
 
         public void RefreshItem(ScenarioBase scenario)
@@ -209,11 +213,9 @@ namespace LazuriteUI.Windows.Main
             {
                 var oldModel = (ScenarioModel)control.DataContext;
                 grid.Children.Remove(control);
-                control = SwitchesCreator.CreateScenarioControl(scenario, oldModel.VisualSettings);
+                control = CreateControl(scenario, oldModel.VisualSettings);
                 var model = (ScenarioModel)control.DataContext;
                 model.EditMode = this.EditMode;
-                control.MouseLeftButtonDown += ElementClick;
-                control.MouseLeftButtonUp += ElementMouseRelease;
                 grid.Children.Add(control);
                 Rearrange();
                 if (this.SelectedModel?.Scenario.Id == model.Scenario.Id)
@@ -268,19 +270,21 @@ namespace LazuriteUI.Windows.Main
 
         private void SelectFirst()
         {
-            var firstSwitch = this.grid.Children.Cast<UserControl>().FirstOrDefault(control =>
-            {
-                var model = ((ScenarioModel)control.DataContext);
-                return model.PositionX.Equals(0) && model.PositionY.Equals(0);
-            });
-            if (firstSwitch != null)
-            {
-                var model = ((ScenarioModel)firstSwitch.DataContext);
-                SelectInternal(model);
-            }
+            if (this.grid.Children.Count == 0)
+                SelectInternal(null);
             else
             {
-                SelectInternal(null);
+                var minIndex = this.grid.Children.Cast<UserControl>().Min(x => ((ScenarioModel)x.DataContext).VisualIndex);
+                var firstSwitch = this.grid.Children.Cast<UserControl>().FirstOrDefault(x => ((ScenarioModel)x.DataContext).VisualIndex.Equals(minIndex));
+                if (firstSwitch != null)
+                {
+                    var model = ((ScenarioModel)firstSwitch.DataContext);
+                    SelectInternal(model);
+                }
+                else
+                {
+                    SelectInternal(null);
+                }
             }
         }
 
@@ -319,72 +323,42 @@ namespace LazuriteUI.Windows.Main
         {
             if (grid.Children.Count > 0)
             {
-                var maxX = MaxX;
-                var margin = ElementMargin;
-                var elementSize = ElementSize;
                 foreach (UserControl control in grid.Children.Cast<UserControl>())
                 {
-                    var scenario = ((ScenarioModel)control.DataContext).Scenario;
                     var model = ((ScenarioModel)control.DataContext);
-                    control.VerticalAlignment = VerticalAlignment.Top;
-                    control.HorizontalAlignment = HorizontalAlignment.Left;
-                    control.Width = control.Height = elementSize;
+                    control.Margin = CreateControlMargin(model.VisualSettings);
                 }
-
-                //optimize
-                var controls = grid.Children.Cast<UserControl>().ToArray();
-                var controlsModels = controls.Select(x => ((ScenarioModel)x.DataContext)).ToArray();
-                
-                var curX = 0;
-                var curY = 0;
-                foreach (var visualSetting in controlsModels
-                    .OrderBy(x => x.Scenario.Id)
-                    .OrderBy(x => x.ScenarioName)
-                    .OrderBy(x => x.PositionX)
-                    .OrderBy(x => x.PositionY))
-                {
-                    visualSetting.PositionX = curX;
-                    visualSetting.PositionY = curY;
-                    curX++;
-                    if (curX == maxX)
-                    {
-                        curX = 0;
-                        curY++;
-                    }
-                }
-
-                //move
-                foreach (var control in grid.Children.Cast<UserControl>())
-                {
-                    var model = ((ScenarioModel)control.DataContext);
-                    control.Margin = new Thickness(
-                        margin * (1 + model.PositionX) + elementSize * model.PositionX, 
-                        margin * (1 + model.PositionY) + elementSize * model.PositionY, 0, 0);
-                }
-                ScenariosEmptyModeOff();
-            }
-            else
-            {
-                ScenariosEmptyModeOn();
             }
         }
 
         public void Move(UserControl control, Point position)
         {
             var model = ((ScenarioModel)control.DataContext);
-            var controlAtPoint = this.grid.Children.Cast<UserControl>().FirstOrDefault(x =>
-                ((ScenarioModel)x.DataContext).PositionX == position.X &&
-                ((ScenarioModel)x.DataContext).PositionY == position.Y);
+            int index = -1;
+            var controlAtPoint = this.grid.Children
+                .Cast<UserControl>()
+                .FirstOrDefault(x =>
+                {
+                    index = CreateRealVisualIndex(((ScenarioModel)x.DataContext).VisualSettings);
+                    var virtualPosition = CreatePositionByIndex(index);
+                    return virtualPosition.Item1.Equals((int)position.X) && virtualPosition.Item2.Equals((int)position.Y);
+                });
             if (controlAtPoint != null)
             {
-                ((ScenarioModel)controlAtPoint.DataContext).PositionX = model.PositionX;
-                ((ScenarioModel)controlAtPoint.DataContext).PositionY = model.PositionY;
+                var ordered = this.grid.Children
+                    .Cast<UserControl>()
+                    .Select(x => (ScenarioModel)x.DataContext)
+                    .OrderBy(x => x.VisualSettings.VisualIndex)
+                    .ToList();
+
+                ordered.Remove(model);
+                ordered.Insert(index, model);
+                int newIndex = 0;
+                foreach (var orderedModel in ordered)
+                    orderedModel.VisualIndex = newIndex++;
+
+                _visualSettingsRepository.Save();
             }
-
-            model.PositionX = (int)position.X;
-            model.PositionY = (int)position.Y;
-
-            _visualSettingsRepository.Save();
 
             Rearrange();
         }
@@ -402,6 +376,37 @@ namespace LazuriteUI.Windows.Main
             tbEmpty.Visibility = Visibility.Collapsed;
             grid.Visibility = Visibility.Visible;
             switchSettingsHolder.Visibility = Visibility.Visible;
+        }
+
+        private Tuple<int,int> CreatePositionByIndex(int visualIndex)
+        {
+            return new Tuple<int, int>(visualIndex % MaxX, visualIndex / MaxX);
+        }
+
+        private int CreateRealVisualIndex(UserVisualSettings visualSettings)
+        {
+            var scenarios = _scenariosRepository.Scenarios;
+            if (!IsConstructorMode)
+                scenarios = scenarios.Where(x => x.CanExecute(_usersRepository.SystemUser, ScenarioStartupSource.SystemUI)).ToArray();
+
+            var allVisualSettings = 
+                _visualSettingsRepository
+                .VisualSettings
+                .Where(x => x.UserId.Equals(_usersRepository.SystemUser.Id) && scenarios.Any(z=>z.Id.Equals(x.ScenarioId)))
+                .OrderBy(z => z.VisualIndex)
+                .ToList();
+
+            var realVisualIndex = allVisualSettings.IndexOf(visualSettings);
+            return realVisualIndex;
+        }
+
+        private Thickness CreateControlMargin(UserVisualSettings visualSettings)
+        {            
+            var position = CreatePositionByIndex(CreateRealVisualIndex(visualSettings));
+            
+            return new Thickness(
+                ElementMargin * (1 + position.Item1) + ElementSize * position.Item1,
+                ElementMargin * (1 + position.Item2) + ElementSize * position.Item2, 0, 0);
         }
 
         public void CancelDragging()

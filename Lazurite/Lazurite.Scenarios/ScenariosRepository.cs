@@ -108,6 +108,7 @@ namespace Lazurite.Scenarios
             scenario.Dispose();
             _scenariosIds.Remove(scenario.Id);
             _scenarios.RemoveAll(x => x.Id.Equals(scenario.Id));
+            RaiseOnScenarioRemoved(scenario);
             _savior.Set(ScenariosIdsKey, _scenariosIds);
             _savior.Clear(scenario.Id);
         }

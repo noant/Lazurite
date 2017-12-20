@@ -125,36 +125,19 @@ namespace LazuriteUI.Windows.Main.Switches
             else return "_None";
         }
 
-        public int PositionX
+        public int VisualIndex
         {
             get
             {
-                return VisualSettings.PositionX;
+                return VisualSettings.VisualIndex;
             }
             set
             {
-                if (VisualSettings.PositionX != value)
+                if (VisualSettings.VisualIndex != value)
                 {
-                    VisualSettings.PositionX = value;
+                    VisualSettings.VisualIndex = value;
                     _visualSettingsRepository.Update(VisualSettings);
-                    OnPropertyChanged(nameof(PositionX));
-                }
-            }
-        }
-
-        public int PositionY
-        {
-            get
-            {
-                return VisualSettings.PositionY;
-            }
-            set
-            {
-                if (VisualSettings.PositionY != value)
-                {
-                    VisualSettings.PositionY = value;
-                    _visualSettingsRepository.Update(VisualSettings);
-                    OnPropertyChanged(nameof(PositionY));
+                    OnPropertyChanged(nameof(VisualIndex));
                 }
             }
         }

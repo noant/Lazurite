@@ -13610,7 +13610,7 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:ATTR name="#Associations" type="integer">2</XPD:ATTR>
 <XPD:REF name="Associations[0]">B6PhOETzz0qPA/rVY6t1gAAA</XPD:REF>
 <XPD:REF name="Associations[1]">WTktfbDW4ESLVubYCI1CYgAA</XPD:REF>
-<XPD:ATTR name="#Attributes" type="integer">5</XPD:ATTR>
+<XPD:ATTR name="#Attributes" type="integer">4</XPD:ATTR>
 <XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="GStEyDZFhE2PPfCRvFaslgAA">
 <XPD:ATTR name="Name" type="string">ScenarioID</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
@@ -13622,16 +13622,11 @@ packed in Encrypted&lt;T&gt; or EncryptedList&lt;T&gt;
 <XPD:REF name="Owner">Mxff9X4tkEi37yzdmsvgfAAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="Attributes[2]" type="UMLAttribute" guid="zWTfAkR4v0qoR3e8vZUIiwAA">
-<XPD:ATTR name="Name" type="string">CellXPosition</XPD:ATTR>
+<XPD:ATTR name="Name" type="string">VisualIndex</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">int</XPD:ATTR>
 <XPD:REF name="Owner">Mxff9X4tkEi37yzdmsvgfAAA</XPD:REF>
 </XPD:OBJ>
-<XPD:OBJ name="Attributes[3]" type="UMLAttribute" guid="zBX/azvMWECLN/zcld+V4QAA">
-<XPD:ATTR name="Name" type="string">CellYPosition</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">int</XPD:ATTR>
-<XPD:REF name="Owner">Mxff9X4tkEi37yzdmsvgfAAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="Attributes[4]" type="UMLAttribute" guid="jJT9ipTrPUi+81x3daC+cwAA">
+<XPD:OBJ name="Attributes[3]" type="UMLAttribute" guid="jJT9ipTrPUi+81x3daC+cwAA">
 <XPD:ATTR name="Name" type="string">UserId</XPD:ATTR>
 <XPD:ATTR name="TypeExpression" type="string">string</XPD:ATTR>
 <XPD:REF name="Owner">Mxff9X4tkEi37yzdmsvgfAAA</XPD:REF>

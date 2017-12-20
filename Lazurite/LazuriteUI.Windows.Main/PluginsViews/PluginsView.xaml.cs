@@ -141,23 +141,15 @@ namespace LazuriteUI.Windows.Main.PluginsViews
             dialog.Multiselect = false;
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                var canUpdatePluginResult = _manager.CanUpdatePlugin(dialog.FileName);
-                if (!canUpdatePluginResult.CanUpdate)
+                try
                 {
-                    _warningHandler.WarnFormat("Невозможно обновить плагин \r\n[{0}];\r\nПричина: {1}", dialog.FileName, canUpdatePluginResult.Message);
+                    _manager.UpdatePlugin(dialog.FileName);
+                    MessageView.ShowMessage("Плагин обновлен! Изменения вступят в силу после перезапуска приложения.", "Обновление плагина", Icons.Icon.Check, Window.GetWindow(this).Content as Panel);
+                    Refresh();
                 }
-                else
+                catch (Exception exception)
                 {
-                    try
-                    {
-                        _manager.UpdatePlugin(dialog.FileName);
-                        MessageView.ShowMessage("Плагин обновлен!", "Обновление плагина", Icons.Icon.Check, Window.GetWindow(this).Content as Panel);
-                        Refresh();
-                    }
-                    catch (Exception exception)
-                    {
-                        _warningHandler.ErrorFormat(exception, "Невозможно обновить плагин \r\n[{0}]", dialog.FileName);
-                    }
+                    _warningHandler.ErrorFormat(exception, "Невозможно обновить плагин \r\n[{0}]", dialog.FileName);
                 }
             }
         }

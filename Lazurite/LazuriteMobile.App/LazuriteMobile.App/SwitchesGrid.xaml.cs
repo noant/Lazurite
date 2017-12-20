@@ -1,5 +1,6 @@
 ﻿using Lazurite.MainDomain;
 using LazuriteMobile.App.Switches;
+using System;
 using System.Linq;
 
 using Xamarin.Forms;
@@ -12,27 +13,19 @@ namespace LazuriteMobile.App
         private static readonly int MaxX = 3;
         private static readonly int ElementSize = 111;
         private static readonly int ElementMargin = 6;
-        
+
         public SwitchesGrid()
         {
             InitializeComponent();
             ScenariosEmptyModeOff();
             this.grid.Margin = new Thickness(0, 0, ElementMargin, 40);
         }
-
-        private View CreateControl(ScenarioInfo scenarioInfo)
+         
+        private ScenarioInfo[] GetCurrentScenarios()
         {
-            return SwitchesCreator.CreateScenarioControl(scenarioInfo);
+            return grid.Children.Select(x => ((SwitchScenarioModel)x.BindingContext).Scenario).ToArray();
         }
 
-        public void Initialize(ScenarioInfo[] scenarios)
-        {
-            this.grid.Children.Clear();
-            foreach (var scenario in scenarios)
-                grid.Children.Add(CreateControl(scenario));
-            Rearrange();
-        }
-        
         public void Refresh(ScenarioInfo[] scenarios)
         {
             lock (Locker)
@@ -77,6 +70,33 @@ namespace LazuriteMobile.App
             }
         }
 
+        public void Rearrange()
+        {
+            if (grid.Children.Count > 0)
+            {
+                foreach (View control in grid.Children)
+                {
+                    var model = ((SwitchScenarioModel)control.BindingContext);
+                    control.Margin = CreateControlMargin(model.VisualSettings);
+                }
+                ScenariosEmptyModeOff();
+            }
+            else
+            {
+                ScenariosEmptyModeOn();
+            }
+        }
+
+        private View CreateControl(ScenarioInfo scenario)
+        {
+            var control = SwitchesCreator.CreateScenarioControl(scenario);
+            control.VerticalOptions = LayoutOptions.Start;
+            control.HorizontalOptions = LayoutOptions.Start;
+            control.WidthRequest = control.HeightRequest = ElementSize;
+            control.Margin = CreateControlMargin(scenario.VisualSettings);
+            return control;
+        }
+
         public void RefreshLE(ScenarioInfo[] scenarios)
         {
             lock (Locker)
@@ -99,69 +119,32 @@ namespace LazuriteMobile.App
                         this.grid.Children.Add(control);
                     }
                 }
-
                 Rearrange();
-
                 this.BatchCommit();
             }
         }
-        
-        public void Rearrange()
+
+        private Tuple<int, int> CreatePositionByIndex(int visualIndex)
         {
-            if (grid.Children.Any())
-            {
-                var maxX = MaxX;
-                var margin = ElementMargin;
-                var elementSize = ElementSize;
-                foreach (View control in grid.Children)
-                {
-                    var scenario = ((SwitchScenarioModel)control.BindingContext).Scenario;
-                    var visualSettings = ((SwitchScenarioModel)control.BindingContext).VisualSettings;
-                    control.VerticalOptions = new LayoutOptions(LayoutAlignment.Start, false);
-                    control.HorizontalOptions = new LayoutOptions(LayoutAlignment.Start, false);
-                    control.WidthRequest = control.HeightRequest = elementSize;
-                }
-
-                //optimize
-                var controls = grid.Children.ToArray();
-                var controlsModels = controls.Select(x => ((SwitchScenarioModel)x.BindingContext)).ToArray();
-
-                var curX = 0;
-                var curY = 0;
-                foreach (var visualSetting in controlsModels
-                    .OrderBy(x => x.VisualSettings.ScenarioId)
-                    .OrderBy(x => x.ScenarioName)
-                    .OrderBy(x => x.VisualSettings.PositionX)
-                    .OrderBy(x => x.VisualSettings.PositionY)
-                    .Select(x=>x.VisualSettings))
-                {
-                    visualSetting.PositionX = curX;
-                    visualSetting.PositionY = curY;
-                    curX++;
-                    if (curX == maxX)
-                    {
-                        curX = 0;
-                        curY++;
-                    }
-                }
-
-                //move
-                foreach (var control in controls)
-                {
-                    var model = ((SwitchScenarioModel)control.BindingContext);                    
-                    control.Margin = new Thickness(
-                        margin * (1 + model.VisualSettings.PositionX) + elementSize * model.VisualSettings.PositionX, 
-                        margin * (1 + model.VisualSettings.PositionY) + elementSize * model.VisualSettings.PositionY, 0, 0);
-                }
-
-                ScenariosEmptyModeOff();
-            }
-            else
-            {
-                ScenariosEmptyModeOn();
-            }
+            return new Tuple<int, int>(visualIndex % MaxX, visualIndex / MaxX);
         }
-        
+
+        private Thickness CreateControlMargin(UserVisualSettings visualSettings)
+        {
+            var allVisualSettings =
+                GetCurrentScenarios()
+                .Select(x => x.VisualSettings)
+                .OrderBy(z => z.VisualIndex)
+                .ToList();
+
+            var realVisualIndex = allVisualSettings.IndexOf(visualSettings);
+            var position = CreatePositionByIndex(realVisualIndex);
+
+            return new Thickness(
+                ElementMargin * (1 + position.Item1) + ElementSize * position.Item1,
+                ElementMargin * (1 + position.Item2) + ElementSize * position.Item2, 0, 0);
+        }
+
         public void ScenariosEmptyModeOn()
         {
             lblEmpty.IsVisible = true;

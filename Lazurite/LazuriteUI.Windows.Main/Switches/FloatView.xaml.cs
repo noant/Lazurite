@@ -2,6 +2,8 @@
 using Lazurite.Shared;
 using Lazurite.Utils;
 using LazuriteUI.Windows.Controls;
+using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,9 +15,13 @@ namespace LazuriteUI.Windows.Main.Switches
     /// </summary>
     public partial class FloatView : UserControl, IHardwareVolumeChanger
     {
+        private static readonly int FloatView_SmoothChangeValueInterval = GlobalSettings.Get(300);
+        private static Thread SmoothChangeValueThread; //crutch
+        private static string SmoothChangeValueToSet; //crutch
+
         private ScenarioModel _model;
         private IHardwareVolumeChanger _changer;
-
+        
         public event EventsHandler<int> VolumeUp;
         public event EventsHandler<int> VolumeDown;
 
@@ -30,7 +36,7 @@ namespace LazuriteUI.Windows.Main.Switches
 
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (_model.AllowClick)
+            if (!_model.EditMode && _model.AllowClick)
             {
                 if (e.Delta < 0)
                     VolumeDown?.Invoke(this, new EventsArgs<int>(-1));
@@ -42,20 +48,53 @@ namespace LazuriteUI.Windows.Main.Switches
 
         private void _changer_VolumeChanged(object sender, Lazurite.Shared.EventsArgs<int> args)
         {
+            //one big crutch --- value change need to be smooth, but mouse wheel sometimes can be fast
+            if (SmoothChangeValueToSet == null)
+                SmoothChangeValueToSet = _model.ScenarioValue;
+
             var iteration = (_model.Max - _model.Min) / 20;
             var delta = args.Value * iteration;
-            var value = double.Parse(_model.ScenarioValue) + delta;
+            var value = double.Parse(SmoothChangeValueToSet) + delta;
             if (value > _model.Max)
                 value = _model.Max;
             if (value < _model.Min)
                 value = _model.Min;
-            _model.ScenarioValue = value.ToString();
+            SmoothChangeValueToSet = value.ToString();
+            this.scaleView.Value = value;
+
+            if (SmoothChangeValueThread == null)
+            {
+                SmoothChangeValueThread = new Thread(() => {
+                    while (true)
+                    {
+                        var oldVal = SmoothChangeValueToSet;
+                        Thread.Sleep(FloatView_SmoothChangeValueInterval);
+                        if (oldVal == SmoothChangeValueToSet)
+                        {
+                            _model.ScenarioValue = SmoothChangeValueToSet;
+                            SmoothChangeValueThread = null;
+                            SmoothChangeValueToSet = null;
+                            break;
+                        }
+                    }
+                });
+                SmoothChangeValueThread.IsBackground = true;
+                SmoothChangeValueThread.Start();
+            }
         }
         
         public FloatView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
         {
-            _model = new ScenarioModel(scenario, visualSettings);
-            this.DataContext = _model;
+            this.DataContext = _model = new ScenarioModel(scenario, visualSettings);
+            //crutch
+            _model.PropertyChanged += (o, e) =>
+            {
+                if (e.PropertyName == nameof(_model.ScenarioValue))
+                    this.scaleView.Dispatcher.BeginInvoke(
+                        new Action(() => this.scaleView.Value = double.Parse(_model.ScenarioValue)));
+            };
+
+            this.Loaded += (o, e) => this.scaleView.Value = double.Parse(_model.ScenarioValue);
         }
 
         private void itemView_Click(object sender, RoutedEventArgs e)
