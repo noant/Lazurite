@@ -27,10 +27,7 @@ namespace LazuriteMobile.App.Droid
 
             Singleton.Clear<ISupportsResume>();
             Singleton.Add((ISupportsResume)this);
-
-            if (!Singleton.Any<LazuriteContext>())
-                Singleton.Add(new LazuriteContext());
-
+            
             var context = Singleton.Resolve<LazuriteContext>();
             context.Manager = new ServiceScenariosManager(this);
 

@@ -14,7 +14,18 @@ namespace LazuriteMobile.App.Droid
     [Application]
     public class MainApplication : Application, Application.IActivityLifecycleCallbacks
     {
-        public static ILogger Logger;
+        public static void InitializeUnhandledExceptionsHandler()
+        {
+            AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Log?.Fatal("Необработанная ошибка!", e.ExceptionObject as Exception);
+        }
+
+        public static ILogger Log;
 
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
           :base(handle, transer)
@@ -24,21 +35,13 @@ namespace LazuriteMobile.App.Droid
         public override void OnCreate()
         {
             base.OnCreate();
-            if (!Singleton.Any<ILogger>())
-                Singleton.Add(Logger = new LogStub());
-            if (!Singleton.Any<SaviorBase>())
-                Singleton.Add(new JsonFileSavior());
-            if (!Singleton.Any<ISystemUtils>())
-                Singleton.Add(new SystemUtils());
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            SingletonPreparator.Initialize();
+            Log = Singleton.Resolve<ILogger>();
+            InitializeUnhandledExceptionsHandler();
             RegisterActivityLifecycleCallbacks(this);
             //A great place to initialize Xamarin.Insights and Dependency Services!
         }
 
-        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Logger.Fatal("Необработанная ошибка!", e.ExceptionObject as Exception);
-        }
 
         public override void OnTerminate()
         {

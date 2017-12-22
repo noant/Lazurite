@@ -51,14 +51,14 @@ namespace LazuriteMobile.App
         private static readonly int AddictionalDataRefreshInterval = GlobalSettings.Get(2);
         private static readonly ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
+        private static readonly SaviorBase Savior = Singleton.Resolve<SaviorBase>();
+        private static readonly AddictionalDataManager Bus = Singleton.Resolve<AddictionalDataManager>();
+        private static readonly IServiceClientManager ClientsManager = Singleton.Resolve<IServiceClientManager>();
         
         private readonly string _cachedScenariosKey = "scensCache";
         private readonly string _credentialsKey = "credentials";
         private CancellationTokenSource _listenersCancellationTokenSource;
         private CancellationTokenSource _operationCancellationTokenSource;
-        private IServiceClientManager _clientManager = Singleton.Resolve<IServiceClientManager>();
-        private AddictionalDataManager _bus = Singleton.Resolve<AddictionalDataManager>();
-        private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
         private IServiceClient _serviceClient;
         private ConnectionCredentials? _credentials;
         private DateTime _lastUpdateTime;
@@ -81,10 +81,10 @@ namespace LazuriteMobile.App
 
         public ScenariosManager()
         {
-            if (!_bus.Any<GeolocationDataHandler>())
-                _bus.Register<GeolocationDataHandler>();
-            if (!_bus.Any<DeviceDataHandler>())
-                _bus.Register<DeviceDataHandler>();
+            if (!Bus.Any<GeolocationDataHandler>())
+                Bus.Register<GeolocationDataHandler>();
+            if (!Bus.Any<DeviceDataHandler>())
+                Bus.Register<DeviceDataHandler>();
         }
 
         private bool HandleExceptions(Action action)
@@ -94,7 +94,7 @@ namespace LazuriteMobile.App
             try
             {
                 if (_credentials != null && (_serviceClient?.IsClosedOrFaulted ?? false))
-                    _serviceClient = _clientManager.Create(_credentials.Value);
+                    _serviceClient = ClientsManager.Create(_credentials.Value);
                 if (ConnectionState == ManagerConnectionState.Disconnected)
                     ConnectionState = ManagerConnectionState.Connecting;
                 action();
@@ -194,7 +194,7 @@ namespace LazuriteMobile.App
             ConnectionState = ManagerConnectionState.Connecting;
             if (_serviceClient != null)
                 _serviceClient.Close();
-            _serviceClient = _clientManager.Create(_credentials.Value);
+            _serviceClient = ClientsManager.Create(_credentials.Value);
         }
         
         public void StartListenChanges()
@@ -343,11 +343,11 @@ namespace LazuriteMobile.App
         {
             try
             {
-                _serviceClient.BeginSyncAddictionalData(new Encrypted<AddictionalData>(_bus.Prepare(), _credentials.Value.SecretKey), 
+                _serviceClient.BeginSyncAddictionalData(new Encrypted<AddictionalData>(Bus.Prepare(), _credentials.Value.SecretKey), 
                     (o) => {
                         var result = Handle(() => _serviceClient.EndSyncAddictionalData(o));
                         if (result.Success && result.Value != null && result.Value.Data.Any())
-                            _bus.Handle(result.Value);
+                            Bus.Handle(result.Value);
                     },
                 null);
             }
@@ -359,44 +359,44 @@ namespace LazuriteMobile.App
 
         private void CacheScenarios()
         {
-            _savior.Set(_cachedScenariosKey, Scenarios);
+            Savior.Set(_cachedScenariosKey, Scenarios);
         }
 
         private void TryLoadCachedScenarios()
         {
-            if (_savior.Has(_cachedScenariosKey))
+            if (Savior.Has(_cachedScenariosKey))
             {
                 try
                 {
-                    Scenarios = _savior.Get<ScenarioInfo[]>(_cachedScenariosKey);
+                    Scenarios = Savior.Get<ScenarioInfo[]>(_cachedScenariosKey);
                     NeedRefresh?.Invoke();
                 }
                 catch
                 {
-                    _savior.Clear(_cachedScenariosKey);
+                    Savior.Clear(_cachedScenariosKey);
                 }
             }
         }
 
         private void TryLoadClientSettings()
         {
-            if (_savior.Has(_credentialsKey))
+            if (Savior.Has(_credentialsKey))
             {
                 try
                 {
-                    _credentials = _savior.Get<ConnectionCredentials>(_credentialsKey);
+                    _credentials = Savior.Get<ConnectionCredentials>(_credentialsKey);
                     CredentialsLoaded?.Invoke();
                 }
                 catch
                 {
-                    _savior.Clear(_credentialsKey);
+                    Savior.Clear(_credentialsKey);
                 }
             }
         }
 
         private void SaveClientSettings()
         {
-            _savior.Set(_credentialsKey, _credentials);
+            Savior.Set(_credentialsKey, _credentials);
         }
         
         public void SetClientSettings(ConnectionCredentials credentials)

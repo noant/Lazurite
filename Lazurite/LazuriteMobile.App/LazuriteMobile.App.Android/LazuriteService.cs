@@ -15,12 +15,6 @@ namespace LazuriteMobile.App.Droid
     [Service(Exported = false, Enabled = true)]
     public class LazuriteService : Service
     {
-        static LazuriteService()
-        {
-            ScenariosManagerListenInterval = GlobalSettings.Get(10000);
-            Log = Singleton.Resolve<ILogger>();
-        }
-
         public static bool Started
         {
             get
@@ -37,7 +31,7 @@ namespace LazuriteMobile.App.Droid
             }
         }
 
-        private static readonly int ScenariosManagerListenInterval;
+        private static int ScenariosManagerListenInterval;
         private static ILogger Log;
 
         private ScenariosManager _manager;
@@ -64,8 +58,10 @@ namespace LazuriteMobile.App.Droid
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
-            if (!Singleton.Any<IServiceClientManager>())
-                Singleton.Add(new ServiceClientManager());
+            SingletonPreparator.Initialize();
+            MainApplication.InitializeUnhandledExceptionsHandler();
+            Log = Singleton.Resolve<ILogger>();
+            ScenariosManagerListenInterval = GlobalSettings.Get(10000);
 
             _manager = new ScenariosManager();
             _messenger = new Messenger(_inHandler);

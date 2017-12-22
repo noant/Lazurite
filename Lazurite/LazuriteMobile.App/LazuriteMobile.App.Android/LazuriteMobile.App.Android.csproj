@@ -246,6 +246,7 @@
     <Compile Include="ServiceOperation.cs" />
     <Compile Include="ServiceScenarioManagerCallbacks.cs" />
     <Compile Include="ServiceScenariosManager.cs" />
+    <Compile Include="SingletonPreparator.cs" />
     <Compile Include="SplashActivity.cs" />
     <Compile Include="JsonFileSavior.cs" />
     <Compile Include="StartLazuriteServiceReceiver.cs" />
