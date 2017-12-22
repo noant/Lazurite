@@ -81,11 +81,11 @@ namespace LazuriteMobile.App.Droid
 
         private void InternalWrite(WriteType type, Exception exception, string message)
         {
-            lock(_locker)
+            try
             {
-                var logDir = Path.Combine(global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "LazuriteLogs");
-                try
+                lock (_locker)
                 {
+                    var logDir = Path.Combine(global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "LazuriteLogs");
                     if (!Directory.Exists(logDir))
                         Directory.CreateDirectory(logDir);
                     var logPath = Path.Combine(logDir, _logFileName);
@@ -95,11 +95,18 @@ namespace LazuriteMobile.App.Droid
                         File.WriteAllText(logPath, PrepareLine(type, exception, message));
                     else File.AppendAllLines(logPath, new[] { PrepareLine(type, exception, message) });
                 }
-                catch (Exception e)
+            }
+            catch (Exception e)
+            {
+                try
                 {
                     AlertDialog.Builder alert = new AlertDialog.Builder(Application.Context);
                     alert.SetMessage("Ошибка при записи в лог: " + e.Message);
                     alert.Show();
+                }
+                catch
+                {
+                    //mega crutch
                 }
             }
         }
