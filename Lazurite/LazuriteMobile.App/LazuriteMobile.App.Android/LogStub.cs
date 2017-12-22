@@ -1,4 +1,5 @@
-﻿using Lazurite.Logging;
+﻿using Android.App;
+using Lazurite.Logging;
 using System;
 using System.IO;
 
@@ -83,12 +84,23 @@ namespace LazuriteMobile.App.Droid
             lock(_locker)
             {
                 var logDir = Path.Combine(global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "LazuriteLogs");
-                if (!Directory.Exists(logDir))
-                    Directory.CreateDirectory(logDir);
-                var logPath = Path.Combine(logDir, _logFileName);
-                if (new FileInfo(logPath).Length > 1024 * 1024 * 1024) //1mb
-                    File.WriteAllText(logPath, PrepareLine(type, exception, message));
-                else File.AppendAllLines(logPath, new[] { PrepareLine(type, exception, message) });
+                try
+                {
+                    if (!Directory.Exists(logDir))
+                        Directory.CreateDirectory(logDir);
+                    var logPath = Path.Combine(logDir, _logFileName);
+                    if (!File.Exists(logPath))
+                        File.Create(logPath);
+                    if (new FileInfo(logPath).Length > 1024 * 1024 * 1024) //1mb
+                        File.WriteAllText(logPath, PrepareLine(type, exception, message));
+                    else File.AppendAllLines(logPath, new[] { PrepareLine(type, exception, message) });
+                }
+                catch (Exception e)
+                {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(Application.Context);
+                    alert.SetMessage("Ошибка при записи в лог: " + e.Message);
+                    alert.Show();
+                }
             }
         }
 
