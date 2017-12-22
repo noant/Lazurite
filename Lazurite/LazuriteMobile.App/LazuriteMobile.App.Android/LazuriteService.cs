@@ -15,20 +15,15 @@ namespace LazuriteMobile.App.Droid
     [Service(Exported = false, Enabled = true)]
     public class LazuriteService : Service
     {
-        public static bool Started
+        public static bool Started => IsServiceRunning(typeof(LazuriteService));
+
+        private static bool IsServiceRunning(System.Type type)
         {
-            get
-            {
-                var currentType = typeof(LazuriteService);
-                var currentTypeName = currentType.Name;
-                var manager = (ActivityManager)Application.Context.GetSystemService(Context.ActivityService);
-                foreach (var service in manager.GetRunningServices(int.MaxValue))
-                {
-                    if (service.Service.ShortClassName == currentTypeName)
-                        return true;
-                }
-                return false;
-            }
+            var manager = (ActivityManager)Application.Context.GetSystemService(Context.ActivityService);
+            foreach (var service in manager.GetRunningServices(int.MaxValue))
+                if (service.Service.ClassName.Equals(Java.Lang.Class.FromType(type).CanonicalName))
+                    return true;
+            return false;
         }
 
         private static int ScenariosManagerListenInterval;
