@@ -38,7 +38,6 @@ namespace LazuriteMobile.App.Droid
         }
 
         private static readonly int ScenariosManagerListenInterval;
-        private const string Tag = "bgservice";
         private static ILogger Log;
 
         private ScenariosManager _manager;
@@ -47,7 +46,7 @@ namespace LazuriteMobile.App.Droid
         private Messenger _toActivityMessenger;
         private Notification _currentNotification;
         private System.Timers.Timer _timer;
-        private PowerManager.WakeLock wakelock = null;
+        private PowerManager.WakeLock wakelock;
 
         public override IBinder OnBind(Intent intent)
         {
@@ -109,16 +108,9 @@ namespace LazuriteMobile.App.Droid
             
             if (_timer != null)
             {
-                try
-                {
-                    _timer.Enabled = false;
-                    _timer.Dispose();
-                    _timer = null;
-                }
-                catch
-                {
-                    //crutch
-                }
+                _timer.Enabled = false;
+                _timer.Dispose();
+                _timer = null;
             }
 
             _timer = new System.Timers.Timer();

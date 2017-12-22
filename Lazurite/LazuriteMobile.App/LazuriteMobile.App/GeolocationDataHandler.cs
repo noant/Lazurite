@@ -1,4 +1,6 @@
-﻿using Lazurite.MainDomain;
+﻿using Lazurite.IOC;
+using Lazurite.Logging;
+using Lazurite.MainDomain;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using System;
@@ -8,6 +10,7 @@ namespace LazuriteMobile.App
     public class GeolocationDataHandler: IAddictionalDataHandler, IDisposable
     {
         private static readonly double GeolocationMetersMinimumDistance = GlobalSettings.Get(10.0);
+        private static readonly ILogger Log = Singleton.Resolve<ILogger>();
         private Geolocation _lastLocation;
 
         private bool IsLocationAvailable() => CrossGeolocator.IsSupported;
@@ -27,24 +30,35 @@ namespace LazuriteMobile.App
         {
             if (IsLocationAvailable())
             {
-                CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
-                CrossGeolocator.Current.GetLastKnownLocationAsync().ContinueWith((t) =>
+                try
                 {
-                    if (t.Result != null)
-                        _lastLocation = new Geolocation(t.Result.Latitude, t.Result.Longitude);
-                });
-                CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromMinutes(10)).ContinueWith((t) =>
-                {
-                    if (t.Result != null)
-                        _lastLocation = new Geolocation(t.Result.Latitude, t.Result.Longitude);
-                });
-                CrossGeolocator.Current.StartListeningAsync(
-                    minimumTime: TimeSpan.FromMinutes(2),
-                    minimumDistance: GeolocationMetersMinimumDistance,
-                    listenerSettings: new ListenerSettings()
+                    CrossGeolocator.Current.PositionChanged -= Current_PositionChanged;
+                    CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
+                    CrossGeolocator.Current.GetLastKnownLocationAsync().ContinueWith((t) =>
                     {
-                        ActivityType = ActivityType.AutomotiveNavigation
+                        if (t.Result != null)
+                            _lastLocation = new Geolocation(t.Result.Latitude, t.Result.Longitude);
                     });
+                    CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromMinutes(10)).ContinueWith((t) =>
+                    {
+                        if (t.Result != null)
+                            _lastLocation = new Geolocation(t.Result.Latitude, t.Result.Longitude);
+                    });
+                    if (!CrossGeolocator.Current.IsListening)
+                    {
+                        CrossGeolocator.Current.StartListeningAsync(
+                            minimumTime: TimeSpan.FromMinutes(2),
+                            minimumDistance: GeolocationMetersMinimumDistance,
+                            listenerSettings: new ListenerSettings()
+                            {
+                                ActivityType = ActivityType.AutomotiveNavigation
+                            });
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Error("Error while initializing GeolocationDataHandler", e);
+                }
             }
         }
 

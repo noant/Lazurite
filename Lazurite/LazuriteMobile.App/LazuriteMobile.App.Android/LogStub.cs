@@ -82,6 +82,9 @@ namespace LazuriteMobile.App.Droid
         {
             lock(_locker)
             {
+                var docPath = Path.Combine(global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "LazuriteLogs");
+                if (!Directory.Exists(docPath))
+                    Directory.CreateDirectory(docPath);
                 if (new FileInfo(_logFile).Length > 1024 * 1024 * 1024) //1mb
                     File.WriteAllText(_logFile, PrepareLine(type, exception, message));
                 else File.AppendAllLines(_logFile, new[] { PrepareLine(type, exception, message) });
