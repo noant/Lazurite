@@ -20,10 +20,26 @@ namespace LazuriteMobile.App.Droid
             ScenariosManagerListenInterval = GlobalSettings.Get(10000);
             Log = Singleton.Resolve<ILogger>();
         }
+
+        public static bool Started
+        {
+            get
+            {
+                var currentType = typeof(LazuriteService);
+                var currentTypeName = currentType.ToString();
+                var manager = (ActivityManager)Application.Context.GetSystemService(Context.ActivityService);
+                foreach (var service in manager.GetRunningServices(int.MaxValue))
+                {
+                    if (service.Service.ShortClassName == currentTypeName)
+                        return true;
+                }
+                return false;
+            }
+        }
+
         private static readonly int ScenariosManagerListenInterval;
         private const string Tag = "bgservice";
         private static ILogger Log;
-        public static bool Started { get; private set; } = false;
 
         private ScenariosManager _manager;
         private Messenger _messenger;
@@ -45,12 +61,10 @@ namespace LazuriteMobile.App.Droid
             wakelock = pmanager.NewWakeLock(WakeLockFlags.Partial, "servicewakelock");
             wakelock.SetReferenceCounted(false);
         }
-
+        
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
-            Started = true;
-
             if (!Singleton.Any<IServiceClientManager>())
                 Singleton.Add(new ServiceClientManager());
 
@@ -122,7 +136,6 @@ namespace LazuriteMobile.App.Droid
         {
             _currentNotification.Dispose();
             _manager.Close();
-            Started = false;
             base.OnDestroy();
         }
 
