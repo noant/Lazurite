@@ -109,9 +109,16 @@ namespace LazuriteMobile.App.Droid
             
             if (_timer != null)
             {
-                _timer.Enabled = false;
-                _timer.Dispose();
-                _timer = null;
+                try
+                {
+                    _timer.Enabled = false;
+                    _timer.Dispose();
+                    _timer = null;
+                }
+                catch
+                {
+                    //crutch
+                }
             }
 
             _timer = new System.Timers.Timer();
@@ -122,7 +129,6 @@ namespace LazuriteMobile.App.Droid
             _timer.Start();
 
             StartForeground(1, _currentNotification);
-            SetForeground(true);
 
             return StartCommandResult.Sticky;
         }
