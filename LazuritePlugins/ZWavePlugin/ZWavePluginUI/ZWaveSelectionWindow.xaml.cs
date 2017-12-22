@@ -21,11 +21,7 @@ namespace ZWavePluginUI
             this.Loaded += (o, e) => {
                 BlockButtons(true);
                 var messageView = new MessageView();
-                messageView.HeaderText = "Пожалуйста, подождите...";
-                messageView.ContentText = "Инициализация контроллеров...";
-                messageView.Icon = LazuriteUI.Icons.Icon.Hourglass;
-                messageView.StartAnimateProgress();
-                messageView.Show(this.crutchGrid);
+                var token = MessageView.ShowLoad("Инициализация контроллеров...", this.crutchGrid);
                 _manager.ManagerInitializedCallbacksPool.Add(new ManagerInitializedCallback() {
                     Callback = (o1, e1) => this.Dispatcher.BeginInvoke(new Action(() => 
                     {
@@ -72,9 +68,9 @@ namespace ZWavePluginUI
             {
                 mainContent.Children.Clear();
                 var managerView = new ControllersManagerView();
+                mainContent.Children.Add(managerView);
                 managerView.BlockUI = (block) => BlockButtons(block);
                 managerView.InitializeWith(_manager);
-                mainContent.Children.Add(managerView);
             }
         }
 

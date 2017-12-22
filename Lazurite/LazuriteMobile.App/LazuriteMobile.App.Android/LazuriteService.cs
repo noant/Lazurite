@@ -20,7 +20,7 @@ namespace LazuriteMobile.App.Droid
             get
             {
                 var currentType = typeof(LazuriteService);
-                var currentTypeName = currentType.ToString();
+                var currentTypeName = currentType.Name;
                 var manager = (ActivityManager)Application.Context.GetSystemService(Context.ActivityService);
                 foreach (var service in manager.GetRunningServices(int.MaxValue))
                 {

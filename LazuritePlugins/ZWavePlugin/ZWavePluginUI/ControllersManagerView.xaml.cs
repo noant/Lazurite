@@ -37,21 +37,17 @@ namespace ZWavePluginUI
             {
                 var messageView = new MessageView();
                 BlockUI?.Invoke(true);
+                var token = MessageView.ShowLoad("Инициализация менеджера контроллеров...", this.mainGrid);
                 _manager.ManagerInitializedCallbacksPool.Add(new ManagerInitializedCallback() {
                     Callback = (sender, args) =>
                         this.Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            messageView.Close();
-                            BlockUI?.Invoke(false);
+                            token.Cancel();
                             RefreshControllersList();
+                            BlockUI?.Invoke(false);
                         })),
                     RemoveAfterInvoke = true
                 });
-                messageView.Icon = Icon.Hourglass;
-                messageView.HeaderText = "Загрузка...";
-                messageView.ContentText = "Инициализация менеджера контроллеров...";
-                messageView.StartAnimateProgress();
-                messageView.Show(mainGrid);
             }
             if (_manager.State == ZWaveManagerState.Initialized)
                 RefreshControllersList();
