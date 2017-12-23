@@ -1,5 +1,6 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Scenarios.ScenarioTypes;
 using Lazurite.Utils;
 using System;
 using System.Threading;
@@ -15,10 +16,12 @@ namespace LazuriteUI.Windows.Main.Switches
         private static readonly int FloatView_ValueUpdateInterval = GlobalSettings.Get(300);
 
         private IHardwareVolumeChanger _changer;
-        private volatile string _tempValue;
+        private volatile string _tempValueToInstall;
+        private volatile string _tempValueToUpdate;
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private double _iteration; 
         private ScenarioModel _model;
+        private bool _scenarioValueChanged;
 
         public FloatViewSwitch()
         {
@@ -51,26 +54,40 @@ namespace LazuriteUI.Windows.Main.Switches
         public FloatViewSwitch(ScenarioModel model): this()
         {
             this.DataContext = _model = model;
-            this._tempValue = model.ScenarioValue;
+            this._tempValueToInstall = this._tempValueToUpdate = model.ScenarioValue;
+
             //crutch #1
             _model.PropertyChanged += (o, e) =>
             {
                 if (e.PropertyName == nameof(_model.ScenarioValue))
-                    slider.Dispatcher.BeginInvoke(
-                        new Action(() => slider.Value = double.Parse(this._tempValue = model.ScenarioValue)));
+                {
+                    if (model.ScenarioValue != _tempValueToInstall)
+                    {
+                        _tempValueToInstall = model.ScenarioValue;
+                        _scenarioValueChanged = true;
+                    }
+                }
             };
             this._iteration = (model.Max - model.Min) / 40;
-            this.slider.Value = double.Parse(_tempValue ?? "0");
+            this.slider.Value = double.Parse(_tempValueToInstall ?? "0");
 
             //crutch #2
-            this.slider.ValueChanged += (o, e) => _tempValue = slider.Value.ToString();
+            this.slider.ValueChanged += (o, e) =>
+            {
+                _tempValueToUpdate = slider.Value.ToString();
+                _scenarioValueChanged = false;
+            };
 
             //crutch #3
             TaskUtils.Start(() => {
                 while (!_tokenSource.IsCancellationRequested)
                 {
-                    if (_tempValue != model.ScenarioValue)
-                        model.ScenarioValue = _tempValue;
+                    if (_tempValueToUpdate != _tempValueToInstall && !_scenarioValueChanged)
+                        model.ScenarioValue = _tempValueToInstall = _tempValueToUpdate;
+                    if (_tempValueToInstall != _tempValueToUpdate && _scenarioValueChanged)
+                        this.Dispatcher.BeginInvoke(new Action(()=> {
+                            this.slider.Value = double.Parse(_tempValueToUpdate = _tempValueToInstall);
+                        }));
                     Thread.Sleep(FloatView_ValueUpdateInterval);
                 }
             });

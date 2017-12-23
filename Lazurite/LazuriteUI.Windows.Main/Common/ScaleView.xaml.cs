@@ -13,6 +13,7 @@ namespace LazuriteUI.Windows.Main.Common
         public static DependencyProperty ValueProperty;
         public static DependencyProperty MaxProperty;
         public static DependencyProperty MinProperty;
+        public static DependencyProperty IsTextVisibleProperty;
 
         static ScaleView()
         {
@@ -21,6 +22,14 @@ namespace LazuriteUI.Windows.Main.Common
                     DefaultValue = 0.0,
                     PropertyChangedCallback = (o,e) => {
                         ((ScaleView)o).AllocateScaleViewSize();
+                    }
+                });
+            IsTextVisibleProperty = DependencyProperty.Register(nameof(IsTextVisible), typeof(bool), typeof(ScaleView),
+                new FrameworkPropertyMetadata()
+                {
+                    DefaultValue = true,
+                    PropertyChangedCallback = (o, e) => {
+                        ((ScaleView)o).tbValue.Visibility = (bool)e.NewValue ? Visibility.Visible : Visibility.Collapsed;
                     }
                 });
             MaxProperty = DependencyProperty.Register(nameof(Max), typeof(double), typeof(ScaleView), new FrameworkPropertyMetadata(100.0));
@@ -65,6 +74,18 @@ namespace LazuriteUI.Windows.Main.Common
             set
             {
                 SetValue(ValueProperty, value);
+            }
+        }
+        
+        public bool IsTextVisible
+        {
+            get
+            {
+                return (bool)GetValue(IsTextVisibleProperty);
+            }
+            set
+            {
+                SetValue(IsTextVisibleProperty, value);
             }
         }
 

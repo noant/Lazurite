@@ -23,7 +23,8 @@
             <controls:IconView Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" IsHitTestVisible="False" x:Name="iconViewOff" x:FieldModifier="private" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center"></controls:IconView>
             <TextBlock Margin="3,3,3,3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" IsHitTestVisible="False" Name="textBlock" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" Foreground="White" ></TextBlock>
         </Grid>
-        <common:ScaleView x:Name="scaleView" IsHitTestVisible="False" Opacity="0.5" Max="{Binding Max}" Min="{Binding Min}" HorizontalAlignment="Right"></common:ScaleView>
+        <common:ScaleView x:Name="scaleView" IsHitTestVisible="False" Opacity="0.3" Max="{Binding Max}" Min="{Binding Min}" HorizontalAlignment="Right"></common:ScaleView>
+        <common:ScaleView x:Name="scaleViewSmooth" IsTextVisible="False" Value="{Binding SmoothChangeValue, Converter={x:Static local:ConvertersStatic.ValueTypeStringToDouble}}" IsHitTestVisible="False" Opacity="0.3" Max="{Binding Max}" Min="{Binding Min}" HorizontalAlignment="Right"></common:ScaleView>
         <local:SwitchBottomBorder></local:SwitchBottomBorder>
     </Grid>
 </UserControl>

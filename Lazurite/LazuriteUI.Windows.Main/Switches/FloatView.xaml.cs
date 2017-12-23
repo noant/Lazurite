@@ -16,8 +16,19 @@ namespace LazuriteUI.Windows.Main.Switches
     public partial class FloatView : UserControl, IHardwareVolumeChanger
     {
         private static readonly int FloatView_SmoothChangeValueInterval = GlobalSettings.Get(300);
-        private static Thread SmoothChangeValueThread; //crutch
-        private static string SmoothChangeValueToSet; //crutch
+
+        private Thread _smoothChangeValueThread; //crutch
+        private string SmoothChangeValueToSet
+        {
+            get
+            {
+                return _model.SmoothChangeValue;
+            }
+            set
+            {
+                _model.SmoothChangeValue = value;
+            }
+        } //crutch
 
         private ScenarioModel _model;
         private IHardwareVolumeChanger _changer;
@@ -60,11 +71,10 @@ namespace LazuriteUI.Windows.Main.Switches
             if (value < _model.Min)
                 value = _model.Min;
             SmoothChangeValueToSet = value.ToString();
-            this.scaleView.Value = value;
 
-            if (SmoothChangeValueThread == null)
+            if (_smoothChangeValueThread == null)
             {
-                SmoothChangeValueThread = new Thread(() => {
+                _smoothChangeValueThread = new Thread(() => {
                     while (true)
                     {
                         var oldVal = SmoothChangeValueToSet;
@@ -72,14 +82,14 @@ namespace LazuriteUI.Windows.Main.Switches
                         if (oldVal == SmoothChangeValueToSet)
                         {
                             _model.ScenarioValue = SmoothChangeValueToSet;
-                            SmoothChangeValueThread = null;
+                            _smoothChangeValueThread = null;
                             SmoothChangeValueToSet = null;
                             break;
                         }
                     }
                 });
-                SmoothChangeValueThread.IsBackground = true;
-                SmoothChangeValueThread.Start();
+                _smoothChangeValueThread.IsBackground = true;
+                _smoothChangeValueThread.Start();
             }
         }
         

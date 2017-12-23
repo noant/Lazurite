@@ -108,8 +108,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
         public override void Execute(string param, CancellationToken cancelToken)
         {
             Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
+            CheckValue(param);
             HandleExceptions(() => {
-                CheckValue(param);
                 GetServer().ExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
                 SetCurrentValueInternal(param);
             });
@@ -125,6 +125,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 HandleExceptions(() =>
                 {
                     GetServer().AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
+                    SetCurrentValueInternal(param);
                 });
                 Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
             });
@@ -138,6 +139,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
                 HandleExceptions(() => {
                     GetServer().AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
+                    SetCurrentValueInternal(param);
                 });
                 Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
             });

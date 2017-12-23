@@ -21,7 +21,9 @@ namespace LazuriteUI.Windows.Main.Switches
             scenario.SetOnAvailabilityChanged(ScenarioAvailabilityChanged);
             Scenario.CalculateCurrentValueAsync((value) => {
                 _value = value;
+                _smoothValue = value;
                 OnPropertyChanged(nameof(ScenarioValue));
+                OnPropertyChanged(nameof(SmoothChangeValue));
             });
 
             if (!VisualSettings.AddictionalData.ContainsKey(Icon1Key))
@@ -38,6 +40,7 @@ namespace LazuriteUI.Windows.Main.Switches
         public ScenarioModel() : this(null, null) { }
 
         private string _value;
+        private string _smoothValue;
         private bool _editMode;
         private bool _checked;
 
@@ -168,7 +171,18 @@ namespace LazuriteUI.Windows.Main.Switches
             {
                 _value = value;
                 Scenario.ExecuteAsync(_value);
-                OnPropertyChanged(nameof(ScenarioValue));
+            }
+        }
+
+        public string SmoothChangeValue { 
+            get
+            {
+                return _smoothValue;
+            }
+            set
+            {
+                _smoothValue = value;
+                OnPropertyChanged(nameof(SmoothChangeValue));
             }
         }
 
@@ -218,7 +232,9 @@ namespace LazuriteUI.Windows.Main.Switches
         private void ScenarioValueChanged(object sender, EventsArgs<ScenarioBase> args)
         {
             _value = args.Value.GetCurrentValue();
+            _smoothValue = _value;
             OnPropertyChanged(nameof(ScenarioValue));
+            OnPropertyChanged(nameof(SmoothChangeValue));
         }
 
         private void ScenarioAvailabilityChanged(object sender, EventsArgs<ScenarioBase> args)
