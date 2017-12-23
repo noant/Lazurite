@@ -18,7 +18,7 @@ namespace LazuriteUI.Windows.Main.Switches
         private static readonly int FloatView_SmoothChangeValueInterval = GlobalSettings.Get(300);
 
         private Thread _smoothChangeValueThread; //crutch
-        private string SmoothChangeValueToSet
+        private double SmoothChangeValueToSet
         {
             get
             {
@@ -60,17 +60,15 @@ namespace LazuriteUI.Windows.Main.Switches
         private void _changer_VolumeChanged(object sender, Lazurite.Shared.EventsArgs<int> args)
         {
             //one big crutch --- value change need to be smooth, but mouse wheel sometimes can be fast
-            if (SmoothChangeValueToSet == null)
-                SmoothChangeValueToSet = _model.ScenarioValue;
-
+            
             var iteration = (_model.Max - _model.Min) / 20;
             var delta = args.Value * iteration;
-            var value = double.Parse(SmoothChangeValueToSet) + delta;
+            var value = SmoothChangeValueToSet + delta;
             if (value > _model.Max)
                 value = _model.Max;
             if (value < _model.Min)
                 value = _model.Min;
-            SmoothChangeValueToSet = value.ToString();
+            SmoothChangeValueToSet = value;
 
             if (_smoothChangeValueThread == null)
             {
@@ -81,9 +79,8 @@ namespace LazuriteUI.Windows.Main.Switches
                         Thread.Sleep(FloatView_SmoothChangeValueInterval);
                         if (oldVal == SmoothChangeValueToSet)
                         {
-                            _model.ScenarioValue = SmoothChangeValueToSet;
+                            _model.ScenarioValue = SmoothChangeValueToSet.ToString();
                             _smoothChangeValueThread = null;
-                            SmoothChangeValueToSet = null;
                             break;
                         }
                     }
@@ -101,10 +98,10 @@ namespace LazuriteUI.Windows.Main.Switches
             {
                 if (e.PropertyName == nameof(_model.ScenarioValue))
                     this.scaleView.Dispatcher.BeginInvoke(
-                        new Action(() => this.scaleView.Value = double.Parse(_model.ScenarioValue)));
+                        new Action(() => this.scaleView.Value = _model.ScenarioValueDouble));
             };
 
-            this.Loaded += (o, e) => this.scaleView.Value = double.Parse(_model.ScenarioValue);
+            this.Loaded += (o, e) => this.scaleView.Value = _model.ScenarioValueDouble;
         }
 
         private void itemView_Click(object sender, RoutedEventArgs e)

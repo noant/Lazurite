@@ -20,12 +20,11 @@ namespace ZWavePluginUI
 
             this.Loaded += (o, e) => {
                 BlockButtons(true);
-                var messageView = new MessageView();
                 var token = MessageView.ShowLoad("Инициализация контроллеров...", this.crutchGrid);
                 _manager.ManagerInitializedCallbacksPool.Add(new ManagerInitializedCallback() {
                     Callback = (o1, e1) => this.Dispatcher.BeginInvoke(new Action(() => 
                     {
-                        messageView.Close();
+                        token.Cancel();
                         this.itemViewPrimary.Selected = true;
                         BlockButtons(false);
                     })),
@@ -35,7 +34,7 @@ namespace ZWavePluginUI
                     manager.Initialize();
                 else if (manager.State == ZWaveManagerState.Initialized)
                 {
-                    messageView.Close();
+                    token.Cancel();
                     this.itemViewPrimary.Selected = true;
                     BlockButtons(false);
                 }

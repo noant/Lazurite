@@ -9,7 +9,14 @@ namespace LazuriteUI.Windows.Main.Switches
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Math.Round(double.Parse((value??0).ToString()), 1);
+            try
+            {
+                return Math.Round(double.Parse((!string.IsNullOrEmpty(value.ToString()) ? value.ToString() : "0")), 1);
+            }
+            catch
+            {
+                return -1.0;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

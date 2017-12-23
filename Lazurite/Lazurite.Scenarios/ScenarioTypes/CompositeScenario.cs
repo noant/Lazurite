@@ -94,6 +94,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                         action.Initialize();
                     }
                 }
+                this.IsAvailable = true;
             }
             catch (Exception e)
             {
