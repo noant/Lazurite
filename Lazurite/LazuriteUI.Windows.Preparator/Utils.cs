@@ -21,17 +21,33 @@ namespace LazuriteUI.Windows.Preparator
         public static void Install_VC_Redist()
         {
             var log = Singleton.Resolve<ILogger>();
+
+            //x86 installation
             try
             {
                 var basePath = Lazurite.Windows.Utils.Utils.GetAssemblyFolder(typeof(Utils).Assembly);
-                var vcredist = Environment.Is64BitOperatingSystem ? VcRedistx64_Path : VcRedistx86_Path;
+                var vcredist = VcRedistx86_Path;
                 var path = Path.Combine(basePath, vcredist);
                 var result = Lazurite.Windows.Utils.Utils.ExecuteProcess(path, "/install /quiet /norestart /log vcredist_installation_log.txt", false, true);
-                log.Info("VcRedist installed with result: [" + result + "]");
+                log.Info("VcRedist x86 installed with result: [" + result + "]");
             }
             catch (Exception e)
             {
-                log.Info("VcRedist installation error", e);
+                log.Info("VcRedist x86 installation error", e);
+            }
+
+            //x64 installation
+            try
+            {
+                var basePath = Lazurite.Windows.Utils.Utils.GetAssemblyFolder(typeof(Utils).Assembly);
+                var vcredist = VcRedistx64_Path;
+                var path = Path.Combine(basePath, vcredist);
+                var result = Lazurite.Windows.Utils.Utils.ExecuteProcess(path, "/install /quiet /norestart /log vcredist_installation_log.txt", false, true);
+                log.Info("VcRedist x64 installed with result: [" + result + "]");
+            }
+            catch (Exception e)
+            {
+                log.Info("VcRedist x64 installation error", e);
             }
         }
     }

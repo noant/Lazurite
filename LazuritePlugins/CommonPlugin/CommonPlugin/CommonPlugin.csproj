@@ -61,6 +61,7 @@
     <Compile Include="KillProcessAction.cs" />
     <Compile Include="ExecuteCommandAction.cs" />
     <Compile Include="ShowInfoAction.cs" />
+    <Compile Include="TimesOfDayNowAction.cs" />
     <Compile Include="WaitActionDays.cs" />
     <Compile Include="WaitActionHours.cs" />
     <Compile Include="WaitActionMinutes.cs" />
