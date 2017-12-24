@@ -32,7 +32,7 @@ namespace LazuriteUI.Windows.Preparator
             var message = string.Empty;
             var error = false;
 
-            Utils.Install_VC_Redist();
+            Utils.VcRedistInstallAll();
 
             if (!fileSavior.Has(LazuriteServer.SettingsKey))
             {

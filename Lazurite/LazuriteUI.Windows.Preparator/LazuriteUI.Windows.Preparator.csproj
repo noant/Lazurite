@@ -166,10 +166,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ToInstall\vc_redist.x64.exe">
+    <None Include="VcRedist\vc_redist.x64.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="ToInstall\vc_redist.x86.exe">
+    <None Include="VcRedist\vc_redist.x86.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VcRedist\vcredist_x86_2010.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
