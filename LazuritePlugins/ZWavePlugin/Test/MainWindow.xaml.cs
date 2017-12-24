@@ -22,6 +22,7 @@ namespace Test
             b.UserInitializeWith(null, false);
             b.ValueChanged += B_ValueChanged;
             B = b;
+            b.UserInitializeWith(null, false);
         }
 
         private void B_ValueChanged(Lazurite.ActionsDomain.IAction action, string value)

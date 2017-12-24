@@ -143,10 +143,17 @@ namespace LazuriteMobile.App.Droid
 
         public void Close()
         {
-            _activity.UnbindService(_serviceConnection);
-            _serviceConnection.Connected -= ServiceConnection_Connected;
-            _serviceConnection.Disconnected -= ServiceConnection_Disconnected;
-            _serviceConnection.Dispose();
+            try
+            {
+                _activity.UnbindService(_serviceConnection);
+                _serviceConnection.Connected -= ServiceConnection_Connected;
+                _serviceConnection.Disconnected -= ServiceConnection_Disconnected;
+                _serviceConnection.Dispose();
+            }
+            catch
+            {
+                //do nothing
+            }
         }
     }
 

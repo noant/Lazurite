@@ -49,6 +49,7 @@ namespace ZWavePluginUI
 
         public void RefreshDescription()
         {
+            itemRange.Visibility = Visibility.Collapsed;
             tbDescription.Text = "";
             if (SelectedNodeValue != null)
             {

@@ -1,5 +1,6 @@
 ﻿using LazuriteUI.Icons;
-
+using System.Collections.Generic;
+using System.Reflection;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Controls
@@ -8,15 +9,18 @@ namespace LazuriteMobile.App.Controls
 	{
         public static readonly BindableProperty IconProperty;
 
+        private static Dictionary<Icon, ImageSource> _cache = new Dictionary<Icon, ImageSource>();
+
         static IconView()
         {
             IconProperty = BindableProperty.Create(nameof(Icon), typeof(Icon), typeof(IconView), Icon.Power, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) => {
-                    ((IconView)sender).iconControl.Source = ImageSource.FromStream(() =>
-                        {
-                            return Utils.GetIconData((Icon)newVal);
-                        }
-                    );
+                    var icon = (Icon)newVal;
+                    ImageSource imageSource = null;
+                    if (!_cache.ContainsKey(icon))
+                        _cache.Add(icon, imageSource = ImageSource.FromResource(LazuriteUI.Icons.Utils.GetIconResourceName(icon), typeof(Icon).GetTypeInfo().Assembly));
+                    else imageSource = _cache[icon];
+                    ((IconView)sender).iconControl.Source = imageSource;
                 });
         }
 
