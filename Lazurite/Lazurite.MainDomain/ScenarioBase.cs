@@ -17,14 +17,14 @@ namespace Lazurite.MainDomain
         private List<EventsHandler<ScenarioBase>> _valueChangedEvents = new List<EventsHandler<ScenarioBase>>();
         private List<EventsHandler<ScenarioBase>> _availabilityChangedEvents = new List<EventsHandler<ScenarioBase>>();
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
-        private bool _isAvailable = true;
+        private bool _isAvailable = false;
 
-        private void Handle(Exception e)
+        protected void Handle(Exception e)
         {
             Log.ErrorFormat(e, "Error while calculating current value. Scenario: {0}, {1};", this.Name, this.Id);
         }
 
-        public void CheckValue(string param)
+        protected void CheckValue(string param)
         {
             if (!this.ValueType.Interprete(param).Success)
                 throw new InvalidOperationException(string.Format("Value [{0}] is not compatible with value type [{1}]", param, this.ValueType.GetType().Name));
@@ -66,6 +66,11 @@ namespace Lazurite.MainDomain
         /// Scenario id
         /// </summary>
         public string Id { get; set; } = Guid.NewGuid().ToString();
+
+        /// <summary>
+        /// Identify execution
+        /// </summary>
+        public string LastExecutionId { get; private set; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Type of returning value
@@ -129,19 +134,33 @@ namespace Lazurite.MainDomain
         /// <param name="cancelToken"></param>
         public virtual void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
-            TaskUtils.StartLongRunning(() => Execute(param, cancelToken), Handle);
+            TaskUtils.StartLongRunning(() => {
+                CheckValue(param);
+                var output = new OutputChangedDelegates();
+                var context = new ExecutionContext(this, param, output, cancelToken);
+                HandleExecution(() => ExecuteInternal(context));
+            });
         }
 
         /// <summary>
         /// Execute scenario in main execution context
         /// </summary>
         /// <param name="param"></param>
-        public virtual void ExecuteAsync(string param)
+        public virtual void ExecuteAsync(string param, out string executionId)
         {
-            _tokenSource.Cancel();
-            _tokenSource = new CancellationTokenSource();
-            var token = _tokenSource.Token;
-            TaskUtils.StartLongRunning(() => Execute(param, token), Handle);
+            CheckValue(param);
+            executionId = PrepareExecutionId();
+            TaskUtils.StartLongRunning(() => {
+                TryCancelAll();
+                var token = PrepareCancellationToken();
+                var output = new OutputChangedDelegates();
+                output.Add(val => SetCurrentValueInternal(val));
+                var context = new ExecutionContext(this, param, output, token);
+                HandleExecution(() => {
+                    SetCurrentValueInternal(param);
+                    ExecuteInternal(context);
+                });
+            }, Handle);
         }
         
         /// <summary>
@@ -149,17 +168,50 @@ namespace Lazurite.MainDomain
         /// </summary>
         /// <param name="param"></param>
         /// <param name="cancelToken"></param>
-        public virtual void Execute(string param, CancellationToken cancelToken)
+        public virtual void Execute(string param, out string executionId)
         {
             CheckValue(param);
-            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
+            executionId = PrepareExecutionId();
+            TryCancelAll();
+            var token = PrepareCancellationToken();
             var output = new OutputChangedDelegates();
             output.Add(val => SetCurrentValueInternal(val));
-            var context = new ExecutionContext(this, param, output, cancelToken);
-            try
-            {
+            var context = new ExecutionContext(this, param, output, token);
+            HandleExecution(() => {
                 SetCurrentValueInternal(param);
                 ExecuteInternal(context);
+            });
+        }
+
+        /// <summary>
+        /// Try cancel all operations
+        /// </summary>
+        public virtual void TryCancelAll()
+        {
+            _tokenSource?.Cancel();
+        }
+
+        protected CancellationToken PrepareCancellationToken()
+        {
+            _tokenSource = new CancellationTokenSource();
+            return _tokenSource.Token;
+        }
+
+        protected string PrepareExecutionId()
+        {
+            return LastExecutionId = Guid.NewGuid().ToString();
+        }
+
+        /// <summary>
+        /// All execution operation must executing through this method
+        /// </summary>
+        /// <param name="action"></param>
+        protected void HandleExecution(Action action)
+        {
+            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
+            try
+            {
+                action?.Invoke();
             }
             catch (Exception e)
             {
@@ -169,13 +221,11 @@ namespace Lazurite.MainDomain
         }
 
         /// <summary>
-        /// Try cancel all operations
+        /// Determine that user can execute scenario
         /// </summary>
-        public virtual void TryCancelAll()
-        {
-            _tokenSource.Cancel();
-        }
-
+        /// <param name="user"></param>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public bool CanExecute(UserBase user, ScenarioStartupSource source)
         {
             try
@@ -196,7 +246,7 @@ namespace Lazurite.MainDomain
         /// </summary>
         /// <param name="param"></param>
         /// <param name="cancelToken"></param>
-        public abstract void ExecuteInternal(ExecutionContext context);
+        protected abstract void ExecuteInternal(ExecutionContext context);
 
         /// <summary>
         /// Get all types, used in scenario and derived from IAction

@@ -62,7 +62,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return _currentValue;
         }
 
-        public override void ExecuteInternal(ExecutionContext context)
+        protected override void ExecuteInternal(ExecutionContext context)
         {
             //
         }
@@ -82,7 +82,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 //crutch
                 if (e is AggregatedCommunicationException)
                 {
-                    Log.WarnFormat(strErrPrefix + ". {0}; [{1}][{2}][{3}]",
+                    Log.InfoFormat(strErrPrefix + ". {0}; [{1}][{2}][{3}]",
                         e.Message, this.Name, this.Id, this.Credentials.GetAddress());
                 }
                 else if (
@@ -92,7 +92,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     e.Message.Contains("(403)") ||
                     e is InvalidOperationException)
                 {
-                    Log.WarnFormat(strErrPrefix + ". " + e.Message + "; [{0}][{1}][{2}][{3}]",
+                    Log.InfoFormat(strErrPrefix + ". " + e.Message + "; [{0}][{1}][{2}][{3}]",
                         this.Name, this.Id, this.Credentials.GetAddress(), e.InnerException?.Message);
                 }
                 else
@@ -105,22 +105,25 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
         }
 
-        public override void Execute(string param, CancellationToken cancelToken)
+        public override void Execute(string param, out string executionId)
         {
-            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
             CheckValue(param);
-            HandleExceptions(() => {
+            executionId = PrepareExecutionId();
+            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
+            HandleExceptions(() => 
+            {
                 GetServer().ExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
                 SetCurrentValueInternal(param);
             });
             Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
         }
 
-        public override void ExecuteAsync(string param)
+        public override void ExecuteAsync(string param, out string executionId)
         {
+            CheckValue(param);
+            executionId = PrepareExecutionId();
             TaskUtils.Start(() =>
             {
-                CheckValue(param);
                 Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
                 HandleExceptions(() =>
                 {
@@ -133,13 +136,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
         {
+            CheckValue(param);
             TaskUtils.Start(() =>
             {
-                CheckValue(param);
                 Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
                 HandleExceptions(() => {
                     GetServer().AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
-                    SetCurrentValueInternal(param);
                 });
                 Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
             });

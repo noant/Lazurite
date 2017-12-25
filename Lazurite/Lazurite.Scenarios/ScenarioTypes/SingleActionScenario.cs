@@ -7,6 +7,7 @@ using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.Security;
+using Lazurite.Utils;
 using System;
 using System.Linq;
 using System.Threading;
@@ -31,35 +32,43 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 ///
             }
         }
-
-        /// <summary>
-        /// Execute in current thread
-        /// </summary>
-        /// <param name="param"></param>
-        /// <param name="cancelToken"></param>
-        public override void Execute(string param, CancellationToken cancelToken)
-        {            
-            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
+        
+        public override void Execute(string param, out string executionId)
+        {
+            CheckValue(param);
+            executionId = PrepareExecutionId();
+            TryCancelAll();
+            var token = PrepareCancellationToken();
             var output = new OutputChangedDelegates();
             output.Add(val => SetCurrentValueInternal(val));
-            var context = new ExecutionContext(this, param, output, cancelToken);
-            try
-            {
-                CheckValue(param);
+            var context = new ExecutionContext(this, param, output, token);
+            HandleExecution(() => {
                 if (!ActionHolder.Action.IsSupportsEvent)
                     SetCurrentValueInternal(param);
                 ExecuteInternal(context);
-            }
-            catch (Exception e)
-            {
-                Log.ErrorFormat(e, "Error while executing scenario [{0}][{1}]", this.Name, this.Id);
-            }
-            Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
+            });
+        }
+        
+        public override void ExecuteAsync(string param, out string executionId)
+        {
+            CheckValue(param);
+            executionId = PrepareExecutionId();
+            TaskUtils.StartLongRunning(() => {
+                TryCancelAll();
+                var token = PrepareCancellationToken();
+                var output = new OutputChangedDelegates();
+                output.Add(val => SetCurrentValueInternal(val));
+                var context = new ExecutionContext(this, param, output, token);
+                HandleExecution(() => {
+                    if (!ActionHolder.Action.IsSupportsEvent)
+                        SetCurrentValueInternal(param);
+                    ExecuteInternal(context);
+                });
+            }, Handle);
         }
 
-        public override void ExecuteInternal(ExecutionContext context)
+        protected override void ExecuteInternal(ExecutionContext context)
         {
-            CheckValue(context.Input);
             ActionHolder.Action.SetValue(context, context.Input);
         }
 
@@ -116,10 +125,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 ActionHolder.Action.Initialize();
                 _currentValue = ActionHolder.Action.GetValue(null);
                 callback?.Invoke(true);
+                this.IsAvailable = true;
             }
             catch (Exception e)
             {
                 _log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", this.Name);
+                this.IsAvailable = false;
                 callback?.Invoke(false);
             }
         }

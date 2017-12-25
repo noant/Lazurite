@@ -48,18 +48,21 @@ namespace Lazurite.Windows.Service
             }
             catch (Exception e)
             {
-                if (e is UnauthorizedAccessException 
-                    || e is InvalidOperationException 
+                if (e is UnauthorizedAccessException
+                    || e is InvalidOperationException
                     || e is DecryptException)
+                {
                     WarningHandler.WarnFormat("[{0}] execution error. {1}", memberName, e.Message); //write only message
+                    throw e;
+                }
                 else
                     WarningHandler.ErrorFormat(e, "[{0}] execution error", memberName); //unrecognized exception; write fully
-                throw e;
             }
             finally
             {
                 WarningHandler.DebugFormat("[{0}] executed", memberName);
             }
+            return default(T);
         }
 
         private void Handle(Action<UserBase> action, [CallerMemberName] string memberName = "")
@@ -75,10 +78,12 @@ namespace Lazurite.Windows.Service
                 if (e is UnauthorizedAccessException 
                     || e is InvalidOperationException 
                     || e is DecryptException)
+                {
                     WarningHandler.WarnFormat("[{0}] execution error. {1}", memberName, e.Message); //write only message
+                    throw e;
+                }
                 else
                     WarningHandler.ErrorFormat(e, "[{0}] execution error", memberName); //unrecognized exception; write fully
-                throw e;
             }
             finally
             {
@@ -144,13 +149,13 @@ namespace Lazurite.Windows.Service
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
         public void ExecuteScenario(Encrypted<string> scenarioId, Encrypted<string> value)
         {
-            Handle((user) => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).Execute(value.Decrypt(_secretKey), new CancellationToken()));
+            Handle((user) => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).Execute(value.Decrypt(_secretKey), out string executionId));
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
         public void AsyncExecuteScenario(Encrypted<string> scenarioId, Encrypted<string> value)
         {
-            Handle((user) => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).ExecuteAsync(value.Decrypt(_secretKey)));
+            Handle((user) => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).ExecuteAsync(value.Decrypt(_secretKey), out string executionId));
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
@@ -263,7 +268,7 @@ namespace Lazurite.Windows.Service
                 AddictionalDataManager.Handle(data);
                 var location = data.Resolve<Geolocation>();
                 if (location != null)
-                    WarningHandler.InfoFormat("User [{0}] new geolocation: [{1}];[{2}];", user.Name, location.Latitude, location.Longtitude);
+                    WarningHandler.InfoFormat("User [{0}] new geolocation: [];", user.Name, location);
                 return new Encrypted<AddictionalData>(AddictionalDataManager.Prepare(), this._secretKey);
             });
         }

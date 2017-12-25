@@ -126,12 +126,12 @@ namespace Lazurite.Scenarios
                 _scenarios
                 .SelectMany(x => x.GetAllActionsFlat())
                 .Union(_triggers.SelectMany(x=>x.GetAllActionsFlat()))
-                .Where(x => x is ICoreAction && ((ICoreAction)x).TargetScenarioId == scenario.Id);
+                .Where(x => x is ICoreAction && (((ICoreAction)x).TargetScenarioId?.Equals(scenario.Id) ?? false));
 
             foreach (ICoreAction action in allActionsWithScen)
                 action.SetTargetScenario(scenario);
 
-            foreach (TriggerBase trigger in _triggers.Where(x => x.TargetScenarioId.Equals(scenario.Id)))
+            foreach (TriggerBase trigger in _triggers.Where(x => x.TargetScenarioId?.Equals(scenario.Id) ?? false))
             {
                 trigger.SetScenario(scenario);
                 if (trigger.Enabled)

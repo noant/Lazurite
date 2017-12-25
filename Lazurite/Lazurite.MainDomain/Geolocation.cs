@@ -5,6 +5,8 @@ namespace Lazurite.MainDomain
     [DataContract]
     public class Geolocation
     {
+        public static Geolocation Empty { get; private set; } = new Geolocation(double.NaN, double.NaN);
+
         public Geolocation(double latitude, double longtitude)
         {
             Latitude = latitude;
@@ -29,6 +31,11 @@ namespace Lazurite.MainDomain
         public override bool Equals(object obj)
         {
             return obj is Geolocation && GetHashCode() == obj.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0}; {1}", Latitude.ToString().Replace(",", "."), Longtitude.ToString().Replace(",", "."));
         }
     }
 }

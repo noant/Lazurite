@@ -170,7 +170,7 @@ namespace LazuriteUI.Windows.Main.Switches
             set
             {
                 _value = value;
-                Scenario.ExecuteAsync(_value);
+                Scenario.ExecuteAsync(_value, out string executionId);
             }
         }
 

@@ -18,8 +18,6 @@ namespace Lazurite.Scenarios.ScenarioTypes
     [HumanFriendlyName("Композитный сценарий")]
     public class CompositeScenario : ScenarioBase, IStandardValueAction
     {
-        private ILogger _log = Singleton.Resolve<ILogger>();
-
         public ComplexAction TargetAction { get; set; } = new ComplexAction();
 
         public override ValueTypeBase ValueType
@@ -40,23 +38,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return GetCurrentValue();
         }
         
-        public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
+        protected override void ExecuteInternal(ExecutionContext context)
         {
-            TaskUtils.StartLongRunning(() =>
-            {
-                CheckValue(param);
-                Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
-                TargetAction.SetValue(
-                    new ExecutionContext(this, param, new OutputChangedDelegates(), cancelToken),
-                    string.Empty);
-                Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
-            },
-            (exception) => Log.ErrorFormat(exception, "Error while executing scenario [{0}][{1}]", this.Name, this.Id));
-        }
-
-        public override void ExecuteInternal(ExecutionContext context)
-        {
-            CheckValue(context.Input);
             TargetAction.SetValue(context, string.Empty);
         }
 
@@ -98,7 +81,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
             catch (Exception e)
             {
-                _log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", this.Name);
+                Log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", this.Name);
                 this.IsAvailable = false;
             }
             callback?.Invoke(this.IsAvailable);
@@ -107,7 +90,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         public override void AfterInitilize()
         {
             if (this.ValueType != null && this.ValueType is ButtonValueType == false) //except buttonValueType because any input value starts scenario permanent
-                ExecuteAsync(InitializeWithValue);
+                ExecuteAsync(InitializeWithValue, out string executionId);
         }
 
         public override IAction[] GetAllActionsFlat()

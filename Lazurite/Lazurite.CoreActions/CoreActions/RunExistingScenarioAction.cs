@@ -90,12 +90,25 @@ namespace Lazurite.CoreActions.CoreActions
 
         public void SetValue(ExecutionContext context, string value)
         {
+            string executionId = string.Empty;
             if (Mode == RunExistingScenarioMode.Asynchronously)
                 _scenario?.ExecuteAsyncParallel(value, context.CancellationToken);
             else if (Mode == RunExistingScenarioMode.Synchronously)
-                _scenario?.Execute(value, context.CancellationToken);
+            {
+                context.CancellationToken.Register(() => {
+                    if (_scenario.LastExecutionId == executionId)
+                        _scenario.TryCancelAll();
+                });
+                _scenario?.Execute(value, out executionId);
+            }
             else if (Mode == RunExistingScenarioMode.MainExecutionContext)
-                _scenario?.ExecuteAsync(value);
+            {
+                context.CancellationToken.Register(() => {
+                    if (_scenario.LastExecutionId == executionId)
+                        _scenario.TryCancelAll();
+                });
+                _scenario?.ExecuteAsync(value, out executionId);
+            }
         }
 
         public event ValueChangedEventHandler ValueChanged;

@@ -8,6 +8,9 @@ using Lazurite.Shared;
 using Lazurite.Utils;
 using LazuriteMobile.MainDomain;
 using System;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
+
 
 namespace LazuriteMobile.App.Droid
 {
@@ -38,6 +41,11 @@ namespace LazuriteMobile.App.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, global::Android.Content.PM.Permission[] grantResults)
+        {
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         protected override void OnDestroy()
