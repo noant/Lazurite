@@ -270,6 +270,7 @@ namespace Lazurite.Windows.Service
                 var location = data.Resolve<Geolocation>();
                 if (location != null)
                     WarningHandler.InfoFormat("User [{0}] new geolocation: [{1}];", user.Name, location);
+                WarningHandler.InfoFormat("User [{0}] device: [{1}];", user.Name, data.Resolve<DeviceInfo>()?.Name ?? "unknown");
                 return new Encrypted<AddictionalData>(AddictionalDataManager.Prepare(), this._secretKey);
             });
         }

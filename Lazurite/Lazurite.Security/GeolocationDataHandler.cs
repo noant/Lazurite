@@ -1,9 +1,4 @@
 ﻿using Lazurite.MainDomain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lazurite.Security
 {
@@ -15,7 +10,7 @@ namespace Lazurite.Security
             var device = data.Resolve<DeviceInfo>();
             var geolocation = data.Resolve<Geolocation>();
             if (user != null && geolocation != null)
-                user.UpdateLocation(new GeolocationInfo(geolocation, device.Name));
+                user.UpdateLocation(new GeolocationInfo(geolocation, device?.Name ?? "[unknown device]"));
         }
 
         public void Initialize()
