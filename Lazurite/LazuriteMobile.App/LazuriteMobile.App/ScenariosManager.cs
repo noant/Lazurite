@@ -208,7 +208,7 @@ namespace LazuriteMobile.App
                     RefreshIteration();
                     //sleep while update or refresh
                     Utils.Sleep(WaitingForRefreshListenInterval, _refreshEndingToken.Token);
-                    //beetwen updates sleep
+                    //between updates sleep
                     Utils.Sleep(_succeed ? ScenariosManagerListenInterval : ScenariosManagerListenInterval_onError, CancellationToken.None);
                 }
             });

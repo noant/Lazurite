@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lazurite.IOC;
+using Lazurite.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,8 @@ namespace Lazurite.MainDomain
 {
     public class AddictionalDataManager: IDisposable
     {
+        public static readonly ILogger Log = Singleton.Resolve<ILogger>();
+
         private List<IAddictionalDataHandler> _handlers = new List<IAddictionalDataHandler>();
 
         public bool Any<T>() => _handlers.Any(x => x is T);
@@ -17,9 +21,16 @@ namespace Lazurite.MainDomain
             if (!_handlers.Any(x=> x is T))
                 lock (_handlers)
                 {
-                    var handler = (IAddictionalDataHandler)Activator.CreateInstance<T>();
-                    handler.Initialize();
-                    _handlers.Add(handler);
+                    try
+                    {
+                        var handler = (IAddictionalDataHandler)Activator.CreateInstance<T>();
+                        handler.Initialize();
+                        _handlers.Add(handler);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.ErrorFormat(e, "Error while initializing [{0}] data", typeof(T).Name);
+                    }
                 }
         }
 
@@ -39,14 +50,30 @@ namespace Lazurite.MainDomain
         public void Handle(AddictionalData data)
         {
             foreach (var handler in _handlers)
-                handler.Handle(data);
+                try
+                {
+                    handler.Handle(data);
+                }
+                catch (Exception e)
+                {
+                    Log.ErrorFormat(e, "Error while handling [{0}] data", handler.GetType().Name);
+                }
         }
 
         public AddictionalData Prepare()
         {
             var data = new AddictionalData();
             foreach (var handler in _handlers)
-                handler.Prepare(data);
+            {
+                try
+                {
+                    handler.Prepare(data);
+                }
+                catch (Exception e)
+                {
+                    Log.ErrorFormat(e, "Error while preparing [{0}] data", handler.GetType().Name);
+                }
+            }
             return data;
         }
 
