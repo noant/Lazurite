@@ -281,13 +281,11 @@
       <HintPath>..\..\packages\PCLCrypto.2.0.147\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\PCLCrypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Plugin.DeviceInfo, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Acr.DeviceInfo.5.0.5\lib\netstandard1.0\Plugin.DeviceInfo.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Plugin.DeviceInfo, Version=3.1.0.57, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.DeviceInfo.3.1.0.57-beta\lib\netstandard1.0\Plugin.DeviceInfo.dll</HintPath>
     </Reference>
-    <Reference Include="Plugin.DeviceInfo.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Acr.DeviceInfo.5.0.5\lib\netstandard1.0\Plugin.DeviceInfo.Abstractions.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Plugin.DeviceInfo.Abstractions, Version=3.1.0.57, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.DeviceInfo.3.1.0.57-beta\lib\netstandard1.0\Plugin.DeviceInfo.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.Geolocator, Version=4.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xam.Plugin.Geolocator.4.1.3\lib\netstandard1.0\Plugin.Geolocator.dll</HintPath>

@@ -1,6 +1,7 @@
 ﻿using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
+using Plugin.DeviceInfo;
 using System;
 
 namespace LazuriteMobile.App
@@ -25,12 +26,10 @@ namespace LazuriteMobile.App
             {
                 var deviceInfo = new DeviceInfo();
                 deviceInfo.Name = string.Format(
-                    "[Model: {0}]; [OS: {1},{2}]; [Manufacturer: {3}]; [DeviceId: {4}]",
-                    Plugin.DeviceInfo.CrossDevice.Hardware.Model,
-                    Plugin.DeviceInfo.CrossDevice.Hardware.OperatingSystem,
-                    Plugin.DeviceInfo.CrossDevice.Hardware.OperatingSystemVersion,
-                    Plugin.DeviceInfo.CrossDevice.Hardware.Manufacturer,
-                    Plugin.DeviceInfo.CrossDevice.Hardware.DeviceId);
+                    "[Model: {0}]; [Manufacturer: {1}]; [DeviceId: {2}]",
+                    CrossDeviceInfo.Current.Model,
+                    CrossDeviceInfo.Current.Manufacturer,
+                    CrossDeviceInfo.Current.Id);
                 data.Set(deviceInfo);
             }
             catch (Exception e)
