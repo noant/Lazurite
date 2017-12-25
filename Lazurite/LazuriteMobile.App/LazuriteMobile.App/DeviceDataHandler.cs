@@ -26,9 +26,8 @@ namespace LazuriteMobile.App
             {
                 var deviceInfo = new DeviceInfo();
                 deviceInfo.Name = string.Format(
-                    "[Model: {0}]; [Manufacturer: {1}]; [DeviceId: {2}]",
+                    "[Model: {0}]; [DeviceId: {1}]",
                     CrossDeviceInfo.Current.Model,
-                    CrossDeviceInfo.Current.Manufacturer,
                     CrossDeviceInfo.Current.Id);
                 data.Set(deviceInfo);
             }
