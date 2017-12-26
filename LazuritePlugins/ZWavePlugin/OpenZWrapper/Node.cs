@@ -42,5 +42,15 @@ namespace OpenZWrapper
         public bool Failed { get; internal set; }
 
         internal bool Initialized { get; set; }
+
+        public override int GetHashCode()
+        {
+            return HomeId.GetHashCode() ^ Name.GetHashCode() ^ ProductName.GetHashCode() ^ Id.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return GetHashCode()==obj.GetHashCode();
+        }
     }
 }

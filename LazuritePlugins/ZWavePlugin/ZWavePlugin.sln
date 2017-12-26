@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZWavePlugin", "ZWavePlugin\ZWavePlugin.csproj", "{7A2BD3C4-FB70-463D-9D48-A1C052D0FB33}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenZWrapper", "OpenZWrapper\OpenZWrapper.csproj", "{D73E78B4-F53E-4ABB-8E10-E492D3B0CE15}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{C5E51E2D-F340-47B0-ACAA-F61C05C6B872}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZWPluginUI", "ZWPluginUI\ZWPluginUI.csproj", "{1DE5791D-CBAC-476B-BF7D-B40FC8E6E883}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,8 +53,19 @@ Global
 		{C5E51E2D-F340-47B0-ACAA-F61C05C6B872}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5E51E2D-F340-47B0-ACAA-F61C05C6B872}.Release|x86.ActiveCfg = Release|Any CPU
 		{C5E51E2D-F340-47B0-ACAA-F61C05C6B872}.Release|x86.Build.0 = Release|Any CPU
+		{1DE5791D-CBAC-476B-BF7D-B40FC8E6E883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DE5791D-CBAC-476B-BF7D-B40FC8E6E883}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DE5791D-CBAC-476B-BF7D-B40FC8E6E883}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1DE5791D-CBAC-476B-BF7D-B40FC8E6E883}.Debug|x86.Build.0 = Debug|Any CPU
+		{1DE5791D-CBAC-476B-BF7D-B40FC8E6E883}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DE5791D-CBAC-476B-BF7D-B40FC8E6E883}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DE5791D-CBAC-476B-BF7D-B40FC8E6E883}.Release|x86.ActiveCfg = Release|Any CPU
+		{1DE5791D-CBAC-476B-BF7D-B40FC8E6E883}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {12E92EE0-4964-4307-94F7-726EB0AB0BC1}
 	EndGlobalSection
 EndGlobal

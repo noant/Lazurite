@@ -10,8 +10,7 @@ namespace LazuriteMobile.App.Droid
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            if (!LazuriteService.Started)
-                Application.Context.StartService(new Intent(context, typeof(LazuriteService)));
+            Application.Context.StartService(new Intent(context, typeof(LazuriteService)));
         }
     }
 }

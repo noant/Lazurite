@@ -74,5 +74,15 @@ namespace OpenZWrapper
                     Value = this
                 });
         }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode() ^ Node.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj.GetHashCode() == this.GetHashCode();
+        }
     }
 }
