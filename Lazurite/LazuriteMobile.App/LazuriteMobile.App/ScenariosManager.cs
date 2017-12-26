@@ -48,7 +48,6 @@ namespace LazuriteMobile.App
         private static readonly int ScenariosManagerListenInterval_onError = GlobalSettings.Get(40000);
         private static readonly int WaitingForRefreshListenInterval = GlobalSettings.Get(120000);
         private static readonly int ScenariosManagerFullRefreshInterval = GlobalSettings.Get(10);
-        private static readonly int AddictionalDataRefreshInterval = GlobalSettings.Get(2);
         private static readonly ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
         private static readonly SaviorBase Savior = Singleton.Resolve<SaviorBase>();
@@ -222,31 +221,30 @@ namespace LazuriteMobile.App
                 if (!_succeed)
                     RecreateConnection();
                 _refreshEndingToken = new CancellationTokenSource();
-                if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || Scenarios == null)
+
+                SyncAddictionalData(success =>
                 {
-                    Refresh(success =>
+                    _succeed = success;
+                    if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || _refreshIncrement == 0 || Scenarios == null)
                     {
-                        _succeed = success;
-                        _refreshEndingToken.Cancel();
-                    });
-                }
-                else
-                {
-                    Update(success =>
+                        Refresh(success1 =>
+                        {
+                            _succeed = success1;
+                            _refreshEndingToken.Cancel();
+                        });
+                    }
+                    else
                     {
-                        _succeed = success;
+                        Update(success1 =>
+                        {
+                            _succeed = success1;
+                            _refreshEndingToken.Cancel();
+                        });
+                    }
+                    if (!success)
                         _refreshEndingToken.Cancel();
-                    });
-                }
-                if (IsMultiples(_refreshIncrement, AddictionalDataRefreshInterval))
-                {
-                    SyncAddictionalData(success =>
-                    {
-                        _succeed = success;
-                        _refreshEndingToken.Cancel();
-                    });
-                }
-                _refreshIncrement++;
+                    _refreshIncrement++;
+                });
             }
             catch (Exception e)
             {
