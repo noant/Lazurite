@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="ZWPluginUI.ControllersManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ZWPluginUI"
+             mc:Ignorable="d" 
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             d:DesignHeight="1000" d:DesignWidth="1000" Background="{x:Static controls:Visual.Background}">
+    <Grid Name="mainGrid" Background="Transparent">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <controls:CaptionView x:Name="captionTop" Grid.ColumnSpan="2" Icon="ConnectionWifiVariant">Управление контроллерами Z-Wave</controls:CaptionView>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border Margin="10" BorderThickness="2" BorderBrush="{x:Static controls:Visual.BorderBrush}"></Border>
+            <controls:WheelScroll Grid.Row="0" Margin="10">
+                <local:ControllersListView SelectionChanged="controllersListView_SelectionChanged" x:Name="controllersListView" SelectionMode="Single"></local:ControllersListView>
+            </controls:WheelScroll>
+            <Grid Grid.Row="1" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="51"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <controls:ItemView ToolTip="Если выбрано, то добавляться будет устройство HID. Иначе COM." Selectable="True" Content="HID" IconVisibility="Collapsed" x:Name="itemViewHID"></controls:ItemView>
+                <TextBox Name="tbNewControllerName"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Center"
+                         Grid.Column="1" 
+                         VerticalAlignment="Stretch"
+                         FontSize="19" 
+                         FontFamily="{x:Static controls:Visual.FontFamily}"
+                         TextChanged="tbNewControllerName_TextChanged">
+                </TextBox>
+                <controls:ItemView Click="itemViewAddNewController_Click" IsEnabled="False" Selectable="True" Width="250" Icon="Add" Content="Добавить новый контроллер" Grid.Column="2" x:Name="itemViewAddNewController"></controls:ItemView>
+            </Grid>
+            </Grid>
+                <controls:WheelScroll Margin="10" Grid.Row="1" Grid.Column="1">
+                    <StackPanel>
+                    <Grid Name="gridControlPanel">
+                        <controls:ListItemsView IsEnabled="False" SelectionMode="None" x:Name="itemsViewControllerCommands">
+                            <controls:ItemView Margin="1" Click="itemViewAddNewDevice_Click" Icon="Add" x:Name="itemViewAddNewDevice">Добавить новое устройство</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewAddNewSecureDevice_Click"  Icon="Add" x:Name="itemViewAddNewSecureDevice">Добавить новое защищенное устройство</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewRemoveDevice_Click" Icon="Cancel" x:Name="itemViewRemoveDevice">Удалить устройство</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewRefreshNetwork_Click" Icon="Refresh" x:Name="itemViewRefreshNetworkNode">Обновить устройство</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewUpdateNeighbors_Click" Icon="Diagram" x:Name="itemViewUpdateNeighbors">Обновить список соседних устройств</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewCheckNodeFailed_Click" Icon="Bug" x:Name="itemViewCheckNodeFailed">Проверить устройство</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewReplaceFailedNode_Click" Icon="Repeat" x:Name="itemViewReplaceFailedNode">Заменить неисправное устройство</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewRemoveFailedNode_Click" Icon="Delete" x:Name="itemViewRemoveFailedNode">Удалить неисправное устройство</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewHealNetwork_Click" Icon="MedicalPill" x:Name="itemViewHealNetwork">Вылечить сеть</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewTransferPrimaryRole_Click" Icon="ArrowRight" x:Name="itemViewTransferPrimaryRole">Передать роль первичного контроллера</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewCreateNewPrimaryController_Click" Icon="New" x:Name="itemViewCreateNewPrimaryController">Создать новый первичный контроллер</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewRecieveConfiguration_Click" Icon="TransitConnectionDeparture" x:Name="itemViewRecieveConfiguration">Передать конфигурацию контроллеру</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewSoftReset_Click" Icon="Reset" x:Name="itemViewSoftReset">Мягкий сброс контроллера</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewEraseAll_Click" Icon="WarningCircle" x:Name="itemViewEraseAll" Background="#882222" ToolTip="Удалит все данные об устройствах, соединенных с контроллером">Сбросить данные контроллера</controls:ItemView>
+                            <controls:ItemView Margin="1" Click="itemViewRemoveController_Click" Icon="WarningCircle" x:Name="itemViewRemoveController" Background="#882222" ToolTip="Данный контроллер перестанет быть доступным для управления">Удалить контроллер</controls:ItemView>
+                        </controls:ListItemsView>
+                    </Grid>
+                </StackPanel>
+                </controls:WheelScroll>
+            <Border Grid.Column="1" Grid.Row="1" Margin="10" BorderThickness="2" BorderBrush="{x:Static controls:Visual.BorderBrush}"></Border>
+        </Grid>
+    </Grid>
+</UserControl>

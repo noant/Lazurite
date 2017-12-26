@@ -60,6 +60,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ChangeRangeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControllersManagerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DescriptionItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -68,13 +80,32 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ChangeRangeView.xaml.cs">
+      <DependentUpon>ChangeRangeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControllersListView.cs" />
+    <Compile Include="ControllersManagerView.xaml.cs">
+      <DependentUpon>ControllersManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControllerView.cs" />
+    <Compile Include="DescriptionItemView.xaml.cs">
+      <DependentUpon>DescriptionItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GenreSelectView.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NodeValueDescriptionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NodesListView.cs" />
+    <Compile Include="NodeValueDescriptionsView.xaml.cs">
+      <DependentUpon>NodeValueDescriptionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NodeValuesListView.cs" />
     <Compile Include="NodeValueView.cs" />
     <Compile Include="NodeView.cs" />

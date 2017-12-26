@@ -14,12 +14,12 @@ namespace OpenZWrapper
 
         public override int GetHashCode()
         {
-            return Path.GetHashCode() + IsHID.GetHashCode();
+            return Path.GetHashCode() ^ IsHID.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
-            return this.GetHashCode().Equals(obj.GetHashCode());
+            return this.GetHashCode() == obj.GetHashCode();
         }
     }
 }
