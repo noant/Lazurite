@@ -42,7 +42,6 @@ namespace LazuriteMobile.App.Droid
             //A great place to initialize Xamarin.Insights and Dependency Services!
         }
 
-
         public override void OnTerminate()
         {
             base.OnTerminate();

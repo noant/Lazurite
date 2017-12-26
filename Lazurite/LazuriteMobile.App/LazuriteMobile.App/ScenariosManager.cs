@@ -44,10 +44,10 @@ namespace LazuriteMobile.App
             }
         }
 
-        private static readonly int ScenariosManagerListenInterval = GlobalSettings.Get(7500);
-        private static readonly int ScenariosManagerListenInterval_onError = GlobalSettings.Get(40000);
-        private static readonly int WaitingForRefreshListenInterval = GlobalSettings.Get(120000);
-        private static readonly int ScenariosManagerFullRefreshInterval = GlobalSettings.Get(10);
+        private static readonly int ScenariosManagerListenInterval = 12000;
+        private static readonly int ScenariosManagerListenInterval_onError = 40000;
+        private static readonly int WaitingForRefreshListenInterval = 120000;
+        private static readonly int ScenariosManagerFullRefreshInterval = 10;
         private static readonly ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
         private static readonly SaviorBase Savior = Singleton.Resolve<SaviorBase>();
@@ -67,7 +67,8 @@ namespace LazuriteMobile.App
         private bool _succeed = true;
         private int _refreshIncrement = 0;
         private CancellationTokenSource _refreshEndingToken;
-        
+        private CancellationTokenSource _syncDataEndingToken;
+
         public event Action<ScenarioInfo[]> ScenariosChanged;
         public event Action ConnectionLost;
         public event Action ConnectionRestored;
@@ -206,6 +207,8 @@ namespace LazuriteMobile.App
                 {
                     RefreshIteration();
                     //sleep while update or refresh
+                    Utils.Sleep(WaitingForRefreshListenInterval, _syncDataEndingToken.Token);
+                    //sleep while update or refresh
                     Utils.Sleep(WaitingForRefreshListenInterval, _refreshEndingToken.Token);
                     //between updates sleep
                     Utils.Sleep(_succeed ? ScenariosManagerListenInterval : ScenariosManagerListenInterval_onError, CancellationToken.None);
@@ -221,30 +224,29 @@ namespace LazuriteMobile.App
                 if (!_succeed)
                     RecreateConnection();
                 _refreshEndingToken = new CancellationTokenSource();
-
+                _syncDataEndingToken = new CancellationTokenSource();
                 SyncAddictionalData(success =>
                 {
                     _succeed = success;
-                    if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || _refreshIncrement == 0 || Scenarios == null)
-                    {
-                        Refresh(success1 =>
-                        {
-                            _succeed = success1;
-                            _refreshEndingToken.Cancel();
-                        });
-                    }
-                    else
-                    {
-                        Update(success1 =>
-                        {
-                            _succeed = success1;
-                            _refreshEndingToken.Cancel();
-                        });
-                    }
-                    if (!success)
-                        _refreshEndingToken.Cancel();
-                    _refreshIncrement++;
+                    _syncDataEndingToken.Cancel();
                 });
+                if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || _refreshIncrement == 0 || Scenarios == null)
+                {
+                    Refresh(success =>
+                    {
+                        _succeed = success;
+                        _refreshEndingToken.Cancel();
+                    });
+                }
+                else
+                {
+                    Update(success =>
+                    {
+                        _succeed = success;
+                        _refreshEndingToken.Cancel();
+                    });
+                }
+                _refreshIncrement++;
             }
             catch (Exception e)
             {
