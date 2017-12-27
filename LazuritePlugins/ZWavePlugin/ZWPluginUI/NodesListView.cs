@@ -26,6 +26,8 @@ namespace ZWPluginUI
                 var obj = this.GetItems().FirstOrDefault(x => ((NodeView)x).Node.Equals(value));
                 if (obj != null)
                     obj.Selected = true;
+                else
+                    this.GetItems().All(x => x.Selected = false);
             }
         }
 

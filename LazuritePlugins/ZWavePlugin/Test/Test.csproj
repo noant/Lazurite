@@ -106,9 +106,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenZWrapper\OpenZWrapper.csproj">
+      <Project>{D73E78B4-F53E-4ABB-8E10-E492D3B0CE15}</Project>
+      <Name>OpenZWrapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ZWavePlugin\ZWavePlugin.csproj">
       <Project>{7A2BD3C4-FB70-463D-9D48-A1C052D0FB33}</Project>
       <Name>ZWavePlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ZWPluginUI\ZWPluginUI.csproj">
+      <Project>{1de5791d-cbac-476b-bf7d-b40fc8e6e883}</Project>
+      <Name>ZWPluginUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,14 +8,15 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>ZWPluginUI</RootNamespace>
     <AssemblyName>ZWPluginUI</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -72,6 +73,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GenreSelectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -91,11 +96,17 @@
     <Compile Include="DescriptionItemView.xaml.cs">
       <DependentUpon>DescriptionItemView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GenreSelectView.cs" />
+    <Compile Include="GenreSelectView.xaml.cs">
+      <DependentUpon>GenreSelectView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NodesMainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NodeValueDescriptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -103,6 +114,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NodesListView.cs" />
+    <Compile Include="NodesMainView.xaml.cs">
+      <DependentUpon>NodesMainView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NodeValueDescriptionsView.xaml.cs">
       <DependentUpon>NodeValueDescriptionsView.xaml</DependentUpon>
     </Compile>

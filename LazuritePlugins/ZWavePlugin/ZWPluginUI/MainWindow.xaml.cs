@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenZWrapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,12 @@ namespace ZWPluginUI
         {
             InitializeComponent();
         }
+
+        public void RefreshWith(ZWaveManager manager, NodeValue nodeValue = null)
+        {
+            mainView.RefreshWith(manager, nodeValue);
+        }
+
+        public NodeValue GetSelectedNodeValue() => mainView.SelectedNodeValue;
     }
 }

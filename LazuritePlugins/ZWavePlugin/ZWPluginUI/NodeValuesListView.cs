@@ -26,6 +26,23 @@ namespace ZWPluginUI
                 var nodeValueView = GetItems().Cast<NodeValueView>().FirstOrDefault(x => x.NodeValue.Equals(value));
                 if (nodeValueView != null)
                     nodeValueView.Selected = true;
+                else
+                    GetItems().All(x => x.Selected = false);
+            }
+        }
+
+        private ValueGenre? _genre = null;
+        public ValueGenre? SelectedGenre
+        {
+            get
+            {
+                return _genre;
+            }
+            set
+            {
+                _genre = value;
+                foreach (NodeValueView item in this.GetItems())
+                    item.Visibility = _genre == item.NodeValue.Genre || _genre == null ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
             }
         }
 
@@ -36,6 +53,7 @@ namespace ZWPluginUI
             foreach (var nodeValue in node.Values)
                 this.Children.Add(new NodeValueView(nodeValue));
             SelectedNodeValue = selected;
+            SelectedGenre = SelectedGenre; //crutch
         }
     }
 }

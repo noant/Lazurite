@@ -12,17 +12,19 @@ namespace Test
     /// </summary>
     public partial class MainWindow : Window
     {
-        ZWaveNodeValue B;
-
         public MainWindow()
         {
             InitializeComponent();
             Singleton.Add(new DataManagerStub());
-            var b = new ZWaveNodeValue();
-            b.UserInitializeWith(null, false);
-            b.ValueChanged += B_ValueChanged;
-            B = b;
-            b.UserInitializeWith(null, false);
+            //var b = new ZWaveNodeValue();
+            //b.UserInitializeWith(null, false);
+            //b.ValueChanged += B_ValueChanged;
+            //B = b;
+            //b.UserInitializeWith(null, false);
+
+            var window = new ZWPluginUI.MainWindow();
+            window.RefreshWith(ZWaveManager.Current);
+            window.Show();
         }
 
         private void B_ValueChanged(Lazurite.ActionsDomain.IAction action, string value)
@@ -58,7 +60,6 @@ namespace Test
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            B.SetValue(null, "TRUE");
         }
     }
 }

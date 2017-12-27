@@ -4,18 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ZWPluginUI"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"  
+             Height="585"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             d:DesignHeight="1000" d:DesignWidth="1000" Background="{x:Static controls:Visual.Background}">
+             Background="{x:Static controls:Visual.Background}">
     <Grid Name="mainGrid" Background="Transparent">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="330"></ColumnDefinition>
+            <ColumnDefinition Width="330"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <controls:CaptionView x:Name="captionTop" Grid.ColumnSpan="2" Icon="ConnectionWifiVariant">Управление контроллерами Z-Wave</controls:CaptionView>
         <Grid Grid.Row="1">
@@ -26,25 +28,7 @@
             <Border Margin="10" BorderThickness="2" BorderBrush="{x:Static controls:Visual.BorderBrush}"></Border>
             <controls:WheelScroll Grid.Row="0" Margin="10">
                 <local:ControllersListView SelectionChanged="controllersListView_SelectionChanged" x:Name="controllersListView" SelectionMode="Single"></local:ControllersListView>
-            </controls:WheelScroll>
-            <Grid Grid.Row="1" Margin="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="51"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <controls:ItemView ToolTip="Если выбрано, то добавляться будет устройство HID. Иначе COM." Selectable="True" Content="HID" IconVisibility="Collapsed" x:Name="itemViewHID"></controls:ItemView>
-                <TextBox Name="tbNewControllerName"
-                         VerticalContentAlignment="Center"
-                         HorizontalContentAlignment="Center"
-                         Grid.Column="1" 
-                         VerticalAlignment="Stretch"
-                         FontSize="19" 
-                         FontFamily="{x:Static controls:Visual.FontFamily}"
-                         TextChanged="tbNewControllerName_TextChanged">
-                </TextBox>
-                <controls:ItemView Click="itemViewAddNewController_Click" IsEnabled="False" Selectable="True" Width="250" Icon="Add" Content="Добавить новый контроллер" Grid.Column="2" x:Name="itemViewAddNewController"></controls:ItemView>
-            </Grid>
+            </controls:WheelScroll>            
             </Grid>
                 <controls:WheelScroll Margin="10" Grid.Row="1" Grid.Column="1">
                     <StackPanel>
@@ -70,6 +54,24 @@
                 </StackPanel>
                 </controls:WheelScroll>
             <Border Grid.Column="1" Grid.Row="1" Margin="10" BorderThickness="2" BorderBrush="{x:Static controls:Visual.BorderBrush}"></Border>
-        </Grid>
+            <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="51"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <controls:ItemView ToolTip="Если выбрано, то добавляться будет устройство HID. Иначе COM." Selectable="True" Content="HID" IconVisibility="Collapsed" x:Name="itemViewHID"></controls:ItemView>
+                <TextBox Name="tbNewControllerName"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Center"
+                         Grid.Column="1" 
+                         VerticalAlignment="Stretch"
+                         FontSize="19" 
+                         FontFamily="{x:Static controls:Visual.FontFamily}"
+                         TextChanged="tbNewControllerName_TextChanged">
+                </TextBox>
+                <controls:ItemView Click="itemViewAddNewController_Click" IsEnabled="False" Selectable="True" Width="250" Icon="Add" Content="Добавить новый контроллер" Grid.Column="2" x:Name="itemViewAddNewController"></controls:ItemView>
+            </Grid>
+        </Grid>        
     </Grid>
 </UserControl>

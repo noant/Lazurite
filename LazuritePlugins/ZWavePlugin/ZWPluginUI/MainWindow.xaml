@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZWPluginUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Width="1000"
+        Height="700"
+        Title="Z-Wave">
     <Grid>
-        
+        <local:NodesMainView x:Name="mainView"></local:NodesMainView>
     </Grid>
 </Window>

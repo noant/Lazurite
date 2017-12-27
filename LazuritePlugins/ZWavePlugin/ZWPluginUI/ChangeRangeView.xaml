@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             xmlns:local="clr-namespace:ZWavePluginUI"
+             xmlns:local="clr-namespace:ZWPluginUI"
              mc:Ignorable="d" 
              Width="350"
              Background="{x:Static controls:Visual.Background}">

@@ -71,10 +71,6 @@
       <Project>{d73e78b4-f53e-4abb-8e10-e492d3b0ce15}</Project>
       <Name>OpenZWrapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ZWavePluginUI\ZWavePluginUI.csproj">
-      <Project>{21c05dd0-faef-43a2-9f8c-c5ad2b19b4ec}</Project>
-      <Name>ZWavePluginUI</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="CreatePypFileAndCopy.bat">

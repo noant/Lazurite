@@ -29,6 +29,11 @@ namespace ZWPluginUI
 
         private NodeValue _nodeValue;
 
+        public void Refresh()
+        {
+            RefreshWith(_nodeValue);
+        }
+
         public void RefreshWith(NodeValue nodeValue)
         {
             stackPanel.Children.Clear();
