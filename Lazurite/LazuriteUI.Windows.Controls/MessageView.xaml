@@ -12,14 +12,14 @@
     <Grid>
         <Grid Background="Black" Opacity="0.5" Name="gridBackground"></Grid>
         <Grid Name="mainContent">
-            <Grid Background="{x:Static local:Visual.Background}" VerticalAlignment="Center" MinHeight="200" MaxHeight="600" Width="Auto" MaxWidth="600" MinWidth="200">
+            <Grid x:Name="gridSizable" Background="{x:Static local:Visual.Background}" VerticalAlignment="Center" HorizontalAlignment="Center" MinHeight="200" MaxHeight="600" Width="Auto" MaxWidth="1900" MinWidth="500">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <local:CaptionView x:Name="captionView" IconVisibility="Collapsed"></local:CaptionView>
-                <Grid Grid.Row="1">
+                <Grid x:Name="gridRow1" Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="70"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -28,7 +28,7 @@
                     <local:IconView Icon="Question" x:FieldModifier="private" x:Name="iconView" Height="50" Width="50" Visibility="Visible"></local:IconView>
                     <TextBlock Style="{DynamicResource TextBlockStyle}" x:FieldModifier="private" Name="tbText" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Margin="0,10,0,10">123</TextBlock>
                 </Grid>
-                <Grid Grid.Row="2">
+                <Grid x:Name="gridRow2" Grid.Row="2">
                     <local:ListItemsView x:FieldModifier="private" x:Name="itemsView" Margin="10" HorizontalAlignment="Right" Orientation="Horizontal" SelectionMode="None">
                     </local:ListItemsView>
                 </Grid>

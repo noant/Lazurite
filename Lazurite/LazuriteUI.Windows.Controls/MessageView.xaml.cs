@@ -42,12 +42,15 @@ namespace LazuriteUI.Windows.Controls
             Show(parent);
         }
 
-        public void ShowInNewWindow(Action shownCallback = null)
+        public void ShowInNewWindow(Action shownCallback = null, int width = 500, bool showDialog=false)
         {
             var window = new Window();
             window.Name = "messageView";
-            window.Height = 190;
-            window.Width = 500;
+            window.Height = 200;
+            window.MinWidth = width;
+            window.Width = width;
+            gridSizable.MinWidth = width;
+            gridSizable.Width = width;
             window.WindowStyle = WindowStyle.None;
             window.ResizeMode = ResizeMode.NoResize;
             window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -58,7 +61,10 @@ namespace LazuriteUI.Windows.Controls
             window.Content = new Grid();
             _window = window;
             Show(window.Content as Grid);
-            window.Show();
+            if (showDialog)
+                window.ShowDialog();
+            else
+                window.Show();
         }
 
         public void Close()
@@ -76,7 +82,7 @@ namespace LazuriteUI.Windows.Controls
                         if (!_tempDisabledElements.Contains(element))
                             element.IsEnabled = true;
                     }
-                ((Panel)Parent).Children.Remove(this);
+                    ((Panel)Parent).Children.Remove(this);
                 }));
             }
         }
