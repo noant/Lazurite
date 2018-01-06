@@ -50,7 +50,7 @@ namespace OpenZWrapper
 
         public override bool Equals(object obj)
         {
-            return GetHashCode()==obj.GetHashCode();
+            return GetHashCode() == obj?.GetHashCode();
         }
     }
 }

@@ -72,6 +72,7 @@
     </Compile>
     <Compile Include="EntryView.cs" />
     <Compile Include="ISelectable.cs" />
+    <Compile Include="ItemView.cs" />
     <Compile Include="ItemViewLE.xaml.cs">
       <DependentUpon>ItemViewLE.xaml</DependentUpon>
     </Compile>
@@ -110,10 +111,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ItemView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ItemViewLE.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -128,9 +125,6 @@
     </Compile>
     <Compile Include="IconView.xaml.cs">
       <DependentUpon>IconView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ItemView.xaml.cs">
-      <DependentUpon>ItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SelectionChangedEventArgs.cs" />
     <Compile Include="ListItemsViewSelectionChangedEventArgs.cs" />

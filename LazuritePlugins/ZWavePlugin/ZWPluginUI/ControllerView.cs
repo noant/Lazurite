@@ -12,10 +12,9 @@ namespace ZWPluginUI
     {
         public ControllerView(Controller controller, ZWaveManager manager)
         {
-            InitializeComponent();
             Controller = controller;
             var node = manager.GetControllerNode(controller);
-            this.Content = string.Format("{0} ({1})", node.ProductName, controller.Path);
+            this.Content = string.Format("{0} ({1})", node?.ProductName ?? "[название загружается]", controller.Path);
             if (controller.IsHID)
                 this.Icon = LazuriteUI.Icons.Icon.UsbDrive;
             else

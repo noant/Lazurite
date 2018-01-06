@@ -20,7 +20,7 @@ namespace ZWPluginUI
     /// <summary>
     /// Логика взаимодействия для NodeValueDescriptionsView.xaml
     /// </summary>
-    public partial class NodeValueDescriptionsView : UserControl
+    public partial class NodeValueDescriptionsView : Grid
     {
         public NodeValueDescriptionsView()
         {
@@ -53,7 +53,9 @@ namespace ZWPluginUI
                     {
                         AddDescription("Возможные значения", string.Format("Минимум: {0}\r\nМаксимум: {1}\r\n{2}", _nodeValue.Min, _nodeValue.Max, _nodeValue.Unit));
                         var changeRangeButton = new ItemView();
+                        changeRangeButton.Margin = new Thickness(0,0,0,1);
                         changeRangeButton.Icon = LazuriteUI.Icons.Icon.MathPlusMinus;
+                        changeRangeButton.Background = LazuriteUI.Windows.Controls.Visual.BrightItemBackground;
                         changeRangeButton.Content = "Изменить максимум и минимум";
                         changeRangeButton.Click += (o, e) => {
                             ChangeRangeView.Show(_nodeValue.Min, _nodeValue.Max,
@@ -65,7 +67,7 @@ namespace ZWPluginUI
                                 },
                                 Window.GetWindow(this).Content as Grid);
                         };
-                        stackPanel.Children.Add(changeRangeButton);
+                        AddControl(changeRangeButton);
                     }
                     break;
                 case OpenZWrapper.ValueType.List:
@@ -77,7 +79,12 @@ namespace ZWPluginUI
 
         private void AddDescription(string caption, string description)
         {
-            stackPanel.Children.Add(new DescriptionItemView(caption, description));
+            AddControl(new DescriptionItemView(caption, description));
+        }
+
+        private void AddControl(FrameworkElement element)
+        {
+            this.stackPanel.Children.Add(element);
         }
     }
 }

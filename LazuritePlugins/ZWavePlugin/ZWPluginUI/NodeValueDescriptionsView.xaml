@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ZWPluginUI.NodeValueDescriptionsView"
+﻿<Grid x:Class="ZWPluginUI.NodeValueDescriptionsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,8 +6,10 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              xmlns:local="clr-namespace:ZWPluginUI"
              mc:Ignorable="d" 
+             HorizontalAlignment="Stretch"
+             Width="350"
              d:DesignHeight="300" d:DesignWidth="300">
-    <controls:WheelScroll>
-        <StackPanel x:Name="stackPanel" />
+    <controls:WheelScroll HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <StackPanel x:Name="stackPanel"></StackPanel>
     </controls:WheelScroll>
-</UserControl>
+</Grid>

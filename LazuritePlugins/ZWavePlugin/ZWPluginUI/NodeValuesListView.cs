@@ -46,12 +46,12 @@ namespace ZWPluginUI
             }
         }
 
-        public void RefreshWith(Node node)
+        public void RefreshWith(Node node, Func<NodeValue, bool> comparability)
         {
             var selected = SelectedNodeValue;
             this.Children.Clear();
-            foreach (var nodeValue in node.Values)
-                this.Children.Add(new NodeValueView(nodeValue));
+            foreach (var nodeValue in node.Values.OrderBy(x=>x.Genre))
+                this.Children.Add(new NodeValueView(nodeValue, comparability));
             SelectedNodeValue = selected;
             SelectedGenre = SelectedGenre; //crutch
         }

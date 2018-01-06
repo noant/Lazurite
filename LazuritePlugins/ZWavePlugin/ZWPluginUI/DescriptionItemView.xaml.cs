@@ -18,14 +18,18 @@ namespace ZWPluginUI
     /// <summary>
     /// Логика взаимодействия для DescriptionItemView.xaml
     /// </summary>
-    public partial class DescriptionItemView : UserControl
+    public partial class DescriptionItemView : Grid
     {
         public DescriptionItemView(string caption, string description)
         {
             InitializeComponent();
 
-            this.lblCaption.Content = caption+" >>";
+            this.lblCaption.Content = caption + " >>";
+            this.lblCaption.ToolTip = caption;
             this.tbText.Text = description;
+            this.tbText.ToolTip = description;
+            if (string.IsNullOrEmpty(description))
+                this.Visibility = Visibility.Collapsed;
         }
     }
 }

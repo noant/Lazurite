@@ -24,11 +24,14 @@ namespace ZWPluginUI
         public MainWindow()
         {
             InitializeComponent();
+
+            mainView.ButtonApply.Click += (o, e) => this.DialogResult = true;
+            mainView.ButtonCancel.Click += (o, e) => this.DialogResult = false;
         }
 
-        public void RefreshWith(ZWaveManager manager, NodeValue nodeValue = null)
+        public void RefreshWith(ZWaveManager manager, NodeValue selected = null, Func<NodeValue, bool> comparability = null)
         {
-            mainView.RefreshWith(manager, nodeValue);
+            mainView.RefreshWith(manager, selected, comparability);
         }
 
         public NodeValue GetSelectedNodeValue() => mainView.SelectedNodeValue;

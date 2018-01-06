@@ -11,8 +11,9 @@ namespace ZWPluginUI
 {
     public class NodeValueView: ItemView
     {
-        public NodeValueView(NodeValue value)
+        public NodeValueView(NodeValue value, Func<NodeValue,bool> isComparable)
         {
+            NodeValue = value;
             switch (NodeValue.ValueType)
             {
                 case OpenZWrapper.ValueType.Bool:
@@ -38,18 +39,20 @@ namespace ZWPluginUI
             switch (NodeValue.Genre)
             {
                 case ValueGenre.Basic:
-                    Background = Brushes.CadetBlue;
+                    Background = new SolidColorBrush(Color.FromRgb(25, 35 ,25));
                     break;
                 case ValueGenre.User:
-                    Background = Brushes.MediumOrchid;
+                    Background = new SolidColorBrush(Color.FromRgb(25, 25, 35));
                     break;
                 case ValueGenre.Config:
-                    Background = Brushes.OliveDrab;
+                    Background = new SolidColorBrush(Color.FromRgb(35, 25, 35));
                     break;
             }
 
-            this.Content = NodeValue.Name;
+            this.IsEnabled = isComparable?.Invoke(NodeValue) ?? true;
+            this.Content = NodeValue.Name.Length > 40 ? NodeValue.Name.Substring(0, 37) + "..." : NodeValue.Name;
             this.ToolTip = string.Format("{0} (ID={1})", NodeValue.Name, NodeValue.Id);
+            this.Margin = new System.Windows.Thickness(1);
         }
 
         public NodeValue NodeValue { get; private set; }

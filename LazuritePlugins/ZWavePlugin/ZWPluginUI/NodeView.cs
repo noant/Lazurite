@@ -21,11 +21,13 @@ namespace ZWPluginUI
             if (node.ProductName.ToLower().Contains("light"))
                 this.Icon = LazuriteUI.Icons.Icon.LightbulbHueOn;
             if (node.ProductName.ToLower().Contains("sensor"))
-                this.Icon = LazuriteUI.Icons.Icon.ManSensor;
-
-            this.Content = Node.ProductName;
+                this.Icon = LazuriteUI.Icons.Icon.ManSensor;            
+            var caption = Node.ProductName;
             if (Node.Failed)
-                this.Content = string.Format("id {0}; node failed;", Node.Id);
+                caption = string.Format("id {0}; node failed;", Node.Id);
+            caption = caption.Length > 40 ? caption.Substring(0, 37) + "..." : caption;
+            this.Content = caption;
+            this.Margin = new System.Windows.Thickness(1);
         }
 
         public Node Node { get; private set; }

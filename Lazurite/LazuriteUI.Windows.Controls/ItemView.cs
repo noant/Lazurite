@@ -1,6 +1,7 @@
 ﻿using LazuriteUI.Icons;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -23,8 +24,9 @@ namespace LazuriteUI.Windows.Controls
 
         static ItemView()
         {
-            IconVisibilityProperty = DependencyProperty.Register(nameof(IconVisibility), typeof(Visibility), typeof(ItemView), new FrameworkPropertyMetadata() {
-                PropertyChangedCallback = (o,e) =>
+            IconVisibilityProperty = DependencyProperty.Register(nameof(IconVisibility), typeof(Visibility), typeof(ItemView), new FrameworkPropertyMetadata()
+            {
+                PropertyChangedCallback = (o, e) =>
                 {
                     ((ItemView)o).iconView.Visibility = (Visibility)e.NewValue;
                 }
@@ -79,7 +81,7 @@ namespace LazuriteUI.Windows.Controls
                     itemView.iconView.VerticalAlignment = value;
                 }
             });
-            IconHorizontalAligmentProperty = DependencyProperty.Register(nameof(IconHorizontalAligment), typeof(HorizontalAlignment), typeof(ItemView), new FrameworkPropertyMetadata()
+            IconHorizontalAligmentProperty = DependencyProperty.Register(nameof(IconHorizontalAligment), typeof(HorizontalAlignment), typeof(ItemView), new FrameworkPropertyMetadata(HorizontalAlignment.Left)
             {
                 PropertyChangedCallback = (o, e) =>
                 {
@@ -107,6 +109,11 @@ namespace LazuriteUI.Windows.Controls
             });
         }
 
+        private Button button;
+        private Label label;
+        private IconView iconView;
+        private Grid backView;
+
         public ItemView()
         {
             InitializeComponent();
@@ -120,6 +127,63 @@ namespace LazuriteUI.Windows.Controls
                 else
                     this.label.Visibility = Visibility.Visible;
             };
+        }
+
+        private void InitializeComponent()
+        {
+            Resources = new ResourceDictionary() { Source = new System.Uri("/LazuriteUI.Windows.Controls;component/Styles/Styles.xaml", System.UriKind.Relative ) };
+            
+            Height = 30;
+            Background = Visual.ItemBackground;
+            IsHitTestVisible = true;
+            Focusable = true;
+            FocusManager.SetFocusedElement(this, button);
+            Width = double.NaN;
+
+            var grid = new Grid();
+
+            button = new Button()
+            {
+                Name = "button",
+                VerticalAlignment = VerticalAlignment.Stretch,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Style = (Style)FindResource("ItemButtonStyle")
+            };
+
+            label = new Label()
+            {
+                IsHitTestVisible = false,
+                Background = Brushes.Transparent,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Name = "label",
+                Style = (Style)FindResource("LabelStyle")
+            };
+
+            iconView = new IconView()
+            {
+                IsHitTestVisible = false,
+                Name = "iconView",
+                Margin = new Thickness(4),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            iconView.SetBinding(IconView.VisibilityProperty, new Binding("IconVisibility"));
+
+            backView = new Grid()
+            {
+                Visibility = Visibility.Collapsed,
+                Name = "backView",
+                Background = Brushes.SteelBlue
+            };
+
+            grid.Children.Add(backView);
+            grid.Children.Add(label);
+            grid.Children.Add(iconView);
+
+            button.Content = grid;
+
+            base.Content = button;
         }
 
         protected override void OnGotFocus(RoutedEventArgs e)
@@ -237,7 +301,7 @@ namespace LazuriteUI.Windows.Controls
         }
 
         public event RoutedEventHandler Click;
-        
+
         public event RoutedEventHandler SelectionChanged;
     }
 }

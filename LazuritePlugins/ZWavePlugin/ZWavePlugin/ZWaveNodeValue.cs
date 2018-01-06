@@ -5,6 +5,7 @@ using LazuriteUI.Icons;
 using OpenZWrapper;
 using System;
 using System.Linq;
+using ZWPluginUI;
 
 namespace ZWavePlugin
 {
@@ -124,30 +125,23 @@ namespace ZWavePlugin
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValueTypes)
         {
-            //ValueType = valueType;
-            //var manager = ZWaveManager.Current;
-            //var parameterSelectView = new NodesValuesComplexView();
-            //parameterSelectView.AllowChangeRange = true;
-            //parameterSelectView.InitializeWith(
-            //    manager, 
-            //    _nodeValue?.Node, 
-            //    _nodeValue, 
-            //    (nodeValue) => ZWaveTypeComparability.IsTypesComparable(nodeValue, valueType, inheritsSupportedValueTypes));
-            //var window = new ZWaveSelectionWindow(manager);
-            //window.SetPrimaryControl(parameterSelectView);
-            //if (window.ShowDialog() ?? false)
-            //{
-            //    if (_nodeValue != null)
-            //        _nodeValue.Changed -= NodeValue_Changed;
-            //    _nodeValue = parameterSelectView.SelectedNodeValue;
-            //    NodeId = _nodeValue.Node.Id;
-            //    HomeId = _nodeValue.Node.HomeId;
-            //    ValueId = _nodeValue.Id;
-            //    ValueType = ZWaveTypeComparability.CreateValueTypeFromNodeValue(_nodeValue);
-            //    _nodeValue.Changed += NodeValue_Changed;
-            //    return true;
-            //}
-            /*else*/ return false;
+            ValueType = valueType;
+            var manager = ZWaveManager.Current;
+            var window = new MainWindow();
+            window.RefreshWith(manager, _nodeValue, (nodeValue) => ZWaveTypeComparability.IsTypesComparable(nodeValue, valueType, inheritsSupportedValueTypes));
+            if (window.ShowDialog() ?? false)
+            {
+                if (_nodeValue != null)
+                    _nodeValue.Changed -= NodeValue_Changed;
+                _nodeValue = window.GetSelectedNodeValue();
+                NodeId = _nodeValue.Node.Id;
+                HomeId = _nodeValue.Node.HomeId;
+                ValueId = _nodeValue.Id;
+                ValueType = ZWaveTypeComparability.CreateValueTypeFromNodeValue(_nodeValue);
+                _nodeValue.Changed += NodeValue_Changed;
+                return true;
+            }
+            else return false;
         }
     }
 }

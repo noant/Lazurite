@@ -82,7 +82,7 @@ namespace OpenZWrapper
 
         public override bool Equals(object obj)
         {
-            return obj.GetHashCode() == this.GetHashCode();
+            return obj?.GetHashCode() == this.GetHashCode();
         }
     }
 }

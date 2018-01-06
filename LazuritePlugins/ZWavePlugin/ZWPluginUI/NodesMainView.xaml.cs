@@ -26,7 +26,7 @@ namespace ZWPluginUI
         {
             InitializeComponent();
             nodesListView.SelectionChanged += (o, e) => {
-                nodesValuesListView.RefreshWith(nodesListView.SelectedNode);
+                nodesValuesListView.RefreshWith(nodesListView.SelectedNode, _comparability);
                 UpdateControls();
             };
             genreSelectView.SelectedGenreChanged += (o, e) => {
@@ -41,18 +41,18 @@ namespace ZWPluginUI
             btControllers.Click += (o, e) => {
                 ControllersManagerView.Show(_manager, this.gridExternalContent, Refresh);
             };
-            
             btRefresh.Click += (o, e) => Refresh();
             UpdateControls();
         }
 
         private ZWaveManager _manager;
-
+        private Func<NodeValue, bool> _comparability;
         public NodeValue SelectedNodeValue { get; private set; }
         
-        public void RefreshWith(ZWaveManager manager, NodeValue selectedValue = null)
+        public void RefreshWith(ZWaveManager manager, NodeValue selectedValue = null, Func<NodeValue, bool> comparability = null)
         {
             _manager = manager;
+            _comparability = comparability;
             SelectedNodeValue = selectedValue;
             if (_manager.State == ZWaveManagerState.None)
                 _manager.Initialize();
@@ -73,7 +73,6 @@ namespace ZWPluginUI
             }
             if (_manager.State == ZWaveManagerState.Initialized)
                 Refresh();
-
             if(!_manager.GetControllers().Any())
                 ControllersManagerView.Show(_manager, this.gridExternalContent, Refresh);
         }
@@ -85,6 +84,6 @@ namespace ZWPluginUI
             nodesValuesListView.SelectedNodeValue = SelectedNodeValue;
         }
 
-        private void UpdateControls() => btApply.IsEnabled = nodesValuesListView.SelectedItem != null;
+        private void UpdateControls() => ButtonApply.IsEnabled = nodesValuesListView.SelectedItem != null;
     }
 }

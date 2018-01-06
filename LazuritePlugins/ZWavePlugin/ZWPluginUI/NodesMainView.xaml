@@ -12,9 +12,9 @@
              >
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -25,20 +25,20 @@
         <controls:CaptionView Grid.ColumnSpan="3" Icon="HomeEmpty">Устройства Z-Wave</controls:CaptionView>
         <controls:ItemView x:Name="btControllers" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="253,0,0,0" Icon="Settings" Width="160" VerticalAlignment="Center" Height="30" ToolTip="Настройки контроллеров">Контроллеры</controls:ItemView>
         <controls:ItemView Grid.ColumnSpan="3" x:Name="btRefresh" HorizontalAlignment="Left" Margin="220,0,0,0" Icon="Refresh" Width="30" VerticalAlignment="Center" Height="30" ToolTip="Обновить список узлов">Обновить</controls:ItemView>
-        <Label VerticalContentAlignment="Center" Grid.Row="1" Background="{x:Static controls:Visual.BackgroundLazurite}" Foreground="SteelBlue">Узлы</Label>
-        <Label VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="1" Background="#223355" Foreground="SteelBlue">Параметры выбранного узла</Label>
-        <local:GenreSelectView Opacity="0.5" Width="120" HorizontalAlignment="Right" Height="30" Grid.Row="1" Grid.Column="1" x:Name="genreSelectView"></local:GenreSelectView>
-        <Label VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="2" Background="{x:Static controls:Visual.BackgroundLazurite}" Foreground="SteelBlue">Описание</Label>
-        <controls:WheelScroll Grid.Row="2" >
+        <Label Margin="5,5,5,0" VerticalContentAlignment="Center" Grid.Row="1" Background="{x:Static controls:Visual.BackgroundLazurite}" Foreground="SteelBlue">Узлы</Label>
+        <Label Margin="0,5,5,0" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="1" Background="#223355" Foreground="SteelBlue">Параметры выбранного узла</Label>
+        <local:GenreSelectView Margin="5,5,5,0" Opacity="0.5" Width="120" HorizontalAlignment="Right" Height="27" Grid.Row="1" Grid.Column="1" x:Name="genreSelectView"></local:GenreSelectView>
+        <Label Margin="0,5,5,0" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="2" Background="{x:Static controls:Visual.BackgroundLazurite}" Foreground="SteelBlue">Описание</Label>
+        <controls:WheelScroll Margin="5" Grid.Row="2">
             <local:NodesListView Background="{x:Static controls:Visual.Background}" x:Name="nodesListView"></local:NodesListView>
         </controls:WheelScroll>
-        <controls:WheelScroll Grid.Row="2" Grid.Column="1" >
+        <controls:WheelScroll Margin="0,5,5,5" Grid.Row="2" Grid.Column="1">
             <local:NodeValuesListView Background="#112233" x:Name="nodesValuesListView"></local:NodeValuesListView>
         </controls:WheelScroll>
-        <local:NodeValueDescriptionsView Grid.Row="2" Grid.Column="2" x:Name="descriptionView"></local:NodeValueDescriptionsView>
+        <local:NodeValueDescriptionsView Margin="0,5,5,5" Grid.Row="2" Grid.Column="2" x:Name="descriptionView"></local:NodeValueDescriptionsView>
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="4" Margin="5" Grid.ColumnSpan="3">
-            <controls:ItemView Width="150" x:Name="btApply" Icon="Check">Применить</controls:ItemView>
-            <controls:ItemView Width="150" x:Name="btCancel" Icon="Cancel" Margin="5,0,0,0">Отмена</controls:ItemView>
+            <controls:ItemView Width="150" x:Name="ButtonApply" Icon="Check">Применить</controls:ItemView>
+            <controls:ItemView Width="150" x:Name="ButtonCancel" Icon="Cancel" Margin="5,0,0,0">Отмена</controls:ItemView>
         </StackPanel>
         <Grid Grid.RowSpan="4" Grid.ColumnSpan="3" x:Name="gridExternalContent"></Grid>
     </Grid>

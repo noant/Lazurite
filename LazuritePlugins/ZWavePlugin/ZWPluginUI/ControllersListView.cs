@@ -12,11 +12,13 @@ namespace ZWPluginUI
     {
         public void RefreshWith(Controller[] controllers, ZWaveManager manager)
         {
-            var selected = this.SelectedController;
-            Children.Clear();
-            foreach (var controller in controllers)
-                this.Children.Add(new ControllerView(controller, manager));
-            this.SelectedController = selected;
+            this.Dispatcher.BeginInvoke(new Action(() => {
+                var selected = this.SelectedController;
+                Children.Clear();
+                foreach (var controller in controllers)
+                    this.Children.Add(new ControllerView(controller, manager));
+                this.SelectedController = selected;
+            }));
         }
 
         public Controller SelectedController
