@@ -19,7 +19,11 @@ namespace ZWPluginUI
                 this.Icon = LazuriteUI.Icons.Icon.UsbDrive;
             else
                 this.Icon = LazuriteUI.Icons.Icon.ChevronRight;
-            this.IsEnabled = !controller.Failed;
+            if (controller.Failed)
+            {
+                this.Content = this.Content.ToString() + " (?)";
+                this.ToolTip = "Возможны неполадки";
+            }
         }
 
         public Controller Controller { get; private set; }
