@@ -39,10 +39,10 @@ namespace ZWPluginUI
             switch (NodeValue.Genre)
             {
                 case ValueGenre.Basic:
-                    Background = new SolidColorBrush(Color.FromRgb(25, 35 ,25));
+                    Background = new SolidColorBrush(Color.FromRgb(25, 35, 25));
                     break;
                 case ValueGenre.User:
-                    Background = new SolidColorBrush(Color.FromRgb(25, 25, 35));
+                    Background = new SolidColorBrush(Color.FromRgb(32, 25, 42));
                     break;
                 case ValueGenre.Config:
                     Background = new SolidColorBrush(Color.FromRgb(35, 25, 35));

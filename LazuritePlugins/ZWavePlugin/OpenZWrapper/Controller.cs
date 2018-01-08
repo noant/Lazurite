@@ -12,6 +12,8 @@ namespace OpenZWrapper
         public bool IsHID { get; set; }
         internal uint HomeID { get; set; }
 
+        public bool Failed { get; set; }
+
         public override int GetHashCode()
         {
             return Path.GetHashCode() ^ IsHID.GetHashCode();

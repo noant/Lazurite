@@ -16,10 +16,14 @@ namespace Test
         {
             InitializeComponent();
             Singleton.Add(new DataManagerStub());
-            var b = new ZWaveNodeValue();
-            b.UserInitializeWith(null, false);
-            b.ValueChanged += B_ValueChanged;
-            b.UserInitializeWith(b.ValueType, false);
+
+            while (true)
+            {
+                var b = new ZWaveNodeValue();
+                b.UserInitializeWith(null, false);
+                b.ValueChanged += B_ValueChanged;
+                b.UserInitializeWith(b.ValueType, false);
+            }
         }
 
         private void B_ValueChanged(Lazurite.ActionsDomain.IAction action, string value)
