@@ -70,7 +70,7 @@ namespace ZWavePlugin
             ZWaveManager.Current.WaitForInitialized();
             var nodes = ZWaveManager.Current.GetNodes();
             var node = nodes.FirstOrDefault(x => x.Id.Equals(this.NodeId));
-            _nodeValue = node.Values.FirstOrDefault(x => x.Id.Equals(this.ValueId));
+            _nodeValue = node?.Values.FirstOrDefault(x => x.Id.Equals(this.ValueId));
             if (_nodeValue != null)
                 _nodeValue.Changed += NodeValue_Changed;
         }
