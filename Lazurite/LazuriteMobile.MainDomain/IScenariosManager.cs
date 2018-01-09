@@ -14,6 +14,7 @@ namespace LazuriteMobile.MainDomain
         void IsConnected(Action<ManagerConnectionState> callback);
         void GetScenarios(Action<ScenarioInfo[]> callback);
         void Close();
+        void RefreshIteration();
 
         event Action<ScenarioInfo[]> ScenariosChanged;
         event Action NeedRefresh;

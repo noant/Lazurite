@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Lazurite.Data;
@@ -15,7 +16,28 @@ namespace LazuriteMobile.App.Droid
     [Service(Exported = false, Enabled = true)]
     public class LazuriteService : Service
     {
+        private static readonly int SleepInterval_Normal = 10000;
+        private static readonly int SleepInterval_ScreenOff = 40000;
+        private static readonly int SleepInterval_PowerSaving = 200000;
+
         public static bool Started => IsServiceRunning(typeof(LazuriteService));
+
+        private bool IsPhoneSleeping
+        {
+            get
+            {
+                var service = ((PowerManager)GetSystemService(Service.PowerService));
+                return !service.IsInteractive || service.IsDeviceIdleMode;
+            }
+        }
+        private bool IsPhoneInPowerSave
+        {
+            get
+            {
+                var service = ((PowerManager)GetSystemService(Service.PowerService));
+                return service.IsPowerSaveMode && !service.IsIgnoringBatteryOptimizations(this.PackageName);
+            }
+        }
 
         private static bool IsServiceRunning(System.Type type)
         {
@@ -25,17 +47,15 @@ namespace LazuriteMobile.App.Droid
                     return true;
             return false;
         }
-
-        private static int ScenariosManagerListenInterval;
+        
         private static ILogger Log;
-
         private ScenariosManager _manager;
         private Messenger _messenger;
         private IncomingHandler _inHandler = new IncomingHandler();
         private Messenger _toActivityMessenger;
         private Notification _currentNotification;
         private System.Timers.Timer _timer;
-        private PowerManager.WakeLock wakelock;
+        private PowerManager.WakeLock _wakelock;
 
         public override IBinder OnBind(Intent intent)
         {
@@ -46,8 +66,8 @@ namespace LazuriteMobile.App.Droid
         {
             base.OnCreate();
             PowerManager pmanager = (PowerManager)GetSystemService(Context.PowerService);
-            wakelock = pmanager.NewWakeLock(WakeLockFlags.Partial, "servicewakelock");
-            wakelock.SetReferenceCounted(false);
+            _wakelock = pmanager.NewWakeLock(WakeLockFlags.Partial, "servicewakelock");
+            _wakelock.SetReferenceCounted(false);
         }
         
         [return: GeneratedEnum]
@@ -56,7 +76,6 @@ namespace LazuriteMobile.App.Droid
             SingletonPreparator.Initialize();
             MainApplication.InitializeUnhandledExceptionsHandler();
             Log = Singleton.Resolve<ILogger>();
-            ScenariosManagerListenInterval = GlobalSettings.Get(10000);
 
             _manager = new ScenariosManager();
             _messenger = new Messenger(_inHandler);
@@ -76,12 +95,6 @@ namespace LazuriteMobile.App.Droid
             PendingIntent showActivityIntent = PendingIntent.GetActivity(Application.Context, 0,
                 activityIntent, PendingIntentFlags.UpdateCurrent);
             
-            _currentNotification = 
-                new Notification.Builder(this).
-                    SetContentTitle("Lazurite работает...").
-                    SetSmallIcon(Resource.Drawable.icon).
-                    SetContentIntent(showActivityIntent).Build();
-
             AlarmManager manager = (AlarmManager)GetSystemService(AlarmService);
             long triggerAtTime = SystemClock.ElapsedRealtime() + (10 * 60 * 1000);
             Intent onAndroidAvailable = new Intent(this, typeof(BackgroundReceiver));
@@ -105,20 +118,32 @@ namespace LazuriteMobile.App.Droid
             }
 
             _timer = new System.Timers.Timer();
-            _timer.Interval = ScenariosManagerListenInterval;
+            _timer.Interval = SleepInterval_Normal;
             _timer.Elapsed += _timer_Elapsed;
             _timer.Enabled = true;
             _timer.AutoReset = true;
             _timer.Start();
-
+            _currentNotification =
+                new Notification.Builder(this).
+                    SetContentTitle("Lazurite работает...").
+                    SetSmallIcon(Resource.Drawable.icon).
+                    SetContentIntent(showActivityIntent).
+                    SetVisibility(NotificationVisibility.Private).
+                    SetColor(Color.Argb(255,29,25,29).ToArgb()).
+                    SetOnlyAlertOnce(true).
+                    Build();
             StartForeground(1, _currentNotification);
-
             return StartCommandResult.Sticky;
         }
 
         private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             _manager.RefreshIteration();
+            _timer.Interval = SleepInterval_Normal;
+            if (IsPhoneSleeping)
+                _timer.Interval = SleepInterval_ScreenOff;
+            else if (IsPhoneInPowerSave)
+                _timer.Interval = SleepInterval_PowerSaving;
         }
 
         public override void OnDestroy()
@@ -132,7 +157,7 @@ namespace LazuriteMobile.App.Droid
         {
             try
             {
-                if (_toActivityMessenger != null)
+                if (_toActivityMessenger != null) 
                     action?.Invoke(_toActivityMessenger);
             }
             catch (System.Exception e)
@@ -140,6 +165,8 @@ namespace LazuriteMobile.App.Droid
                 Log.Warn(null, e);
             }
         }
+
+        public void RefreshIteration() => _manager.RefreshIteration();
 
         private void InHandler_HasCome(object sender, Message msg)
         {
@@ -185,6 +212,11 @@ namespace LazuriteMobile.App.Droid
                     case ServiceOperation.ReConnect:
                         {
                             _manager.ReConnect();
+                            break;
+                        }
+                    case ServiceOperation.RefreshIteration:
+                        {
+                            _manager.RefreshIteration();
                             break;
                         }
                 }

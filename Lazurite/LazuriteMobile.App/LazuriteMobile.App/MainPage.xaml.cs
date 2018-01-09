@@ -40,7 +40,7 @@ namespace LazuriteMobile.App
                     {
                         if (state == ManagerConnectionState.Connected)
                         {
-                            Refresh();
+                            Refresh(() => _manager.RefreshIteration());
                             Invoke(() => HideCaption());
                         }
                         else if (state == ManagerConnectionState.Disconnected)
@@ -159,13 +159,19 @@ namespace LazuriteMobile.App
             Invoke(Refresh);
         }
         
-        private void Refresh()
+        private void Refresh(Action callback)
         {
             RefreshCredentials();
             _manager.GetScenarios((scenarios) => {
-                Invoke(() => swgrid.Refresh(scenarios));
+                Invoke(() =>
+                {
+                    swgrid.Refresh(scenarios);
+                    callback?.Invoke();
+                });
             });
         }
+
+        public void Refresh() => Refresh(null);
 
         private void ReConnectAndRefresh()
         {

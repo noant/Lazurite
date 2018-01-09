@@ -141,6 +141,11 @@ namespace LazuriteMobile.App.Droid
             Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.ReConnect);
         }
 
+        public void RefreshIteration()
+        {
+            Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.RefreshIteration);
+        }
+
         public void Close()
         {
             try
