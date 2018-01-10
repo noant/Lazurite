@@ -218,9 +218,9 @@ namespace Lazurite.Windows.Modules
             var action = (IAction)Activator.CreateInstance(type);
             if (action is IContextInitializable)
                 ((IContextInitializable)action).Initialize(algoContext);
-            if (action is ICoreAction)
-                ((ICoreAction)action)
-                    .SetTargetScenario(_scenarioRepository.Scenarios.FirstOrDefault(x => x.Id.Equals(((ICoreAction)action).TargetScenarioId)));
+            if (action is IScenariosAccess)
+                ((IScenariosAccess)action)
+                    .SetTargetScenario(_scenarioRepository.Scenarios.FirstOrDefault(x => x.Id.Equals(((IScenariosAccess)action).TargetScenarioId)));
             if (action is ExecuteAction)
                 ((ExecuteAction)action).InputValue.Action = CoreActions.Utils.Default(action.ValueType);
             else if (action is SetReturnValueAction)

@@ -90,7 +90,7 @@ namespace Lazurite.MainDomain
         /// <returns></returns>
         public abstract IAction[] GetAllActionsFlat();
         
-        public abstract void Initialize(ScenariosRepositoryBase scenariosRepository);
+        public abstract void Initialize();
 
         public abstract void AfterInitialize();
 

@@ -9,7 +9,7 @@ namespace Lazurite.CoreActions.CoreActions
     [VisualInitialization]
     [OnlyGetValue]
     [SuitableValueTypes(true)]
-    public class GetExistingScenarioValueAction : ICoreAction, IAction
+    public class GetExistingScenarioValueAction : IScenariosAccess, IAction
     {
         public string TargetScenarioId
         {

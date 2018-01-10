@@ -2,11 +2,13 @@
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.CoreActions;
+using Lazurite.CoreActions.ContextInitialization;
 using Lazurite.CoreActions.CoreActions;
 using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.Security;
+using Lazurite.Shared;
 using Lazurite.Utils;
 using System;
 using System.Linq;
@@ -113,15 +115,22 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return _currentValue;
         }
 
-        public override void Initialize(ScenariosRepositoryBase repository, Action<bool> callback)
+        public override void Initialize(Action<bool> callback)
         {
             try
             {
-                if (this.ActionHolder.Action is ICoreAction && repository != null)
+                var scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+                var usersRepository = Singleton.Resolve<UsersRepositoryBase>();
+
+                if (this.ActionHolder.Action is IScenariosAccess)
                 {
-                    ((ICoreAction)ActionHolder.Action)
-                        .SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(((ICoreAction)ActionHolder.Action).TargetScenarioId)));
+                    ((IScenariosAccess)ActionHolder.Action)
+                        .SetTargetScenario(scenariosRepository.Scenarios.SingleOrDefault(x => x.Id.Equals(((IScenariosAccess)ActionHolder.Action).TargetScenarioId)));
                 }
+                if (this.ActionHolder.Action is IContextInitializable)
+                    ((IContextInitializable)this.ActionHolder.Action).Initialize(this);
+                if (this.ActionHolder.Action is IUsersDataAccess)
+                    ((IUsersDataAccess)this.ActionHolder.Action).NeedUsers = () => usersRepository.Users.ToArray();
                 ActionHolder.Action.Initialize();
                 _currentValue = ActionHolder.Action.GetValue(null);
                 callback?.Invoke(true);

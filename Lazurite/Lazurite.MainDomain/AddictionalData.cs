@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Lazurite.Shared;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Lazurite.MainDomain

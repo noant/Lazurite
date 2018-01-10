@@ -122,7 +122,7 @@ namespace LazuriteUI.Windows.Main
 
         private void NewScenario(ScenarioBase newScenario)
         {
-            newScenario.Initialize(_repository, (res) => {
+            newScenario.Initialize((res) => {
                 if (res)
                     newScenario.AfterInitilize();
             });

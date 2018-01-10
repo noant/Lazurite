@@ -66,7 +66,6 @@
     <Compile Include="AddictionalDataManager.cs" />
     <Compile Include="ConnectionCredentials.cs" />
     <Compile Include="DeviceInfo.cs" />
-    <Compile Include="GeolocationInfo.cs" />
     <Compile Include="GlobalSettings.cs" />
     <Compile Include="IAddictionalDataHandler.cs" />
     <Compile Include="IClientFactory.cs" />
@@ -85,9 +84,7 @@
     <Compile Include="SecuritySettingsBase.cs" />
     <Compile Include="TriggerBase.cs" />
     <Compile Include="UserBase.cs" />
-    <Compile Include="Geolocation.cs" />
     <Compile Include="UserGroupBase.cs" />
-    <Compile Include="UserInfo.cs" />
     <Compile Include="UsersRepositoryBase.cs" />
     <Compile Include="ISystemUtils.cs" />
     <Compile Include="UserVisualSettings.cs" />

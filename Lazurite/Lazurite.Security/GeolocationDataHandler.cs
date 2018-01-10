@@ -1,4 +1,5 @@
 ﻿using Lazurite.MainDomain;
+using Lazurite.Shared;
 
 namespace Lazurite.Security
 {

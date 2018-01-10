@@ -41,6 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventsHandler.cs" />
+    <Compile Include="Geolocation.cs" />
+    <Compile Include="GeolocationInfo.cs" />
+    <Compile Include="IGeolocationTarget.cs" />
+    <Compile Include="IUsersDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

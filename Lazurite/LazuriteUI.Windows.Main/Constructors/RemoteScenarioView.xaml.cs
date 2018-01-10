@@ -15,7 +15,6 @@ namespace LazuriteUI.Windows.Main.Constructors
     public partial class RemoteScenarioView : UserControl, IScenarioConstructorView
     {
         public static readonly WarningHandlerBase WarningHandler = Singleton.Resolve<WarningHandlerBase>();
-        public static readonly ScenariosRepositoryBase Repository = Singleton.Resolve<ScenariosRepositoryBase>();
         public static readonly IClientFactory ClientFactory = Singleton.Resolve<IClientFactory>();
 
         private RemoteScenario _scenario;
@@ -64,7 +63,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                         _scenario.RemoteScenarioName = info.Name;
                         tbScenario.Text = _scenario.RemoteScenarioName;
                         var loadWindowCloseToken = MessageView.ShowLoad("Соединение с удаленным сервером...");
-                        _scenario.Initialize(Repository, (result) =>
+                        _scenario.Initialize((result) =>
                         {
                             loadWindowCloseToken.Cancel();
                             this.Dispatcher.BeginInvoke(new Action(() => {
@@ -91,7 +90,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             };
             btTest.Click += (o, e) => {
                 var loadWindowCloseToken = MessageView.ShowLoad("Соединение с удаленным сервером...");
-                _scenario.Initialize(Repository, (result) => {
+                _scenario.Initialize((result) => {
                     loadWindowCloseToken.Cancel();
                     if (result)
                     {

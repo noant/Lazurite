@@ -8,6 +8,7 @@ using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.Security;
+using Lazurite.Shared;
 using Lazurite.Utils;
 using System;
 using System.Linq;
@@ -60,20 +61,26 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return _currentValue;
         }
 
-        public override void Initialize(ScenariosRepositoryBase repository, Action<bool> callback)
+        public override void Initialize(Action<bool> callback)
         {
             try
             {
+                var scensRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+                var usersRepository = Singleton.Resolve<UsersRepositoryBase>();
+
                 if (InitializeWithValue == null)
                     InitializeWithValue = this.ValueType.DefaultValue;
                 foreach (var action in this.TargetAction.GetAllActionsFlat())
                 {
                     if (action != null)
                     {
-                        var coreAction = action as ICoreAction;
-                        coreAction?.SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
+                        var coreAction = action as IScenariosAccess;
+                        coreAction?.SetTargetScenario(scensRepository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
                         var initializable = action as IContextInitializable;
                         initializable?.Initialize(this);
+                        var userAccess = action as IUsersDataAccess;
+                        if (userAccess != null)
+                            userAccess.NeedUsers = () => usersRepository.Users.ToArray();
                         action.Initialize();
                     }
                 }

@@ -1,6 +1,7 @@
 ﻿using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
+using Lazurite.Shared;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using System;

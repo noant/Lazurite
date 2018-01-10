@@ -1,6 +1,7 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.MessageSecurity;
+using Lazurite.Shared;
 using Lazurite.Visual;
 using Lazurite.Windows.Logging;
 using System;

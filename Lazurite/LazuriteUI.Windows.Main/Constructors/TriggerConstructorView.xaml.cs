@@ -41,7 +41,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                     {
                         _originalTrigger = trigger;
                         _clonedTrigger = (Lazurite.MainDomain.TriggerBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalTrigger);
-                        _clonedTrigger.Initialize(_repository);
+                        _clonedTrigger.Initialize();
                         buttonsView.SetTrigger(_clonedTrigger);
                         IsModified = false;
                         _constructorView = new TriggerView(_clonedTrigger);
@@ -90,7 +90,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             _originalTrigger.Stop();
             _repository.SaveTrigger(_clonedTrigger);
-            _clonedTrigger.Initialize(_repository);
+            _clonedTrigger.Initialize();
             _clonedTrigger.AfterInitialize();
             SetTrigger(_clonedTrigger, 
                 ()=> {
@@ -104,7 +104,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             _clonedTrigger = (Lazurite.MainDomain.TriggerBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalTrigger);
             try
             {
-                _clonedTrigger.Initialize(_repository);
+                _clonedTrigger.Initialize();
             }
             catch (Exception e)
             {

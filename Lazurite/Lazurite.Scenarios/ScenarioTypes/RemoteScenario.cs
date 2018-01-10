@@ -198,7 +198,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return Initialized = initialized;
         }
 
-        public override void Initialize(ScenariosRepositoryBase repository, Action<bool> callback)
+        public override void Initialize(Action<bool> callback)
         {
             TaskUtils.Start(() =>
             {

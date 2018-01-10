@@ -43,7 +43,7 @@ namespace Lazurite.Scenarios
             //initialize scenarios
             foreach (var scenario in _scenarios)
             {
-                scenario.Initialize(this, (res) => {
+                scenario.Initialize((res) => {
                     if (res)
                         scenario.AfterInitilize();
                 });
@@ -52,7 +52,7 @@ namespace Lazurite.Scenarios
             //initialize triggers
             foreach (var trigger in _triggers)
             {
-                trigger.Initialize(this);
+                trigger.Initialize();
                 trigger.AfterInitialize();
             }
         }
@@ -87,7 +87,7 @@ namespace Lazurite.Scenarios
         {
             var linkedScenarios = _scenarios.Except(new[] { scenario })
                                     .Where(x => x.GetAllActionsFlat()
-                                        .Any(z => (z is ICoreAction) && ((ICoreAction)z).TargetScenarioId != null && ((ICoreAction)z).TargetScenarioId.Equals(scenario.Id))).ToArray();
+                                        .Any(z => (z is IScenariosAccess) && ((IScenariosAccess)z).TargetScenarioId != null && ((IScenariosAccess)z).TargetScenarioId.Equals(scenario.Id))).ToArray();
 
             if (linkedScenarios.Any())
             {
@@ -97,7 +97,7 @@ namespace Lazurite.Scenarios
 
             var linkedTriggers = _triggers
                                     .Where(x => (x.TargetScenarioId != null && x.TargetScenarioId.Equals(scenario.Id)) || x.GetAllActionsFlat()
-                                        .Any(z => (z is ICoreAction) && ((ICoreAction)z).TargetScenarioId.Equals(scenario.Id))).ToArray();
+                                        .Any(z => (z is IScenariosAccess) && ((IScenariosAccess)z).TargetScenarioId.Equals(scenario.Id))).ToArray();
 
             if (linkedScenarios.Any())
             {
@@ -126,9 +126,9 @@ namespace Lazurite.Scenarios
                 _scenarios
                 .SelectMany(x => x.GetAllActionsFlat())
                 .Union(_triggers.SelectMany(x=>x.GetAllActionsFlat()))
-                .Where(x => x is ICoreAction && (((ICoreAction)x).TargetScenarioId?.Equals(scenario.Id) ?? false));
+                .Where(x => x is IScenariosAccess && (((IScenariosAccess)x).TargetScenarioId?.Equals(scenario.Id) ?? false));
 
-            foreach (ICoreAction action in allActionsWithScen)
+            foreach (IScenariosAccess action in allActionsWithScen)
                 action.SetTargetScenario(scenario);
 
             foreach (TriggerBase trigger in _triggers.Where(x => x.TargetScenarioId?.Equals(scenario.Id) ?? false))
