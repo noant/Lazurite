@@ -29,6 +29,8 @@ namespace UserGeolocationPluginUI
     public partial class UserLocationsView : System.Windows.Controls.UserControl
     {
         private GMapControl gmapControl;
+        private IGeolocationTarget[] _viewTargets;
+        private GeolocationPlace[] _geolocationPlaces;
 
         public UserLocationsView()
         {
@@ -49,12 +51,56 @@ namespace UserGeolocationPluginUI
 
         public void RefreshWith(IGeolocationTarget[] viewTargets, GeolocationPlace[] geolocationPlaces)
         {
-            gmapControl.Overlays.Clear();
-            foreach (var geolocationPlace in geolocationPlaces)
-            {
-                CreateCircle(geolocationPlace.Location.Latitude, geolocationPlace.Location.Longtitude, geolocationPlace.MetersRadius, geolocationPlace.Name);
-            }
+            _viewTargets = viewTargets;
+            _geolocationPlaces = geolocationPlaces;
+            Refresh();
         }
+
+        public void Refresh()
+        {
+            gmapControl.Overlays.Clear();
+            foreach (var geolocationPlace in _geolocationPlaces)
+                CreateCircle(geolocationPlace.Location.Latitude, geolocationPlace.Location.Longtitude, geolocationPlace.MetersRadius, geolocationPlace.Name);
+            foreach (var geoTarget in _viewTargets)
+                foreach (var device in geoTarget.Geolocations.Select(x=>x.Device).Distinct())
+                {
+                    var locations = 
+                        geoTarget.Geolocations.Where(x => x.Device.Equals(device))
+                        .Select(x=> new PointDate() {
+                            DateTime = x.DateTime,
+                            Point = new PointLatLng(x.Geolocation.Latitude, x.Geolocation.Longtitude)
+                        })
+                        .ToList();
+                    CreateRoute(locations, geoTarget.Name, device);
+                }
+        }
+
+        private void CreateRoute(List<PointDate> points, string userName, string device)
+        {
+            var overlay = new GMapOverlay();
+            overlay.Routes.Add(new GMapRoute(points.Select(x => x.Point).ToList(), "path"));
+            foreach (var pointDate in points.Take(points.Count-1))
+            {
+                var marker = new GMarkerGoogle(pointDate.Point, GMarkerGoogleType.blue_small);
+                marker.ToolTipText = pointDate.DateTime.ToShortDateString() + " " + pointDate.DateTime.ToShortTimeString();
+                marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                overlay.Markers.Add(marker);
+            }
+            if (points.Any())
+            {
+                var lastPointDate = points.Last();
+                var markerEnd = new GMarkerGoogle(lastPointDate.Point, GMarkerGoogleType.blue_dot);
+                markerEnd.ToolTipText = string.Format(
+                    "Локация пользователя '{0}'\r\nДата: {1}\r\n Устройство: {2}", 
+                    userName, 
+                    lastPointDate.DateTime.ToShortDateString() + " " + lastPointDate.DateTime.ToShortTimeString(),
+                    device);
+                markerEnd.ToolTipMode = MarkerTooltipMode.Always;
+                overlay.Markers.Add(markerEnd);
+            }
+            gmapControl.Overlays.Add(overlay);
+        }
+
         private void CreateCircle(Double lat, Double lon, double radius, string caption)
         {
             var point = new PointLatLng(lat, lon);
@@ -65,11 +111,11 @@ namespace UserGeolocationPluginUI
             for (double i = 0; i < segments; i+=0.1)
                 poligonPoints.Add(FindPointAtDistanceFrom(point, i, radius / 1000));
 
-            var gpol = new GMapPolygon(poligonPoints, "circlePart");
+            var gpol = new GMapPolygon(poligonPoints, "circle");
             gpol.Stroke = new System.Drawing.Pen(System.Drawing.Color.Orchid);
             var overlay = new GMapOverlay();
             overlay.Markers.Add(
-                new GMarkerGoogle(new PointLatLng(lat, lon), GMarkerGoogleType.green_big_go)
+                new GMarkerGoogle(new PointLatLng(lat, lon), GMarkerGoogleType.green_dot)
                 {
                     ToolTipMode = MarkerTooltipMode.Always,
                     ToolTipText = caption
@@ -120,6 +166,12 @@ namespace UserGeolocationPluginUI
         {
             const double radToDegFactor = 180 / Math.PI;
             return radians * radToDegFactor;
+        }
+
+        private struct PointDate
+        {
+            public PointLatLng Point { get; set; }
+            public DateTime DateTime { get; set; }
         }
     }
 }
