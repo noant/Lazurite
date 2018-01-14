@@ -58,6 +58,9 @@ namespace UserGeolocationPluginUI
                     Name = "Центр москвы"
                 },
             });
+
+            this.Loaded += (o,e) =>
+                locationsView.FitToMarkers();
         }
     }
 
@@ -65,7 +68,7 @@ namespace UserGeolocationPluginUI
     {
         public string Name { get; set; }
 
-        public string Id => throw new NotImplementedException();
+        public string Id { get; set; } = "123";
 
         public GeolocationInfo[] Geolocations { get; set; }
     }

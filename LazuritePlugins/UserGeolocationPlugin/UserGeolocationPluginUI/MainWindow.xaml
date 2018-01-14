@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UserGeolocationPluginUI"
         mc:Ignorable="d"
+        WindowState="Maximized"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <local:UserLocationsView x:Name="locationsView"></local:UserLocationsView>

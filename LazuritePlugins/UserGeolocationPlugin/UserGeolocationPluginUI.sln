@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserGeolocationPluginUI", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserGeolocationPlugin", "UserGeolocationPlugin\UserGeolocationPlugin.csproj", "{A0B9466A-23A8-476C-99B4-EE7024E1EC26}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeolocationPluginMain", "GeolocationPluginMain\GeolocationPluginMain.csproj", "{F975B4EB-015D-48DD-89FB-91FA6D8D38CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A0B9466A-23A8-476C-99B4-EE7024E1EC26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0B9466A-23A8-476C-99B4-EE7024E1EC26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0B9466A-23A8-476C-99B4-EE7024E1EC26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F975B4EB-015D-48DD-89FB-91FA6D8D38CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F975B4EB-015D-48DD-89FB-91FA6D8D38CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F975B4EB-015D-48DD-89FB-91FA6D8D38CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F975B4EB-015D-48DD-89FB-91FA6D8D38CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

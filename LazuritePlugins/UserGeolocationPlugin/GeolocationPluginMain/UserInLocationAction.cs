@@ -16,7 +16,7 @@ namespace UserGeolocationPlugin
     [HumanFriendlyName("Местоположение пользователя")]
     [SuitableValueTypes(typeof(StateValueType))]
     [LazuriteIcon(Icon.MapLocation)]
-    public class GeolocationAction : IAction, IUsersDataAccess
+    public class UserInLocationAction : IAction, IUsersDataAccess, IUserInLocation
     {
         public string Caption {
             get => "Местоположение пользователя '" + GetUserName() + "'";
