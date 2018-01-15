@@ -11,7 +11,7 @@ namespace UserGeolocationPlugin
     {
         public string Name { get; set; }
         public Lazurite.Shared.Geolocation Location { get;set; }
-        public int MetersRadius { get; set; }
+        public int MetersRadious { get; set; }
 
         public static readonly GeolocationPlace Empty = new GeolocationPlace()
         {

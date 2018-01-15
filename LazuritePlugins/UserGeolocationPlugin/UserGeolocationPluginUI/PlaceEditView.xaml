@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="UserGeolocationPluginUI.PlaceEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UserGeolocationPluginUI"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             Height="139"
+             IsEnabled="false"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="34"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.ColumnSpan="2" FontWeight="Thin"  Foreground="{x:Static controls:Visual.CaptionForeground}" FontStyle="Oblique">
+            Параметры места
+        </Label>
+        <Label Grid.Row="1" Foreground="{x:Static controls:Visual.CaptionForeground}">Наименование:</Label>
+        <controls:EntryView x:Name="tbPlaceName" Grid.Row="1" Grid.Column="1"></controls:EntryView>
+        <Label Grid.Row="2" Foreground="{x:Static controls:Visual.CaptionForeground}" HorizontalAlignment="Right">Радиус, метров:</Label>
+        <controls:EntryView x:Name="tbRadious" Grid.Row="2" Grid.Column="1"></controls:EntryView>
+        <Slider x:Name="sliderRadious" Grid.Row="3" Margin="5" Grid.ColumnSpan="2" Maximum="3000" Minimum="2"></Slider>
+        <controls:ItemView x:Name="btApply" Grid.Row="4" Margin="2" Grid.ColumnSpan="2" Icon="Check">Применить новые параметры места</controls:ItemView>
+    </Grid>
+</UserControl>

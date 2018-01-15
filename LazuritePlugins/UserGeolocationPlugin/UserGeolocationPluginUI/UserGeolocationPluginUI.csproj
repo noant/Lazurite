@@ -43,6 +43,14 @@
     <Reference Include="GMap.NET.WindowsPresentation, Version=1.7.5.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
       <HintPath>..\packages\GMap.NET.Presentation.1.7.5\lib\net40\GMap.NET.WindowsPresentation.dll</HintPath>
     </Reference>
+    <Reference Include="Lazurite.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Lazurite.IOC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.IOC.dll</HintPath>
+    </Reference>
     <Reference Include="Lazurite.Shared">
       <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.Shared.dll</HintPath>
     </Reference>
@@ -77,13 +85,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GeolocationPlaceView.xaml.cs">
-      <DependentUpon>GeolocationPlaceView.xaml</DependentUpon>
+    <Compile Include="DeviceItemView.cs" />
+    <Compile Include="ILocationsView.cs" />
+    <Compile Include="LocationsView.xaml.cs">
+      <DependentUpon>LocationsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlaceEditView.xaml.cs">
+      <DependentUpon>PlaceEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlaceItemView.cs" />
+    <Compile Include="PlacesLocationsView.xaml.cs">
+      <DependentUpon>PlacesLocationsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlacesView.cs" />
+    <Compile Include="UserItemView.cs" />
     <Compile Include="UserLocationsView.xaml.cs">
       <DependentUpon>UserLocationsView.xaml</DependentUpon>
     </Compile>
-    <Page Include="GeolocationPlaceView.xaml">
+    <Compile Include="DevicesView.cs" />
+    <Compile Include="UsersView.cs" />
+    <Page Include="LocationsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -99,6 +120,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PlaceEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlacesLocationsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserLocationsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

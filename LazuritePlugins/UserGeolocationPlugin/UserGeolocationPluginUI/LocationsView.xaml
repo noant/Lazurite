@@ -1,0 +1,30 @@
+﻿<Grid x:Class="UserGeolocationPluginUI.LocationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UserGeolocationPluginUI"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             Background="{x:Static controls:Visual.Background}"
+             d:DesignHeight="300" d:DesignWidth="1200">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="250"></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="30"></RowDefinition>
+        <RowDefinition Height="2*"></RowDefinition>
+        <RowDefinition Height="30"></RowDefinition>
+        <RowDefinition></RowDefinition>
+    </Grid.RowDefinitions>
+    <local:PlacesLocationsView Grid.RowSpan="4" Grid.Column="2" x:Name="locationsView"></local:PlacesLocationsView>
+    <controls:CaptionView Icon="Group">Пользователи</controls:CaptionView>
+    <controls:CaptionView Grid.Row="2" Icon="Iphone">Устройства пользователя</controls:CaptionView>
+    <controls:WheelScroll Grid.Row="1">
+        <local:UsersView x:Name="usersView"></local:UsersView>
+    </controls:WheelScroll>
+    <controls:WheelScroll Grid.Row="3">
+        <local:DevicesView x:Name="devicesView"></local:DevicesView>
+    </controls:WheelScroll>
+</Grid>

@@ -14,8 +14,9 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <controls:ItemView x:Name="btSearch" Width="145" Icon="Magnify">Поиск на карте</controls:ItemView>
+        <controls:CaptionView Icon="MapGps">Карта</controls:CaptionView>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="120,0,0,0">
+            <controls:ItemView Background="{x:Static controls:Visual.BrightItemBackground}" x:Name="btSearch" Width="30" Icon="Magnify"></controls:ItemView>
             <controls:EntryView ToolTip="Можно ввести координаты, адрес или ключевое слово" MinWidth="200" x:Name="tbSearch"></controls:EntryView>
             <controls:IconView Icon="LocationCheckin" Opacity="0.3"></controls:IconView>
             <controls:EntryView Foreground="Gray" x:Name="tbCurrentLocation" IsReadOnly="True"></controls:EntryView>

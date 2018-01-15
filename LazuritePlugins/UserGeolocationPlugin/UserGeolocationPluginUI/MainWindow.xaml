@@ -8,6 +8,6 @@
         WindowState="Maximized"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <local:UserLocationsView x:Name="locationsView"></local:UserLocationsView>
+        <local:LocationsView x:Name="locationsView"></local:LocationsView>
     </Grid>
 </Window>
