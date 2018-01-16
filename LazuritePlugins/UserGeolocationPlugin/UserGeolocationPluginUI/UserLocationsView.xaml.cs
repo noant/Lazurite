@@ -39,26 +39,13 @@ namespace UserGeolocationPluginUI
         {
             InitializeComponent();
 
-            btAllTime.Click += (o,e) => {
-                _viewSince = DateTime.MinValue;
+            dpDataSince.SelectedDate = _viewSince = DateTime.Now.AddDays(-1);
+
+            dpDataSince.SelectedDateChanged += (o, e) => {
+                _viewSince = dpDataSince.SelectedDate ?? DateTime.MinValue;
                 Refresh();
             };
-
-            btLastDay.Click += (o, e) => {
-                _viewSince = DateTime.Now.AddDays(-1);
-                Refresh();
-            };
-
-            btLastMonth.Click += (o, e) => {
-                _viewSince = DateTime.Now.AddMonths(-1);
-                Refresh();
-            };
-
-            btLastWeek.Click += (o, e) => {
-                _viewSince = DateTime.Now.AddDays(-7);
-                Refresh();
-            };
-
+            
             btSearch.Click += (o, e) => {
                 if (!string.IsNullOrEmpty(tbSearch.Text))
                     _gmapControl.SetPositionByKeywords(tbSearch.Text);

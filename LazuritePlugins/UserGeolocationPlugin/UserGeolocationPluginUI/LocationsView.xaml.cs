@@ -27,23 +27,18 @@ namespace UserGeolocationPluginUI
             InitializeComponent();
             bool ignoreUserNavigation = false;
             usersView.SelectionChanged += (o, e) => {
-                if (!ignoreUserNavigation)
-                {
-                    devicesView.Devices = usersView.SelectedUser
-                        .Geolocations
-                        .Select(x => x.Device)
-                        .Distinct()
-                        .ToArray();
-                    devicesView.SelectedDevice = devicesView.Devices.FirstOrDefault();
-                    SelectedUserChanged?.Invoke(this, new EventsArgs<IGeolocationTarget>(SelectedUser));
-                }
+                devicesView.Devices = usersView.SelectedUser
+                    .Geolocations
+                    .Select(x => x.Device)
+                    .Distinct()
+                    .ToArray();
+                devicesView.SelectedDevice = devicesView.Devices.FirstOrDefault();
+                SelectedUserChanged?.Invoke(this, new EventsArgs<IGeolocationTarget>(SelectedUser));
             };
             devicesView.SelectionChanged += (o, e) => {
                 if (!ignoreUserNavigation)
-                {
                     locationsView.NavigateTo(SelectedUser.Name, SelectedDevice);
-                    SelectedDeviceChanged?.Invoke(this, new EventsArgs<string>(SelectedDevice));
-                }
+                 SelectedDeviceChanged?.Invoke(this, new EventsArgs<string>(SelectedDevice));
             };
             locationsView.UserNavigated += (o, e) => {
                 ignoreUserNavigation = true;
@@ -51,6 +46,9 @@ namespace UserGeolocationPluginUI
                 devicesView.SelectedDevice = e.Value.DeviceId;
                 ignoreUserNavigation = false;
             };
+            locationsView.SelectedPlaceChanged += (o, e) => SelectedPlaceChanged?.Invoke(this, e);
+
+            this.Loaded += (o, e) => FitToMarkers();
         }
 
         public Geolocation CurrentLocation => locationsView.CurrentLocation;
@@ -95,6 +93,7 @@ namespace UserGeolocationPluginUI
 
         public event EventsHandler<IGeolocationTarget> SelectedUserChanged;
         public event EventsHandler<string> SelectedDeviceChanged;
+        public event EventsHandler<GeolocationPlace> SelectedPlaceChanged;
 
         public void RefreshWith(IGeolocationTarget[] viewTargets, GeolocationPlace[] geolocationPlaces)
         {

@@ -29,7 +29,7 @@ namespace UserGeolocationPluginUI
             }
             set
             {
-                this.GetItems().Where(x => ((PlaceItemView)x).Place.Name.Equals(value.Name)).All(x => x.Selected = true);
+                this.GetItems().Where(x => ((PlaceItemView)x).Place.Name.Equals(value?.Name)).All(x => x.Selected = true);
                 if (this.SelectedPlace == null)
                     this.SelectedPlaceChanged?.Invoke(this, new EventsArgs<GeolocationPlace>(null));
             }

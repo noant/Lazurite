@@ -51,7 +51,7 @@ namespace UserGeolocationPluginUI
             {
                 var geolocationPlace = new GeolocationPlace();
                 geolocationPlace.Name =
-                    "Новое место " + PlacesManager.Current.Places.Count(x => x.Name.StartsWith("Новое место"));
+                    "Новое место " + (PlacesManager.Current.Places.Count(x => x.Name.StartsWith("Новое место")) + 1);
                 geolocationPlace.Location = locationsView.CurrentLocation;
                 geolocationPlace.MetersRadious = 200;
                 placesView.AddPlace(geolocationPlace);

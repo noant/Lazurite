@@ -25,7 +25,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -98,6 +98,9 @@
       <DependentUpon>PlacesLocationsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlacesView.cs" />
+    <Compile Include="UserInLocationActionWindow.xaml.cs">
+      <DependentUpon>UserInLocationActionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserItemView.cs" />
     <Compile Include="UserLocationsView.xaml.cs">
       <DependentUpon>UserLocationsView.xaml</DependentUpon>
@@ -125,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlacesLocationsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInLocationActionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

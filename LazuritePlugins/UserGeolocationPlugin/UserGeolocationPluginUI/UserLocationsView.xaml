@@ -7,28 +7,23 @@
              xmlns:local="clr-namespace:UserGeolocationPluginUI"
              mc:Ignorable="d" 
              Background="{x:Static controls:Visual.Background}"
-             d:DesignHeight="500" d:DesignWidth="700">
+             d:DesignHeight="500" d:DesignWidth="900">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
         </Grid.RowDefinitions>
         <controls:CaptionView Icon="MapGps">Карта</controls:CaptionView>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="120,0,0,0">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="110,0,0,0">
             <controls:ItemView Background="{x:Static controls:Visual.BrightItemBackground}" x:Name="btSearch" Width="30" Icon="Magnify"></controls:ItemView>
-            <controls:EntryView ToolTip="Можно ввести координаты, адрес или ключевое слово" MinWidth="200" x:Name="tbSearch"></controls:EntryView>
+            <controls:EntryView ToolTip="Можно ввести координаты, адрес или ключевое слово" MinWidth="150" x:Name="tbSearch"></controls:EntryView>
             <controls:IconView Icon="LocationCheckin" Opacity="0.3"></controls:IconView>
             <controls:EntryView Foreground="Gray" x:Name="tbCurrentLocation" IsReadOnly="True"></controls:EntryView>
         </StackPanel>
-        <Label Margin="0,2,0,0" Grid.Row="2" Foreground="{x:Static controls:Visual.CaptionForeground}">Данные о передвижениях пользователей за: </Label>
-        <controls:ListItemsView Grid.Row="2" Margin="255,0,0,0" Grid.Column="1" Orientation="Horizontal" SelectionMode="Single">
-            <controls:ItemView Width="70" Margin="1" x:Name="btAllTime">Все время</controls:ItemView>
-            <controls:ItemView Width="120" Margin="1" x:Name="btLastMonth">Последний месяц</controls:ItemView>
-            <controls:ItemView Width="128" Margin="1" x:Name="btLastWeek">Последнюю неделю</controls:ItemView>
-            <controls:ItemView Width="51" Margin="1" Selected="True" x:Name="btLastDay">Сутки</controls:ItemView>
-        </controls:ListItemsView>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Label Foreground="{x:Static controls:Visual.Foreground}" Opacity="0.5">Данные о передвижениях с:</Label>
+            <DatePicker Margin="0,1,0,0" x:Name="dpDataSince" BorderBrush="Transparent"></DatePicker>
+        </StackPanel>
         <WindowsFormsHost Grid.ColumnSpan="2" Grid.Row="1" x:Name="wfHost" ></WindowsFormsHost>
-        <Border Grid.Row="2" Grid.ColumnSpan="2" BorderThickness="0,2,0,0" BorderBrush="{x:Static controls:Visual.CaptionForeground}"></Border>
     </Grid>
 </UserControl>

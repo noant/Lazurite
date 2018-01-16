@@ -1,0 +1,43 @@
+﻿<Window x:Class="UserGeolocationPluginUI.UserInLocationActionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UserGeolocationPluginUI"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Background="Black"
+        xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+        Title="Пользователь в локации" Height="1000" Width="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <local:LocationsView x:Name="locationsView"></local:LocationsView>
+        <Border BorderBrush="{x:Static controls:Visual.CaptionForeground}" BorderThickness="0,3,0,0" Grid.Row="1"></Border>
+        <Grid Grid.Row="1" Height="150" MaxWidth="1000">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock TextWrapping="Wrap" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Justify" 
+                       Foreground="{x:Static controls:Visual.CaptionForeground}">
+                Действие <Bold>"Пользователь в локации"</Bold> позволяет определить текущее "место" пользователя.<LineBreak/>
+                <Bold>Место</Bold> - это заранее выбранный участок на карте, который имеет геокоординаты центра, радиус и наименование.
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap" Grid.Column="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Justify" 
+                       Foreground="{x:Static controls:Visual.CaptionForeground}">
+                Для того, чтобы создать действие, необходимо выбрать:<LineBreak/>
+                - пользователя;<LineBreak/>- одно из его устройств;<LineBreak/>- место.<LineBreak/>
+                Действие будет возвращать логическое "ИСТИННА", если <Bold>пользователь в данный момент находится в пределах радиуса выбранного места</Bold>.
+                Иначе, возвращаемое значение будет "ЛОЖЬ".
+            </TextBlock>
+            <StackPanel Grid.Column="2" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock x:Name="tbSelectedParams" TextWrapping="Wrap" TextAlignment="Center" Foreground="{x:Static controls:Visual.CaptionForeground}" />
+                <controls:ItemView x:Name="btContinue" Margin="5" Width="220" Icon="ChevronRight" HorizontalAlignment="Left" IconHorizontalAligment="Right">Продолжить</controls:ItemView>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

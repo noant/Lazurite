@@ -29,6 +29,6 @@
         <Label Grid.Row="2" Foreground="{x:Static controls:Visual.CaptionForeground}" HorizontalAlignment="Right">Радиус, метров:</Label>
         <controls:EntryView x:Name="tbRadious" Grid.Row="2" Grid.Column="1"></controls:EntryView>
         <Slider x:Name="sliderRadious" Grid.Row="3" Margin="5" Grid.ColumnSpan="2" Maximum="3000" Minimum="2"></Slider>
-        <controls:ItemView x:Name="btApply" Grid.Row="4" Margin="2" Grid.ColumnSpan="2" Icon="Check">Применить новые параметры места</controls:ItemView>
+        <controls:ItemView x:Name="btApply" Grid.Row="4" Margin="2" Grid.ColumnSpan="2" Icon="Check">Применить параметры места</controls:ItemView>
     </Grid>
 </UserControl>
