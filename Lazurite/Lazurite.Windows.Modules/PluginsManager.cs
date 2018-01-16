@@ -7,6 +7,7 @@ using Lazurite.CoreActions.StandardValueTypeActions;
 using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Shared;
 using Lazurite.Windows.Logging;
 using System;
 using System.Collections.Generic;
@@ -190,7 +191,9 @@ namespace Lazurite.Windows.Modules
             var pluginTypeInfo = _allTypes.FirstOrDefault(x => x.Assembly.FullName.Equals(args.Name));
             if (pluginTypeInfo != null)
                 return pluginTypeInfo.Assembly;
-            else throw new DllNotFoundException("Cannot resolve assembly: " + args.Name);
+            else
+               _warningHandler.Info(exception: new DllNotFoundException("Cannot resolve assembly: " + args.Name));
+            return null;
         }
         
         public void Dispose()
@@ -210,6 +213,7 @@ namespace Lazurite.Windows.Modules
         private string _tmpDir;
         private string _tmpDirCheck;
         private ScenariosRepositoryBase _scenarioRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private UsersRepositoryBase _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
 
@@ -221,6 +225,8 @@ namespace Lazurite.Windows.Modules
             if (action is IScenariosAccess)
                 ((IScenariosAccess)action)
                     .SetTargetScenario(_scenarioRepository.Scenarios.FirstOrDefault(x => x.Id.Equals(((IScenariosAccess)action).TargetScenarioId)));
+            if (action is IUsersDataAccess)
+                ((IUsersDataAccess)action).NeedUsers = () => _usersRepository.Users.ToArray();
             if (action is ExecuteAction)
                 ((ExecuteAction)action).InputValue.Action = CoreActions.Utils.Default(action.ValueType);
             else if (action is SetReturnValueAction)

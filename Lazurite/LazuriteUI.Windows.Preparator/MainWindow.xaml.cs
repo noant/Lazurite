@@ -1,6 +1,7 @@
 ﻿using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.Scenarios;
+using Lazurite.Security;
 using Lazurite.Windows.Logging;
 using Lazurite.Windows.Modules;
 using Lazurite.Windows.Server;
@@ -57,6 +58,7 @@ namespace LazuriteUI.Windows.Preparator
             
             //plugins installing
             Singleton.Add(new ScenariosRepository()); //stub for pluginsManager
+            Singleton.Add(new UsersRepository()); //stub for pluginsManager
             var pluginsFolderPath = Path.Combine(Lazurite.Windows.Utils.Utils.GetAssemblyFolder(typeof(App).Assembly), "PluginsToInstall");
             var pluginsFiles = Directory.GetFiles(pluginsFolderPath).Where(x => x.EndsWith(PluginsManager.PluginFileExtension)).ToArray();
             try

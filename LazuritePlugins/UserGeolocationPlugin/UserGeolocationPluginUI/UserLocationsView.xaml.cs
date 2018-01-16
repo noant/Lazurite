@@ -58,7 +58,7 @@ namespace UserGeolocationPluginUI
                     UpdateCurrentCoords();
                 }
             };
-
+            
             wfHost.Child = _gmapControl = new GMapControl();
             _gmapControl.Bearing = 0;
             _gmapControl.MaxZoom = 18;

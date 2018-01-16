@@ -24,8 +24,9 @@ namespace UserGeolocationPluginUI
             set
             {
                 this.Children.Clear();
-                foreach (var user in value)
-                    this.Children.Add(new UserItemView(user));
+                if (value != null)
+                    foreach (var user in value)
+                        this.Children.Add(new UserItemView(user));
             }
         }
 

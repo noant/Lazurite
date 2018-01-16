@@ -131,6 +131,10 @@
       <Project>{EE271212-1572-4525-BC27-B2F283238740}</Project>
       <Name>Lazurite.Scenarios</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Security\Lazurite.Security.csproj">
+      <Project>{3ACF6EAC-A7BE-4AFE-AA9C-80259157AE71}</Project>
+      <Name>Lazurite.Security</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Data\Lazurite.Windows.Data.csproj">
       <Project>{E71F185A-B90F-4145-BD38-97EB30D129FE}</Project>
       <Name>Lazurite.Windows.Data</Name>

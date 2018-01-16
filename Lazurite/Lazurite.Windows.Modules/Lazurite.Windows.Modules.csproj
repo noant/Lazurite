@@ -80,6 +80,10 @@
       <Project>{dcd8e6af-a435-4556-ad74-84444b1dd816}</Project>
       <Name>Lazurite.MainDomain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Shared\Lazurite.Shared.csproj">
+      <Project>{9D1FABF0-1A55-47D2-8F0F-BD0BB14F65AA}</Project>
+      <Name>Lazurite.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Logging\Lazurite.Windows.Logging.csproj">
       <Project>{ACC84748-2884-44A2-8E45-84FF8338684B}</Project>
       <Name>Lazurite.Windows.Logging</Name>
