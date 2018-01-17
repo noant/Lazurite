@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System;
 using System.Threading;
@@ -10,6 +11,7 @@ namespace CommonPlugin
     [OnlyExecute]
     [HumanFriendlyName("Ожидание (дней)")]
     [SuitableValueTypes(typeof(FloatValueType))]
+    [Category(Category.DateTime)]
     [LazuriteIcon(Icon.TimerPause)]
     public class WaitActionDays : IAction
     {

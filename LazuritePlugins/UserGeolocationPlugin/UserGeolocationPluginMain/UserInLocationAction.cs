@@ -3,6 +3,7 @@ using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.Shared;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace UserGeolocationPluginMain
     [HumanFriendlyName("Пользователь в локации")]
     [SuitableValueTypes(typeof(ToggleValueType))]
     [LazuriteIcon(Icon.MapLocation)]
+    [Category(Category.Geolocation)]
     public class UserInLocationAction : IAction, IUsersDataAccess
     {
         public string Caption
@@ -34,7 +36,7 @@ namespace UserGeolocationPluginMain
 
         private string GetUserName()
         {
-            var user = NeedUsers?.Invoke().FirstOrDefault(x => x.Id.Equals(UserId));
+            var user = _needUsers?.Invoke().FirstOrDefault(x => x.Id.Equals(UserId));
             if (user != null)
                 return user.Name;
             else
@@ -51,13 +53,15 @@ namespace UserGeolocationPluginMain
 
         public bool IsSupportsModification => true;
 
-        public Func<IGeolocationTarget[]> NeedUsers { get; set; }
+        private Func<IGeolocationTarget[]> _needUsers;
+
+        public void SetNeedUsers(Func<IGeolocationTarget[]> needUsers) => _needUsers = needUsers;
 
         public event ValueChangedEventHandler ValueChanged;
 
         public string GetValue(ExecutionContext context)
         {
-            var places = UserGeolocationPlugin.Utils.GetCurrentUserGeolocations(NeedUsers?.Invoke(), UserId, DeviceId);
+            var places = UserGeolocationPlugin.Utils.GetCurrentUserGeolocations(_needUsers?.Invoke(), UserId, DeviceId);
             return places.Any(x => x.Name.Equals(this.PlaceName)) ? ToggleValueType.ValueON : ToggleValueType.ValueOFF;
         }
 
@@ -74,9 +78,9 @@ namespace UserGeolocationPluginMain
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
         {
             var window = new UserInLocationActionWindow();
-            window.Users = NeedUsers?.Invoke();
+            window.Users = _needUsers?.Invoke();
             window.Refresh();
-            window.SelectedUser = NeedUsers?.Invoke().FirstOrDefault(x => x.Id.Equals(this.UserId));
+            window.SelectedUser = _needUsers?.Invoke().FirstOrDefault(x => x.Id.Equals(this.UserId));
             window.SelectedDevice = this.DeviceId;
             window.SelectedPlace = PlacesManager.Current.Places.FirstOrDefault(x => x.Name.Equals(this.PlaceName));
             if (window.ShowDialog() ?? false)

@@ -2,6 +2,7 @@
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.MainDomain;
+using Lazurite.Shared.ActionCategory;
 
 namespace Lazurite.CoreActions.CoreActions
 {
@@ -9,6 +10,7 @@ namespace Lazurite.CoreActions.CoreActions
     [VisualInitialization]
     [OnlyGetValue]
     [SuitableValueTypes(true)]
+    [Category(Category.Meta)]
     public class GetExistingScenarioValueAction : IScenariosAccess, IAction
     {
         public string TargetScenarioId

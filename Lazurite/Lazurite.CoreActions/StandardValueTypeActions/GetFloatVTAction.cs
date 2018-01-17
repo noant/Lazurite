@@ -1,12 +1,14 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 
 namespace Lazurite.CoreActions.StandardValueTypeActions
 {
     [VisualInitialization]
     [HumanFriendlyName("# Число")]
     [SuitableValueTypes(typeof(FloatValueType))]
+    [Category(Category.Meta)]
     public class GetFloatVTAction : IAction, IStandardValueAction
     {
         public string Caption

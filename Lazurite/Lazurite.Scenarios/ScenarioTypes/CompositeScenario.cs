@@ -65,8 +65,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             try
             {
-                var scensRepository = Singleton.Resolve<ScenariosRepositoryBase>();
-                var usersRepository = Singleton.Resolve<UsersRepositoryBase>();
+                var instanceManager = Singleton.Resolve<IInstanceManager>();
 
                 if (InitializeWithValue == null)
                     InitializeWithValue = this.ValueType.DefaultValue;
@@ -74,13 +73,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 {
                     if (action != null)
                     {
-                        var coreAction = action as IScenariosAccess;
-                        coreAction?.SetTargetScenario(scensRepository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
-                        var initializable = action as IContextInitializable;
-                        initializable?.Initialize(this);
-                        var userAccess = action as IUsersDataAccess;
-                        if (userAccess != null)
-                            userAccess.NeedUsers = () => usersRepository.Users.ToArray();
+                        instanceManager.PrepareInstance(action, this);
                         action.Initialize();
                     }
                 }

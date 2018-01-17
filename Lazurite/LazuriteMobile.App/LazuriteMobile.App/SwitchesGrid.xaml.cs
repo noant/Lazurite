@@ -120,6 +120,7 @@ namespace LazuriteMobile.App
                     }
                 }
                 Rearrange();
+
                 this.BatchCommit();
             }
         }

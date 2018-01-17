@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System.Diagnostics;
 
@@ -9,6 +10,8 @@ namespace CommonPlugin
     [HumanFriendlyName("Выполнить команду")]
     [LazuriteIcon(Icon.Console)]
     [SuitableValueTypes(typeof(InfoValueType))]
+    [OnlyExecute]
+    [Category(Category.Administration)]
     public class ExecuteCommandAction : IAction
     {
         public string Caption

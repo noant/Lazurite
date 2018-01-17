@@ -16,7 +16,9 @@ namespace UserGeolocationPluginUI
         {
             this.Icon = LazuriteUI.Icons.Icon.ChevronRight;
             this.Content = device;
-            this.Device = device;
+            this.Device = 
+                device.Split(new[] { '[',']' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? this.Device;
+            this.ToolTip = device;
             this.Margin = new System.Windows.Thickness(0, 1, 0, 0);
             this.Background = Brushes.DarkSlateBlue;
         }

@@ -1,0 +1,21 @@
+﻿<Grid x:Class="LazuriteUI.Windows.Main.Constructors.SelectActionItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             Height="Auto"
+             MaxHeight="80"
+             MinHeight="25"
+             Margin="1"
+             Width="150"
+             mc:Ignorable="d">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <controls:ItemView Background="{x:Static controls:Visual.BrightItemBackground}" Height="Auto" Width="Auto" x:Name="itemView" Grid.ColumnSpan="2"></controls:ItemView>
+    <controls:IconView Height="25" x:Name="iconView" IsHitTestVisible="False" Icon="Acorn"></controls:IconView>
+    <TextBlock Margin="-2,5,3,5" x:Name="tbText" TextWrapping="Wrap" IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Foreground="White">asasdf</TextBlock>
+</Grid>

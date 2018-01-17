@@ -89,7 +89,7 @@ namespace UserGeolocationPluginUI
             tbCurrentLocation.Text = CurrentLocation.ToString();
         }
 
-        public Geolocation CurrentLocation => new Geolocation(_gmapControl.Position.Lat, _gmapControl.Position.Lng);
+        public Geolocation CurrentLocation => new Geolocation(_gmapControl.Position.Lat, _gmapControl.Position.Lng, false);
 
         public void FitToMarkers()
         {
@@ -171,7 +171,7 @@ namespace UserGeolocationPluginUI
                     {
                         var locations = 
                             geoTarget.Geolocations
-                            .Where(x => x.Device.Equals(device) && x.DateTime >= _viewSince)
+                            .Where(x => x.Device.Equals(device) && x.DateTime >= _viewSince && x.Geolocation.IsGPS)
                             .Select(x => new PointDate() {
                                 DateTime = x.DateTime,
                                 Point = new PointLatLng(x.Geolocation.Latitude, x.Geolocation.Longtitude)

@@ -1,4 +1,5 @@
 ﻿using Lazurite.IOC;
+using Lazurite.Shared.ActionCategory;
 using Lazurite.Windows.Modules;
 using LazuriteUI.Windows.Controls;
 using System;
@@ -24,33 +25,49 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         public void Initialize(Type valueType = null, ActionInstanceSide side = ActionInstanceSide.Both, Type selectedType = null)
         {
-            var types = _manager.GetModules(valueType, side);
+            var types = _manager.GetModules();
+            var targetTypes = _manager.GetModules(valueType, side);
+
             SelectedType = selectedType;
 
-            var itemViews = types.Select(type =>
+            foreach (var type in types)
             {
-                var itemView = new ItemView();
-                itemView.Content = Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(type);
+                var itemView = new SelectActionItemView();
+                itemView.Text = Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(type);
                 itemView.Icon = Icons.LazuriteIconAttribute.GetIcon(type);
                 if (itemView.Icon == Icons.Icon._None)
                     itemView.Icon = Icons.Icon.Brick;
-                itemView.Height = 30;
-                itemView.Margin = new Thickness(2);
+                itemView.HorizontalAlignment = HorizontalAlignment.Stretch;
                 itemView.Tag = type;
-                return itemView;
-            });
-
-            foreach (var itemView in itemViews)
-                itemsView.Children.Add(itemView);
-
-            itemsView.SelectionMode = ListViewItemsSelectionMode.Single;
-            itemsView.SelectionChanged += (o, e) => {
-                if (itemsView.GetSelectedItems().Any())
-                {
-                    SelectedType = (Type)((itemsView.GetSelectedItems().FirstOrDefault() as ItemView).Tag);
+                itemView.Click += (o, e) => {
+                    SelectedType = itemView.Tag as Type;
                     SelectionChanged?.Invoke(this);
+                };
+                itemView.IsEnabled = targetTypes.Any(x => x.Equals(type));
+                var category = CategoryAttribute.Get(type);
+                switch (category)
+                {
+                    case Category.Control:
+                        itemsViewControl.Children.Add(itemView);
+                        break;
+                    case Category.DateTime:
+                        itemsViewDateTime.Children.Add(itemView);
+                        break;
+                    case Category.Geolocation:
+                        itemsViewGeolocation.Children.Add(itemView);
+                        break;
+                    case Category.Meta:
+                        itemsViewMeta.Children.Add(itemView);
+                        break;
+                    case Category.Multimedia:
+                        itemsViewMedia.Children.Add(itemView);
+                        break;
+                    case Category.Administration:
+                    case Category.Other:
+                        itemsViewOther.Children.Add(itemView);
+                        break;
                 }
-            };
+            }
         }
 
         public static void Show(Action<Type> selectedCallback, Type valueType = null, ActionInstanceSide side = ActionInstanceSide.Both, Type selectedType = null)
@@ -68,13 +85,24 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var txt = tbSearch.Text.ToUpper().Trim();
-            foreach (ItemView item in itemsView.GetItems())
+            var txt = tbSearch.Text.Trim().ToUpper();
+            foreach (SelectActionItemView item in GetAllItems())
             {
-                if (string.IsNullOrEmpty(txt) || item.Content.ToString().ToUpper().Contains(txt))
+                if (string.IsNullOrEmpty(txt) || item.Text.ToUpper().Contains(txt))
                     item.Visibility = Visibility.Visible;
                 else item.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private ISelectable[] GetAllItems()
+        {
+            return itemsViewControl.GetItems()
+                .Union(itemsViewDateTime.GetItems())
+                .Union(itemsViewGeolocation.GetItems())
+                .Union(itemsViewMedia.GetItems())
+                .Union(itemsViewMeta.GetItems())
+                .Union(itemsViewOther.GetItems())
+                .ToArray();
         }
 
         public Type SelectedType { get; private set; }

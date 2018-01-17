@@ -1,12 +1,14 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 
 namespace Lazurite.CoreActions.StandardValueTypeActions
 {
     [VisualInitialization]
     [HumanFriendlyName("# Изображение")]
     [SuitableValueTypes(typeof(ImageValueType))]
+    [Category(Category.Meta)]
     public class GetImageVTAction : IAction, IStandardValueAction
     {
         public string Caption

@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using WakeOnLanUI;
 using WakeOnLanUtils;
@@ -10,6 +11,7 @@ namespace WakeOnLanPlugin
     [LazuriteIcon(Icon.NetworkPort)]
     [HumanFriendlyName("Wake-On-Lan")]
     [SuitableValueTypes(typeof(ButtonValueType))]
+    [Category(Category.Administration)]
     public class WakeOnLanAction : IAction, IWakeOnLanAction
     {
         public string Caption

@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using OpenZWrapper;
 using System;
@@ -14,6 +15,7 @@ namespace ZWavePlugin
         typeof(StateValueType), typeof(InfoValueType), typeof(FloatValueType), 
         typeof(ButtonValueType), typeof(ToggleValueType))]
     [LazuriteIcon(Icon.ManSensor)]
+    [Category(Category.Control)]
     public class ZWaveNodeValue : IAction
     {
         public byte NodeId { get; set; }

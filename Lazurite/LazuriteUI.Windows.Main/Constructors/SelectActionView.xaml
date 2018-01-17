@@ -6,22 +6,50 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
-             MinWidth="400" 
-             Background="{x:Static controls:Visual.Background}"
+             Width="900"
+             Background="{x:Static controls:Visual.ItemBackground}"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition Width="150"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <controls:IconView Width="30" Icon="PageSearch"></controls:IconView>
-        <TextBox TabIndex="0" Margin="2" Grid.Column="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" TextChanged="tbSearch_TextChanged" Style="{StaticResource TextBoxSearch}" x:Name="tbSearch"></TextBox>
-        <controls:WheelScroll Grid.ColumnSpan="2" Grid.Row="1">
-            <controls:ListItemsView x:Name="itemsView"></controls:ListItemsView>
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3">
+            <controls:IconView Width="30" Icon="PageSearch"></controls:IconView>
+            <TextBox TabIndex="0" Margin="2" Width="300" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" TextChanged="tbSearch_TextChanged" Style="{StaticResource TextBoxSearch}" x:Name="tbSearch"></TextBox>
+        </StackPanel>
+        <local:ActionCategoryHeaderView Grid.Row="1" Icon="Markup" Content="ОБЩИЕ"></local:ActionCategoryHeaderView>
+        <local:ActionCategoryHeaderView Grid.Row="1" Grid.Column="1" Icon="TvRemote" Content="УПРАВЛЕНИЕ"></local:ActionCategoryHeaderView>
+        <local:ActionCategoryHeaderView Grid.Row="1" Grid.Column="2" Icon="HomeGps" Content="ГЕОЛОКАЦИЯ"></local:ActionCategoryHeaderView>
+        <local:ActionCategoryHeaderView Grid.Row="1" Grid.Column="3" Icon="Tv" Content="МЕДИА"></local:ActionCategoryHeaderView>
+        <local:ActionCategoryHeaderView Grid.Row="1" Grid.Column="4" Icon="CalendarRange" Content="ДАТА/ВРЕМЯ"></local:ActionCategoryHeaderView>
+        <local:ActionCategoryHeaderView Grid.Row="1" Grid.Column="5" Icon="HomeGarageOpen" Content="ДРУГОЕ"></local:ActionCategoryHeaderView>
+        <controls:WheelScroll Grid.Row="2" Margin="1">
+            <controls:ListItemsView SelectionMode="Single" x:Name="itemsViewMeta"></controls:ListItemsView>
+        </controls:WheelScroll>
+        <controls:WheelScroll Grid.Row="2" Grid.Column="1" Margin="1">
+            <controls:ListItemsView SelectionMode="Single" x:Name="itemsViewControl"></controls:ListItemsView>
+        </controls:WheelScroll>
+        <controls:WheelScroll Grid.Row="2" Grid.Column="2" Margin="1">
+            <controls:ListItemsView SelectionMode="Single" x:Name="itemsViewGeolocation"></controls:ListItemsView>
+        </controls:WheelScroll>
+        <controls:WheelScroll Grid.Row="2" Grid.Column="3" Margin="1">
+            <controls:ListItemsView SelectionMode="Single" x:Name="itemsViewMedia"></controls:ListItemsView>
+        </controls:WheelScroll>
+        <controls:WheelScroll Grid.Row="2" Grid.Column="4" Margin="1">
+            <controls:ListItemsView SelectionMode="Single" x:Name="itemsViewDateTime"></controls:ListItemsView>
+        </controls:WheelScroll>
+        <controls:WheelScroll Grid.Row="2" Grid.Column="5" Margin="1">
+            <controls:ListItemsView SelectionMode="Single" x:Name="itemsViewOther"></controls:ListItemsView>
         </controls:WheelScroll>
     </Grid>
 </UserControl>

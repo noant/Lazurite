@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace MultimediaKeysPlugin
     [SuitableValueTypes(typeof(StateValueType))]
     [LazuriteIcon(Icon.InputKeyboard)]
     [OnlyExecute]
+    [Category(Category.Multimedia)]
     public class KeysAction : IAction
     {
         public string Caption

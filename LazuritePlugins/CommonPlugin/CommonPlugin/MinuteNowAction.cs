@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System;
 
@@ -9,6 +10,7 @@ namespace CommonPlugin
     [OnlyGetValue]
     [HumanFriendlyName("Минута сейчас")]
     [SuitableValueTypes(typeof(FloatValueType))]
+    [Category(Category.DateTime)]
     [LazuriteIcon(Icon.Timer)]
     public class MinuteNowAction : IAction
     {

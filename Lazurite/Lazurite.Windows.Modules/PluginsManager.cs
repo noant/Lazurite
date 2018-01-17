@@ -18,7 +18,7 @@ using System.Reflection;
 
 namespace Lazurite.Windows.Modules
 {
-    public class PluginsManager : IDisposable
+    public class PluginsManager : IDisposable, IInstanceManager
     {
         public static readonly string PluginFileExtension = ".pyp";
 
@@ -217,20 +217,26 @@ namespace Lazurite.Windows.Modules
         private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
 
-        public IAction CreateInstanceOf(Type type, IAlgorithmContext algoContext)
+        public IAction CreateInstance(Type type, IAlgorithmContext algorithmContext)
         {
             var action = (IAction)Activator.CreateInstance(type);
+            PrepareInstance(action, algorithmContext);
+            if (action is ExecuteAction)
+                ((ExecuteAction)action).InputValue.Action = CoreActions.Utils.Default(action.ValueType);
+            else if (action is SetReturnValueAction)
+                ((SetReturnValueAction)action).InputValue.Action = CoreActions.Utils.Default(algorithmContext.ValueType);
+            return action;
+        }
+
+        public IAction PrepareInstance(IAction action, IAlgorithmContext algorithmContext)
+        {
             if (action is IContextInitializable)
-                ((IContextInitializable)action).Initialize(algoContext);
+                ((IContextInitializable)action).Initialize(algorithmContext);
             if (action is IScenariosAccess)
                 ((IScenariosAccess)action)
                     .SetTargetScenario(_scenarioRepository.Scenarios.FirstOrDefault(x => x.Id.Equals(((IScenariosAccess)action).TargetScenarioId)));
             if (action is IUsersDataAccess)
-                ((IUsersDataAccess)action).NeedUsers = () => _usersRepository.Users.ToArray();
-            if (action is ExecuteAction)
-                ((ExecuteAction)action).InputValue.Action = CoreActions.Utils.Default(action.ValueType);
-            else if (action is SetReturnValueAction)
-                ((SetReturnValueAction)action).InputValue.Action = CoreActions.Utils.Default(algoContext.ValueType);
+                ((IUsersDataAccess)action).SetNeedUsers(() => _usersRepository.Users.ToArray());            
             return action;
         }
 

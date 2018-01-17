@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace CommonPlugin
     [OnlyGetValue]
     [HumanFriendlyName("День недели сейчас")]
     [SuitableValueTypes(typeof(StateValueType))]
+    [Category(Category.DateTime)]
     [LazuriteIcon(Icon.CalendarDay)]
     public class DayOfWeekNowAction : IAction
     {

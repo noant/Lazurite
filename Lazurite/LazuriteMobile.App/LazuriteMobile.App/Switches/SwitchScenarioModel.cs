@@ -62,7 +62,7 @@ namespace LazuriteMobile.App.Switches
         {
             get
             {
-                return Scenario.VisualSettings;
+                return Scenario?.VisualSettings;
             }
         }
 
@@ -70,6 +70,12 @@ namespace LazuriteMobile.App.Switches
         
         public void RefreshWith(ScenarioInfo scenario)
         {
+            var prevIcon1 = Icon1;
+            var prevIcon2 = Icon2;
+
+            if (Scenario != null)
+                Scenario.ValueChanged -= ScenarioValueChanged;
+
             Scenario = scenario;
             Scenario.ValueChanged += ScenarioValueChanged;
             this._value = Scenario.CurrentValue;
@@ -77,8 +83,11 @@ namespace LazuriteMobile.App.Switches
                 VisualSettings.AddictionalData.Set(Icon1Key, GetStandardIcon1());
             if (!VisualSettings.AddictionalData.ContainsKey(Icon2Key))
                 VisualSettings.AddictionalData.Set(Icon2Key, GetStandardIcon2());
-            OnPropertyChanged(nameof(Icon1));
-            OnPropertyChanged(nameof(Icon2));
+
+            if (prevIcon1 != Icon1)
+                OnPropertyChanged(nameof(Icon1));
+            if (prevIcon2 != Icon2)
+                OnPropertyChanged(nameof(Icon2));
             OnPropertyChanged(nameof(ScenarioName));
             OnPropertyChanged(nameof(ScenarioValue));
             OnPropertyChanged(nameof(AllowClick));
@@ -89,6 +98,8 @@ namespace LazuriteMobile.App.Switches
         {
             get
             {
+                if (VisualSettings == null || !VisualSettings.AddictionalData.ContainsKey(Icon1Key))
+                    return "_None";
                 return VisualSettings.AddictionalData[Icon1Key].ToString();
             }
             set
@@ -102,6 +113,8 @@ namespace LazuriteMobile.App.Switches
         {
             get
             {
+                if (VisualSettings == null || !VisualSettings.AddictionalData.ContainsKey(Icon2Key))
+                    return "_None";
                 return VisualSettings.AddictionalData[Icon2Key].ToString();
             }
             set
@@ -131,7 +144,7 @@ namespace LazuriteMobile.App.Switches
         {
             get
             {
-                return Scenario.Name;
+                return Scenario?.Name;
             }
         }
 

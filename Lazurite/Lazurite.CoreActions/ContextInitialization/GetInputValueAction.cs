@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 
 namespace Lazurite.CoreActions.ContextInitialization
 {
@@ -8,6 +9,7 @@ namespace Lazurite.CoreActions.ContextInitialization
     [SuitableValueTypes(true)]
     [HumanFriendlyName("Входящее значение")]
     [VisualInitialization]
+    [Category(Category.Meta)]
     public class GetInputValueAction : IAction, IContextInitializable
     {
         public string Caption

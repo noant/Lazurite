@@ -13,8 +13,8 @@ namespace LazuriteUI.Windows.Controls
     public partial class ItemView : UserControl, ISelectable
     {
         public static readonly DependencyProperty IconVisibilityProperty;
-        public static readonly DependencyProperty IconProperty;
         public static readonly DependencyProperty SelectedProperty;
+        public static readonly DependencyProperty IconProperty;
         public static new readonly DependencyProperty ContentProperty;
         public static new readonly DependencyProperty BackgroundProperty;
         public static readonly DependencyProperty SelectableProperty;

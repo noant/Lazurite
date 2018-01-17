@@ -27,7 +27,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             SelectCoreActionView.Show((type) => {
                 var newActionHolder = new ActionHolder()
                 {
-                    Action = _manager.CreateInstanceOf(type, AlgorithmContext)
+                    Action = _manager.CreateInstance(type, AlgorithmContext)
                 };
                 _action.ActionHolders.Insert(0, newActionHolder);
                 Insert(newActionHolder, 0);
@@ -90,7 +90,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 SelectCoreActionView.Show((type) => {
                     var index = this.Children.IndexOf(control)+1;
                     var newActionHolder = new ActionHolder() {
-                        Action = _manager.CreateInstanceOf(type, this.AlgorithmContext)
+                        Action = _manager.CreateInstance(type, this.AlgorithmContext)
                     };
                     _action.ActionHolders.Insert(index, newActionHolder);
                     Insert(newActionHolder, index);

@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using PingPluginUI;
 using PingPluginUtils;
@@ -12,6 +13,7 @@ namespace PingPlugin
     [LazuriteIcon(Icon.TransitConnection)]
     [HumanFriendlyName("Устройство в сети")]
     [SuitableValueTypes(typeof(ToggleValueType))]
+    [Category(Category.Administration)]
     public class PingAction : IAction, IPingAction
     {
         public string Host { get; set; }

@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System;
 
@@ -9,6 +10,7 @@ namespace CommonPlugin
     [OnlyGetValue]
     [HumanFriendlyName("День месяца сейчас")]
     [SuitableValueTypes(typeof(FloatValueType))]
+    [Category(Category.DateTime)]
     [LazuriteIcon(Icon.CalendarDay)]
     public class DayNowAction : IAction
     {

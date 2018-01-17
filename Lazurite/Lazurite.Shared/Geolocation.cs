@@ -5,12 +5,13 @@ namespace Lazurite.Shared
     [DataContract]
     public class Geolocation
     {
-        public static Geolocation Empty { get; private set; } = new Geolocation(double.NaN, double.NaN);
+        public static Geolocation Empty { get; private set; } = new Geolocation(double.NaN, double.NaN, false);
 
-        public Geolocation(double latitude, double longtitude)
+        public Geolocation(double latitude, double longtitude, bool isGps)
         {
             Latitude = latitude;
             Longtitude = longtitude;
+            IsGPS = isGps;
         }
 
         public Geolocation()
@@ -22,6 +23,8 @@ namespace Lazurite.Shared
         public double Latitude { get; set; }
         [DataMember]
         public double Longtitude { get; set; }
+        [DataMember]
+        public bool IsGPS { get; set; }
 
         public override int GetHashCode()
         {

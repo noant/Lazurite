@@ -37,12 +37,12 @@ namespace LazuriteMobile.App
                     CrossGeolocator.Current.GetLastKnownLocationAsync().ContinueWith((t) =>
                     {
                         if (t.Result != null)
-                            _lastLocation = new Geolocation(t.Result.Latitude, t.Result.Longitude);
+                            _lastLocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, t.Result.Source == LocationSource.GPS);
                     });
                     CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromMinutes(10)).ContinueWith((t) =>
                     {
                         if (t.Result != null)
-                            _lastLocation = new Geolocation(t.Result.Latitude, t.Result.Longitude);
+                            _lastLocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, t.Result.Source == LocationSource.GPS);
                     });
                     CrossGeolocator.Current.StartListeningAsync(
                         minimumTime: TimeSpan.FromMinutes(2),
@@ -61,7 +61,7 @@ namespace LazuriteMobile.App
 
         private void Current_PositionChanged(object sender, PositionEventArgs e)
         {
-            _lastLocation = new Geolocation(e.Position.Latitude, e.Position.Longitude);
+            _lastLocation = new Geolocation(e.Position.Latitude, e.Position.Longitude, e.Position.Source == LocationSource.GPS);
         }
 
         public void Dispose()

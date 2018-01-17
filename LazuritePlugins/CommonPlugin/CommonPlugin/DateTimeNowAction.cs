@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System;
 
@@ -10,6 +11,7 @@ namespace CommonPlugin
     [HumanFriendlyName("Дата и время сейчас")]
     [SuitableValueTypes(typeof(DateTimeValueType))]
     [LazuriteIcon(Icon.Calendar)]
+    [Category(Category.DateTime)]
     public class DateTimeNowAction : IAction
     {
         public string Caption

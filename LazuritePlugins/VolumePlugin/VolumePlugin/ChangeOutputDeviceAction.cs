@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 
 namespace VolumePlugin
@@ -8,6 +9,7 @@ namespace VolumePlugin
     [LazuriteIcon(Icon.Sound3)]
     [HumanFriendlyName("Устройство воспроизведения")]
     [SuitableValueTypes(typeof(FloatValueType))]
+    [Category(Category.Multimedia)]
     public class ChangeOutputDeviceAction : IAction
     {
         public string Caption

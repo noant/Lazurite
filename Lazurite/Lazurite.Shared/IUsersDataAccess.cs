@@ -8,6 +8,6 @@ namespace Lazurite.Shared
 {
     public interface IUsersDataAccess
     {
-        Func<IGeolocationTarget[]> NeedUsers { get; set; }
+        void SetNeedUsers(Func<IGeolocationTarget[]> needUsers);
     }
 }

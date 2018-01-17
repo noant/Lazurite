@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using ModbusPluginUI;
 using NModbusWrapper;
@@ -11,6 +12,7 @@ namespace ModbusPlugin
     [HumanFriendlyName("Modbus - чтение и запись регистров")]
     [SuitableValueTypes(typeof(FloatValueType), typeof(InfoValueType))]
     [LazuriteIcon(Icon.NetworkHome)]
+    [Category(Category.Control)]
     public class ModbusRegistersAction : IAction, IModbusRegistersAction
     {
         public NModbusManager Manager { get; set; } = new NModbusManager();

@@ -105,6 +105,9 @@
     <Compile Include="Common\ScaleView.xaml.cs">
       <DependentUpon>ScaleView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\ActionCategoryHeaderView.xaml.cs">
+      <DependentUpon>ActionCategoryHeaderView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\CompositeScenarioView.xaml.cs">
       <DependentUpon>CompositeScenarioView.xaml</DependentUpon>
     </Compile>
@@ -186,6 +189,9 @@
     </Compile>
     <Compile Include="Constructors\RemoteScenarioView.xaml.cs">
       <DependentUpon>RemoteScenarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constructors\SelectActionItemView.xaml.cs">
+      <DependentUpon>SelectActionItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Constructors\TriggerConstructorView.xaml.cs">
       <DependentUpon>TriggerConstructorView.xaml</DependentUpon>
@@ -423,6 +429,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Constructors\ActionCategoryHeaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Constructors\CompositeScenarioView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -520,6 +530,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Constructors\RemoteScenarioView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Constructors\SelectActionItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

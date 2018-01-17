@@ -31,7 +31,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             SelectActionView.Show(
                     (type) => {
-                        var newAction = Singleton.Resolve<PluginsManager>().CreateInstanceOf(type, AlgorithmContext);
+                        var newAction = Singleton.Resolve<PluginsManager>().CreateInstance(type, AlgorithmContext);
                         if (newAction != null)
                         {
                             ActionControlResolver.UserInitialize(

@@ -69,6 +69,7 @@
     <Compile Include="GlobalSettings.cs" />
     <Compile Include="IAddictionalDataHandler.cs" />
     <Compile Include="IClientFactory.cs" />
+    <Compile Include="IInstanceManager.cs" />
     <Compile Include="MessageSecurity\DataContractSerializerExtension.cs" />
     <Compile Include="MessageSecurity\Encrypted.cs" />
     <Compile Include="MessageSecurity\EncryptedList.cs" />

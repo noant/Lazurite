@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using System;
 
 namespace Lazurite.CoreActions.StandardValueTypeActions
@@ -8,6 +9,7 @@ namespace Lazurite.CoreActions.StandardValueTypeActions
     [VisualInitialization]
     [HumanFriendlyName("# Дата и время")]
     [SuitableValueTypes(typeof(DateTimeValueType))]
+    [Category(Category.Meta)]
     public class GetDateTimeVTAction : IAction, IStandardValueAction
     {
         public GetDateTimeVTAction()

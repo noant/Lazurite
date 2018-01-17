@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace MultimediaKeysPlugin
     [HumanFriendlyName("Эмуляция мультимедиа клавиши")]
     [SuitableValueTypes(typeof(StateValueType))]
     [LazuriteIcon(Icon.InputKeyboard)]
+    [Category(Category.Multimedia)]
     [OnlyExecute]
     public class MultimediaKeysAction : IAction
     {

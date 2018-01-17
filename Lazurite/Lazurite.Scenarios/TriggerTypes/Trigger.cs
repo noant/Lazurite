@@ -55,14 +55,12 @@ namespace Lazurite.Scenarios.TriggerTypes
             {
                 var repository = Singleton.Resolve<ScenariosRepositoryBase>();
                 SetScenario(repository.Scenarios.FirstOrDefault(x => x.Id.Equals(this.TargetScenarioId)));
+                var instanceManager = Singleton.Resolve<IInstanceManager>();
                 foreach (var action in ((ComplexAction)this.TargetAction).GetAllActionsFlat())
                 {
                     if (action != null)
                     {
-                        var coreAction = action as IScenariosAccess;
-                        coreAction?.SetTargetScenario(repository.Scenarios.SingleOrDefault(x => x.Id.Equals(coreAction.TargetScenarioId)));
-                        var initializable = action as IContextInitializable;
-                        initializable?.Initialize(this);
+                        instanceManager.PrepareInstance(action, this);
                         action.Initialize();
                     }
                 }

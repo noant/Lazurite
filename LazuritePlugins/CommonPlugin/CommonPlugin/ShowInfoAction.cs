@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using Lazurite.Windows.Logging;
 using LazuriteUI.Icons;
 using LazuriteUI.Windows.Main.Journal;
@@ -10,6 +11,7 @@ namespace CommonPlugin
     [OnlyExecute]
     [HumanFriendlyName("Вывод сообщения")]
     [LazuriteIcon(Icon.Message)]
+    [Category(Category.Other)]
     [SuitableValueTypes(typeof(InfoValueType))]
     public class ShowInfoAction : IAction
     {

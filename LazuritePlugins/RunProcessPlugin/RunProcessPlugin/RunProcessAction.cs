@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using RunProcessPluginUI;
 using System;
@@ -11,6 +12,7 @@ namespace RunProcessPlugin
     [LazuriteIcon(Icon.Console)]
     [HumanFriendlyName("Запуск программы")]
     [SuitableValueTypes(typeof(ToggleValueType))]
+    [Category(Category.Administration)]
     public class RunProcessAction : IAction, IRunProcessAction
     {
         private Process _process;

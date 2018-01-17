@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System.Diagnostics;
 
@@ -8,6 +9,7 @@ namespace CommonPlugin
 {
     [HumanFriendlyName("Убить процесс")]
     [LazuriteIcon(Icon.AppRemove)]
+    [Category(Category.Administration)]
     [SuitableValueTypes(typeof(InfoValueType))]
     public class KillProcessAction : IAction
     {

@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using System;
 
 namespace Lazurite.CoreActions
@@ -9,6 +10,7 @@ namespace Lazurite.CoreActions
     [VisualInitialization]
     [HumanFriendlyName("Выполнить")]
     [SuitableValueTypes(typeof(ButtonValueType))]
+    [Category(Category.Meta)]
     public class ExecuteAction : IMultipleAction, IAction
     {
         public string Caption

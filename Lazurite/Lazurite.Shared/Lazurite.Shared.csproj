@@ -40,6 +40,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionCategory\Category.cs" />
+    <Compile Include="ActionCategory\CategoryAttribute.cs" />
     <Compile Include="EventsHandler.cs" />
     <Compile Include="Geolocation.cs" />
     <Compile Include="GeolocationInfo.cs" />

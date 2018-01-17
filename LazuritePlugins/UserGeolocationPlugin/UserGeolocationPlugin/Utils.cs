@@ -15,7 +15,7 @@ namespace UserGeolocationPlugin
             var user = users.FirstOrDefault(x => x.Id.Equals(userId));
             if (user == null)
                 return new GeolocationPlace[0];
-            var userLocations = user.Geolocations.Where(x => x.Device.Equals(deviceName)).ToArray();
+            var userLocations = user.Geolocations.Where(x => x.Device.Equals(deviceName) && x.Geolocation.IsGPS).ToArray();
             if (!userLocations.Any())
                 return new GeolocationPlace[0];
             var userLastLocation = userLocations.Last();

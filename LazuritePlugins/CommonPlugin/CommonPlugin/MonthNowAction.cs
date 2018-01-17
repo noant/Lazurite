@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System;
 
@@ -9,6 +10,7 @@ namespace CommonPlugin
     [OnlyGetValue]
     [HumanFriendlyName("Месяц сейчас")]
     [SuitableValueTypes(typeof(StateValueType))]
+    [Category(Category.DateTime)]
     [LazuriteIcon(Icon.CalendarMonth)]
     public class MonthNowAction : IAction
     {

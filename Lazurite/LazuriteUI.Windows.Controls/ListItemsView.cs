@@ -68,7 +68,7 @@ namespace LazuriteUI.Windows.Controls
                         _lockSelectionChangedEvent = true;
                         if (this.SelectionMode == ListViewItemsSelectionMode.Single && item.Selected)
                         {
-                            foreach (var child in this.Children.Cast<Control>())
+                            foreach (var child in this.Children)
                                 if (child is ISelectable && item != child)
                                     ((ISelectable)child).Selected = false;
                         }
@@ -84,7 +84,7 @@ namespace LazuriteUI.Windows.Controls
 
         public ISelectable[] GetItems()
         {
-            return this.Children.Cast<Control>().Where(x => x is ISelectable).Select(x => (ISelectable)x).ToArray();
+            return this.Children.Cast<FrameworkElement>().Where(x => x is ISelectable).Select(x => (ISelectable)x).ToArray();
         }
 
         public ISelectable[] GetSelectedItems()

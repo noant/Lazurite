@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared.ActionCategory;
 
 namespace Lazurite.CoreActions.ContextInitialization
 {
@@ -8,6 +9,7 @@ namespace Lazurite.CoreActions.ContextInitialization
     [VisualInitialization]
     [HumanFriendlyName("Обновить значение сценария")]
     [SuitableValueTypes(true)]
+    [Category(Category.Meta)]
     public class SetReturnValueAction : IAction, IMultipleAction, IContextInitializable
     {
         public bool IsSupportsEvent
