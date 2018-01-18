@@ -97,7 +97,16 @@ namespace LazuriteUI.Windows.Controls
                     var value = (ICommand)e.NewValue;
                     itemView.button.Command = value;
                 }
-            });            
+            });
+
+            BackgroundProperty.OverrideMetadata(typeof(ItemView), new FrameworkPropertyMetadata(Visual.ItemBackground)
+            {
+                PropertyChangedCallback = (o, e) =>
+                {
+                    var element = ((UserControl)o);
+                    element.Background = (Brush)e.NewValue;
+                }
+            });
         }
 
         private Button button;
@@ -131,10 +140,9 @@ namespace LazuriteUI.Windows.Controls
             Focusable = true;
             FocusManager.SetFocusedElement(this, button);
             Width = double.NaN;
-            if (Background == null)
-                Background = Visual.ItemBackground;
 
             var grid = new Grid();
+
             button = new Button()
             {
                 Name = "button",
@@ -208,7 +216,7 @@ namespace LazuriteUI.Windows.Controls
                 SetValue(IconProperty, value);
             }
         }
-        
+
         public new object Content
         {
             get
