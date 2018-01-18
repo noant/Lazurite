@@ -13,7 +13,7 @@
     BackgroundColor="#1D191D"
     HorizontalOptions="Start">
     <Grid x:Name="grid">
-        <controls:ItemView InputTransparent="{Binding AllowClick}" BackgroundColor="Transparent" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
+        <controls:ItemView InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" BackgroundColor="Transparent" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
         <Grid InputTransparent="True">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"></RowDefinition>
