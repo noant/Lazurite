@@ -10,6 +10,8 @@ namespace UserGeolocationPlugin
 {
     public static class Utils
     {
+        public static readonly double EquatorLength = 40075696.0;
+
         private static GeolocationInfo[] GetNonGpsLocations(IGeolocationTarget target, string device)
         {
             var userLocations = target.Geolocations.Where(x => x.Device.Equals(device)).ToArray(); //take first even it source is not GPS
@@ -56,13 +58,13 @@ namespace UserGeolocationPlugin
         {
             var user = users.FirstOrDefault(x => x.Id.Equals(userId));
             if (user == null)
-                return double.PositiveInfinity;
+                return EquatorLength;
             var place = PlacesManager.GetAllAvailablePlaces().FirstOrDefault(x => x.Name.Equals(placeName));
             if (place == null || place == GeolocationPlace.Empty || place == GeolocationPlace.Other)
-                return double.PositiveInfinity;
+                return EquatorLength;
             var userCurrentGeolocation = GetUserCurrentGeolocation(users, userId, device);
             if (userCurrentGeolocation == Lazurite.Shared.Geolocation.Empty)
-                return double.PositiveInfinity;
+                return EquatorLength;
             return GeoCalculator.GetDistance(
                 userCurrentGeolocation.Latitude, userCurrentGeolocation.Longtitude,
                 place.Location.Latitude, place.Location.Longtitude, 1, DistanceUnit.Meters);

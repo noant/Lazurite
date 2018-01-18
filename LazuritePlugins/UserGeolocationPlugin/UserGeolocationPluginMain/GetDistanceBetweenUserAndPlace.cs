@@ -46,7 +46,7 @@ namespace UserGeolocationPluginMain
         public ValueTypeBase ValueType
         {
             get; set;
-        } = new FloatValueType() { AcceptedValues = new[] { 0.0.ToString(), 40075696.0.ToString() /*equator length*/ } };
+        } = new FloatValueType() { AcceptedValues = new[] { 0.0.ToString(), UserGeolocationPlugin.Utils.EquatorLength.ToString() } };
 
         public bool IsSupportsEvent => false;
 
