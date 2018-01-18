@@ -50,10 +50,7 @@ namespace UserGeolocationPluginUI
 
         public IGeolocationTarget[] Users { get; set; }
 
-        public void Refresh()
-        {
-            locationsView.RefreshWith(Users, null);
-        }
+        public void Refresh() => locationsView.RefreshWith(Users, null);
 
         public void UpdateControls()
         {

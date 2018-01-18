@@ -13,6 +13,9 @@ namespace UserGeolocationPluginUI
         public UsersView()
         {
             this.SelectionMode = ListViewItemsSelectionMode.Single;
+            this.SelectionChanged += (o, e) => {
+                SelectedUserChanged?.Invoke(this, new EventsArgs<IGeolocationTarget>(this.SelectedUser));
+            };
         }
 
         public IGeolocationTarget[] Users
@@ -34,7 +37,7 @@ namespace UserGeolocationPluginUI
         {
             get
             {
-                return (this.SelectedItem as UserItemView)?.User;
+                return (this.GetSelectedItems().FirstOrDefault() as UserItemView)?.User;
             }
             set
             {
@@ -44,5 +47,7 @@ namespace UserGeolocationPluginUI
                     .All(x => x.Selected = true);
             }
         }
+
+        public event EventsHandler<IGeolocationTarget> SelectedUserChanged;
     }
 }

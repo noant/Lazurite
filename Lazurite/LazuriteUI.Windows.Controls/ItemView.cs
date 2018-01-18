@@ -99,7 +99,7 @@ namespace LazuriteUI.Windows.Controls
                     itemView.button.Command = value;
                 }
             });
-            BackgroundProperty = DependencyProperty.Register(nameof(Background), typeof(Brush), typeof(ItemView), new FrameworkPropertyMetadata()
+            BackgroundProperty = DependencyProperty.Register(nameof(Background), typeof(Brush), typeof(ItemView), new FrameworkPropertyMetadata(Visual.ItemBackground)
             {
                 PropertyChangedCallback = (o, e) =>
                 {
@@ -131,10 +131,11 @@ namespace LazuriteUI.Windows.Controls
 
         private void InitializeComponent()
         {
+            //not xaml because i need inherit from this class
+
             Resources = new ResourceDictionary() { Source = new System.Uri("/LazuriteUI.Windows.Controls;component/Styles/Styles.xaml", System.UriKind.Relative ) };
             
             Height = 30;
-            Background = Visual.ItemBackground;
             IsHitTestVisible = true;
             Focusable = true;
             FocusManager.SetFocusedElement(this, button);

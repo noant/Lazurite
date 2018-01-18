@@ -61,7 +61,7 @@ namespace UserGeolocationPluginMain
 
         public string GetValue(ExecutionContext context)
         {
-            var places = UserGeolocationPlugin.Utils.GetCurrentUserGeolocations(_needUsers?.Invoke(), UserId, DeviceId);
+            var places = UserGeolocationPlugin.Utils.GetUserCurrentLocations(_needUsers?.Invoke(), UserId, DeviceId);
             return places.Any(x => x.Name.Equals(this.PlaceName)) ? ToggleValueType.ValueON : ToggleValueType.ValueOFF;
         }
 

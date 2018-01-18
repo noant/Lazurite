@@ -15,8 +15,8 @@ namespace UserGeolocationPluginUI
         public DeviceItemView(string device)
         {
             this.Icon = LazuriteUI.Icons.Icon.ChevronRight;
-            this.Content = device;
-            this.Device = 
+            this.Device = device;
+            this.Content = 
                 device.Split(new[] { '[',']' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? this.Device;
             this.ToolTip = device;
             this.Margin = new System.Windows.Thickness(0, 1, 0, 0);

@@ -71,6 +71,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GetDistanceBetweenUserAndPlace.cs" />
+    <Compile Include="GetUserLocationAction.cs" />
+    <Compile Include="GetUserGeolocationAction.cs" />
     <Compile Include="UserInLocationAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

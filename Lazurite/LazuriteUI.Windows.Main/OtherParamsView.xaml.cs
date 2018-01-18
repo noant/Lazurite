@@ -1,5 +1,6 @@
 ﻿using LazuriteUI.Windows.Controls;
 using LazuriteUI.Windows.Launcher;
+using System.Diagnostics;
 using System.Windows.Controls;
 
 namespace LazuriteUI.Windows.Main
@@ -22,7 +23,7 @@ namespace LazuriteUI.Windows.Main
                 Refresh();
             };
             btRestart.Click += (o, e) => Utils.RestartApp();
-            btShutdown.Click += (o, e) => App.Current.Shutdown();
+            btShutdown.Click += (o, e) => Process.GetCurrentProcess().Kill();
         }
 
         public void Refresh()

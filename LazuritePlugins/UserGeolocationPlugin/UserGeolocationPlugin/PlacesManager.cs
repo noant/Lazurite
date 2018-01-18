@@ -16,9 +16,13 @@ namespace UserGeolocationPlugin
 
         static PlacesManager() => Load();
 
-        public static void Save()
+        public static void Save() => DataManager.Set(nameof(PlacesManager), Current);
+
+        public static GeolocationPlace[] GetAllAvailablePlaces()
         {
-            DataManager.Set(nameof(PlacesManager), Current);
+            return Current.Places
+                    .Union(new[] { GeolocationPlace.Other, GeolocationPlace.Empty })
+                    .ToArray();
         }
 
         public static void Load()

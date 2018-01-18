@@ -36,7 +36,9 @@ namespace LazuriteUI.Windows.Controls
             {
                 PropertyChangedCallback = (o, e) =>
                 {
-                    ((ISelectable)e.NewValue).Selected = true;
+                    var item = e.NewValue as ISelectable;
+                    if (item != null)
+                        item.Selected = true;
                 }
             });
         }

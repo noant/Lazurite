@@ -107,6 +107,8 @@ namespace UserGeolocationPluginUI
             placesView.Refresh();
         }
 
+        public void HideDevicesExcept(string device) => locationsView.HideDevicesExcept(device);
+
         public GeolocationPlace SelectedPlace
         {
             get

@@ -13,6 +13,10 @@ namespace UserGeolocationPluginUI
         public DevicesView()
         {
             this.SelectionMode = ListViewItemsSelectionMode.Single;
+            this.SelectionChanged += (o, e) =>
+            {
+                SelectedDeviceChanged?.Invoke(this, new EventsArgs<string>(this.SelectedDevice));
+            };
         }
 
         public string[] Devices
@@ -33,7 +37,7 @@ namespace UserGeolocationPluginUI
         {
             get
             {
-                return (this.SelectedItem as DeviceItemView)?.Device;
+                return (this.GetSelectedItems().FirstOrDefault() as DeviceItemView)?.Device;
             }
             set
             {
@@ -41,7 +45,11 @@ namespace UserGeolocationPluginUI
                     .Cast<DeviceItemView>()
                     .Where(x => x.Device.Equals(value))
                     .All(x => x.Selected = true);
+                if (value == null)
+                    SelectedDeviceChanged?.Invoke(this, new EventsArgs<string>(null));
             }
         }
+
+        public event EventsHandler<string> SelectedDeviceChanged;
     }
 }

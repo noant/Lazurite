@@ -23,6 +23,8 @@ namespace UserGeolocationPluginUI
 
         void Refresh();
 
+        void HideDevicesExcept(string device);
+
         event EventsHandler<string> PlaceNavigated;
 
         event EventsHandler<UserAndDevice> UserNavigated;

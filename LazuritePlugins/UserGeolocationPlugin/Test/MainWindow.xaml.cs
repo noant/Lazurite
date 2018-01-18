@@ -28,6 +28,12 @@ namespace Test
         {
             Singleton.Add(new TestStorage());
             InitializeComponent();
+
+            this.Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
             var testUser1 = new UserTest();
             testUser1.Name = "Пользователь 1";
             testUser1.Geolocations = new[] {
@@ -48,10 +54,13 @@ namespace Test
                 new GeolocationInfo(new Geolocation(55.750862, 37.588807, true), "xiaomi") { DateTime = DateTime.Now.AddHours(-1) }
             };
 
-            var userInLocationAction = new UserInLocationAction();
-            userInLocationAction.SetNeedUsers(() => new[] { testUser1 });
-            userInLocationAction.UserInitializeWith(null, true);
-            userInLocationAction.UserInitializeWith(null, true);
+            var action = new UserInLocationAction();
+            action.SetNeedUsers(() => new[] { testUser1 });
+            while (true)
+            {
+                action.UserInitializeWith(null, true);
+                MessageBox.Show(action.GetValue(null));
+            }
         }
     }
 }

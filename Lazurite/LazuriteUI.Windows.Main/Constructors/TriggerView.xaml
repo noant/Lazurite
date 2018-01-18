@@ -23,13 +23,15 @@
             <controls:EntryView x:Name="tbSelectedScenario" IsReadOnly="True" Margin="5,2,0,0">[Сценарий не выбран]</controls:EntryView>
             <controls:ItemView x:Name="btSelectScenario" Margin="5,0,0,0" Icon="ListSelect" ToolTip="Выбрать сценарий"></controls:ItemView>
         </StackPanel>
-        <StackPanel Grid.Row="2" Margin="4">
-            <StackPanel.LayoutTransform>
-                <ScaleTransform x:Name="scale" CenterX="0" CenterY="0"></ScaleTransform>
-            </StackPanel.LayoutTransform>
-            <decomposition:AddRemoveActionButtonsView IsEnabled="False" x:Name="buttons" Grid.Row="2" RemoveVisible="False"></decomposition:AddRemoveActionButtonsView>
-            <decomposition:ComplexActionView x:Name="complexActionView" Grid.Row="3"></decomposition:ComplexActionView>
-        </StackPanel>
+        <controls:WheelScroll Grid.Row="2"  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="4">
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform x:Name="scale" CenterX="0" CenterY="0"></ScaleTransform>
+                </StackPanel.LayoutTransform>
+                <decomposition:AddRemoveActionButtonsView IsEnabled="False" x:Name="buttons" Grid.Row="2" RemoveVisible="False"></decomposition:AddRemoveActionButtonsView>
+                <decomposition:ComplexActionView x:Name="complexActionView" Grid.Row="3"></decomposition:ComplexActionView>
+            </StackPanel>
+        </controls:WheelScroll>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4,0,4,2">
             <controls:ItemView IconHorizontalAligment="Center" x:Name="btScalePlus" Icon="Add"></controls:ItemView>
             <controls:IconView Opacity="0.5" Background="Black" Width="30" Icon="Magnify"></controls:IconView>

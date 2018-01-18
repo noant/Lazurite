@@ -40,7 +40,8 @@
     <Reference Include="Lazurite.IOC">
       <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.IOC.dll</HintPath>
     </Reference>
-    <Reference Include="Lazurite.Shared">
+    <Reference Include="Lazurite.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.Shared.dll</HintPath>
     </Reference>
     <Reference Include="System" />

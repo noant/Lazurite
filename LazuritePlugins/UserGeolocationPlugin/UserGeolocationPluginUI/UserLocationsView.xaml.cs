@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +21,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UserGeolocationPlugin;
+using UserGeolocationPluginUI.Properties;
 
 namespace UserGeolocationPluginUI
 {
@@ -34,6 +36,8 @@ namespace UserGeolocationPluginUI
         private IGeolocationTarget[] _viewTargets;
         private GeolocationPlace[] _geolocationPlaces;
         private DateTime _viewSince = DateTime.Now.AddDays(-1);
+        private MarkersEnumerator _markersEnumerator;
+        private string _currentDevice;
 
         public UserLocationsView()
         {
@@ -157,9 +161,20 @@ namespace UserGeolocationPluginUI
             _geolocationPlaces = geolocationPlaces;
             Refresh();
         }
+        
+        public void HideDevicesExcept(string device)
+        {
+            if (device != _currentDevice)
+            {
+                _currentDevice = device;
+                Refresh();
+            }
+        }
 
         public void Refresh()
         {
+            _markersEnumerator = new MarkersEnumerator();
+
             _gmapControl.SuspendLayout();
             _gmapControl.Overlays.Clear();
             if (_geolocationPlaces != null)
@@ -169,41 +184,61 @@ namespace UserGeolocationPluginUI
                 foreach (var geoTarget in _viewTargets)
                     foreach (var device in geoTarget.Geolocations.Select(x=>x.Device).Distinct())
                     {
-                        var locations = 
-                            geoTarget.Geolocations
-                            .Where(x => x.Device.Equals(device) && x.DateTime >= _viewSince && x.Geolocation.IsGPS)
-                            .Select(x => new PointDate() {
-                                DateTime = x.DateTime,
-                                Point = new PointLatLng(x.Geolocation.Latitude, x.Geolocation.Longtitude)
-                            })
-                            .ToList();
-                        CreateRoute(locations, geoTarget.Id, geoTarget.Name, device);
+                        if (string.IsNullOrEmpty(_currentDevice) || device.Equals(_currentDevice))
+                        {
+                            var geolocations = geoTarget.Geolocations
+                                .Where(x => x.Device.Equals(device) && x.DateTime >= _viewSince).ToArray();
+                            geolocations = geolocations
+                                .Where(x => x.Geolocation.IsGPS || x == geolocations[0])
+                                .ToArray();
+                            var locations =
+                                geolocations
+                                .Where(x => x.Device.Equals(device) && x.DateTime >= _viewSince)
+                                .Select(x => new PointDate() {
+                                    DateTime = x.DateTime,
+                                    Point = new PointLatLng(x.Geolocation.Latitude, x.Geolocation.Longtitude)
+                                })
+                                .ToList();
+                            CreateRoute(locations, geoTarget.Id, geoTarget.Name, device);
+                        }
                     }
             _gmapControl.ResumeLayout();
             UpdateCurrentCoords();
         }
-
+                
         private void CreateRoute(List<PointDate> points, string userId, string userName, string device)
         {
+            var style = _markersEnumerator.Next;
+
             var overlay = new GMapOverlay("overlay");
             _gmapControl.Overlays.Add(overlay);
-            overlay.Routes.Add(new GMapRoute(points.Select(x => x.Point).ToList(), userName+device));
+            overlay.Routes.Add(
+                new GMapRoute(points.Select(x => x.Point).ToList(), userName + device) {
+                    Stroke = style.Stroke
+                }
+            );
             foreach (var pointDate in points.Take(points.Count-1))
             {
-                var marker = new GMarkerGoogle(pointDate.Point, GMarkerGoogleType.blue_small);
-                marker.ToolTipText = pointDate.DateTime.ToShortDateString() + " " + pointDate.DateTime.ToShortTimeString();
+                var marker = new GMarkerGoogle(pointDate.Point, style.SmallMarker);
+                marker.ToolTipText = marker.ToolTipText = string.Format(
+                    "Локация пользователя '{0}'\r\nДата: {1}\r\n Устройство: {2}",
+                    userName,
+                    pointDate.DateTime.ToShortDateString() + " " + pointDate.DateTime.ToShortTimeString(),
+                    device);
+                marker.ToolTip.Font = new Font("Calibri", 9);
                 marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                 overlay.Markers.Add(marker);
             }
             if (points.Any())
             {
                 var lastPointDate = points.Last();
-                var markerEnd = new GMarkerGoogle(lastPointDate.Point, GMarkerGoogleType.blue_dot);
+                var markerEnd = new GMarkerGoogle(lastPointDate.Point, style.BigMarker);
                 markerEnd.ToolTipText = string.Format(
-                    "Локация пользователя '{0}'\r\nДата: {1}\r\n Устройство: {2}", 
+                    "Текущая локация пользователя '{0}'\r\nДата: {1}\r\n Устройство: {2}", 
                     userName, 
                     lastPointDate.DateTime.ToShortDateString() + " " + lastPointDate.DateTime.ToShortTimeString(),
                     device);
+                markerEnd.ToolTip.Font = new Font("Calibri", 9);
                 markerEnd.Tag = new UserAndDevice(userName, userId, device);
                 markerEnd.ToolTipMode = MarkerTooltipMode.Always;
                 overlay.Markers.Add(markerEnd);
@@ -228,10 +263,13 @@ namespace UserGeolocationPluginUI
             var overlay = new GMapOverlay(StandardOverlayName);
             _gmapControl.Overlays.Add(overlay);
             overlay.Markers.Add(
-                new GMarkerGoogle(new PointLatLng(lat, lon), GMarkerGoogleType.green_dot)
+                new GMarkerGoogle(new PointLatLng(lat, lon), GMarkerGoogleType.yellow_pushpin)
                 {
                     ToolTipMode = MarkerTooltipMode.Always,
                     ToolTipText = caption,
+                    ToolTip = {
+                        Font = new Font("Calibri", 9)
+                    },
                     Tag = new Place(caption)
                 }
             );

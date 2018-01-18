@@ -51,14 +51,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.IOC.dll</HintPath>
     </Reference>
-    <Reference Include="Lazurite.Shared">
+    <Reference Include="Lazurite.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.Shared.dll</HintPath>
     </Reference>
     <Reference Include="LazuriteUI.Icons, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Icons.dll</HintPath>
     </Reference>
-    <Reference Include="LazuriteUI.Windows.Controls">
+    <Reference Include="LazuriteUI.Windows.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Windows.Controls.exe</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -86,10 +88,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DeviceItemView.cs" />
+    <Compile Include="GetUserGeolocationActionWindow.xaml.cs">
+      <DependentUpon>GetUserGeolocationActionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ILocationsView.cs" />
     <Compile Include="LocationsView.xaml.cs">
       <DependentUpon>LocationsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MarkersEnumerator.cs" />
     <Compile Include="PlaceEditView.xaml.cs">
       <DependentUpon>PlaceEditView.xaml</DependentUpon>
     </Compile>
@@ -98,6 +104,12 @@
       <DependentUpon>PlacesLocationsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlacesView.cs" />
+    <Compile Include="GetUserLocationActionWindow.xaml.cs">
+      <DependentUpon>GetUserLocationActionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GetDistanceBetweenUserAndLocationActionWindow.xaml.cs">
+      <DependentUpon>GetDistanceBetweenUserAndLocationActionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserInLocationActionWindow.xaml.cs">
       <DependentUpon>UserInLocationActionWindow.xaml</DependentUpon>
     </Compile>
@@ -107,6 +119,10 @@
     </Compile>
     <Compile Include="DevicesView.cs" />
     <Compile Include="UsersView.cs" />
+    <Page Include="GetUserGeolocationActionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="LocationsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -130,6 +146,14 @@
     <Page Include="PlacesLocationsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GetUserLocationActionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GetDistanceBetweenUserAndLocationActionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserInLocationActionWindow.xaml">
       <SubType>Designer</SubType>

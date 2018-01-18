@@ -26,19 +26,25 @@ namespace UserGeolocationPluginUI
         {
             InitializeComponent();
             bool ignoreUserNavigation = false;
-            usersView.SelectionChanged += (o, e) => {
-                devicesView.Devices = usersView.SelectedUser
-                    .Geolocations
-                    .Select(x => x.Device)
-                    .Distinct()
-                    .ToArray();
-                devicesView.SelectedDevice = devicesView.Devices.FirstOrDefault();
+            usersView.SelectedUserChanged += (o, e) => {
+                if (usersView.SelectedUser != null)
+                {
+                    devicesView.Devices = usersView.SelectedUser
+                        .Geolocations
+                        .Select(x => x.Device)
+                        .Distinct()
+                        .ToArray();
+                }
+                else
+                    devicesView.Devices = new string[0];
                 SelectedUserChanged?.Invoke(this, new EventsArgs<IGeolocationTarget>(SelectedUser));
+                devicesView.SelectedDevice = devicesView.Devices.FirstOrDefault();
             };
-            devicesView.SelectionChanged += (o, e) => {
-                if (!ignoreUserNavigation)
+            devicesView.SelectedDeviceChanged += (o, e) => {
+                if (!ignoreUserNavigation && SelectedUser != null)
                     locationsView.NavigateTo(SelectedUser.Name, SelectedDevice);
-                 SelectedDeviceChanged?.Invoke(this, new EventsArgs<string>(SelectedDevice));
+                SelectedDeviceChanged?.Invoke(this, new EventsArgs<string>(SelectedDevice));
+                HideDevicesExcept(e.Value);
             };
             locationsView.UserNavigated += (o, e) => {
                 ignoreUserNavigation = true;
@@ -72,6 +78,8 @@ namespace UserGeolocationPluginUI
         public void NavigateTo(GeolocationPlace place) => locationsView.NavigateTo(place);
 
         public void Refresh() => locationsView.Refresh();
+
+        public void HideDevicesExcept(string device) => locationsView.HideDevicesExcept(device);
 
         public GeolocationPlace SelectedPlace
         {

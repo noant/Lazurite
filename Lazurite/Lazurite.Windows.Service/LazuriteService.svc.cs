@@ -264,14 +264,9 @@ namespace Lazurite.Windows.Service
         {
             return Handle((user) => {
                 WarningHandler.InfoFormat("User AddictionalData sync: [{0}];", user.Name);
-                var headers = OperationContext.Current.IncomingMessageHeaders;
                 var data = encryptedData.Decrypt(_secretKey);
                 data.Set(user); //crutch to identify current user in global data bus
                 AddictionalDataManager.Handle(data);
-                var location = data.Resolve<Geolocation>();
-                if (location != null)
-                    WarningHandler.InfoFormat("User [{0}] new geolocation: [{1}];", user.Name, location);
-                WarningHandler.InfoFormat("User [{0}] device: [{1}];", user.Name, data.Resolve<DeviceInfo>()?.Name ?? "unknown");
                 return new Encrypted<AddictionalData>(AddictionalDataManager.Prepare(), this._secretKey);
             });
         }
