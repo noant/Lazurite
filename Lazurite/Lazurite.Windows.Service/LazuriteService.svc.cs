@@ -24,6 +24,7 @@ namespace Lazurite.Windows.Service
         private static readonly VisualSettingsRepository VisualSettings = Singleton.Resolve<VisualSettingsRepository>();
         private static readonly WarningHandlerBase WarningHandler = Singleton.Resolve<WarningHandlerBase>();
         private static readonly AddictionalDataManager AddictionalDataManager = Singleton.Resolve<AddictionalDataManager>();
+        private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
 
         private string _secretKey;
 
@@ -49,12 +50,17 @@ namespace Lazurite.Windows.Service
             }
             catch (Exception e)
             {
-                if (e is UnauthorizedAccessException
-                    || e is InvalidOperationException
-                    || e is DecryptException)
+                if (SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.AccessDenied) ||
+                    SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.ObjectAccessDenied) ||
+                    SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.ObjectNotFound))
                 {
                     WarningHandler.WarnFormat("[{0}] execution error. {1}", memberName, e.Message); //write only message
                     throw e;
+                }
+                else if (e is DecryptException)
+                {
+                    WarningHandler.WarnFormat("[{0}] execution error. {1}", memberName, e.Message); //write only message
+                    throw new FaultException(e.Message, new FaultCode(ServiceFaultCodes.DecryptionError));
                 }
                 else
                     WarningHandler.ErrorFormat(e, "[{0}] execution error", memberName); //unrecognized exception; write fully
@@ -76,12 +82,17 @@ namespace Lazurite.Windows.Service
             }
             catch (Exception e)
             {
-                if (e is UnauthorizedAccessException 
-                    || e is InvalidOperationException 
-                    || e is DecryptException)
+                if (SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.AccessDenied) ||
+                    SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.ObjectAccessDenied) ||
+                    SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.ObjectNotFound))
                 {
                     WarningHandler.WarnFormat("[{0}] execution error. {1}", memberName, e.Message); //write only message
                     throw e;
+                }
+                else if (e is DecryptException)
+                {
+                    WarningHandler.WarnFormat("[{0}] execution error. {1}", memberName, e.Message); //write only message
+                    throw new FaultException(e.Message, new FaultCode(ServiceFaultCodes.DecryptionError));
                 }
                 else
                     WarningHandler.ErrorFormat(e, "[{0}] execution error", memberName); //unrecognized exception; write fully
@@ -118,12 +129,12 @@ namespace Lazurite.Windows.Service
 
         private void ThrowUnauthorizedAccessException()
         {
-            throw new UnauthorizedAccessException("Access denied");
+            throw new FaultException("Access denied", new FaultCode(ServiceFaultCodes.ObjectAccessDenied));
         }
 
         private void ThrowScenarioNotExistException(string scenarioId)
         {
-            throw new InvalidOperationException("Scenario not exist: " + scenarioId);
+            throw new FaultException("Scenario not exist: " + scenarioId, new FaultCode(ServiceFaultCodes.ObjectNotFound));
         }
 
         private UserVisualSettings GetVisualSettings(UserBase user, string scenarioId)

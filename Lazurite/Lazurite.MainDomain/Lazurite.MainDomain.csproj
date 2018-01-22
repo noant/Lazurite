@@ -83,6 +83,7 @@
     <Compile Include="ScenarioStartupSource.cs" />
     <Compile Include="MessageSecurity\SecureEncoding.cs" />
     <Compile Include="SecuritySettingsBase.cs" />
+    <Compile Include="ServiceFaultCodes.cs" />
     <Compile Include="TriggerBase.cs" />
     <Compile Include="UserBase.cs" />
     <Compile Include="UserGroupBase.cs" />

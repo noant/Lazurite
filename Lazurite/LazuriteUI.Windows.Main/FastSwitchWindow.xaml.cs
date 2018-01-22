@@ -25,6 +25,7 @@ namespace LazuriteUI.Windows.Main
 
         private void gridBack_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            switchesGrid.Dispose();
             Close();
         }
 

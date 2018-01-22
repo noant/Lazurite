@@ -22,7 +22,7 @@ namespace Lazurite.Windows.Service
                 var passwordHash = CryptoUtils.CreatePasswordHash(password);
                 var user = UsersRepository.Users.SingleOrDefault(x => x.Login.Equals(userName) && x.PasswordHash.Equals(passwordHash));
                 if (user == null)
-                    throw new FaultException("Login or password not valid", new FaultCode("403"));
+                    throw new FaultException("Login or password not valid", new FaultCode(ServiceFaultCodes.AccessDenied));
                 WarningHandler.Debug("Authentication success: " + userName);
             }
             catch (FaultException e)
@@ -33,7 +33,7 @@ namespace Lazurite.Windows.Service
             catch (Exception e)
             {
                 WarningHandler.InfoFormat(e, "Error while user authenticate: [{0}]", userName);
-                throw new FaultException("Error while user authenticate: " + userName, new FaultCode("500"));
+                throw new FaultException("Error while user authenticate: " + userName, new FaultCode(ServiceFaultCodes.InternalError));
             }
         }
     }

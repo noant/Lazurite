@@ -18,7 +18,7 @@ namespace LazuriteUI.Windows.Main
     /// </summary>
     [LazuriteIcon(Icon.MovieClapperSelect)]
     [DisplayName("Конструктор сценариев")]
-    public partial class ScenariosConstructionView : UserControl, IAllowSave
+    public partial class ScenariosConstructionView : UserControl, IAllowSave, IDisposable
     {
         private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();
         private ScenarioBase _lastDeletedScenario;
@@ -132,9 +132,8 @@ namespace LazuriteUI.Windows.Main
             this.constructorsResolver.SetScenario(newScenario);
         }
 
-        public void Save(Action callback)
-        {
-            ThroughScenarioSave(callback);
-        }
+        public void Save(Action callback) => ThroughScenarioSave(callback);
+
+        public void Dispose() => switchesGrid.Dispose();
     }
 }

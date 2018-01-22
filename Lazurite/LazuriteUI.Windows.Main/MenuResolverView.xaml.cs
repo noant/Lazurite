@@ -20,6 +20,10 @@ namespace LazuriteUI.Windows.Main
                 PropertyChangedCallback = (o,e) => {
                     var resolverView = o as MenuResolverView;
                     var @continue = new Action(() => {
+
+                        if (resolverView.contentControl.Content is IDisposable)
+                            ((IDisposable)resolverView.contentControl.Content).Dispose();
+
                         var type = ((IViewTypeResolverItem)e.NewValue).Type;
                         var displayName = (DisplayNameAttribute)type.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault();
                         var icon = LazuriteIconAttribute.GetIcon(type);
@@ -31,6 +35,7 @@ namespace LazuriteUI.Windows.Main
 
                         if (control is IInitializable)
                             ((IInitializable)control).Initialize();
+
                     });
                     if (resolverView.contentControl.Content is IAllowSave)
                         ((IAllowSave)resolverView.contentControl.Content).Save(@continue);

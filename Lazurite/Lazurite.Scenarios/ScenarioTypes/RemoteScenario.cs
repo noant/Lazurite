@@ -86,11 +86,10 @@ namespace Lazurite.Scenarios.ScenarioTypes
                         e.Message, this.Name, this.Id, this.Credentials.GetAddress());
                 }
                 else if (
-                    e.Message.StartsWith("Scenario not found") ||
-                    e.Message.StartsWith("Decryption error") ||
-                    e.Message.StartsWith("Access denied") ||
-                    e.Message.Contains("(403)") ||
-                    e is InvalidOperationException)
+                    SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.ObjectNotFound) ||
+                    SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.DecryptionError) ||
+                    SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.ObjectAccessDenied) ||
+                    SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.AccessDenied))
                 {
                     Log.InfoFormat(strErrPrefix + ". " + e.Message + "; [{0}][{1}][{2}][{3}]",
                         this.Name, this.Id, this.Credentials.GetAddress(), e.InnerException?.Message);
@@ -182,7 +181,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
             HandleExceptions(
             () =>
             {
-                _scenarioInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey)).Decrypt(Credentials.SecretKey);
+                var encrypted = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey));
+                _scenarioInfo = encrypted.Decrypt(Credentials.SecretKey);
                 remoteScenarioAvailable = _scenarioInfo.IsAvailable;
                 _valueType = _scenarioInfo.ValueType;
                 RemoteScenarioName = _scenarioInfo.Name;
@@ -225,7 +225,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     () =>
                     {
                         if (string.IsNullOrEmpty(Credentials.SecretKey))
-                            throw new InvalidOperationException("Secret key is null");
+                            throw new InvalidOperationException("Необходим ввод секретного ключа");
                         var newScenInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey)).Decrypt(Credentials.SecretKey);
                         if (!(newScenInfo.CurrentValue ?? string.Empty).Equals(_currentValue))
                             SetCurrentValueInternal(newScenInfo.CurrentValue ?? string.Empty);
@@ -235,6 +235,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     },
                     () =>
                     {
+                        IsAvailable = false;
                         Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", this.Name, this.Id);
                         SetDefaultValue();
                         SystemUtils.Sleep(ScenarioListenInterval_onError, CancellationToken.None);

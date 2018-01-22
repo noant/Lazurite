@@ -18,6 +18,7 @@ namespace Lazurite.Windows.ServiceClient
     {
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
         private static readonly double ConnectionTimeout_Minutes = GlobalSettings.Get(1.0d);
+        private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
 
         static ServiceClientFactory()
         {
@@ -73,7 +74,9 @@ namespace Lazurite.Windows.ServiceClient
                 {
                     Log.DebugFormat("Service method error: [{0}]; {1}", args.MethodName, e.InnerException.Message);
                     var targetException = e.InnerException;
-                    if (state && !targetException.Message.StartsWith("Scenario not exist"))
+                    if (state 
+                        && !SystemUtils.IsFaultExceptionHasCode(targetException, ServiceFaultCodes.ObjectNotFound)
+                        && !SystemUtils.IsFaultExceptionHasCode(targetException, ServiceFaultCodes.ObjectAccessDenied))
                     {
                         state = false;
                         ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connectionProxy, state));

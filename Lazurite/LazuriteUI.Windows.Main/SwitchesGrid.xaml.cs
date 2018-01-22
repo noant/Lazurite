@@ -6,6 +6,8 @@ using LazuriteUI.Windows.Main.Switches;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,8 +19,10 @@ namespace LazuriteUI.Windows.Main
     /// </summary>
     [DisplayName("Переключатели сценариев")]
     [LazuriteIcon(Icon.CursorHand)]
-    public partial class SwitchesGrid : UserControl, IInitializable
+    public partial class SwitchesGrid : UserControl, IInitializable, IDisposable
     {
+        public static readonly int UpdateUIInterval_MS = GlobalSettings.Get(30000);
+
         public static DependencyProperty EditModeProperty;
         public static DependencyProperty EditModeButtonVisibleProperty;
         public static DependencyProperty IsConstructorModeProperty;
@@ -44,6 +48,7 @@ namespace LazuriteUI.Windows.Main
         private VisualSettingsRepository _visualSettingsRepository = Singleton.Resolve<VisualSettingsRepository>();
         private ScenariosRepositoryBase _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private UserControl _draggableCurrent;
+        private CancellationTokenSource _updateUICancellationToken = new CancellationTokenSource();
 
         public SwitchesGrid()
         {
@@ -121,11 +126,32 @@ namespace LazuriteUI.Windows.Main
         }
 
         public void Initialize()
+        {            
+            Initialize(GetScenarios(), _visualSettingsRepository.VisualSettings);
+
+            Task.Factory.StartNew(() => {
+                while (true)
+                {
+                    Thread.Sleep(UpdateUIInterval_MS);
+                    if (!_updateUICancellationToken.IsCancellationRequested)
+                    {
+                        this.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            foreach (var scenario in GetScenarios())
+                                RefreshAndReCalculateItem(scenario);
+                        }));
+                    }
+                    else break;
+                }
+            });
+        }
+
+        private ScenarioBase[] GetScenarios()
         {
             var scenarios = _scenariosRepository.Scenarios;
             if (!IsConstructorMode)
                 scenarios = scenarios.Where(x => x.CanExecute(_usersRepository.SystemUser, ScenarioStartupSource.SystemUI)).ToArray();
-            Initialize(scenarios, _visualSettingsRepository.VisualSettings);
+            return scenarios;
         }
 
         private void Initialize(ScenarioBase[] scenarios, UserVisualSettings[] visualSettings)
@@ -202,6 +228,17 @@ namespace LazuriteUI.Windows.Main
             {
                 var model = (ScenarioModel)control.DataContext;
                 model.Refresh();
+            }
+        }
+
+        public void RefreshAndReCalculateItem(ScenarioBase scenario)
+        {
+            var control = grid.Children.Cast<UserControl>()
+                .FirstOrDefault(x => ((ScenarioModel)x.DataContext).Scenario.Id.Equals(scenario.Id));
+            if (control != null)
+            {
+                var model = (ScenarioModel)control.DataContext;
+                model.RefreshAndReCalculate();
             }
         }
 
@@ -409,10 +446,9 @@ namespace LazuriteUI.Windows.Main
                 ElementMargin * (1 + position.Item2) + ElementSize * position.Item2, 0, 0);
         }
 
-        public void CancelDragging()
-        {
-            _draggableCurrent = null;
-        }
+        public void CancelDragging() => _draggableCurrent = null;
+
+        public void Dispose() => _updateUICancellationToken.Cancel();
 
         public event Action<ScenarioModel> SelectedModelChanged;
         public event Action<ScenarioModel, ScenarioChangingEventArgs> SelectedModelChanging;

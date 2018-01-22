@@ -48,6 +48,15 @@ namespace LazuriteUI.Windows.Main.Switches
         public UserVisualSettings VisualSettings { get; private set; }
         private VisualSettingsRepository _visualSettingsRepository = Singleton.Resolve<VisualSettingsRepository>();
         
+        public void RefreshAndReCalculate()
+        {
+            Scenario.CalculateCurrentValueAsync((value) => {
+                _value = value;
+                _smoothValue = ScenarioValueDouble;
+                Refresh();
+            });
+        }
+
         public void Refresh()
         {
             OnPropertyChanged(nameof(ScenarioName));

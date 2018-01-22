@@ -48,7 +48,7 @@ namespace LazuriteMobile.App
         private static readonly int ScenariosManagerListenInterval_onError = 40000;
         private static readonly int WaitingForRefreshListenInterval = 120000;
         private static readonly int ScenariosManagerFullRefreshInterval = 10;
-        private static readonly ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
+        private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
         private static readonly SaviorBase Savior = Singleton.Resolve<SaviorBase>();
         private static readonly AddictionalDataManager Bus = Singleton.Resolve<AddictionalDataManager>();
@@ -109,15 +109,14 @@ namespace LazuriteMobile.App
             {
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    //if login or password wrong; error 403
-                    if (e is WebException &&
-                        ((HttpWebResponse)((WebException)e).Response)?.StatusCode == HttpStatusCode.Forbidden)
+                    if (SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.AccessDenied))
                     {
                         LoginOrPasswordInvalid?.Invoke();
                     }
                     //if data is wrong or secretKey.Length is wrong
                     else if (
-                        e is SerializationException
+                        SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.DecryptionError)
+                        || e is SerializationException
                         || e is DecryptException
                         || e.Message == "Key length not 128/192/256 bits.")
                     {
@@ -207,11 +206,11 @@ namespace LazuriteMobile.App
                 {
                     RefreshIteration();
                     //sleep while update or refresh
-                    Utils.Sleep(WaitingForRefreshListenInterval, _syncDataEndingToken.Token);
+                    SystemUtils.Sleep(WaitingForRefreshListenInterval, _syncDataEndingToken.Token);
                     //sleep while update or refresh
-                    Utils.Sleep(WaitingForRefreshListenInterval, _refreshEndingToken.Token);
+                    SystemUtils.Sleep(WaitingForRefreshListenInterval, _refreshEndingToken.Token);
                     //between updates sleep
-                    Utils.Sleep(_succeed ? ScenariosManagerListenInterval : ScenariosManagerListenInterval_onError, CancellationToken.None);
+                    SystemUtils.Sleep(_succeed ? ScenariosManagerListenInterval : ScenariosManagerListenInterval_onError, CancellationToken.None);
                 }
             });
         }
