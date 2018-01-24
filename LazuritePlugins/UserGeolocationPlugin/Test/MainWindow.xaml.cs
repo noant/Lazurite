@@ -55,7 +55,7 @@ namespace Test
             };
 
             var action = new UserInLocationAction();
-            action.SetNeedUsers(() => new[] { testUser1 });
+            action.SetNeedTargets(() => new[] { testUser1 });
             while (true)
             {
                 action.UserInitializeWith(null, true);

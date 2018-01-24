@@ -9,9 +9,9 @@ namespace Lazurite.Security
     {
         private static ILogger Log = Singleton.Resolve<ILogger>();
 
-        public void Handle(AddictionalData data)
+        public void Handle(AddictionalData data, object tag)
         {
-            var user = data.Resolve<User>();
+            var user = tag as User;
             var device = data.Resolve<DeviceInfo>();
             var geolocation = data.Resolve<Geolocation>();
             if (user != null && geolocation != null)
@@ -27,7 +27,7 @@ namespace Lazurite.Security
             //do nothing
         }
 
-        public void Prepare(AddictionalData data)
+        public void Prepare(AddictionalData data, object tag)
         {
             //do nothing
         }

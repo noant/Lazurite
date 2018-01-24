@@ -20,7 +20,7 @@ namespace UserGeolocationPluginMain
     [SuitableValueTypes(typeof(FloatValueType))]
     [LazuriteIcon(Icon.MapLocation)]
     [Category(Category.Geolocation)]
-    public class GetDistanceBetweenUserAndPlace : IAction, IUsersDataAccess
+    public class GetDistanceBetweenUserAndPlace : IAction, IUsersGeolocationAccess
     {
         public string Caption
         {
@@ -54,7 +54,7 @@ namespace UserGeolocationPluginMain
 
         private Func<IGeolocationTarget[]> _needUsers;
 
-        public void SetNeedUsers(Func<IGeolocationTarget[]> needUsers) => _needUsers = needUsers;
+        public void SetNeedTargets(Func<IGeolocationTarget[]> needUsers) => _needUsers = needUsers;
 
         public event ValueChangedEventHandler ValueChanged;
 

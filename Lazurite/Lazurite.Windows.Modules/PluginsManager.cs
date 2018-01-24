@@ -235,8 +235,10 @@ namespace Lazurite.Windows.Modules
             if (action is IScenariosAccess)
                 ((IScenariosAccess)action)
                     .SetTargetScenario(_scenarioRepository.Scenarios.FirstOrDefault(x => x.Id.Equals(((IScenariosAccess)action).TargetScenarioId)));
-            if (action is IUsersDataAccess)
-                ((IUsersDataAccess)action).SetNeedUsers(() => _usersRepository.Users.ToArray());            
+            if (action is IUsersGeolocationAccess)
+                ((IUsersGeolocationAccess)action).SetNeedTargets(() => _usersRepository.Users.ToArray());
+            if (action is IMessagesSender)
+                ((IMessagesSender)action).SetNeedTargets(() => _usersRepository.Users.ToArray());
             return action;
         }
 

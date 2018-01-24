@@ -23,6 +23,7 @@ namespace Lazurite.Security
         public override void Initialize()
         {
             Bus.Register<GeolocationDataHandler>();
+            Bus.Register<MessagesDataHandler>();
             if (Savior.Has(_usersKey))
                 _users = Savior.Get<List<UserBase>>(_usersKey);
             if (Savior.Has(_groupsKey))
@@ -39,11 +40,7 @@ namespace Lazurite.Security
             Savior.Set(_groupsKey, _groups);
         }
 
-        public override UserBase SystemUser {
-            get {
-                return _systemUser;
-            }
-        }
+        public override UserBase SystemUser => _systemUser;
 
         public override void Add(UserGroupBase group)
         {

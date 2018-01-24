@@ -16,12 +16,12 @@ namespace LazuriteMobile.App
 
         private bool IsLocationAvailable() => CrossGeolocator.IsSupported;
 
-        public void Handle(AddictionalData data)
+        public void Handle(AddictionalData data, object tag)
         {
             //do nothing
         }
 
-        public void Prepare(AddictionalData data)
+        public void Prepare(AddictionalData data, object tag)
         {
             data.Set(_lastLocation);
         }

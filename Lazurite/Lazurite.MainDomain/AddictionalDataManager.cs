@@ -47,12 +47,12 @@ namespace Lazurite.MainDomain
             }
         }
 
-        public void Handle(AddictionalData data)
+        public void Handle(AddictionalData data, object tag)
         {
             foreach (var handler in _handlers)
                 try
                 {
-                    handler.Handle(data);
+                    handler.Handle(data, tag);
                 }
                 catch (Exception e)
                 {
@@ -60,14 +60,14 @@ namespace Lazurite.MainDomain
                 }
         }
 
-        public AddictionalData Prepare()
+        public AddictionalData Prepare(object tag)
         {
             var data = new AddictionalData();
             foreach (var handler in _handlers)
             {
                 try
                 {
-                    handler.Prepare(data);
+                    handler.Prepare(data, tag);
                 }
                 catch (Exception e)
                 {

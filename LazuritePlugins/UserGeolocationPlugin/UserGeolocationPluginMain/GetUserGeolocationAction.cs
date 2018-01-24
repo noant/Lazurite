@@ -20,7 +20,7 @@ namespace UserGeolocationPluginMain
     [SuitableValueTypes(typeof(InfoValueType))]
     [LazuriteIcon(Icon.MapLocation)]
     [Category(Category.Geolocation)]
-    public class GetUserGeolocationAction : IAction, IUsersDataAccess
+    public class GetUserGeolocationAction : IAction, IUsersGeolocationAccess
     {
         public string Caption
         {
@@ -53,7 +53,7 @@ namespace UserGeolocationPluginMain
 
         private Func<IGeolocationTarget[]> _needUsers;
 
-        public void SetNeedUsers(Func<IGeolocationTarget[]> needUsers) => _needUsers = needUsers;
+        public void SetNeedTargets(Func<IGeolocationTarget[]> needUsers) => _needUsers = needUsers;
 
         public event ValueChangedEventHandler ValueChanged;
 
