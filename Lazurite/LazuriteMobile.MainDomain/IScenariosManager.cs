@@ -13,6 +13,7 @@ namespace LazuriteMobile.MainDomain
         void ExecuteScenario(ExecuteScenarioArgs args);
         void IsConnected(Action<ManagerConnectionState> callback);
         void GetScenarios(Action<ScenarioInfo[]> callback);
+        void GetNotifications(Action<LazuriteNotification[]> notifications);
         void Close();
         void RefreshIteration();
 

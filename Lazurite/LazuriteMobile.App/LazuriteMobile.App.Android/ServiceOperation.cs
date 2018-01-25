@@ -18,6 +18,7 @@
         Initialize = 8192,
         ConnectionError = 16384,
         ReConnect = 32768,
-        RefreshIteration = 65536
+        RefreshIteration = 65536,
+        GetNotifications = 131072,
     }
 }

@@ -2,12 +2,13 @@
 using LazuriteMobile.App.Controls;
 using LazuriteMobile.MainDomain;
 using System;
+using System.Linq;
 using System.Threading;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPage : ContentPage, INotificationsHandler
 	{
         IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
         ISupportsResume _supportsResume = Singleton.Resolve<ISupportsResume>();
@@ -17,6 +18,9 @@ namespace LazuriteMobile.App
         public MainPage()
 		{
             this.InitializeComponent();
+
+            Singleton.Clear<INotificationsHandler>();
+            Singleton.Add((INotificationsHandler)this);
 
             _supportsResume.OnResume = (s) => InitializeManager();
             settingsView.ConnectClicked += SettingsView_ConnectClicked;
@@ -209,6 +213,13 @@ namespace LazuriteMobile.App
         private void Invoke(Action action)
         {
             _currentContext.Post(new SendOrPostCallback((s) => action?.Invoke()), null);
+        }
+
+        void INotificationsHandler.UpdateNotificationsInfo()
+        {
+            _manager.GetNotifications((notifications) => {
+                ShowCaption(notifications.FirstOrDefault()?.Message.Text); //test
+            });
         }
     }
 }

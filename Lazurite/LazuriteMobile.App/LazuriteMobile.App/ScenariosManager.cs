@@ -53,7 +53,8 @@ namespace LazuriteMobile.App
         private static readonly SaviorBase Savior = Singleton.Resolve<SaviorBase>();
         private static readonly AddictionalDataManager Bus = Singleton.Resolve<AddictionalDataManager>();
         private static readonly IServiceClientManager ClientsManager = Singleton.Resolve<IServiceClientManager>();
-        
+        private static readonly INotifier Notifier = Singleton.Resolve<INotifier>();
+
         private readonly string _cachedScenariosKey = "scensCache";
         private readonly string _credentialsKey = "credentials";
         private CancellationTokenSource _listenersCancellationTokenSource;
@@ -85,6 +86,8 @@ namespace LazuriteMobile.App
                 Bus.Register<GeolocationDataHandler>();
             if (!Bus.Any<DeviceDataHandler>())
                 Bus.Register<DeviceDataHandler>();
+            if (!Bus.Any<MessagesDataHandler>())
+                Bus.Register<MessagesDataHandler>();
         }
 
         private bool HandleExceptions(Action action)
@@ -342,11 +345,11 @@ namespace LazuriteMobile.App
         {
             try
             {
-                _serviceClient.BeginSyncAddictionalData(new Encrypted<AddictionalData>(Bus.Prepare(), _credentials.Value.SecretKey), 
+                _serviceClient.BeginSyncAddictionalData(new Encrypted<AddictionalData>(Bus.Prepare(null), _credentials.Value.SecretKey), 
                     (o) => {
                         var result = Handle(() => _serviceClient.EndSyncAddictionalData(o));
                         if (result.Success && result.Value != null && result.Value.Data.Any())
-                            Bus.Handle(result.Value);
+                            Bus.Handle(result.Value, null);
                     },
                 null);
             }
@@ -430,6 +433,11 @@ namespace LazuriteMobile.App
         public void GetScenarios(Action<ScenarioInfo[]> callback)
         {
             callback(Scenarios);
+        }
+
+        public void GetNotifications(Action<LazuriteNotification[]> callback)
+        {
+            callback(Notifier.GetNotifications());
         }
 
         public void Close()

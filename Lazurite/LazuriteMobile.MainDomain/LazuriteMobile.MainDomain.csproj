@@ -50,12 +50,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context.cs" />
-    <Compile Include="INotificationHandler.cs" />
+    <Compile Include="INotificationsHandler.cs" />
     <Compile Include="INotifier.cs" />
     <Compile Include="IScenariosManager.cs" />
     <Compile Include="IServiceClient.cs" />
     <Compile Include="IServiceClientManager.cs" />
     <Compile Include="ISupportsResume.cs" />
+    <Compile Include="Keys.cs" />
+    <Compile Include="LazuriteNotification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

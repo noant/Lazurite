@@ -90,11 +90,6 @@ namespace LazuriteMobile.App.Droid
             _manager.ConnectionError += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionError));
             _manager.Initialize(null);
 
-            Intent activityIntent = new Intent(this, typeof(MainActivity));
-
-            PendingIntent showActivityIntent = PendingIntent.GetActivity(Application.Context, 0,
-                activityIntent, PendingIntentFlags.UpdateCurrent);
-            
             AlarmManager manager = (AlarmManager)GetSystemService(AlarmService);
             long triggerAtTime = SystemClock.ElapsedRealtime() + (10 * 60 * 1000);
             Intent onAndroidAvailable = new Intent(this, typeof(BackgroundReceiver));
@@ -123,15 +118,22 @@ namespace LazuriteMobile.App.Droid
             _timer.Enabled = true;
             _timer.AutoReset = true;
             _timer.Start();
+
+            var activityIntent = new Intent(this, typeof(MainActivity));
+
+            var showActivityIntent = PendingIntent.GetActivity(Application.Context, 0,
+                activityIntent, PendingIntentFlags.UpdateCurrent);
+
             _currentNotification =
                 new Notification.Builder(this).
                     SetContentTitle("Lazurite работает...").
                     SetSmallIcon(Resource.Drawable.icon).
                     SetContentIntent(showActivityIntent).
                     SetVisibility(NotificationVisibility.Private).
-                    SetColor(Color.Argb(255,29,25,29).ToArgb()).
+                    SetColor(Color.Argb(0,255,255,255).ToArgb()).
                     SetOnlyAlertOnce(true).
                     Build();
+
             StartForeground(1, _currentNotification);
             return StartCommandResult.Sticky;
         }
@@ -202,6 +204,12 @@ namespace LazuriteMobile.App.Droid
                             {
                                 Handle((messenger) => Utils.SendData(scenarios, _toActivityMessenger, _messenger, ServiceOperation.GetScenarios));
                             });
+                            break;
+                        }
+                    case ServiceOperation.GetNotifications:
+                        {
+                            _manager.GetNotifications((notifications) =>
+                                Handle((messenger) => Utils.SendData(notifications, _toActivityMessenger, _messenger, ServiceOperation.GetNotifications)));
                             break;
                         }
                     case ServiceOperation.SetClientSettings:

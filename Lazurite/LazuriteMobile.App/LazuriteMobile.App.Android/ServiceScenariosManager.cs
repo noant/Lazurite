@@ -37,6 +37,9 @@ namespace LazuriteMobile.App.Droid
                 case ServiceOperation.GetScenarios:
                     _callbacks.Dequeue(ServiceOperation.GetScenarios, Utils.GetData<ScenarioInfo[]>(msg));
                     break;
+                case ServiceOperation.GetNotifications:
+                    _callbacks.Dequeue(ServiceOperation.GetNotifications, Utils.GetData<LazuriteNotification[]>(msg));
+                    break;
                 case ServiceOperation.ConnectionLost:
                     ConnectionLost?.Invoke();
                     break;
@@ -134,6 +137,14 @@ namespace LazuriteMobile.App.Droid
                 callback((ScenarioInfo[])obj);
             });
             Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetScenarios);
+        }
+
+        public void GetNotifications(Action<LazuriteNotification[]> callback)
+        {
+            _callbacks.Add(ServiceOperation.GetNotifications, (obj) => {
+                callback((LazuriteNotification[])obj);
+            });
+            Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetNotifications);
         }
 
         public void ReConnect()

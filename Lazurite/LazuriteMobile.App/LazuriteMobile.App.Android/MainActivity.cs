@@ -76,6 +76,16 @@ namespace LazuriteMobile.App.Droid
             base.OnResume();
             ((ISupportsResume)this).OnResume?.Invoke(this);
         }
+        
+        protected override void OnPostResume()
+        {
+            base.OnPostResume();
+            if (Intent.Extras != null && Intent.Extras.ContainsKey(Keys.NeedOpenNotifications))
+            {
+                var handler = Singleton.Resolve<INotificationsHandler>();
+                handler.UpdateNotificationsInfo();
+            }
+        }
 
         public event EventsHandler<int> VolumeUp;
         public event EventsHandler<int> VolumeDown;

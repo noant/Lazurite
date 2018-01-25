@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace LazuriteMobile.MainDomain
 {
-    public interface INotifier
+    public interface INotificationsHandler
     {
-        void Notify(Message message);
-        LazuriteNotification[] GetNotifications();
+        void UpdateNotificationsInfo();
     }
 }
