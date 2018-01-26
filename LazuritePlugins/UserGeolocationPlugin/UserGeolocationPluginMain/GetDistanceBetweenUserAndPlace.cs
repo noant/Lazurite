@@ -24,7 +24,7 @@ namespace UserGeolocationPluginMain
     {
         public string Caption
         {
-            get => string.Format("Расстояние между пользователем '{0}' и местом '{1}', метров", GetUserName(), PlaceName);
+            get => string.Format("Пользователь '{0}'; место '{1}'; метров", GetUserName(), PlaceName);
             set { }
         }
 

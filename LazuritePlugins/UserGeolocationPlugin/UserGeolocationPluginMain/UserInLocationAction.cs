@@ -24,7 +24,7 @@ namespace UserGeolocationPluginMain
     {
         public string Caption
         {
-            get => string.Format("Пользователь '{0}' в локации '{1}'", GetUserName(), PlaceName);
+            get => string.Format("Пользователь '{0}'; место '{1}'", GetUserName(), PlaceName);
             set { }
         }
 

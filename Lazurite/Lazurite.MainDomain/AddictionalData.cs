@@ -6,6 +6,7 @@ namespace Lazurite.MainDomain
 {
     [KnownType(typeof(Geolocation))]
     [KnownType(typeof(DeviceInfo))]
+    [KnownType(typeof(Message[]))]
     [DataContract]
     public class AddictionalData
     {
@@ -32,8 +33,11 @@ namespace Lazurite.MainDomain
 
         public void Set(object value)
         {
-            var key = value.GetType().Name;
-            Set(key, value);
+            if (value != null)
+            {
+                var key = value.GetType().Name;
+                Set(key, value);
+            }
         }
 
         public T Resolve<T>()

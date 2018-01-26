@@ -1,4 +1,5 @@
 ﻿using Lazurite.IOC;
+using Lazurite.Shared;
 using LazuriteMobile.App.Controls;
 using LazuriteMobile.MainDomain;
 using System;
@@ -10,11 +11,12 @@ namespace LazuriteMobile.App
 {
     public partial class MainPage : ContentPage, INotificationsHandler
 	{
-        IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
-        ISupportsResume _supportsResume = Singleton.Resolve<ISupportsResume>();
-        
-        SynchronizationContext _currentContext = SynchronizationContext.Current;
-        
+        private IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
+        private ISupportsResume _supportsResume = Singleton.Resolve<ISupportsResume>();        
+        private SynchronizationContext _currentContext = SynchronizationContext.Current;
+        private bool _initialized;
+        private event EventsHandler<bool> ConnectionToServiceInitialized;
+
         public MainPage()
 		{
             this.InitializeComponent();
@@ -40,6 +42,7 @@ namespace LazuriteMobile.App
             _manager.Initialize((initialized) =>
             {
                 if (initialized)
+                {
                     _manager.IsConnected((state) =>
                     {
                         if (state == ManagerConnectionState.Connected)
@@ -55,9 +58,16 @@ namespace LazuriteMobile.App
                         {
                             RefreshCredentials();
                         }
+                        _initialized = true;
+                        ConnectionToServiceInitialized?.Invoke(this, new EventsArgs<bool>(_initialized));
                     });
+                }
                 else
+                {
                     Invoke(() => ShowCaption("Ошибка сервиса...", true, true));
+                    _initialized = false;
+                    ConnectionToServiceInitialized?.Invoke(this, new EventsArgs<bool>(_initialized));
+                }
             });
         }
 
@@ -217,8 +227,17 @@ namespace LazuriteMobile.App
 
         void INotificationsHandler.UpdateNotificationsInfo()
         {
+            if (_initialized)
+                ShowNotifications();
+            else
+                this.ConnectionToServiceInitialized += (o, e) => ShowNotifications();
+        }
+
+        private void ShowNotifications() {
             _manager.GetNotifications((notifications) => {
-                ShowCaption(notifications.FirstOrDefault()?.Message.Text); //test
+                var notification = notifications.FirstOrDefault();
+                if (notification != null)
+                    lblTemp.Text += "\r\n" + notification.Message.Header + "; " + notification.Message.Text; //test
             });
         }
     }

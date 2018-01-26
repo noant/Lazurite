@@ -10,7 +10,7 @@ namespace LazuriteMobile.App
     {
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
-        public void Handle(AddictionalData data)
+        public void Handle(AddictionalData data, object tag)
         {
             //do nothing
         }
@@ -20,7 +20,7 @@ namespace LazuriteMobile.App
             //do nothing
         }
 
-        public void Prepare(AddictionalData data)
+        public void Prepare(AddictionalData data, object tag)
         {
             try
             {

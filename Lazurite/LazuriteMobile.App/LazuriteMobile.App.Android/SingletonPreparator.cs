@@ -34,7 +34,7 @@ namespace LazuriteMobile.App.Droid
                 Singleton.Add(new ServiceClientManager());
             if (!Singleton.Any<AddictionalDataManager>())
                 Singleton.Add(new AddictionalDataManager());
-            if (!Singleton.Any(INotifier))
+            if (!Singleton.Any<INotifier>())
                 Singleton.Add(new Notifier());
         }
     }

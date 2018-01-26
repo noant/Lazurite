@@ -16,7 +16,7 @@ using UserGeolocationPluginUI;
 namespace UserGeolocationPluginMain
 {
     [OnlyGetValue]
-    [HumanFriendlyName("Получить текущие геокоординаты пользователя")]
+    [HumanFriendlyName("Геокоординаты пользователя")]
     [SuitableValueTypes(typeof(InfoValueType))]
     [LazuriteIcon(Icon.MapLocation)]
     [Category(Category.Geolocation)]
@@ -24,7 +24,7 @@ namespace UserGeolocationPluginMain
     {
         public string Caption
         {
-            get => string.Format("Геокоординаты пользователя '{0}'", GetUserName());
+            get => string.Format("'{0}'", GetUserName());
             set { }
         }
 

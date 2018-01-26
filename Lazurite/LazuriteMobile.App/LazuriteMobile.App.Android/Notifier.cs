@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Lazurite.IOC;
 using Lazurite.Shared;
 using LazuriteMobile.MainDomain;
 
@@ -36,6 +37,8 @@ namespace LazuriteMobile.App.Droid
 
         public void Notify(Lazurite.Shared.Message message)
         {
+            var newId = GetNextNotificationId();
+
             var lazNotification = new LazuriteNotification();
             lazNotification.Message = message;
             _notificationsCache.Insert(0, lazNotification);
@@ -47,10 +50,12 @@ namespace LazuriteMobile.App.Droid
             builder.SetContentText(message.Text);
             builder.SetSmallIcon(Resource.Drawable.icon);
             builder.SetVisibility(NotificationVisibility.Private);
+            builder.SetOnlyAlertOnce(true);
+            builder.SetDefaults(NotificationDefaults.All);
             builder.SetColor(Color.Argb(0, 255, 255, 255).ToArgb());
-            
+
             var activityIntent = new Intent(context, typeof(MainActivity));
-            activityIntent.PutExtra(Keys.NeedOpenNotifications, new char[0]);
+            activityIntent.PutExtra(Keys.NeedOpenNotifications, newId);
 
             var showActivityIntent = PendingIntent.GetActivity(Application.Context, 0,
                 activityIntent, PendingIntentFlags.UpdateCurrent);
@@ -62,7 +67,10 @@ namespace LazuriteMobile.App.Droid
             var notificationManager =
                 context.GetSystemService(Context.NotificationService) as NotificationManager;
             
-            notificationManager.Notify(GetNextNotificationId(), notification);
+            notificationManager.Notify(newId, notification);
+            
+            var handler = Singleton.Resolve<INotificationsHandler>();
+            handler?.UpdateNotificationsInfo();
         }
     }
 }

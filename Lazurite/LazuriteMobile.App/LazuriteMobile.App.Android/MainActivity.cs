@@ -10,7 +10,7 @@ using LazuriteMobile.MainDomain;
 using System;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-
+using Android.Content;
 
 namespace LazuriteMobile.App.Droid
 {
@@ -70,18 +70,29 @@ namespace LazuriteMobile.App.Droid
             }
             return base.OnKeyDown(keyCode, e);
         }
-
+        
         protected override void OnResume()
         {
             base.OnResume();
             ((ISupportsResume)this).OnResume?.Invoke(this);
+            HandleIntent(Intent);
         }
         
-        protected override void OnPostResume()
+        protected override void OnNewIntent(Intent intent)
         {
-            base.OnPostResume();
-            if (Intent.Extras != null && Intent.Extras.ContainsKey(Keys.NeedOpenNotifications))
+            base.OnNewIntent(intent);
+            Intent = intent;
+            HandleIntent(intent);
+        }
+        
+        private Intent _handledIntent;
+        private void HandleIntent(Intent intent)
+        {
+            if (intent != _handledIntent && 
+                intent.Extras != null && 
+                intent.Extras.ContainsKey(Keys.NeedOpenNotifications))
             {
+                _handledIntent = intent;
                 var handler = Singleton.Resolve<INotificationsHandler>();
                 handler.UpdateNotificationsInfo();
             }

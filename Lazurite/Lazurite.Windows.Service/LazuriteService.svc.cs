@@ -277,7 +277,8 @@ namespace Lazurite.Windows.Service
                 WarningHandler.InfoFormat("User AddictionalData sync: [{0}];", user.Name);
                 var data = encryptedData.Decrypt(_secretKey);
                 AddictionalDataManager.Handle(data, user);
-                return new Encrypted<AddictionalData>(AddictionalDataManager.Prepare(user), this._secretKey);
+                var preparedData = AddictionalDataManager.Prepare(user);
+                return new Encrypted<AddictionalData>(preparedData, this._secretKey);
             });
         }
     }

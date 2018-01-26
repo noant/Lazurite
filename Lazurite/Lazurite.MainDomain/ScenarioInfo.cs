@@ -15,6 +15,7 @@ namespace Lazurite.MainDomain
     public class ScenarioInfo
     {
         private string _currentValue;
+        private UserVisualSettings _visualSettings = new UserVisualSettings();
 
         [DataMember]
         public string Name { get; set; }
@@ -37,7 +38,10 @@ namespace Lazurite.MainDomain
         public ValueTypeBase ValueType { get; set; }
 
         [DataMember]
-        public UserVisualSettings VisualSettings { get; set; }
+        public UserVisualSettings VisualSettings {
+            get => _visualSettings;
+            set => _visualSettings = value ?? _visualSettings;
+        }
 
         [DataMember]
         public bool IsAvailable { get; set; }
