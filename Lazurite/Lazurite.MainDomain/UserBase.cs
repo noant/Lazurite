@@ -20,8 +20,10 @@ namespace Lazurite.MainDomain
         
         private void AddGeolocationIfNotLast(GeolocationInfo geolocationInfo)
         {
-            var lastLocation = _locations.LastOrDefault(x => ReferenceEquals(geolocationInfo.Device, x.Device));
-            if (lastLocation == null || !lastLocation.Geolocation.Equals(geolocationInfo.Geolocation))
+            var lastLocation = _locations.LastOrDefault(x => geolocationInfo.Device == x.Device);
+            if (lastLocation != null && lastLocation.Geolocation.Equals(geolocationInfo.Geolocation) && !lastLocation.DateTime.Equals(geolocationInfo.DateTime))
+                lastLocation.DateTime = geolocationInfo.DateTime;
+            else if (lastLocation == null || !lastLocation.Geolocation.Equals(geolocationInfo.Geolocation))
                 _locations.Add(geolocationInfo);
         }
 

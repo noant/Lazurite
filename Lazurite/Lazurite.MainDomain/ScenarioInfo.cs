@@ -12,6 +12,7 @@ namespace Lazurite.MainDomain
     [KnownType(typeof(ActionsDomain.ValueTypes.InfoValueType))]
     [KnownType(typeof(ActionsDomain.ValueTypes.StateValueType))]
     [KnownType(typeof(ActionsDomain.ValueTypes.ToggleValueType))]
+    [KnownType(typeof(ActionsDomain.ValueTypes.GeolocationValueType))]
     public class ScenarioInfo
     {
         private string _currentValue;

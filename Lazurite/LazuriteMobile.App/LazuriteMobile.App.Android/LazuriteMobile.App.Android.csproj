@@ -235,6 +235,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackgroundReciever.cs" />
+    <Compile Include="GeolocationViewIntentCreator.cs" />
     <Compile Include="IncomingHandler.cs" />
     <Compile Include="LazuriteService.cs" />
     <Compile Include="LogStub.cs" />

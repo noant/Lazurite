@@ -10,7 +10,10 @@ namespace Lazurite.ActionsDomain.ValueTypes
 
         [DataMember]
         public string[] AcceptedValues {
-            get {
+            get
+            {
+                if (_acceptedValues == null)
+                    _acceptedValues = new string[0];
                 return _acceptedValues;
             }
             set {

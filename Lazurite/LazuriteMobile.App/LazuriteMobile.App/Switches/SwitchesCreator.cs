@@ -22,6 +22,8 @@ namespace LazuriteMobile.App.Switches
                 return new StatusView(scenario);
             if (scenario.ValueType is Lazurite.ActionsDomain.ValueTypes.ToggleValueType)
                 return new ToggleView(scenario);
+            if (scenario.ValueType is Lazurite.ActionsDomain.ValueTypes.GeolocationValueType)
+                return new GeolocationView(scenario);
             throw new Exception("Not compatible value type");
         }
     }

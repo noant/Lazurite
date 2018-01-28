@@ -45,13 +45,13 @@ namespace UserGeolocationPlugin
             return locations.FirstOrDefault();
         }
 
-        public static Lazurite.Shared.Geolocation GetUserCurrentGeolocation(IGeolocationTarget[] users, string userId, string deviceName)
+        public static Lazurite.Shared.GeolocationInfo GetUserCurrentGeolocation(IGeolocationTarget[] users, string userId, string deviceName)
         {
             var user = users.FirstOrDefault(x => x.Id.Equals(userId));
             if (user == null)
-                return Lazurite.Shared.Geolocation.Empty;
+                return new GeolocationInfo(Lazurite.Shared.Geolocation.Empty, deviceName);
             var locationsInfos = GetNonGpsLocations(user, deviceName);
-            return locationsInfos.LastOrDefault()?.Geolocation ?? Lazurite.Shared.Geolocation.Empty;
+            return locationsInfos.LastOrDefault() ?? new GeolocationInfo(Lazurite.Shared.Geolocation.Empty, deviceName);
         }
         
         public static double GetDistanceBetween(IGeolocationTarget[] users, string userId, string device, string placeName)
@@ -62,11 +62,11 @@ namespace UserGeolocationPlugin
             var place = PlacesManager.GetAllAvailablePlaces().FirstOrDefault(x => x.Name.Equals(placeName));
             if (place == null || place == GeolocationPlace.Empty || place == GeolocationPlace.Other)
                 return EquatorLength;
-            var userCurrentGeolocation = GetUserCurrentGeolocation(users, userId, device);
-            if (userCurrentGeolocation == Lazurite.Shared.Geolocation.Empty)
+            var info = GetUserCurrentGeolocation(users, userId, device);
+            if (info.Geolocation == Lazurite.Shared.Geolocation.Empty)
                 return EquatorLength;
             return GeoCalculator.GetDistance(
-                userCurrentGeolocation.Latitude, userCurrentGeolocation.Longtitude,
+                info.Geolocation.Latitude, info.Geolocation.Longtitude,
                 place.Location.Latitude, place.Location.Longtitude, 1, DistanceUnit.Meters);
         }
     }

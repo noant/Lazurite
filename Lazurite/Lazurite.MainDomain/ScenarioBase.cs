@@ -85,7 +85,7 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Time when CurrentValue was changed last time
         /// </summary>
-        public DateTime LastChange { get; private set; } = DateTime.Now.ToUniversalTime();
+        public virtual DateTime LastChange { get; protected set; } = DateTime.Now.ToUniversalTime();
 
         /// <summary>
         /// Current value of scenario execution

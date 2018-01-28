@@ -36,6 +36,8 @@ namespace LazuriteMobile.App.Droid
                 Singleton.Add(new AddictionalDataManager());
             if (!Singleton.Any<INotifier>())
                 Singleton.Add(new Notifier());
+            if (!Singleton.Any<IGeolocationView>())
+                Singleton.Add(new GeolocationViewIntentCreator());
         }
     }
 }

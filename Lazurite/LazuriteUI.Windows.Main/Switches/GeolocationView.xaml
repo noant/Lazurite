@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Switches.GeolocationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Switches"
+             xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
+             mc:Ignorable="d" 
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             Height="110" Width="110" 
+             IsEnabled="{Binding AllowClick}"
+             Background="{x:Static controls:Visual.BackgroundLazurite}"
+             Opacity="{Binding IsAvailable, Converter={x:Static local:ConvertersStatic.BoolToDouble}}"
+             d:DesignHeight="110" d:DesignWidth="110">
+    <Grid>
+        <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolToVisibility}}"></common:CheckPanel>
+        <controls:ItemView Background="Transparent" IsEnabled="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolInvert}}" Name="itemView" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed" HorizontalAlignment="Stretch"></controls:ItemView>
+        <Grid IsHitTestVisible="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <controls:IconView Width="35" Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+            <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="0,-4,0,4" Name="textBlockScenName" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private" Foreground="SteelBlue" TextAlignment="Center" ></TextBlock>
+            <TextBlock Grid.Row="2" VerticalAlignment="Center" Margin="0,-7,0,0" Name="textBlockDate" Text="{Binding ScenarioValue, Converter={x:Static local:ConvertersStatic.GeolocationDateTimeValueTypeToSplittedString}}" x:FieldModifier="private" Foreground="White" TextAlignment="Center" ></TextBlock>
+        </Grid>
+        <local:SwitchBottomBorder></local:SwitchBottomBorder>
+    </Grid>
+</UserControl>

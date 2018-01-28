@@ -337,7 +337,7 @@ namespace LazuriteMobile.App
             }
             catch
             {
-                callback(false);
+                callback?.Invoke(false);
             }
         }
 
@@ -350,6 +350,7 @@ namespace LazuriteMobile.App
                         var result = Handle(() => _serviceClient.EndSyncAddictionalData(o));
                         if (result.Success && result.Value != null && result.Value.Data.Any())
                             Bus.Handle(result.Value, null);
+                        callback(result.Success);
                     },
                 null);
             }

@@ -81,6 +81,10 @@
     <Compile Include="Switches\BoolInvert.cs" />
     <Compile Include="Switches\BoolToDouble.cs" />
     <Compile Include="Switches\ConvertersStatic.cs" />
+    <Compile Include="Switches\GeolocationView.xaml.cs">
+      <DependentUpon>GeolocationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Switches\GeolocationDateTimeValueTypeToSplittedString.cs" />
     <Compile Include="Switches\FloatView.xaml.cs">
       <DependentUpon>FloatView.xaml</DependentUpon>
     </Compile>
@@ -344,6 +348,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Switches\SwitchBottomBorder.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Switches\GeolocationView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

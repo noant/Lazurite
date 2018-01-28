@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Lazurite.ActionsDomain.ValueTypes
+{
+    public class GeolocationValueType : ValueTypeBase
+    {
+        public override ValueTypeInterpreteResult Interprete(string param)
+        {
+            var strs = param.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            if (strs.Length < 2)
+                return new ValueTypeInterpreteResult(false, param);
+            else
+            {
+                if (double.TryParse(strs[0], out double val) &&
+                    double.TryParse(strs[1], out val) &&
+                    (strs.Length < 3 || DateTime.TryParse(strs[2], out DateTime dt)))
+                    return new ValueTypeInterpreteResult(true, param);
+                else return new ValueTypeInterpreteResult(false, param);
+            }
+        }
+
+        public override bool CanBeModified => false;
+
+        public override string HumanFriendlyName => "Геолокация";
+
+        public override bool SupportsNumericalComparisons => false;
+    }
+
+    public struct GeolocationData
+    {
+        public DateTime DateTime { get; private set; }
+        public double Latitude { get; private set; }
+        public double Longtitude { get; private set; }
+
+        public GeolocationData(double lat, double lng, DateTime dateTime)
+        {
+            DateTime = dateTime;
+            Latitude = lat;
+            Longtitude = lng;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0};{1};{2};", Latitude, Longtitude, DateTime);
+        }
+
+        public static GeolocationData FromString(string str)
+        {
+            var strs = str.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            return new GeolocationData(double.Parse(strs[0]), double.Parse(strs[1]), DateTime.Parse(strs[2]));
+        }
+    }
+}

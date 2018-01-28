@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GetDistanceBetweenUserAndPlace.cs" />
+    <Compile Include="ViewUserGeolocationAction.cs" />
     <Compile Include="GetUserLocationAction.cs" />
     <Compile Include="GetUserGeolocationAction.cs" />
     <Compile Include="UserInLocationAction.cs" />

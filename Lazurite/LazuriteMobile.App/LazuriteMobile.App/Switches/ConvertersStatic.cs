@@ -5,6 +5,7 @@
         public static readonly BoolToDouble BoolToDouble = new BoolToDouble();
         public static readonly BoolInvert BoolInvert = new BoolInvert();
         public static readonly DateTimeValueTypeToSplittedString DateTimeValueTypeToSplittedString = new DateTimeValueTypeToSplittedString();
+        public static readonly GeolocationDateTimeValueTypeToSplittedString GeolocationDateTimeValueTypeToSplittedString = new GeolocationDateTimeValueTypeToSplittedString();
         public static readonly StringToIcon StringToIcon = new StringToIcon();
         public static readonly StringToSplittedString StringToSplittedString = new StringToSplittedString();
         public static readonly StringToSplittedStringLong StringToSplittedStringLong = new StringToSplittedStringLong();

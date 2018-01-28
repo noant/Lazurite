@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context.cs" />
+    <Compile Include="IGeolocationView.cs" />
     <Compile Include="INotificationsHandler.cs" />
     <Compile Include="INotifier.cs" />
     <Compile Include="IScenariosManager.cs" />

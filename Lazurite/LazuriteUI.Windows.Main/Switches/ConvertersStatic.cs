@@ -7,6 +7,7 @@
         public static readonly BoolToVisibility BoolToVisibility = new BoolToVisibility();
         public static readonly BoolToVisibilityInvert BoolToVisibilityInvert = new BoolToVisibilityInvert();
         public static readonly DateTimeValueTypeToSplittedString DateTimeValueTypeToSplittedString = new DateTimeValueTypeToSplittedString();
+        public static readonly GeolocationDateTimeValueTypeToSplittedString GeolocationDateTimeValueTypeToSplittedString = new GeolocationDateTimeValueTypeToSplittedString();
         public static readonly StringToIcon StringToIcon = new StringToIcon();
         public static readonly StringToShortString StringToShortString = new StringToShortString();
         public static readonly StringToSplittedString StringToSplittedString = new StringToSplittedString();

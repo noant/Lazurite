@@ -23,6 +23,20 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public ActionHolder ActionHolder { get; set; } = new ActionHolder();
 
+        public override DateTime LastChange
+        {
+            get
+            {
+                if (this.ActionHolder != null &&
+                    this.ActionHolder.Action != null &&
+                    !this.ActionHolder.Action.IsSupportsEvent && 
+                    ActionsDomain.Utils.IsOnlyGetValue(this.ActionHolder.Action.GetType())) //determine when action needs recalculate every time
+                    return DateTime.Now;
+                return base.LastChange;
+            }
+            protected set => base.LastChange = value;
+        }
+
         public override ValueTypeBase ValueType
         {
             get
