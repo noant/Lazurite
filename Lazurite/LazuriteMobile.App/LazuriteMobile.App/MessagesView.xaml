@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LazuriteMobile.App.MessagesView">
-  <ContentView.Content>
-      <StackLayout>
-          <Label Text="Hello Xamarin.Forms!" />
-      </StackLayout>
-  </ContentView.Content>
-</ContentView>
+             x:Class="LazuriteMobile.App.MessagesView" BackgroundColor="Black">
+    <ScrollView>
+        <StackLayout Spacing="2" Orientation="Vertical" x:Name="stackView" BackgroundColor="DarkOrchid" VerticalOptions="StartAndExpand"></StackLayout>
+    </ScrollView>
+    <Label x:Name="lblEmpty" IsVisible="False" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Orchid">
+        Сообщений пока нет...
+    </Label>
+</Grid>

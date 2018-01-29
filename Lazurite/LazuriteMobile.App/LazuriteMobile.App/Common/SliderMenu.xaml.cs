@@ -57,6 +57,8 @@ namespace LazuriteMobile.App.Common
                 this.BackgroundColor = Color.Black;
                 this.TranslateTo(0, 0, 100, Easing.Linear);
                 MenuVisible = true;
+                if (this.contentView.Content is IUpdatable)
+                    ((IUpdatable)this.contentView.Content).UpdateView();
             }
             else _needShow = true;
         }

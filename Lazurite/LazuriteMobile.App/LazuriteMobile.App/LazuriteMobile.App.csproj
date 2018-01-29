@@ -68,12 +68,16 @@
     <Compile Include="Controls\ListItemsViewSelectionChangedEventArgs.cs" />
     <Compile Include="Controls\ListViewItemsSelectionMode.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="IUpdatable.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MessagesDataHandler.cs" />
     <Compile Include="MessagesView.xaml.cs">
       <DependentUpon>MessagesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageView.xaml.cs">
+      <DependentUpon>MessageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ObservableObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -372,6 +376,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MessagesView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MessageView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

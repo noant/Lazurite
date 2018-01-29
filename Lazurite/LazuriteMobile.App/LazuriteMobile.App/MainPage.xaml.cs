@@ -26,6 +26,7 @@ namespace LazuriteMobile.App
             Singleton.Add((INotificationsHandler)this);
 
             this.tabsView.AddTabInfo(new SliderTabsView.TabInfo(connectionSettingsSlider, LazuriteUI.Icons.Icon.Settings));
+            this.tabsView.AddTabInfo(new SliderTabsView.TabInfo(messagesSlider, LazuriteUI.Icons.Icon.EmailMinimal));
             _supportsResume.OnResume = (s) => InitializeManager();
             settingsView.ConnectClicked += SettingsView_ConnectClicked;
             _manager.ConnectionError += _manager_ConnectionError;
@@ -49,7 +50,8 @@ namespace LazuriteMobile.App
                     {
                         if (state == ManagerConnectionState.Connected)
                         {
-                            Refresh(() => _manager.RefreshIteration());
+                            //refhresh on user open
+                            //Refresh(() => _manager.RefreshIteration());
                             Invoke(() => HideCaption());
                         }
                         else if (state == ManagerConnectionState.Disconnected)
@@ -236,11 +238,10 @@ namespace LazuriteMobile.App
         }
 
         private void ShowNotifications() {
-            _manager.GetNotifications((notifications) => {
-                var notification = notifications.FirstOrDefault();
-                if (notification != null)
-                    lblTemp.Text += "\r\n" + notification.Message.Header + "; " + notification.Message.Text; //test
-            });
+            if (messagesSlider.MenuVisible)
+                messagesView.UpdateMessages();
+            else
+                messagesSlider.Show();
         }
     }
 }

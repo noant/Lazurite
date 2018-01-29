@@ -19,6 +19,11 @@
                 <app:SettingsView x:Name="settingsView"></app:SettingsView>
             </common:SliderMenu.Content>
         </common:SliderMenu>
+        <common:SliderMenu x:Name="messagesSlider">
+            <common:SliderMenu.Content>
+                <app:MessagesView x:Name="messagesView"></app:MessagesView>
+            </common:SliderMenu.Content>
+        </common:SliderMenu>
         <Label x:Name="lblTemp" VerticalOptions="Start" HorizontalOptions="Start" BackgroundColor="Black" TextColor="Gray" Opacity="0.5"></Label><!--to delete-->
     </Grid>
 </ContentPage>
