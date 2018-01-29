@@ -5,16 +5,5 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     BackgroundColor="Black"
     x:Class="LazuriteMobile.App.Common.SliderMenu">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid x:Name="menu">
-            <Grid x:Name="gridBackground" BackgroundColor="Black" Opacity="0.5"></Grid>
-            <controls:IconView x:Name="iconView" Icon="ChevronDown" VerticalOptions="Center" HorizontalOptions="Center" Opacity="0.6"></controls:IconView>
-            <Button x:Name="bt" Opacity="0"></Button>
-        </Grid>
-        <ContentView x:Name="contentView" Grid.Row="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"></ContentView>
-    </Grid>
+    <ContentView x:Name="contentView" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"></ContentView>
 </Grid>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LazuriteMobile.App.Common.SliderTabsView"
+             xmlns:control="clr-namespace:LazuriteMobile.App.Controls"
+             Orientation="Horizontal" 
+             HorizontalOptions="End" 
+             VerticalOptions="End"
+             HeightRequest="60"
+             BackgroundColor="#55000000">
+</StackLayout>

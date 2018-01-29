@@ -1,5 +1,6 @@
 ﻿using Lazurite.IOC;
 using Lazurite.Shared;
+using LazuriteMobile.App.Common;
 using LazuriteMobile.App.Controls;
 using LazuriteMobile.MainDomain;
 using System;
@@ -24,6 +25,7 @@ namespace LazuriteMobile.App
             Singleton.Clear<INotificationsHandler>();
             Singleton.Add((INotificationsHandler)this);
 
+            this.tabsView.AddTabInfo(new SliderTabsView.TabInfo(connectionSettingsSlider, LazuriteUI.Icons.Icon.Settings));
             _supportsResume.OnResume = (s) => InitializeManager();
             settingsView.ConnectClicked += SettingsView_ConnectClicked;
             _manager.ConnectionError += _manager_ConnectionError;
@@ -94,9 +96,9 @@ namespace LazuriteMobile.App
 
         protected override bool OnBackButtonPressed()
         {
-            if (this.sliderMenu.MenuVisible)
+            if (this.tabsView.AnyOpened())
             {
-                this.sliderMenu.Hide();
+                this.tabsView.HideAll();
                 return true;
             }
             else if (DialogView.AnyOpened)
@@ -111,7 +113,7 @@ namespace LazuriteMobile.App
         private void _manager_SecretCodeInvalid()
         {
             Invoke(() => {
-                this.sliderMenu.Show();
+                this.connectionSettingsSlider.Show();
                 this.swgrid.IsEnabled = false;
                 ShowCaption("Ошибка при расшифровке данных...\r\nВозможно, секретный ключ сервера введен неверно", true, true);
             });
@@ -120,7 +122,7 @@ namespace LazuriteMobile.App
         private void _manager_LoginOrPasswordInvalid()
         {
             Invoke(() => {
-                this.sliderMenu.Show();
+                this.connectionSettingsSlider.Show();
                 this.swgrid.IsEnabled = false;
                 ShowCaption("Логин или пароль введен неверно", true, true);
             });
@@ -135,14 +137,14 @@ namespace LazuriteMobile.App
 
         private void SettingsView_ConnectClicked(SettingsView obj)
         {
-            this.sliderMenu.Hide();
+            this.connectionSettingsSlider.Hide();
             var credentials = this.settingsView.GetCredentials();
             if (string.IsNullOrEmpty(credentials.Host) || string.IsNullOrEmpty(credentials.Login)
                 || string.IsNullOrEmpty(credentials.Password) || string.IsNullOrEmpty(credentials.SecretKey)
                 || string.IsNullOrEmpty(credentials.ServiceName) || credentials.Port < 1)
             {
                 ShowCaption("Не все поля введены", true);
-                this.sliderMenu.Show();
+                this.connectionSettingsSlider.Show();
             }
             else
             {
@@ -154,7 +156,7 @@ namespace LazuriteMobile.App
         private void _manager_NeedClientSettings()
         {
             Invoke(() => {
-                this.sliderMenu.Show();
+                this.connectionSettingsSlider.Show();
                 ShowCaption("Необходим ввод логина/пароля", false, false);
             });
         }
@@ -162,7 +164,7 @@ namespace LazuriteMobile.App
         private void _manager_ConnectionRestored()
         {
             Invoke(() => {
-                this.sliderMenu.Hide();
+                this.connectionSettingsSlider.Hide();
                 HideCaption();
                 swgrid.IsEnabled = true;
             });

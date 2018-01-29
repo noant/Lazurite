@@ -13,7 +13,8 @@
             <controls:IconView Icon="Lazurite256" VerticalOptions="Center" HorizontalOptions="Center"></controls:IconView>
             <Label HorizontalTextAlignment="Center" VerticalOptions="End" TextColor="White" HorizontalOptions="Center" Margin="0,0,0,100" FontSize="Medium" x:Name="lblCaption">Соединение...</Label>
         </Grid>
-        <common:SliderMenu x:Name="sliderMenu">
+        <common:SliderTabsView x:Name="tabsView"></common:SliderTabsView>
+        <common:SliderMenu x:Name="connectionSettingsSlider">
             <common:SliderMenu.Content>
                 <app:SettingsView x:Name="settingsView"></app:SettingsView>
             </common:SliderMenu.Content>
