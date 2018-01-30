@@ -2,11 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionName="First">
 	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="26" />
 	<application android:label="Lazurite" android:icon="@drawable/splashscreen"></application>
-	<receiver android:name="StartReceiver" android:enabled="true">
+	<receiver android:name=".StartLazuriteServiceReceiver" android:enabled="true" android:exported="true">
 		<intent-filter>
 			<action android:name="android.intent.action.BOOT_COMPLETED" />
 		</intent-filter>
 	</receiver>
+  <receiver android:name=".ScreenOnReciever" android:enabled="true" android:exported="true">
+    <intent-filter>
+      <action android:name="android.intent.action.SCREEN_ON" />
+    </intent-filter>
+  </receiver>
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

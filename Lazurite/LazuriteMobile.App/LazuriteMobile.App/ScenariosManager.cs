@@ -218,8 +218,13 @@ namespace LazuriteMobile.App
             });
         }
 
+        private bool _iterationRefreshNow;
+
         public void RefreshIteration()
         {
+            if (_iterationRefreshNow)
+                return;
+            _iterationRefreshNow = true;
             try
             {
                 //recreate connection if error
@@ -227,6 +232,7 @@ namespace LazuriteMobile.App
                     RecreateConnection();
                 _refreshEndingToken = new CancellationTokenSource();
                 _syncDataEndingToken = new CancellationTokenSource();
+                _refreshEndingToken.Token.Register(() => _iterationRefreshNow = false);
                 SyncAddictionalData(success =>
                 {
                     _succeed = success;
@@ -444,6 +450,11 @@ namespace LazuriteMobile.App
         public void Close()
         {
             StopListenChanges();
+        }
+
+        public void ScreenOnActions()
+        {
+            //do nothing there
         }
     }
 }

@@ -157,6 +157,11 @@ namespace LazuriteMobile.App.Droid
             Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.RefreshIteration);
         }
 
+        public void ScreenOnActions()
+        {
+            Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.ScreenOnActions);
+        }
+
         public void Close()
         {
             try

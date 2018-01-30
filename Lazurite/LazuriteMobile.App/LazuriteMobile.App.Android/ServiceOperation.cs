@@ -20,5 +20,6 @@
         ReConnect = 32768,
         RefreshIteration = 65536,
         GetNotifications = 131072,
+        ScreenOnActions = 262144
     }
 }

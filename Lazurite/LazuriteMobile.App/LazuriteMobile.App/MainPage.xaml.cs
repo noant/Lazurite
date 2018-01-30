@@ -50,8 +50,7 @@ namespace LazuriteMobile.App
                     {
                         if (state == ManagerConnectionState.Connected)
                         {
-                            //refhresh on user open
-                            //Refresh(() => _manager.RefreshIteration());
+                            Refresh();
                             Invoke(() => HideCaption());
                         }
                         else if (state == ManagerConnectionState.Disconnected)
@@ -232,10 +231,12 @@ namespace LazuriteMobile.App
         void INotificationsHandler.UpdateNotificationsInfo()
         {
             if (_initialized)
-                ShowNotifications();
+                Invoke(ShowNotifications);
             else
-                this.ConnectionToServiceInitialized += (o, e) => ShowNotifications();
+                this.ConnectionToServiceInitialized += (o, e) => Invoke(ShowNotifications);
         }
+
+        bool INotificationsHandler.NeedViewPermanently => messagesSlider.MenuVisible;
 
         private void ShowNotifications() {
             if (messagesSlider.MenuVisible)

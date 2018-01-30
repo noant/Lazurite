@@ -16,9 +16,9 @@ namespace LazuriteMobile.App
 		public MessageView (LazuriteNotification notification)
 		{
 			InitializeComponent ();
-            lblText.Text = notification.Message.Text;
+            lblText.Text = notification.Message.Text.Trim();
             lblDateTime.Text = notification.Message.DateTime.ToString();
-            lblTitle.Text = notification.Message.Header;
+            lblTitle.Text = notification.Message.Header.Trim();
             lblNew.IsVisible = !notification.IsRead;
 		}
 	}

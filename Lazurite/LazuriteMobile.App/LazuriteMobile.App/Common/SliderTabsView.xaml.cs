@@ -12,7 +12,7 @@ using Xamarin.Forms.Xaml;
 namespace LazuriteMobile.App.Common
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SliderTabsView : StackLayout
+    public partial class SliderTabsView : Grid
     {
         private List<TabInfo> _tabs = new List<TabInfo>();
 
@@ -25,10 +25,10 @@ namespace LazuriteMobile.App.Common
         {
             var itemView = new ItemView();
             itemView.Icon = info.Icon;
-            itemView.HeightRequest = itemView.WidthRequest = 60;
+            itemView.HeightRequest = itemView.WidthRequest = 45;
             itemView.BackgroundColor = Color.Transparent;
             itemView.Click += (o, e) => info.Menu.Show();
-            Children.Add(itemView);
+            stackPanel.Children.Add(itemView);
             _tabs.Add(info);
         }
 

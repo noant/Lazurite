@@ -22,9 +22,11 @@ namespace LazuriteMobile.App.Droid
             get;
             set;
         }
-
+        
         protected override void OnCreate(Bundle bundle)
         {
+            Window.AddFlags(WindowManagerFlags.KeepScreenOn);
+
             Singleton.Clear<IHardwareVolumeChanger>();
             Singleton.Add((IHardwareVolumeChanger)this);
 
@@ -97,7 +99,7 @@ namespace LazuriteMobile.App.Droid
                 handler.UpdateNotificationsInfo();
             }
         }
-
+        
         public event EventsHandler<int> VolumeUp;
         public event EventsHandler<int> VolumeDown;
     }

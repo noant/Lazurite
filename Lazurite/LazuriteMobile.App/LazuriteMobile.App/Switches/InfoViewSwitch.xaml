@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns:common="clr-namespace:LazuriteMobile.App.Common"
+    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    BackgroundColor="Black"
+    x:Class="LazuriteMobile.App.Switches.InfoViewSwitch">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="45"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Editor VerticalOptions="FillAndExpand" BackgroundColor="#302530" TextColor="White" Grid.Row="0" x:Name="tbText"></Editor>
+        <controls:ItemView Grid.Row="1" VerticalOptions="EndAndExpand" x:Name="itemViewApply" Icon="ChevronRight" Margin="5" Text="Отправить"></controls:ItemView>
+    </Grid>
+</ContentView>

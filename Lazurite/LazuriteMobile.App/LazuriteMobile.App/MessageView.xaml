@@ -2,14 +2,14 @@
 <Grid xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LazuriteMobile.App.MessageView"
-             BackgroundColor="#1D191D" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+             BackgroundColor="#1D191D" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Padding="4">
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
-        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="19"></RowDefinition>
     </Grid.RowDefinitions>
-    <Label Margin="4" FontAttributes="Italic" TextColor="SteelBlue" x:Name="lblTitle"></Label>
-    <Label Margin="4" Grid.Row="1" TextColor="SteelBlue" x:Name="lblText"></Label>
-    <Label Margin="4" Grid.Row="2" TextColor="Gray" FontSize="Micro" x:Name="lblDateTime"></Label>
-    <Label x:Name="lblNew" Grid.Row="2" TextColor="Yellow" HorizontalOptions="End">*</Label>
+    <Label Margin="4" VerticalOptions="Center" FontAttributes="Italic" TextColor="SteelBlue" x:Name="lblTitle"></Label>
+    <Label Margin="4" VerticalOptions="Center" Grid.Row="1" TextColor="SteelBlue" x:Name="lblText"></Label>
+    <Label Margin="4" VerticalOptions="Center" Grid.Row="2" TextColor="Gray" FontSize="Micro" x:Name="lblDateTime"></Label>
+    <Label x:Name="lblNew" Grid.Row="0" TextColor="Yellow" FontSize="Large" HorizontalOptions="End">*</Label>
 </Grid>

@@ -21,17 +21,28 @@ namespace LazuriteMobile.App.Droid
         private static int _lastId = 1;
         private static int GetNextNotificationId() => ++_lastId;
         private List<LazuriteNotification> _notificationsCache = new List<LazuriteNotification>();
+        private List<LazuriteNotification> _read = new List<LazuriteNotification>();
 
         public LazuriteNotification[] GetNotifications()
         {
             try
             {
+                foreach (var notification in _notificationsCache)
+                    if (!notification.IsRead)
+                        notification.IsRead = _read.Contains(notification);
                 return _notificationsCache.ToArray();
             }
             finally
             {
-                foreach (var lazNotification in _notificationsCache)
-                    lazNotification.IsRead = true;
+                _read.Clear();
+                _read.AddRange(_notificationsCache);
+
+                var context = global::Android.App.Application.Context;
+
+                var notificationManager =
+                    context.GetSystemService(Context.NotificationService) as NotificationManager;
+                    
+                notificationManager.CancelAll();
             }
         }
 
@@ -51,6 +62,7 @@ namespace LazuriteMobile.App.Droid
             builder.SetSmallIcon(Resource.Drawable.icon);
             builder.SetVisibility(NotificationVisibility.Private);
             builder.SetOnlyAlertOnce(true);
+            builder.SetAutoCancel(true);
             builder.SetDefaults(NotificationDefaults.All);
             builder.SetColor(Color.Argb(0, 255, 255, 255).ToArgb());
 
@@ -68,9 +80,13 @@ namespace LazuriteMobile.App.Droid
                 context.GetSystemService(Context.NotificationService) as NotificationManager;
             
             notificationManager.Notify(newId, notification);
-            
-            var handler = Singleton.Resolve<INotificationsHandler>();
-            handler?.UpdateNotificationsInfo();
+
+            if (Singleton.Any<INotificationsHandler>())
+            {
+                var notificationHandler = Singleton.Resolve<INotificationsHandler>();
+                if (notificationHandler.NeedViewPermanently)
+                    notificationHandler.UpdateNotificationsInfo();
+            }
         }
     }
 }

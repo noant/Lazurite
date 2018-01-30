@@ -1,11 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<StackLayout xmlns="http://xamarin.com/schemas/2014/forms" 
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LazuriteMobile.App.Common.SliderTabsView"
              xmlns:control="clr-namespace:LazuriteMobile.App.Controls"
-             Orientation="Horizontal" 
-             HorizontalOptions="End" 
+             BackgroundColor="#80000000"
+             HorizontalOptions="FillAndExpand"
              VerticalOptions="End"
-             HeightRequest="60"
-             BackgroundColor="#55000000">
-</StackLayout>
+             HeightRequest="45">
+    <StackLayout
+                 x:Name="stackPanel"
+                 Spacing="0"
+                 Orientation="Horizontal" 
+                 HorizontalOptions="Center"
+                 VerticalOptions="End">
+    </StackLayout>
+</Grid>

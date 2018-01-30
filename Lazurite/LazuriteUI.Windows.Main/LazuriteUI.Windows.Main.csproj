@@ -339,6 +339,9 @@
     <Compile Include="Switches\GeolocationView.xaml.cs">
       <DependentUpon>GeolocationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Switches\InfoViewSwitch.xaml.cs">
+      <DependentUpon>InfoViewSwitch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Switches\SwitchBottomBorder.xaml.cs">
       <DependentUpon>SwitchBottomBorder.xaml</DependentUpon>
     </Compile>
@@ -724,6 +727,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Switches\GeolocationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Switches\InfoViewSwitch.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

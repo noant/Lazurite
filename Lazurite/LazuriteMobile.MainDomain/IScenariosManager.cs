@@ -16,6 +16,7 @@ namespace LazuriteMobile.MainDomain
         void GetNotifications(Action<LazuriteNotification[]> notifications);
         void Close();
         void RefreshIteration();
+        void ScreenOnActions();
 
         event Action<ScenarioInfo[]> ScenariosChanged;
         event Action NeedRefresh;

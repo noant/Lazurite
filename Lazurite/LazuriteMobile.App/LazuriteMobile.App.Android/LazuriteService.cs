@@ -17,7 +17,7 @@ namespace LazuriteMobile.App.Droid
     public class LazuriteService : Service
     {
         private static readonly int SleepInterval_Normal = 10000;
-        private static readonly int SleepInterval_ScreenOff = 40000;
+        private static readonly int SleepInterval_ScreenOff = 60000;
         private static readonly int SleepInterval_PowerSaving = 200000;
 
         public static bool Started => IsServiceRunning(typeof(LazuriteService));
@@ -90,10 +90,12 @@ namespace LazuriteMobile.App.Droid
             _manager.ConnectionError += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionError));
             _manager.Initialize(null);
 
-            AlarmManager manager = (AlarmManager)GetSystemService(AlarmService);
-            long triggerAtTime = SystemClock.ElapsedRealtime() + (10 * 60 * 1000);
-            Intent onAndroidAvailable = new Intent(this, typeof(BackgroundReceiver));
-            PendingIntent startServiceIntent = PendingIntent.GetBroadcast(this, 0, onAndroidAvailable, 0);
+            RegisterReceiver(new ScreenOnReciever(), new IntentFilter(Intent.ActionScreenOn));
+
+            var manager = (AlarmManager)GetSystemService(AlarmService);
+            var triggerAtTime = SystemClock.ElapsedRealtime() + (10 * 60 * 1000);
+            var onAndroidAvailable = new Intent(this, typeof(BackgroundReceiver));
+            var startServiceIntent = PendingIntent.GetBroadcast(this, 0, onAndroidAvailable, 0);
             if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
             {
                 manager.Cancel(startServiceIntent);
@@ -104,20 +106,8 @@ namespace LazuriteMobile.App.Droid
                 manager.Cancel(startServiceIntent);
                 manager.SetExact(AlarmType.ElapsedRealtimeWakeup, triggerAtTime, startServiceIntent);
             }
-            
-            if (_timer != null)
-            {
-                _timer.Enabled = false;
-                _timer.Dispose();
-                _timer = null;
-            }
 
-            _timer = new System.Timers.Timer();
-            _timer.Interval = SleepInterval_Normal;
-            _timer.Elapsed += _timer_Elapsed;
-            _timer.Enabled = true;
-            _timer.AutoReset = true;
-            _timer.Start();
+            ReInitTimer();
 
             var activityIntent = new Intent(this, typeof(MainActivity));
 
@@ -138,14 +128,41 @@ namespace LazuriteMobile.App.Droid
             return StartCommandResult.Sticky;
         }
 
+        private void ReInitTimer()
+        {
+            RefreshIteration();
+
+            if (_timer != null)
+            {
+                _timer.Enabled = false;
+                _timer.Close();
+                _timer.Dispose();
+                _timer = null;
+            }
+
+            _timer = new System.Timers.Timer();
+            _timer.Interval = SleepInterval_Normal;
+            _timer.Elapsed += _timer_Elapsed;
+            _timer.Enabled = true;
+            _timer.AutoReset = true;
+            _timer.Start();
+        }
+
         private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             _manager.RefreshIteration();
             _timer.Interval = SleepInterval_Normal;
-            if (IsPhoneSleeping)
-                _timer.Interval = SleepInterval_ScreenOff;
-            else if (IsPhoneInPowerSave)
-                _timer.Interval = SleepInterval_PowerSaving;
+            try
+            {
+                if (IsPhoneSleeping)
+                    _timer.Interval = SleepInterval_ScreenOff;
+                else if (IsPhoneInPowerSave)
+                    _timer.Interval = SleepInterval_PowerSaving;
+            }
+            catch
+            {
+                //do nothing
+            }
         }
 
         public override void OnDestroy()
@@ -225,6 +242,12 @@ namespace LazuriteMobile.App.Droid
                     case ServiceOperation.RefreshIteration:
                         {
                             _manager.RefreshIteration();
+                            break;
+                        }
+                    case ServiceOperation.ScreenOnActions:
+                        {
+                            _manager.ScreenOnActions();
+                            ReInitTimer();
                             break;
                         }
                 }

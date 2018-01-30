@@ -15,6 +15,11 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
         {
             InitializeComponent();
 
+            KeyDown += (o, e) => {
+                if (e.Key == System.Windows.Input.Key.Enter)
+                    ApplyClicked?.Invoke();
+            };
+
             _action = action;
 
             this.tbText.Text = _action.Value;

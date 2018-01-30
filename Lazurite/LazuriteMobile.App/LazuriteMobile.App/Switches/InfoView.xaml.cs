@@ -13,7 +13,13 @@ namespace LazuriteMobile.App.Switches
 
         public InfoView(ScenarioInfo scenario) : this()
         {
-            this.BindingContext = new SwitchScenarioModel(scenario);
+            var model = new SwitchScenarioModel(scenario);
+            BindingContext = model;
+
+            this.itemView.Click += (o, e) => {
+                var parent = Helper.GetLastParent(this);
+                InfoViewSwitch.Show((newVal) => model.ScenarioValue = newVal, parent);
+            };
         }
     }
 }

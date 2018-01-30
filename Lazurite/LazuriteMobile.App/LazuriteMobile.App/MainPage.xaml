@@ -24,6 +24,5 @@
                 <app:MessagesView x:Name="messagesView"></app:MessagesView>
             </common:SliderMenu.Content>
         </common:SliderMenu>
-        <Label x:Name="lblTemp" VerticalOptions="Start" HorizontalOptions="Start" BackgroundColor="Black" TextColor="Gray" Opacity="0.5"></Label><!--to delete-->
     </Grid>
 </ContentPage>
