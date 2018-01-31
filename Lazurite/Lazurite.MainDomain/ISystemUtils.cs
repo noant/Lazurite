@@ -10,5 +10,7 @@ namespace Lazurite.MainDomain
         bool IsFaultException(Exception e);
 
         bool IsFaultExceptionHasCode(Exception e, string code);
+
+        CancellationTokenSource StartTimer(Action<CancellationTokenSource> tick, Func<int> needInterval);
     }
 }

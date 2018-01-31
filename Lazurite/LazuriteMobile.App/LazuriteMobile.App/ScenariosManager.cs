@@ -46,7 +46,6 @@ namespace LazuriteMobile.App
 
         private static readonly int ScenariosManagerListenInterval = 12000;
         private static readonly int ScenariosManagerListenInterval_onError = 40000;
-        private static readonly int WaitingForRefreshListenInterval = 120000;
         private static readonly int ScenariosManagerFullRefreshInterval = 10;
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
@@ -202,20 +201,10 @@ namespace LazuriteMobile.App
         public void StartListenChanges()
         {
             _listenersCancellationTokenSource?.Cancel();
-            _listenersCancellationTokenSource = new CancellationTokenSource();
-            
-            TaskUtils.StartLongRunning(() => {
-                while (!_listenersCancellationTokenSource.Token.IsCancellationRequested)
-                {
-                    RefreshIteration();
-                    //sleep while update or refresh
-                    SystemUtils.Sleep(WaitingForRefreshListenInterval, _syncDataEndingToken.Token);
-                    //sleep while update or refresh
-                    SystemUtils.Sleep(WaitingForRefreshListenInterval, _refreshEndingToken.Token);
-                    //between updates sleep
-                    SystemUtils.Sleep(_succeed ? ScenariosManagerListenInterval : ScenariosManagerListenInterval_onError, CancellationToken.None);
-                }
-            });
+            _listenersCancellationTokenSource =
+                SystemUtils.StartTimer(
+                    (token) => RefreshIteration(),
+                    () => _succeed ? ScenariosManagerListenInterval : ScenariosManagerListenInterval_onError);
         }
 
         private bool _iterationRefreshNow;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lazurite.Utils;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -7,26 +8,11 @@ namespace LazuriteUI.Windows.Main.Switches
     [ValueConversion(typeof(string), typeof(string))]
     public class StringToSplittedString : IValueConverter
     {
+        const int MaxLineWidth = 14;
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var str = (value??"").ToString();
-            if (str.Length < 15)
-                return str;
-            if (str.Length > 14)
-            {
-                var min = int.MaxValue;
-                for (int i = 0; i<str.Length; i++)
-                {
-                    if (str[i].Equals(' '))
-                        if (Math.Abs(str.Length / 2 - i) < Math.Abs(min))
-                            min = str.Length / 2 - i;
-                }
-                if (min != int.MaxValue)
-                    str = str.Insert(str.Length / 2 - min, "\r\n").Replace(" \r\n", "\r\n").Replace("\r\n ", "\r\n"); ;
-            }
-            if (str.Length > 28)
-                str = str.Substring(0, 27) + "...";
-            return str;
+            var str = (value ?? string.Empty).ToString();
+            return StringUtils.TruncateString(str, MaxLineWidth);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

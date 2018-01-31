@@ -1,6 +1,7 @@
 ﻿using Lazurite.Shared;
 using LazuriteMobile.App.Controls;
 using System;
+using System.Reflection;
 
 using Xamarin.Forms;
 
@@ -12,8 +13,9 @@ namespace LazuriteMobile.App.Switches
         {
             InitializeComponent();
             itemViewApply.Click += (o,e) => ApplyClicked?.Invoke(this, new EventsArgs<string>(tbText.Text));
+            SizeChanged += (o,e) => tbText.Focus(); //crutch
             tbText.Keyboard = Keyboard.Chat;
-            this.SizeChanged += (o,e) => tbText.Focus(); //crutch
+            tbText.TextChanged += (o, e) => tbText.InvalidateMeasureCrutch(); //crutch
         }
         
         public event EventsHandler<string> ApplyClicked;
@@ -29,5 +31,12 @@ namespace LazuriteMobile.App.Switches
             };
             dialog.Show(parent);
         }
+    }
+
+    //crutch
+    public class EditorExt: Editor
+    { 
+        //crutch
+        public void InvalidateMeasureCrutch() => InvalidateMeasure();
     }
 }

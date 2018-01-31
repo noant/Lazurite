@@ -27,6 +27,43 @@ namespace Lazurite.Windows.Utils
                 Thread.Sleep(SleepCancelTokenIterationInterval);
         }
 
+        public CancellationTokenSource StartTimer(Action<CancellationTokenSource> tick, Func<int> needInterval)
+        {
+            var cancellationToken = new CancellationTokenSource();
 
+            bool executionNow = false;
+
+            var timer = new System.Timers.Timer();
+
+            timer.Interval = needInterval?.Invoke() ?? 1000;
+            timer.Enabled = true;
+            timer.AutoReset = true;
+
+            timer.Elapsed += new System.Timers.ElapsedEventHandler((o, e) => {
+                if (!executionNow && !cancellationToken.IsCancellationRequested)
+                {
+                    executionNow = true;
+                    try
+                    {
+                        tick?.Invoke(cancellationToken);
+                    }
+                    finally
+                    {
+                        timer.Interval = needInterval?.Invoke() ?? 1000;
+                        executionNow = false;
+                    }
+                }
+            });
+
+            cancellationToken.Token.Register(() => {
+                timer.Enabled = false;
+                timer.Close();
+                timer.Dispose();
+            });
+
+            timer.Start();
+
+            return cancellationToken;
+        }
     }
 }

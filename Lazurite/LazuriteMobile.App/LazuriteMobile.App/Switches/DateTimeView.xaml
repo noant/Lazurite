@@ -22,7 +22,7 @@
             </Grid.RowDefinitions>
             <controls:IconView WidthRequest="20" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
             <Label InputTransparent="True" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center" Margin="4,-4,4,4" x:Name="textBlockScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="#4682b4" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Small"></Label>
-            <Label InputTransparent="True" Grid.Row="2" VerticalOptions="Center" HorizontalOptions="Center" Margin="4,-7,4,0" x:Name="textBlockDate" Text="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.DateTimeValueTypeToSplittedString}}" x:FieldModifier="private" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Small"></Label>
+            <Label InputTransparent="True" Grid.Row="2" VerticalOptions="Center" HorizontalOptions="Center" Margin="4,-9,4,0" x:Name="textBlockDate" Text="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.DateTimeValueTypeToSplittedString}}" x:FieldModifier="private" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Micro"></Label>
         </Grid>
         <local:SwitchBottomBorder></local:SwitchBottomBorder>
     </Grid>

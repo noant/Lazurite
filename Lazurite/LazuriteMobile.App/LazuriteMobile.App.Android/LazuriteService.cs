@@ -10,6 +10,7 @@ using Lazurite.MainDomain;
 using LazuriteMobile.Android.ServiceClient;
 using LazuriteMobile.MainDomain;
 using System;
+using System.Threading;
 
 namespace LazuriteMobile.App.Droid
 {
@@ -19,6 +20,7 @@ namespace LazuriteMobile.App.Droid
         private static readonly int SleepInterval_Normal = 10000;
         private static readonly int SleepInterval_ScreenOff = 60000;
         private static readonly int SleepInterval_PowerSaving = 200000;
+        private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
 
         public static bool Started => IsServiceRunning(typeof(LazuriteService));
 
@@ -54,7 +56,7 @@ namespace LazuriteMobile.App.Droid
         private IncomingHandler _inHandler = new IncomingHandler();
         private Messenger _toActivityMessenger;
         private Notification _currentNotification;
-        private System.Timers.Timer _timer;
+        private CancellationTokenSource _timerCancellationToken;
         private PowerManager.WakeLock _wakelock;
 
         public override IBinder OnBind(Intent intent)
@@ -132,37 +134,25 @@ namespace LazuriteMobile.App.Droid
         {
             RefreshIteration();
 
-            if (_timer != null)
-            {
-                _timer.Enabled = false;
-                _timer.Close();
-                _timer.Dispose();
-                _timer = null;
-            }
+            _timerCancellationToken?.Cancel();
 
-            _timer = new System.Timers.Timer();
-            _timer.Interval = SleepInterval_Normal;
-            _timer.Elapsed += _timer_Elapsed;
-            _timer.Enabled = true;
-            _timer.AutoReset = true;
-            _timer.Start();
-        }
-
-        private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            _manager.RefreshIteration();
-            _timer.Interval = SleepInterval_Normal;
-            try
-            {
-                if (IsPhoneSleeping)
-                    _timer.Interval = SleepInterval_ScreenOff;
-                else if (IsPhoneInPowerSave)
-                    _timer.Interval = SleepInterval_PowerSaving;
-            }
-            catch
-            {
-                //do nothing
-            }
+            _timerCancellationToken = SystemUtils.StartTimer(
+                (token) => _manager.RefreshIteration(),
+                () => {
+                    var interval = SleepInterval_Normal;
+                    try
+                    {
+                        if (IsPhoneSleeping)
+                            interval = SleepInterval_ScreenOff;
+                        else if (IsPhoneInPowerSave)
+                            interval = SleepInterval_PowerSaving;
+                    }
+                    catch
+                    {
+                        //do nothing
+                    }
+                    return interval;
+                });
         }
 
         public override void OnDestroy()

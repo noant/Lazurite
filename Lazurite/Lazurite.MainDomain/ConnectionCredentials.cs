@@ -9,22 +9,20 @@
         public string Password { get; set; }
         public string SecretKey { get; set; }
         
-        public string GetAddress()
+        public override int GetHashCode()
         {
-            return string.Format("https://{0}:{1}/{2}", Host, Port, ServiceName);
+            return Host.GetHashCode() ^ Port.GetHashCode() ^
+                ServiceName.GetHashCode() ^ Login.GetHashCode() ^
+                Password.GetHashCode() ^ SecretKey.GetHashCode();
         }
 
-        public static ConnectionCredentials Default
+        public string GetAddress() => string.Format("https://{0}:{1}/{2}", Host, Port, ServiceName);
+
+        public static readonly ConnectionCredentials Default = new ConnectionCredentials()
         {
-            get
-            {
-                return new ConnectionCredentials()
-                {
-                    Host = "localhost",
-                    Port = 8080,
-                    ServiceName = "lazurite"
-                };
-            }
-        }
+            Host = "localhost",
+            Port = 8080,
+            ServiceName = "lazurite"
+        };
     }
 }

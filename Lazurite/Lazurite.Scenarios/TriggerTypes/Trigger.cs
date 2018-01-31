@@ -127,28 +127,31 @@ namespace Lazurite.Scenarios.TriggerTypes
             else
             {
                 var lastVal = string.Empty;
-                while (!cancellationToken.IsCancellationRequested)
-                {
-                    try
-                    {
-                        var curVal = GetScenario().CalculateCurrentValue();
-                        if (!lastVal.Equals(curVal))
+
+                var timerCancellationToken = SystemUtils.StartTimer(
+                    (token) => {
+                        try
                         {
-                            lastVal = curVal;
-                            contexCancellationTokenSource.Cancel();
-                            contexCancellationTokenSource = new CancellationTokenSource();
-                            var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), contexCancellationTokenSource.Token);
-                            TaskUtils.StartLongRunning(
-                                () => TargetAction.SetValue(executionContext, string.Empty),
-                                (exception) => Log.ErrorFormat(exception, "Error while executing trigger [{0}][{1}]", this.Name, this.Id));
+                            var curVal = GetScenario().CalculateCurrentValue();
+                            if (!lastVal.Equals(curVal))
+                            {
+                                lastVal = curVal;
+                                contexCancellationTokenSource.Cancel();
+                                contexCancellationTokenSource = new CancellationTokenSource();
+                                var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), contexCancellationTokenSource.Token);
+                                TaskUtils.StartLongRunning(
+                                    () => TargetAction.SetValue(executionContext, string.Empty),
+                                    (exception) => Log.ErrorFormat(exception, "Error while executing trigger [{0}][{1}]", this.Name, this.Id));
+                            }
                         }
-                        SystemUtils.Sleep(TriggerChangesListenInterval, cancellationToken);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.ErrorFormat(e, "Error while trigger execute: [{0}][{1}]", this.Name, this.Id);
-                    }
-                }
+                        catch (Exception e)
+                        {
+                            Log.ErrorFormat(e, "Error while trigger execute: [{0}][{1}]", this.Name, this.Id);
+                        }
+                    },
+                    () => TriggerChangesListenInterval);
+                cancellationToken.Register(() => timerCancellationToken.Cancel());
+                
             }
         }
     }

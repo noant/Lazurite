@@ -11,8 +11,8 @@ namespace LazuriteMobile.App.Switches
             if (value == null)
                 return string.Empty;
             var str = value.ToString();
-            if (str.Length > 55)
-                str = str.Substring(0, 53) + "...";
+            if (str.Length > 27)
+                str = str.Substring(0, 25) + "...";
             return str;
         }
 

@@ -47,7 +47,7 @@ namespace LazuriteUI.Windows.Main
                 Core.Server.StartAsync(null);
                 Singleton.Add(Core);
                 NotifyIconManager.Initialize();
-                DuplicatedProcessesListener.Found += (processes) => NotifyIconManager.ShowMainWindow();
+                DuplicatedProcessesListener.Found += (o, e) => NotifyIconManager.ShowMainWindow();
                 DuplicatedProcessesListener.Start();
             }
             catch (Exception e)

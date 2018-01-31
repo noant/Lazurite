@@ -214,36 +214,37 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void AfterInitilize()
         {
-            _cancellationTokenSource = new CancellationTokenSource();
+            bool error = false;
             //changes listener
-            TaskUtils.StartLongRunning(() =>
-            {
-                while (!_cancellationTokenSource.IsCancellationRequested)
+            _cancellationTokenSource = SystemUtils.StartTimer((token) => {
+                Log.DebugFormat("Remote scenario refresh iteration begin: [{0}][{1}]", this.Name, this.Id);
+                HandleExceptions(
+                () =>
                 {
-                    Log.DebugFormat("Remote scenario refresh iteration begin: [{0}][{1}]", this.Name, this.Id);
-                    HandleExceptions(
-                    () =>
+                    if (string.IsNullOrEmpty(Credentials.SecretKey))
+                        throw new InvalidOperationException("Необходим ввод секретного ключа");
+                    if (error)
+                        ReInitialize();
+                    else
                     {
-                        if (string.IsNullOrEmpty(Credentials.SecretKey))
-                            throw new InvalidOperationException("Необходим ввод секретного ключа");
                         var newScenInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey)).Decrypt(Credentials.SecretKey);
                         if (!(newScenInfo.CurrentValue ?? string.Empty).Equals(_currentValue))
                             SetCurrentValueInternal(newScenInfo.CurrentValue ?? string.Empty);
                         this.ValueType = newScenInfo.ValueType;
                         Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", this.Name, this.Id);
-                        SystemUtils.Sleep(ScenarioListenInterval, CancellationToken.None);
-                    },
-                    () =>
-                    {
-                        IsAvailable = false;
-                        Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", this.Name, this.Id);
-                        SetDefaultValue();
-                        SystemUtils.Sleep(ScenarioListenInterval_onError, CancellationToken.None);
-                        ReInitialize();
-                    },
-                    false);
-                }
-            });
+                    }
+                    error = false;
+                },
+                () =>
+                {
+                    IsAvailable = false;
+                    Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", this.Name, this.Id);
+                    SetDefaultValue();
+                    error = true;
+                },
+                false);
+            },
+            () => error ? ScenarioListenInterval_onError : ScenarioListenInterval);
         }
 
         private void SetDefaultValue()

@@ -14,11 +14,12 @@ namespace LazuriteUI.Windows.Main.Switches
     public partial class FloatViewSwitch : UserControl, IDisposable
     {
         private static readonly int FloatView_ValueUpdateInterval = GlobalSettings.Get(300);
+        private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
 
         private IHardwareVolumeChanger _changer;
         private volatile string _tempValueToInstall;
         private volatile string _tempValueToUpdate;
-        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private CancellationTokenSource _tokenSource;
         private double _iteration; 
         private ScenarioModel _model;
         private bool _scenarioValueChanged;
@@ -48,7 +49,7 @@ namespace LazuriteUI.Windows.Main.Switches
                 _changer.VolumeDown -= _changer_VolumeChanged;
                 _changer.VolumeUp -= _changer_VolumeChanged;
             }
-            _tokenSource.Cancel();
+            _tokenSource?.Cancel();
         }
 
         public FloatViewSwitch(ScenarioModel model): this()
@@ -79,18 +80,16 @@ namespace LazuriteUI.Windows.Main.Switches
             };
 
             //crutch #3
-            TaskUtils.Start(() => {
-                while (!_tokenSource.IsCancellationRequested)
-                {
+            _tokenSource = SystemUtils.StartTimer(
+                (token) => {
                     if (_tempValueToUpdate != _tempValueToInstall && !_scenarioValueChanged)
                         model.ScenarioValue = _tempValueToInstall = _tempValueToUpdate;
                     if (_tempValueToInstall != _tempValueToUpdate && _scenarioValueChanged)
-                        this.Dispatcher.BeginInvoke(new Action(()=> {
+                        this.Dispatcher.BeginInvoke(new Action(() => {
                             this.slider.Value = double.Parse(_tempValueToUpdate = _tempValueToInstall);
                         }));
-                    Thread.Sleep(FloatView_ValueUpdateInterval);
-                }
-            });
+                },
+                () => FloatView_ValueUpdateInterval);
         }
     }
 }

@@ -51,14 +51,12 @@ namespace LazuriteMobile.App.Switches
                 _tempValue = slider.Value.ToString();
             };
 
-            TaskUtils.Start(() => {
-                while (!_tokenSource.IsCancellationRequested)
-                {
+            _tokenSource = SystemUtils.StartTimer(
+                (token) => {
                     if (_tempValue != model.ScenarioValue)
                         model.ScenarioValue = _tempValue;
-                    SystemUtils.Sleep(FloatView_ValueUpdateInterval, CancellationToken.None);
-                }
-            });
+                }, 
+                () => FloatView_ValueUpdateInterval);            
         }
 
         public void Dispose()

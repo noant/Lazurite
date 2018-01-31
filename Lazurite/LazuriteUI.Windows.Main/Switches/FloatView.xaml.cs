@@ -1,4 +1,5 @@
-﻿using Lazurite.MainDomain;
+﻿using Lazurite.IOC;
+using Lazurite.MainDomain;
 using Lazurite.Shared;
 using Lazurite.Utils;
 using LazuriteUI.Windows.Controls;
@@ -15,9 +16,11 @@ namespace LazuriteUI.Windows.Main.Switches
     /// </summary>
     public partial class FloatView : UserControl, IHardwareVolumeChanger
     {
+        private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         private static readonly int FloatView_SmoothChangeValueInterval = GlobalSettings.Get(300);
 
-        private Thread _smoothChangeValueThread; //crutch
+        private CancellationTokenSource _smoothTimerCancellationToken;
+
         private double SmoothChangeValueToSet
         {
             get
@@ -70,23 +73,21 @@ namespace LazuriteUI.Windows.Main.Switches
                 value = _model.Min;
             SmoothChangeValueToSet = value;
 
-            if (_smoothChangeValueThread == null)
+            if (_smoothTimerCancellationToken == null)
             {
-                _smoothChangeValueThread = new Thread(() => {
-                    while (true)
-                    {
-                        var oldVal = SmoothChangeValueToSet;
-                        Thread.Sleep(FloatView_SmoothChangeValueInterval);
+                var oldVal = SmoothChangeValueToSet;
+                _smoothTimerCancellationToken = SystemUtils.StartTimer(
+                    (token) => {
                         if (oldVal == SmoothChangeValueToSet)
                         {
                             _model.ScenarioValue = SmoothChangeValueToSet.ToString();
-                            _smoothChangeValueThread = null;
-                            break;
+                            _smoothTimerCancellationToken.Cancel();
+                            _smoothTimerCancellationToken = null;
+                            return;
                         }
-                    }
-                });
-                _smoothChangeValueThread.IsBackground = true;
-                _smoothChangeValueThread.Start();
+                        oldVal = SmoothChangeValueToSet;
+                    }, 
+                    () => FloatView_SmoothChangeValueInterval);
             }
         }
         

@@ -4,14 +4,15 @@
     xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
     BackgroundColor="Black"
     x:Class="LazuriteMobile.App.Switches.InfoViewSwitch">
     <Grid Margin="5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="45"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Editor VerticalOptions="FillAndExpand" BackgroundColor="#302530" TextColor="White" Grid.Row="0" x:Name="tbText"></Editor>
-        <controls:ItemView Grid.Row="1" VerticalOptions="EndAndExpand" x:Name="itemViewApply" Icon="ChevronRight" Margin="5" Text="Отправить"></controls:ItemView>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <local:EditorExt HeightRequest="80" VerticalOptions="StartAndExpand" BackgroundColor="#302530" TextColor="White" x:Name="tbText"></local:EditorExt>
+        <controls:ItemView Grid.Column="1" x:Name="itemViewApply" Icon="NavigateNext" VerticalOptions="Start" HeightRequest="45" WidthRequest="45" Text=""></controls:ItemView>
     </Grid>
 </ContentView>

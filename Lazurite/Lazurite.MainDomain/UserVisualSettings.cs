@@ -15,7 +15,7 @@ namespace Lazurite.MainDomain
         public AddictionalData AddictionalData { get; set; } = new AddictionalData();
 
         [DataMember]
-        public int VisualIndex { get; set; }
+        public int VisualIndex { get; set; } = int.MaxValue;
         
         public bool SameAs(UserVisualSettings settings)
         {

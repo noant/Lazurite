@@ -12,13 +12,6 @@ namespace LazuriteUI.Windows.Main
         {
             InitializeComponent();
             this.progress.StartProgress();
-
-            new Thread(() =>
-            {
-                Thread.Sleep(10000);
-                new MainWindow().Show();
-                this.Close();
-            }).Start();
         }
     }
 }

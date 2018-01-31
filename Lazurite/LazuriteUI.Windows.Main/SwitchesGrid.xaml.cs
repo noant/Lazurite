@@ -21,7 +21,8 @@ namespace LazuriteUI.Windows.Main
     [LazuriteIcon(Icon.CursorHand)]
     public partial class SwitchesGrid : UserControl, IInitializable, IDisposable
     {
-        public static readonly int UpdateUIInterval_MS = GlobalSettings.Get(30000);
+        private static readonly int UpdateUIInterval_MS = GlobalSettings.Get(30000);
+        private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
 
         public static DependencyProperty EditModeProperty;
         public static DependencyProperty EditModeButtonVisibleProperty;
@@ -129,21 +130,15 @@ namespace LazuriteUI.Windows.Main
         {            
             Initialize(GetScenarios(), _visualSettingsRepository.VisualSettings);
 
-            Task.Factory.StartNew(() => {
-                while (true)
-                {
-                    Thread.Sleep(UpdateUIInterval_MS);
-                    if (!_updateUICancellationToken.IsCancellationRequested)
+            _updateUICancellationToken = SystemUtils.StartTimer(
+                (token) => {
+                    this.Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        this.Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            foreach (var scenario in GetScenarios())
-                                RefreshAndReCalculateItem(scenario);
-                        }));
-                    }
-                    else break;
-                }
-            });
+                        foreach (var scenario in GetScenarios())
+                            RefreshAndReCalculateItem(scenario);
+                    }));
+                },
+                () => UpdateUIInterval_MS);
         }
 
         private ScenarioBase[] GetScenarios()
