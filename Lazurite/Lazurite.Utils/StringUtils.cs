@@ -34,8 +34,8 @@ namespace Lazurite.Utils
                 {
                     var part2 = parts[1] + " " + parts[2];
                     if (part2.Length > maxLineWidth - 2)
-                        part2 = part2.Substring(0, maxLineWidth - 2);
-                    return parts[0] + "\r\n" + part2 + "...";
+                        part2 = part2.Substring(0, maxLineWidth - 2) + "...";
+                    return parts[0] + "\r\n" + part2 + (parts.Length > 3 ? "..." : string.Empty);
                 }
             }
         }
