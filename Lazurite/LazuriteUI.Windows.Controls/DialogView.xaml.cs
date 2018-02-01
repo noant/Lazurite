@@ -17,10 +17,10 @@ namespace LazuriteUI.Windows.Controls
         public DialogView(FrameworkElement child)
         {
             InitializeComponent();
-            this.KeyUp += DialogView_KeyUp;
-            this.gridBackground.MouseLeftButtonDown += GridBackground_MouseLeftButtonDown;
-            this.contentControl.Content = child;
-            this.Loaded += (sender, e) =>
+            KeyUp += DialogView_KeyUp;
+            gridBackground.MouseLeftButtonDown += GridBackground_MouseLeftButtonDown;
+            contentControl.Content = child;
+            Loaded += (sender, e) =>
                 MoveFocus(new TraversalRequest(FocusNavigationDirection.Next)); //crutch; initial focus
         }
         
@@ -38,13 +38,13 @@ namespace LazuriteUI.Windows.Controls
 
         private void GridBackground_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void DialogView_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
-                this.Close();
+                Close();
         }
 
         public void Show(Panel parentElement)
@@ -64,7 +64,7 @@ namespace LazuriteUI.Windows.Controls
             {
                 dockControl.VerticalAlignment = VerticalAlignment.Top;
                 dockControl.HorizontalAlignment = HorizontalAlignment.Left;
-                this.Loaded += (o, e) => RefreshPosition();
+                Loaded += (o, e) => RefreshPosition();
             }
         }
         
@@ -91,11 +91,11 @@ namespace LazuriteUI.Windows.Controls
         
         public void Close()
         {
-            if (this.Parent != null)
+            if (Parent != null)
             {
-                if (this.contentControl.Content is IDisposable)
-                    ((IDisposable)this.contentControl.Content).Dispose();
-                foreach (FrameworkElement element in ((Panel)this.Parent).Children)
+                if (contentControl.Content is IDisposable)
+                    ((IDisposable)contentControl.Content).Dispose();
+                foreach (FrameworkElement element in ((Panel)Parent).Children)
                 {
                     if (!_tempDisabledElements.Contains(element))
                         element.IsEnabled = true;

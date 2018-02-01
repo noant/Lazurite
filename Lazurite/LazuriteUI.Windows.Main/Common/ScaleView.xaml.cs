@@ -50,11 +50,11 @@ namespace LazuriteUI.Windows.Main.Common
         private void AllocateScaleViewSize()
         {
             var value = Value;
-            var percent = (value - this.Min) / (this.Max - this.Min);
-            var marginBottom = this.ActualHeight * percent;
+            var percent = (value - Min) / (Max - Min);
+            var marginBottom = ActualHeight * percent;
             if (marginBottom < 0)
                 marginBottom = 0;
-            this.borderValue.Height = marginBottom;
+            borderValue.Height = marginBottom;
 
             tbValue.Text = Math.Round(Value).ToString();
             if (percent < 0.25)

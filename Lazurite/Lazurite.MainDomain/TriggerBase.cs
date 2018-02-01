@@ -105,7 +105,7 @@ namespace Lazurite.MainDomain
             var cancellationToken = _tokenSource.Token;
             TaskUtils.StartLongRunning(
                 () => RunInternal(cancellationToken),
-                (exception) => Log.ErrorFormat(exception, "Error while starting trigger [{0}][{1}]", this.Name, this.Id));
+                (exception) => Log.ErrorFormat(exception, "Error while starting trigger [{0}][{1}]", Name, Id));
         }
 
         /// <summary>

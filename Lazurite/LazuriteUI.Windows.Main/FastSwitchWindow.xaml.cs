@@ -15,7 +15,7 @@ namespace LazuriteUI.Windows.Main
         {
             Singleton.Clear<IHardwareVolumeChanger>();
             Singleton.Add(this);
-            this.MouseWheel += Window_MouseWheel;
+            MouseWheel += Window_MouseWheel;
             InitializeComponent();
             switchesGrid.Initialize();
         }

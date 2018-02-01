@@ -16,10 +16,10 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public ReturnScenarioValueView()
         {
             InitializeComponent();
-            this.action2View.Modified += (element) => Modified?.Invoke(this);
-            this.buttons.RemoveClick += () => NeedRemove?.Invoke(this);
-            this.buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
-            this.action1View.MakeButtonsInvisible();
+            action2View.Modified += (element) => Modified?.Invoke(this);
+            buttons.RemoveClick += () => NeedRemove?.Invoke(this);
+            buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
+            action1View.MakeButtonsInvisible();
         }
         
         public ActionHolder ActionHolder
@@ -45,9 +45,9 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             ActionHolder = actionHolder;
             AlgorithmContext = algoContext;
             _action = (SetReturnValueAction)actionHolder.Action;
-            this.action1View.Refresh(actionHolder, algoContext);
-            this.action2View.Refresh(_action.InputValue, algoContext);
-            this.action2View.MasterAction = _action;
+            action1View.Refresh(actionHolder, algoContext);
+            action2View.Refresh(_action.InputValue, algoContext);
+            action2View.MasterAction = _action;
         }
 
         public event Action<IConstructorElement> Modified;

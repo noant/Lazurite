@@ -11,18 +11,18 @@ namespace LazuriteUI.Windows.Main
         {
             InitializeComponent();
 
-            this.SizeChanged += (o, e) =>
+            SizeChanged += (o, e) =>
              {
-                 if (this.iconView.ActualWidth >= 0 && this.iconView.ActualWidth <= 16)
-                     this.iconView.Icon = Icons.Icon.Lazurite16;
-                 else if (this.iconView.ActualWidth > 16 && this.iconView.ActualWidth <= 32)
-                     this.iconView.Icon = Icons.Icon.Lazurite32;
-                 else if (this.iconView.ActualWidth > 32 && this.iconView.ActualWidth <= 64)
-                     this.iconView.Icon = Icons.Icon.Lazurite64;
-                 else if (this.iconView.ActualWidth > 64 && this.iconView.ActualWidth <= 128)
-                     this.iconView.Icon = Icons.Icon.Lazurite128;
-                 else if (this.iconView.ActualWidth > 128)
-                     this.iconView.Icon = Icons.Icon.LazuriteBig;
+                 if (iconView.ActualWidth >= 0 && iconView.ActualWidth <= 16)
+                     iconView.Icon = Icons.Icon.Lazurite16;
+                 else if (iconView.ActualWidth > 16 && iconView.ActualWidth <= 32)
+                     iconView.Icon = Icons.Icon.Lazurite32;
+                 else if (iconView.ActualWidth > 32 && iconView.ActualWidth <= 64)
+                     iconView.Icon = Icons.Icon.Lazurite64;
+                 else if (iconView.ActualWidth > 64 && iconView.ActualWidth <= 128)
+                     iconView.Icon = Icons.Icon.Lazurite128;
+                 else if (iconView.ActualWidth > 128)
+                     iconView.Icon = Icons.Icon.LazuriteBig;
              };
         }
     }

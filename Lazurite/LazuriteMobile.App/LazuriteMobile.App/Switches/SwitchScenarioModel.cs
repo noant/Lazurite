@@ -78,7 +78,7 @@ namespace LazuriteMobile.App.Switches
 
             Scenario = scenario;
             Scenario.ValueChanged += ScenarioValueChanged;
-            this._value = Scenario.CurrentValue;
+            _value = Scenario.CurrentValue;
             if (!VisualSettings.AddictionalData.ContainsKey(Icon1Key))
                 VisualSettings.AddictionalData.Set(Icon1Key, GetStandardIcon1());
             if (!VisualSettings.AddictionalData.ContainsKey(Icon2Key))

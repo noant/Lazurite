@@ -18,21 +18,21 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public DateTimeView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
         {
-            this.DataContext = new ScenarioModel(scenario, visualSettings);
+            DataContext = new ScenarioModel(scenario, visualSettings);
             itemView.Click += ItemView_Click;
         }
 
         private void ItemView_Click(object sender, RoutedEventArgs e)
         {
             var dateTime = DateTime.Now;
-            DateTime.TryParse(((ScenarioModel)this.DataContext).ScenarioValue, out dateTime);
+            DateTime.TryParse(((ScenarioModel)DataContext).ScenarioValue, out dateTime);
             var dateTimeSwitch = new DateTimeViewSwitch() {
                 DateTime = dateTime
             };
             var dialog = new DialogView(dateTimeSwitch);
             dateTimeSwitch.Apply += (o, args) => {
                 dialog.Close();
-                ((ScenarioModel)this.DataContext).ScenarioValue = dateTimeSwitch.DateTime.ToString();
+                ((ScenarioModel)DataContext).ScenarioValue = dateTimeSwitch.DateTime.ToString();
             };
             dialog.Show();
         }

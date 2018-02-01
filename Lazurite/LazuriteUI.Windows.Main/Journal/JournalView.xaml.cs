@@ -22,7 +22,7 @@ namespace LazuriteUI.Windows.Main.Journal
         {
             InitializeComponent();
             RefreshWarnTypeButton();
-            this.btWarnTypeSelect.Click += (o, e) => {
+            btWarnTypeSelect.Click += (o, e) => {
                 SelectWarnTypeView.Show((warnType) => {
                     JournalManager.MaxShowingWarnType = warnType;
                     RefreshWarnTypeButton();
@@ -33,7 +33,7 @@ namespace LazuriteUI.Windows.Main.Journal
 
         private void RefreshWarnTypeButton()
         {
-            this.btWarnTypeSelect.Content = Enum.GetName(typeof(WarnType), JournalManager.MaxShowingWarnType);
+            btWarnTypeSelect.Content = Enum.GetName(typeof(WarnType), JournalManager.MaxShowingWarnType);
         }
 
         private void ItemView_Click(object sender, RoutedEventArgs e)

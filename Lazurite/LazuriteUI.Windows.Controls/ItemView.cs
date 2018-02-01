@@ -119,13 +119,13 @@ namespace LazuriteUI.Windows.Controls
             InitializeComponent();
 
             button.Click += (o, e) => Click?.Invoke(this, e);
-            Click += (o, e) => this.Selected = !this.Selected;
+            Click += (o, e) => Selected = !Selected;
             SizeChanged += (o, e) =>
             {
-                if (this.ActualWidth <= 50)
-                    this.label.Visibility = Visibility.Collapsed;
+                if (ActualWidth <= 50)
+                    label.Visibility = Visibility.Collapsed;
                 else
-                    this.label.Visibility = Visibility.Visible;
+                    label.Visibility = Visibility.Visible;
             };
         }
 

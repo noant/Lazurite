@@ -20,7 +20,7 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public GeolocationView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
         {
-            this.DataContext = new ScenarioModel(scenario, visualSettings);
+            DataContext = new ScenarioModel(scenario, visualSettings);
             itemView.Click += ItemView_Click;
         }
 

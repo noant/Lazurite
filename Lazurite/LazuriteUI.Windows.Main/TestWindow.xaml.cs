@@ -17,7 +17,7 @@ namespace LazuriteUI.Windows.Main
             {
                 var iconCtrl = new IconView();
                 iconCtrl.Icon = icon;
-                this.sp.Children.Add(iconCtrl);
+                sp.Children.Add(iconCtrl);
             }
         }
     }

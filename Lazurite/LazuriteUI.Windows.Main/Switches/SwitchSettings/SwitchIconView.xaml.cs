@@ -12,13 +12,13 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
         public SwitchIconView()
         {
             InitializeComponent();
-            this.MouseLeftButtonDown += (o, e) => {
-                ((SwitchIconModel)this.DataContext).Apply();
+            MouseLeftButtonDown += (o, e) => {
+                ((SwitchIconModel)DataContext).Apply();
                 Selected?.Invoke();
             };
-            var backgroundTemp = this.Background;
-            this.MouseEnter += (o, e) => this.Background = Brushes.Transparent;
-            this.MouseLeave += (o, e) => this.Background = backgroundTemp;
+            var backgroundTemp = Background;
+            MouseEnter += (o, e) => Background = Brushes.Transparent;
+            MouseLeave += (o, e) => Background = backgroundTemp;
         }
 
         public Action Selected { get; set; }

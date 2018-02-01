@@ -36,7 +36,7 @@ namespace LazuriteUI.Windows.Launcher
                 HandleUnhandledException(args.ExceptionObject as Exception);
             };
 
-            this.DispatcherUnhandledException += (o, args) => {
+            DispatcherUnhandledException += (o, args) => {
                 HandleUnhandledException(args.Exception);
             };
 

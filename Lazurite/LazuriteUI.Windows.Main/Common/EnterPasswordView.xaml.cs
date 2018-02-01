@@ -13,7 +13,7 @@ namespace LazuriteUI.Windows.Main.Common
         public EnterPasswordView(string caption, Action<string> entered, Func<string, bool> validation = null, string notation="")
         {
             InitializeComponent();
-            this.Loaded += (o, e) =>  FocusManager.SetFocusedElement(this, tbPassword);
+            Loaded += (o, e) =>  FocusManager.SetFocusedElement(this, tbPassword);
             captionView.Content = caption;
             tbPassword.PasswordChanged += (o, e) => btApply.IsEnabled = validation?.Invoke(tbPassword.Password) ?? true;
             btApply.Click += (o, e) => entered?.Invoke(tbPassword.Password);

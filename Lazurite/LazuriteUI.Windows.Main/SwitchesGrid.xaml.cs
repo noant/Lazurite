@@ -54,10 +54,10 @@ namespace LazuriteUI.Windows.Main
         public SwitchesGrid()
         {
             InitializeComponent();
-            this.MouseMove += SwitchesGrid_MouseMove;
-            this.MouseLeftButtonUp += ElementMouseRelease;
-            this.grid.Margin = new Thickness(0, 0, ElementMargin, ElementMargin);
-            this.Loaded += (o, e) => SetEditMode(this.EditMode); //crutch
+            MouseMove += SwitchesGrid_MouseMove;
+            MouseLeftButtonUp += ElementMouseRelease;
+            grid.Margin = new Thickness(0, 0, ElementMargin, ElementMargin);
+            Loaded += (o, e) => SetEditMode(EditMode); //crutch
         }
         
         public bool IsConstructorMode
@@ -103,11 +103,11 @@ namespace LazuriteUI.Windows.Main
 
         private void SwitchesGrid_MouseMove(object sender, MouseEventArgs e)
         {
-            if (this.EditMode && _draggableCurrent != null)
+            if (EditMode && _draggableCurrent != null)
             {
                 var margin = ElementMargin;
                 var elementSize = ElementSize;
-                var position = e.GetPosition(this.grid);
+                var position = e.GetPosition(grid);
                 var potentialPosition = new Point(position.X / (elementSize + margin), position.Y / (elementSize + margin));
                 var model = ((ScenarioModel)_draggableCurrent.DataContext);
                 var currentPosition = CreatePositionByIndex(CreateRealVisualIndex(model.VisualSettings));
@@ -120,7 +120,7 @@ namespace LazuriteUI.Windows.Main
 
         private void SetEditMode(bool value)
         {
-            this.grid.Children
+            grid.Children
                 .Cast<FrameworkElement>()
                 .Select(x => ((ScenarioModel)x.DataContext).EditMode = value)
                 .ToArray();
@@ -132,7 +132,7 @@ namespace LazuriteUI.Windows.Main
 
             _updateUICancellationToken = SystemUtils.StartTimer(
                 (token) => {
-                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    Dispatcher.BeginInvoke(new Action(() =>
                     {
                         foreach (var scenario in GetScenarios())
                             RefreshAndReCalculateItem(scenario);
@@ -194,7 +194,7 @@ namespace LazuriteUI.Windows.Main
         public void Add(ScenarioBase scenario, UserVisualSettings visualSettings)
         {
             var control = CreateControl(scenario, visualSettings);
-            ((ScenarioModel)control.DataContext).EditMode = this.EditMode;
+            ((ScenarioModel)control.DataContext).EditMode = EditMode;
             grid.Children.Add(control);
             Rearrange();
             Select(scenario);
@@ -247,17 +247,17 @@ namespace LazuriteUI.Windows.Main
                 grid.Children.Remove(control);
                 control = CreateControl(scenario, oldModel.VisualSettings);
                 var model = (ScenarioModel)control.DataContext;
-                model.EditMode = this.EditMode;
+                model.EditMode = EditMode;
                 grid.Children.Add(control);
                 Rearrange();
-                if (this.SelectedModel?.Scenario.Id == model.Scenario.Id)
+                if (SelectedModel?.Scenario.Id == model.Scenario.Id)
                     SelectInternal(model);
             }
         }
 
         public void Select(ScenarioBase scenario)
         {
-            var @switch = this.grid.Children.Cast<UserControl>().FirstOrDefault(control =>
+            var @switch = grid.Children.Cast<UserControl>().FirstOrDefault(control =>
             {
                 var model = ((ScenarioModel)control.DataContext);
                 return model.Scenario.Id.Equals(scenario.Id);
@@ -302,12 +302,12 @@ namespace LazuriteUI.Windows.Main
 
         private void SelectFirst()
         {
-            if (this.grid.Children.Count == 0)
+            if (grid.Children.Count == 0)
                 SelectInternal(null);
             else
             {
-                var minIndex = this.grid.Children.Cast<UserControl>().Min(x => ((ScenarioModel)x.DataContext).VisualIndex);
-                var firstSwitch = this.grid.Children.Cast<UserControl>().FirstOrDefault(x => ((ScenarioModel)x.DataContext).VisualIndex.Equals(minIndex));
+                var minIndex = grid.Children.Cast<UserControl>().Min(x => ((ScenarioModel)x.DataContext).VisualIndex);
+                var firstSwitch = grid.Children.Cast<UserControl>().FirstOrDefault(x => ((ScenarioModel)x.DataContext).VisualIndex.Equals(minIndex));
                 if (firstSwitch != null)
                 {
                     var model = ((ScenarioModel)firstSwitch.DataContext);
@@ -327,7 +327,7 @@ namespace LazuriteUI.Windows.Main
 
         private void ElementClick(object sender, MouseEventArgs e)
         {
-            if (this.EditMode)
+            if (EditMode)
             {
                 if (_draggableCurrent != sender)
                 {
@@ -367,7 +367,7 @@ namespace LazuriteUI.Windows.Main
         {
             var model = ((ScenarioModel)control.DataContext);
             int index = -1;
-            var controlAtPoint = this.grid.Children
+            var controlAtPoint = grid.Children
                 .Cast<UserControl>()
                 .FirstOrDefault(x =>
                 {
@@ -377,7 +377,7 @@ namespace LazuriteUI.Windows.Main
                 });
             if (controlAtPoint != null)
             {
-                var ordered = this.grid.Children
+                var ordered = grid.Children
                     .Cast<UserControl>()
                     .Select(x => (ScenarioModel)x.DataContext)
                     .OrderBy(x => x.VisualSettings.VisualIndex)

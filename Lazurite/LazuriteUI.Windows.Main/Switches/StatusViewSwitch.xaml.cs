@@ -18,7 +18,7 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public StatusViewSwitch(ScenarioModel scenarioModel): this()
         {
-            this.tbScenarioName.Text = scenarioModel.ScenarioName;
+            tbScenarioName.Text = scenarioModel.ScenarioName;
             ItemView toSelect = null;
             foreach (var state in scenarioModel.AcceptedValues)
             {
@@ -31,7 +31,7 @@ namespace LazuriteUI.Windows.Main.Switches
                 listItemsStates.Children.Add(itemView);
             }
 
-            this.Loaded += (o, e) =>
+            Loaded += (o, e) =>
             {
                 if (toSelect != null)
                 {

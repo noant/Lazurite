@@ -22,7 +22,7 @@ namespace LazuriteUI.Windows.Main.Security
 
             Refresh();
 
-            this.itemsView.SelectionChanged += (o, e) => this.SelectionChanged?.Invoke(this);
+            itemsView.SelectionChanged += (o, e) => SelectionChanged?.Invoke(this);
 
             btAdd.Click += (o, e) => {
                 var user = new User();
@@ -74,7 +74,7 @@ namespace LazuriteUI.Windows.Main.Security
                     });
             };
 
-            this.SelectionChanged += (ctrl) => btRemove.IsEnabled = SelectedUsersIds.Any();
+            SelectionChanged += (ctrl) => btRemove.IsEnabled = SelectedUsersIds.Any();
         }
 
         public void HideButtons()

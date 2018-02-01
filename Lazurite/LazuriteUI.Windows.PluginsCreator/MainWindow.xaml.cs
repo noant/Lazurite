@@ -27,7 +27,7 @@ namespace LazuriteUI.Windows.PluginsCreator
                 _pluginPath = args[2];
                 btSelect.Content = _selectedPath;
                 btCreate.Content = _pluginPath;
-                CreatePlugin(() => this.Dispatcher.BeginInvoke(new Action(()=>this.Close())));
+                CreatePlugin(() => Dispatcher.BeginInvoke(new Action(()=>Close())));
             }
         }
 
@@ -63,7 +63,7 @@ namespace LazuriteUI.Windows.PluginsCreator
                 }
                 finally
                 {
-                    this.Dispatcher.BeginInvoke(new Action(() => cvTop.StopAnimateProgress()));
+                    Dispatcher.BeginInvoke(new Action(() => cvTop.StopAnimateProgress()));
                     callback?.Invoke();
                 }
             });

@@ -20,25 +20,25 @@ namespace LazuriteUI.Windows.Controls
 
         public EntryView()
         {
-            this.Background = new SolidColorBrush(Colors.Transparent);
-            this.VerticalContentAlignment = System.Windows.VerticalAlignment.Center;
-            this.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Left;
-            this.Foreground = new SolidColorBrush(Colors.White);
-            this.BorderThickness = new System.Windows.Thickness(0, 0, 0, 2);
-            this.BorderBrush = new SolidColorBrush(Colors.SteelBlue);
-            this.CaretBrush = new SolidColorBrush(Colors.SteelBlue);
+            Background = new SolidColorBrush(Colors.Transparent);
+            VerticalContentAlignment = System.Windows.VerticalAlignment.Center;
+            HorizontalContentAlignment = System.Windows.HorizontalAlignment.Left;
+            Foreground = new SolidColorBrush(Colors.White);
+            BorderThickness = new System.Windows.Thickness(0, 0, 0, 2);
+            BorderBrush = new SolidColorBrush(Colors.SteelBlue);
+            CaretBrush = new SolidColorBrush(Colors.SteelBlue);
             var ignoreTextChangedFlag = false;
             base.TextChanged += (o, e) => {
                 if (ignoreTextChangedFlag)
                     return;
-                int caretIndex = this.CaretIndex;
-                var text = this.Text;
+                int caretIndex = CaretIndex;
+                var text = Text;
                 var validation = new EntryViewValidation(this);
                 validation.InputString = text;
                 try
                 {
                     Validation?.Invoke(validation);
-                    var oldErrorState = this.ErrorMessage;
+                    var oldErrorState = ErrorMessage;
                     if (!string.IsNullOrEmpty(validation.ErrorMessage))
                     {
                         ErrorMessage = validation.ErrorMessage;
@@ -50,7 +50,7 @@ namespace LazuriteUI.Windows.Controls
                         InputWrong = false;
                     }
 
-                    if (oldErrorState != this.ErrorMessage)
+                    if (oldErrorState != ErrorMessage)
                         ErrorStateChanged?.Invoke(this, new EventsArgs<EntryView>(this));
 
                     if (!string.IsNullOrEmpty(validation.OutputString))
@@ -71,7 +71,7 @@ namespace LazuriteUI.Windows.Controls
                     CaretIndex = caretIndex;
                 }
                 if (validation.SelectAll)
-                    this.SelectAll();
+                    SelectAll();
                 validation.AfterValidation?.Invoke(this);
             };
         }

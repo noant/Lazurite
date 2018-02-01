@@ -18,7 +18,7 @@ namespace LazuriteMobile.App
         {
             InitializeComponent();
             ScenariosEmptyModeOff();
-            this.grid.Margin = new Thickness(0, 0, ElementMargin, 40);
+            grid.Margin = new Thickness(0, 0, ElementMargin, 40);
         }
          
         private ScenarioInfo[] GetCurrentScenarios()
@@ -30,7 +30,7 @@ namespace LazuriteMobile.App
         {
             lock (Locker)
             {
-                this.BatchBegin();
+                BatchBegin();
 
                 var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext);
                 var models = modelsViews.Select(x => x.Key).ToArray();
@@ -42,9 +42,9 @@ namespace LazuriteMobile.App
                         scenarioModel.Scenario.ValueType.Equals(scenario.ValueType))
                     {
                         var control = modelsViews[scenarioModel];
-                        this.grid.Children.Remove(control);
+                        grid.Children.Remove(control);
                         control = CreateControl(scenario);
-                        this.grid.Children.Add(control);
+                        grid.Children.Add(control);
                     }
                     else if (scenarioModel != null)
                     {
@@ -53,7 +53,7 @@ namespace LazuriteMobile.App
                     else
                     {
                         var control = CreateControl(scenario);
-                        this.grid.Children.Add(control);
+                        grid.Children.Add(control);
                     }
                 }
 
@@ -66,7 +66,7 @@ namespace LazuriteMobile.App
 
                 Rearrange();
 
-                this.BatchCommit();
+                BatchCommit();
             }
         }
 
@@ -101,7 +101,7 @@ namespace LazuriteMobile.App
         {
             lock (Locker)
             {
-                this.BatchBegin();
+                BatchBegin();
 
                 var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext).ToList();
                 var models = modelsViews.Select(x => x.Key).ToArray();
@@ -116,12 +116,12 @@ namespace LazuriteMobile.App
                     else
                     {
                         var control = CreateControl(scenario);
-                        this.grid.Children.Add(control);
+                        grid.Children.Add(control);
                     }
                 }
                 Rearrange();
 
-                this.BatchCommit();
+                BatchCommit();
             }
         }
 

@@ -24,10 +24,10 @@ namespace LazuriteUI.Windows.Main
         public TriggersConstructionView()
         {
             InitializeComponent();
-            this.triggersListView.SelectionChanged += TriggersList_SelectionChanged;
-            this.triggersListView.SelectionChanging += TriggersList_SelectionChanging;
+            triggersListView.SelectionChanged += TriggersList_SelectionChanged;
+            triggersListView.SelectionChanging += TriggersList_SelectionChanging;
 
-            this.constructorsResolver.Applied += () => this.triggersListView.Refresh(this.constructorsResolver.GetTrigger());
+            constructorsResolver.Applied += () => triggersListView.Refresh(constructorsResolver.GetTrigger());
         }
 
         private void TriggersList_SelectionChanging(Lazurite.MainDomain.TriggerBase arg1, TriggerChangingEventArgs args)
@@ -37,10 +37,10 @@ namespace LazuriteUI.Windows.Main
 
         private void ThroughTriggerSave(Action callback)
         {
-            if (this.constructorsResolver.GetTrigger() != null && this.constructorsResolver.IsModified && _lastDeletedTrigger != this.constructorsResolver.GetTrigger())
+            if (constructorsResolver.GetTrigger() != null && constructorsResolver.IsModified && _lastDeletedTrigger != constructorsResolver.GetTrigger())
             {
                 MessageView.ShowYesNo(
-                    "Сохранить изменения триггера [" + this.constructorsResolver.GetTrigger().Name + "]?",
+                    "Сохранить изменения триггера [" + constructorsResolver.GetTrigger().Name + "]?",
                     "Окно редактирования текущего триггера будет закрыто",
                     Icon.Save,
                     (result) =>
@@ -57,8 +57,8 @@ namespace LazuriteUI.Windows.Main
 
         private void TriggersList_SelectionChanged(Lazurite.MainDomain.TriggerBase obj)
         {
-            this.constructorsResolver.SetTrigger(this.triggersListView.SelectedTrigger);
-            btDeleteTrigger.Visibility = this.triggersListView.SelectedTrigger != null ? Visibility.Visible : Visibility.Collapsed;
+            constructorsResolver.SetTrigger(triggersListView.SelectedTrigger);
+            btDeleteTrigger.Visibility = triggersListView.SelectedTrigger != null ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void btDeleteScenario_Click(object sender, RoutedEventArgs e)
@@ -67,12 +67,12 @@ namespace LazuriteUI.Windows.Main
                 (result) => {
                     if (result)
                     {
-                        var trigger = this.triggersListView.SelectedTrigger;
+                        var trigger = triggersListView.SelectedTrigger;
                         try
                         {
                             _repository.RemoveTrigger(trigger);
                             _lastDeletedTrigger = trigger;
-                            this.triggersListView.Remove(trigger);
+                            triggersListView.Remove(trigger);
                         }
                         catch (Exception exception)
                         {
@@ -90,8 +90,8 @@ namespace LazuriteUI.Windows.Main
                 var trigger = new Lazurite.Scenarios.TriggerTypes.Trigger();
                 trigger.Name = "Новый триггер";
                 _repository.AddTrigger(trigger);
-                this.triggersListView.Add(trigger);
-                this.constructorsResolver.SetTrigger(trigger);
+                triggersListView.Add(trigger);
+                constructorsResolver.SetTrigger(trigger);
             });
         }
 

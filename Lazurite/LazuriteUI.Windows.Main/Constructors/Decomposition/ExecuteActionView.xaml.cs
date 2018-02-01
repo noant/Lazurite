@@ -17,7 +17,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public ExecuteActionView()
         {
             InitializeComponent();
-            this.action1View.Modified += (element) =>
+            action1View.Modified += (element) =>
             {
                 Modified?.Invoke(this);
                 Action2EqualizeToAction1();
@@ -28,9 +28,9 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     Refresh();
                 }
             };
-            this.action2View.Modified += (element) => Modified?.Invoke(this);
-            this.buttons.RemoveClick += () => NeedRemove?.Invoke(this);
-            this.buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
+            action2View.Modified += (element) => Modified?.Invoke(this);
+            buttons.RemoveClick += () => NeedRemove?.Invoke(this);
+            buttons.AddNewClick += () => NeedAddNext?.Invoke(this);
         }
 
         public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
@@ -38,14 +38,14 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             ActionHolder = actionHolder;
             AlgorithmContext = algoContext;
             _action = (ExecuteAction)actionHolder.Action;
-            this.action1View.Refresh(_action.MasterActionHolder, algoContext);
-            this.action2View.Refresh(_action.InputValue, algoContext);
+            action1View.Refresh(_action.MasterActionHolder, algoContext);
+            action2View.Refresh(_action.InputValue, algoContext);
             Action2EqualizeToAction1();
         }
 
         public void Refresh()
         {
-            Refresh(this.ActionHolder, this.AlgorithmContext);
+            Refresh(ActionHolder, AlgorithmContext);
         }
 
         private void Action2EqualizeToAction1()

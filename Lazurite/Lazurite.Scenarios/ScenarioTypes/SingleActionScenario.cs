@@ -27,10 +27,10 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             get
             {
-                if (this.ActionHolder != null &&
-                    this.ActionHolder.Action != null &&
-                    !this.ActionHolder.Action.IsSupportsEvent && 
-                    ActionsDomain.Utils.IsOnlyGetValue(this.ActionHolder.Action.GetType())) //determine when action needs recalculate every time
+                if (ActionHolder != null &&
+                    ActionHolder.Action != null &&
+                    !ActionHolder.Action.IsSupportsEvent && 
+                    ActionsDomain.Utils.IsOnlyGetValue(ActionHolder.Action.GetType())) //determine when action needs recalculate every time
                     return DateTime.Now;
                 return base.LastChange;
             }
@@ -112,7 +112,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
             catch (Exception e)
             {
-                _log.ErrorFormat(e, "Во время вычисления значения сценария [{0}] возникла ошибка", this.Name);
+                _log.ErrorFormat(e, "Во время вычисления значения сценария [{0}] возникла ошибка", Name);
             }
             return GetCurrentValue();
         }
@@ -134,16 +134,16 @@ namespace Lazurite.Scenarios.ScenarioTypes
             try
             {
                 var instanceManager = Singleton.Resolve<IInstanceManager>();
-                instanceManager.PrepareInstance(this.ActionHolder.Action, this);                
+                instanceManager.PrepareInstance(ActionHolder.Action, this);                
                 ActionHolder.Action.Initialize();
                 _currentValue = ActionHolder.Action.GetValue(null);
                 callback?.Invoke(true);
-                this.IsAvailable = true;
+                IsAvailable = true;
             }
             catch (Exception e)
             {
-                _log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", this.Name);
-                this.IsAvailable = false;
+                _log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", Name);
+                IsAvailable = false;
                 callback?.Invoke(false);
             }
         }

@@ -278,7 +278,7 @@ namespace Lazurite.Windows.Service
                 var data = encryptedData.Decrypt(_secretKey);
                 AddictionalDataManager.Handle(data, user);
                 var preparedData = AddictionalDataManager.Prepare(user);
-                return new Encrypted<AddictionalData>(preparedData, this._secretKey);
+                return new Encrypted<AddictionalData>(preparedData, _secretKey);
             });
         }
     }

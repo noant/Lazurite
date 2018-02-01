@@ -24,16 +24,16 @@ namespace LazuriteMobile.App.Common
         public ScaleView()
         {
             InitializeComponent();
-            this.SizeChanged += (o, e) => RefreshScale();
+            SizeChanged += (o, e) => RefreshScale();
         }
                 
         private void RefreshScale()
         {
-            var percent = (Value - this.Min) / (this.Max - this.Min);
-            var marginBottom = this.Height * percent;
+            var percent = (Value - Min) / (Max - Min);
+            var marginBottom = Height * percent;
             if (marginBottom < 0)
                 marginBottom = 0;
-            this.gridValue.HeightRequest = marginBottom;
+            gridValue.HeightRequest = marginBottom;
 
             lblValue.Text = Math.Round(Value).ToString();
             if (percent < 0.25)

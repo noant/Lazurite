@@ -37,7 +37,7 @@ namespace LazuriteMobile.App.Droid
             get
             {
                 var service = ((PowerManager)GetSystemService(Service.PowerService));
-                return service.IsPowerSaveMode && !service.IsIgnoringBatteryOptimizations(this.PackageName);
+                return service.IsPowerSaveMode && !service.IsIgnoringBatteryOptimizations(PackageName);
             }
         }
 

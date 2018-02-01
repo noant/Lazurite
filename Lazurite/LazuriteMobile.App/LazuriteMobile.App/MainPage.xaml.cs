@@ -20,13 +20,13 @@ namespace LazuriteMobile.App
 
         public MainPage()
 		{
-            this.InitializeComponent();
+            InitializeComponent();
 
             Singleton.Clear<INotificationsHandler>();
             Singleton.Add((INotificationsHandler)this);
 
-            this.tabsView.AddTabInfo(new SliderTabsView.TabInfo(connectionSettingsSlider, LazuriteUI.Icons.Icon.Settings));
-            this.tabsView.AddTabInfo(new SliderTabsView.TabInfo(messagesSlider, LazuriteUI.Icons.Icon.EmailMinimal));
+            tabsView.AddTabInfo(new SliderTabsView.TabInfo(connectionSettingsSlider, LazuriteUI.Icons.Icon.Settings));
+            tabsView.AddTabInfo(new SliderTabsView.TabInfo(messagesSlider, LazuriteUI.Icons.Icon.EmailMinimal));
             _supportsResume.OnResume = (sender, previousState) =>
             {
                 //do not reinit when app was "home button pressed"
@@ -102,9 +102,9 @@ namespace LazuriteMobile.App
 
         protected override bool OnBackButtonPressed()
         {
-            if (this.tabsView.AnyOpened())
+            if (tabsView.AnyOpened())
             {
-                this.tabsView.HideAll();
+                tabsView.HideAll();
                 return true;
             }
             else if (DialogView.AnyOpened)
@@ -119,8 +119,8 @@ namespace LazuriteMobile.App
         private void _manager_SecretCodeInvalid()
         {
             Invoke(() => {
-                this.connectionSettingsSlider.Show();
-                this.swgrid.IsEnabled = false;
+                connectionSettingsSlider.Show();
+                swgrid.IsEnabled = false;
                 ShowCaption("Ошибка при расшифровке данных...\r\nВозможно, секретный ключ сервера введен неверно", true, true);
             });
         }
@@ -128,8 +128,8 @@ namespace LazuriteMobile.App
         private void _manager_LoginOrPasswordInvalid()
         {
             Invoke(() => {
-                this.connectionSettingsSlider.Show();
-                this.swgrid.IsEnabled = false;
+                connectionSettingsSlider.Show();
+                swgrid.IsEnabled = false;
                 ShowCaption("Логин или пароль введен неверно", true, true);
             });
         }
@@ -143,14 +143,14 @@ namespace LazuriteMobile.App
 
         private void SettingsView_ConnectClicked(SettingsView obj)
         {
-            this.connectionSettingsSlider.Hide();
-            var credentials = this.settingsView.GetCredentials();
+            connectionSettingsSlider.Hide();
+            var credentials = settingsView.GetCredentials();
             if (string.IsNullOrEmpty(credentials.Host) || string.IsNullOrEmpty(credentials.Login)
                 || string.IsNullOrEmpty(credentials.Password) || string.IsNullOrEmpty(credentials.SecretKey)
                 || string.IsNullOrEmpty(credentials.ServiceName) || credentials.Port < 1)
             {
                 ShowCaption("Не все поля введены", true);
-                this.connectionSettingsSlider.Show();
+                connectionSettingsSlider.Show();
             }
             else
             {
@@ -162,7 +162,7 @@ namespace LazuriteMobile.App
         private void _manager_NeedClientSettings()
         {
             Invoke(() => {
-                this.connectionSettingsSlider.Show();
+                connectionSettingsSlider.Show();
                 ShowCaption("Необходим ввод логина/пароля", false, false);
             });
         }
@@ -170,7 +170,7 @@ namespace LazuriteMobile.App
         private void _manager_ConnectionRestored()
         {
             Invoke(() => {
-                this.connectionSettingsSlider.Hide();
+                connectionSettingsSlider.Hide();
                 HideCaption();
                 swgrid.IsEnabled = true;
             });
@@ -211,9 +211,9 @@ namespace LazuriteMobile.App
 
         public void HideCaption()
         {
-            this.gridCaption.IsVisible = false;
+            gridCaption.IsVisible = false;
             lblCaption.Text = string.Empty;
-            this.settingsView.SetErrorMessage(string.Empty);
+            settingsView.SetErrorMessage(string.Empty);
         }
 
         public void ShowCaption(string text, bool error = false, bool show = true)
@@ -222,10 +222,10 @@ namespace LazuriteMobile.App
             DialogView.CloseLast();
 
             if (show)
-                this.gridCaption.IsVisible = true;
+                gridCaption.IsVisible = true;
             lblCaption.Text = text;
             lblCaption.TextColor = error ? Color.Purple : Color.White;
-            this.settingsView.SetErrorMessage(text);
+            settingsView.SetErrorMessage(text);
         }
 
         private void Invoke(Action action)

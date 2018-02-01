@@ -87,12 +87,12 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         public void Failed()
         {
-            this.btApply.IsEnabled = false;
+            btApply.IsEnabled = false;
         }
 
         public void Success()
         {
-            this.btApply.IsEnabled = true;
+            btApply.IsEnabled = true;
         }
 
         public event Action ApplyClicked;

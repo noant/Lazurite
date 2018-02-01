@@ -47,9 +47,9 @@ namespace LazuriteUI.Windows.Main.Security
                     });
             };
 
-            this.itemsView.SelectionChanged += (o, e) =>
+            itemsView.SelectionChanged += (o, e) =>
             {
-                this.SelectionChanged?.Invoke(this);
+                SelectionChanged?.Invoke(this);
                 btRemove.IsEnabled = SelectedGroupsIds.Any();
             };
         }

@@ -21,9 +21,9 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             buttonsIf.AddNewClick += () => actionIfView.AddFirst();
             buttonsElse.AddNewClick += () => actionElseView.AddFirst();
 
-            this.actionElseView.Modified += (e) => Modified?.Invoke(this);
-            this.actionIfView.Modified += (e) => Modified?.Invoke(this);
-            this.checkerView.Modified += (e) => Modified?.Invoke(this);
+            actionElseView.Modified += (e) => Modified?.Invoke(this);
+            actionIfView.Modified += (e) => Modified?.Invoke(this);
+            checkerView.Modified += (e) => Modified?.Invoke(this);
         }
 
         public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
@@ -31,9 +31,9 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             ActionHolder = actionHolder;
             AlgorithmContext = algoContext;
             _action = (IfAction)actionHolder.Action;
-            this.actionIfView.Refresh(new ActionHolder(_action.ActionIf), algoContext);
-            this.actionElseView.Refresh(new ActionHolder(_action.ActionElse), algoContext);
-            this.checkerView.Refresh(new ActionHolder(_action.Checker), algoContext);
+            actionIfView.Refresh(new ActionHolder(_action.ActionIf), algoContext);
+            actionElseView.Refresh(new ActionHolder(_action.ActionElse), algoContext);
+            checkerView.Refresh(new ActionHolder(_action.Checker), algoContext);
         }
 
         public ActionHolder ActionHolder

@@ -24,11 +24,11 @@ namespace LazuriteMobile.App.Common
         public SliderMenu()
         {
             InitializeComponent();
-            this.TranslationY = this.Height;
+            TranslationY = Height;
 
-            this.SizeChanged += (o, e) =>
+            SizeChanged += (o, e) =>
             {
-                this.Hide();
+                Hide();
                 _initialized = true;
                 if (_needShow)
                 {
@@ -45,8 +45,8 @@ namespace LazuriteMobile.App.Common
 
         public void Hide()
         {
-            this.BackgroundColor = Color.Transparent;
-            this.TranslateTo(0, this.Height, 100, Easing.Linear);
+            BackgroundColor = Color.Transparent;
+            this.TranslateTo(0, Height, 100, Easing.Linear);
             MenuVisible = false;
         }
 
@@ -54,11 +54,11 @@ namespace LazuriteMobile.App.Common
         {
             if (_initialized)
             {
-                this.BackgroundColor = Color.Black;
+                BackgroundColor = Color.Black;
                 this.TranslateTo(0, 0, 100, Easing.Linear);
                 MenuVisible = true;
-                if (this.contentView.Content is IUpdatable)
-                    ((IUpdatable)this.contentView.Content).UpdateView();
+                if (contentView.Content is IUpdatable)
+                    ((IUpdatable)contentView.Content).UpdateView();
             }
             else _needShow = true;
         }

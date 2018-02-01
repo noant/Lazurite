@@ -40,7 +40,7 @@ namespace LazuriteUI.Windows.Main
         {
             InitializeComponent();
             itemView.SelectionChanged += (o, e) => {
-                this.Selected = itemView.Selected;
+                Selected = itemView.Selected;
             };
         }
         

@@ -45,8 +45,8 @@ namespace LazuriteUI.Windows.Controls
 
         public ListItemsView()
         {
-            this.ClipToBounds = true;
-            this.IsHitTestVisible = true;
+            ClipToBounds = true;
+            IsHitTestVisible = true;
         }
 
         protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
@@ -65,12 +65,12 @@ namespace LazuriteUI.Windows.Controls
                             return;
 
                         if (item.Selected)
-                            this.SelectedItem = item;
+                            SelectedItem = item;
 
                         _lockSelectionChangedEvent = true;
-                        if (this.SelectionMode == ListViewItemsSelectionMode.Single && item.Selected)
+                        if (SelectionMode == ListViewItemsSelectionMode.Single && item.Selected)
                         {
-                            foreach (var child in this.Children)
+                            foreach (var child in Children)
                                 if (child is ISelectable && item != child)
                                     ((ISelectable)child).Selected = false;
                         }
@@ -80,13 +80,13 @@ namespace LazuriteUI.Windows.Controls
                     base.OnVisualChildrenChanged(visualAdded, visualRemoved);
                 }
                 else
-                    this.Children.Remove(visualAdded as UIElement);
+                    Children.Remove(visualAdded as UIElement);
             }
         }
 
         public ISelectable[] GetItems()
         {
-            return this.Children.Cast<FrameworkElement>().Where(x => x is ISelectable).Select(x => (ISelectable)x).ToArray();
+            return Children.Cast<FrameworkElement>().Where(x => x is ISelectable).Select(x => (ISelectable)x).ToArray();
         }
 
         public ISelectable[] GetSelectedItems()
@@ -123,7 +123,7 @@ namespace LazuriteUI.Windows.Controls
             SelectionChanged?.Invoke(this, new ListItemsViewSelectionChangedEventArgs()
             {
                 ListItemsView = this,
-                SelectedItems = this.GetSelectedItems()
+                SelectedItems = GetSelectedItems()
             });
         }
 

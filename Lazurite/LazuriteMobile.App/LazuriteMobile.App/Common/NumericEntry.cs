@@ -24,8 +24,8 @@ namespace LazuriteMobile.App.Common
 
         public NumericEntry()
         {
-            this.Keyboard = Keyboard.Numeric;
-            this.TextChanged += NumericEntry_TextChanged;
+            Keyboard = Keyboard.Numeric;
+            TextChanged += NumericEntry_TextChanged;
         }
 
         public double Max
@@ -67,20 +67,20 @@ namespace LazuriteMobile.App.Common
         private void NumericEntry_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.NewTextValue))
-                this.Value = this.Min;
+                Value = Min;
             else
             {
                 double value;
                 if (!double.TryParse(e.NewTextValue, out value))
                 {
-                    this.Text = e.OldTextValue;
+                    Text = e.OldTextValue;
                 }
                 else
                 {
                     if (value >= Min && value <= Max)
                         Value = value;
                     else
-                        this.Text = e.OldTextValue;
+                        Text = e.OldTextValue;
                 }
             }
         }

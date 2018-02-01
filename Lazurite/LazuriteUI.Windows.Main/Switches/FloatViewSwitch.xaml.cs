@@ -38,8 +38,8 @@ namespace LazuriteUI.Windows.Main.Switches
         private void _changer_VolumeChanged(object sender, Lazurite.Shared.EventsArgs<int> args)
         {
             if (args.Value < 0)
-                this.slider.Value -= _iteration;
-            else this.slider.Value += _iteration;
+                slider.Value -= _iteration;
+            else slider.Value += _iteration;
         }
 
         public void Dispose()
@@ -54,8 +54,8 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public FloatViewSwitch(ScenarioModel model): this()
         {
-            this.DataContext = _model = model;
-            this._tempValueToInstall = this._tempValueToUpdate = model.ScenarioValue;
+            DataContext = _model = model;
+            _tempValueToInstall = _tempValueToUpdate = model.ScenarioValue;
 
             //crutch #1
             _model.PropertyChanged += (o, e) =>
@@ -69,11 +69,11 @@ namespace LazuriteUI.Windows.Main.Switches
                     }
                 }
             };
-            this._iteration = (model.Max - model.Min) / 40;
-            this.slider.Value = double.Parse(_tempValueToInstall ?? "0");
+            _iteration = (model.Max - model.Min) / 40;
+            slider.Value = double.Parse(_tempValueToInstall ?? "0");
 
             //crutch #2
-            this.slider.ValueChanged += (o, e) =>
+            slider.ValueChanged += (o, e) =>
             {
                 _tempValueToUpdate = slider.Value.ToString();
                 _scenarioValueChanged = false;
@@ -85,8 +85,8 @@ namespace LazuriteUI.Windows.Main.Switches
                     if (_tempValueToUpdate != _tempValueToInstall && !_scenarioValueChanged)
                         model.ScenarioValue = _tempValueToInstall = _tempValueToUpdate;
                     if (_tempValueToInstall != _tempValueToUpdate && _scenarioValueChanged)
-                        this.Dispatcher.BeginInvoke(new Action(() => {
-                            this.slider.Value = double.Parse(_tempValueToUpdate = _tempValueToInstall);
+                        Dispatcher.BeginInvoke(new Action(() => {
+                            slider.Value = double.Parse(_tempValueToUpdate = _tempValueToInstall);
                         }));
                 },
                 () => FloatView_ValueUpdateInterval);

@@ -13,7 +13,7 @@ namespace LazuriteMobile.App.Controls
 		{
 			InitializeComponent();
 			_child = child;
-			this.contentGrid.Children.Add(child);            
+			contentGrid.Children.Add(child);            
 		}
 
 		public void Show(Grid parentElement)
@@ -25,7 +25,7 @@ namespace LazuriteMobile.App.Controls
 		public void Close()
 		{
 			Closed?.Invoke(this, new EventArgs());
-            var disposable = this.contentGrid.Children.FirstOrDefault() as IDisposable;
+            var disposable = contentGrid.Children.FirstOrDefault() as IDisposable;
             if (disposable != null)
                 disposable.Dispose();
 			((Grid)Parent).Children.Remove(this);

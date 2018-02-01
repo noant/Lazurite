@@ -13,8 +13,8 @@ namespace LazuriteUI.Windows.Controls
 
         public WheelScroll()
         {
-            this.VerticalScrollBarVisibility =
-                this.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            VerticalScrollBarVisibility =
+                HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
         }
     }
 }

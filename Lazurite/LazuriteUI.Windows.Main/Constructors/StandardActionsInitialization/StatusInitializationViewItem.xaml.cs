@@ -13,8 +13,8 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
         public StatusInitializationViewItem()
         {
             InitializeComponent();
-            this.itemView.SelectionChanged += (o, e) => SelectionChanged?.Invoke(this, e);
-            this.itemViewRemove.Click += (o, e) => RemoveClick(this, new EventsArgs<StatusInitializationViewItem>(this));
+            itemView.SelectionChanged += (o, e) => SelectionChanged?.Invoke(this, e);
+            itemViewRemove.Click += (o, e) => RemoveClick(this, new EventsArgs<StatusInitializationViewItem>(this));
         }
 
         public bool IsRemoveButtonVisible

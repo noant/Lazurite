@@ -16,11 +16,11 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             InitializeComponent();
             
-            operatorView.Modified += (e) => this.Modified?.Invoke(this);
-            actionView.Modified += (e) => this.Modified?.Invoke(this);
+            operatorView.Modified += (e) => Modified?.Invoke(this);
+            actionView.Modified += (e) => Modified?.Invoke(this);
 
-            actionView.NeedAddNext += (e) => this.NeedAddNext?.Invoke(this);
-            actionView.NeedRemove += (e) => this.NeedRemove?.Invoke(this);
+            actionView.NeedAddNext += (e) => NeedAddNext?.Invoke(this);
+            actionView.NeedRemove += (e) => NeedRemove?.Invoke(this);
 
         }
 
@@ -53,12 +53,12 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public void MakeOperatorInvisible()
         {
-            this.operatorView.MakeOperatorInvisible();
+            operatorView.MakeOperatorInvisible();
         }
         
         public void MakeOperatorVisible()
         {
-            this.operatorView.MakeOperatorVisible();
+            operatorView.MakeOperatorVisible();
         }
 
         public event Action<IConstructorElement> Modified;

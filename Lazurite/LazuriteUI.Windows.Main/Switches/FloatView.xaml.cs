@@ -42,7 +42,7 @@ namespace LazuriteUI.Windows.Main.Switches
         public FloatView()
         {
             InitializeComponent();
-            this.PreviewMouseWheel += OnMouseWheel;
+            PreviewMouseWheel += OnMouseWheel;
             _changer = this;
             _changer.VolumeDown += _changer_VolumeChanged;
             _changer.VolumeUp += _changer_VolumeChanged;
@@ -93,21 +93,21 @@ namespace LazuriteUI.Windows.Main.Switches
         
         public FloatView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
         {
-            this.DataContext = _model = new ScenarioModel(scenario, visualSettings);
+            DataContext = _model = new ScenarioModel(scenario, visualSettings);
             //crutch
             _model.PropertyChanged += (o, e) =>
             {
                 if (e.PropertyName == nameof(_model.ScenarioValue))
-                    this.scaleView.Dispatcher.BeginInvoke(
-                        new Action(() => this.scaleView.Value = _model.ScenarioValueDouble));
+                    scaleView.Dispatcher.BeginInvoke(
+                        new Action(() => scaleView.Value = _model.ScenarioValueDouble));
             };
 
-            this.Loaded += (o, e) => this.scaleView.Value = _model.ScenarioValueDouble;
+            Loaded += (o, e) => scaleView.Value = _model.ScenarioValueDouble;
         }
 
         private void itemView_Click(object sender, RoutedEventArgs e)
         {
-            var floatSwitch = new FloatViewSwitch((ScenarioModel)this.DataContext);
+            var floatSwitch = new FloatViewSwitch((ScenarioModel)DataContext);
             var dialog = new DialogView(floatSwitch);
             dialog.Show();
         }

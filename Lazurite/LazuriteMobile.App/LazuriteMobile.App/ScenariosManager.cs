@@ -423,7 +423,7 @@ namespace LazuriteMobile.App
 
         public void IsConnected(Action<ManagerConnectionState> callback)
         {
-            callback(this.ConnectionState);
+            callback(ConnectionState);
         }
 
         public void GetScenarios(Action<ScenarioInfo[]> callback)

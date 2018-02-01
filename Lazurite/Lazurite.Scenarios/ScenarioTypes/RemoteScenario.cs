@@ -83,7 +83,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 if (e is AggregatedCommunicationException)
                 {
                     Log.InfoFormat(strErrPrefix + ". {0}; [{1}][{2}][{3}]",
-                        e.Message, this.Name, this.Id, this.Credentials.GetAddress());
+                        e.Message, Name, Id, Credentials.GetAddress());
                 }
                 else if (
                     SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.ObjectNotFound) ||
@@ -92,12 +92,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.AccessDenied))
                 {
                     Log.InfoFormat(strErrPrefix + ". " + e.Message + "; [{0}][{1}][{2}][{3}]",
-                        this.Name, this.Id, this.Credentials.GetAddress(), e.InnerException?.Message);
+                        Name, Id, Credentials.GetAddress(), e.InnerException?.Message);
                 }
                 else
                 {
                     Log.WarnFormat(e, strErrPrefix + ". Unrecognized exception; [{0}][{1}][{2}][{3}]",
-                        this.Name, this.Id, this.Credentials.GetAddress(), e.InnerException?.Message);
+                        Name, Id, Credentials.GetAddress(), e.InnerException?.Message);
                 }
                 onException?.Invoke();
                 return false;
@@ -108,13 +108,13 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             CheckValue(param);
             executionId = PrepareExecutionId();
-            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
+            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", Name, Id);
             HandleExceptions(() => 
             {
                 GetServer().ExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
                 SetCurrentValueInternal(param);
             });
-            Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
+            Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
         }
 
         public override void ExecuteAsync(string param, out string executionId)
@@ -123,13 +123,13 @@ namespace Lazurite.Scenarios.ScenarioTypes
             executionId = PrepareExecutionId();
             TaskUtils.Start(() =>
             {
-                Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
+                Log.DebugFormat("Scenario execution begin: [{0}][{1}]", Name, Id);
                 HandleExceptions(() =>
                 {
                     GetServer().AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
                     SetCurrentValueInternal(param);
                 });
-                Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
+                Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
             });
         }
 
@@ -138,11 +138,11 @@ namespace Lazurite.Scenarios.ScenarioTypes
             CheckValue(param);
             TaskUtils.Start(() =>
             {
-                Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
+                Log.DebugFormat("Scenario execution begin: [{0}][{1}]", Name, Id);
                 HandleExceptions(() => {
                     GetServer().AsyncExecuteScenarioParallel(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
                 });
-                Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
+                Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
             });
         }
 
@@ -171,7 +171,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         private bool InitializeInternal()
         {
             UpdateValueAsDefault();
-            Log.DebugFormat("Scenario initialize begin: [{0}][{1}]", this.Name, this.Id);
+            Log.DebugFormat("Scenario initialize begin: [{0}][{1}]", Name, Id);
             _clientFactory = Singleton.Resolve<IClientFactory>();
             _clientFactory.ConnectionStateChanged -= ClientFactory_ConnectionStateChanged; //crutch
             _clientFactory.ConnectionStateChanged += ClientFactory_ConnectionStateChanged;
@@ -193,7 +193,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 SetDefaultValue();
             },
             false);
-            Log.DebugFormat("Scenario initialize end: [{0}][{1}]", this.Name, this.Id);
+            Log.DebugFormat("Scenario initialize end: [{0}][{1}]", Name, Id);
             IsAvailable = initialized && remoteScenarioAvailable;
             return Initialized = initialized;
         }
@@ -209,7 +209,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         private void ClientFactory_ConnectionStateChanged(object sender, EventsArgs<bool> args)
         {
-            this.IsAvailable = args.Value;
+            IsAvailable = args.Value;
         }
 
         public override void AfterInitilize()
@@ -217,7 +217,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             bool error = false;
             //changes listener
             _cancellationTokenSource = SystemUtils.StartTimer((token) => {
-                Log.DebugFormat("Remote scenario refresh iteration begin: [{0}][{1}]", this.Name, this.Id);
+                Log.DebugFormat("Remote scenario refresh iteration begin: [{0}][{1}]", Name, Id);
                 HandleExceptions(
                 () =>
                 {
@@ -230,15 +230,15 @@ namespace Lazurite.Scenarios.ScenarioTypes
                         var newScenInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey)).Decrypt(Credentials.SecretKey);
                         if (!(newScenInfo.CurrentValue ?? string.Empty).Equals(_currentValue))
                             SetCurrentValueInternal(newScenInfo.CurrentValue ?? string.Empty);
-                        this.ValueType = newScenInfo.ValueType;
-                        Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", this.Name, this.Id);
+                        ValueType = newScenInfo.ValueType;
+                        Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", Name, Id);
                     }
                     error = false;
                 },
                 () =>
                 {
                     IsAvailable = false;
-                    Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", this.Name, this.Id);
+                    Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", Name, Id);
                     SetDefaultValue();
                     error = true;
                 },
@@ -251,14 +251,14 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             if (ValueType == null)
                 ValueType = new ButtonValueType();
-            SetCurrentValueInternal(this.ValueType.DefaultValue);
+            SetCurrentValueInternal(ValueType.DefaultValue);
         }
 
         private void UpdateValueAsDefault()
         {
             if (ValueType == null)
                 ValueType = new ButtonValueType();
-            _currentValue = this.ValueType.DefaultValue;
+            _currentValue = ValueType.DefaultValue;
         }
 
         public void ReInitialize()

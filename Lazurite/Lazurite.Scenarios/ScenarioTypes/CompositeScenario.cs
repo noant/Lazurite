@@ -68,8 +68,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 var instanceManager = Singleton.Resolve<IInstanceManager>();
 
                 if (InitializeWithValue == null)
-                    InitializeWithValue = this.ValueType.DefaultValue;
-                foreach (var action in this.TargetAction.GetAllActionsFlat())
+                    InitializeWithValue = ValueType.DefaultValue;
+                foreach (var action in TargetAction.GetAllActionsFlat())
                 {
                     if (action != null)
                     {
@@ -77,19 +77,19 @@ namespace Lazurite.Scenarios.ScenarioTypes
                         action.Initialize();
                     }
                 }
-                this.IsAvailable = true;
+                IsAvailable = true;
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", this.Name);
-                this.IsAvailable = false;
+                Log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", Name);
+                IsAvailable = false;
             }
-            callback?.Invoke(this.IsAvailable);
+            callback?.Invoke(IsAvailable);
         }
 
         public override void AfterInitilize()
         {
-            if (this.ValueType != null && this.ValueType is ButtonValueType == false) //except buttonValueType because any input value starts scenario permanent
+            if (ValueType != null && ValueType is ButtonValueType == false) //except buttonValueType because any input value starts scenario permanent
                 ExecuteAsync(InitializeWithValue, out string executionId);
         }
 

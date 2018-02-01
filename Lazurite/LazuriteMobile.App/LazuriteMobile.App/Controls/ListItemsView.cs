@@ -29,8 +29,8 @@ namespace LazuriteMobile.App.Controls
 
         public ListItemsView()
         {
-            this.Orientation = StackOrientation.Vertical;
-            this.Spacing = 3;
+            Orientation = StackOrientation.Vertical;
+            Spacing = 3;
         }
 
         protected override void OnChildAdded(Element child)
@@ -39,13 +39,13 @@ namespace LazuriteMobile.App.Controls
             if (item != null)
             {
                 ((View)child).HorizontalOptions = new LayoutOptions(LayoutAlignment.Fill, true);
-                ((View)child).WidthRequest = this.Width;
+                ((View)child).WidthRequest = Width;
                 item.Selectable = SelectionMode != ListViewItemsSelectionMode.None;
                 item.SelectionChanged += (o, e) =>
                 {
-                    if (this.SelectionMode == ListViewItemsSelectionMode.Single && item.Selected)
+                    if (SelectionMode == ListViewItemsSelectionMode.Single && item.Selected)
                     {
-                        foreach (var view in this.Children)
+                        foreach (var view in Children)
                         {
                             var selectable = view as ISelectable;
                             if (selectable != null && selectable != child)
@@ -72,7 +72,7 @@ namespace LazuriteMobile.App.Controls
 
         public ISelectable[] GetItems()
         {
-            return this.Children.Where(x => x is ISelectable).Select(x => (ISelectable)x).ToArray();
+            return Children.Where(x => x is ISelectable).Select(x => (ISelectable)x).ToArray();
         }
 
         public ISelectable[] GetSelectedItems()
@@ -87,7 +87,7 @@ namespace LazuriteMobile.App.Controls
             SelectionChanged?.Invoke(this, new ListItemsViewSelectionChangedEventArgs()
             {
                 ListItemsView = this,
-                SelectedItems = this.GetSelectedItems()
+                SelectedItems = GetSelectedItems()
             });
         }
     }

@@ -24,7 +24,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 var cType = type;
                 var itemView = new ItemView();
                 if (type.GetType().Equals(comparisonType.GetType()))
-                    this.Loaded += (o, e) => itemView.Selected = true;
+                    Loaded += (o, e) => itemView.Selected = true;
                 itemView.Content = type.Caption;
                 itemView.Margin = new Thickness(0, 0, 0, 1);
                 itemView.IconVisibility = Visibility.Collapsed;

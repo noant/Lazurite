@@ -11,7 +11,7 @@ namespace LazuriteUI.Windows.Main.PluginsViews
         public PluginActionView(Type actionType)
         {
             InitializeComponent();
-            this.DataContext = new PluginActionViewModel(actionType);
+            DataContext = new PluginActionViewModel(actionType);
         }
     }
 }

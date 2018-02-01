@@ -26,8 +26,8 @@ namespace LazuriteUI.Windows.Main.Constructors
         public TriggerConstructorView()
         {
             InitializeComponent();
-            this.buttonsView.ApplyClicked += () => Apply();
-            this.buttonsView.ResetClicked += () => Revert();
+            buttonsView.ApplyClicked += () => Apply();
+            buttonsView.ResetClicked += () => Revert();
             buttonsView.Modified += () => IsModified = true;
         }
 
@@ -50,7 +50,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                         _constructorView.Modified += () => IsModified = true;
                         _constructorView.Failed += () => buttonsView.Failed();
                         _constructorView.Succeed += () => buttonsView.Success();
-                        this.contentPresenter.Content = _constructorView;
+                        contentPresenter.Content = _constructorView;
                         EmptyTriggerModeOff();
                     }
                     else
@@ -66,7 +66,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             tbTriggerEmpty.Visibility = Visibility.Visible;
             buttonsViewHolder.Visibility = Visibility.Collapsed;
-            this.contentPresenter.Content = null;
+            contentPresenter.Content = null;
         }
 
         private void EmptyTriggerModeOff()

@@ -54,7 +54,7 @@ namespace Lazurite.Windows.Server
         {
             TaskUtils.StartLongRunning(() =>
             {
-                _warningHandler.Info("Service starting: " + this._settings.GetAddress());
+                _warningHandler.Info("Service starting: " + _settings.GetAddress());
                 var binding = new BasicHttpBinding(BasicHttpSecurityMode.Transport);
                 binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
                 binding.CloseTimeout =
@@ -72,13 +72,13 @@ namespace Lazurite.Windows.Server
                     X509FindType.FindByThumbprint,
                     _settings.CertificateHash);
                 _host.Open();
-                _warningHandler.Info("Service started: " + this._settings.GetAddress());
+                _warningHandler.Info("Service started: " + _settings.GetAddress());
                 callback?.Invoke(true);
                 Started = true;
                 StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
             },
             (exception) => {
-                _warningHandler.Error("Error while starting service: " + this._settings.GetAddress(), exception);
+                _warningHandler.Error("Error while starting service: " + _settings.GetAddress(), exception);
                 callback?.Invoke(false);
                 Started = false;
                 StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));

@@ -100,7 +100,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public void Refresh()
         {
-            this.Refresh(this.ActionHolder, this.AlgorithmContext);
+            Refresh(ActionHolder, AlgorithmContext);
         }
 
         public IAction MasterAction { get; set; }

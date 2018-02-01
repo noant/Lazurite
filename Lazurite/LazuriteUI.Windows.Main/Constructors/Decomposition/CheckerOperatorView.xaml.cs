@@ -67,14 +67,14 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public void MakeOperatorInvisible()
         {
-            this.btSelectOperator1.Visibility =
-                this.tbOperator1.Visibility = Visibility.Collapsed;
+            btSelectOperator1.Visibility =
+                tbOperator1.Visibility = Visibility.Collapsed;
         }
 
         public void MakeOperatorVisible()
         {
-            this.btSelectOperator1.Visibility =
-                this.tbOperator1.Visibility = Visibility.Visible;
+            btSelectOperator1.Visibility =
+                tbOperator1.Visibility = Visibility.Visible;
         }
 
         public ActionHolder ActionHolder
@@ -101,7 +101,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public void Refresh()
         {
-            Refresh(this.ActionHolder, this.AlgorithmContext);
+            Refresh(ActionHolder, AlgorithmContext);
         }
 
         public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
@@ -109,9 +109,9 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             ActionHolder = actionHolder;
             AlgorithmContext = algoContext;
             _operatorPair = (CheckerOperatorPair)actionHolder.Action;
-            this.tbOperator1.Text
+            tbOperator1.Text
                 = _operatorPair.Operator == LogicalOperator.And || _operatorPair.Operator == LogicalOperator.AndNot ? "И" : "ИЛИ";
-            this.tbOperator2.Text
+            tbOperator2.Text
                 = _operatorPair.Operator == LogicalOperator.AndNot || _operatorPair.Operator == LogicalOperator.OrNot ? "НЕ" : string.Empty;
         }
     }

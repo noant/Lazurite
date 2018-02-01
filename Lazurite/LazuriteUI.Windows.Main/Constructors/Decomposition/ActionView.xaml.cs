@@ -36,7 +36,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public void BeginSelectAction()
         {
             ActionInstanceSide actionInstanceSide;
-            if (this.AlgorithmContext is SingleActionScenario)
+            if (AlgorithmContext is SingleActionScenario)
                 actionInstanceSide = ActionInstanceSide.Both;
             else if (MasterAction == null)
                 actionInstanceSide = ActionInstanceSide.OnlyLeft;
@@ -103,7 +103,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
         {
             ActionHolder = actionHolder;
-            this.AlgorithmContext = algoContext;
+            AlgorithmContext = algoContext;
             if (Model == null)
             {
                 Model = new ActionModel();
@@ -114,7 +114,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public void Refresh()
         {
-            this.Refresh(this.ActionHolder, this.AlgorithmContext);
+            Refresh(ActionHolder, AlgorithmContext);
         }
 
         public IAction MasterAction { get; set; }

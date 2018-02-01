@@ -52,7 +52,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public void Refresh()
         {
-            Refresh(this.ActionHolder, this.AlgorithmContext);
+            Refresh(ActionHolder, AlgorithmContext);
         }
 
         public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)

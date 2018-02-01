@@ -57,11 +57,11 @@ namespace LazuriteMobile.App.Controls
         public ItemView()
 		{
 			InitializeComponent();
-            this.PropertyChanged += (o, e) => {
+            PropertyChanged += (o, e) => {
                 if (e.PropertyName == nameof(IsEnabled))
                 {
-                    this.button.IsVisible = this.IsEnabled;
-                    this.backGrid.IsVisible = this.IsEnabled && this.Selected;
+                    button.IsVisible = IsEnabled;
+                    backGrid.IsVisible = IsEnabled && Selected;
                 }
             };
         }
@@ -158,8 +158,8 @@ namespace LazuriteMobile.App.Controls
                 await view.ScaleTo(0.85, 50, Easing.Linear).ContinueWith((o) =>
                     view.ScaleTo(1, 50, Easing.Linear)
                 );
-                if (this.Selectable)
-                    this.Selected = !this.Selected;
+                if (Selectable)
+                    Selected = !Selected;
                 Click?.Invoke(this, new EventsArgs<object>(this));
             }
         }
@@ -167,8 +167,8 @@ namespace LazuriteMobile.App.Controls
         async private void StartWaitingAndStrokeActions()
         {
             await Task.Delay(1000);
-            if (StrokeVisible && !this.Selected)
-                this.Selected = true;
+            if (StrokeVisible && !Selected)
+                Selected = true;
         }
 
         private void RaiseSelectionChanged()

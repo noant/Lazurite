@@ -35,9 +35,9 @@ namespace LazuriteUI.Windows.Main.Constructors
                     btModeSync.Selected = true;
             };
 
-            btModeAsync.Click += (o, e) => this.SelectedMode = RunExistingScenarioMode.MainExecutionContext;
-            btModeAsyncPar.Click += (o, e) => this.SelectedMode = RunExistingScenarioMode.Asynchronously;
-            btModeSync.Click += (o, e) => this.SelectedMode = RunExistingScenarioMode.Synchronously;
+            btModeAsync.Click += (o, e) => SelectedMode = RunExistingScenarioMode.MainExecutionContext;
+            btModeAsyncPar.Click += (o, e) => SelectedMode = RunExistingScenarioMode.Asynchronously;
+            btModeSync.Click += (o, e) => SelectedMode = RunExistingScenarioMode.Synchronously;
 
             btApply.Click += (o, e) => SelectionChanged?.Invoke(this);
         }
@@ -46,7 +46,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             SelectedMode = runMode;            
             var scenarios = _repository.Scenarios.Where(x => valueType == null || x.ValueType.GetType().Equals(valueType));
-            this.SelectedScenario = _repository.Scenarios.FirstOrDefault(x => x.Id.Equals(selectedScenarioId));
+            SelectedScenario = _repository.Scenarios.FirstOrDefault(x => x.Id.Equals(selectedScenarioId));
             if (side == ActionInstanceSide.OnlyRight)
                 scenarios = scenarios.Where(x => x.ValueType is ButtonValueType == false);
             else if (side == ActionInstanceSide.OnlyLeft)
@@ -56,21 +56,21 @@ namespace LazuriteUI.Windows.Main.Constructors
                 var itemView = new ItemView();
                 itemView.Content = scenario.Name;
                 if (scenario.Id.Equals(selectedScenarioId))
-                    this.Loaded += (o, e) => itemView.Selected = true;
+                    Loaded += (o, e) => itemView.Selected = true;
                 itemView.Icon = Icons.Icon.ChevronRight;
                 itemView.Tag = scenario;
                 itemView.Margin = new Thickness(2);
                 itemView.Click += (o, e) => 
                 {
-                    this.SelectedScenario = itemView.Tag as ScenarioBase;
+                    SelectedScenario = itemView.Tag as ScenarioBase;
                 };
-                this.itemsView.Children.Add(itemView);
+                itemsView.Children.Add(itemView);
             }
 
-            if (this.itemsView.Children.Count > 0)
+            if (itemsView.Children.Count > 0)
             {
                 tbScensNotExist.Visibility = Visibility.Collapsed;
-                this.MinHeight = 0;
+                MinHeight = 0;
             }
         }
         

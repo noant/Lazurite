@@ -59,7 +59,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public void Refresh()
         {
-            Refresh(this.ActionHolder, this.AlgorithmContext);
+            Refresh(ActionHolder, AlgorithmContext);
         }
 
         public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
@@ -67,7 +67,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             AlgorithmContext = algoContext;
             ActionHolder = actionHolder;
             _action = (ComplexAction)actionHolder.Action;
-            this.Children.Clear();
+            Children.Clear();
             foreach (var holder in _action.ActionHolders)
                 Insert(holder);
         }
@@ -75,29 +75,29 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         private void Insert(ActionHolder actionHolder, int position=-1)
         {
             if (position == -1)
-                position = this.Children.Count;
-            var constructorElement = ActionControlResolver.Create(actionHolder, this.AlgorithmContext);
+                position = Children.Count;
+            var constructorElement = ActionControlResolver.Create(actionHolder, AlgorithmContext);
             var control = ((FrameworkElement)constructorElement);
             control.Margin = new Thickness(0, 1, 0, 0);
-            constructorElement.Refresh(actionHolder, this.AlgorithmContext);
+            constructorElement.Refresh(actionHolder, AlgorithmContext);
             constructorElement.Modified += (element) => Modified?.Invoke(element);
             constructorElement.NeedRemove += (element) => {
                 _action.ActionHolders.Remove(actionHolder);
-                this.Children.Remove(control);
+                Children.Remove(control);
                 Modified?.Invoke(this);
             };
             constructorElement.NeedAddNext += (element) => {
                 SelectCoreActionView.Show((type) => {
-                    var index = this.Children.IndexOf(control)+1;
+                    var index = Children.IndexOf(control)+1;
                     var newActionHolder = new ActionHolder() {
-                        Action = _manager.CreateInstance(type, this.AlgorithmContext)
+                        Action = _manager.CreateInstance(type, AlgorithmContext)
                     };
                     _action.ActionHolders.Insert(index, newActionHolder);
                     Insert(newActionHolder, index);
                     Modified?.Invoke(this);
                 });
             };
-            this.Children.Insert(position, control);
+            Children.Insert(position, control);
         }
     }
 }

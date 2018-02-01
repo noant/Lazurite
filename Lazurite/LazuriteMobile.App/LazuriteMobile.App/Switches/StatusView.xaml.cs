@@ -15,13 +15,13 @@ namespace LazuriteMobile.App.Switches
 
         public StatusView(ScenarioInfo scenario) : this()
         {
-            this.BindingContext = new SwitchScenarioModel(scenario);
+            BindingContext = new SwitchScenarioModel(scenario);
             itemView.Click += ItemView_Click;
         }
 
         private void ItemView_Click(object sender, EventArgs e)
         {
-            var statusSwitch = new StatusViewSwitch((SwitchScenarioModel)this.BindingContext);
+            var statusSwitch = new StatusViewSwitch((SwitchScenarioModel)BindingContext);
             var dialog = new DialogView(statusSwitch);
             statusSwitch.StateChanged += (o, args) =>
             {

@@ -16,11 +16,11 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         {
             InitializeComponent();
 
-            operatorView.Modified += (e) => this.Modified?.Invoke(this);
-            complexCheckerView.Modified += (e) => this.Modified?.Invoke(this);
+            operatorView.Modified += (e) => Modified?.Invoke(this);
+            complexCheckerView.Modified += (e) => Modified?.Invoke(this);
 
-            buttonsEnd.AddNewClick += () => this.NeedAddNext?.Invoke(this);
-            buttonsGroup.RemoveClick += () => this.NeedRemove?.Invoke(this);
+            buttonsEnd.AddNewClick += () => NeedAddNext?.Invoke(this);
+            buttonsGroup.RemoveClick += () => NeedRemove?.Invoke(this);
             buttonsGroup.AddNewClick += () => complexCheckerView.AddFirst();
 
         }
@@ -61,12 +61,12 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public void MakeOperatorInvisible()
         {
-            this.operatorView.MakeOperatorInvisible();
+            operatorView.MakeOperatorInvisible();
         }
 
         public void MakeOperatorVisible()
         {
-            this.operatorView.MakeOperatorVisible();
+            operatorView.MakeOperatorVisible();
         }
 
         public event Action<IConstructorElement> Modified;

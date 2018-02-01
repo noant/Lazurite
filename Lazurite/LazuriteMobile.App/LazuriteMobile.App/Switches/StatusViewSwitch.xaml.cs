@@ -32,27 +32,27 @@ namespace LazuriteMobile.App.Switches
         private void _changer_VolumeChanged(object sender, EventsArgs<int> args)
         {
             //megaCrutchCode
-            var prevItem = this.listItemsStates.GetItems().Cast<ItemView>().FirstOrDefault(x => x.StrokeVisible);
+            var prevItem = listItemsStates.GetItems().Cast<ItemView>().FirstOrDefault(x => x.StrokeVisible);
             if (prevItem == null)
-                prevItem = this.listItemsStates.GetSelectedItems().FirstOrDefault() as ItemView;
+                prevItem = listItemsStates.GetSelectedItems().FirstOrDefault() as ItemView;
             if (prevItem == null)
-                prevItem = this.listItemsStates.GetItems().LastOrDefault() as ItemView;
+                prevItem = listItemsStates.GetItems().LastOrDefault() as ItemView;
             if (prevItem != null)
             {
                 prevItem.StrokeVisible = false;
-                var index = this.listItemsStates.GetItems().ToList().IndexOf(prevItem) - (args.Value / Math.Abs(args.Value));
-                if (index == this.listItemsStates.GetItems().Length)
+                var index = listItemsStates.GetItems().ToList().IndexOf(prevItem) - (args.Value / Math.Abs(args.Value));
+                if (index == listItemsStates.GetItems().Length)
                     index = 0;
                 else if (index == -1)
-                    index = this.listItemsStates.GetItems().Length - 1;
-                var targetItem = (ItemView)this.listItemsStates.GetItems().ElementAt(index);
+                    index = listItemsStates.GetItems().Length - 1;
+                var targetItem = (ItemView)listItemsStates.GetItems().ElementAt(index);
                 targetItem.StrokeVisible = true;
             }
         }
 
         public StatusViewSwitch(SwitchScenarioModel scenarioModel) : this()
         {
-            this.tbScenarioName.Text = scenarioModel.ScenarioName;
+            tbScenarioName.Text = scenarioModel.ScenarioName;
             foreach (var state in scenarioModel.AcceptedValues)
             {
                 var itemView = new ItemView();

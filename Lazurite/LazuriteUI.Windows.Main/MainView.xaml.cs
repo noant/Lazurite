@@ -12,10 +12,10 @@ namespace LazuriteUI.Windows.Main
         public MainView()
         {
             InitializeComponent();
-            this.Loaded += (o, e) => {
-                this.menuItems.SelectionChanged += (o1, e1) => 
+            Loaded += (o, e) => {
+                menuItems.SelectionChanged += (o1, e1) => 
                     menuResolver.Resolver = menuItems.SelectedItem as IViewTypeResolverItem;
-                this.menuItems.GetItems().First().Selected = true;
+                menuItems.GetItems().First().Selected = true;
             };
 
             btHide.Click += (o, e) => {

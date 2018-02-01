@@ -16,7 +16,7 @@ namespace LazuriteMobile.App.Switches
         public ButtonView(ScenarioInfo scenario) : this()
         {
             _model = new SwitchScenarioModel(scenario);
-            this.BindingContext = _model;
+            BindingContext = _model;
             itemView.Click += ItemView_Click;
         }
 

@@ -18,23 +18,23 @@ namespace LazuriteUI.Windows.Main
         public TriggersListView()
         {
             InitializeComponent();
-            this.Loaded += (o,e) => Initialize();
-            this.itemsView.SelectionChanged += (o, e) =>
+            Loaded += (o,e) => Initialize();
+            itemsView.SelectionChanged += (o, e) =>
             {
-                if (this.SelectionChanging == null)
+                if (SelectionChanging == null)
                 {
-                    this.SelectedTrigger = (this.itemsView.SelectedItem as ItemView)?.Tag as Lazurite.MainDomain.TriggerBase;
-                    this.SelectionChanged?.Invoke(this.SelectedTrigger);
+                    SelectedTrigger = (itemsView.SelectedItem as ItemView)?.Tag as Lazurite.MainDomain.TriggerBase;
+                    SelectionChanged?.Invoke(SelectedTrigger);
                 }
                 else
                 {
-                    this.SelectionChanging(this.SelectedTrigger,
+                    SelectionChanging(SelectedTrigger,
                         new TriggerChangingEventArgs()
                         {
                             Apply = () =>
                             {
-                                this.SelectedTrigger = (this.itemsView.SelectedItem as ItemView)?.Tag as Lazurite.MainDomain.TriggerBase;
-                                this.SelectionChanged?.Invoke(this.SelectedTrigger);
+                                SelectedTrigger = (itemsView.SelectedItem as ItemView)?.Tag as Lazurite.MainDomain.TriggerBase;
+                                SelectionChanged?.Invoke(SelectedTrigger);
                             }
                         });
                 }
@@ -92,8 +92,8 @@ namespace LazuriteUI.Windows.Main
                 itemsView.GetItems().First().Selected = true;
             else
             {
-                this.SelectedTrigger = null;
-                this.SelectionChanged?.Invoke(null);
+                SelectedTrigger = null;
+                SelectionChanged?.Invoke(null);
                 tbTriggersEmpty.Visibility = Visibility.Collapsed;
             }
         }

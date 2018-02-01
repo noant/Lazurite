@@ -13,7 +13,7 @@ namespace LazuriteMobile.App.Switches
 
         public ImageView(ScenarioInfo scenario) : this()
         {
-            this.BindingContext = new SwitchScenarioModel(scenario);
+            BindingContext = new SwitchScenarioModel(scenario);
         }
     }
 }

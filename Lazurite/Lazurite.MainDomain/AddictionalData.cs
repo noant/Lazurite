@@ -21,7 +21,7 @@ namespace Lazurite.MainDomain
         public AddictionalData(params object[] items)
         {
             foreach (var item in items)
-                this.Set(item);
+                Set(item);
         }
 
         public void Set(string key, object value)

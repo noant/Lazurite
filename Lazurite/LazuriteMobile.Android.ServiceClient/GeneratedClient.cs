@@ -90,7 +90,7 @@ namespace LazuriteMobile.Android.ServiceClient
         public IsScenarioValueChangedCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
                 base(exception, cancelled, userState)
         {
-            this.results = results;
+            results = results;
         }
 
         public bool Result
@@ -98,7 +98,7 @@ namespace LazuriteMobile.Android.ServiceClient
             get
             {
                 base.RaiseExceptionIfNecessary();
-                return ((bool)(this.results[0]));
+                return ((bool)(results[0]));
             }
         }
     }
@@ -113,7 +113,7 @@ namespace LazuriteMobile.Android.ServiceClient
         public GetScenariosInfoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
                 base(exception, cancelled, userState)
         {
-            this.results = results;
+            results = results;
         }
 
         public Lazurite.MainDomain.MessageSecurity.EncryptedList<Lazurite.MainDomain.ScenarioInfo> Result
@@ -121,7 +121,7 @@ namespace LazuriteMobile.Android.ServiceClient
             get
             {
                 base.RaiseExceptionIfNecessary();
-                return ((Lazurite.MainDomain.MessageSecurity.EncryptedList<Lazurite.MainDomain.ScenarioInfo>)(this.results[0]));
+                return ((Lazurite.MainDomain.MessageSecurity.EncryptedList<Lazurite.MainDomain.ScenarioInfo>)(results[0]));
             }
         }
     }
@@ -136,7 +136,7 @@ namespace LazuriteMobile.Android.ServiceClient
         public GetScenarioInfoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
                 base(exception, cancelled, userState)
         {
-            this.results = results;
+            results = results;
         }
 
         public Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.ScenarioInfo> Result
@@ -144,7 +144,7 @@ namespace LazuriteMobile.Android.ServiceClient
             get
             {
                 base.RaiseExceptionIfNecessary();
-                return ((Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.ScenarioInfo>)(this.results[0]));
+                return ((Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.ScenarioInfo>)(results[0]));
             }
         }
     }
@@ -159,7 +159,7 @@ namespace LazuriteMobile.Android.ServiceClient
         public CalculateScenarioValueCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
                 base(exception, cancelled, userState)
         {
-            this.results = results;
+            results = results;
         }
 
         public Lazurite.MainDomain.MessageSecurity.Encrypted<string> Result
@@ -167,7 +167,7 @@ namespace LazuriteMobile.Android.ServiceClient
             get
             {
                 base.RaiseExceptionIfNecessary();
-                return ((Lazurite.MainDomain.MessageSecurity.Encrypted<string>)(this.results[0]));
+                return ((Lazurite.MainDomain.MessageSecurity.Encrypted<string>)(results[0]));
             }
         }
     }
@@ -182,7 +182,7 @@ namespace LazuriteMobile.Android.ServiceClient
         public GetScenarioValueCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
                 base(exception, cancelled, userState)
         {
-            this.results = results;
+            results = results;
         }
 
         public Lazurite.MainDomain.MessageSecurity.Encrypted<string> Result
@@ -190,7 +190,7 @@ namespace LazuriteMobile.Android.ServiceClient
             get
             {
                 base.RaiseExceptionIfNecessary();
-                return ((Lazurite.MainDomain.MessageSecurity.Encrypted<string>)(this.results[0]));
+                return ((Lazurite.MainDomain.MessageSecurity.Encrypted<string>)(results[0]));
             }
         }
     }
@@ -205,7 +205,7 @@ namespace LazuriteMobile.Android.ServiceClient
         public GetChangedScenariosCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
                 base(exception, cancelled, userState)
         {
-            this.results = results;
+            results = results;
         }
 
         public Lazurite.MainDomain.MessageSecurity.EncryptedList<Lazurite.MainDomain.ScenarioInfoLW> Result
@@ -213,7 +213,7 @@ namespace LazuriteMobile.Android.ServiceClient
             get
             {
                 base.RaiseExceptionIfNecessary();
-                return ((Lazurite.MainDomain.MessageSecurity.EncryptedList<Lazurite.MainDomain.ScenarioInfoLW>)(this.results[0]));
+                return ((Lazurite.MainDomain.MessageSecurity.EncryptedList<Lazurite.MainDomain.ScenarioInfoLW>)(results[0]));
             }
         }
     }
@@ -228,7 +228,7 @@ namespace LazuriteMobile.Android.ServiceClient
         public SyncAddictionalDataCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) :
                 base(exception, cancelled, userState)
         {
-            this.results = results;
+            results = results;
         }
 
         public Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> Result
@@ -236,7 +236,7 @@ namespace LazuriteMobile.Android.ServiceClient
             get
             {
                 base.RaiseExceptionIfNecessary();
-                return ((Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData>)(this.results[0]));
+                return ((Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData>)(results[0]));
             }
         }
     }
@@ -352,7 +352,7 @@ namespace LazuriteMobile.Android.ServiceClient
         {
             get
             {
-                System.ServiceModel.Channels.IHttpCookieContainerManager httpCookieContainerManager = this.InnerChannel.GetProperty<System.ServiceModel.Channels.IHttpCookieContainerManager>();
+                System.ServiceModel.Channels.IHttpCookieContainerManager httpCookieContainerManager = InnerChannel.GetProperty<System.ServiceModel.Channels.IHttpCookieContainerManager>();
                 if ((httpCookieContainerManager != null))
                 {
                     return httpCookieContainerManager.CookieContainer;
@@ -364,7 +364,7 @@ namespace LazuriteMobile.Android.ServiceClient
             }
             set
             {
-                System.ServiceModel.Channels.IHttpCookieContainerManager httpCookieContainerManager = this.InnerChannel.GetProperty<System.ServiceModel.Channels.IHttpCookieContainerManager>();
+                System.ServiceModel.Channels.IHttpCookieContainerManager httpCookieContainerManager = InnerChannel.GetProperty<System.ServiceModel.Channels.IHttpCookieContainerManager>();
                 if ((httpCookieContainerManager != null))
                 {
                     httpCookieContainerManager.CookieContainer = value;
@@ -431,35 +431,35 @@ namespace LazuriteMobile.Android.ServiceClient
 
         private void OnIsScenarioValueChangedCompleted(object state)
         {
-            if ((this.IsScenarioValueChangedCompleted != null))
+            if ((IsScenarioValueChangedCompleted != null))
             {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.IsScenarioValueChangedCompleted(this, new IsScenarioValueChangedCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+                IsScenarioValueChangedCompleted(this, new IsScenarioValueChangedCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
             }
         }
 
         public void IsScenarioValueChangedAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Lazurite.MainDomain.MessageSecurity.Encrypted<string> lastKnownValue)
         {
-            this.IsScenarioValueChangedAsync(scenarioId, lastKnownValue, null);
+            IsScenarioValueChangedAsync(scenarioId, lastKnownValue, null);
         }
 
         public void IsScenarioValueChangedAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Lazurite.MainDomain.MessageSecurity.Encrypted<string> lastKnownValue, object userState)
         {
-            if ((this.onBeginIsScenarioValueChangedDelegate == null))
+            if ((onBeginIsScenarioValueChangedDelegate == null))
             {
-                this.onBeginIsScenarioValueChangedDelegate = new BeginOperationDelegate(this.OnBeginIsScenarioValueChanged);
+                onBeginIsScenarioValueChangedDelegate = new BeginOperationDelegate(OnBeginIsScenarioValueChanged);
             }
-            if ((this.onEndIsScenarioValueChangedDelegate == null))
+            if ((onEndIsScenarioValueChangedDelegate == null))
             {
-                this.onEndIsScenarioValueChangedDelegate = new EndOperationDelegate(this.OnEndIsScenarioValueChanged);
+                onEndIsScenarioValueChangedDelegate = new EndOperationDelegate(OnEndIsScenarioValueChanged);
             }
-            if ((this.onIsScenarioValueChangedCompletedDelegate == null))
+            if ((onIsScenarioValueChangedCompletedDelegate == null))
             {
-                this.onIsScenarioValueChangedCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnIsScenarioValueChangedCompleted);
+                onIsScenarioValueChangedCompletedDelegate = new System.Threading.SendOrPostCallback(OnIsScenarioValueChangedCompleted);
             }
-            base.InvokeAsync(this.onBeginIsScenarioValueChangedDelegate, new object[] {
+            base.InvokeAsync(onBeginIsScenarioValueChangedDelegate, new object[] {
                         scenarioId,
-                        lastKnownValue}, this.onEndIsScenarioValueChangedDelegate, this.onIsScenarioValueChangedCompletedDelegate, userState);
+                        lastKnownValue}, onEndIsScenarioValueChangedDelegate, onIsScenarioValueChangedCompletedDelegate, userState);
         }
 
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -488,33 +488,33 @@ namespace LazuriteMobile.Android.ServiceClient
 
         private void OnGetScenariosInfoCompleted(object state)
         {
-            if ((this.GetScenariosInfoCompleted != null))
+            if ((GetScenariosInfoCompleted != null))
             {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.GetScenariosInfoCompleted(this, new GetScenariosInfoCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+                GetScenariosInfoCompleted(this, new GetScenariosInfoCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
             }
         }
 
         public void GetScenariosInfoAsync()
         {
-            this.GetScenariosInfoAsync(null);
+            GetScenariosInfoAsync(null);
         }
 
         public void GetScenariosInfoAsync(object userState)
         {
-            if ((this.onBeginGetScenariosInfoDelegate == null))
+            if ((onBeginGetScenariosInfoDelegate == null))
             {
-                this.onBeginGetScenariosInfoDelegate = new BeginOperationDelegate(this.OnBeginGetScenariosInfo);
+                onBeginGetScenariosInfoDelegate = new BeginOperationDelegate(OnBeginGetScenariosInfo);
             }
-            if ((this.onEndGetScenariosInfoDelegate == null))
+            if ((onEndGetScenariosInfoDelegate == null))
             {
-                this.onEndGetScenariosInfoDelegate = new EndOperationDelegate(this.OnEndGetScenariosInfo);
+                onEndGetScenariosInfoDelegate = new EndOperationDelegate(OnEndGetScenariosInfo);
             }
-            if ((this.onGetScenariosInfoCompletedDelegate == null))
+            if ((onGetScenariosInfoCompletedDelegate == null))
             {
-                this.onGetScenariosInfoCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetScenariosInfoCompleted);
+                onGetScenariosInfoCompletedDelegate = new System.Threading.SendOrPostCallback(OnGetScenariosInfoCompleted);
             }
-            base.InvokeAsync(this.onBeginGetScenariosInfoDelegate, null, this.onEndGetScenariosInfoDelegate, this.onGetScenariosInfoCompletedDelegate, userState);
+            base.InvokeAsync(onBeginGetScenariosInfoDelegate, null, onEndGetScenariosInfoDelegate, onGetScenariosInfoCompletedDelegate, userState);
         }
 
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -544,34 +544,34 @@ namespace LazuriteMobile.Android.ServiceClient
 
         private void OnGetScenarioInfoCompleted(object state)
         {
-            if ((this.GetScenarioInfoCompleted != null))
+            if ((GetScenarioInfoCompleted != null))
             {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.GetScenarioInfoCompleted(this, new GetScenarioInfoCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+                GetScenarioInfoCompleted(this, new GetScenarioInfoCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
             }
         }
 
         public void GetScenarioInfoAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId)
         {
-            this.GetScenarioInfoAsync(scenarioId, null);
+            GetScenarioInfoAsync(scenarioId, null);
         }
 
         public void GetScenarioInfoAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, object userState)
         {
-            if ((this.onBeginGetScenarioInfoDelegate == null))
+            if ((onBeginGetScenarioInfoDelegate == null))
             {
-                this.onBeginGetScenarioInfoDelegate = new BeginOperationDelegate(this.OnBeginGetScenarioInfo);
+                onBeginGetScenarioInfoDelegate = new BeginOperationDelegate(OnBeginGetScenarioInfo);
             }
-            if ((this.onEndGetScenarioInfoDelegate == null))
+            if ((onEndGetScenarioInfoDelegate == null))
             {
-                this.onEndGetScenarioInfoDelegate = new EndOperationDelegate(this.OnEndGetScenarioInfo);
+                onEndGetScenarioInfoDelegate = new EndOperationDelegate(OnEndGetScenarioInfo);
             }
-            if ((this.onGetScenarioInfoCompletedDelegate == null))
+            if ((onGetScenarioInfoCompletedDelegate == null))
             {
-                this.onGetScenarioInfoCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetScenarioInfoCompleted);
+                onGetScenarioInfoCompletedDelegate = new System.Threading.SendOrPostCallback(OnGetScenarioInfoCompleted);
             }
-            base.InvokeAsync(this.onBeginGetScenarioInfoDelegate, new object[] {
-                        scenarioId}, this.onEndGetScenarioInfoDelegate, this.onGetScenarioInfoCompletedDelegate, userState);
+            base.InvokeAsync(onBeginGetScenarioInfoDelegate, new object[] {
+                        scenarioId}, onEndGetScenarioInfoDelegate, onGetScenarioInfoCompletedDelegate, userState);
         }
 
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -601,34 +601,34 @@ namespace LazuriteMobile.Android.ServiceClient
 
         private void OnCalculateScenarioValueCompleted(object state)
         {
-            if ((this.CalculateScenarioValueCompleted != null))
+            if ((CalculateScenarioValueCompleted != null))
             {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.CalculateScenarioValueCompleted(this, new CalculateScenarioValueCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+                CalculateScenarioValueCompleted(this, new CalculateScenarioValueCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
             }
         }
 
         public void CalculateScenarioValueAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId)
         {
-            this.CalculateScenarioValueAsync(scenarioId, null);
+            CalculateScenarioValueAsync(scenarioId, null);
         }
 
         public void CalculateScenarioValueAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, object userState)
         {
-            if ((this.onBeginCalculateScenarioValueDelegate == null))
+            if ((onBeginCalculateScenarioValueDelegate == null))
             {
-                this.onBeginCalculateScenarioValueDelegate = new BeginOperationDelegate(this.OnBeginCalculateScenarioValue);
+                onBeginCalculateScenarioValueDelegate = new BeginOperationDelegate(OnBeginCalculateScenarioValue);
             }
-            if ((this.onEndCalculateScenarioValueDelegate == null))
+            if ((onEndCalculateScenarioValueDelegate == null))
             {
-                this.onEndCalculateScenarioValueDelegate = new EndOperationDelegate(this.OnEndCalculateScenarioValue);
+                onEndCalculateScenarioValueDelegate = new EndOperationDelegate(OnEndCalculateScenarioValue);
             }
-            if ((this.onCalculateScenarioValueCompletedDelegate == null))
+            if ((onCalculateScenarioValueCompletedDelegate == null))
             {
-                this.onCalculateScenarioValueCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnCalculateScenarioValueCompleted);
+                onCalculateScenarioValueCompletedDelegate = new System.Threading.SendOrPostCallback(OnCalculateScenarioValueCompleted);
             }
-            base.InvokeAsync(this.onBeginCalculateScenarioValueDelegate, new object[] {
-                        scenarioId}, this.onEndCalculateScenarioValueDelegate, this.onCalculateScenarioValueCompletedDelegate, userState);
+            base.InvokeAsync(onBeginCalculateScenarioValueDelegate, new object[] {
+                        scenarioId}, onEndCalculateScenarioValueDelegate, onCalculateScenarioValueCompletedDelegate, userState);
         }
 
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -658,34 +658,34 @@ namespace LazuriteMobile.Android.ServiceClient
 
         private void OnGetScenarioValueCompleted(object state)
         {
-            if ((this.GetScenarioValueCompleted != null))
+            if ((GetScenarioValueCompleted != null))
             {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.GetScenarioValueCompleted(this, new GetScenarioValueCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+                GetScenarioValueCompleted(this, new GetScenarioValueCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
             }
         }
 
         public void GetScenarioValueAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId)
         {
-            this.GetScenarioValueAsync(scenarioId, null);
+            GetScenarioValueAsync(scenarioId, null);
         }
 
         public void GetScenarioValueAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, object userState)
         {
-            if ((this.onBeginGetScenarioValueDelegate == null))
+            if ((onBeginGetScenarioValueDelegate == null))
             {
-                this.onBeginGetScenarioValueDelegate = new BeginOperationDelegate(this.OnBeginGetScenarioValue);
+                onBeginGetScenarioValueDelegate = new BeginOperationDelegate(OnBeginGetScenarioValue);
             }
-            if ((this.onEndGetScenarioValueDelegate == null))
+            if ((onEndGetScenarioValueDelegate == null))
             {
-                this.onEndGetScenarioValueDelegate = new EndOperationDelegate(this.OnEndGetScenarioValue);
+                onEndGetScenarioValueDelegate = new EndOperationDelegate(OnEndGetScenarioValue);
             }
-            if ((this.onGetScenarioValueCompletedDelegate == null))
+            if ((onGetScenarioValueCompletedDelegate == null))
             {
-                this.onGetScenarioValueCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetScenarioValueCompleted);
+                onGetScenarioValueCompletedDelegate = new System.Threading.SendOrPostCallback(OnGetScenarioValueCompleted);
             }
-            base.InvokeAsync(this.onBeginGetScenarioValueDelegate, new object[] {
-                        scenarioId}, this.onEndGetScenarioValueDelegate, this.onGetScenarioValueCompletedDelegate, userState);
+            base.InvokeAsync(onBeginGetScenarioValueDelegate, new object[] {
+                        scenarioId}, onEndGetScenarioValueDelegate, onGetScenarioValueCompletedDelegate, userState);
         }
 
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -715,35 +715,35 @@ namespace LazuriteMobile.Android.ServiceClient
 
         private void OnExecuteScenarioCompleted(object state)
         {
-            if ((this.ExecuteScenarioCompleted != null))
+            if ((ExecuteScenarioCompleted != null))
             {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.ExecuteScenarioCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
+                ExecuteScenarioCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
             }
         }
 
         public void ExecuteScenarioAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Lazurite.MainDomain.MessageSecurity.Encrypted<string> value)
         {
-            this.ExecuteScenarioAsync(scenarioId, value, null);
+            ExecuteScenarioAsync(scenarioId, value, null);
         }
 
         public void ExecuteScenarioAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Lazurite.MainDomain.MessageSecurity.Encrypted<string> value, object userState)
         {
-            if ((this.onBeginExecuteScenarioDelegate == null))
+            if ((onBeginExecuteScenarioDelegate == null))
             {
-                this.onBeginExecuteScenarioDelegate = new BeginOperationDelegate(this.OnBeginExecuteScenario);
+                onBeginExecuteScenarioDelegate = new BeginOperationDelegate(OnBeginExecuteScenario);
             }
-            if ((this.onEndExecuteScenarioDelegate == null))
+            if ((onEndExecuteScenarioDelegate == null))
             {
-                this.onEndExecuteScenarioDelegate = new EndOperationDelegate(this.OnEndExecuteScenario);
+                onEndExecuteScenarioDelegate = new EndOperationDelegate(OnEndExecuteScenario);
             }
-            if ((this.onExecuteScenarioCompletedDelegate == null))
+            if ((onExecuteScenarioCompletedDelegate == null))
             {
-                this.onExecuteScenarioCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnExecuteScenarioCompleted);
+                onExecuteScenarioCompletedDelegate = new System.Threading.SendOrPostCallback(OnExecuteScenarioCompleted);
             }
-            base.InvokeAsync(this.onBeginExecuteScenarioDelegate, new object[] {
+            base.InvokeAsync(onBeginExecuteScenarioDelegate, new object[] {
                         scenarioId,
-                        value}, this.onEndExecuteScenarioDelegate, this.onExecuteScenarioCompletedDelegate, userState);
+                        value}, onEndExecuteScenarioDelegate, onExecuteScenarioCompletedDelegate, userState);
         }
 
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -773,35 +773,35 @@ namespace LazuriteMobile.Android.ServiceClient
 
         private void OnAsyncExecuteScenarioCompleted(object state)
         {
-            if ((this.AsyncExecuteScenarioCompleted != null))
+            if ((AsyncExecuteScenarioCompleted != null))
             {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.AsyncExecuteScenarioCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
+                AsyncExecuteScenarioCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
             }
         }
 
         public void AsyncExecuteScenarioAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Lazurite.MainDomain.MessageSecurity.Encrypted<string> value)
         {
-            this.AsyncExecuteScenarioAsync(scenarioId, value, null);
+            AsyncExecuteScenarioAsync(scenarioId, value, null);
         }
 
         public void AsyncExecuteScenarioAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Lazurite.MainDomain.MessageSecurity.Encrypted<string> value, object userState)
         {
-            if ((this.onBeginAsyncExecuteScenarioDelegate == null))
+            if ((onBeginAsyncExecuteScenarioDelegate == null))
             {
-                this.onBeginAsyncExecuteScenarioDelegate = new BeginOperationDelegate(this.OnBeginAsyncExecuteScenario);
+                onBeginAsyncExecuteScenarioDelegate = new BeginOperationDelegate(OnBeginAsyncExecuteScenario);
             }
-            if ((this.onEndAsyncExecuteScenarioDelegate == null))
+            if ((onEndAsyncExecuteScenarioDelegate == null))
             {
-                this.onEndAsyncExecuteScenarioDelegate = new EndOperationDelegate(this.OnEndAsyncExecuteScenario);
+                onEndAsyncExecuteScenarioDelegate = new EndOperationDelegate(OnEndAsyncExecuteScenario);
             }
-            if ((this.onAsyncExecuteScenarioCompletedDelegate == null))
+            if ((onAsyncExecuteScenarioCompletedDelegate == null))
             {
-                this.onAsyncExecuteScenarioCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnAsyncExecuteScenarioCompleted);
+                onAsyncExecuteScenarioCompletedDelegate = new System.Threading.SendOrPostCallback(OnAsyncExecuteScenarioCompleted);
             }
-            base.InvokeAsync(this.onBeginAsyncExecuteScenarioDelegate, new object[] {
+            base.InvokeAsync(onBeginAsyncExecuteScenarioDelegate, new object[] {
                         scenarioId,
-                        value}, this.onEndAsyncExecuteScenarioDelegate, this.onAsyncExecuteScenarioCompletedDelegate, userState);
+                        value}, onEndAsyncExecuteScenarioDelegate, onAsyncExecuteScenarioCompletedDelegate, userState);
         }
 
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -831,35 +831,35 @@ namespace LazuriteMobile.Android.ServiceClient
 
         private void OnAsyncExecuteScenarioParallelCompleted(object state)
         {
-            if ((this.AsyncExecuteScenarioParallelCompleted != null))
+            if ((AsyncExecuteScenarioParallelCompleted != null))
             {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.AsyncExecuteScenarioParallelCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
+                AsyncExecuteScenarioParallelCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
             }
         }
 
         public void AsyncExecuteScenarioParallelAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Lazurite.MainDomain.MessageSecurity.Encrypted<string> value)
         {
-            this.AsyncExecuteScenarioParallelAsync(scenarioId, value, null);
+            AsyncExecuteScenarioParallelAsync(scenarioId, value, null);
         }
 
         public void AsyncExecuteScenarioParallelAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<string> scenarioId, Lazurite.MainDomain.MessageSecurity.Encrypted<string> value, object userState)
         {
-            if ((this.onBeginAsyncExecuteScenarioParallelDelegate == null))
+            if ((onBeginAsyncExecuteScenarioParallelDelegate == null))
             {
-                this.onBeginAsyncExecuteScenarioParallelDelegate = new BeginOperationDelegate(this.OnBeginAsyncExecuteScenarioParallel);
+                onBeginAsyncExecuteScenarioParallelDelegate = new BeginOperationDelegate(OnBeginAsyncExecuteScenarioParallel);
             }
-            if ((this.onEndAsyncExecuteScenarioParallelDelegate == null))
+            if ((onEndAsyncExecuteScenarioParallelDelegate == null))
             {
-                this.onEndAsyncExecuteScenarioParallelDelegate = new EndOperationDelegate(this.OnEndAsyncExecuteScenarioParallel);
+                onEndAsyncExecuteScenarioParallelDelegate = new EndOperationDelegate(OnEndAsyncExecuteScenarioParallel);
             }
-            if ((this.onAsyncExecuteScenarioParallelCompletedDelegate == null))
+            if ((onAsyncExecuteScenarioParallelCompletedDelegate == null))
             {
-                this.onAsyncExecuteScenarioParallelCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnAsyncExecuteScenarioParallelCompleted);
+                onAsyncExecuteScenarioParallelCompletedDelegate = new System.Threading.SendOrPostCallback(OnAsyncExecuteScenarioParallelCompleted);
             }
-            base.InvokeAsync(this.onBeginAsyncExecuteScenarioParallelDelegate, new object[] {
+            base.InvokeAsync(onBeginAsyncExecuteScenarioParallelDelegate, new object[] {
                         scenarioId,
-                        value}, this.onEndAsyncExecuteScenarioParallelDelegate, this.onAsyncExecuteScenarioParallelCompletedDelegate, userState);
+                        value}, onEndAsyncExecuteScenarioParallelDelegate, onAsyncExecuteScenarioParallelCompletedDelegate, userState);
         }
 
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -889,34 +889,34 @@ namespace LazuriteMobile.Android.ServiceClient
 
         private void OnGetChangedScenariosCompleted(object state)
         {
-            if ((this.GetChangedScenariosCompleted != null))
+            if ((GetChangedScenariosCompleted != null))
             {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.GetChangedScenariosCompleted(this, new GetChangedScenariosCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+                GetChangedScenariosCompleted(this, new GetChangedScenariosCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
             }
         }
 
         public void GetChangedScenariosAsync(System.DateTime since)
         {
-            this.GetChangedScenariosAsync(since, null);
+            GetChangedScenariosAsync(since, null);
         }
 
         public void GetChangedScenariosAsync(System.DateTime since, object userState)
         {
-            if ((this.onBeginGetChangedScenariosDelegate == null))
+            if ((onBeginGetChangedScenariosDelegate == null))
             {
-                this.onBeginGetChangedScenariosDelegate = new BeginOperationDelegate(this.OnBeginGetChangedScenarios);
+                onBeginGetChangedScenariosDelegate = new BeginOperationDelegate(OnBeginGetChangedScenarios);
             }
-            if ((this.onEndGetChangedScenariosDelegate == null))
+            if ((onEndGetChangedScenariosDelegate == null))
             {
-                this.onEndGetChangedScenariosDelegate = new EndOperationDelegate(this.OnEndGetChangedScenarios);
+                onEndGetChangedScenariosDelegate = new EndOperationDelegate(OnEndGetChangedScenarios);
             }
-            if ((this.onGetChangedScenariosCompletedDelegate == null))
+            if ((onGetChangedScenariosCompletedDelegate == null))
             {
-                this.onGetChangedScenariosCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnGetChangedScenariosCompleted);
+                onGetChangedScenariosCompletedDelegate = new System.Threading.SendOrPostCallback(OnGetChangedScenariosCompleted);
             }
-            base.InvokeAsync(this.onBeginGetChangedScenariosDelegate, new object[] {
-                        since}, this.onEndGetChangedScenariosDelegate, this.onGetChangedScenariosCompletedDelegate, userState);
+            base.InvokeAsync(onBeginGetChangedScenariosDelegate, new object[] {
+                        since}, onEndGetChangedScenariosDelegate, onGetChangedScenariosCompletedDelegate, userState);
         }
 
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -945,34 +945,34 @@ namespace LazuriteMobile.Android.ServiceClient
 
         private void OnSaveVisualSettingsCompleted(object state)
         {
-            if ((this.SaveVisualSettingsCompleted != null))
+            if ((SaveVisualSettingsCompleted != null))
             {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.SaveVisualSettingsCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
+                SaveVisualSettingsCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
             }
         }
 
         public void SaveVisualSettingsAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.UserVisualSettings> visualSettings)
         {
-            this.SaveVisualSettingsAsync(visualSettings, null);
+            SaveVisualSettingsAsync(visualSettings, null);
         }
 
         public void SaveVisualSettingsAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.UserVisualSettings> visualSettings, object userState)
         {
-            if ((this.onBeginSaveVisualSettingsDelegate == null))
+            if ((onBeginSaveVisualSettingsDelegate == null))
             {
-                this.onBeginSaveVisualSettingsDelegate = new BeginOperationDelegate(this.OnBeginSaveVisualSettings);
+                onBeginSaveVisualSettingsDelegate = new BeginOperationDelegate(OnBeginSaveVisualSettings);
             }
-            if ((this.onEndSaveVisualSettingsDelegate == null))
+            if ((onEndSaveVisualSettingsDelegate == null))
             {
-                this.onEndSaveVisualSettingsDelegate = new EndOperationDelegate(this.OnEndSaveVisualSettings);
+                onEndSaveVisualSettingsDelegate = new EndOperationDelegate(OnEndSaveVisualSettings);
             }
-            if ((this.onSaveVisualSettingsCompletedDelegate == null))
+            if ((onSaveVisualSettingsCompletedDelegate == null))
             {
-                this.onSaveVisualSettingsCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSaveVisualSettingsCompleted);
+                onSaveVisualSettingsCompletedDelegate = new System.Threading.SendOrPostCallback(OnSaveVisualSettingsCompleted);
             }
-            base.InvokeAsync(this.onBeginSaveVisualSettingsDelegate, new object[] {
-                        visualSettings}, this.onEndSaveVisualSettingsDelegate, this.onSaveVisualSettingsCompletedDelegate, userState);
+            base.InvokeAsync(onBeginSaveVisualSettingsDelegate, new object[] {
+                        visualSettings}, onEndSaveVisualSettingsDelegate, onSaveVisualSettingsCompletedDelegate, userState);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -1001,34 +1001,34 @@ namespace LazuriteMobile.Android.ServiceClient
 
         private void OnSyncAddictionalDataCompleted(object state)
         {
-            if ((this.SyncAddictionalDataCompleted != null))
+            if ((SyncAddictionalDataCompleted != null))
             {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.SyncAddictionalDataCompleted(this, new SyncAddictionalDataCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
+                SyncAddictionalDataCompleted(this, new SyncAddictionalDataCompletedEventArgs(e.Results, e.Error, e.Cancelled, e.UserState));
             }
         }
 
         public void SyncAddictionalDataAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> data)
         {
-            this.SyncAddictionalDataAsync(data, null);
+            SyncAddictionalDataAsync(data, null);
         }
 
         public void SyncAddictionalDataAsync(Lazurite.MainDomain.MessageSecurity.Encrypted<Lazurite.MainDomain.AddictionalData> data, object userState)
         {
-            if ((this.onBeginSyncAddictionalDataDelegate == null))
+            if ((onBeginSyncAddictionalDataDelegate == null))
             {
-                this.onBeginSyncAddictionalDataDelegate = new BeginOperationDelegate(this.OnBeginSyncAddictionalData);
+                onBeginSyncAddictionalDataDelegate = new BeginOperationDelegate(OnBeginSyncAddictionalData);
             }
-            if ((this.onEndSyncAddictionalDataDelegate == null))
+            if ((onEndSyncAddictionalDataDelegate == null))
             {
-                this.onEndSyncAddictionalDataDelegate = new EndOperationDelegate(this.OnEndSyncAddictionalData);
+                onEndSyncAddictionalDataDelegate = new EndOperationDelegate(OnEndSyncAddictionalData);
             }
-            if ((this.onSyncAddictionalDataCompletedDelegate == null))
+            if ((onSyncAddictionalDataCompletedDelegate == null))
             {
-                this.onSyncAddictionalDataCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnSyncAddictionalDataCompleted);
+                onSyncAddictionalDataCompletedDelegate = new System.Threading.SendOrPostCallback(OnSyncAddictionalDataCompleted);
             }
-            base.InvokeAsync(this.onBeginSyncAddictionalDataDelegate, new object[] {
-                        data}, this.onEndSyncAddictionalDataDelegate, this.onSyncAddictionalDataCompletedDelegate, userState);
+            base.InvokeAsync(onBeginSyncAddictionalDataDelegate, new object[] {
+                        data}, onEndSyncAddictionalDataDelegate, onSyncAddictionalDataCompletedDelegate, userState);
         }
         
         private System.IAsyncResult OnBeginOpen(object[] inValues, System.AsyncCallback callback, object asyncState)
@@ -1044,33 +1044,33 @@ namespace LazuriteMobile.Android.ServiceClient
 
         private void OnOpenCompleted(object state)
         {
-            if ((this.OpenCompleted != null))
+            if ((OpenCompleted != null))
             {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.OpenCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
+                OpenCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
             }
         }
 
         public void OpenAsync()
         {
-            this.OpenAsync(null);
+            OpenAsync(null);
         }
 
         public void OpenAsync(object userState)
         {
-            if ((this.onBeginOpenDelegate == null))
+            if ((onBeginOpenDelegate == null))
             {
-                this.onBeginOpenDelegate = new BeginOperationDelegate(this.OnBeginOpen);
+                onBeginOpenDelegate = new BeginOperationDelegate(OnBeginOpen);
             }
-            if ((this.onEndOpenDelegate == null))
+            if ((onEndOpenDelegate == null))
             {
-                this.onEndOpenDelegate = new EndOperationDelegate(this.OnEndOpen);
+                onEndOpenDelegate = new EndOperationDelegate(OnEndOpen);
             }
-            if ((this.onOpenCompletedDelegate == null))
+            if ((onOpenCompletedDelegate == null))
             {
-                this.onOpenCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnOpenCompleted);
+                onOpenCompletedDelegate = new System.Threading.SendOrPostCallback(OnOpenCompleted);
             }
-            base.InvokeAsync(this.onBeginOpenDelegate, null, this.onEndOpenDelegate, this.onOpenCompletedDelegate, userState);
+            base.InvokeAsync(onBeginOpenDelegate, null, onEndOpenDelegate, onOpenCompletedDelegate, userState);
         }
 
         private System.IAsyncResult OnBeginClose(object[] inValues, System.AsyncCallback callback, object asyncState)
@@ -1086,33 +1086,33 @@ namespace LazuriteMobile.Android.ServiceClient
 
         private void OnCloseCompleted(object state)
         {
-            if ((this.CloseCompleted != null))
+            if ((CloseCompleted != null))
             {
                 InvokeAsyncCompletedEventArgs e = ((InvokeAsyncCompletedEventArgs)(state));
-                this.CloseCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
+                CloseCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(e.Error, e.Cancelled, e.UserState));
             }
         }
 
         public void CloseAsync()
         {
-            this.CloseAsync(null);
+            CloseAsync(null);
         }
 
         public void CloseAsync(object userState)
         {
-            if ((this.onBeginCloseDelegate == null))
+            if ((onBeginCloseDelegate == null))
             {
-                this.onBeginCloseDelegate = new BeginOperationDelegate(this.OnBeginClose);
+                onBeginCloseDelegate = new BeginOperationDelegate(OnBeginClose);
             }
-            if ((this.onEndCloseDelegate == null))
+            if ((onEndCloseDelegate == null))
             {
-                this.onEndCloseDelegate = new EndOperationDelegate(this.OnEndClose);
+                onEndCloseDelegate = new EndOperationDelegate(OnEndClose);
             }
-            if ((this.onCloseCompletedDelegate == null))
+            if ((onCloseCompletedDelegate == null))
             {
-                this.onCloseCompletedDelegate = new System.Threading.SendOrPostCallback(this.OnCloseCompleted);
+                onCloseCompletedDelegate = new System.Threading.SendOrPostCallback(OnCloseCompleted);
             }
-            base.InvokeAsync(this.onBeginCloseDelegate, null, this.onEndCloseDelegate, this.onCloseCompletedDelegate, userState);
+            base.InvokeAsync(onBeginCloseDelegate, null, onEndCloseDelegate, onCloseCompletedDelegate, userState);
         }
 
         protected override LazuriteMobile.Android.ServiceClient.IServer CreateChannel()

@@ -18,7 +18,7 @@ namespace LazuriteMobile.App.Switches
         public ToggleView(ScenarioInfo scenario) : this()
         {
             var model = new SwitchScenarioModel(scenario);
-            this.BindingContext = model;
+            BindingContext = model;
             var context = SynchronizationContext.Current;
             //binding works incorrectly
             model.PropertyChanged += (o, e) =>
@@ -34,7 +34,7 @@ namespace LazuriteMobile.App.Switches
         //binding works incorrectly
         private void itemView_SelectionChanged(object arg1, EventArgs arg2)
         {
-            var model = ((SwitchScenarioModel)this.BindingContext);
+            var model = ((SwitchScenarioModel)BindingContext);
             var currValue = (bool)_converter.Convert(model.ScenarioValue, null, null, null);
             if (currValue != itemView.Selected)
                 model.ScenarioValue = _converter.ConvertBack(itemView.Selected, null, null, null).ToString();

@@ -15,7 +15,7 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public ToggleView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
         {
-            this.DataContext = new ScenarioModel(scenario, visualSettings);
+            DataContext = new ScenarioModel(scenario, visualSettings);
         }
     }
 }

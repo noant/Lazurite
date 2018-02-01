@@ -36,12 +36,12 @@ namespace LazuriteUI.Windows.Main.Constructors
                 var credentialsSelect = new ExistingConnectionSelect(ClientFactory.ConnectionCredentials);
                 var dialog = new DialogView(credentialsSelect);
                 credentialsSelect.SelectedCredentialsChanged += (o1, args) => {
-                    this.tbHost.Text = args.Value.Host;
-                    this.tbLogin.Text = args.Value.Login;
-                    this.tbPassword.Password = args.Value.Password;
-                    this.tbPort.Text = args.Value.Port.ToString();
-                    this.tbSecretCode.Password = args.Value.SecretKey;
-                    this.tbServiceName.Text = args.Value.ServiceName;
+                    tbHost.Text = args.Value.Host;
+                    tbLogin.Text = args.Value.Login;
+                    tbPassword.Password = args.Value.Password;
+                    tbPort.Text = args.Value.Port.ToString();
+                    tbSecretCode.Password = args.Value.SecretKey;
+                    tbServiceName.Text = args.Value.ServiceName;
                     Modified?.Invoke();
                     dialog.Close();
                 };
@@ -66,7 +66,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                         _scenario.Initialize((result) =>
                         {
                             loadWindowCloseToken.Cancel();
-                            this.Dispatcher.BeginInvoke(new Action(() => {
+                            Dispatcher.BeginInvoke(new Action(() => {
                                 if (result)
                                 {
                                     Modified?.Invoke();
@@ -95,12 +95,12 @@ namespace LazuriteUI.Windows.Main.Constructors
                     if (result)
                     {
                         MessageView.ShowMessage("Соединение успешно!", "Тест удаленного сценария", Icons.Icon.Check);
-                        this.Dispatcher.BeginInvoke(new Action(() => Succeed?.Invoke()));
+                        Dispatcher.BeginInvoke(new Action(() => Succeed?.Invoke()));
                     }
                     else
                     {
                         MessageView.ShowMessage("Невозможно активировать удаленный сценарий!", "Тест удаленного сценария", Icons.Icon.Cancel);
-                        this.Dispatcher.BeginInvoke(new Action(() => Failed?.Invoke()));
+                        Dispatcher.BeginInvoke(new Action(() => Failed?.Invoke()));
                     }
                 });
             };

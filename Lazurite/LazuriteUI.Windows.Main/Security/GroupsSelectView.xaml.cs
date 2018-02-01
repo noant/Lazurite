@@ -18,14 +18,14 @@ namespace LazuriteUI.Windows.Main.Security
         public GroupsSelectView(string[] selectedGroupsIds)
         {
             InitializeComponent();
-            this.groupsView.SelectedGroupsIds = selectedGroupsIds;
+            groupsView.SelectedGroupsIds = selectedGroupsIds;
         }
 
         public UserGroupBase[] SelectedGroups
         {
             get
             {
-                return this.groupsView.SelectedGroupsIds.Select(x=>Repository.Groups.First(z=>z.Name.Equals(x))).ToArray();
+                return groupsView.SelectedGroupsIds.Select(x=>Repository.Groups.First(z=>z.Name.Equals(x))).ToArray();
             }
         }
 

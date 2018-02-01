@@ -75,14 +75,14 @@ namespace Lazurite.CoreActions.ContextInitialization
 
         public void SetValue(ExecutionContext context, string value)
         {
-            this.ValueType = context.AlgorithmContext.ValueType;
+            ValueType = context.AlgorithmContext.ValueType;
             context.Input = InputValue.Action.GetValue(context);
             context.OutputChanged.Execute(context.Input);
         }
 
         public void Initialize(IAlgorithmContext algoContext)
         {
-            this.ValueType = algoContext.ValueType;
+            ValueType = algoContext.ValueType;
         }
 
         public event ValueChangedEventHandler ValueChanged;

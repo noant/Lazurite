@@ -48,9 +48,9 @@ namespace Lazurite.ActionsDomain.ValueTypes
         public bool IsCompatibleWith(ValueTypeBase valueType)
         {
             if (this is InfoValueType) return true;
-            if (valueType.GetType() != this.GetType()) return false;
-            if (valueType.SupportsNumericalComparisons.Equals(this.SupportsNumericalComparisons) &&
-                Enumerable.SequenceEqual(this.AcceptedValues, valueType.AcceptedValues))
+            if (valueType.GetType() != GetType()) return false;
+            if (valueType.SupportsNumericalComparisons.Equals(SupportsNumericalComparisons) &&
+                Enumerable.SequenceEqual(AcceptedValues, valueType.AcceptedValues))
             {
                 return true;
             }
@@ -60,13 +60,13 @@ namespace Lazurite.ActionsDomain.ValueTypes
         public override bool Equals(object obj)
         {
             return obj is ValueTypeBase &&
-                this.GetType() == obj.GetType() &&
-                Enumerable.SequenceEqual(this.AcceptedValues, ((ValueTypeBase)obj).AcceptedValues);
+                GetType() == obj.GetType() &&
+                Enumerable.SequenceEqual(AcceptedValues, ((ValueTypeBase)obj).AcceptedValues);
         }
         
         public override string ToString()
         {
-            return this.HumanFriendlyName;
+            return HumanFriendlyName;
         }
 
         //интерпертирует входящее значение

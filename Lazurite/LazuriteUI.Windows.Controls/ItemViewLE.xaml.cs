@@ -27,9 +27,9 @@ namespace LazuriteUI.Windows.Controls
         {
             InitializeComponent();
 
-            this.MouseEnter += (o, e) => iconView.Background = Brushes.SteelBlue;
-            this.MouseLeave += (o, e) => iconView.Background = Brushes.Transparent;
-            this.MouseLeftButtonUp += (o, e) => Click?.Invoke(this, new RoutedEventArgs());
+            MouseEnter += (o, e) => iconView.Background = Brushes.SteelBlue;
+            MouseLeave += (o, e) => iconView.Background = Brushes.Transparent;
+            MouseLeftButtonUp += (o, e) => Click?.Invoke(this, new RoutedEventArgs());
         }
 
         public Icon Icon

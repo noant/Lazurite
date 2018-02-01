@@ -12,11 +12,11 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
             DateTime.TryParse(action.Value, out dateTime);
             if (dateTime == DateTime.MinValue)
                 dateTime = DateTime.Now;//crutch
-            this.DateTime = dateTime;
+            DateTime = dateTime;
 
-            this.Apply += (o, e) =>
+            Apply += (o, e) =>
             {
-                action.Value = this.DateTime.ToString();
+                action.Value = DateTime.ToString();
                 ApplyClicked?.Invoke();
             };
         }

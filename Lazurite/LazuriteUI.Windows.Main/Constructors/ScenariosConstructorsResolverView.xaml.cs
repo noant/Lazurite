@@ -27,8 +27,8 @@ namespace LazuriteUI.Windows.Main.Constructors
         public ScenariosConstructorsResolverView()
         {
             InitializeComponent();
-            this.buttonsView.ApplyClicked += () => Apply();
-            this.buttonsView.ResetClicked += () => Revert();
+            buttonsView.ApplyClicked += () => Apply();
+            buttonsView.ResetClicked += () => Revert();
             buttonsView.Modified += () => IsModified = true;
         }
 
@@ -46,11 +46,11 @@ namespace LazuriteUI.Windows.Main.Constructors
                             _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
                             _clonedScenario.Initialize();
                             if (scenario is SingleActionScenario)
-                                this.contentPresenter.Content = _constructorView = new SingleActionScenarioView((SingleActionScenario)_clonedScenario);
+                                contentPresenter.Content = _constructorView = new SingleActionScenarioView((SingleActionScenario)_clonedScenario);
                             else if (scenario is RemoteScenario)
-                                this.contentPresenter.Content = _constructorView = new RemoteScenarioView((RemoteScenario)_clonedScenario);
+                                contentPresenter.Content = _constructorView = new RemoteScenarioView((RemoteScenario)_clonedScenario);
                             else if (scenario is CompositeScenario)
-                                this.contentPresenter.Content = _constructorView = new CompositeScenarioView((CompositeScenario)_clonedScenario);
+                                contentPresenter.Content = _constructorView = new CompositeScenarioView((CompositeScenario)_clonedScenario);
                             buttonsView.SetScenario(_clonedScenario);
                             IsModified = false;
                             _constructorView.Modified += () => Modified?.Invoke();
@@ -78,7 +78,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             tbScenarioEmpty.Visibility = Visibility.Visible;
             buttonsViewHolder.Visibility = Visibility.Collapsed;
-            this.contentPresenter.Content = null;
+            contentPresenter.Content = null;
         }
 
         private void EmptyScenarioModeOff()

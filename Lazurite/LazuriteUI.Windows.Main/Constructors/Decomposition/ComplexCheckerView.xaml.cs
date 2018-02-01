@@ -62,7 +62,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             AlgorithmContext = algoContext;
             ActionHolder = actionHolder;
             _action = (ComplexCheckerAction)actionHolder.Action;
-            this.Children.Clear();
+            Children.Clear();
             foreach (var pair in _action.CheckerOperations)
                 Insert(pair);
         }
@@ -70,7 +70,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         private void Insert(CheckerOperatorPair operatorPair, int position = -1)
         {
             if (position == -1)
-                position = this.Children.Count;
+                position = Children.Count;
             FrameworkElement control = null;
             if (operatorPair.Checker is CheckerAction)
                 control = new CheckerOperatorPairView();
@@ -78,17 +78,17 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 control = new ComplexCheckerOperatorPairView();
             var constructorElement = ((IConstructorElement)control);
             control.Margin = new Thickness(0, 1, 0, 0);
-            constructorElement.Refresh(new ActionHolder(operatorPair), this.AlgorithmContext);
+            constructorElement.Refresh(new ActionHolder(operatorPair), AlgorithmContext);
             constructorElement.Modified += (element) => Modified?.Invoke(element);
             constructorElement.NeedRemove += (element) => {
                 _action.CheckerOperations.Remove(operatorPair);
-                this.Children.Remove(control);
+                Children.Remove(control);
                 Modified?.Invoke(this);
                 MakeFirstRowOperatorInvisible();
             };
             constructorElement.NeedAddNext += (element) => {
                 SelectCheckerTypeView.Show((isGroup) => {
-                    var index = this.Children.IndexOf(control) + 1;
+                    var index = Children.IndexOf(control) + 1;
                     CheckerOperatorPair newOperatorPair = new CheckerOperatorPair();
                     if (isGroup)
                         newOperatorPair.Checker = new ComplexCheckerAction();
@@ -97,21 +97,21 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     Modified?.Invoke(this);
                 });
             };
-            this.Children.Insert(position, control);
+            Children.Insert(position, control);
             MakeFirstRowOperatorInvisible();
         }
 
         private void MakeFirstRowOperatorInvisible()
         {
-            if (this.Children.Count > 0)
+            if (Children.Count > 0)
             {
-                foreach (var control in this.Children)
+                foreach (var control in Children)
                 {
                     (control as CheckerOperatorPairView)?.MakeOperatorVisible();
                     (control as ComplexCheckerOperatorPairView)?.MakeOperatorVisible();
                 }
-                (this.Children[0] as CheckerOperatorPairView)?.MakeOperatorInvisible();
-                (this.Children[0] as ComplexCheckerOperatorPairView)?.MakeOperatorInvisible();
+                (Children[0] as CheckerOperatorPairView)?.MakeOperatorInvisible();
+                (Children[0] as ComplexCheckerOperatorPairView)?.MakeOperatorInvisible();
             }
         }
     }

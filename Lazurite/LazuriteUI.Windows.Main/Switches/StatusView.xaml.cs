@@ -17,13 +17,13 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public StatusView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
         {
-            this.DataContext = new ScenarioModel(scenario, visualSettings);
+            DataContext = new ScenarioModel(scenario, visualSettings);
             itemView.Click += ItemView_Click;
         }
 
         private void ItemView_Click(object sender, RoutedEventArgs e)
         {
-            var statusSwitch = new StatusViewSwitch((ScenarioModel)this.DataContext);
+            var statusSwitch = new StatusViewSwitch((ScenarioModel)DataContext);
             var dialog = new DialogView(statusSwitch);
             statusSwitch.StateChanged += (o, e2) => dialog.Close();
             dialog.Show();

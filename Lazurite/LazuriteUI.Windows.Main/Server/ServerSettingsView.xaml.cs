@@ -72,7 +72,7 @@ namespace LazuriteUI.Windows.Main.Server
 
         private void _server_StatusChanged(object sender, EventsArgs<LazuriteServer> args)
         {
-            this.Dispatcher.BeginInvoke(new Action(() => UpdateServerInfo()));
+            Dispatcher.BeginInvoke(new Action(() => UpdateServerInfo()));
         }
 
         public void UpdateServerInfo()

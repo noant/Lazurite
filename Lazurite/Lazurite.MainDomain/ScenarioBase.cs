@@ -21,13 +21,13 @@ namespace Lazurite.MainDomain
 
         protected void Handle(Exception e)
         {
-            Log.ErrorFormat(e, "Error while calculating current value. Scenario: {0}, {1};", this.Name, this.Id);
+            Log.ErrorFormat(e, "Error while calculating current value. Scenario: {0}, {1};", Name, Id);
         }
 
         protected void CheckValue(string param)
         {
-            if (!this.ValueType.Interprete(param).Success)
-                throw new InvalidOperationException(string.Format("Value [{0}] is not compatible with value type [{1}]", param, this.ValueType.GetType().Name));
+            if (!ValueType.Interprete(param).Success)
+                throw new InvalidOperationException(string.Format("Value [{0}] is not compatible with value type [{1}]", param, ValueType.GetType().Name));
         }
 
         /// <summary>
@@ -208,16 +208,16 @@ namespace Lazurite.MainDomain
         /// <param name="action"></param>
         protected void HandleExecution(Action action)
         {
-            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", this.Name, this.Id);
+            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", Name, Id);
             try
             {
                 action?.Invoke();
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Error while executing scenario [{0}][{1}]", this.Name, this.Id);
+                Log.ErrorFormat(e, "Error while executing scenario [{0}][{1}]", Name, Id);
             }
-            Log.DebugFormat("Scenario execution end: [{0}][{1}]", this.Name, this.Id);
+            Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace Lazurite.MainDomain
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Error while calculating user rights for scenario [{0}][{1}]", this.Name, this.Id);
+                Log.ErrorFormat(e, "Error while calculating user rights for scenario [{0}][{1}]", Name, Id);
                 return false;
             }
         }
@@ -310,7 +310,7 @@ namespace Lazurite.MainDomain
                 }
                 catch(Exception e)
                 {
-                    Log.InfoFormat(e, "Error while raise events in scenario [{1}][{0}]", this.Name, this.Id);
+                    Log.InfoFormat(e, "Error while raise events in scenario [{1}][{0}]", Name, Id);
                 }
             }
         }
@@ -328,14 +328,14 @@ namespace Lazurite.MainDomain
                 }
                 catch (Exception e)
                 {
-                    Log.InfoFormat(e, "Error while raise events in scenario [{1}][{0}]", this.Name, this.Id);
+                    Log.InfoFormat(e, "Error while raise events in scenario [{1}][{0}]", Name, Id);
                 }
             }
         }
 
         public virtual void Dispose()
         {
-            Log.DebugFormat("Disposing scenario [{0}][{1}]", this.Name, this.Id);
+            Log.DebugFormat("Disposing scenario [{0}][{1}]", Name, Id);
             _valueChangedEvents.Clear();
             _availabilityChangedEvents.Clear();
             TryCancelAll();

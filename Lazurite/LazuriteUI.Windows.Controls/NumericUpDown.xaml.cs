@@ -80,7 +80,7 @@ namespace LazuriteUI.Windows.Controls
             {
                 Dock = System.Windows.Forms.DockStyle.Fill
             };
-            nud.ValueChanged += (o, e) => this.Value = nud.Value;
+            nud.ValueChanged += (o, e) => Value = nud.Value;
             wfHost.Child = nud;
         }
 

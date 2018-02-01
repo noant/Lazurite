@@ -16,8 +16,8 @@ namespace LazuriteUI.Windows.Main.Journal
         private JournalLightWindow()
         {
             InitializeComponent();
-            this.Top = 5;
-            this.Left = 5;
+            Top = 5;
+            Left = 5;
             _closed = false;
         }
 
@@ -48,18 +48,18 @@ namespace LazuriteUI.Windows.Main.Journal
                 if (stackPanel.Children.Count == 10)
                 {
                     stackPanel.Children.Clear();
-                    this.Height = 50;
+                    Height = 50;
                 }
                 var itemView = new JournaltemView();
                 itemView.DataContext = new JournalItemViewModel(message, type);
                 stackPanel.Children.Add(itemView);
-                this.Height += itemView.Height;
+                Height += itemView.Height;
             }
         }
 
         private void ItemView_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

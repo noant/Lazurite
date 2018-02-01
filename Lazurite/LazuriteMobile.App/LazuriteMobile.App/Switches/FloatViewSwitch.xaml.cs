@@ -32,21 +32,21 @@ namespace LazuriteMobile.App.Switches
         private void _changer_VolumeChanged(object sender, Lazurite.Shared.EventsArgs<int> args)
         {
             if (args.Value < 0)
-                this.slider.Value -= _iteration;
-            else this.slider.Value += _iteration;
+                slider.Value -= _iteration;
+            else slider.Value += _iteration;
         }
 
         public FloatViewSwitch(SwitchScenarioModel model) : this()
         {
-            this.BindingContext = model;
+            BindingContext = model;
             //binding works incorrectly
             slider.Maximum = model.Max; //crutch
             slider.Minimum = model.Min; //crutch
 
             slider.Value = double.Parse(model.ScenarioValue);
-            this._tempValue = model.ScenarioValue;
-            this._iteration = (model.Max - model.Min) / 20;
-            this.slider.ValueChanged += (o, e) =>
+            _tempValue = model.ScenarioValue;
+            _iteration = (model.Max - model.Min) / 20;
+            slider.ValueChanged += (o, e) =>
             {
                 _tempValue = slider.Value.ToString();
             };

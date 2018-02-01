@@ -76,8 +76,8 @@ namespace LazuriteUI.Windows.Controls
             }
             else
             {
-                this.Parent?.Dispatcher.BeginInvoke(new Action(() => {
-                    foreach (FrameworkElement element in ((Panel)this.Parent).Children)
+                Parent?.Dispatcher.BeginInvoke(new Action(() => {
+                    foreach (FrameworkElement element in ((Panel)Parent).Children)
                     {
                         if (!_tempDisabledElements.Contains(element))
                             element.IsEnabled = true;

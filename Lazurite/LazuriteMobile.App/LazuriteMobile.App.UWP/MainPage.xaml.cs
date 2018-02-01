@@ -4,7 +4,7 @@
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             LoadApplication(new LazuriteMobile.App.App());
         }

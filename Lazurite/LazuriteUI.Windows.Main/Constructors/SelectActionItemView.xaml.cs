@@ -31,7 +31,7 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             base.OnPropertyChanged(e);
             if (e.Property == IsEnabledProperty)
-                this.Opacity = IsEnabled ? 1 : 0.4;
+                Opacity = IsEnabled ? 1 : 0.4;
         }
 
         public bool Selected { get => itemView.Selected; set => itemView.Selected = value; }

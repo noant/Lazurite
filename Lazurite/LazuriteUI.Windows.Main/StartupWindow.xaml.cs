@@ -11,7 +11,7 @@ namespace LazuriteUI.Windows.Main
         public StartupWindow()
         {
             InitializeComponent();
-            this.progress.StartProgress();
+            progress.StartProgress();
         }
     }
 }

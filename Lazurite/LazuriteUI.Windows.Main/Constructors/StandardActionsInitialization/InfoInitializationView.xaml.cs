@@ -22,7 +22,7 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
 
             _action = action;
 
-            this.tbText.Text = _action.Value;
+            tbText.Text = _action.Value;
 
             btApply.Click += (o, e) => {
                 _action.Value = tbText.Text;

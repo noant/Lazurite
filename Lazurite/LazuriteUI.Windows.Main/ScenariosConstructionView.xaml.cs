@@ -27,11 +27,11 @@ namespace LazuriteUI.Windows.Main
         public ScenariosConstructionView()
         {
             InitializeComponent();
-            this.switchesGrid.SelectedModelChanged += SwitchesGrid_SelectedModelChanged;
-            this.switchesGrid.SelectedModelChanging += SwitchesGrid_SelectedModelChanging;
-            this.switchesGrid.Initialize();
+            switchesGrid.SelectedModelChanged += SwitchesGrid_SelectedModelChanged;
+            switchesGrid.SelectedModelChanging += SwitchesGrid_SelectedModelChanging;
+            switchesGrid.Initialize();
 
-            this.constructorsResolver.Applied += () => this.switchesGrid.RefreshItemFull(this.constructorsResolver.GetScenario());
+            constructorsResolver.Applied += () => switchesGrid.RefreshItemFull(constructorsResolver.GetScenario());
         }
 
         private void SwitchesGrid_SelectedModelChanging(Switches.ScenarioModel arg1, ScenarioChangingEventArgs args)
@@ -41,11 +41,11 @@ namespace LazuriteUI.Windows.Main
 
         private void ThroughScenarioSave(Action callback)
         {
-            if (this.constructorsResolver.GetScenario() != null && this.constructorsResolver.IsModified && _lastDeletedScenario != this.constructorsResolver.GetScenario())
+            if (constructorsResolver.GetScenario() != null && constructorsResolver.IsModified && _lastDeletedScenario != constructorsResolver.GetScenario())
             {
                 switchesGrid.CancelDragging();
                 MessageView.ShowYesNo(
-                    "Сохранить изменения сценария [" + this.constructorsResolver.GetScenario().Name + "]?",
+                    "Сохранить изменения сценария [" + constructorsResolver.GetScenario().Name + "]?",
                     "Окно редактирования текущего сценария будет закрыто",
                     Icon.Save,
                     (result) =>
@@ -62,8 +62,8 @@ namespace LazuriteUI.Windows.Main
 
         private void SwitchesGrid_SelectedModelChanged(Switches.ScenarioModel obj)
         {
-            this.constructorsResolver.SetScenario(this.switchesGrid.SelectedModel?.Scenario);
-            btDeleteScenario.Visibility = this.switchesGrid.SelectedModel != null ? Visibility.Visible : Visibility.Collapsed;
+            constructorsResolver.SetScenario(switchesGrid.SelectedModel?.Scenario);
+            btDeleteScenario.Visibility = switchesGrid.SelectedModel != null ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void btDeleteScenario_Click(object sender, RoutedEventArgs e)
@@ -72,12 +72,12 @@ namespace LazuriteUI.Windows.Main
                 (result) => {
                     if (result)
                     {
-                        var scenario = this.switchesGrid.SelectedModel.Scenario;
+                        var scenario = switchesGrid.SelectedModel.Scenario;
                         try
                         {
                             _repository.RemoveScenario(scenario);
                             _lastDeletedScenario = scenario;
-                            this.switchesGrid.Remove(scenario);
+                            switchesGrid.Remove(scenario);
                         }
                         catch (Exception exception)
                         {
@@ -128,8 +128,8 @@ namespace LazuriteUI.Windows.Main
             });
             newScenario.Name = "Новый сценарий";
             _repository.AddScenario(newScenario);
-            this.switchesGrid.Add(newScenario, null);
-            this.constructorsResolver.SetScenario(newScenario);
+            switchesGrid.Add(newScenario, null);
+            constructorsResolver.SetScenario(newScenario);
         }
 
         public void Save(Action callback) => ThroughScenarioSave(callback);

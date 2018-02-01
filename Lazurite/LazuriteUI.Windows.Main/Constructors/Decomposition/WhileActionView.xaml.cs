@@ -20,8 +20,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             buttonsDo.AddNewClick += () => actionView.AddFirst();
             buttonsWhile.AddNewClick += () => checkerView.AddFirst();
             
-            this.actionView.Modified += (e) => Modified?.Invoke(this);
-            this.checkerView.Modified += (e) => Modified?.Invoke(this);
+            actionView.Modified += (e) => Modified?.Invoke(this);
+            checkerView.Modified += (e) => Modified?.Invoke(this);
         }
 
         public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)
@@ -29,8 +29,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             ActionHolder = actionHolder;
             AlgorithmContext = algoContext;
             _action = (WhileAction)actionHolder.Action;
-            this.actionView.Refresh(new ActionHolder(_action.Action), algoContext);
-            this.checkerView.Refresh(new ActionHolder(_action.Checker), algoContext);
+            actionView.Refresh(new ActionHolder(_action.Action), algoContext);
+            checkerView.Refresh(new ActionHolder(_action.Checker), algoContext);
         }
 
         public ActionHolder ActionHolder

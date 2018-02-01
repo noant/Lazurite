@@ -62,7 +62,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
                     odd = 0;
             }
 
-            this.tbSearch.Text = LastSearch;
+            tbSearch.Text = LastSearch;
         }
 
         private void tbSearch_TextChanged(object sender, TextChangedEventArgs e)

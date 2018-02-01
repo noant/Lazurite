@@ -18,16 +18,16 @@ namespace LazuriteUI.Windows.Main.Security
         public UsersSelectView(string[] selectedUsersIds, bool hideButtons)
         {
             InitializeComponent();
-            this.usersView.SelectedUsersIds = selectedUsersIds;
+            usersView.SelectedUsersIds = selectedUsersIds;
             if (hideButtons)
-                this.usersView.HideButtons();
+                usersView.HideButtons();
         }
 
         public UserBase[] SelectedUsers
         {
             get
             {
-                return this.usersView.SelectedUsersIds.Select(x=> Repository.Users.First(z=>z.Id.Equals(x))).ToArray();
+                return usersView.SelectedUsersIds.Select(x=> Repository.Users.First(z=>z.Id.Equals(x))).ToArray();
             }
         }
 

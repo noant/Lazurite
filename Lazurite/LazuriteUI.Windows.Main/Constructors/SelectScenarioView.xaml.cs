@@ -38,22 +38,22 @@ namespace LazuriteUI.Windows.Main.Constructors
                 var itemView = new ItemView();
                 itemView.Content = scenario.Name;
                 if (scenario.Id.Equals(selectedScenarioId))
-                    this.Loaded += (o, e) => itemView.Selected = true;
+                    Loaded += (o, e) => itemView.Selected = true;
                 itemView.Icon = Icons.Icon.ChevronRight;
                 itemView.Tag = scenario;
                 itemView.Margin = new Thickness(2);
                 itemView.Click += (o, e) => 
                 {
-                    this.SelectedScenario = itemView.Tag as ScenarioBase;
+                    SelectedScenario = itemView.Tag as ScenarioBase;
                     SelectionChanged?.Invoke(this);
                 };
-                this.itemsView.Children.Add(itemView);
+                itemsView.Children.Add(itemView);
             }
 
-            if (this.itemsView.Children.Count > 0)
+            if (itemsView.Children.Count > 0)
             {
                 tbScensNotExist.Visibility = Visibility.Collapsed;
-                this.MinHeight = 0;
+                MinHeight = 0;
             }
         }
         

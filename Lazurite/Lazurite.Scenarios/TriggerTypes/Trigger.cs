@@ -54,9 +54,9 @@ namespace Lazurite.Scenarios.TriggerTypes
             try
             {
                 var repository = Singleton.Resolve<ScenariosRepositoryBase>();
-                SetScenario(repository.Scenarios.FirstOrDefault(x => x.Id.Equals(this.TargetScenarioId)));
+                SetScenario(repository.Scenarios.FirstOrDefault(x => x.Id.Equals(TargetScenarioId)));
                 var instanceManager = Singleton.Resolve<IInstanceManager>();
-                foreach (var action in ((ComplexAction)this.TargetAction).GetAllActionsFlat())
+                foreach (var action in ((ComplexAction)TargetAction).GetAllActionsFlat())
                 {
                     if (action != null)
                     {
@@ -67,7 +67,7 @@ namespace Lazurite.Scenarios.TriggerTypes
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Во время инициализации триггера [{0}] возникла ошибка", this.Name);
+                Log.ErrorFormat(e, "Во время инициализации триггера [{0}] возникла ошибка", Name);
             }
         }
 
@@ -119,7 +119,7 @@ namespace Lazurite.Scenarios.TriggerTypes
                         var executionContext = new ExecutionContext(this, args.Value.GetCurrentValue(), outputChanged, contexCancellationTokenSource.Token);
                         TaskUtils.StartLongRunning(
                             () => action.SetValue(executionContext, string.Empty),
-                            (exception) => Log.ErrorFormat(exception, "Error while trigger execute [{0}][{1}]", this.Name, this.Id));
+                            (exception) => Log.ErrorFormat(exception, "Error while trigger execute [{0}][{1}]", Name, Id));
                     }
                 };
                 GetScenario().SetOnStateChanged(_lastSubscribe);
@@ -141,12 +141,12 @@ namespace Lazurite.Scenarios.TriggerTypes
                                 var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), contexCancellationTokenSource.Token);
                                 TaskUtils.StartLongRunning(
                                     () => TargetAction.SetValue(executionContext, string.Empty),
-                                    (exception) => Log.ErrorFormat(exception, "Error while executing trigger [{0}][{1}]", this.Name, this.Id));
+                                    (exception) => Log.ErrorFormat(exception, "Error while executing trigger [{0}][{1}]", Name, Id));
                             }
                         }
                         catch (Exception e)
                         {
-                            Log.ErrorFormat(e, "Error while trigger execute: [{0}][{1}]", this.Name, this.Id);
+                            Log.ErrorFormat(e, "Error while trigger execute: [{0}][{1}]", Name, Id);
                         }
                     },
                     () => TriggerChangesListenInterval);
