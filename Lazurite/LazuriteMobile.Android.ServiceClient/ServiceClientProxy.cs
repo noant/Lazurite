@@ -142,9 +142,17 @@ namespace LazuriteMobile.Android.ServiceClient
         {
             get
             {
-                return _client.State == System.ServiceModel.CommunicationState.Closed ||
-                    _client.State == System.ServiceModel.CommunicationState.Closing ||
-                    _client.State == System.ServiceModel.CommunicationState.Faulted;
+                try
+                {
+                    return _client.State == System.ServiceModel.CommunicationState.Closed ||
+                        _client.State == System.ServiceModel.CommunicationState.Closing ||
+                        _client.State == System.ServiceModel.CommunicationState.Faulted;
+                }
+                catch
+                {
+                    //cannot access disposed object
+                    return true;
+                }
             }
         }
     }

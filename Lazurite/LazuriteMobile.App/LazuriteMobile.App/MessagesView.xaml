@@ -2,7 +2,7 @@
 <Grid xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LazuriteMobile.App.MessagesView" BackgroundColor="Black">
-    <ScrollView>
+    <ScrollView x:Name="scrollView">
         <StackLayout Spacing="2" Orientation="Vertical" x:Name="stackView" BackgroundColor="DarkOrchid" VerticalOptions="StartAndExpand"></StackLayout>
     </ScrollView>
     <Label x:Name="lblEmpty" IsVisible="False" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Orchid">

@@ -27,7 +27,12 @@ namespace LazuriteMobile.App
 
             this.tabsView.AddTabInfo(new SliderTabsView.TabInfo(connectionSettingsSlider, LazuriteUI.Icons.Icon.Settings));
             this.tabsView.AddTabInfo(new SliderTabsView.TabInfo(messagesSlider, LazuriteUI.Icons.Icon.EmailMinimal));
-            _supportsResume.OnResume = (s) => InitializeManager();
+            _supportsResume.OnResume = (sender, previousState) =>
+            {
+                //do not reinit when app was "home button pressed"
+                if (previousState == SupportsResumeState.Closed || previousState == SupportsResumeState.Stopped)
+                    InitializeManager();
+            };
             settingsView.ConnectClicked += SettingsView_ConnectClicked;
             _manager.ConnectionError += _manager_ConnectionError;
             _manager.NeedRefresh += _manager_NeedRefresh;
@@ -233,9 +238,9 @@ namespace LazuriteMobile.App
             if (_initialized)
                 Invoke(ShowNotifications);
             else
-                this.ConnectionToServiceInitialized += (o, e) => Invoke(ShowNotifications);
+                ConnectionToServiceInitialized += (o,e) => Invoke(ShowNotifications);
         }
-
+        
         bool INotificationsHandler.NeedViewPermanently => messagesSlider.MenuVisible;
 
         private void ShowNotifications() {

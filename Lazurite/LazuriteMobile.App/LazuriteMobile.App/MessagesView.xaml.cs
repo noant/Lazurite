@@ -33,11 +33,14 @@ namespace LazuriteMobile.App
         public void UpdateView() => UpdateMessages();
 
         private void RefreshWith(LazuriteNotification[] notifications)
-        {            
+        {
+            BatchBegin();
             stackView.Children.Clear();
             foreach (var note in notifications)
                 stackView.Children.Add(new MessageView(note));
             lblEmpty.IsVisible = !stackView.Children.Any();
+            scrollView.ScrollToAsync(0, 0, false);
+            BatchCommit();
         }
     }
 }

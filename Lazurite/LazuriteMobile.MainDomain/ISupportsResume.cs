@@ -4,6 +4,8 @@ namespace LazuriteMobile.MainDomain
 {
     public interface ISupportsResume
     {
-        Action<ISupportsResume> OnResume { get; set; }
+        SupportsResumeResumed OnResume { get; set; }
     }
+
+    public delegate void SupportsResumeResumed(ISupportsResume supportsResume, SupportsResumeState previousState);
 }

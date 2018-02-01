@@ -17,12 +17,10 @@ namespace LazuriteMobile.App.Droid
     [Activity(Label = "Lazurite", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = false, ScreenOrientation = ScreenOrientation.Portrait, LaunchMode = LaunchMode.SingleTop, HardwareAccelerated = true)]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IHardwareVolumeChanger, ISupportsResume
     {
-        Action<ISupportsResume> ISupportsResume.OnResume
-        {
-            get;
-            set;
-        }
-        
+        SupportsResumeResumed ISupportsResume.OnResume { get; set; }
+
+        private SupportsResumeState _currentState = SupportsResumeState.Closed;
+
         protected override void OnCreate(Bundle bundle)
         {
             Window.AddFlags(WindowManagerFlags.KeepScreenOn);
@@ -72,14 +70,24 @@ namespace LazuriteMobile.App.Droid
             }
             return base.OnKeyDown(keyCode, e);
         }
-        
+
         protected override void OnResume()
         {
             base.OnResume();
-            ((ISupportsResume)this).OnResume?.Invoke(this);
+            ((ISupportsResume)this).OnResume?.Invoke(this, _currentState);
+            _currentState = SupportsResumeState.Active;
             HandleIntent(Intent);
         }
-        
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+            if (IsFinishing)
+                _currentState = SupportsResumeState.Stopped;
+            else
+                _currentState = SupportsResumeState.Paused;
+        }
+                
         protected override void OnNewIntent(Intent intent)
         {
             base.OnNewIntent(intent);
@@ -88,6 +96,8 @@ namespace LazuriteMobile.App.Droid
         }
         
         private Intent _handledIntent;
+
+
         private void HandleIntent(Intent intent)
         {
             if (intent != _handledIntent && 

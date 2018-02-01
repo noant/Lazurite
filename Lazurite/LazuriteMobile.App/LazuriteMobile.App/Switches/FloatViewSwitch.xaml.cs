@@ -55,7 +55,7 @@ namespace LazuriteMobile.App.Switches
                 (token) => {
                     if (_tempValue != model.ScenarioValue)
                         model.ScenarioValue = _tempValue;
-                }, 
+                },
                 () => FloatView_ValueUpdateInterval);            
         }
 
