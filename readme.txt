@@ -11,6 +11,8 @@ Lazurite - home automation software.
 	- VolumePlugin - change volume level of current audio output device / change default output;
 	- WakeOnLanPlugin - power on some computers in LAN by Wake-on-Lan protocol;
 	- ZWavePlugin allows user to control ZWave devices from complex scenarios and triggers. Powered by OpenZWave;
+	- SendingMessagesPlugin - send message to user or users devices;
+	- UserGeolocationPlugin - allows to calculate distance between user and place, determine user place and view current user geolocation.
 - Libs contains external libraries;
 - Releases
 	- Plugins folder contains compiled and zipped *.pyp plugins files;
@@ -23,9 +25,12 @@ Lazurite - home automation software.
 Features short list:
 - Complex scenarios and triggers;
 - Control home from android smartphone;
-- Creating your own plugins;
+- Create your own plugins;
 - Secure connection by SSL and custom encrypting by secret code;
 - Manage user rights;
+- ZWave and Modbus "from box";
+- Geolocation actions;
+- Send and recieve messages;
 ------------------------------------
-Copyright (c) 2017 Novgorodcev Anton
+Copyright (c) 2018 Novgorodcev Anton
 MIT License
