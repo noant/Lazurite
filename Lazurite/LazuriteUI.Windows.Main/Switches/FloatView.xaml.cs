@@ -91,9 +91,9 @@ namespace LazuriteUI.Windows.Main.Switches
             }
         }
         
-        public FloatView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
+        public FloatView(ScenarioBase scenario): this()
         {
-            DataContext = _model = new ScenarioModel(scenario, visualSettings);
+            DataContext = _model = new ScenarioModel(scenario);
             //crutch
             _model.PropertyChanged += (o, e) =>
             {

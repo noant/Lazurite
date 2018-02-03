@@ -128,7 +128,7 @@ namespace LazuriteUI.Windows.Main
             });
             newScenario.Name = "Новый сценарий";
             _repository.AddScenario(newScenario);
-            switchesGrid.Add(newScenario, null);
+            switchesGrid.Add(newScenario);
             constructorsResolver.SetScenario(newScenario);
         }
 

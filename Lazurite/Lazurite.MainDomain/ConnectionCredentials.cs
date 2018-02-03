@@ -11,9 +11,10 @@
         
         public override int GetHashCode()
         {
-            return Host.GetHashCode() ^ Port.GetHashCode() ^
-                ServiceName.GetHashCode() ^ Login.GetHashCode() ^
-                Password.GetHashCode() ^ SecretKey.GetHashCode();
+            return GetAddress().GetHashCode() ^
+                (Login ?? "empty_login").GetHashCode() ^
+                (Password ?? "empty_password").GetHashCode() ^
+                (SecretKey ?? "empty_secretKey").GetHashCode();
         }
 
         public string GetAddress() => string.Format("https://{0}:{1}/{2}", Host, Port, ServiceName);

@@ -88,6 +88,7 @@ namespace LazuriteMobile.App.Switches
                 OnPropertyChanged(nameof(Icon1));
             if (prevIcon2 != Icon2)
                 OnPropertyChanged(nameof(Icon2));
+
             OnPropertyChanged(nameof(ScenarioName));
             OnPropertyChanged(nameof(ScenarioValue));
             OnPropertyChanged(nameof(AllowClick));

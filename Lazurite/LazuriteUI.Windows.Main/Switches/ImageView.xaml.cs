@@ -13,9 +13,9 @@ namespace LazuriteUI.Windows.Main.Switches
             InitializeComponent();
         }
 
-        public ImageView(ScenarioBase scenario, UserVisualSettings visualSettings): this()
+        public ImageView(ScenarioBase scenario): this()
         {
-            DataContext = new ScenarioModel(scenario, visualSettings);
+            DataContext = new ScenarioModel(scenario);
         }
     }
 }

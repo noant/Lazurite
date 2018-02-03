@@ -24,6 +24,10 @@ namespace LazuriteUI.Windows.Main
         private static readonly int UpdateUIInterval_MS = GlobalSettings.Get(30000);
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
 
+        private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
+        private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private static readonly VisualSettingsRepository VisualSettingsRepository = Singleton.Resolve<VisualSettingsRepository>();
+
         public static DependencyProperty EditModeProperty;
         public static DependencyProperty EditModeButtonVisibleProperty;
         public static DependencyProperty IsConstructorModeProperty;
@@ -45,9 +49,6 @@ namespace LazuriteUI.Windows.Main
             IsConstructorModeProperty = DependencyProperty.Register(nameof(IsConstructorMode), typeof(bool), typeof(SwitchesGrid), new FrameworkPropertyMetadata(false));
         }
 
-        private UsersRepositoryBase _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
-        private VisualSettingsRepository _visualSettingsRepository = Singleton.Resolve<VisualSettingsRepository>();
-        private ScenariosRepositoryBase _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private UserControl _draggableCurrent;
         private CancellationTokenSource _updateUICancellationToken = new CancellationTokenSource();
 
@@ -128,7 +129,7 @@ namespace LazuriteUI.Windows.Main
 
         public void Initialize()
         {            
-            Initialize(GetScenarios(), _visualSettingsRepository.VisualSettings);
+            Initialize(GetScenarios());
 
             _updateUICancellationToken = SystemUtils.StartTimer(
                 (token) => {
@@ -143,20 +144,19 @@ namespace LazuriteUI.Windows.Main
 
         private ScenarioBase[] GetScenarios()
         {
-            var scenarios = _scenariosRepository.Scenarios;
+            var scenarios = ScenariosRepository.Scenarios;
             if (!IsConstructorMode)
-                scenarios = scenarios.Where(x => x.CanExecute(_usersRepository.SystemUser, ScenarioStartupSource.SystemUI)).ToArray();
+                scenarios = scenarios.Where(x => x.CanExecute(UsersRepository.SystemUser, ScenarioStartupSource.SystemUI)).ToArray();
             return scenarios;
         }
 
-        private void Initialize(ScenarioBase[] scenarios, UserVisualSettings[] visualSettings)
+        private void Initialize(ScenarioBase[] scenarios)
         {
             if (scenarios.Any())
             {
                 foreach (var scenario in scenarios)
                 {
-                    var visualSetting = visualSettings.FirstOrDefault(x => x.ScenarioId.Equals(scenario.Id));
-                    var control = CreateControl(scenario, visualSetting);
+                    var control = CreateControl(scenario);
                     grid.Children.Add(control);
                 }
                 ScenariosEmptyModeOff();
@@ -166,34 +166,27 @@ namespace LazuriteUI.Windows.Main
             SelectFirst();
         }
         
-        private UserControl CreateControl(ScenarioBase scenario, UserVisualSettings visualSettings)
+        private UserControl CreateControl(ScenarioBase scenario)
         {
-            if (visualSettings == null)
-            {
-                visualSettings = new UserVisualSettings();
-                var userVS = _visualSettingsRepository
-                    .VisualSettings
-                    .Where(x => x.UserId.Equals(_usersRepository.SystemUser.Id))
-                    .ToArray();
-                visualSettings.VisualIndex = userVS.Any() ? userVS.Max(x => x.VisualIndex) + 1 : 0;
-                visualSettings.ScenarioId = scenario.Id;
-                visualSettings.UserId = _usersRepository.SystemUser.Id;
-                _visualSettingsRepository.Add(visualSettings);
-            }
-
-            var control = SwitchesCreator.CreateScenarioControl(scenario, visualSettings);
+            var control = SwitchesCreator.CreateScenarioControl(scenario);
             control.MouseLeftButtonDown += ElementClick;
             control.MouseLeftButtonUp += ElementMouseRelease;
             control.VerticalAlignment = VerticalAlignment.Top;
             control.HorizontalAlignment = HorizontalAlignment.Left;
             control.Width = control.Height = ElementSize;
-            control.Margin = CreateControlMargin(visualSettings);
+            control.Margin = CreateControlMargin(GetVisualSettings(control));
             return control;
         }
         
-        public void Add(ScenarioBase scenario, UserVisualSettings visualSettings)
+        private UserVisualSettings GetVisualSettings(UserControl control)
         {
-            var control = CreateControl(scenario, visualSettings);
+            var model = control.DataContext as ScenarioModel;
+            return model?.VisualSettings;
+        }
+
+        public void Add(ScenarioBase scenario)
+        {
+            var control = CreateControl(scenario);
             ((ScenarioModel)control.DataContext).EditMode = EditMode;
             grid.Children.Add(control);
             Rearrange();
@@ -243,9 +236,8 @@ namespace LazuriteUI.Windows.Main
                 .FirstOrDefault(x => ((ScenarioModel)x.DataContext).Scenario.Id.Equals(scenario.Id));
             if (control != null)
             {
-                var oldModel = (ScenarioModel)control.DataContext;
                 grid.Children.Remove(control);
-                control = CreateControl(scenario, oldModel.VisualSettings);
+                control = CreateControl(scenario);
                 var model = (ScenarioModel)control.DataContext;
                 model.EditMode = EditMode;
                 grid.Children.Add(control);
@@ -389,7 +381,7 @@ namespace LazuriteUI.Windows.Main
                 foreach (var orderedModel in ordered)
                     orderedModel.VisualIndex = newIndex++;
 
-                _visualSettingsRepository.Save();
+                VisualSettingsRepository.Save();
             }
 
             Rearrange();
@@ -417,14 +409,14 @@ namespace LazuriteUI.Windows.Main
 
         private int CreateRealVisualIndex(UserVisualSettings visualSettings)
         {
-            var scenarios = _scenariosRepository.Scenarios;
+            var scenarios = ScenariosRepository.Scenarios;
             if (!IsConstructorMode)
-                scenarios = scenarios.Where(x => x.CanExecute(_usersRepository.SystemUser, ScenarioStartupSource.SystemUI)).ToArray();
+                scenarios = scenarios.Where(x => x.CanExecute(UsersRepository.SystemUser, ScenarioStartupSource.SystemUI)).ToArray();
 
             var allVisualSettings = 
-                _visualSettingsRepository
+                VisualSettingsRepository
                 .VisualSettings
-                .Where(x => x.UserId.Equals(_usersRepository.SystemUser.Id) && scenarios.Any(z=>z.Id.Equals(x.ScenarioId)))
+                .Where(x => x.UserId.Equals(UsersRepository.SystemUser.Id) && scenarios.Any(z=>z.Id.Equals(x.ScenarioId)))
                 .OrderBy(z => z.VisualIndex)
                 .ToList();
 

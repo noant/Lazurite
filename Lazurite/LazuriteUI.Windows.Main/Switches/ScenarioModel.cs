@@ -10,13 +10,28 @@ namespace LazuriteUI.Windows.Main.Switches
 {
     public class ScenarioModel: ObservableObject, IDisposable
     {
+        private static readonly VisualSettingsRepository Repository = Singleton.Resolve<VisualSettingsRepository>();
+        private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private static readonly string Icon1Key = "Icon1";
         private static readonly string Icon2Key = "Icon2";
 
-        public ScenarioModel(ScenarioBase scenario, UserVisualSettings visualSettings)
+        public ScenarioModel(ScenarioBase scenario)
         {
             Scenario = scenario;
-            VisualSettings = visualSettings;
+            VisualSettings = Repository.VisualSettings.FirstOrDefault(x => x.ScenarioId == scenario.Id);
+            if (VisualSettings == null)
+            {
+                Repository.Add(VisualSettings = new UserVisualSettings()
+                {
+                    UserId = UsersRepository.SystemUser.Id,
+                    ScenarioId = scenario.Id,
+                    VisualIndex = (Repository.VisualSettings.Any() ? Repository.VisualSettings.Max(x=>x.VisualIndex) : 0) + 1
+                });
+                VisualSettings.AddictionalData.Set(Icon1Key, GetStandardIcon1());
+                VisualSettings.AddictionalData.Set(Icon2Key, GetStandardIcon2());
+                Repository.Save();
+            }
+
             Scenario.SetOnStateChanged(ScenarioValueChanged);
             scenario.SetOnAvailabilityChanged(ScenarioAvailabilityChanged);
             Scenario.CalculateCurrentValueAsync((value) => {
@@ -26,18 +41,12 @@ namespace LazuriteUI.Windows.Main.Switches
                 OnPropertyChanged(nameof(SmoothChangeValue));
             });
 
-            if (!VisualSettings.AddictionalData.ContainsKey(Icon1Key))
-                VisualSettings.AddictionalData.Set(Icon1Key, GetStandardIcon1());
-
-            if (!VisualSettings.AddictionalData.ContainsKey(Icon2Key))
-                VisualSettings.AddictionalData.Set(Icon2Key, GetStandardIcon2());
-
             OnPropertyChanged(nameof(Icon1));
             OnPropertyChanged(nameof(Icon2));
             OnPropertyChanged(nameof(AllowClick));
         }
 
-        public ScenarioModel() : this(null, null) { }
+        public ScenarioModel() : this(null) { }
 
         private string _value;
         private double _smoothValue;
@@ -46,7 +55,6 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public ScenarioBase Scenario { get; private set; }
         public UserVisualSettings VisualSettings { get; private set; }
-        private VisualSettingsRepository _visualSettingsRepository = Singleton.Resolve<VisualSettingsRepository>();
         
         public void RefreshAndReCalculate()
         {
@@ -96,7 +104,8 @@ namespace LazuriteUI.Windows.Main.Switches
             set
             {
                 VisualSettings.AddictionalData[Icon1Key] = value;
-                _visualSettingsRepository.Update(VisualSettings);
+                Repository.Update(VisualSettings);
+                Repository.Save();
                 OnPropertyChanged(nameof(Icon1));
             }
         }
@@ -110,7 +119,8 @@ namespace LazuriteUI.Windows.Main.Switches
             set
             {
                 VisualSettings.AddictionalData[Icon2Key] = value;
-                _visualSettingsRepository.Update(VisualSettings);
+                Repository.Update(VisualSettings);
+                Repository.Save();
                 OnPropertyChanged(nameof(Icon2));
             }
         }
@@ -134,7 +144,7 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             if (Scenario.ValueType is ToggleValueType)
                 return "Off";
-            else return "_None";
+            else return "New";
         }
 
         public int VisualIndex
@@ -148,7 +158,7 @@ namespace LazuriteUI.Windows.Main.Switches
                 if (VisualSettings.VisualIndex != value)
                 {
                     VisualSettings.VisualIndex = value;
-                    _visualSettingsRepository.Update(VisualSettings);
+                    Repository.Update(VisualSettings);
                     OnPropertyChanged(nameof(VisualIndex));
                 }
             }

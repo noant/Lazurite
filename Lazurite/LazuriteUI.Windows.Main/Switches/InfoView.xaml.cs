@@ -13,9 +13,9 @@ namespace LazuriteUI.Windows.Main.Switches
             InitializeComponent();
         }
 
-        public InfoView(ScenarioBase scenario, UserVisualSettings visualSettings) : this()
+        public InfoView(ScenarioBase scenario) : this()
         {
-            var model = new ScenarioModel(scenario, visualSettings);
+            var model = new ScenarioModel(scenario);
             DataContext = model;
 
             itemView.Click += (o, e) => {
