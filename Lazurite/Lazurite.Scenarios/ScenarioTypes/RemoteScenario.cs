@@ -209,7 +209,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         private void ClientFactory_ConnectionStateChanged(object sender, EventsArgs<bool> args)
         {
-            IsAvailable = args.Value;
+            if (((ConnectionStateChangedEventArgs)args).Credentials.Equals(Credentials))
+                IsAvailable = args.Value;
         }
 
         public override void AfterInitilize()

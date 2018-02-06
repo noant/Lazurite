@@ -17,6 +17,13 @@
                 (SecretKey ?? "empty_secretKey").GetHashCode();
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj != null &&
+                obj is ConnectionCredentials &&
+                obj.GetHashCode().Equals(obj.GetHashCode());
+        }
+
         public string GetAddress() => string.Format("https://{0}:{1}/{2}", Host, Port, ServiceName);
 
         public static readonly ConnectionCredentials Default = new ConnectionCredentials()

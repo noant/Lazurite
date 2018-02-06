@@ -67,7 +67,7 @@ namespace Lazurite.Windows.ServiceClient
                     if (!state)
                     {
                         state = true;
-                        ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connectionProxy, state));
+                        ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connectionProxy, state, credentials));
                     }
                 }
                 catch (Exception e)
@@ -79,7 +79,7 @@ namespace Lazurite.Windows.ServiceClient
                         && !SystemUtils.IsFaultExceptionHasCode(targetException, ServiceFaultCodes.ObjectAccessDenied))
                     {
                         state = false;
-                        ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connectionProxy, state));
+                        ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connectionProxy, state, credentials));
                     }
                     //if communication exception
                     if (targetException is System.ServiceModel.ServerTooBusyException ||

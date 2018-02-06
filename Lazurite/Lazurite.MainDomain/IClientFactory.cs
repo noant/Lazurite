@@ -13,12 +13,15 @@ namespace Lazurite.MainDomain
 
     public class ConnectionStateChangedEventArgs : EventsArgs<bool>
     {
-        public ConnectionStateChangedEventArgs(IServer server, bool isConnected):
+        public ConnectionStateChangedEventArgs(IServer server, bool isConnected, ConnectionCredentials credentials):
             base(isConnected)
         {
             Server = server;
+            Credentials = credentials;
         }
 
-        public IServer Server { get; private set; }
+        public IServer Server { get; }
+
+        public ConnectionCredentials Credentials { get; }
     }
 }

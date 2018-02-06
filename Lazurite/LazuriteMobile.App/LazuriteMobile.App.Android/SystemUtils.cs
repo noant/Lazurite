@@ -31,7 +31,7 @@ namespace LazuriteMobile.App.Droid
                 Thread.Sleep(SleepCancelTokenIterationInterval);
         }
 
-        public CancellationTokenSource StartTimer(Action<CancellationTokenSource> tick, Func<int> needInterval)
+        public CancellationTokenSource StartTimer(Action<CancellationTokenSource> tick, Func<int> needInterval, bool startImmidiate = true)
         {
             bool canceled = false;
             bool executionNow = false;
@@ -47,6 +47,8 @@ namespace LazuriteMobile.App.Droid
                 }
             });
 
+            var interval = needInterval?.Invoke() ?? 1000;
+
             timer = new Timer(
                 (t) => {
                     if (!executionNow && !cancellationToken.IsCancellationRequested)
@@ -60,7 +62,7 @@ namespace LazuriteMobile.App.Droid
                         {
                             if (!canceled)
                             {
-                                var interval = needInterval?.Invoke() ?? 1000;
+                                interval = needInterval?.Invoke() ?? 1000;
                                 timer.Change(interval, interval);
                             }
                             executionNow = false;
@@ -68,8 +70,8 @@ namespace LazuriteMobile.App.Droid
                     }
                 },
                 null,
-                0,
-                needInterval?.Invoke() ?? 1000
+                startImmidiate ? 0 : interval,
+                interval
             );
 
             return cancellationToken;

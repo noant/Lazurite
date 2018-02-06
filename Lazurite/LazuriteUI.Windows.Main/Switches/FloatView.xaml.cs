@@ -23,14 +23,8 @@ namespace LazuriteUI.Windows.Main.Switches
 
         private double SmoothChangeValueToSet
         {
-            get
-            {
-                return _model.SmoothChangeValue;
-            }
-            set
-            {
-                _model.SmoothChangeValue = value;
-            }
+            get => _model.SmoothChangeValue;
+            set => _model.SmoothChangeValue = value;
         } //crutch
 
         private ScenarioModel _model;
