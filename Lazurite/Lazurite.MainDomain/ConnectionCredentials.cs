@@ -21,7 +21,7 @@
         {
             return obj != null &&
                 obj is ConnectionCredentials &&
-                obj.GetHashCode().Equals(obj.GetHashCode());
+                obj.GetHashCode().Equals(GetHashCode());
         }
 
         public string GetAddress() => string.Format("https://{0}:{1}/{2}", Host, Port, ServiceName);

@@ -206,13 +206,18 @@ namespace Lazurite.MainDomain
         /// Method runs after initializing
         /// </summary>
         public abstract void AfterInitilize();
-
-
+        
         /// <summary>
         /// Run Initilaize and AfterInitialize method synchronously
         /// </summary>
         /// <returns></returns>
         public abstract bool FullInitialize();
+
+        /// <summary>
+        /// Run Initilaize and AfterInitialize method asynchronously
+        /// </summary>
+        /// <returns></returns>
+        public abstract void FullInitializeAsync(Action<bool> callback = null);
 
         /// <summary>
         /// Execute scenario in other thread

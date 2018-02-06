@@ -188,6 +188,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return GetIsAvailable();
         }
 
+        public override void FullInitializeAsync(Action<bool> callback = null)
+        {
+            var result = FullInitialize(); //ignore async
+            callback?.Invoke(result);
+        }
+
         public override IAction[] GetAllActionsFlat()
         {
             return new[] { ActionHolder.Action };

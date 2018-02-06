@@ -247,6 +247,15 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return GetIsAvailable();
         }
 
+        public override void FullInitializeAsync(Action<bool> callback = null)
+        {
+            TaskUtils.Start(() =>
+            {
+                var result = FullInitialize();
+                callback?.Invoke(result);
+            });
+        }
+
         private void ClientFactory_ConnectionStateChanged(object sender, EventsArgs<bool> args)
         {
             if (((ConnectionStateChangedEventArgs)args).Credentials.Equals(Credentials))

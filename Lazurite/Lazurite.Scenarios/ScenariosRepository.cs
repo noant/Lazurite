@@ -44,7 +44,7 @@ namespace Lazurite.Scenarios
             foreach (var scenario in _scenarios)
             {
                 if (scenario.GetInitializationState() == ScenarioInitializationValue.NotInitialized)
-                    scenario.FullInitialize();
+                    scenario.FullInitializeAsync();
             }
 
             //initialize triggers
@@ -89,7 +89,7 @@ namespace Lazurite.Scenarios
 
             if (linkedScenarios.Any())
             {
-                throw new InvalidOperationException("Cannot remove scenario, because other scenarios has reference on it: " 
+                throw new InvalidOperationException("Невозможно удалить сценарий, так как следующие сценарии ссылаются на него: " 
                     + linkedScenarios.Select(x => x.Name).Aggregate((z, y) => z + "; " + y));
             }
 
@@ -99,7 +99,7 @@ namespace Lazurite.Scenarios
 
             if (linkedScenarios.Any())
             {
-                throw new InvalidOperationException("Cannot remove scenario, because triggers has reference on it: "
+                throw new InvalidOperationException("Невозможно удалить сценарий, так как следующие триггеры ссылаются на него: "
                     + linkedTriggers.Select(x => x.Name).Aggregate((z, y) => z + "; " + y));
             }
 
