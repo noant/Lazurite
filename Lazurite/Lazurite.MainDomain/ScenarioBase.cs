@@ -7,11 +7,13 @@ using Lazurite.Utils;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Xml.Serialization;
 
 namespace Lazurite.MainDomain
 {
     public abstract class ScenarioBase : IAlgorithmContext, IDisposable
     {
+        private const int MaxStackValue = 100;
         protected static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
         private List<EventsHandler<ScenarioBase>> _valueChangedEvents = new List<EventsHandler<ScenarioBase>>();
@@ -19,15 +21,62 @@ namespace Lazurite.MainDomain
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private bool _isAvailable = false;
 
-        protected void Handle(Exception e)
+        protected void HandleGet(Exception e)
         {
-            Log.ErrorFormat(e, "Error while calculating current value. Scenario: {0}, {1};", Name, Id);
+            Log.ErrorFormat(e, "Ошибка во время вычисления значения сценария: {0}, {1};", Name, Id);
         }
 
-        protected void CheckValue(string param)
+        protected void HandleSet(Exception e)
         {
-            if (!ValueType.Interprete(param).Success)
-                throw new InvalidOperationException(string.Format("Value [{0}] is not compatible with value type [{1}]", param, ValueType.GetType().Name));
+            Log.ErrorFormat(e, "Ошибка во время выполения сценария: {0}, {1};", Name, Id);
+        }
+
+        protected void CheckValue(string param, ExecutionContext parentContext)
+        {
+            try
+            {
+                if (!ValueType.Interprete(param).Success)
+                    throw new InvalidOperationException(string.Format("Значение [{0}] не совместимо с типом значения [{1}]", param, ValueType.GetType().Name));
+            }
+            catch (Exception e)
+            {
+                parentContext?.CancelAll(); //stop execution
+                throw e;
+            }
+}
+
+        protected void CheckContext(ExecutionContext context)
+        {
+            try
+            {
+                if (context.Find((x) => x.AlgorithmContext is ScenarioBase && ((ScenarioBase)x.AlgorithmContext).Id == Id) != null) //if true - then it is circular reference
+                    throw new ScenarioExecutionException(ScenarioExecutionError.CircularReference);
+
+                if (context.ExecutionNesting >= MaxStackValue)
+                    throw new ScenarioExecutionException(ScenarioExecutionError.StackOverflow);
+            }
+            catch (Exception e)
+            {
+                context?.CancelAll(); //stop execution
+                throw e;
+            }
+        }
+
+        protected ExecutionContext PrepareExecutionContext(string param, ExecutionContext parentContext)
+        {
+            var output = new OutputChangedDelegates();
+            output.Add(val => SetCurrentValueInternal(val));
+            var tokenSource = PrepareCancellationTokenSource();
+            ExecutionContext context;
+            if (parentContext == null)
+                context = new ExecutionContext(this, param, output, tokenSource);
+            else
+            {
+                context = new ExecutionContext(this, param, output, parentContext);
+                parentContext.CancellationTokenSource.Token.Register(tokenSource.Cancel);
+                CheckContext(context);
+            }
+            return context;
         }
 
         /// <summary>
@@ -40,21 +89,31 @@ namespace Lazurite.MainDomain
         /// </summary>
         public bool OnlyGetValue { get; set; }
 
+        private ScenarioInitializationValue initializationState = ScenarioInitializationValue.NotInitialized;
+
+        /// <summary>
+        /// Get current scenario state
+        /// </summary>
+        public ScenarioInitializationValue GetInitializationState() => initializationState;
+
+        /// <summary>
+        /// Get current scenario state
+        /// </summary>
+        protected void SetInitializationState(ScenarioInitializationValue value) => initializationState = value;
+
         /// <summary>
         /// Scenario availability
         /// </summary>
-        public bool IsAvailable
+        public bool GetIsAvailable() => _isAvailable;
+
+        /// <summary>
+        /// Scenario availability
+        /// </summary>
+        public void SetIsAvailable(bool value)
         {
-            get
-            {
-                return _isAvailable;
-            }
-            set
-            {
-                _isAvailable = value;
-                RaiseAvailabilityChangedEvents();
-                LastChange = DateTime.Now.ToUniversalTime();
-            }
+            _isAvailable = value;
+            RaiseAvailabilityChangedEvents();
+            LastChange = DateTime.Now.ToUniversalTime();
         }
 
         /// <summary>
@@ -90,19 +149,40 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Current value of scenario execution
         /// </summary>
-        public abstract string CalculateCurrentValue();
+        protected abstract string CalculateCurrentValueInternal();
 
         /// <summary>
         /// Current value of scenario execution
         /// </summary>
-        public virtual void CalculateCurrentValueAsync(Action<string> callback)
+        public virtual string CalculateCurrentValue(ExecutionContext parentContext)
+        {
+            try
+            {
+                if (parentContext != null)
+                {
+                    var context = new ExecutionContext(this, string.Empty, null, parentContext);
+                    CheckContext(context);
+                }
+                return CalculateCurrentValueInternal();
+            }
+            catch (Exception e)
+            {
+                HandleGet(e);
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// Current value of scenario execution
+        /// </summary>
+        public virtual void CalculateCurrentValueAsync(Action<string> callback, ExecutionContext parentContext)
         {
             TaskUtils.Start(
             () => {
-                var result = CalculateCurrentValue();
+                var result = CalculateCurrentValue(parentContext);
                 callback(result);
             },
-            (exception) => Handle(exception));
+            HandleGet);
         }
 
         /// <summary>
@@ -120,67 +200,82 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Method runs after creating of all scenario parameters
         /// </summary>
-        public abstract void Initialize(Action<bool> callback = null);
+        public abstract void InitializeAsync(Action<bool> callback = null);
         
         /// <summary>
         /// Method runs after initializing
         /// </summary>
         public abstract void AfterInitilize();
 
+
+        /// <summary>
+        /// Run Initilaize and AfterInitialize method synchronously
+        /// </summary>
+        /// <returns></returns>
+        public abstract bool FullInitialize();
+
         /// <summary>
         /// Execute scenario in other thread
         /// </summary>
         /// <param name="param"></param>
         /// <param name="cancelToken"></param>
-        public virtual void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
+        public virtual void ExecuteAsyncParallel(string param, ExecutionContext parentContext)
         {
             TaskUtils.StartLongRunning(() => {
-                CheckValue(param);
+                CheckValue(param, parentContext);
                 var output = new OutputChangedDelegates();
-                var context = new ExecutionContext(this, param, output, cancelToken);
+                var context =
+                    parentContext != null ?
+                    new ExecutionContext(this, param, output, parentContext) :
+                    new ExecutionContext(this, param, output, new CancellationTokenSource());
+                CheckContext(context);
                 HandleExecution(() => ExecuteInternal(context));
-            });
+            }, 
+            HandleSet);
         }
 
         /// <summary>
         /// Execute scenario in main execution context
         /// </summary>
         /// <param name="param"></param>
-        public virtual void ExecuteAsync(string param, out string executionId)
+        public virtual void ExecuteAsync(string param, out string executionId, ExecutionContext parentContext = null)
         {
-            CheckValue(param);
             executionId = PrepareExecutionId();
             TaskUtils.StartLongRunning(() => {
+                CheckValue(param, parentContext);
                 TryCancelAll();
-                var token = PrepareCancellationToken();
-                var output = new OutputChangedDelegates();
-                output.Add(val => SetCurrentValueInternal(val));
-                var context = new ExecutionContext(this, param, output, token);
+                var context = PrepareExecutionContext(param, parentContext);
                 HandleExecution(() => {
                     SetCurrentValueInternal(param);
                     ExecuteInternal(context);
                 });
-            }, Handle);
+            }, 
+            HandleSet);
         }
-        
+
         /// <summary>
         /// Execute in current thread
         /// </summary>
         /// <param name="param"></param>
         /// <param name="cancelToken"></param>
-        public virtual void Execute(string param, out string executionId)
+        public virtual void Execute(string param, out string executionId, ExecutionContext parentContext = null)
         {
-            CheckValue(param);
             executionId = PrepareExecutionId();
-            TryCancelAll();
-            var token = PrepareCancellationToken();
-            var output = new OutputChangedDelegates();
-            output.Add(val => SetCurrentValueInternal(val));
-            var context = new ExecutionContext(this, param, output, token);
-            HandleExecution(() => {
-                SetCurrentValueInternal(param);
-                ExecuteInternal(context);
-            });
+            try
+            {
+                CheckValue(param, parentContext);
+                TryCancelAll();
+                var context = PrepareExecutionContext(param, parentContext);
+                HandleExecution(() =>
+                {
+                    SetCurrentValueInternal(param);
+                    ExecuteInternal(context);
+                });
+            }
+            catch (Exception e)
+            {
+                HandleSet(e);
+            }
         }
 
         /// <summary>
@@ -191,10 +286,9 @@ namespace Lazurite.MainDomain
             _tokenSource?.Cancel();
         }
 
-        protected CancellationToken PrepareCancellationToken()
+        protected CancellationTokenSource PrepareCancellationTokenSource()
         {
-            _tokenSource = new CancellationTokenSource();
-            return _tokenSource.Token;
+            return _tokenSource = new CancellationTokenSource();
         }
 
         protected string PrepareExecutionId()
@@ -336,6 +430,7 @@ namespace Lazurite.MainDomain
         public virtual void Dispose()
         {
             Log.DebugFormat("Disposing scenario [{0}][{1}]", Name, Id);
+            SetInitializationState(ScenarioInitializationValue.NotInitialized);
             _valueChangedEvents.Clear();
             _availabilityChangedEvents.Clear();
             TryCancelAll();

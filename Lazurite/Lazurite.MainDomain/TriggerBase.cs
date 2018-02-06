@@ -13,7 +13,6 @@ namespace Lazurite.MainDomain
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
-        private CancellationToken _previousCancellationToken;
         private string _id = Guid.NewGuid().ToString();
         
         public ValueTypeBase ValueType

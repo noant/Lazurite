@@ -80,10 +80,10 @@ namespace Lazurite.CoreActions
         {
             while (Checker.Evaluate(context))
             {
-                if (context.CancellationToken.IsCancellationRequested)
+                if (context.CancellationTokenSource.IsCancellationRequested)
                     break;
                 Action.SetValue(context, string.Empty);
-                SystemUtils.Sleep(WhileIterationsInterval, context.CancellationToken);
+                SystemUtils.Sleep(WhileIterationsInterval, context.CancellationTokenSource.Token);
             }
         }
 

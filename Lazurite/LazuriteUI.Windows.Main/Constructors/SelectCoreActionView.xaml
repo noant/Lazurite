@@ -17,6 +17,7 @@
             <controls:ItemView Tag="{x:Type coreActions:IfAction}" Margin="2" Icon="Question">Добавить условие</controls:ItemView>
             <controls:ItemView Tag="{x:Type coreActions:WhileAction}" Margin="2" Icon="DebugStepOut">Добавить цикл</controls:ItemView>
             <controls:ItemView Tag="{x:Type contextInitialization:SetReturnValueAction}" Margin="2" Icon="CabinetOut">Обновить значение сценария</controls:ItemView>
+            <controls:ItemView Tag="{x:Type coreActions:CancelExecutionAction}" Margin="2" Icon="Stop">Отменить выполнение сценария</controls:ItemView>
         </controls:ListItemsView>
     </controls:WheelScroll>
 </UserControl>

@@ -39,7 +39,8 @@ namespace LazuriteUI.Windows.Main.Switches
                 _smoothValue = ScenarioValueDouble;
                 OnPropertyChanged(nameof(ScenarioValue));
                 OnPropertyChanged(nameof(SmoothChangeValue));
-            });
+            }, 
+            null);
 
             OnPropertyChanged(nameof(Icon1));
             OnPropertyChanged(nameof(Icon2));
@@ -62,7 +63,8 @@ namespace LazuriteUI.Windows.Main.Switches
                 _value = value;
                 _smoothValue = ScenarioValueDouble;
                 Refresh();
-            });
+            }, 
+            null);
         }
 
         public void Refresh()
@@ -91,7 +93,7 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             get
             {
-                return Scenario.IsAvailable;
+                return Scenario.GetIsAvailable();
             }
         }
 

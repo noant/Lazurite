@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.Shared.ActionCategory;
 
@@ -13,6 +14,8 @@ namespace Lazurite.CoreActions.CoreActions
     [Category(Category.Meta)]
     public class RunExistingScenarioAction : IScenariosAccess, IAction
     {
+        private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
+
         public string TargetScenarioId
         {
             get; set;
@@ -22,6 +25,7 @@ namespace Lazurite.CoreActions.CoreActions
         public void SetTargetScenario(ScenarioBase scenario)
         {
             _scenario = scenario;
+            ValueType = _scenario?.ValueType ?? new ButtonValueType();
         }
 
         public bool IsSupportsEvent
@@ -49,24 +53,12 @@ namespace Lazurite.CoreActions.CoreActions
             }
         }
 
-        public bool IsSupportsModification
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool IsSupportsModification => true;
 
         public ValueTypeBase ValueType
         {
-            get
-            {
-                return _scenario?.ValueType ?? new ButtonValueType();
-            }
-            set
-            {
-                //do nothing
-            }
+            get;
+            set;
         }
 
         public RunExistingScenarioMode Mode
@@ -92,25 +84,20 @@ namespace Lazurite.CoreActions.CoreActions
 
         public void SetValue(ExecutionContext context, string value)
         {
-            string executionId = string.Empty;
+            //need circular reference check and stack overflow check
+
+            if (_scenario.GetInitializationState() == ScenarioInitializationValue.NotInitialized)
+                _scenario.FullInitialize();
+            else while (_scenario.GetInitializationState() == ScenarioInitializationValue.Initializing)
+                SystemUtils.Sleep(100, context.CancellationTokenSource.Token);
+
+            var executionId = string.Empty;
             if (Mode == RunExistingScenarioMode.Asynchronously)
-                _scenario?.ExecuteAsyncParallel(value, context.CancellationToken);
+                _scenario?.ExecuteAsyncParallel(value, context);
             else if (Mode == RunExistingScenarioMode.Synchronously)
-            {
-                context.CancellationToken.Register(() => {
-                    if (_scenario.LastExecutionId == executionId)
-                        _scenario.TryCancelAll();
-                });
-                _scenario?.Execute(value, out executionId);
-            }
+                _scenario?.Execute(value, out executionId, context);
             else if (Mode == RunExistingScenarioMode.MainExecutionContext)
-            {
-                context.CancellationToken.Register(() => {
-                    if (_scenario.LastExecutionId == executionId)
-                        _scenario.TryCancelAll();
-                });
-                _scenario?.ExecuteAsync(value, out executionId);
-            }
+                _scenario?.ExecuteAsync(value, out executionId, context);
         }
 
         public event ValueChangedEventHandler ValueChanged;

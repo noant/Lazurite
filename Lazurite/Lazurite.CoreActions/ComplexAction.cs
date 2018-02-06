@@ -95,7 +95,7 @@ namespace Lazurite.CoreActions
         {
             foreach (var holder in ActionHolders)
             {
-                if (context.CancellationToken.IsCancellationRequested)
+                if (context.CancellationTokenSource.IsCancellationRequested)
                     break;
                 holder.Action.SetValue(context, string.Empty);
             }

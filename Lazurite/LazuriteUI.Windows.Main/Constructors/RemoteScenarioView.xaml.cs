@@ -63,7 +63,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                         _scenario.RemoteScenarioName = info.Name;
                         tbScenario.Text = _scenario.RemoteScenarioName;
                         var loadWindowCloseToken = MessageView.ShowLoad("Соединение с удаленным сервером...");
-                        _scenario.Initialize((result) =>
+                        _scenario.InitializeAsync((result) =>
                         {
                             loadWindowCloseToken.Cancel();
                             Dispatcher.BeginInvoke(new Action(() => {
@@ -90,7 +90,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             };
             btTest.Click += (o, e) => {
                 var loadWindowCloseToken = MessageView.ShowLoad("Соединение с удаленным сервером...");
-                _scenario.Initialize((result) => {
+                _scenario.InitializeAsync((result) => {
                     loadWindowCloseToken.Cancel();
                     if (result)
                     {

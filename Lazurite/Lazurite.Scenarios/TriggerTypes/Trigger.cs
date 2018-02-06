@@ -116,7 +116,7 @@ namespace Lazurite.Scenarios.TriggerTypes
                         outputChanged.Add((value) => GetScenario().SetCurrentValueInternal(value));
                         contexCancellationTokenSource.Cancel();
                         contexCancellationTokenSource = new CancellationTokenSource();
-                        var executionContext = new ExecutionContext(this, args.Value.GetCurrentValue(), outputChanged, contexCancellationTokenSource.Token);
+                        var executionContext = new ExecutionContext(this, args.Value.GetCurrentValue(), outputChanged, contexCancellationTokenSource);
                         TaskUtils.StartLongRunning(
                             () => action.SetValue(executionContext, string.Empty),
                             (exception) => Log.ErrorFormat(exception, "Error while trigger execute [{0}][{1}]", Name, Id));
@@ -132,13 +132,13 @@ namespace Lazurite.Scenarios.TriggerTypes
                     (token) => {
                         try
                         {
-                            var curVal = GetScenario().CalculateCurrentValue();
+                            var curVal = GetScenario().CalculateCurrentValue(null);
                             if (!lastVal.Equals(curVal))
                             {
                                 lastVal = curVal;
                                 contexCancellationTokenSource.Cancel();
                                 contexCancellationTokenSource = new CancellationTokenSource();
-                                var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), contexCancellationTokenSource.Token);
+                                var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), contexCancellationTokenSource);
                                 TaskUtils.StartLongRunning(
                                     () => TargetAction.SetValue(executionContext, string.Empty),
                                     (exception) => Log.ErrorFormat(exception, "Error while executing trigger [{0}][{1}]", Name, Id));

@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionHolder.cs" />
+    <Compile Include="CancelExecutionAction.cs" />
     <Compile Include="CheckerAction.cs" />
     <Compile Include="CheckerLogicalOperators\CheckerOperatorPair.cs" />
     <Compile Include="CheckerLogicalOperators\LogicalOperator.cs" />

@@ -47,20 +47,15 @@ namespace Lazurite.Scenarios.ScenarioTypes
         /// </summary>
         public override ValueTypeBase ValueType
         {
-            get
-            {
-                return _valueType;
-            }
-            set
-            {
-                _valueType = value;
-            }
+            get => _valueType;
+            set => _valueType = value;
         }
 
-        public override string CalculateCurrentValue()
-        {
-            return _currentValue;
-        }
+        public override string CalculateCurrentValue(ExecutionContext parentContext) => CalculateCurrentValueInternal();
+
+        public override void CalculateCurrentValueAsync(Action<string> callback, ExecutionContext parentContext) => callback(CalculateCurrentValueInternal());
+        
+        protected override string CalculateCurrentValueInternal() => _currentValue;
 
         protected override void ExecuteInternal(ExecutionContext context)
         {
@@ -104,9 +99,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
         }
 
-        public override void Execute(string param, out string executionId)
+        public override void Execute(string param, out string executionId, ExecutionContext parentContext)
         {
-            CheckValue(param);
+            CheckValue(param, parentContext);
             executionId = PrepareExecutionId();
             Log.DebugFormat("Scenario execution begin: [{0}][{1}]", Name, Id);
             HandleExceptions(() => 
@@ -117,9 +112,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
             Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
         }
 
-        public override void ExecuteAsync(string param, out string executionId)
+        public override void ExecuteAsync(string param, out string executionId, ExecutionContext parentContext)
         {
-            CheckValue(param);
+            CheckValue(param, parentContext);
             executionId = PrepareExecutionId();
             TaskUtils.Start(() =>
             {
@@ -133,9 +128,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
             });
         }
 
-        public override void ExecuteAsyncParallel(string param, CancellationToken cancelToken)
+        public override void ExecuteAsyncParallel(string param, ExecutionContext parentContext)
         {
-            CheckValue(param);
+            CheckValue(param, parentContext);
             TaskUtils.Start(() =>
             {
                 Log.DebugFormat("Scenario execution begin: [{0}][{1}]", Name, Id);
@@ -170,12 +165,13 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         private bool InitializeInternal()
         {
+            SetInitializationState(ScenarioInitializationValue.Initializing);
             UpdateValueAsDefault();
             Log.DebugFormat("Scenario initialize begin: [{0}][{1}]", Name, Id);
             _clientFactory = Singleton.Resolve<IClientFactory>();
             _clientFactory.ConnectionStateChanged -= ClientFactory_ConnectionStateChanged; //crutch
             _clientFactory.ConnectionStateChanged += ClientFactory_ConnectionStateChanged;
-            IsAvailable = false;
+            SetIsAvailable(false);
             var remoteScenarioAvailable = false;
             var initialized = false;
             HandleExceptions(
@@ -194,23 +190,18 @@ namespace Lazurite.Scenarios.ScenarioTypes
             },
             false);
             Log.DebugFormat("Scenario initialize end: [{0}][{1}]", Name, Id);
-            IsAvailable = initialized && remoteScenarioAvailable;
-            return Initialized = initialized;
+            SetIsAvailable(initialized && remoteScenarioAvailable);
+            SetInitializationState(ScenarioInitializationValue.Initialized);
+            return InitializedInternal = initialized;
         }
 
-        public override void Initialize(Action<bool> callback)
+        public override void InitializeAsync(Action<bool> callback)
         {
             TaskUtils.Start(() =>
             {
                 var result = InitializeInternal();
                 callback?.Invoke(result);
             });
-        }
-
-        private void ClientFactory_ConnectionStateChanged(object sender, EventsArgs<bool> args)
-        {
-            if (((ConnectionStateChangedEventArgs)args).Credentials.Equals(Credentials))
-                IsAvailable = args.Value;
         }
 
         public override void AfterInitilize()
@@ -238,7 +229,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 },
                 () =>
                 {
-                    IsAvailable = false;
+                    SetIsAvailable(false);
                     Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", Name, Id);
                     SetDefaultValue();
                     error = true;
@@ -246,6 +237,20 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 false);
             },
             () => error ? ScenarioListenInterval_onError : ScenarioListenInterval);
+        }
+
+        public override bool FullInitialize()
+        {
+            InitializeInternal();
+            if (GetIsAvailable())
+                AfterInitilize();
+            return GetIsAvailable();
+        }
+
+        private void ClientFactory_ConnectionStateChanged(object sender, EventsArgs<bool> args)
+        {
+            if (((ConnectionStateChangedEventArgs)args).Credentials.Equals(Credentials))
+                SetIsAvailable(args.Value);
         }
 
         private void SetDefaultValue()
@@ -267,7 +272,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             InitializeInternal();
         }
 
-        public bool Initialized { get; private set; }
+        public bool InitializedInternal { get; private set; }
 
         public override IAction[] GetAllActionsFlat()
         {

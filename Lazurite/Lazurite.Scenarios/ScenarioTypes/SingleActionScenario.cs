@@ -19,8 +19,6 @@ namespace Lazurite.Scenarios.ScenarioTypes
     [HumanFriendlyName("Одиночный сценарий")]
     public class SingleActionScenario : ScenarioBase
     {
-        private ILogger _log = Singleton.Resolve<ILogger>();
-
         public ActionHolder ActionHolder { get; set; } = new ActionHolder();
 
         public override DateTime LastChange
@@ -49,38 +47,59 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
         }
         
-        public override void Execute(string param, out string executionId)
+        public override void Execute(string param, out string executionId, ExecutionContext parentContext = null)
         {
-            CheckValue(param);
             executionId = PrepareExecutionId();
-            TryCancelAll();
-            var token = PrepareCancellationToken();
-            var output = new OutputChangedDelegates();
-            output.Add(val => SetCurrentValueInternal(val));
-            var context = new ExecutionContext(this, param, output, token);
-            HandleExecution(() => {
-                if (!ActionHolder.Action.IsSupportsEvent)
-                    SetCurrentValueInternal(param);
-                ExecuteInternal(context);
-            });
-        }
-        
-        public override void ExecuteAsync(string param, out string executionId)
-        {
-            CheckValue(param);
-            executionId = PrepareExecutionId();
-            TaskUtils.StartLongRunning(() => {
+            try
+            {
+                CheckValue(param, parentContext);
                 TryCancelAll();
-                var token = PrepareCancellationToken();
                 var output = new OutputChangedDelegates();
                 output.Add(val => SetCurrentValueInternal(val));
-                var context = new ExecutionContext(this, param, output, token);
+                ExecutionContext context;
+                if (parentContext == null)
+                    context = new ExecutionContext(this, param, output, PrepareCancellationTokenSource());
+                else
+                {
+                    context = new ExecutionContext(this, param, output, parentContext);
+                    CheckContext(context);
+                }
+                HandleExecution(() =>
+                {
+                    if (!ActionHolder.Action.IsSupportsEvent)
+                        SetCurrentValueInternal(param);
+                    ExecuteInternal(context);
+                });
+            }
+            catch (Exception e)
+            {
+                HandleSet(e);
+            }
+        }
+        
+        public override void ExecuteAsync(string param, out string executionId, ExecutionContext parentContext = null)
+        {
+            executionId = PrepareExecutionId();
+            TaskUtils.StartLongRunning(() => {
+                CheckValue(param, parentContext);
+                TryCancelAll();
+                var output = new OutputChangedDelegates();
+                output.Add(val => SetCurrentValueInternal(val));
+                ExecutionContext context;
+                if (parentContext == null)
+                    context = new ExecutionContext(this, param, output, PrepareCancellationTokenSource());
+                else
+                {
+                    context = new ExecutionContext(this, param, output, parentContext);
+                    CheckContext(context);
+                }
                 HandleExecution(() => {
                     if (!ActionHolder.Action.IsSupportsEvent)
                         SetCurrentValueInternal(param);
                     ExecuteInternal(context);
                 });
-            }, Handle);
+            }, 
+            HandleSet);
         }
 
         protected override void ExecuteInternal(ExecutionContext context)
@@ -93,28 +112,29 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return new[] { ActionHolder.Action.GetType() };
         }
 
-        public override void CalculateCurrentValueAsync(Action<string> callback)
+        public override void CalculateCurrentValueAsync(Action<string> callback, ExecutionContext parentContext)
         {
             if (!ActionHolder.Action.IsSupportsEvent)
-                base.CalculateCurrentValueAsync(callback);
+                base.CalculateCurrentValueAsync(callback, parentContext);
             //return cached value, callback in not neccesary
             else callback(GetCurrentValue());
         }
 
-        public override string CalculateCurrentValue()
+        protected override string CalculateCurrentValueInternal()
         {
             try
             {
                 //if action not send some info when value changed then calculate value
                 if (!ActionHolder.Action.IsSupportsEvent)
-                    return ActionHolder.Action.GetValue(new ExecutionContext(this, string.Empty, new OutputChangedDelegates(), new CancellationToken()));
+                    return ActionHolder.Action.GetValue(new ExecutionContext(this, string.Empty, new OutputChangedDelegates(), new CancellationTokenSource()));
                 //else - cached value is fresh
+                return GetCurrentValue();
             }
             catch (Exception e)
             {
-                _log.ErrorFormat(e, "Во время вычисления значения сценария [{0}] возникла ошибка", Name);
+                HandleGet(e);
+                throw e;
             }
-            return GetCurrentValue();
         }
 
         private string _currentValue;
@@ -129,29 +149,43 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return _currentValue;
         }
 
-        public override void Initialize(Action<bool> callback)
+        private void InitializeInternal()
         {
+            SetInitializationState(ScenarioInitializationValue.Initializing);
             try
             {
                 var instanceManager = Singleton.Resolve<IInstanceManager>();
-                instanceManager.PrepareInstance(ActionHolder.Action, this);                
+                instanceManager.PrepareInstance(ActionHolder.Action, this);
                 ActionHolder.Action.Initialize();
                 _currentValue = ActionHolder.Action.GetValue(null);
-                callback?.Invoke(true);
-                IsAvailable = true;
+                SetIsAvailable(true);
             }
             catch (Exception e)
             {
-                _log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", Name);
-                IsAvailable = false;
-                callback?.Invoke(false);
+                Log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", Name);
+                SetIsAvailable(false);
             }
+            SetInitializationState(ScenarioInitializationValue.Initialized);
+        }
+
+        public override void InitializeAsync(Action<bool> callback)
+        {
+            InitializeInternal(); //ignore async
+            callback?.Invoke(GetIsAvailable());
         }
 
         public override void AfterInitilize()
         {
             if (ActionHolder.Action.IsSupportsEvent)
                ActionHolder.Action.ValueChanged += (action, value) => SetCurrentValueInternal(value);
+        }
+
+        public override bool FullInitialize()
+        {
+            InitializeInternal();
+            if (GetIsAvailable())
+                AfterInitilize();
+            return GetIsAvailable();
         }
 
         public override IAction[] GetAllActionsFlat()

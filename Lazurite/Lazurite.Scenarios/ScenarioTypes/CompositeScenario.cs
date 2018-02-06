@@ -27,18 +27,14 @@ namespace Lazurite.Scenarios.ScenarioTypes
             set;
         }
 
-        public override void CalculateCurrentValueAsync(Action<string> callback)
-        {
-            //async is unneccesary
-            callback(CalculateCurrentValue());
-        }
+        public override string CalculateCurrentValue(ExecutionContext parentContext) => CalculateCurrentValueInternal();
 
-        public override string CalculateCurrentValue()
-        {
-            //just return last "returned" state
-            return GetCurrentValue();
-        }
+        public override void CalculateCurrentValueAsync(Action<string> callback, ExecutionContext parentContext) => callback(CalculateCurrentValueInternal());
+
+        protected override string CalculateCurrentValueInternal() => GetCurrentValue();
         
+        public override string GetCurrentValue() => _currentValue;
+
         protected override void ExecuteInternal(ExecutionContext context)
         {
             TargetAction.SetValue(context, string.Empty);
@@ -56,13 +52,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
             RaiseValueChangedEvents();
         }
 
-        public override string GetCurrentValue()
+        private void InitializeInternal()
         {
-            return _currentValue;
-        }
-
-        public override void Initialize(Action<bool> callback)
-        {
+            SetInitializationState(ScenarioInitializationValue.Initializing);
             try
             {
                 var instanceManager = Singleton.Resolve<IInstanceManager>();
@@ -77,14 +69,20 @@ namespace Lazurite.Scenarios.ScenarioTypes
                         action.Initialize();
                     }
                 }
-                IsAvailable = true;
+                SetIsAvailable(true);
             }
             catch (Exception e)
             {
                 Log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", Name);
-                IsAvailable = false;
+                SetIsAvailable(false);
             }
-            callback?.Invoke(IsAvailable);
+            SetInitializationState(ScenarioInitializationValue.Initialized);
+        }
+
+        public override void InitializeAsync(Action<bool> callback)
+        {
+            InitializeInternal(); //ignore async
+            callback?.Invoke(GetIsAvailable());
         }
 
         public override void AfterInitilize()
@@ -98,19 +96,21 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return TargetAction.GetAllActionsFlat();
         }
 
+        public override bool FullInitialize()
+        {
+            InitializeInternal();
+            if (GetIsAvailable())
+                AfterInitilize();
+            return GetIsAvailable();
+        }
+
         public string InitializeWithValue { get; set; }
 
         //crutch
         public string Value
         {
-            get
-            {
-                return InitializeWithValue;
-            }
-            set
-            {
-                InitializeWithValue = value;
-            }
+            get => InitializeWithValue;
+            set => InitializeWithValue = value;
         }
 
         public override SecuritySettingsBase SecuritySettings { get; set; } = new SecuritySettings();

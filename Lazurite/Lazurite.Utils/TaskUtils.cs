@@ -10,7 +10,7 @@ namespace Lazurite.Utils
             if (onException == null)
                 Task.Factory.StartNew(action, creationOptions);
             else
-                Task.Factory.StartNew(action, creationOptions).ContinueWith((t) => onException(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
+                Task.Factory.StartNew(action, creationOptions).ContinueWith((t) => onException(t.Exception.InnerException ?? t.Exception), TaskContinuationOptions.OnlyOnFaulted);
         }
 
         public static void StartLongRunning(Action action, Action<Exception> onException = null)

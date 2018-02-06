@@ -44,7 +44,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                         {
                             _originalSenario = scenario;
                             _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
-                            _clonedScenario.Initialize();
+                            _clonedScenario.InitializeAsync();
                             if (scenario is SingleActionScenario)
                                 contentPresenter.Content = _constructorView = new SingleActionScenarioView((SingleActionScenario)_clonedScenario);
                             else if (scenario is RemoteScenario)
@@ -121,7 +121,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             try
             {
                 _repository.SaveScenario(_clonedScenario);
-                _clonedScenario.Initialize();
+                _clonedScenario.InitializeAsync();
                 _clonedScenario.AfterInitilize();
                 IsModified = false;
                 if (reset)
@@ -143,7 +143,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             try
             {
                 _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
-                _clonedScenario.Initialize();
+                _clonedScenario.InitializeAsync();
                 buttonsView.Revert(_clonedScenario);
                 _constructorView.Revert(_clonedScenario);
                 IsModified = false;

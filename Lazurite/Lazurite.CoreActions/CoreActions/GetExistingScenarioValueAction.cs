@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.Shared.ActionCategory;
 
@@ -13,6 +14,8 @@ namespace Lazurite.CoreActions.CoreActions
     [Category(Category.Meta)]
     public class GetExistingScenarioValueAction : IScenariosAccess, IAction
     {
+        private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
+
         public string TargetScenarioId
         {
             get; set;
@@ -84,7 +87,12 @@ namespace Lazurite.CoreActions.CoreActions
 
         public string GetValue(ExecutionContext context)
         {
-            return _scenario.CalculateCurrentValue();
+            if (_scenario.GetInitializationState() == ScenarioInitializationValue.NotInitialized)
+                _scenario.FullInitialize();
+            else while (_scenario.GetInitializationState() == ScenarioInitializationValue.Initializing)
+                SystemUtils.Sleep(100, context.CancellationTokenSource.Token);
+
+            return _scenario.CalculateCurrentValue(context);
         }
 
         public void SetValue(ExecutionContext context, string value)

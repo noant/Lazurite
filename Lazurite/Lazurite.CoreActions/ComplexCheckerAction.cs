@@ -99,7 +99,7 @@ namespace Lazurite.CoreActions
 
             foreach (var operation in CheckerOperations)
             {
-                if (context.CancellationToken.IsCancellationRequested)
+                if (context.CancellationTokenSource.IsCancellationRequested)
                     break;
                 switch (operation.Operator)
                 {
