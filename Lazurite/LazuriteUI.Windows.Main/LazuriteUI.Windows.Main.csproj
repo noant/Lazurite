@@ -116,6 +116,9 @@
     <Compile Include="Constructors\Decomposition\AddRemoveActionButtonsView.xaml.cs">
       <DependentUpon>AddRemoveActionButtonsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Constructors\Decomposition\CancelExecutionActionView.xaml.cs">
+      <DependentUpon>CancelExecutionActionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constructors\Decomposition\StringToVisibility.cs" />
     <Compile Include="Constructors\Decomposition\WhileActionView.xaml.cs">
       <DependentUpon>WhileActionView.xaml</DependentUpon>
@@ -445,6 +448,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Constructors\Decomposition\AddRemoveActionButtonsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Constructors\Decomposition\CancelExecutionActionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

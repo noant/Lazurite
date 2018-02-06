@@ -119,7 +119,7 @@ namespace Lazurite.Scenarios.TriggerTypes
                         var executionContext = new ExecutionContext(this, args.Value.GetCurrentValue(), outputChanged, contexCancellationTokenSource);
                         TaskUtils.StartLongRunning(
                             () => action.SetValue(executionContext, string.Empty),
-                            (exception) => Log.ErrorFormat(exception, "Error while trigger execute [{0}][{1}]", Name, Id));
+                            (exception) => Log.ErrorFormat(exception, "Ошибка исполнения триггера [{0}][{1}]", Name, Id));
                     }
                 };
                 GetScenario().SetOnStateChanged(_lastSubscribe);
@@ -127,8 +127,9 @@ namespace Lazurite.Scenarios.TriggerTypes
             else
             {
                 var lastVal = string.Empty;
-
-                var timerCancellationToken = SystemUtils.StartTimer(
+                CancellationTokenSource timerCancellationToken = null;
+                cancellationToken.Register(() => timerCancellationToken?.Cancel());
+                timerCancellationToken = SystemUtils.StartTimer(
                     (token) => {
                         try
                         {
@@ -141,7 +142,7 @@ namespace Lazurite.Scenarios.TriggerTypes
                                 var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), contexCancellationTokenSource);
                                 TaskUtils.StartLongRunning(
                                     () => TargetAction.SetValue(executionContext, string.Empty),
-                                    (exception) => Log.ErrorFormat(exception, "Error while executing trigger [{0}][{1}]", Name, Id));
+                                    (exception) => Log.ErrorFormat(exception, "Ошибка исполнения триггера [{0}][{1}]", Name, Id));
                             }
                         }
                         catch (Exception e)
@@ -150,8 +151,6 @@ namespace Lazurite.Scenarios.TriggerTypes
                         }
                     },
                     () => TriggerChangesListenInterval);
-                cancellationToken.Register(() => timerCancellationToken.Cancel());
-                
             }
         }
     }

@@ -87,12 +87,16 @@ namespace Lazurite.CoreActions.CoreActions
 
         public string GetValue(ExecutionContext context)
         {
-            if (_scenario.GetInitializationState() == ScenarioInitializationValue.NotInitialized)
-                _scenario.FullInitialize();
-            else while (_scenario.GetInitializationState() == ScenarioInitializationValue.Initializing)
-                SystemUtils.Sleep(100, context.CancellationTokenSource.Token);
+            if (_scenario != null)
+            {
+                if (_scenario.GetInitializationState() == ScenarioInitializationValue.NotInitialized)
+                    _scenario.FullInitialize();
+                else while (_scenario.GetInitializationState() == ScenarioInitializationValue.Initializing)
+                        SystemUtils.Sleep(100, context.CancellationTokenSource.Token);
 
-            return _scenario.CalculateCurrentValue(context);
+                return _scenario.CalculateCurrentValue(context);
+            }
+            return string.Empty;
         }
 
         public void SetValue(ExecutionContext context, string value)

@@ -59,7 +59,7 @@ namespace Lazurite.Windows.Utils
                             if (!canceled)
                             {
                                 interval = needInterval?.Invoke() ?? 1000;
-                                timer.Change(interval, interval);
+                                timer?.Change(interval, interval);
                             }
                             executionNow = false;
                         }

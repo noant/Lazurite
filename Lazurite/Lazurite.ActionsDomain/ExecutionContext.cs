@@ -13,14 +13,14 @@ namespace Lazurite.ActionsDomain
             AlgorithmContext = algorithmContext;
         }
 
-        public ExecutionContext(IAlgorithmContext algorithmContext, string input, OutputChangedDelegates output, ExecutionContext parentContext)
+        public ExecutionContext(IAlgorithmContext algorithmContext, string input, OutputChangedDelegates output, ExecutionContext parentContext, CancellationTokenSource cancellationTokenSource)
         {
             Input = input;
             OutputChanged = output;
             AlgorithmContext = algorithmContext;
+            CancellationTokenSource = cancellationTokenSource;
             ParentContext = parentContext;
             ExecutionNesting = ParentContext.ExecutionNesting + 1;
-            CancellationTokenSource = parentContext.CancellationTokenSource;
         }
 
         public IAlgorithmContext AlgorithmContext { get; private set; }

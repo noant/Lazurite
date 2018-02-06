@@ -72,7 +72,7 @@ namespace Lazurite.MainDomain
                 context = new ExecutionContext(this, param, output, tokenSource);
             else
             {
-                context = new ExecutionContext(this, param, output, parentContext);
+                context = new ExecutionContext(this, param, output, parentContext, tokenSource);
                 parentContext.CancellationTokenSource.Token.Register(tokenSource.Cancel);
                 CheckContext(context);
             }
@@ -160,7 +160,7 @@ namespace Lazurite.MainDomain
             {
                 if (parentContext != null)
                 {
-                    var context = new ExecutionContext(this, string.Empty, null, parentContext);
+                    var context = new ExecutionContext(this, string.Empty, null, parentContext, parentContext.CancellationTokenSource);
                     CheckContext(context);
                 }
                 return CalculateCurrentValueInternal();
@@ -229,13 +229,20 @@ namespace Lazurite.MainDomain
             TaskUtils.StartLongRunning(() => {
                 CheckValue(param, parentContext);
                 var output = new OutputChangedDelegates();
-                var context =
-                    parentContext != null ?
-                    new ExecutionContext(this, param, output, parentContext) :
-                    new ExecutionContext(this, param, output, new CancellationTokenSource());
+                ExecutionContext context;
+                if (parentContext != null)
+                {
+                    var cancellationTokenSource = new CancellationTokenSource();
+                    parentContext.CancellationTokenSource.Token.Register(cancellationTokenSource.Cancel);
+                    context = new ExecutionContext(this, param, output, parentContext, cancellationTokenSource);
+                }
+                else
+                {
+                    context = new ExecutionContext(this, param, output, new CancellationTokenSource());
+                }
                 CheckContext(context);
                 HandleExecution(() => ExecuteInternal(context));
-            }, 
+            },
             HandleSet);
         }
 

@@ -54,16 +54,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             {
                 CheckValue(param, parentContext);
                 TryCancelAll();
-                var output = new OutputChangedDelegates();
-                output.Add(val => SetCurrentValueInternal(val));
-                ExecutionContext context;
-                if (parentContext == null)
-                    context = new ExecutionContext(this, param, output, PrepareCancellationTokenSource());
-                else
-                {
-                    context = new ExecutionContext(this, param, output, parentContext);
-                    CheckContext(context);
-                }
+                var context = PrepareExecutionContext(param, parentContext);
                 HandleExecution(() =>
                 {
                     if (!ActionHolder.Action.IsSupportsEvent)
@@ -83,16 +74,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             TaskUtils.StartLongRunning(() => {
                 CheckValue(param, parentContext);
                 TryCancelAll();
-                var output = new OutputChangedDelegates();
-                output.Add(val => SetCurrentValueInternal(val));
-                ExecutionContext context;
-                if (parentContext == null)
-                    context = new ExecutionContext(this, param, output, PrepareCancellationTokenSource());
-                else
-                {
-                    context = new ExecutionContext(this, param, output, parentContext);
-                    CheckContext(context);
-                }
+                var context = PrepareExecutionContext(param, parentContext);
                 HandleExecution(() => {
                     if (!ActionHolder.Action.IsSupportsEvent)
                         SetCurrentValueInternal(param);

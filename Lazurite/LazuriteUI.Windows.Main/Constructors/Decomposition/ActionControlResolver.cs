@@ -24,6 +24,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 element = new IfActionView();
             else if (actionHolder.Action is WhileAction)
                 element = new WhileActionView();
+            else if (actionHolder.Action is CancelExecutionAction)
+                element = new CancelExecutionActionView();
             else
                 throw new NotImplementedException();
             element.Refresh(actionHolder, algoContext);

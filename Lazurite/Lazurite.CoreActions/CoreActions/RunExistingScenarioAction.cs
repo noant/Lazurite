@@ -84,20 +84,21 @@ namespace Lazurite.CoreActions.CoreActions
 
         public void SetValue(ExecutionContext context, string value)
         {
-            //need circular reference check and stack overflow check
+            if (_scenario != null)
+            {
+                if (_scenario.GetInitializationState() == ScenarioInitializationValue.NotInitialized)
+                    _scenario.FullInitialize();
+                else while (_scenario.GetInitializationState() == ScenarioInitializationValue.Initializing)
+                        SystemUtils.Sleep(100, context.CancellationTokenSource.Token);
 
-            if (_scenario.GetInitializationState() == ScenarioInitializationValue.NotInitialized)
-                _scenario.FullInitialize();
-            else while (_scenario.GetInitializationState() == ScenarioInitializationValue.Initializing)
-                SystemUtils.Sleep(100, context.CancellationTokenSource.Token);
-
-            var executionId = string.Empty;
-            if (Mode == RunExistingScenarioMode.Asynchronously)
-                _scenario?.ExecuteAsyncParallel(value, context);
-            else if (Mode == RunExistingScenarioMode.Synchronously)
-                _scenario?.Execute(value, out executionId, context);
-            else if (Mode == RunExistingScenarioMode.MainExecutionContext)
-                _scenario?.ExecuteAsync(value, out executionId, context);
+                var executionId = string.Empty;
+                if (Mode == RunExistingScenarioMode.Asynchronously)
+                    _scenario?.ExecuteAsyncParallel(value, context);
+                else if (Mode == RunExistingScenarioMode.Synchronously)
+                    _scenario?.Execute(value, out executionId, context);
+                else if (Mode == RunExistingScenarioMode.MainExecutionContext)
+                    _scenario?.ExecuteAsync(value, out executionId, context);
+            }
         }
 
         public event ValueChangedEventHandler ValueChanged;
