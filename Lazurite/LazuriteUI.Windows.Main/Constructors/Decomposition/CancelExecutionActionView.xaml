@@ -1,0 +1,11 @@
+﻿<StackPanel x:Class="LazuriteUI.Windows.Main.Constructors.Decomposition.CancelExecutionActionView"
+            Orientation="Horizontal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors.Decomposition"
+             mc:Ignorable="d">
+    <local:ActionView x:Name="action1View"></local:ActionView>    
+    <local:AddRemoveActionButtonsView x:Name="buttons"></local:AddRemoveActionButtonsView>
+</StackPanel>
