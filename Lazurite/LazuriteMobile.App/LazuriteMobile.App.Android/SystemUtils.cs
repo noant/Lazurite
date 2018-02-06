@@ -33,39 +33,44 @@ namespace LazuriteMobile.App.Droid
 
         public CancellationTokenSource StartTimer(Action<CancellationTokenSource> tick, Func<int> needInterval)
         {
-            var cancellationToken = new CancellationTokenSource();
-
+            bool canceled = false;
             bool executionNow = false;
+            Timer timer = null;
 
-            var timer = new System.Timers.Timer();
-
-            timer.Interval = needInterval?.Invoke() ?? 1000;
-            timer.Enabled = true;
-            timer.AutoReset = true;
-
-            timer.Elapsed += new System.Timers.ElapsedEventHandler((o, e) => {
-                if (!executionNow && !cancellationToken.IsCancellationRequested)
+            var cancellationToken = new CancellationTokenSource();
+            cancellationToken.Token.Register(() => {
+                if (!canceled)
                 {
-                    executionNow = true;
-                    try
-                    {
-                        tick?.Invoke(cancellationToken);
-                    }
-                    finally
-                    {
-                        timer.Interval = needInterval?.Invoke() ?? 1000;
-                        executionNow = false;
-                    }
+                    timer.Change(Timeout.Infinite, Timeout.Infinite);
+                    timer.Dispose();
+                    canceled = true;
                 }
             });
 
-            cancellationToken.Token.Register(() => {
-                timer.Enabled = false;
-                timer.Close();
-                timer.Dispose();
-            });
-
-            timer.Start();
+            timer = new Timer(
+                (t) => {
+                    if (!executionNow && !cancellationToken.IsCancellationRequested)
+                    {
+                        executionNow = true;
+                        try
+                        {
+                            tick?.Invoke(cancellationToken);
+                        }
+                        finally
+                        {
+                            if (!canceled)
+                            {
+                                var interval = needInterval?.Invoke() ?? 1000;
+                                timer.Change(interval, interval);
+                            }
+                            executionNow = false;
+                        }
+                    }
+                },
+                null,
+                0,
+                needInterval?.Invoke() ?? 1000
+            );
 
             return cancellationToken;
         }

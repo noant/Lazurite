@@ -19,7 +19,7 @@ namespace LazuriteMobile.App.Droid
     {
         private static readonly int SleepInterval_Normal = 10000;
         private static readonly int SleepInterval_ScreenOff = 60000;
-        private static readonly int SleepInterval_PowerSaving = 200000;
+        private static readonly int SleepInterval_PowerSaving = 120000;
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
 
         public static bool Started => IsServiceRunning(typeof(LazuriteService));
@@ -132,8 +132,6 @@ namespace LazuriteMobile.App.Droid
 
         private void ReInitTimer()
         {
-            RefreshIteration();
-
             _timerCancellationToken?.Cancel();
 
             _timerCancellationToken = SystemUtils.StartTimer(
