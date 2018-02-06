@@ -17,7 +17,7 @@ namespace LazuriteUI.Windows.Main.Switches
     public partial class FloatView : UserControl, IHardwareVolumeChanger
     {
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
-        private static readonly int FloatView_SmoothChangeValueInterval = GlobalSettings.Get(300);
+        private static readonly int FloatView_SmoothChangeValueInterval = GlobalSettings.Get(350);
 
         private CancellationTokenSource _smoothTimerCancellationToken;
 
@@ -81,7 +81,7 @@ namespace LazuriteUI.Windows.Main.Switches
                         }
                         oldVal = SmoothChangeValueToSet;
                     }, 
-                    () => FloatView_SmoothChangeValueInterval);
+                    () => FloatView_SmoothChangeValueInterval, false);
             }
         }
         
