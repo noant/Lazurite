@@ -164,6 +164,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
             HandleExceptions(
             () =>
             {
+                if (string.IsNullOrEmpty(Credentials.SecretKey))
+                    throw new InvalidOperationException("Необходим ввод секретного ключа");
                 var encrypted = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey));
                 _scenarioInfo = encrypted.Decrypt(Credentials.SecretKey);
                 remoteScenarioAvailable = _scenarioInfo.IsAvailable;
@@ -191,8 +193,6 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 HandleExceptions(
                 () =>
                 {
-                    if (string.IsNullOrEmpty(Credentials.SecretKey))
-                        throw new InvalidOperationException("Необходим ввод секретного ключа");
                     if (error)
                         ReInitialize();
                     else

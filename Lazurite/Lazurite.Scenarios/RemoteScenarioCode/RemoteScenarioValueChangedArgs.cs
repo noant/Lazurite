@@ -1,17 +1,19 @@
-﻿namespace Lazurite.Scenarios.RemoteScenarioCode
+﻿using Lazurite.MainDomain;
+
+namespace Lazurite.Scenarios.RemoteScenarioCode
 {
     public static partial class RemoteScenarioChangesListener
     {
         public class RemoteScenarioValueChangedArgs
         {
-            public RemoteScenarioValueChangedArgs(RemoteScenarioInfo info, string newValue)
+            public RemoteScenarioValueChangedArgs(RemoteScenarioInfo info, ScenarioInfo scenInfo)
             {
                 Info = info;
-                NewValue = newValue;
+                ScenarioInfo = scenInfo;
             }
             
             public RemoteScenarioInfo Info { get; }
-            public string NewValue { get; private set; }
+            public ScenarioInfo ScenarioInfo { get; private set; }
         }
     }
 }
