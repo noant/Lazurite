@@ -67,15 +67,9 @@ namespace Lazurite.MainDomain
 
         private ScenarioBase _scenario;
 
-        public void SetScenario(ScenarioBase scenario)
-        {
-            _scenario = scenario;
-        }
+        public void SetScenario(ScenarioBase scenario) => _scenario = scenario;
 
-        public ScenarioBase GetScenario()
-        {
-            return _scenario;
-        }
+        public ScenarioBase GetScenario() => _scenario;
 
         /// <summary>
         /// Get all action types used in target action

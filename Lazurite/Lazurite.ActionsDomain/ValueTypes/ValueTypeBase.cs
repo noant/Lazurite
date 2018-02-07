@@ -20,30 +20,12 @@ namespace Lazurite.ActionsDomain.ValueTypes
                 _acceptedValues = value;
             }
         }
+
+        public virtual bool CanBeModified => false;
+
+        public virtual bool SupportsNumericalComparisons => false;
         
-        public virtual bool CanBeModified
-        {
-            get
-            {
-                return false;
-            }
-        }
-        
-        public virtual bool SupportsNumericalComparisons
-        {
-            get
-            {
-                return false;
-            }
-        }
-        
-        public virtual string HumanFriendlyName
-        {
-            get
-            {
-                return "Тип без имени";
-            }
-        }
+        public virtual string HumanFriendlyName => "Тип без имени";
 
         public bool IsCompatibleWith(ValueTypeBase valueType)
         {
@@ -64,10 +46,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
                 Enumerable.SequenceEqual(AcceptedValues, ((ValueTypeBase)obj).AcceptedValues);
         }
         
-        public override string ToString()
-        {
-            return HumanFriendlyName;
-        }
+        public override string ToString() => HumanFriendlyName;
 
         //интерпертирует входящее значение
         public abstract ValueTypeInterpreteResult Interprete(string param);

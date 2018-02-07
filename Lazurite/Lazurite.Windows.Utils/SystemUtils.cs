@@ -27,7 +27,7 @@ namespace Lazurite.Windows.Utils
                 Thread.Sleep(SleepCancelTokenIterationInterval);
         }
 
-        public CancellationTokenSource StartTimer(Action<CancellationTokenSource> tick, Func<int> needInterval, bool startImmidiate = true)
+        public CancellationTokenSource StartTimer(Action<CancellationTokenSource> tick, Func<int> needInterval, bool startImmidiate = true, bool ticksSuperposition = false)
         {
             bool canceled = false;
             bool executionNow = false;
@@ -47,7 +47,7 @@ namespace Lazurite.Windows.Utils
 
             timer = new Timer(
                 (t) => {
-                    if (!executionNow && !cancellationToken.IsCancellationRequested)
+                    if ((!executionNow || ticksSuperposition) && !cancellationToken.IsCancellationRequested)
                     {
                         executionNow = true;
                         try

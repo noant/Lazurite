@@ -8,6 +8,8 @@ namespace Lazurite.ActionsDomain.ValueTypes
     [DataContract]
     public class DateTimeValueType: ValueTypeBase
     {
+        private static readonly DateTime DefaultDateTime = new DateTime();
+
         public DateTimeValueType()
         {
             _acceptedValues = new string[] { };
@@ -19,6 +21,6 @@ namespace Lazurite.ActionsDomain.ValueTypes
 
         public override ValueTypeInterpreteResult Interprete(string param) => new ValueTypeInterpreteResult(DateTime.TryParse(param, out DateTime @out), param);
 
-        public override string DefaultValue => new DateTime().ToString();
+        public override string DefaultValue => DefaultDateTime.ToString();
     }
 }

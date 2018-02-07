@@ -107,7 +107,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             HandleExceptions(() => 
             {
                 GetServer().ExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
-                SetCurrentValueInternal(param);
+                SetCurrentValue(param);
             });
             Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
         }
@@ -122,7 +122,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 HandleExceptions(() =>
                 {
                     GetServer().AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
-                    SetCurrentValueInternal(param);
+                    SetCurrentValue(param);
                 });
                 Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
             });
@@ -147,24 +147,11 @@ namespace Lazurite.Scenarios.ScenarioTypes
             base.TryCancelAll();
         }
 
-        public override Type[] GetAllUsedActionTypes()
+        public override Type[] GetAllUsedActionTypes() => new Type[] { };
+        
+        protected override bool InitializeInternal()
         {
-            return new Type[] { };
-        }
-
-        public override string GetCurrentValue()
-        {
-            return _currentValue;
-        }
-
-        public override void SetCurrentValueInternal(string value)
-        {
-            _currentValue = value;
-            RaiseValueChangedEvents();
-        }
-
-        private bool InitializeInternal()
-        {
+            base.InitializeInternal();
             SetInitializationState(ScenarioInitializationValue.Initializing);
             UpdateValueAsDefault();
             Log.DebugFormat("Scenario initialize begin: [{0}][{1}]", Name, Id);
@@ -194,16 +181,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             SetInitializationState(ScenarioInitializationValue.Initialized);
             return InitializedInternal = initialized;
         }
-
-        public override void InitializeAsync(Action<bool> callback)
-        {
-            TaskUtils.Start(() =>
-            {
-                var result = InitializeInternal();
-                callback?.Invoke(result);
-            });
-        }
-
+        
         public override void AfterInitilize()
         {
             bool error = false;
@@ -221,7 +199,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     {
                         var newScenInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey)).Decrypt(Credentials.SecretKey);
                         if (!(newScenInfo.CurrentValue ?? string.Empty).Equals(_currentValue))
-                            SetCurrentValueInternal(newScenInfo.CurrentValue ?? string.Empty);
+                            SetCurrentValue(newScenInfo.CurrentValue ?? string.Empty);
                         ValueType = newScenInfo.ValueType;
                         Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", Name, Id);
                     }
@@ -238,24 +216,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             },
             () => error ? ScenarioListenInterval_onError : ScenarioListenInterval);
         }
-
-        public override bool FullInitialize()
-        {
-            InitializeInternal();
-            if (GetIsAvailable())
-                AfterInitilize();
-            return GetIsAvailable();
-        }
-
-        public override void FullInitializeAsync(Action<bool> callback = null)
-        {
-            TaskUtils.Start(() =>
-            {
-                var result = FullInitialize();
-                callback?.Invoke(result);
-            });
-        }
-
+        
         private void ClientFactory_ConnectionStateChanged(object sender, EventsArgs<bool> args)
         {
             if (((ConnectionStateChangedEventArgs)args).Credentials.Equals(Credentials))
@@ -266,7 +227,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             if (ValueType == null)
                 ValueType = new ButtonValueType();
-            SetCurrentValueInternal(ValueType.DefaultValue);
+            SetCurrentValue(ValueType.DefaultValue);
         }
 
         private void UpdateValueAsDefault()
@@ -276,10 +237,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             _currentValue = ValueType.DefaultValue;
         }
 
-        public void ReInitialize()
-        {
-            InitializeInternal();
-        }
+        public void ReInitialize() => InitializeInternal();
 
         public bool InitializedInternal { get; private set; }
 

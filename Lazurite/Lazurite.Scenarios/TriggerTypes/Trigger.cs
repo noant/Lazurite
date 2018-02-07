@@ -113,10 +113,10 @@ namespace Lazurite.Scenarios.TriggerTypes
                     {
                         var action = TargetAction;
                         var outputChanged = new OutputChangedDelegates();
-                        outputChanged.Add((value) => GetScenario().SetCurrentValueInternal(value));
+                        outputChanged.Add((value) => GetScenario().SetCurrentValue(value));
                         contexCancellationTokenSource.Cancel();
                         contexCancellationTokenSource = new CancellationTokenSource();
-                        var executionContext = new ExecutionContext(this, args.Value.GetCurrentValue(), outputChanged, contexCancellationTokenSource);
+                        var executionContext = new ExecutionContext(this, args.Value.GetCurrentValue(), args.Value.GetPreviousValue(), outputChanged, contexCancellationTokenSource);
                         TaskUtils.StartLongRunning(
                             () => action.SetValue(executionContext, string.Empty),
                             (exception) => Log.ErrorFormat(exception, "Ошибка исполнения триггера [{0}][{1}]", Name, Id));
@@ -136,13 +136,19 @@ namespace Lazurite.Scenarios.TriggerTypes
                             var curVal = GetScenario().CalculateCurrentValue(null);
                             if (!lastVal.Equals(curVal))
                             {
+                                var prevVal = GetScenario().GetPreviousValue();
                                 lastVal = curVal;
                                 contexCancellationTokenSource.Cancel();
                                 contexCancellationTokenSource = new CancellationTokenSource();
-                                var executionContext = new ExecutionContext(this, curVal, new OutputChangedDelegates(), contexCancellationTokenSource);
-                                TaskUtils.StartLongRunning(
-                                    () => TargetAction.SetValue(executionContext, string.Empty),
-                                    (exception) => Log.ErrorFormat(exception, "Ошибка исполнения триггера [{0}][{1}]", Name, Id));
+                                var executionContext = new ExecutionContext(this, curVal, prevVal, new OutputChangedDelegates(), contexCancellationTokenSource);
+                                try
+                                {
+                                    TargetAction.SetValue(executionContext, string.Empty);
+                                }
+                                catch (Exception exception)
+                                {
+                                    Log.ErrorFormat(exception, "Ошибка исполнения триггера [{0}][{1}]", Name, Id);
+                                }
                             }
                         }
                         catch (Exception e)
@@ -150,7 +156,9 @@ namespace Lazurite.Scenarios.TriggerTypes
                             Log.ErrorFormat(e, "Error while trigger execute: [{0}][{1}]", Name, Id);
                         }
                     },
-                    () => TriggerChangesListenInterval);
+                    () => TriggerChangesListenInterval,
+                    true,
+                    ticksSuperposition: true /*наложение тиков*/);
             }
         }
     }

@@ -12,71 +12,39 @@ namespace Lazurite.CoreActions.ContextInitialization
     [Category(Category.Meta)]
     public class SetReturnValueAction : IAction, IMultipleAction, IContextInitializable
     {
-        public bool IsSupportsEvent
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool IsSupportsEvent => false;
         
         public string Caption
         {
-            get
-            {
-                return string.Empty;
-            }
-            set
-            {
-                //
-            }
+            get => string.Empty;
+            set { }
         }
         
         public ActionHolder InputValue { get; set; } = new ActionHolder();
 
-        public string TargetScenarioId
-        {
-            get; set;
-        }
+        public string TargetScenarioId { get; set; }
         
-        public ValueTypeBase ValueType
-        {
-            get;
-            set;
-        }
+        public ValueTypeBase ValueType { get; set; }
 
         public void Initialize()
         {
             //do nothing
         }
 
-        public IAction[] GetAllActionsFlat()
-        {
-            return new[] { InputValue.Action };
-        }
+        public IAction[] GetAllActionsFlat() => new[] { InputValue.Action };
 
-        public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues)
-        {
-            return true;
-        }
+        public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues) => true;
 
-        public string GetValue(ExecutionContext context)
-        {
-            return string.Empty;
-        }
+        public string GetValue(ExecutionContext context) => string.Empty;
 
-        public bool IsSupportsModification
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool IsSupportsModification => false;
 
         public void SetValue(ExecutionContext context, string value)
         {
             ValueType = context.AlgorithmContext.ValueType;
+            var inputPrev = context.Input;
             context.Input = InputValue.Action.GetValue(context);
+            context.PreviousValue = inputPrev;
             context.OutputChanged.Execute(context.Input);
         }
 

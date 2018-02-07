@@ -20,6 +20,9 @@ namespace Lazurite.MainDomain
         private List<EventsHandler<ScenarioBase>> _availabilityChangedEvents = new List<EventsHandler<ScenarioBase>>();
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private bool _isAvailable = false;
+        private string _previousValue;
+        private string _currentValue;
+        private ScenarioInitializationValue _initializationState = ScenarioInitializationValue.NotInitialized;
 
         protected void HandleGet(Exception e)
         {
@@ -65,14 +68,15 @@ namespace Lazurite.MainDomain
         protected ExecutionContext PrepareExecutionContext(string param, ExecutionContext parentContext)
         {
             var output = new OutputChangedDelegates();
-            output.Add(val => SetCurrentValueInternal(val));
+            output.Add(val => SetCurrentValue(val));
             var tokenSource = PrepareCancellationTokenSource();
             ExecutionContext context;
+            var prevValue = GetCurrentValue();
             if (parentContext == null)
-                context = new ExecutionContext(this, param, output, tokenSource);
+                context = new ExecutionContext(this, param, prevValue, output, tokenSource);
             else
             {
-                context = new ExecutionContext(this, param, output, parentContext, tokenSource);
+                context = new ExecutionContext(this, param, prevValue, output, parentContext, tokenSource);
                 parentContext.CancellationTokenSource.Token.Register(tokenSource.Cancel);
                 CheckContext(context);
             }
@@ -89,17 +93,15 @@ namespace Lazurite.MainDomain
         /// </summary>
         public bool OnlyGetValue { get; set; }
 
-        private ScenarioInitializationValue initializationState = ScenarioInitializationValue.NotInitialized;
+        /// <summary>
+        /// Get current scenario state
+        /// </summary>
+        public ScenarioInitializationValue GetInitializationState() => _initializationState;
 
         /// <summary>
         /// Get current scenario state
         /// </summary>
-        public ScenarioInitializationValue GetInitializationState() => initializationState;
-
-        /// <summary>
-        /// Get current scenario state
-        /// </summary>
-        protected void SetInitializationState(ScenarioInitializationValue value) => initializationState = value;
+        protected void SetInitializationState(ScenarioInitializationValue value) => _initializationState = value;
 
         /// <summary>
         /// Scenario availability
@@ -115,6 +117,16 @@ namespace Lazurite.MainDomain
             RaiseAvailabilityChangedEvents();
             LastChange = DateTime.Now.ToUniversalTime();
         }
+
+        /// <summary>
+        /// previous value
+        /// </summary>
+        public string GetPreviousValue() => _previousValue;
+
+        /// <summary>
+        /// previous value
+        /// </summary>
+        protected void SetPreviousValue(string value) => _previousValue = value;
 
         /// <summary>
         /// Scenario name
@@ -160,7 +172,8 @@ namespace Lazurite.MainDomain
             {
                 if (parentContext != null)
                 {
-                    var context = new ExecutionContext(this, string.Empty, null, parentContext, parentContext.CancellationTokenSource);
+                    //empty context, just for stack overflow and circular reference check
+                    var context = new ExecutionContext(this, string.Empty, string.Empty, null, parentContext, parentContext.CancellationTokenSource);
                     CheckContext(context);
                 }
                 return CalculateCurrentValueInternal();
@@ -190,17 +203,44 @@ namespace Lazurite.MainDomain
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public abstract string GetCurrentValue();
+        public virtual string GetCurrentValue() => _currentValue;
 
         /// <summary>
         /// Set result of scenario execution
         /// </summary>
-        public abstract void SetCurrentValueInternal(string value);
+        public virtual void SetCurrentValue(string value)
+        {
+            SetPreviousValue(GetCurrentValue());
+            SetCurrentValueNoEvents(value);
+            RaiseValueChangedEvents();
+        }
+
+        /// <summary>
+        /// Set current value witout raising any events
+        /// </summary>
+        /// <param name="value"></param>
+        protected virtual void SetCurrentValueNoEvents(string value) => _currentValue = value;
+        
+        /// <summary>
+        /// Internally initialize
+        /// </summary>
+        protected virtual bool InitializeInternal()
+        {
+            SetPreviousValue((ValueType ?? new ButtonValueType()).DefaultValue);
+            return true;
+        }
 
         /// <summary>
         /// Method runs after creating of all scenario parameters
         /// </summary>
-        public abstract void InitializeAsync(Action<bool> callback = null);
+        public virtual void InitializeAsync(Action<bool> callback = null)
+        {
+            TaskUtils.Start(() =>
+            {
+                var result = InitializeInternal();
+                callback?.Invoke(result);
+            });
+        }
         
         /// <summary>
         /// Method runs after initializing
@@ -211,13 +251,26 @@ namespace Lazurite.MainDomain
         /// Run Initilaize and AfterInitialize method synchronously
         /// </summary>
         /// <returns></returns>
-        public abstract bool FullInitialize();
+        public virtual bool FullInitialize()
+        {
+            var result = InitializeInternal();
+            if (result)
+                AfterInitilize();
+            return result;
+        }
 
         /// <summary>
         /// Run Initilaize and AfterInitialize method asynchronously
         /// </summary>
         /// <returns></returns>
-        public abstract void FullInitializeAsync(Action<bool> callback = null);
+        public virtual void FullInitializeAsync(Action<bool> callback = null)
+        {
+            TaskUtils.Start(() =>
+            {
+                var result = FullInitialize();
+                callback?.Invoke(result);
+            });
+        }
 
         /// <summary>
         /// Execute scenario in other thread
@@ -230,15 +283,16 @@ namespace Lazurite.MainDomain
                 CheckValue(param, parentContext);
                 var output = new OutputChangedDelegates();
                 ExecutionContext context;
+                var oldVal = GetPreviousValue();
                 if (parentContext != null)
                 {
                     var cancellationTokenSource = new CancellationTokenSource();
                     parentContext.CancellationTokenSource.Token.Register(cancellationTokenSource.Cancel);
-                    context = new ExecutionContext(this, param, output, parentContext, cancellationTokenSource);
+                    context = new ExecutionContext(this, param, oldVal, output, parentContext, cancellationTokenSource);
                 }
                 else
                 {
-                    context = new ExecutionContext(this, param, output, new CancellationTokenSource());
+                    context = new ExecutionContext(this,  param, oldVal, output, new CancellationTokenSource());
                 }
                 CheckContext(context);
                 HandleExecution(() => ExecuteInternal(context));
@@ -258,7 +312,7 @@ namespace Lazurite.MainDomain
                 TryCancelAll();
                 var context = PrepareExecutionContext(param, parentContext);
                 HandleExecution(() => {
-                    SetCurrentValueInternal(param);
+                    SetCurrentValue(param);
                     ExecuteInternal(context);
                 });
             }, 
@@ -280,7 +334,8 @@ namespace Lazurite.MainDomain
                 var context = PrepareExecutionContext(param, parentContext);
                 HandleExecution(() =>
                 {
-                    SetCurrentValueInternal(param);
+                    SetPreviousValue(GetCurrentValue());
+                    SetCurrentValue(param);
                     ExecuteInternal(context);
                 });
             }

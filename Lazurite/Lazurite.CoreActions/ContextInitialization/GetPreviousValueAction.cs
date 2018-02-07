@@ -7,15 +7,15 @@ namespace Lazurite.CoreActions.ContextInitialization
 {
     [OnlyGetValue]
     [SuitableValueTypes(true)]
-    [HumanFriendlyName("Входящее значение")]
+    [HumanFriendlyName("Предыдущее значение")]
     [VisualInitialization]
     [Category(Category.Meta)]
-    public class GetInputValueAction : IAction, IContextInitializable
+    public class GetPreviousValueAction : IAction, IContextInitializable
     {
         public string Caption
         {
             get => string.Empty;
-            set {}
+            set { }
         }
 
         public bool IsSupportsEvent => false;
@@ -23,13 +23,13 @@ namespace Lazurite.CoreActions.ContextInitialization
         public bool IsSupportsModification => false;
 
         public ValueTypeBase ValueType { get; set; }
-        
+
         public string GetValue(ExecutionContext context)
         {
             ValueType = context.AlgorithmContext.ValueType;
-            return context.Input;
+            return context.PreviousValue;
         }
-        
+
         public void SetValue(ExecutionContext context, string value)
         {
             //

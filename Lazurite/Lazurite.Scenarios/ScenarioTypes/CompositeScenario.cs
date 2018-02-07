@@ -33,8 +33,6 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         protected override string CalculateCurrentValueInternal() => GetCurrentValue();
         
-        public override string GetCurrentValue() => _currentValue;
-
         protected override void ExecuteInternal(ExecutionContext context)
         {
             TargetAction.SetValue(context, string.Empty);
@@ -45,20 +43,13 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return TargetAction.GetAllActionsFlat().Select(x => x.GetType()).Distinct().ToArray();
         }
         
-        private string _currentValue;
-        public override void SetCurrentValueInternal(string value)
+        protected override bool InitializeInternal()
         {
-            _currentValue = value;
-            RaiseValueChangedEvents();
-        }
-
-        private void InitializeInternal()
-        {
+            base.InitializeInternal();
             SetInitializationState(ScenarioInitializationValue.Initializing);
             try
             {
                 var instanceManager = Singleton.Resolve<IInstanceManager>();
-
                 if (InitializeWithValue == null)
                     InitializeWithValue = ValueType.DefaultValue;
                 foreach (var action in TargetAction.GetAllActionsFlat())
@@ -70,13 +61,18 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     }
                 }
                 SetIsAvailable(true);
+                return true;
             }
             catch (Exception e)
             {
                 Log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", Name);
                 SetIsAvailable(false);
+                return false;
             }
-            SetInitializationState(ScenarioInitializationValue.Initialized);
+            finally
+            {
+                SetInitializationState(ScenarioInitializationValue.Initialized);
+            }
         }
 
         public override void InitializeAsync(Action<bool> callback)
@@ -95,15 +91,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             return TargetAction.GetAllActionsFlat();
         }
-
-        public override bool FullInitialize()
-        {
-            InitializeInternal();
-            if (GetIsAvailable())
-                AfterInitilize();
-            return GetIsAvailable();
-        }
-
+        
         public override void FullInitializeAsync(Action<bool> callback = null)
         {
             var result = FullInitialize(); //ignore async

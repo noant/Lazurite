@@ -74,6 +74,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RemoteScenarioCode\RemoteScenarioAvailabilityChangedArgs.cs" />
+    <Compile Include="RemoteScenarioCode\RemoteScenarioChangesListener.cs" />
+    <Compile Include="RemoteScenarioCode\RemoteScenarioInfo.cs" />
+    <Compile Include="RemoteScenarioCode\RemoteScenarioValueChangedArgs.cs" />
+    <Compile Include="RemoteScenarioCode\ServerClientThreading.cs" />
     <Compile Include="ScenarioTypes\CompositeScenario.cs" />
     <Compile Include="ScenariosRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

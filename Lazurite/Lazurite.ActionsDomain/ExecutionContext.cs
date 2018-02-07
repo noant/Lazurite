@@ -5,19 +5,21 @@ namespace Lazurite.ActionsDomain
 {
     public class ExecutionContext
     {
-        public ExecutionContext(IAlgorithmContext algorithmContext, string input, OutputChangedDelegates output, CancellationTokenSource cancellationTokenSource)
+        public ExecutionContext(IAlgorithmContext algorithmContext, string input, string previousValue, OutputChangedDelegates output, CancellationTokenSource cancellationTokenSource)
         {
-            Input = input;
             OutputChanged = output;
             CancellationTokenSource = cancellationTokenSource;
             AlgorithmContext = algorithmContext;
+            Input = input;
+            PreviousValue = previousValue;
         }
 
-        public ExecutionContext(IAlgorithmContext algorithmContext, string input, OutputChangedDelegates output, ExecutionContext parentContext, CancellationTokenSource cancellationTokenSource)
+        public ExecutionContext(IAlgorithmContext algorithmContext, string input, string previousValue, OutputChangedDelegates output, ExecutionContext parentContext, CancellationTokenSource cancellationTokenSource)
         {
-            Input = input;
             OutputChanged = output;
             AlgorithmContext = algorithmContext;
+            Input = input;
+            PreviousValue = previousValue;
             CancellationTokenSource = cancellationTokenSource;
             ParentContext = parentContext;
             ExecutionNesting = ParentContext.ExecutionNesting + 1;
@@ -25,6 +27,7 @@ namespace Lazurite.ActionsDomain
 
         public IAlgorithmContext AlgorithmContext { get; private set; }
         public string Input { get; set; }
+        public string PreviousValue { get; set; }
         public OutputChangedDelegates OutputChanged { get; private set; }
         public CancellationTokenSource CancellationTokenSource { get; private set; }
 

@@ -259,6 +259,7 @@ namespace Lazurite.Windows.Modules
                     typeof(GetInfoVTAction),
                     typeof(GetToggleVTAction),
                     typeof(GetInputValueAction),
+                    typeof(GetPreviousValueAction),
                     typeof(GetExistingScenarioValueAction),
                     typeof(RunExistingScenarioAction),
                 }.Union(

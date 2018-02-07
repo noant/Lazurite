@@ -7,6 +7,8 @@ namespace Lazurite.ActionsDomain.ValueTypes
 {
     public class GeolocationValueType : ValueTypeBase
     {
+        private static readonly GeolocationData DefaultGeolocationData = new GeolocationData();
+
         public override ValueTypeInterpreteResult Interprete(string param)
         {
             var strs = param.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
@@ -27,6 +29,8 @@ namespace Lazurite.ActionsDomain.ValueTypes
         public override string HumanFriendlyName => "Геолокация";
 
         public override bool SupportsNumericalComparisons => false;
+
+        public override string DefaultValue => DefaultGeolocationData.ToString();
     }
 
     public struct GeolocationData
