@@ -78,7 +78,7 @@ namespace Lazurite.Windows.Server
                 StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
             },
             (exception) => {
-                _warningHandler.Error("Error while starting service: " + _settings.GetAddress(), exception);
+                _warningHandler.Error("Ошибка запуска сервиса: " + _settings.GetAddress(), exception);
                 callback?.Invoke(false);
                 Started = false;
                 StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));

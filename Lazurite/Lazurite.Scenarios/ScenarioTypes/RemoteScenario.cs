@@ -4,6 +4,7 @@ using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.MessageSecurity;
+using Lazurite.Scenarios.RemoteScenarioCode;
 using Lazurite.Security;
 using Lazurite.Shared;
 using Lazurite.Utils;
@@ -17,15 +18,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
     public class RemoteScenario : ScenarioBase
     {
         private readonly static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
-        private readonly static int ScenarioListenInterval = GlobalSettings.Get(6500);
-        private readonly static int ScenarioListenInterval_onError = GlobalSettings.Get(13000);
 
         private IClientFactory _clientFactory;
         private IServer _server;
         private ValueTypeBase _valueType;
         private ScenarioInfo _scenarioInfo;
-        private string _currentValue;
-        private CancellationTokenSource _cancellationTokenSource;
+        private RemoteScenarioInfo _listenerInfo;
 
         /// <summary>
         /// Target server credentials
@@ -55,7 +53,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void CalculateCurrentValueAsync(Action<string> callback, ExecutionContext parentContext) => callback(CalculateCurrentValueInternal());
         
-        protected override string CalculateCurrentValueInternal() => _currentValue;
+        protected override string CalculateCurrentValueInternal() => GetCurrentValue();
 
         protected override void ExecuteInternal(ExecutionContext context)
         {
@@ -64,9 +62,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         private bool HandleExceptions(Action action, Action onException = null, bool execution = true)
         {
-            var strErrPrefix = "Error while remote scenario connection";
+            var strErrPrefix = "Ошибка во время соединения с удаленным сценарием";
             if (execution)
-                strErrPrefix = "Error while remote scenario execution";
+                strErrPrefix = "Ошибка во время исполнения удаленного сценария";
             try
             {
                 action?.Invoke();
@@ -143,7 +141,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void TryCancelAll()
         {
-            _cancellationTokenSource?.Cancel();
+            if (_listenerInfo != null)
+                RemoteScenarioChangesListener.Unregister(_listenerInfo);
             base.TryCancelAll();
         }
 
@@ -156,8 +155,6 @@ namespace Lazurite.Scenarios.ScenarioTypes
             UpdateValueAsDefault();
             Log.DebugFormat("Scenario initialize begin: [{0}][{1}]", Name, Id);
             _clientFactory = Singleton.Resolve<IClientFactory>();
-            _clientFactory.ConnectionStateChanged -= ClientFactory_ConnectionStateChanged; //crutch
-            _clientFactory.ConnectionStateChanged += ClientFactory_ConnectionStateChanged;
             SetIsAvailable(false);
             var remoteScenarioAvailable = false;
             var initialized = false;
@@ -186,43 +183,40 @@ namespace Lazurite.Scenarios.ScenarioTypes
         
         public override void AfterInitilize()
         {
-            bool error = false;
             //changes listener
-            _cancellationTokenSource = SystemUtils.StartTimer((token) => {
-                Log.DebugFormat("Remote scenario refresh iteration begin: [{0}][{1}]", Name, Id);
-                HandleExceptions(
-                () =>
-                {
-                    if (error)
-                        ReInitialize();
-                    else
-                    {
-                        var newScenInfo = GetServer().GetScenarioInfo(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey)).Decrypt(Credentials.SecretKey);
-                        if (!(newScenInfo.CurrentValue ?? string.Empty).Equals(_currentValue))
-                            SetCurrentValue(newScenInfo.CurrentValue ?? string.Empty);
-                        ValueType = newScenInfo.ValueType;
-                        Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", Name, Id);
-                    }
-                    error = false;
-                },
-                () =>
-                {
-                    SetIsAvailable(false);
-                    Log.DebugFormat("Remote scenario refresh iteration end: [{0}][{1}]", Name, Id);
-                    SetDefaultValue();
-                    error = true;
-                },
-                false);
-            },
-            () => error ? ScenarioListenInterval_onError : ScenarioListenInterval);
-        }
-        
-        private void ClientFactory_ConnectionStateChanged(object sender, EventsArgs<bool> args)
-        {
-            if (((ConnectionStateChangedEventArgs)args).Credentials.Equals(Credentials))
-                SetIsAvailable(args.Value);
+            if (_listenerInfo != null)
+                RemoteScenarioChangesListener.Unregister(_listenerInfo);
+            _listenerInfo = new RemoteScenarioInfo(Name, Credentials, RemoteScenarioId, ValueChanged, AvailabilityChanged);
+            RemoteScenarioChangesListener.Register(_listenerInfo);
         }
 
+        public override bool FullInitialize()
+        {
+            var result = InitializeInternal();
+            AfterInitilize(); //start anyway - it starts listen remote scenario availability
+            return result;
+        }
+
+        private void ValueChanged(RemoteScenarioValueChangedArgs args)
+        {
+            _scenarioInfo = args.ScenarioInfo;
+            ValueType = _scenarioInfo.ValueType;
+            if (!(_scenarioInfo.CurrentValue ?? string.Empty).Equals(GetCurrentValue()))
+                SetCurrentValue(_scenarioInfo.CurrentValue ?? string.Empty);
+            if (_scenarioInfo.IsAvailable != GetIsAvailable())
+                SetIsAvailable(_scenarioInfo.IsAvailable);
+        }
+
+        private void AvailabilityChanged(RemoteScenarioAvailabilityChangedArgs args)
+        {
+            if (args.IsAvailable != GetIsAvailable())
+            {
+                SetIsAvailable(args.IsAvailable);
+                if (_scenarioInfo != null)
+                    _scenarioInfo.IsAvailable = args.IsAvailable;
+            }
+        }
+        
         private void SetDefaultValue()
         {
             if (ValueType == null)
@@ -234,30 +228,20 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             if (ValueType == null)
                 ValueType = new ButtonValueType();
-            _currentValue = ValueType.DefaultValue;
+            SetCurrentValueNoEvents(ValueType.DefaultValue);
         }
 
         public void ReInitialize() => InitializeInternal();
 
         public bool InitializedInternal { get; private set; }
 
-        public override IAction[] GetAllActionsFlat()
-        {
-            return new IAction[0];
-        }
+        public override IAction[] GetAllActionsFlat() => new IAction[0];
 
         public IServer GetServer()
         {
             return _server = _clientFactory.GetServer(Credentials);
         }
 
-        public override SecuritySettingsBase SecuritySettings { get; set; } = new SecuritySettings();
-
-        public override void Dispose()
-        {
-            if (_clientFactory != null)
-                _clientFactory.ConnectionStateChanged -= ClientFactory_ConnectionStateChanged;
-            base.Dispose();
-        }
+        public override SecuritySettingsBase SecuritySettings { get; set; } = new SecuritySettings();        
     }
 }

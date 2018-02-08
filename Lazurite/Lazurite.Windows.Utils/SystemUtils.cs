@@ -23,7 +23,7 @@ namespace Lazurite.Windows.Utils
         {
             if (ms <= SleepCancelTokenIterationInterval || cancelToken.Equals(CancellationToken.None))
                 Thread.Sleep(ms);
-            else for (int i = 0; i <= ms && !cancelToken.CanBeCanceled; i += SleepCancelTokenIterationInterval)
+            else for (int i = 0; i <= ms && !cancelToken.IsCancellationRequested; i += SleepCancelTokenIterationInterval)
                 Thread.Sleep(SleepCancelTokenIterationInterval);
         }
 

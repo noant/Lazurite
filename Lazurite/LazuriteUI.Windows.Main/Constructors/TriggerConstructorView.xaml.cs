@@ -92,7 +92,8 @@ namespace LazuriteUI.Windows.Main.Constructors
             _repository.SaveTrigger(_clonedTrigger);
             _clonedTrigger.Initialize();
             _clonedTrigger.AfterInitialize();
-            SetTrigger(_clonedTrigger, 
+            SetTrigger(
+                _clonedTrigger, 
                 ()=> {
                     Applied?.Invoke();
                     IsModified = false;

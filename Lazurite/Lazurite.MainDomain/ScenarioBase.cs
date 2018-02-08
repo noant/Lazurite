@@ -376,7 +376,7 @@ namespace Lazurite.MainDomain
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Error while executing scenario [{0}][{1}]", Name, Id);
+                Log.ErrorFormat(e, "Ошибка выполнения сценария [{0}][{1}]", Name, Id);
             }
             Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
         }
@@ -397,7 +397,7 @@ namespace Lazurite.MainDomain
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Error while calculating user rights for scenario [{0}][{1}]", Name, Id);
+                Log.ErrorFormat(e, "Ошибка во время выполнения вычисления прав для выполнения сценария [{0}][{1}]", Name, Id);
                 return false;
             }
         }
@@ -471,7 +471,7 @@ namespace Lazurite.MainDomain
                 }
                 catch(Exception e)
                 {
-                    Log.InfoFormat(e, "Error while raise events in scenario [{1}][{0}]", Name, Id);
+                    Log.InfoFormat(e, "Ошибка во время выполнения событий сценария [{1}][{0}]", Name, Id);
                 }
             }
         }
@@ -489,7 +489,7 @@ namespace Lazurite.MainDomain
                 }
                 catch (Exception e)
                 {
-                    Log.InfoFormat(e, "Error while raise events in scenario [{1}][{0}]", Name, Id);
+                    Log.InfoFormat(e, "Ошибка во время выполнения событий сценария [{1}][{0}]", Name, Id);
                 }
             }
         }

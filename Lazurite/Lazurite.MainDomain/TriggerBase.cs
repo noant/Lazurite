@@ -12,15 +12,12 @@ namespace Lazurite.MainDomain
     {
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
-        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private CancellationTokenSource _tokenSource;
         private string _id = Guid.NewGuid().ToString();
         
-        public ValueTypeBase ValueType
-        {
-            get {
-                return _scenario?.ValueType ?? new ButtonValueType();
-            }
-        }
+        public ValueTypeBase ValueType => _scenario?.ValueType ?? new ButtonValueType();
+
+        protected CancellationToken? CancellationToken => _tokenSource?.Token;
 
         /// <summary>
         /// Trigger category
@@ -31,12 +28,8 @@ namespace Lazurite.MainDomain
         /// Trigger id
         /// </summary>
         public string Id {
-            get {
-                return _id;
-            }
-            set {
-                _id = value;
-            }
+            get => _id;
+            set => _id = value;
         }
 
         /// <summary>
@@ -59,7 +52,7 @@ namespace Lazurite.MainDomain
         /// </summary>
         public virtual void Stop()
         {
-            _tokenSource.Cancel();
+            _tokenSource?.Cancel();
             Enabled = false;
         }
 
@@ -92,18 +85,23 @@ namespace Lazurite.MainDomain
         /// </summary>
         public void Run()
         {
-            Enabled = true;
-            _tokenSource.Cancel();
-            _tokenSource = new CancellationTokenSource();
-            var cancellationToken = _tokenSource.Token;
-            TaskUtils.StartLongRunning(
-                () => RunInternal(cancellationToken),
-                (exception) => Log.ErrorFormat(exception, "Error while starting trigger [{0}][{1}]", Name, Id));
+            try
+            {
+                if (!_tokenSource?.IsCancellationRequested ?? false)
+                    throw new InvalidOperationException("Невозможно запустить триггер, так как предыдущее выполнение не остановлено!");
+                Enabled = true;
+                _tokenSource = new CancellationTokenSource();
+                RunInternal();
+            }
+            catch (Exception e)
+            {
+                Log.ErrorFormat(e, "Ошибка во время выполнения триггера [{0}][{1}]", Name, Id);
+            }
         }
 
         /// <summary>
         /// Internal run
         /// </summary>
-        protected abstract void RunInternal(CancellationToken cancellationToken);
+        protected abstract void RunInternal();
     }
 }

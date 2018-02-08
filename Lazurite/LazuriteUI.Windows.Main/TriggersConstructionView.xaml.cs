@@ -46,7 +46,9 @@ namespace LazuriteUI.Windows.Main
                     (result) =>
                     {
                         if (result)
+                        {
                             constructorsResolver.Apply(() => callback?.Invoke());
+                        }
                         else
                             callback?.Invoke();
                     });

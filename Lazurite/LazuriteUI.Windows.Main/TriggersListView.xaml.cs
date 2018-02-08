@@ -59,6 +59,9 @@ namespace LazuriteUI.Windows.Main
                 .Cast<ItemView>()
                 .First(x => ((Lazurite.MainDomain.TriggerBase)x.Tag).Id.Equals(trigger.Id));
 
+            if (itemView.Tag == SelectedTrigger)
+                SelectedTrigger = trigger;
+
             itemView.Tag = trigger;
             itemView.Content = trigger.Name;
         }

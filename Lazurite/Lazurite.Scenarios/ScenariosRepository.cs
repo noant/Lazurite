@@ -162,7 +162,6 @@ namespace Lazurite.Scenarios
         public override void SaveTrigger(TriggerBase trigger)
         {
             var prevTrigger = _triggers.FirstOrDefault(x => x.Id.Equals(trigger.Id));
-            prevTrigger.Stop();
             _savior.Set(trigger.Id, trigger);
             var index = _triggers.IndexOf(_triggers.FirstOrDefault(x => x.Id.Equals(trigger.Id)));
             _triggers.RemoveAll(x => x.Id.Equals(trigger.Id));

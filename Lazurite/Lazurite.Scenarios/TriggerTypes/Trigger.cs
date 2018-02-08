@@ -79,7 +79,7 @@ namespace Lazurite.Scenarios.TriggerTypes
                 Stop();
         }
 
-        protected override void RunInternal(CancellationToken cancellationToken)
+        protected override void RunInternal()
         {
             if (GetScenario() == null)
                 return;
@@ -97,12 +97,12 @@ namespace Lazurite.Scenarios.TriggerTypes
                 executeBySubscription = false;
 
             var contexCancellationTokenSource = new CancellationTokenSource();
-            cancellationToken.Register(() => contexCancellationTokenSource.Cancel());
+            CancellationToken.Value.Register(() => contexCancellationTokenSource.Cancel());
             if (executeBySubscription)
             {
                 _lastSubscribe = (sender, args) =>
                 {
-                    if (cancellationToken.IsCancellationRequested)
+                    if (CancellationToken.Value.IsCancellationRequested)
                     {
                         //crutch; scenario can be changed before initializing, then we need to remove 
                         //current subscribe from previous scenario. CancellationToken.IsCancellationRequested
@@ -127,9 +127,7 @@ namespace Lazurite.Scenarios.TriggerTypes
             else
             {
                 var lastVal = string.Empty;
-                CancellationTokenSource timerCancellationToken = null;
-                cancellationToken.Register(() => timerCancellationToken?.Cancel());
-                timerCancellationToken = SystemUtils.StartTimer(
+                var timerCancellationToken = SystemUtils.StartTimer(
                     (token) => {
                         try
                         {
@@ -153,12 +151,13 @@ namespace Lazurite.Scenarios.TriggerTypes
                         }
                         catch (Exception e)
                         {
-                            Log.ErrorFormat(e, "Error while trigger execute: [{0}][{1}]", Name, Id);
+                            Log.ErrorFormat(e, "Ошибка исполнения триггера [{0}][{1}]", Name, Id);
                         }
                     },
                     () => TriggerChangesListenInterval,
                     true,
                     ticksSuperposition: true /*наложение тиков*/);
+                CancellationToken.Value.Register(() => timerCancellationToken.Cancel());
             }
         }
     }
