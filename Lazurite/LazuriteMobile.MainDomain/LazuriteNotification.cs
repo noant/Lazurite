@@ -11,5 +11,6 @@ namespace LazuriteMobile.MainDomain
     {
         public Message Message { get; set; }
         public bool IsRead { get; set; }
+        public int Id { get; set; }
     }
 }

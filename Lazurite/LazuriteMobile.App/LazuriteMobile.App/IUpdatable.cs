@@ -8,6 +8,6 @@ namespace LazuriteMobile.App
 {
     public interface IUpdatable
     {
-        void UpdateView();
+        void UpdateView(Action callback);
     }
 }

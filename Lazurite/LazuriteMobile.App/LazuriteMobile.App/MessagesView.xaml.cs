@@ -22,15 +22,19 @@ namespace LazuriteMobile.App
             InitializeComponent();
         }
 
-        public void UpdateMessages()
+        public void UpdateMessages(Action callback = null)
         {
             var scenariosManager = Singleton.Resolve<LazuriteContext>().Manager;
             scenariosManager.GetNotifications((notifications) => {
-                _currentContext.Post(new SendOrPostCallback((s) => RefreshWith(notifications)), null);
+                _currentContext.Post(new SendOrPostCallback((s) =>
+                {
+                    RefreshWith(notifications);
+                    callback?.Invoke();
+                }), null);
             });
         }
 
-        public void UpdateView() => UpdateMessages();
+        public void UpdateView(Action callback) => UpdateMessages(callback);
 
         private void RefreshWith(LazuriteNotification[] notifications)
         {

@@ -9,12 +9,19 @@ namespace LazuriteMobile.App.Switches
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null)
+            try
             {
-                var dateTime = GeolocationData.FromString(value.ToString()).DateTime;
-                return dateTime.ToString().Replace(" ", "\r\n");
+                if (value != null)
+                {
+                    var dateTime = GeolocationData.FromString(value.ToString()).DateTime;
+                    return dateTime.ToString().Replace(" ", "\r\n");
+                }
+                return string.Empty;
             }
-            return string.Empty;
+            catch
+            {
+                return string.Empty;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

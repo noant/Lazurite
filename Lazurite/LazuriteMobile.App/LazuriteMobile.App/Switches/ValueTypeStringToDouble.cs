@@ -8,7 +8,9 @@ namespace LazuriteMobile.App.Switches
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return double.Parse((value??0).ToString());
+            double num = -1;
+            double.TryParse((value ?? string.Empty).ToString(), out num);
+            return num;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

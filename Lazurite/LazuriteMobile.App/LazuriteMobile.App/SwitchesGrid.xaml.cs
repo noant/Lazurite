@@ -39,7 +39,7 @@ namespace LazuriteMobile.App
                 {
                     var scenarioModel = models.FirstOrDefault(x => x.Scenario.ScenarioId.Equals(scenario.ScenarioId));
                     if (scenarioModel != null && 
-                        scenarioModel.Scenario.ValueType.Equals(scenario.ValueType))
+                        !scenarioModel.Scenario.ValueType.Equals(scenario.ValueType))
                     {
                         var control = modelsViews[scenarioModel];
                         grid.Children.Remove(control);
@@ -65,7 +65,6 @@ namespace LazuriteMobile.App
                 }
 
                 Rearrange();
-
                 BatchCommit();
             }
         }
@@ -102,7 +101,6 @@ namespace LazuriteMobile.App
             lock (Locker)
             {
                 BatchBegin();
-
                 var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext).ToList();
                 var models = modelsViews.Select(x => x.Key).ToArray();
                 //add new scenarios and refresh existing
@@ -120,7 +118,6 @@ namespace LazuriteMobile.App
                     }
                 }
                 Rearrange();
-
                 BatchCommit();
             }
         }

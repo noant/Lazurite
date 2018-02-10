@@ -16,11 +16,16 @@ namespace LazuriteMobile.App.Controls
             IconProperty = BindableProperty.Create(nameof(Icon), typeof(Icon), typeof(IconView), Icon.Power, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) => {
                     var icon = (Icon)newVal;
-                    ImageSource imageSource = null;
-                    if (!_cache.ContainsKey(icon))
-                        _cache.Add(icon, imageSource = ImageSource.FromResource(LazuriteUI.Icons.Utils.GetIconResourceName(icon), typeof(Icon).GetTypeInfo().Assembly));
-                    else imageSource = _cache[icon];
-                    ((IconView)sender).iconControl.Source = imageSource;
+                    var prevIcon = (Icon)oldVal;
+                    if (prevIcon != icon)
+                    {
+                        var iconView = (IconView)sender;
+                        ImageSource imageSource = null;
+                        if (!_cache.ContainsKey(icon))
+                            _cache.Add(icon, imageSource = ImageSource.FromResource(LazuriteUI.Icons.Utils.GetIconResourceName(icon), typeof(Icon).GetTypeInfo().Assembly));
+                        else imageSource = _cache[icon];
+                        iconView.iconControl.Source = imageSource;
+                    }
                 });
         }
 

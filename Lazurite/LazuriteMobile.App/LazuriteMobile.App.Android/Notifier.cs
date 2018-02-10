@@ -18,6 +18,7 @@ namespace LazuriteMobile.App.Droid
 {
     public class Notifier : INotifier
     {
+        private const int MaxMessagesCnt = 20;
         private static int _lastId = 1;
         private static int GetNextNotificationId() => ++_lastId;
         private List<LazuriteNotification> _notificationsCache = new List<LazuriteNotification>();
@@ -41,8 +42,12 @@ namespace LazuriteMobile.App.Droid
 
                 var notificationManager =
                     context.GetSystemService(Context.NotificationService) as NotificationManager;
-                    
-                notificationManager.CancelAll();
+
+                foreach (var notification in _notificationsCache)
+                    notificationManager.Cancel(notification.Id);
+
+                if (_notificationsCache.Count > MaxMessagesCnt)
+                    _notificationsCache = _notificationsCache.GetRange(0, MaxMessagesCnt);
             }
         }
 
@@ -51,6 +56,7 @@ namespace LazuriteMobile.App.Droid
             var newId = GetNextNotificationId();
 
             var lazNotification = new LazuriteNotification();
+            lazNotification.Id = newId;
             lazNotification.Message = message;
             _notificationsCache.Insert(0, lazNotification);
 

@@ -1,5 +1,6 @@
-﻿using LazuriteUI.Icons;
-
+﻿using Lazurite.Shared;
+using LazuriteUI.Icons;
+using System;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Common
@@ -24,6 +25,7 @@ namespace LazuriteMobile.App.Common
         public SliderMenu()
         {
             InitializeComponent();
+            BackgroundColor = Color.Black;
             TranslationY = Height;
 
             SizeChanged += (o, e) =>
@@ -37,42 +39,61 @@ namespace LazuriteMobile.App.Common
                 }
             };
         }
-                        
-        public bool MenuVisible
-        {
-            get; private set;
-        } = true;
+
+        public bool MenuVisible { get; private set; } = true;
 
         public void Hide()
         {
-            BackgroundColor = Color.Transparent;
             this.TranslateTo(0, Height, 100, Easing.Linear);
             MenuVisible = false;
         }
 
         public void Show()
         {
+            if (BeforeMenuShown != null)
+                BeforeMenuShown(
+                    this, 
+                    new EventsArgs<ShowMenuContinuation>(new ShowMenuContinuation(ShowInternal)));
+            else
+                ShowInternal();
+        }
+
+        private void ShowInternal()
+        {
             if (_initialized)
             {
-                BackgroundColor = Color.Black;
-                this.TranslateTo(0, 0, 100, Easing.Linear);
-                MenuVisible = true;
                 if (contentView.Content is IUpdatable)
-                    ((IUpdatable)contentView.Content).UpdateView();
+                    ((IUpdatable)contentView.Content).UpdateView(()=> {
+                        this.TranslateTo(0, 0, 100, Easing.Linear);
+                        MenuVisible = true;
+                    });
+                else
+                {
+                    this.TranslateTo(0, 0, 100, Easing.Linear);
+                    MenuVisible = true;
+                }
             }
             else _needShow = true;
         }
-        
+
+        public event EventsHandler<ShowMenuContinuation> BeforeMenuShown;
+
         public View Content
         {
-            get
-            {
-                return (View)GetValue(ContentProperty);
-            }
-            set
-            {
-                SetValue(ContentProperty, value);
-            }
+            get => (View)GetValue(ContentProperty);
+            set => SetValue(ContentProperty, value);
         }
+    }
+
+    public class ShowMenuContinuation
+    {
+        public ShowMenuContinuation(Action @continue)
+        {
+            _continue = @continue;
+        }
+
+        private Action _continue;
+
+        public void ContinueShow() => _continue?.Invoke();
     }
 }
