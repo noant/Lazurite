@@ -27,7 +27,7 @@ namespace LazuriteMobile.App.Common
             itemView.Icon = info.Icon;
             itemView.HeightRequest = itemView.WidthRequest = 45;
             itemView.BackgroundColor = Color.Transparent;
-            itemView.Click += (o, e) => info.Menu.Show();
+            itemView.Clicked += (o, e) => info.Menu.Show();
             stackPanel.Children.Add(itemView);
             _tabs.Add(info);
         }

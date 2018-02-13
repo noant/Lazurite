@@ -157,6 +157,7 @@ namespace LazuriteMobile.App.Controls
                 var view = AnimateView ?? this;
                 await view.ScaleTo(0.85, 50, Easing.Linear).ContinueWith((o) =>
                     view.ScaleTo(1, 50, Easing.Linear)
+                        .ContinueWith(o1 => Clicked?.Invoke(this, new EventsArgs<object>(this)))
                 );
                 if (Selectable)
                     Selected = !Selected;
@@ -177,6 +178,7 @@ namespace LazuriteMobile.App.Controls
         }
 
         public event EventsHandler<object> Click;
+        public event EventsHandler<object> Clicked;
         public event EventsHandler<object> SelectionChanged;
     }
 }
