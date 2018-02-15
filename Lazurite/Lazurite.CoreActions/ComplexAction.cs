@@ -71,7 +71,7 @@ namespace Lazurite.CoreActions
                 .Select(x=>x.Action)
                 .Union(
                 ActionHolders
-                .Where(x => x.Action is IMultipleAction)
+                .Where(x => x.Action is IMultipleAction multipleAction)
                 .Select(x => ((IMultipleAction)x.Action).GetAllActionsFlat()).SelectMany(x => x)).ToArray();
             return result;
         }

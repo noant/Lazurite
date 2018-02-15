@@ -32,8 +32,8 @@ namespace Lazurite.Scenarios.TriggerTypes
 
         public override IAction[] GetAllActionsFlat()
         {
-            if (TargetAction is IMultipleAction)
-                return ((IMultipleAction)TargetAction).GetAllActionsFlat();
+            if (TargetAction is IMultipleAction multipleAction)
+                return multipleAction.GetAllActionsFlat();
             else return new IAction[0];
         }
 
@@ -93,7 +93,7 @@ namespace Lazurite.Scenarios.TriggerTypes
 
             //если сценарий это одиночное действие и нельзя подписаться на изменение целевого действия
             //то не выполняем по подписке, а выполняем просто через цикл 
-            if (GetScenario() is SingleActionScenario && !((SingleActionScenario)GetScenario()).ActionHolder.Action.IsSupportsEvent)
+            if (GetScenario() is SingleActionScenario singleActionScen && !singleActionScen.ActionHolder.Action.IsSupportsEvent)
                 executeBySubscription = false;
 
             var contexCancellationTokenSource = new CancellationTokenSource();

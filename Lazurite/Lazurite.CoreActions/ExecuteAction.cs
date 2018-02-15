@@ -33,27 +33,11 @@ namespace Lazurite.CoreActions
             }
         }
 
-        public bool IsSupportsEvent
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool IsSupportsEvent => false;
 
-        public bool IsSupportsModification
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool IsSupportsModification => true;
 
-        public ValueTypeBase ValueType
-        {
-            get;
-            set;
-        } = new ButtonValueType();
+        public ValueTypeBase ValueType { get; set; } = new ButtonValueType();
 
         public IAction[] GetAllActionsFlat()
         {
@@ -87,10 +71,7 @@ namespace Lazurite.CoreActions
 
         private ActionHolder _actionHolder = new ActionHolder();
         public ActionHolder MasterActionHolder {
-            get
-            {
-                return _actionHolder;
-            }
+            get => _actionHolder;
             set
             {
                 if (_inputValue != null && !_actionHolder.Action.ValueType.IsCompatibleWith(_inputValue.Action.ValueType))
@@ -101,10 +82,7 @@ namespace Lazurite.CoreActions
 
         private ActionHolder _inputValue = new ActionHolder();
         public ActionHolder InputValue {
-            get
-            {
-                return _inputValue;
-            }
+            get => _inputValue;
             set
             {
                 if (_actionHolder == null)

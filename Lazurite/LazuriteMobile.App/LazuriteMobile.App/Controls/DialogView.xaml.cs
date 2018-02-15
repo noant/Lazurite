@@ -46,5 +46,10 @@ namespace LazuriteMobile.App.Controls
 		public static bool AnyOpened => AllOpened.Any();
 
 		public static void CloseLast() => AllOpened.LastOrDefault()?.Close();
+
+        public static void CloseAllDialogs() {
+            foreach (var dialog in AllOpened)
+                dialog.Close();
+        }
 	}
 }

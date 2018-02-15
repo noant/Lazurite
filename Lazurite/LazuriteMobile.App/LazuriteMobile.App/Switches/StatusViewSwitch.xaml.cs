@@ -14,8 +14,7 @@ namespace LazuriteMobile.App.Switches
     {
         private static readonly int FloatView_ValueUpdateInterval = GlobalSettings.Get(300);
         private static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
-
-        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        
         private IHardwareVolumeChanger _changer;
 
         public StatusViewSwitch()

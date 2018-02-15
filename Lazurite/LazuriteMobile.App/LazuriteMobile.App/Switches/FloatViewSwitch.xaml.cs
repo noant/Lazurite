@@ -13,7 +13,8 @@ namespace LazuriteMobile.App.Switches
         private static readonly int FloatView_ValueUpdateInterval = GlobalSettings.Get(300);
         private static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
 
-        private string _tempValue;
+        private string _tempValue;//crutch#1
+        private string _tempValue_current; //crutch#2
         private double _iteration;
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private IHardwareVolumeChanger _changer;
@@ -44,17 +45,13 @@ namespace LazuriteMobile.App.Switches
             slider.Minimum = model.Min; //crutch
 
             slider.Value = double.Parse(model.ScenarioValue);
-            _tempValue = model.ScenarioValue;
+            _tempValue = _tempValue_current = model.ScenarioValue;
             _iteration = (model.Max - model.Min) / 20;
-            slider.ValueChanged += (o, e) =>
-            {
-                _tempValue = slider.Value.ToString();
-            };
-
+            slider.ValueChanged += (o, e) => _tempValue = slider.Value.ToString();
             _tokenSource = SystemUtils.StartTimer(
                 (token) => {
-                    if (_tempValue != model.ScenarioValue)
-                        model.ScenarioValue = _tempValue;
+                    if (_tempValue != _tempValue_current)
+                        model.ScenarioValue = _tempValue_current = _tempValue;
                 },
                 () => FloatView_ValueUpdateInterval);            
         }

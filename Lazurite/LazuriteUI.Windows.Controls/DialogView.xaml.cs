@@ -93,14 +93,15 @@ namespace LazuriteUI.Windows.Controls
         {
             if (Parent != null)
             {
-                if (contentControl.Content is IDisposable)
-                    ((IDisposable)contentControl.Content).Dispose();
-                foreach (FrameworkElement element in ((Panel)Parent).Children)
+                var parentPanel = (Panel)Parent;
+                if (contentControl.Content is IDisposable disposable)
+                    disposable.Dispose();
+                foreach (FrameworkElement element in parentPanel.Children)
                 {
                     if (!_tempDisabledElements.Contains(element))
                         element.IsEnabled = true;
                 }
-                ((Panel)Parent).Children.Remove(this);
+                parentPanel.Children.Remove(this);
                 Closed?.Invoke(this, new RoutedEventArgs());
             }
         }

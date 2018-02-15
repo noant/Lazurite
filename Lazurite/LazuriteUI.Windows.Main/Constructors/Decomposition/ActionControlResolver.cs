@@ -34,9 +34,9 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
 
         public static void UserInitialize(Action<bool> callback, IAction action, ValueTypeBase valueType, bool inheritsSupportedValues, IAction masterAction)
         {
-            if (action is IStandardValueAction)
+            if (action is IStandardValueAction standardVTAction)
             {
-                IStandardVTActionEditView vtAction = CreateControl((IStandardValueAction)action, masterAction);
+                IStandardVTActionEditView vtAction = CreateControl(standardVTAction, masterAction);
                 if (vtAction == null)
                     callback?.Invoke(true);
                 var dialog = new DialogView((FrameworkElement)vtAction);
@@ -47,9 +47,9 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 };
                 dialog.Show();
             }
-            else if (action is RunExistingScenarioAction)
+            else if (action is RunExistingScenarioAction runExistingScenAction)
             {
-                var runExistingScenarioAction = (RunExistingScenarioAction)action;
+                var runExistingScenarioAction = runExistingScenAction;
                 SelectScenarioAndRunModeView.Show(
                     (selectedScenario, selectedMode) => {
                         var id = selectedScenario.Id;
@@ -63,9 +63,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                     runExistingScenarioAction.TargetScenarioId,
                     runExistingScenarioAction.Mode);
             }
-            else if (action is GetExistingScenarioValueAction)
+            else if (action is GetExistingScenarioValueAction getScenarioValueAction)
             {
-                var getScenarioValueAction = (GetExistingScenarioValueAction)action;
                 SelectScenarioView.Show(
                     (selectedScenario) => {
                         var id = selectedScenario.Id;

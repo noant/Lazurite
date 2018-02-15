@@ -71,8 +71,8 @@ namespace LazuriteUI.Windows.Controls
                         if (SelectionMode == ListViewItemsSelectionMode.Single && item.Selected)
                         {
                             foreach (var child in Children)
-                                if (child is ISelectable && item != child)
-                                    ((ISelectable)child).Selected = false;
+                                if (item != child && child is ISelectable selectable)
+                                    selectable.Selected = false;
                         }
                         _lockSelectionChangedEvent = false;
                         RaiseSelectionChanged();

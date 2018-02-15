@@ -85,7 +85,7 @@ namespace Lazurite.Scenarios
         {
             var linkedScenarios = _scenarios.Except(new[] { scenario })
                                     .Where(x => x.GetAllActionsFlat()
-                                        .Any(z => (z is IScenariosAccess) && ((IScenariosAccess)z).TargetScenarioId != null && ((IScenariosAccess)z).TargetScenarioId.Equals(scenario.Id))).ToArray();
+                                        .Any(z => z is IScenariosAccess scenarioAccessObj && scenarioAccessObj.TargetScenarioId != null && scenarioAccessObj.TargetScenarioId.Equals(scenario.Id))).ToArray();
 
             if (linkedScenarios.Any())
             {
@@ -95,7 +95,7 @@ namespace Lazurite.Scenarios
 
             var linkedTriggers = _triggers
                                     .Where(x => (x.TargetScenarioId != null && x.TargetScenarioId.Equals(scenario.Id)) || x.GetAllActionsFlat()
-                                        .Any(z => (z is IScenariosAccess) && ((IScenariosAccess)z).TargetScenarioId.Equals(scenario.Id))).ToArray();
+                                        .Any(z => z is IScenariosAccess scenarioAccessObj && scenarioAccessObj.TargetScenarioId.Equals(scenario.Id))).ToArray();
 
             if (linkedScenarios.Any())
             {
@@ -124,7 +124,8 @@ namespace Lazurite.Scenarios
                 _scenarios
                 .SelectMany(x => x.GetAllActionsFlat())
                 .Union(_triggers.SelectMany(x=>x.GetAllActionsFlat()))
-                .Where(x => x is IScenariosAccess && (((IScenariosAccess)x).TargetScenarioId?.Equals(scenario.Id) ?? false));
+                .Where(x => x is IScenariosAccess scenarioAccessObj && scenarioAccessObj.TargetScenarioId == scenario.Id)
+                .ToArray();
 
             foreach (IScenariosAccess action in allActionsWithScen)
                 action.SetTargetScenario(scenario);

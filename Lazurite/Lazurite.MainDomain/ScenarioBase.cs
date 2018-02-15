@@ -52,7 +52,7 @@ namespace Lazurite.MainDomain
         {
             try
             {
-                if (context.Find((x) => x.AlgorithmContext is ScenarioBase && ((ScenarioBase)x.AlgorithmContext).Id == Id) != null) //if true - then it is circular reference
+                if (context.Find((x) => x.AlgorithmContext is ScenarioBase scenarioBase && scenarioBase.Id == Id) != null) //if true - then it is circular reference
                     throw new ScenarioExecutionException(ScenarioExecutionError.CircularReference);
 
                 if (context.ExecutionNesting >= MaxStackValue)

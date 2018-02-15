@@ -221,24 +221,23 @@ namespace Lazurite.Windows.Modules
         {
             var action = (IAction)Activator.CreateInstance(type);
             PrepareInstance(action, algorithmContext);
-            if (action is ExecuteAction)
-                ((ExecuteAction)action).InputValue.Action = CoreActions.Utils.Default(action.ValueType);
-            else if (action is SetReturnValueAction)
-                ((SetReturnValueAction)action).InputValue.Action = CoreActions.Utils.Default(algorithmContext.ValueType);
+            if (action is ExecuteAction executeAction)
+                executeAction.InputValue.Action = CoreActions.Utils.Default(action.ValueType);
+            else if (action is SetReturnValueAction setReturnValueAction)
+                setReturnValueAction.InputValue.Action = CoreActions.Utils.Default(algorithmContext.ValueType);
             return action;
         }
 
         public IAction PrepareInstance(IAction action, IAlgorithmContext algorithmContext)
         {
-            if (action is IContextInitializable)
-                ((IContextInitializable)action).Initialize(algorithmContext);
-            if (action is IScenariosAccess)
-                ((IScenariosAccess)action)
-                    .SetTargetScenario(_scenarioRepository.Scenarios.FirstOrDefault(x => x.Id.Equals(((IScenariosAccess)action).TargetScenarioId)));
-            if (action is IUsersGeolocationAccess)
-                ((IUsersGeolocationAccess)action).SetNeedTargets(() => _usersRepository.Users.ToArray());
-            if (action is IMessagesSender)
-                ((IMessagesSender)action).SetNeedTargets(() => _usersRepository.Users.ToArray());
+            if (action is IContextInitializable contextInitializable)
+                contextInitializable.Initialize(algorithmContext);
+            if (action is IScenariosAccess scenarioAccessObj)
+                scenarioAccessObj.SetTargetScenario(_scenarioRepository.Scenarios.FirstOrDefault(x => x.Id.Equals(((IScenariosAccess)action).TargetScenarioId)));
+            if (action is IUsersGeolocationAccess geolocationAccessObj)
+                geolocationAccessObj.SetNeedTargets(() => _usersRepository.Users.ToArray());
+            if (action is IMessagesSender messagesSender)
+                messagesSender.SetNeedTargets(() => _usersRepository.Users.ToArray());
             return action;
         }
 

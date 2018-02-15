@@ -41,9 +41,9 @@ namespace Lazurite.ActionsDomain.ValueTypes
 
         public override bool Equals(object obj)
         {
-            return obj is ValueTypeBase &&
+            return obj is ValueTypeBase valueType &&
                 GetType() == obj.GetType() &&
-                Enumerable.SequenceEqual(AcceptedValues, ((ValueTypeBase)obj).AcceptedValues);
+                Enumerable.SequenceEqual(AcceptedValues, valueType.AcceptedValues);
         }
         
         public override string ToString() => HumanFriendlyName;

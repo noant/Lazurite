@@ -17,9 +17,14 @@ namespace LazuriteMobile.App.Droid
     [Activity(Label = "Lazurite", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = false, ScreenOrientation = ScreenOrientation.Portrait, LaunchMode = LaunchMode.SingleTop, HardwareAccelerated = true)]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity, IHardwareVolumeChanger, ISupportsResume
     {
-        SupportsResumeResumed ISupportsResume.OnResume { get; set; }
+        SupportsResumeStateChanged ISupportsResume.StateChanged { get; set; }
 
         private SupportsResumeState _currentState = SupportsResumeState.Closed;
+
+        private void RaiseStateChanged(SupportsResumeState current, SupportsResumeState previous)
+        {
+            ((ISupportsResume)this).StateChanged?.Invoke(this, current, previous);
+        }
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -74,7 +79,7 @@ namespace LazuriteMobile.App.Droid
         protected override void OnResume()
         {
             base.OnResume();
-            ((ISupportsResume)this).OnResume?.Invoke(this, _currentState);
+            RaiseStateChanged(SupportsResumeState.Active, _currentState);
             _currentState = SupportsResumeState.Active;
             HandleIntent(Intent);
         }
@@ -82,10 +87,9 @@ namespace LazuriteMobile.App.Droid
         protected override void OnPause()
         {
             base.OnPause();
-            if (IsFinishing)
-                _currentState = SupportsResumeState.Stopped;
-            else
-                _currentState = SupportsResumeState.Paused;
+            var newState = IsFinishing ? SupportsResumeState.Stopped : SupportsResumeState.Paused;
+            RaiseStateChanged(newState, _currentState);
+            _currentState = newState;
         }
                 
         protected override void OnNewIntent(Intent intent)
