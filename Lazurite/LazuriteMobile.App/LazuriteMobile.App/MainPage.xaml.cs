@@ -29,9 +29,9 @@ namespace LazuriteMobile.App
             tabsView.AddTabInfo(new SliderTabsView.TabInfo(messagesSlider, LazuriteUI.Icons.Icon.EmailMinimal));
             _supportsResume.StateChanged = (sender, currentState, previousState) =>
             {
-                if (currentState == SupportsResumeState.Paused)
-                    DialogView.CloseAllDialogs(); //close dialogs on home pressed
                 //do not reinit when app was "home button pressed"
+                if (currentState == SupportsResumeState.Paused)
+                    DialogView.CloseAllDialogs();
                 if (previousState == SupportsResumeState.Closed || previousState == SupportsResumeState.Stopped)
                     InitializeManager();
             };

@@ -40,6 +40,7 @@ namespace LazuriteMobile.App.Switches
         public FloatViewSwitch(SwitchScenarioModel model) : this()
         {
             BindingContext = model;
+
             //binding works incorrectly
             slider.Maximum = model.Max; //crutch
             slider.Minimum = model.Min; //crutch

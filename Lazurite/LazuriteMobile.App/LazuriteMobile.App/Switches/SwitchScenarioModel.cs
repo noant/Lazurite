@@ -58,13 +58,7 @@ namespace LazuriteMobile.App.Switches
         private bool _available;
         private bool _checked;
 
-        public UserVisualSettings VisualSettings
-        {
-            get
-            {
-                return Scenario?.VisualSettings;
-            }
-        }
+        public UserVisualSettings VisualSettings => Scenario?.VisualSettings;
 
         public ScenarioInfo Scenario { get; private set; }
         
@@ -125,44 +119,17 @@ namespace LazuriteMobile.App.Switches
             }
         }
 
-        public bool AllowClick
-        {
-            get
-            {
-                return !Scenario.OnlyGetValue && Scenario.IsAvailable;
-            }
-        }
+        public bool AllowClick => !Scenario.OnlyGetValue && Scenario.IsAvailable;
 
-        public bool IsAvailable
-        {
-            get
-            {
-                return Scenario.IsAvailable;
-            }
-        }
+        public bool IsAvailable => Scenario.IsAvailable;
 
-        public string ScenarioName
-        {
-            get
-            {
-                return Scenario?.Name;
-            }
-        }
+        public string ScenarioName => Scenario?.Name;
 
-        public string[] AcceptedValues
-        {
-            get
-            {
-                return Scenario.ValueType.AcceptedValues;
-            }
-        }
+        public string[] AcceptedValues => Scenario.ValueType.AcceptedValues;
 
         public string ScenarioValue
         {
-            get
-            {
-                return _value;
-            }
+            get => _value;
             set
             {
                 _value = value;
@@ -171,39 +138,29 @@ namespace LazuriteMobile.App.Switches
             }
         }
         
-        public double Max {
-            get
-            {
-                return double.Parse((Scenario.ValueType as FloatValueType)?.AcceptedValues.Last());
-            }
-        }
-                
         public bool Checked
         {
-            get
-            {
-                return _checked;
-            }
+            get => _checked;
             set
             {
                 _checked = value;
                 OnPropertyChanged(nameof(Checked));
             }
         }
+
+        public double Max
+        {
+            get =>  (Scenario.ValueType as FloatValueType)?.Max ?? 100;
+        }
+
         public double Min
         {
-            get
-            {
-                return double.Parse((Scenario.ValueType as FloatValueType)?.AcceptedValues.First());
-            }
+            get =>  (Scenario.ValueType as FloatValueType)?.Min ?? 0;
         }
 
         public bool Available
         {
-            get
-            {
-                return _available;
-            }
+            get => _available;
             set
             {
                 _available = value;
