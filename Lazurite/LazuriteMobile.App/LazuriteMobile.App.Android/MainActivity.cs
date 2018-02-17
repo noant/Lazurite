@@ -29,21 +29,22 @@ namespace LazuriteMobile.App.Droid
 
         protected override void OnCreate(Bundle bundle)
         {
-            base.OnCreate(bundle);
             CrossCurrentActivity.Current.Activity = this;
-            global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App());
-
-            Window.AddFlags(WindowManagerFlags.KeepScreenOn);
 
             Singleton.Clear<IHardwareVolumeChanger>();
             Singleton.Add((IHardwareVolumeChanger)this);
 
             Singleton.Clear<ISupportsResume>();
             Singleton.Add((ISupportsResume)this);
-            
+
             var context = Singleton.Resolve<LazuriteContext>();
             context.Manager = new ServiceScenariosManager(this);
+
+            global::Xamarin.Forms.Forms.Init(this, bundle);
+            base.OnCreate(bundle);
+            LoadApplication(new App());
+
+            Window.AddFlags(WindowManagerFlags.KeepScreenOn);
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
