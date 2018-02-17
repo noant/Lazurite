@@ -217,31 +217,46 @@ namespace LazuriteMobile.App
             try
             {
                 //recreate connection if error
-                if (!_succeed)
-                    RecreateConnection();
-                _refreshEndingToken = new CancellationTokenSource();
-                _syncDataEndingToken = new CancellationTokenSource();
-                _refreshEndingToken.Token.Register(() => _iterationRefreshNow = false);
-                SyncAddictionalData(success =>
+                if (_credentials == null)
                 {
-                    _succeed = success;
-                    _syncDataEndingToken.Cancel();
-                });
-                if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || _refreshIncrement == 0 || Scenarios == null)
-                {
-                    Refresh(success =>
-                    {
-                        _succeed = success;
-                        _refreshEndingToken.Cancel();
-                    });
+                    NeedClientSettings?.Invoke();
+                    _iterationRefreshNow = false;
                 }
                 else
                 {
-                    Update(success =>
+                    if (!_succeed)
+                        RecreateConnection();
+                    _refreshEndingToken = new CancellationTokenSource();
+                    _syncDataEndingToken = new CancellationTokenSource();
+                    _syncDataEndingToken.Token.Register(() => {
+                        if (_refreshEndingToken.IsCancellationRequested)
+                            _iterationRefreshNow = false;
+                    });
+                    _refreshEndingToken.Token.Register(() => {
+                        if (_syncDataEndingToken.IsCancellationRequested)
+                            _iterationRefreshNow = false;
+                    });
+                    SyncAddictionalData(success =>
                     {
                         _succeed = success;
-                        _refreshEndingToken.Cancel();
+                        _syncDataEndingToken.Cancel();
                     });
+                    if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || _refreshIncrement == 0 || Scenarios == null)
+                    {
+                        Refresh(success =>
+                        {
+                            _succeed = success;
+                            _refreshEndingToken.Cancel();
+                        });
+                    }
+                    else
+                    {
+                        Update(success =>
+                        {
+                            _succeed = success;
+                            _refreshEndingToken.Cancel();
+                        });
+                    }
                 }
                 _refreshIncrement++;
             }

@@ -50,7 +50,14 @@ namespace LazuriteMobile.App.Droid
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, global::Android.Content.PM.Permission[] grantResults)
         {
-            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            try
+            {
+                PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+            catch
+            {
+                //crutch
+            }
         }
 
         protected override void OnDestroy()
