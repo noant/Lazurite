@@ -29,6 +29,11 @@ namespace LazuriteMobile.App.Droid
 
         protected override void OnCreate(Bundle bundle)
         {
+            base.OnCreate(bundle);
+            CrossCurrentActivity.Current.Activity = this;
+            global::Xamarin.Forms.Forms.Init(this, bundle);
+            LoadApplication(new App());
+
             Window.AddFlags(WindowManagerFlags.KeepScreenOn);
 
             Singleton.Clear<IHardwareVolumeChanger>();
@@ -42,12 +47,6 @@ namespace LazuriteMobile.App.Droid
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
-            base.OnCreate(bundle);
-            CrossCurrentActivity.Current.Activity = this;
-
-            global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App());
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, global::Android.Content.PM.Permission[] grantResults)
