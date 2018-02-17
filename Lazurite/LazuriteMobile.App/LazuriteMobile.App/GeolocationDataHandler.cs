@@ -5,16 +5,17 @@ using Lazurite.Shared;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using System;
+using System.Threading.Tasks;
 
 namespace LazuriteMobile.App
 {
-    public class GeolocationDataHandler: IAddictionalDataHandler, IDisposable
+    public class GeolocationDataHandler : IAddictionalDataHandler, IDisposable
     {
         private static readonly double GeolocationMetersMinimumDistance = GlobalSettings.Get(10.0);
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
         private Geolocation _lastLocation = Geolocation.Empty;
 
-        private bool IsLocationAvailable() => CrossGeolocator.IsSupported;
+        private Task<bool> IsLocationAvailable() => CrossGeolocator.Current.CheckPermissionsAsync();
 
         public void Handle(AddictionalData data, object tag)
         {
@@ -28,35 +29,37 @@ namespace LazuriteMobile.App
 
         public void Initialize()
         {
-            if (IsLocationAvailable())
-            {
+            IsLocationAvailable().ContinueWith((isLocationAvailable) => {
                 try
                 {
-                    CrossGeolocator.Current.PositionChanged -= Current_PositionChanged;
-                    CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
-                    CrossGeolocator.Current.GetLastKnownLocationAsync().ContinueWith((t) =>
+                    if (isLocationAvailable.Result)
                     {
-                        if (t.Result != null)
-                            _lastLocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, t.Result.Source == LocationSource.GPS);
-                    });
-                    CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromMinutes(10)).ContinueWith((t) =>
-                    {
-                        if (t.Result != null)
-                            _lastLocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, t.Result.Source == LocationSource.GPS);
-                    });
-                    CrossGeolocator.Current.StartListeningAsync(
-                        minimumTime: TimeSpan.FromMinutes(2),
-                        minimumDistance: GeolocationMetersMinimumDistance,
-                        listenerSettings: new ListenerSettings()
+                        CrossGeolocator.Current.PositionChanged -= Current_PositionChanged;
+                        CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
+                        CrossGeolocator.Current.GetLastKnownLocationAsync().ContinueWith((t) =>
                         {
-                            ActivityType = ActivityType.Fitness
+                            if (t.Result != null)
+                                _lastLocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, t.Result.Source == LocationSource.GPS);
                         });
+                        CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromMinutes(10)).ContinueWith((t) =>
+                        {
+                            if (t.Result != null)
+                                _lastLocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, t.Result.Source == LocationSource.GPS);
+                        });
+                        CrossGeolocator.Current.StartListeningAsync(
+                            minimumTime: TimeSpan.FromMinutes(2),
+                            minimumDistance: GeolocationMetersMinimumDistance,
+                            listenerSettings: new ListenerSettings()
+                            {
+                                ActivityType = ActivityType.Fitness
+                            });
+                    }
                 }
                 catch (Exception e)
                 {
                     Log.Error("Error while initializing GeolocationDataHandler", e);
                 }
-            }
+            });
         }
 
         private void Current_PositionChanged(object sender, PositionEventArgs e)
@@ -66,10 +69,14 @@ namespace LazuriteMobile.App
 
         public void Dispose()
         {
-            if (IsLocationAvailable())
+            try
             {
                 CrossGeolocator.Current.PositionChanged -= Current_PositionChanged;
                 CrossGeolocator.Current.StopListeningAsync();
+            }
+            catch (Exception e)
+            {
+                Log.Error("Error on dispose GeolocationDataHandler", e);
             }
         }
     }
