@@ -193,7 +193,7 @@ namespace UserGeolocationPluginUI
                                 .ToArray();
                             var locations =
                                 geolocations
-                                .Where(x => x.Device.Equals(device) && x.DateTime >= _viewSince)
+                                .Where(x => x.Device.Equals(device) && x.DateTime >= _viewSince && !x.Geolocation.IsInvalid)
                                 .Select(x => new PointDate() {
                                     DateTime = x.DateTime,
                                     Point = new PointLatLng(x.Geolocation.Latitude, x.Geolocation.Longtitude)

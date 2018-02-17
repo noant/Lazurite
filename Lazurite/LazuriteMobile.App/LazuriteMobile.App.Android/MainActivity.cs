@@ -11,6 +11,7 @@ using System;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Android.Content;
+using Plugin.CurrentActivity;
 
 namespace LazuriteMobile.App.Droid
 {
@@ -43,6 +44,7 @@ namespace LazuriteMobile.App.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(bundle);
+            CrossCurrentActivity.Current.Activity = this;
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
@@ -50,14 +52,8 @@ namespace LazuriteMobile.App.Droid
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, global::Android.Content.PM.Permission[] grantResults)
         {
-            try
-            {
-                PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            }
-            catch
-            {
-                //crutch
-            }
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         protected override void OnDestroy()
