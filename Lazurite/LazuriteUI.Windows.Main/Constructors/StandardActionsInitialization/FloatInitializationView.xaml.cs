@@ -1,4 +1,5 @@
 ﻿using Lazurite.ActionsDomain;
+using Lazurite.ActionsDomain.ValueTypes;
 using LazuriteUI.Windows.Controls;
 using System;
 using System.Windows.Controls;
@@ -37,7 +38,7 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
                 ApplyClicked?.Invoke();
             };
 
-            if (masterAction != null)
+            if (masterAction != null && masterAction.ValueType is FloatValueType)
             {
                 tbMin.Text = masterAction.ValueType.AcceptedValues[0];
                 tbMax.Text = masterAction.ValueType.AcceptedValues[1];

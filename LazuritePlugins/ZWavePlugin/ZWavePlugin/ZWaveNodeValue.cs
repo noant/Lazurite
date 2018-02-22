@@ -127,7 +127,6 @@ namespace ZWavePlugin
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValueTypes)
         {
-            ValueType = valueType;
             var manager = ZWaveManager.Current;
             var window = new MainWindow();
             window.RefreshWith(manager, _nodeValue, (nodeValue) => ZWaveTypeComparability.IsTypesComparable(nodeValue, valueType, inheritsSupportedValueTypes));
