@@ -64,7 +64,8 @@ namespace LazuriteMobile.App
 
         private void Current_PositionChanged(object sender, PositionEventArgs e)
         {
-            _lastLocation = new Geolocation(e.Position.Latitude, e.Position.Longitude, e.Position.Source == LocationSource.GPS);
+            if (e.Position.Accuracy <= 100)
+                _lastLocation = new Geolocation(e.Position.Latitude, e.Position.Longitude, e.Position.Source == LocationSource.GPS);
         }
 
         public void Dispose()
