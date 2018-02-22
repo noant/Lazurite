@@ -21,8 +21,9 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             {
                 Modified?.Invoke(this);
                 Action2EqualizeToAction1();
-                if (!action2View.ActionHolder.Action.ValueType
-                    .IsCompatibleWith(action1View.ActionHolder.Action.ValueType))
+                if (!action1View.ActionHolder.Action.ValueType
+                    .IsCompatibleWith(action2View.ActionHolder.Action.ValueType) ||
+                    action2View.ActionHolder.Action is EmptyAction)
                 {
                     _action.InputValue.Action = Lazurite.CoreActions.Utils.Default(action1View.ActionHolder.Action.ValueType);
                     Refresh();

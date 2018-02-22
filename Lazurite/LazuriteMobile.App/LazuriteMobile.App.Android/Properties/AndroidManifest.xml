@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionName="First" package="lazurite.lazurite" android:versionCode="49">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionName="First" package="lazurite.lazurite" android:versionCode="50">
 	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="26" />
 	<application android:label="Lazurite" android:icon="@drawable/splashscreen"></application>
 	<receiver android:name=".StartLazuriteServiceReceiver" android:enabled="false" android:exported="true">
