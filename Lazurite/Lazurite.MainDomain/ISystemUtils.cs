@@ -12,5 +12,7 @@ namespace Lazurite.MainDomain
         bool IsFaultExceptionHasCode(Exception e, string code);
 
         CancellationTokenSource StartTimer(Action<CancellationTokenSource> tick, Func<int> needInterval, bool startImmidiate = true, bool ticksSuperposition = false);
+
+        byte[] CreateMD5Hash(byte[] bytes);
     }
 }

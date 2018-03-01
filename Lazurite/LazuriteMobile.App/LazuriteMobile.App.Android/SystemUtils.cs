@@ -1,5 +1,6 @@
 ﻿using Lazurite.MainDomain;
 using System;
+using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Threading;
 
@@ -8,6 +9,8 @@ namespace LazuriteMobile.App.Droid
     public class SystemUtils : ISystemUtils
     {
         private static readonly int SleepCancelTokenIterationInterval = GlobalSettings.Get(300);
+
+        public byte[] CreateMD5Hash(byte[] bytes) => MD5.Create().ComputeHash(bytes);
 
         public bool IsFaultException(Exception e) => e is FaultException;
 

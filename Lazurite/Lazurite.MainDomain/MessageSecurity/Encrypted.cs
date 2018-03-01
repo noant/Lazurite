@@ -2,6 +2,7 @@
 using Lazurite.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Lazurite.MainDomain.MessageSecurity
@@ -23,6 +24,9 @@ namespace Lazurite.MainDomain.MessageSecurity
         }
 
         [DataMember]
+        public string Salt { get; set; }
+
+        [DataMember]
         public string Data { get; set; }
 
         public Encrypted()
@@ -34,7 +38,9 @@ namespace Lazurite.MainDomain.MessageSecurity
         {
             Log.Debug("Encrypted object creating...");
             var serializer = SerializersFactory.GetSerializer<T>();
-            Data = GetSecureEncoding(secretKey).Encrypt(serializer.Serialize(obj));
+            Salt = SecureEncoding.CreateSalt();
+            var iv = SecureEncoding.CreateIV(Salt, secretKey);
+            Data = GetSecureEncoding(secretKey).Encrypt(serializer.Serialize(obj), iv);
             ServerTime = DateTime.Now;
             Log.Debug("Encrypted object created");
         }
@@ -47,9 +53,10 @@ namespace Lazurite.MainDomain.MessageSecurity
             Log.Debug("Decryption begin...");
             try
             {
+                var iv = SecureEncoding.CreateIV(Salt, secretKey);
                 var secureEncoding = GetSecureEncoding(secretKey);
                 var serializer = SerializersFactory.GetSerializer<T>();
-                var decryptedRaw = secureEncoding.Decrypt(Data);
+                var decryptedRaw = secureEncoding.Decrypt(Data, iv);
                 return (T)serializer.Deserialize(decryptedRaw.TrimEnd('\0'));
             }
             catch (Exception e)
