@@ -45,22 +45,26 @@ namespace OpenZWrapper
 
         public void AddController(Controller controller, Action<bool> callback)
         {
-            controller.Path = controller.Path.ToUpper();
-            if (!_controllers.Any(x => x.Equals(controller)))
+            lock (_nodes)
             {
-                _controllers.Add(controller);
-                SaveControllersList();
-                if (_manager != null)
-                    _callbacksPool.ExecuteBool(() => _manager.AddDriver(controller.Path, controller.IsHID ? ZWControllerInterface.Hid : ZWControllerInterface.Serial), 
-                        (result) => {
-                            if (!result)
+                controller.Path = controller.Path.ToUpper();
+                if (!_controllers.Any(x => x.Equals(controller)))
+                {
+                    _controllers.Add(controller);
+                    SaveControllersList();
+                    if (_manager != null)
+                        _callbacksPool.ExecuteBool(() => _manager.AddDriver(controller.Path, controller.IsHID ? ZWControllerInterface.Hid : ZWControllerInterface.Serial),
+                            (result) =>
                             {
-                                _controllers.Remove(controller);
-                                SaveControllersList();
-                            }
-                            callback?.Invoke(result);
-                        });
-                else Initialize();
+                                if (!result)
+                                {
+                                    _controllers.Remove(controller);
+                                    SaveControllersList();
+                                }
+                                callback?.Invoke(result);
+                            });
+                    else Initialize();
+                }
             }
         }
 
@@ -395,7 +399,9 @@ namespace OpenZWrapper
                         }
                         else
                             ctrl.Failed = false;
-                    });
+                    }, 
+                    60,
+                    "ControllerLoading" + controller.Path);
                 _manager.TestNetwork(controller.HomeID, 1);
             }
             if ((!_controllers.Any() || _controllers.All(x => x.Failed)) && State != ZWaveManagerState.Initialized)

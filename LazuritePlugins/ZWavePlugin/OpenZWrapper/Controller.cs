@@ -10,7 +10,7 @@ namespace OpenZWrapper
     {
         public string Path { get; set; }
         public bool IsHID { get; set; }
-        internal uint HomeID { get; set; }
+        public uint HomeID { get; set; }
 
         public bool Failed { get; set; }
 
@@ -21,7 +21,9 @@ namespace OpenZWrapper
 
         public override bool Equals(object obj)
         {
-            return this.GetHashCode() == obj?.GetHashCode();
+            if (obj is Controller)
+                return GetHashCode() == obj.GetHashCode();
+            return false;
         }
     }
 }

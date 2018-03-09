@@ -12,32 +12,32 @@ namespace ZWPluginUI
     {
         public NodesListView()
         {
-            this.SelectionMode = ListViewItemsSelectionMode.Single;
+            SelectionMode = ListViewItemsSelectionMode.Single;
         }
 
         public Node SelectedNode
         {
             get
             {
-                return (this.SelectedItem as NodeView)?.Node;
+                return (SelectedItem as NodeView)?.Node;
             }
             set
             {
-                var obj = this.GetItems().FirstOrDefault(x => ((NodeView)x).Node.Equals(value));
+                var obj = GetItems().FirstOrDefault(x => ((NodeView)x).Node.Equals(value));
                 if (obj != null)
                     obj.Selected = true;
                 else
-                    this.GetItems().All(x => x.Selected = false);
+                    GetItems().All(x => x.Selected = false);
             }
         }
 
         public void RefreshWith(Node[] nodes)
         {
             var selectedNode = SelectedNode;
-            this.Children.Clear();
+            Children.Clear();
             foreach (var node in nodes)
-                this.Children.Add(new NodeView(node));
-            this.SelectedNode = selectedNode;
+                Children.Add(new NodeView(node));
+            SelectedNode = selectedNode;
         }
     }
 }
