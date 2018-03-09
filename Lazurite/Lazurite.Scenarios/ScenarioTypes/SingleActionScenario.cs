@@ -153,7 +153,11 @@ namespace Lazurite.Scenarios.ScenarioTypes
         public override void AfterInitilize()
         {
             if (ActionHolder.Action.IsSupportsEvent)
-               ActionHolder.Action.ValueChanged += (action, value) => SetCurrentValue(value);
+                ActionHolder.Action.ValueChanged += (action, value) =>
+                {
+                    SetIsAvailable(true);
+                    SetCurrentValue(value);
+                };
         }
         
         public override void FullInitializeAsync(Action<bool> callback = null)

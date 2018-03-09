@@ -16,7 +16,7 @@ namespace ZWavePlugin
         typeof(ButtonValueType), typeof(ToggleValueType))]
     [LazuriteIcon(Icon.ManSensor)]
     [Category(Category.Control)]
-    public class ZWaveNodeValue : IAction
+    public class ZWaveNodeValue : IAction, IDisposable
     {
         public byte NodeId { get; set; }
         public uint HomeId { get; set; }
@@ -46,22 +46,36 @@ namespace ZWavePlugin
         {
             if (_nodeValue != null)
                 return _nodeValue.Current.ToString();
-            throw new InvalidOperationException(string.Format("Узел не существует. HomeID={0}, NodeID={1}, ValueID={2}", HomeId, NodeId, ValueId));
+            throw new InvalidOperationException(string.Format("Узел не загружен или не существует. Возможно он будет загружен позднее. HomeID={0}, NodeID={1}, ValueID={2}", HomeId, NodeId, ValueId));
         }
 
         public void Initialize()
         {
+            ZWaveManager.Current.NodeValueLoaded -= Current_NodeValueLoaded; //crutch
             ZWaveManager.Current.WaitForInitialized();
             var nodes = ZWaveManager.Current.GetNodes();
             var node = nodes.FirstOrDefault(x => x.Id.Equals(NodeId) && x.HomeId == HomeId);
             _nodeValue = node?.Values.FirstOrDefault(x => x.Id.Equals(ValueId));
             if (_nodeValue != null)
                 _nodeValue.Changed += NodeValue_Changed;
+            else
+                ZWaveManager.Current.NodeValueLoaded += Current_NodeValueLoaded;
+        }
+
+        private void Current_NodeValueLoaded(object sender, Lazurite.Shared.EventsArgs<NodeValue> args)
+        {
+            var nodeValue = args.Value;
+            if (nodeValue.Id == ValueId && nodeValue.Node.Id == NodeId && nodeValue.Node.HomeId == HomeId)
+            {
+                _nodeValue = args.Value;
+                _nodeValue.Changed += NodeValue_Changed;
+                ValueChanged?.Invoke(this, _nodeValue.Current.ToString());
+                ZWaveManager.Current.NodeValueLoaded -= Current_NodeValueLoaded;
+            }
         }
 
         private void NodeValue_Changed(object arg1, NodeValueChangedEventArgs arg2)
         {
-            var value = _nodeValue.Current.ToString();
             ValueChanged?.Invoke(this, _nodeValue.Current.ToString());
         }
 
@@ -80,7 +94,7 @@ namespace ZWavePlugin
                     _nodeValue.Current = value;
             }
             else
-                throw new InvalidOperationException(string.Format("Узел не существует. HomeID={0}, NodeID={1}, ValueID={2}", HomeId, NodeId, ValueId));
+                throw new InvalidOperationException(string.Format("Узел не загружен или не существует. Возможно он будет загружен позднее. HomeID ={0}, NodeID={1}, ValueID={2}", HomeId, NodeId, ValueId));
         }
 
         private object TranslateNumric(string value, OpenZWrapper.ValueType valueType)
@@ -130,6 +144,12 @@ namespace ZWavePlugin
                 return true;
             }
             else return false;
+        }
+
+        public void Dispose()
+        {
+            if (_nodeValue == null)
+                ZWaveManager.Current.NodeValueLoaded -= Current_NodeValueLoaded;
         }
     }
 }

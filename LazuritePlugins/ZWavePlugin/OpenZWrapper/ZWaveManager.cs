@@ -1,5 +1,6 @@
 ﻿using Lazurite.Data;
 using Lazurite.IOC;
+using Lazurite.Shared;
 using OpenZWaveDotNet;
 using System;
 using System.Collections.Generic;
@@ -348,6 +349,7 @@ namespace OpenZWrapper
                             var nodeValue = new NodeValue(value, node);
                             node.Values.Add(nodeValue);
                             nodeValue.Refresh();
+                            NodeValueLoaded?.Invoke(this, new EventsArgs<NodeValue>(nodeValue));
                         }
                         break;
                     case ZWNotification.Type.ValueRefreshed:
@@ -444,5 +446,7 @@ namespace OpenZWrapper
                 return false;
             }
         }
+        
+        public event EventsHandler<NodeValue> NodeValueLoaded;
     }
 }

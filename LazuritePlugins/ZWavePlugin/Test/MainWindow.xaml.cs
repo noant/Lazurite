@@ -2,6 +2,7 @@
 using Lazurite.IOC;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using ZWavePlugin;
 
@@ -16,14 +17,24 @@ namespace Test
         {
             InitializeComponent();
             Singleton.Add(new DataManagerStub());
-
-            while (true)
-            {
-                var b = new ZWaveNodeValue();
-                b.UserInitializeWith(null, false);
-                b.ValueChanged += B_ValueChanged;
-                b.UserInitializeWith(b.ValueType, false);
-            }
+            ZWaveManager.Current.WaitForInitialized();
+            ZWaveManager.Current.AddController(new OpenZWrapper.Controller() { IsHID = false, Path = "COM8" }, (res) => {
+                if (res)
+                {
+                    var b = new ZWaveNodeValue() {
+                        HomeId = 4242162579,
+                        ValueId = 72057594093240320,
+                        NodeId = 3
+                    };
+                    var t = new Thread(() => {
+                        b.Initialize();
+                        while (true)
+                            b.UserInitializeWith(null, false);
+                    });
+                    t.SetApartmentState(ApartmentState.STA);
+                    t.Start();
+                }
+            });
         }
 
         private void B_ValueChanged(Lazurite.ActionsDomain.IAction action, string value)

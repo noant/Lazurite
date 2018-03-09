@@ -60,6 +60,9 @@
     <Reference Include="Lazurite.IOC">
       <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.IOC.dll</HintPath>
     </Reference>
+    <Reference Include="Lazurite.Shared">
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.Shared.dll</HintPath>
+    </Reference>
     <Reference Include="OpenZWaveDotNet, Version=1.0.5862.328, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\packages\OpenZWave.1.4.1.1\lib\OpenZWaveDotNet.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
