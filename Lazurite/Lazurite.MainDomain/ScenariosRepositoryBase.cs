@@ -26,8 +26,9 @@ namespace Lazurite.MainDomain
 
         public ScenarioBase[] GetScenarios(UserBase user, ScenarioStartupSource source, ValueTypeBase valueType = null, bool rightPart = false)
         {
+            var actionSource = new ScenarioActionSource(user, source, ScenarioAction.ViewValue);
             return Scenarios.Where(x =>
-                x.CanExecute(user, source)
+                x.IsAccessAvailable(actionSource)
                 && (valueType == null || valueType.IsCompatibleWith(x.ValueType))
                 && (!rightPart || !(x.ValueType is ButtonValueType))).ToArray();
         }

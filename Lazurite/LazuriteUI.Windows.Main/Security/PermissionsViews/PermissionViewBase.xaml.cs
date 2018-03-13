@@ -16,6 +16,7 @@ namespace LazuriteUI.Windows.Main.Security.PermissionsViews
             Permission = permission;
             btRemove.Click += (o, e) => RemoveClicked?.Invoke(this);
             btSelect.Click += (o, e) => OnSelectClick();
+            btAllowRead.Click += (o, e) => ChangeReadAllowed();
             Refresh();
         }
 
@@ -24,23 +25,23 @@ namespace LazuriteUI.Windows.Main.Security.PermissionsViews
         public void Refresh()
         {
             tbName.Text = PermissionName;
+            btAllowRead.Selected = Permission.DenyAction == Lazurite.MainDomain.ScenarioAction.Execute;
             btSelect.Visibility = IsSelectButtonVisible ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        public virtual bool IsSelectButtonVisible
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public virtual bool IsSelectButtonVisible => true;
 
         public string PermissionName
         {
-            get
-            {
-                return Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(Permission.GetType());
-            }
+            get => Lazurite.ActionsDomain.Utils.ExtractHumanFriendlyName(Permission.GetType());
+        }
+
+        public void ChangeReadAllowed()
+        {
+            if (Permission.DenyAction == Lazurite.MainDomain.ScenarioAction.Execute)
+                Permission.DenyAction = Lazurite.MainDomain.ScenarioAction.ViewValue;
+            else Permission.DenyAction = Lazurite.MainDomain.ScenarioAction.Execute;
+            OnModified();
         }
 
         public virtual void OnSelectClick()

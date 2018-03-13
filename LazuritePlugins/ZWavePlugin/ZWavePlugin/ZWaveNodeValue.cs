@@ -105,14 +105,15 @@ namespace ZWavePlugin
                 valueType == OpenZWrapper.ValueType.Decimal)
             {
                 var valueNum = double.Parse(value);
+                var range = OpenZWrapper.Utils.GetRangeFor(valueType);
                 if (valueType == OpenZWrapper.ValueType.Byte)
-                    return (byte)TranslateByMargin(Math.Round(valueNum,0), byte.MinValue, byte.MaxValue);
+                    return (byte)TranslateByMargin(Math.Round(valueNum,0), (byte)range.Min, (byte)range.Max);
                 if (valueType == OpenZWrapper.ValueType.Int)
-                    return (int)TranslateByMargin(Math.Round(valueNum, 0), int.MinValue, int.MaxValue);
+                    return (int)TranslateByMargin(Math.Round(valueNum, 0), (int)range.Min, (int)range.Max);
                 if (valueType == OpenZWrapper.ValueType.Short)
-                    return (short)TranslateByMargin(Math.Round(valueNum, 0), short.MinValue, short.MaxValue);
+                    return (short)TranslateByMargin(Math.Round(valueNum, 0), (short)range.Min, (short)range.Max);
                 if (valueType == OpenZWrapper.ValueType.Decimal)
-                    return (decimal)TranslateByMargin(valueNum, (double)decimal.MinValue, (double)decimal.MaxValue);
+                    return (decimal)TranslateByMargin(valueNum, (double)range.Min, (double)range.Max);
             }
             return value;
         }

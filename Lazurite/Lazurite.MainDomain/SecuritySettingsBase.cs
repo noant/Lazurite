@@ -2,6 +2,6 @@
 {
     public abstract class SecuritySettingsBase
     {
-        public abstract bool IsAvailableForUser(UserBase user, ScenarioStartupSource source);
+        public abstract bool IsAvailableForUser(UserBase user, ScenarioStartupSource source, ScenarioAction action);
     }
 }

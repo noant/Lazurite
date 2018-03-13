@@ -12,9 +12,13 @@ namespace Lazurite.Security.Permissions
         private static UsersRepositoryBase Repository = Singleton.Resolve<UsersRepositoryBase>();
 
         public List<string> GroupsIds { get; set; } = new List<string>();
-        
-        public bool IsAvailableForUser(UserBase user, ScenarioStartupSource source)
+
+        public ScenarioAction DenyAction { get; set; } = ScenarioAction.Execute;
+
+        public bool IsAvailableForUser(UserBase user, ScenarioStartupSource source, ScenarioAction action)
         {
+            if (action > DenyAction)
+                return true;
             return user is SystemUser || GroupsIds.Any(x => 
                 Repository.Groups.First(z=>z.Name.Equals(x))
                 .UsersIds.Any(z => z.Equals(user.Id)));

@@ -10,11 +10,11 @@ namespace Lazurite.Security
             new DenyForAll()
         };
 
-        public override bool IsAvailableForUser(UserBase user, ScenarioStartupSource source)
+        public override bool IsAvailableForUser(UserBase user, ScenarioStartupSource source, ScenarioAction action)
         {
             var result = true;
             foreach (var permission in Permissions)
-                result &= permission.IsAvailableForUser(user, source);
+                result &= permission.IsAvailableForUser(user, source, action);
             return result;
         }
     }

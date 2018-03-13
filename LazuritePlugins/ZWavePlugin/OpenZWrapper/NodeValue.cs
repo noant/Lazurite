@@ -17,6 +17,10 @@ namespace OpenZWrapper
             ZWValueType = id.GetType();
             ValueType = (ValueType)(int)ZWValueType;
             Genre = (ValueGenre)(int)id.GetGenre();
+
+            var range = Utils.GetRangeFor(ValueType);
+            Min = range.Min;
+            Max = range.Max;
         }
 
         public void Refresh()

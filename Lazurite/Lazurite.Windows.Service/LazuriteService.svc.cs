@@ -112,7 +112,7 @@ namespace Lazurite.Windows.Service
             return user;
         }
 
-        private ScenarioBase GetScenarioWithPrivileges(string scenarioId, UserBase user)
+        private ScenarioBase GetScenarioWithPrivileges(string scenarioId, UserBase user, ScenarioAction action)
         {
             var scenario = ScenariosRepository
                 .Scenarios
@@ -121,7 +121,8 @@ namespace Lazurite.Windows.Service
             if (scenario == null)
                 ThrowScenarioNotExistException(scenarioId);
 
-            if (!scenario.CanExecute(user, ScenarioStartupSource.Network))
+            var actionSource = new ScenarioActionSource(user, ScenarioStartupSource.Network, action);
+            if (!scenario.IsAccessAvailable(actionSource))
                 ThrowUnauthorizedAccessException();
 
             return scenario;
@@ -155,25 +156,25 @@ namespace Lazurite.Windows.Service
 
         public Encrypted<string> CalculateScenarioValue(Encrypted<string> scenarioId)
         {
-            return Handle((user) => new Encrypted<string>(GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).CalculateCurrentValue(null), _secretKey));
+            return Handle((user) => new Encrypted<string>(GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user, ScenarioAction.ViewValue).CalculateCurrentValue(null), _secretKey));
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
         public void ExecuteScenario(Encrypted<string> scenarioId, Encrypted<string> value)
         {
-            Handle((user) => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).Execute(value.Decrypt(_secretKey), out string executionId));
+            Handle((user) => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user, ScenarioAction.Execute).Execute(value.Decrypt(_secretKey), out string executionId));
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
         public void AsyncExecuteScenario(Encrypted<string> scenarioId, Encrypted<string> value)
         {
-            Handle((user) => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).ExecuteAsync(value.Decrypt(_secretKey), out string executionId));
+            Handle((user) => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user, ScenarioAction.Execute).ExecuteAsync(value.Decrypt(_secretKey), out string executionId));
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
         public void AsyncExecuteScenarioParallel(Encrypted<string> scenarioId, Encrypted<string> value)
         {
-            Handle((user) => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).ExecuteAsyncParallel(value.Decrypt(_secretKey), null));
+            Handle((user) => GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user, ScenarioAction.Execute).ExecuteAsyncParallel(value.Decrypt(_secretKey), null));
         }
 
         public EncryptedList<ScenarioInfoLW> GetChangedScenarios(DateTime since)
@@ -181,10 +182,11 @@ namespace Lazurite.Windows.Service
             return Handle((user) =>
             {
                 since = since.ToUniversalTime();
+                var scenarioActionSource = new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue);
                 return new EncryptedList<ScenarioInfoLW>(ScenariosRepository
                     .Scenarios
                     .Where(x => 
-                        x.LastChange >= since && x.CanExecute(user, ScenarioStartupSource.Network)
+                        x.LastChange >= since && x.IsAccessAvailable(scenarioActionSource)
                     )
                     .Select(x => new ScenarioInfoLW()
                     {
@@ -199,8 +201,8 @@ namespace Lazurite.Windows.Service
         {
             return Handle((user) =>
             {
-                var scenario = GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user);
-
+                var scenario = GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user, ScenarioAction.ViewValue);
+                var executeScenarioAction = new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.Execute);
                 return new Encrypted<ScenarioInfo>(new ScenarioInfo()
                 {
                     CurrentValue = scenario.CalculateCurrentValue(null),
@@ -208,7 +210,7 @@ namespace Lazurite.Windows.Service
                     ValueType = scenario.ValueType,
                     VisualSettings = GetVisualSettings(user, scenario.Id),
                     Name = scenario.Name,
-                    OnlyGetValue = scenario.OnlyGetValue,
+                    OnlyGetValue = scenario.IsAccessAvailable(executeScenarioAction),
                     IsAvailable = scenario.GetIsAvailable()
                 }, _secretKey);
             });
@@ -218,9 +220,11 @@ namespace Lazurite.Windows.Service
         {
             return Handle((user) =>
             {
+                var executeScenarioAction = new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.Execute);
+                var viewScenarioAction = new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue);
                 var result = new EncryptedList<ScenarioInfo>(ScenariosRepository
                     .Scenarios
-                    .Where(x => x.CanExecute(user, ScenarioStartupSource.Network))
+                    .Where(x => x.IsAccessAvailable(viewScenarioAction))
                     .Select(x => new ScenarioInfo()
                     {
                         CurrentValue = x.CalculateCurrentValue(null),
@@ -228,7 +232,7 @@ namespace Lazurite.Windows.Service
                         ValueType = x.ValueType,
                         Name = x.Name,
                         VisualSettings = GetVisualSettings(user, x.Id),
-                        OnlyGetValue = x.OnlyGetValue,
+                        OnlyGetValue = x.IsAccessAvailable(executeScenarioAction),
                         IsAvailable = x.GetIsAvailable()
                     }), 
                     _secretKey);
@@ -239,7 +243,7 @@ namespace Lazurite.Windows.Service
 
         public Encrypted<string> GetScenarioValue(Encrypted<string> scenarioId)
         {
-            return Handle((user) => new Encrypted<string>(GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user).GetCurrentValue(), _secretKey));
+            return Handle((user) => new Encrypted<string>(GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user, ScenarioAction.ViewValue).GetCurrentValue(), _secretKey));
         }
 
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
@@ -248,7 +252,7 @@ namespace Lazurite.Windows.Service
             return Handle((user) =>
             {
                 var decryptedLastKnown = lastKnownValue.Decrypt(_secretKey);
-                return !GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user)
+                return !GetScenarioWithPrivileges(scenarioId.Decrypt(_secretKey), user, ScenarioAction.ViewValue)
                     .CalculateCurrentValue(null)
                     .Equals(decryptedLastKnown);
             });

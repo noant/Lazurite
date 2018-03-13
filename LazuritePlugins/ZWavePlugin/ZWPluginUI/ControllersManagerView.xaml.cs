@@ -250,7 +250,14 @@ namespace ZWPluginUI
                 }));
             });
             messageView.Show(mainGrid);
-            action?.Invoke(callback);
+            try
+            {
+                action?.Invoke(callback);
+            }
+            catch (Exception e)
+            {
+                MessageView.ShowMessage(e.Message, "Ошибка!", Icon.Bug, mainGrid);
+            }
         }
 
         private void SelectNodeAnd(Action<Node> callback)

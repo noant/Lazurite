@@ -14,11 +14,7 @@ namespace OpenZWrapper
             switch (valueType)
             {
                 case ZWValueID.ValueType.Button:
-                    {
-                        if (value != null)
-                            manager.PressButton(valueId);
-                        else manager.ReleaseButton(valueId);
-                    }
+                    return manager.PressButton(valueId);
                     break;
                 case ZWValueID.ValueType.Bool:
                     return manager.SetValue(valueId, (bool)value);

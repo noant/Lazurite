@@ -84,7 +84,7 @@ namespace ZWPluginUI
 
         private void AddControl(FrameworkElement element)
         {
-            this.stackPanel.Children.Add(element);
+            stackPanel.Children.Add(element);
         }
     }
 }

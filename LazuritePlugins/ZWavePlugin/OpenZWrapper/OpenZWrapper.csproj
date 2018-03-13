@@ -85,6 +85,8 @@
     <Compile Include="ManagerInitializedCallback.cs" />
     <Compile Include="ManagerInitializedCallbacksPool.cs" />
     <Compile Include="ManagerInitializedEventArgs.cs" />
+    <Compile Include="Range.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="ValueGenre.cs" />
     <Compile Include="ValueType.cs" />
     <Compile Include="ZWaveManager.cs" />

@@ -144,9 +144,13 @@ namespace LazuriteUI.Windows.Main
 
         private ScenarioBase[] GetScenarios()
         {
+
             var scenarios = ScenariosRepository.Scenarios;
             if (!IsConstructorMode)
-                scenarios = scenarios.Where(x => x.CanExecute(UsersRepository.SystemUser, ScenarioStartupSource.SystemUI)).ToArray();
+            {
+                var scenarioActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.SystemUI, ScenarioAction.ViewValue);
+                scenarios = scenarios.Where(x => x.IsAccessAvailable(scenarioActionSource)).ToArray();
+            }
             return scenarios;
         }
 
@@ -411,7 +415,10 @@ namespace LazuriteUI.Windows.Main
         {
             var scenarios = ScenariosRepository.Scenarios;
             if (!IsConstructorMode)
-                scenarios = scenarios.Where(x => x.CanExecute(UsersRepository.SystemUser, ScenarioStartupSource.SystemUI)).ToArray();
+            {
+                var scenarioActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.SystemUI, ScenarioAction.ViewValue);
+                scenarios = scenarios.Where(x => x.IsAccessAvailable(scenarioActionSource)).ToArray();
+            }
 
             var allVisualSettings = 
                 VisualSettingsRepository

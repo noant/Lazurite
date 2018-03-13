@@ -381,23 +381,53 @@ namespace Lazurite.MainDomain
             Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
         }
 
+        public bool IsAccessAvailable(ScenarioActionSource source)
+        {
+            if (source.Action == ScenarioAction.ViewValue)
+                return CanViewValue(source);
+            else if (source.Action == ScenarioAction.Execute)
+                return CanExecute(source);
+            throw new NotImplementedException("Invalid action source");
+        }
+
         /// <summary>
         /// Determine that user can execute scenario
         /// </summary>
         /// <param name="user"></param>
         /// <param name="source"></param>
         /// <returns></returns>
-        public bool CanExecute(UserBase user, ScenarioStartupSource source)
+        private bool CanExecute(ScenarioActionSource source)
         {
             try
             {
                 if (SecuritySettings == null)
                     throw new NullReferenceException("Security settings is null");
-                return SecuritySettings.IsAvailableForUser(user, source);
+                return GetIsAvailable() && !OnlyGetValue && SecuritySettings.IsAvailableForUser(source.User, source.Source, ScenarioAction.Execute);
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Ошибка во время выполнения вычисления прав для выполнения сценария [{0}][{1}]", Name, Id);
+                Log.ErrorFormat(e, "Ошибка во время вычисления прав для выполнения сценария [{0}][{1}]", Name, Id);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Determine that user can view scenario value
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        private bool CanViewValue(ScenarioActionSource source)
+        {
+            try
+            {
+                if (SecuritySettings == null)
+                    throw new NullReferenceException("Security settings is null");
+                return SecuritySettings.IsAvailableForUser(source.User, source.Source, ScenarioAction.ViewValue);
+            }
+            catch (Exception e)
+            {
+                Log.ErrorFormat(e, "Ошибка во время вычисления прав для просмотра значения сценария [{0}][{1}]", Name, Id);
                 return false;
             }
         }

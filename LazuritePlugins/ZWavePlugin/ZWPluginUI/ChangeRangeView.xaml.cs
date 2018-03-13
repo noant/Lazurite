@@ -13,8 +13,8 @@ namespace ZWPluginUI
         public ChangeRangeView()
         {
             InitializeComponent();
-            this.tbMin.Validation = EntryViewValidation.DecimalValidation(max: decimal.Parse(this.tbMax.Text));
-            this.tbMax.Validation = EntryViewValidation.DecimalValidation(min: decimal.Parse(this.tbMin.Text));
+            tbMin.Validation = (e) => EntryViewValidation.DecimalValidation(max: decimal.Parse(tbMax.Text)).Invoke(e);
+            tbMax.Validation = (e) => EntryViewValidation.DecimalValidation(min: decimal.Parse(tbMin.Text)).Invoke(e);
         }
 
         public decimal Max
