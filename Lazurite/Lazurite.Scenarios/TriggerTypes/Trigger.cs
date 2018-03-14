@@ -21,6 +21,9 @@ namespace Lazurite.Scenarios.TriggerTypes
         private readonly static ILogger Log = Singleton.Resolve<ILogger>();
         private readonly static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         private readonly static int TriggerChangesListenInterval = GlobalSettings.Get(300);
+        private readonly static UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
+        private readonly static ScenarioActionSource ViewActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.OtherScenario, ScenarioAction.ViewValue);
+        private readonly static ScenarioActionSource ExecuteActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.OtherScenario, ScenarioAction.Execute);
 
         private EventsHandler<ScenarioBase> _lastSubscribe;
 
@@ -131,7 +134,7 @@ namespace Lazurite.Scenarios.TriggerTypes
                     (token) => {
                         try
                         {
-                            var curVal = GetScenario().CalculateCurrentValue(null);
+                            var curVal = GetScenario().CalculateCurrentValue(ViewActionSource, null);
                             if (!lastVal.Equals(curVal))
                             {
                                 var prevVal = GetScenario().GetPreviousValue();
@@ -145,13 +148,13 @@ namespace Lazurite.Scenarios.TriggerTypes
                                 }
                                 catch (Exception exception)
                                 {
-                                    Log.ErrorFormat(exception, "Ошибка исполнения триггера [{0}][{1}]", Name, Id);
+                                    Log.ErrorFormat(exception, "Ошибка выполнения триггера [{0}][{1}]", Name, Id);
                                 }
                             }
                         }
                         catch (Exception e)
                         {
-                            Log.ErrorFormat(e, "Ошибка исполнения триггера [{0}][{1}]", Name, Id);
+                            Log.ErrorFormat(e, "Ошибка выполнения триггера [{0}][{1}]", Name, Id);
                         }
                     },
                     () => TriggerChangesListenInterval,

@@ -19,6 +19,7 @@ namespace LazuriteUI.Windows.Controls
         public static readonly DependencyProperty SelectableProperty;
         public static readonly DependencyProperty IconVerticalAligmentProperty;
         public static readonly DependencyProperty IconHorizontalAligmentProperty;
+        public static readonly DependencyProperty SelectionBrushProperty;
         public static readonly DependencyProperty CommandProperty;
 
         static ItemView()
@@ -98,13 +99,20 @@ namespace LazuriteUI.Windows.Controls
                     itemView.button.Command = value;
                 }
             });
-
             BackgroundProperty.OverrideMetadata(typeof(ItemView), new FrameworkPropertyMetadata(Visual.ItemBackground)
             {
                 PropertyChangedCallback = (o, e) =>
                 {
                     var element = ((UserControl)o);
                     element.Background = (Brush)e.NewValue;
+                }
+            });
+            SelectionBrushProperty = DependencyProperty.Register(nameof(SelectionBrush), typeof(Brush), typeof(ItemView), new FrameworkPropertyMetadata(Visual.ItemSelection)
+            {
+                PropertyChangedCallback = (o, e) =>
+                {
+                    var element = (ItemView)o;
+                    element.backView.Background = (Brush)e.NewValue;
                 }
             });
         }
@@ -136,10 +144,10 @@ namespace LazuriteUI.Windows.Controls
             Resources = new ResourceDictionary() { Source = new System.Uri("/LazuriteUI.Windows.Controls;component/Styles/Styles.xaml", System.UriKind.Relative ) };
             
             Height = 30;
+            Width = double.NaN;
             IsHitTestVisible = true;
             Focusable = true;
             FocusManager.SetFocusedElement(this, button);
-            Width = double.NaN;
 
             var grid = new Grid();
 
@@ -226,6 +234,18 @@ namespace LazuriteUI.Windows.Controls
             set
             {
                 SetValue(ContentProperty, value);
+            }
+        }
+
+        public Brush SelectionBrush
+        {
+            get
+            {
+                return (Brush)GetValue(SelectionBrushProperty);
+            }
+            set
+            {
+                SetValue(SelectionBrushProperty, value);
             }
         }
 

@@ -8,7 +8,7 @@
     HeightRequest="110"
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     WidthRequest="110"
-    BackgroundColor="#1D191D"
+    BackgroundColor="{Binding AllowClick, Converter={Static local:ConvertersStatic.Background_BoolToColor}}"
     Opacity="{Binding IsAvailable, Converter={Static local:ConvertersStatic.BoolToDouble}}"
     VerticalOptions="Start"
     HorizontalOptions="Start">

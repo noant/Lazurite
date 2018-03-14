@@ -15,7 +15,8 @@ namespace LazuriteMobile.App.Controls
         public static readonly BindableProperty SelectableProperty;
         public static readonly BindableProperty AnimateViewProperty;
         public static readonly BindableProperty StrokeVisibleProperty;
-        
+        public static readonly BindableProperty SelectionColorProperty;
+
         static ItemView()
         {
             IconVisibilityProperty = BindableProperty.Create(nameof(IconVisibility), typeof(bool), typeof(ItemView), true, BindingMode.OneWay, null,
@@ -51,6 +52,11 @@ namespace LazuriteMobile.App.Controls
                     if ((bool)newVal)
                         ((ItemView)sender).StartWaitingAndStrokeActions();
                 });
+            SelectionColorProperty = BindableProperty.Create(nameof(SelectionColor), typeof(Color), typeof(ItemView), false, BindingMode.OneWay, null,
+                (sender, oldVal, newVal) =>
+                {
+                    ((ItemView)sender).backGrid.BackgroundColor = (Color)newVal;
+                });
             AnimateViewProperty = BindableProperty.Create(nameof(AnimateView), typeof(View), typeof(ItemView), null, BindingMode.OneWay);
         }
 
@@ -76,7 +82,19 @@ namespace LazuriteMobile.App.Controls
             {
                 SetValue(StrokeVisibleProperty, value);
             }
-        } 
+        }
+
+        public Color SelectionColor
+        {
+            get
+            {
+                return (Color)GetValue(SelectionColorProperty);
+            }
+            set
+            {
+                SetValue(SelectionColorProperty, value);
+            }
+        }
 
         public bool IconVisibility
         {
@@ -155,8 +173,8 @@ namespace LazuriteMobile.App.Controls
             if (button.IsEnabled)
             {
                 var view = AnimateView ?? this;
-                await view.ScaleTo(0.85, 50, Easing.Linear).ContinueWith((o) =>
-                    view.ScaleTo(1, 50, Easing.Linear)
+                await view.ScaleTo(0.85, 50, Easing.CubicOut).ContinueWith((o) =>
+                    view.ScaleTo(1, 50, Easing.CubicIn)
                         .ContinueWith(o1 => Clicked?.Invoke(this, new EventsArgs<object>(this)))
                 );
                 if (Selectable)

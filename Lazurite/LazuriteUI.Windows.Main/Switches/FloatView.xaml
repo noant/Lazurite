@@ -1,30 +1,32 @@
 ﻿<UserControl x:Class="LazuriteUI.Windows.Main.Switches.FloatView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Switches"
+             xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
              mc:Ignorable="d" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
              Height="110" Width="110"
              IsEnabled="{Binding AllowClick}"
+             Background="{Binding AllowClick, Converter={x:Static local:ConvertersStatic.Background_BoolToBrush}}"
              Opacity="{Binding IsAvailable, Converter={x:Static local:ConvertersStatic.BoolToDouble}}"
-             Background="{x:Static controls:Visual.BackgroundLazurite}"
              d:DesignHeight="110" d:DesignWidth="110">
     <Grid>
+        <controls:ItemView Click="itemView_Click" Background="Transparent" IsEnabled="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolInvert}}" x:Name="itemView" Height="Auto"></controls:ItemView>
         <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolToVisibility}}"></common:CheckPanel>
-        <controls:ItemView Click="itemView_Click" IsEnabled="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolInvert}}" Background="Transparent" Name="itemView" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed"  Selectable="False"  HorizontalAlignment="Stretch"></controls:ItemView>
-        <Grid>
+        <Grid IsHitTestVisible="False">
             <Grid.RowDefinitions>
-                <RowDefinition Height="3*"></RowDefinition>
-                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <controls:IconView Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" IsHitTestVisible="False" x:Name="iconViewOff" x:FieldModifier="private" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center"></controls:IconView>
-            <TextBlock Margin="3,3,3,3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" IsHitTestVisible="False" Name="textBlock" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" Foreground="White" ></TextBlock>
+            <controls:IconView Width="35" Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+            <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="0,-4,0,4" Name="textBlockScenName" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" Foreground="SteelBlue" TextAlignment="Center"></TextBlock>
+            <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-7,0,0" Name="textBlockScenValue" Text="{Binding ScenarioValueWithUnit, Converter={x:Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" Foreground="White" TextAlignment="Center"></TextBlock>
         </Grid>
-        <common:ScaleView x:Name="scaleView" IsHitTestVisible="False" Opacity="0.3" Max="{Binding Max}" Min="{Binding Min}" HorizontalAlignment="Right"></common:ScaleView>
-        <common:ScaleView x:Name="scaleViewSmooth" IsTextVisible="False" Value="{Binding SmoothChangeValue, Converter={x:Static local:ConvertersStatic.ValueTypeStringToDouble}}" IsHitTestVisible="False" Opacity="0.3" Max="{Binding Max}" Min="{Binding Min}" HorizontalAlignment="Right"></common:ScaleView>
         <local:SwitchBottomBorder></local:SwitchBottomBorder>
+        <common:ScaleView x:Name="scaleView" IsHitTestVisible="False" Opacity="0.3" Max="{Binding Max}" Min="{Binding Min}" HorizontalAlignment="Right"></common:ScaleView>
+        <common:ScaleView x:Name="scaleViewSmooth" Value="{Binding SmoothChangeValue, Converter={x:Static local:ConvertersStatic.ValueTypeStringToDouble}}" IsHitTestVisible="False" Opacity="0.3" Max="{Binding Max}" Min="{Binding Min}" HorizontalAlignment="Right"></common:ScaleView>
     </Grid>
 </UserControl>

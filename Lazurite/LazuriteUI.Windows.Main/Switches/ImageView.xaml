@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              Height="80" Width="80"
-             Background="{x:Static controls:Visual.BackgroundLazurite}"
+             Background="{Binding AllowClick, Converter={x:Static local:ConvertersStatic.Background_BoolToBrush}}"
              xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
              IsEnabled="{Binding AllowClick}"
              Opacity="{Binding IsAvailable, Converter={x:Static local:ConvertersStatic.BoolToDouble}}"

@@ -39,7 +39,7 @@ namespace Lazurite.MainDomain
             try
             {
                 if (!ValueType.Interprete(param).Success)
-                    throw new InvalidOperationException(string.Format("Значение [{0}] не совместимо с типом значения [{1}]", param, ValueType.GetType().Name));
+                    throw new ScenarioExecutionException(ScenarioExecutionError.InvalidValue, param);
             }
             catch (Exception e)
             {
@@ -57,6 +57,20 @@ namespace Lazurite.MainDomain
 
                 if (context.ExecutionNesting >= MaxStackValue)
                     throw new ScenarioExecutionException(ScenarioExecutionError.StackOverflow);
+            }
+            catch (Exception e)
+            {
+                context?.CancelAll(); //stop execution
+                throw e;
+            }
+        }
+
+        protected void CheckRights(ScenarioActionSource source, ExecutionContext context)
+        {
+            try
+            {
+                if (!IsAccessAvailable(source))
+                    throw new ScenarioExecutionException(ScenarioExecutionError.AccessDenied);
             }
             catch (Exception e)
             {
@@ -166,8 +180,9 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Current value of scenario execution
         /// </summary>
-        public virtual string CalculateCurrentValue(ExecutionContext parentContext)
+        public virtual string CalculateCurrentValue(ScenarioActionSource source, ExecutionContext parentContext)
         {
+            CheckRights(source, parentContext);
             try
             {
                 if (parentContext != null)
@@ -188,11 +203,12 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Current value of scenario execution
         /// </summary>
-        public virtual void CalculateCurrentValueAsync(Action<string> callback, ExecutionContext parentContext)
+        public virtual void CalculateCurrentValueAsync(ScenarioActionSource source, Action<string> callback, ExecutionContext parentContext)
         {
+            CheckRights(source, parentContext);
             TaskUtils.Start(
             () => {
-                var result = CalculateCurrentValue(parentContext);
+                var result = CalculateCurrentValue(source, parentContext);
                 callback(result);
             },
             HandleGet);
@@ -277,9 +293,12 @@ namespace Lazurite.MainDomain
         /// </summary>
         /// <param name="param"></param>
         /// <param name="cancelToken"></param>
-        public virtual void ExecuteAsyncParallel(string param, ExecutionContext parentContext)
+        public virtual void ExecuteAsyncParallel(ScenarioActionSource source, string param, ExecutionContext parentContext)
         {
-            TaskUtils.StartLongRunning(() => {
+            CheckRights(source, parentContext);
+
+            TaskUtils.StartLongRunning(() =>
+            {
                 CheckValue(param, parentContext);
                 var output = new OutputChangedDelegates();
                 ExecutionContext context;
@@ -292,7 +311,7 @@ namespace Lazurite.MainDomain
                 }
                 else
                 {
-                    context = new ExecutionContext(this,  param, oldVal, output, new CancellationTokenSource());
+                    context = new ExecutionContext(this, param, oldVal, output, new CancellationTokenSource());
                 }
                 CheckContext(context);
                 HandleExecution(() => ExecuteInternal(context));
@@ -304,18 +323,21 @@ namespace Lazurite.MainDomain
         /// Execute scenario in main execution context
         /// </summary>
         /// <param name="param"></param>
-        public virtual void ExecuteAsync(string param, out string executionId, ExecutionContext parentContext = null)
+        public virtual void ExecuteAsync(ScenarioActionSource source, string param, out string executionId, ExecutionContext parentContext = null)
         {
             executionId = PrepareExecutionId();
-            TaskUtils.StartLongRunning(() => {
+            CheckRights(source, parentContext);
+            TaskUtils.StartLongRunning(() =>
+            {
                 CheckValue(param, parentContext);
                 TryCancelAll();
                 var context = PrepareExecutionContext(param, parentContext);
-                HandleExecution(() => {
+                HandleExecution(() =>
+                {
                     SetCurrentValue(param);
                     ExecuteInternal(context);
                 });
-            }, 
+            },
             HandleSet);
         }
 
@@ -324,9 +346,10 @@ namespace Lazurite.MainDomain
         /// </summary>
         /// <param name="param"></param>
         /// <param name="cancelToken"></param>
-        public virtual void Execute(string param, out string executionId, ExecutionContext parentContext = null)
+        public virtual void Execute(ScenarioActionSource source, string param, out string executionId, ExecutionContext parentContext = null)
         {
             executionId = PrepareExecutionId();
+            CheckRights(source, parentContext);
             try
             {
                 CheckValue(param, parentContext);
@@ -381,6 +404,12 @@ namespace Lazurite.MainDomain
             Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
         }
 
+        /// <summary>
+        /// Determine that user can execute scenario or view scenario value
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public bool IsAccessAvailable(ScenarioActionSource source)
         {
             if (source.Action == ScenarioAction.ViewValue)
@@ -396,13 +425,14 @@ namespace Lazurite.MainDomain
         /// <param name="user"></param>
         /// <param name="source"></param>
         /// <returns></returns>
-        private bool CanExecute(ScenarioActionSource source)
+        protected bool CanExecute(ScenarioActionSource source)
         {
             try
             {
                 if (SecuritySettings == null)
                     throw new NullReferenceException("Security settings is null");
-                return GetIsAvailable() && !OnlyGetValue && SecuritySettings.IsAvailableForUser(source.User, source.Source, ScenarioAction.Execute);
+                var isReadonlyForThisSource = !OnlyGetValue || source.Source == ScenarioStartupSource.System; //crutch, scenario can be executed by itself or system
+                return GetIsAvailable() && isReadonlyForThisSource && SecuritySettings.IsAvailableForUser(source.User, source.Source, ScenarioAction.Execute);
             }
             catch (Exception e)
             {
@@ -410,14 +440,14 @@ namespace Lazurite.MainDomain
                 return false;
             }
         }
-
+        
         /// <summary>
         /// Determine that user can view scenario value
         /// </summary>
         /// <param name="user"></param>
         /// <param name="source"></param>
         /// <returns></returns>
-        private bool CanViewValue(ScenarioActionSource source)
+        protected bool CanViewValue(ScenarioActionSource source)
         {
             try
             {

@@ -12,6 +12,8 @@ namespace Lazurite.Security
 
         public override bool IsAvailableForUser(UserBase user, ScenarioStartupSource source, ScenarioAction action)
         {
+            if (source == ScenarioStartupSource.System)
+                return true;
             var result = true;
             foreach (var permission in Permissions)
                 result &= permission.IsAvailableForUser(user, source, action);

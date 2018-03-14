@@ -9,7 +9,7 @@
     VerticalOptions="Start" 
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
-    BackgroundColor="#1D191D"
+    BackgroundColor="{Binding AllowClick, Converter={Static local:ConvertersStatic.Background_BoolToColor}}"
     Opacity="{Binding IsAvailable, Converter={Static local:ConvertersStatic.BoolToDouble}}"
     HorizontalOptions="Start">
     <Grid x:Name="grid">

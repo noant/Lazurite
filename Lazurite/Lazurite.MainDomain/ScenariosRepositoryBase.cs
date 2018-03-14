@@ -24,13 +24,14 @@ namespace Lazurite.MainDomain
                 .Any(z=>types.Any(y=>y.Equals(z)))).ToArray();
         }
 
-        public ScenarioBase[] GetScenarios(UserBase user, ScenarioStartupSource source, ValueTypeBase valueType = null, bool rightPart = false)
+        public ScenarioBase[] GetScenarios(UserBase user, ScenarioStartupSource source, ScenarioAction action, ValueTypeBase valueType = null, bool rightPart = false)
         {
             var actionSource = new ScenarioActionSource(user, source, ScenarioAction.ViewValue);
             return Scenarios.Where(x =>
-                x.IsAccessAvailable(actionSource)
-                && (valueType == null || valueType.IsCompatibleWith(x.ValueType))
-                && (!rightPart || !(x.ValueType is ButtonValueType))).ToArray();
+                (valueType == null || valueType.IsCompatibleWith(x.ValueType)) &&
+                x.IsAccessAvailable(actionSource) &&
+                (rightPart ? !(x.ValueType is ButtonValueType) : true))
+                .ToArray();
         }
 
         public abstract void AddScenario(ScenarioBase scenario);

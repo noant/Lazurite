@@ -9,5 +9,6 @@
         public double Max { get; set; } = 100;
         public double Min { get; set; } = 0;
         public bool EditMode { get; set; } = false;
+        public string ScenarioValueWithUnit { get; set; } = "20%";
     }
 }

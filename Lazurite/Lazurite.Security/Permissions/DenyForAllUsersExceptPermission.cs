@@ -10,13 +10,13 @@ namespace Lazurite.Security.Permissions
     {
         public List<string> UsersIds { get; set; } = new List<string>();
 
-        public ScenarioAction DenyAction { get; set; } = ScenarioAction.Execute;
+        public ScenarioAction DenyAction { get; set; } = ScenarioAction.ViewValue;
 
         public bool IsAvailableForUser(UserBase user, ScenarioStartupSource source, ScenarioAction action)
         {
             if (action > DenyAction)
                 return true;
-            return user is SystemUser || UsersIds.Any(x => x.Equals(user.Id));
+            return UsersIds.Any(x => x.Equals(user.Id));
         }
     }
 }

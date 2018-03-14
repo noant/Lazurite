@@ -15,5 +15,7 @@
         public static readonly ValueTypeStringToBool ValueTypeStringToBool = new ValueTypeStringToBool();
         public static readonly ValueTypeStringToDouble ValueTypeStringToDouble = new ValueTypeStringToDouble();
         public static readonly ValueTypeStringToDoubleRound ValueTypeStringToDoubleRound = new ValueTypeStringToDoubleRound();
+        public static readonly Selection_BoolToBrush Selection_BoolToBrush = new Selection_BoolToBrush();
+        public static readonly Background_BoolToBrush Background_BoolToBrush = new Background_BoolToBrush();
     }
 }

@@ -16,7 +16,7 @@ namespace PingPlugin
     [Category(Category.Administration)]
     public class PingAction : IAction, IPingAction
     {
-        public string Host { get; set; }
+        public string Host { get; set; } = "127.0.0.1";
 
         public string Caption
         {

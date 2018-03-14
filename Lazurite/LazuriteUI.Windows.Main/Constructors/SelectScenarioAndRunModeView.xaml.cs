@@ -17,8 +17,9 @@ namespace LazuriteUI.Windows.Main.Constructors
     /// </summary>
     public partial class SelectScenarioAndRunModeView : UserControl
     {
-        private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();
-        
+        private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
+
         public ScenarioBase SelectedScenario { get; private set; }
         public RunExistingScenarioMode SelectedMode { get; private set; }
 
@@ -44,13 +45,17 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         public void Initialize(Type valueType = null, ActionInstanceSide side = ActionInstanceSide.Both, string selectedScenarioId = "", RunExistingScenarioMode runMode = RunExistingScenarioMode.Synchronously)
         {
-            SelectedMode = runMode;            
-            var scenarios = _repository.Scenarios.Where(x => valueType == null || x.ValueType.GetType().Equals(valueType));
-            SelectedScenario = _repository.Scenarios.FirstOrDefault(x => x.Id.Equals(selectedScenarioId));
+            SelectedMode = runMode;
+            var scenarioActionSource = new ScenarioActionSource(
+                UsersRepository.SystemUser,
+                ScenarioStartupSource.OtherScenario,
+                side == ActionInstanceSide.OnlyRight ? ScenarioAction.ViewValue : ScenarioAction.Execute);
+            var scenarios = ScenariosRepository.Scenarios.Where(x => valueType == null || x.ValueType.GetType().Equals(valueType));
+            SelectedScenario = ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id.Equals(selectedScenarioId));
             if (side == ActionInstanceSide.OnlyRight)
-                scenarios = scenarios.Where(x => x.ValueType is ButtonValueType == false);
-            else if (side == ActionInstanceSide.OnlyLeft)
-                scenarios = scenarios.Where(x => !x.OnlyGetValue);
+                scenarios = scenarios.Where(x => (x.ValueType is ButtonValueType) && x.IsAccessAvailable(scenarioActionSource));
+            else
+                scenarios = scenarios.Where(x => x.IsAccessAvailable(scenarioActionSource));
             foreach (var scenario in scenarios)
             {
                 var itemView = new ItemView();

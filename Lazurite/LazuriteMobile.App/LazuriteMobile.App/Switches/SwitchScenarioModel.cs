@@ -37,6 +37,10 @@ namespace LazuriteMobile.App.Switches
             return "New";
         }
 
+        public string ScenarioValueWithUnit => ConvertersStatic.ValueTypeStringToDoubleRoundStr.Convert(ScenarioValue, null, null, null) + Unit;
+        
+        public string Unit => (Scenario.ValueType as FloatValueType)?.Unit;
+
         private string GetStandardIcon2()
         {
             if (Scenario.ValueType is ToggleValueType)
@@ -87,6 +91,7 @@ namespace LazuriteMobile.App.Switches
             OnPropertyChanged(nameof(ScenarioValue));
             OnPropertyChanged(nameof(AllowClick));
             OnPropertyChanged(nameof(IsAvailable));
+            OnPropertyChanged(nameof(ScenarioValueWithUnit));
         }
 
         public string Icon1
@@ -135,6 +140,7 @@ namespace LazuriteMobile.App.Switches
                 _value = value;
                 _manager.ExecuteScenario(new ExecuteScenarioArgs(Scenario.ScenarioId, _value));
                 OnPropertyChanged(nameof(ScenarioValue));
+                OnPropertyChanged(nameof(ScenarioValueWithUnit));
             }
         }
         
@@ -173,6 +179,7 @@ namespace LazuriteMobile.App.Switches
         {
             _value = args.Value.CurrentValue;
             OnPropertyChanged(nameof(ScenarioValue));
+            OnPropertyChanged(nameof(ScenarioValueWithUnit));
         }
 
         public void Dispose()

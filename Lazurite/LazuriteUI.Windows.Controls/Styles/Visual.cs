@@ -14,6 +14,7 @@ namespace LazuriteUI.Windows.Controls
         }
 
         public static readonly Brush ItemBackground = new SolidColorBrush(Color.FromRgb(37,37,37));
+        public static readonly Brush ItemSelection = Brushes.SteelBlue;
         public static readonly Brush BrightItemBackground = new SolidColorBrush(Color.FromRgb(60,60,60));
         public static readonly Brush Background = new SolidColorBrush(Color.FromRgb(26,26,26));
         public static readonly Brush SplitterBrush = new SolidColorBrush(Color.FromRgb(38, 38, 38));
@@ -25,6 +26,12 @@ namespace LazuriteUI.Windows.Controls
         public static readonly int BigFontSize = 17;
         public static readonly FontFamily FontFamily = new FontFamily("Calibri");
         public static readonly FontWeight FontWeight = System.Windows.FontWeight.FromOpenTypeWeight(2);
+
+        public static readonly Brush SwitchBackground = BackgroundLazurite;
+        public static readonly Brush SwitchBackgroundReadonly = new SolidColorBrush(Color.FromRgb(0, 49, 83));
+
+        public static readonly Brush SelectedSwitchBackground = ItemSelection;
+        public static readonly Brush SelectedSwitchBackgroundReadonly = new SolidColorBrush(Color.FromRgb(0, 80, 130));
 
         public static readonly Brush BackgroundCubes;
     }

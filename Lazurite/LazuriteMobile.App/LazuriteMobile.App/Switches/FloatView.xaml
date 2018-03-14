@@ -3,26 +3,28 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="LazuriteMobile.App.Switches.FloatView"
+    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
     HeightRequest="110"
     WidthRequest="110"
-    xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
-    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+    VerticalOptions="Start" 
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
-    VerticalOptions="Start"
+    xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
+    BackgroundColor="{Binding AllowClick, Converter={Static local:ConvertersStatic.Background_BoolToColor}}"
     Opacity="{Binding IsAvailable, Converter={Static local:ConvertersStatic.BoolToDouble}}"
-    BackgroundColor="#1D191D"
     HorizontalOptions="Start">
     <Grid x:Name="grid">
-        <controls:ItemView InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" BackgroundColor="Transparent" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False"  Selectable="False"  HorizontalOptions="FillAndExpand"></controls:ItemView>
+        <controls:ItemView BackgroundColor="Transparent" InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False" AnimateView="{Binding Source={Reference Name=grid}}" HorizontalOptions="FillAndExpand"></controls:ItemView>
         <Grid InputTransparent="True">
             <Grid.RowDefinitions>
-                <RowDefinition Height="3*"></RowDefinition>
-                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <controls:IconView Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" InputTransparent="True" x:Name="iconView" x:FieldModifier="private" WidthRequest="45" HeightRequest="45" VerticalOptions="Center" HorizontalOptions="Center" Margin="0,12,0,0"></controls:IconView>
-            <Label Grid.Row="1" Margin="4,-7,4,2" InputTransparent="True" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="White" FontSize="Small"></Label>
+            <controls:IconView WidthRequest="20" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+            <Label Grid.Row="1" VerticalOptions="Center" Margin="4,-4,4,4" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="#4682b4"  FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
+            <Label Grid.Row="2" VerticalOptions="Center" Margin="4,-7,4,0" x:Name="textBlockScenValue" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small"></Label>
+            <common:ScaleView InputTransparent="True" Opacity="0.5" VerticalOptions="FillAndExpand" HorizontalOptions="End" Max="{Binding Max}" Min="{Binding Min}" Value="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToDouble}}"></common:ScaleView>
+            <local:SwitchBottomBorder></local:SwitchBottomBorder>
         </Grid>
-        <common:ScaleView InputTransparent="True" Opacity="0.5" VerticalOptions="FillAndExpand" HorizontalOptions="End" Max="{Binding Max}" Min="{Binding Min}" Value="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToDouble}}"></common:ScaleView>
-        <local:SwitchBottomBorder></local:SwitchBottomBorder>
     </Grid>
 </ContentView>

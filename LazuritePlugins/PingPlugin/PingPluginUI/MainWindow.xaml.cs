@@ -8,16 +8,15 @@ namespace PingPluginUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IPingAction _pingAction;
         public MainWindow(IPingAction action)
         {
             InitializeComponent();
-            _pingAction = action;
-            btCancel.Click += (o, e) => this.DialogResult = false;
+            tbHost.Text = action.Host;
+            btCancel.Click += (o, e) => DialogResult = false;
             btOk.Click += (o, e) =>
             {
-                _pingAction.Host = tbHost.Text;
-                this.DialogResult = true;
+                action.Host = tbHost.Text;
+                DialogResult = true;
             };
         }
     }

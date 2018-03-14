@@ -88,7 +88,9 @@
     <Compile Include="SwitchesGrid.xaml.cs">
       <DependentUpon>SwitchesGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Switches\Selection_BoolToColor.cs" />
     <Compile Include="Switches\BoolInvert.cs" />
+    <Compile Include="Switches\Background_BoolToColor.cs" />
     <Compile Include="Switches\BoolToDouble.cs" />
     <Compile Include="Switches\ConvertersStatic.cs" />
     <Compile Include="Switches\InfoViewSwitch.xaml.cs">

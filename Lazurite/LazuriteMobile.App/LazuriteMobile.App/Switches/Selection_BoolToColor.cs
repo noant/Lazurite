@@ -4,16 +4,19 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public class ValueTypeStringToDoubleRoundStr : IValueConverter
+    public class Selection_BoolToColor : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Math.Round(double.Parse((value??0).ToString()), 2).ToString();
+            if ((bool)value)
+                return Color.FromRgb(29, 25, 29);
+            else
+                return Color.FromRgb(0, 49, 83);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value.ToString();
+            throw new NotImplementedException();
         }
     }
 }

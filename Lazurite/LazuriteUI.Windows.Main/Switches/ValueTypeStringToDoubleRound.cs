@@ -11,7 +11,7 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             try
             {
-                return Math.Round(double.Parse((!string.IsNullOrEmpty(value.ToString()) ? value.ToString() : "0")), 1);
+                return Math.Round(double.Parse((!string.IsNullOrEmpty(value.ToString()) ? value.ToString() : "0")), 2);
             }
             catch
             {

@@ -75,6 +75,7 @@ namespace LazuriteUI.Windows.Main.Switches
                         if (oldVal == SmoothChangeValueToSet)
                         {
                             _model.ScenarioValue = SmoothChangeValueToSet.ToString();
+                            _model.UpdateValue();
                             _smoothTimerCancellationToken.Cancel();
                             _smoothTimerCancellationToken = null;
                             return;

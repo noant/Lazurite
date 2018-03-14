@@ -9,6 +9,8 @@ namespace Lazurite.MainDomain
     public enum ScenarioExecutionError
     {
         StackOverflow,
-        CircularReference
+        CircularReference,
+        InvalidValue,
+        AccessDenied
     }
 }

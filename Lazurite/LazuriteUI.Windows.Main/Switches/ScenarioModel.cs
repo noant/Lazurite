@@ -15,6 +15,9 @@ namespace LazuriteUI.Windows.Main.Switches
         private static readonly string Icon1Key = "Icon1";
         private static readonly string Icon2Key = "Icon2";
 
+        private static readonly ScenarioActionSource ExecuteScenarioActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.SystemUI, ScenarioAction.Execute);
+        private static readonly ScenarioActionSource ViewScenarioActionSourceCrutch = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.System, ScenarioAction.ViewValue);
+
         public ScenarioModel(ScenarioBase scenario)
         {
             Scenario = scenario;
@@ -34,12 +37,14 @@ namespace LazuriteUI.Windows.Main.Switches
 
             Scenario.SetOnStateChanged(ScenarioValueChanged);
             scenario.SetOnAvailabilityChanged(ScenarioAvailabilityChanged);
-            Scenario.CalculateCurrentValueAsync((value) => {
-                _value = value;
-                _smoothValue = ScenarioValueDouble;
-                OnPropertyChanged(nameof(ScenarioValue));
-                OnPropertyChanged(nameof(SmoothChangeValue));
-            }, 
+            Scenario.CalculateCurrentValueAsync(
+                ViewScenarioActionSourceCrutch,
+                (value) => {
+                    _value = value;
+                    _smoothValue = ScenarioValueDouble;
+                    OnPropertyChanged(nameof(ScenarioValue));
+                    OnPropertyChanged(nameof(SmoothChangeValue));
+                }, 
             null);
 
             OnPropertyChanged(nameof(Icon1));
@@ -59,11 +64,13 @@ namespace LazuriteUI.Windows.Main.Switches
         
         public void RefreshAndReCalculate()
         {
-            Scenario.CalculateCurrentValueAsync((value) => {
-                _value = value;
-                _smoothValue = ScenarioValueDouble;
-                Refresh();
-            }, 
+            Scenario.CalculateCurrentValueAsync(
+                ViewScenarioActionSourceCrutch,
+                (value) => {
+                    _value = value;
+                    _smoothValue = ScenarioValueDouble;
+                    Refresh();
+                }, 
             null);
         }
 
@@ -71,6 +78,7 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             OnPropertyChanged(nameof(ScenarioName));
             OnPropertyChanged(nameof(ScenarioValue));
+            OnPropertyChanged(nameof(ScenarioValueWithUnit));
             OnPropertyChanged(nameof(Max));
             OnPropertyChanged(nameof(Min));
             OnPropertyChanged(nameof(Icon1));
@@ -79,30 +87,21 @@ namespace LazuriteUI.Windows.Main.Switches
             OnPropertyChanged(nameof(IsAvailable));
         }
         
-        public bool AllowClick
+        public void UpdateValue()
         {
-            get
-            {
-                if (EditMode)
-                    return true;
-                else return !Scenario.OnlyGetValue && IsAvailable;
-            }
+            OnPropertyChanged(nameof(ScenarioValue));
+            OnPropertyChanged(nameof(ScenarioValueWithUnit));
         }
 
-        public bool IsAvailable
-        {
-            get
-            {
-                return Scenario.GetIsAvailable();
-            }
-        }
+        public bool AllowClick => EditMode || (!IsReadOnly && IsAvailable);
+
+        public bool IsReadOnly => !Scenario.IsAccessAvailable(ExecuteScenarioActionSource);
+
+        public bool IsAvailable => Scenario.GetIsAvailable();
 
         public string Icon1
         {
-            get
-            {
-                return VisualSettings.AddictionalData[Icon1Key].ToString();
-            }
+            get => VisualSettings.AddictionalData[Icon1Key].ToString();
             set
             {
                 VisualSettings.AddictionalData[Icon1Key] = value;
@@ -114,10 +113,7 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public string Icon2
         {
-            get
-            {
-                return VisualSettings.AddictionalData[Icon2Key].ToString();
-            }
+            get => VisualSettings.AddictionalData[Icon2Key].ToString();
             set
             {
                 VisualSettings.AddictionalData[Icon2Key] = value;
@@ -151,10 +147,7 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public int VisualIndex
         {
-            get
-            {
-                return VisualSettings.VisualIndex;
-            }
+            get => VisualSettings.VisualIndex;
             set
             {
                 if (VisualSettings.VisualIndex != value)
@@ -166,34 +159,23 @@ namespace LazuriteUI.Windows.Main.Switches
             }
         }
 
-        public string ScenarioName
-        {
-            get
-            {
-                return Scenario.Name;
-            }
-        }
+        public string ScenarioName => Scenario.Name;
 
-        public string[] AcceptedValues
-        {
-            get
-            {
-                return Scenario.ValueType.AcceptedValues;
-            }
-        }
+        public string Unit => (Scenario.ValueType as FloatValueType)?.Unit;
+
+        public string[] AcceptedValues => Scenario.ValueType.AcceptedValues;
 
         public string ScenarioValue
         {
-            get
-            {
-                return _value;
-            }
+            get => _value;
             set
             {
                 _value = value;
-                Scenario.ExecuteAsync(_value, out string executionId);
+                Scenario.ExecuteAsync(ExecuteScenarioActionSource, _value, out string executionId);
             }
         }
+
+        public string ScenarioValueWithUnit => ConvertersStatic.ValueTypeStringToDoubleRound.Convert(ScenarioValue, null, null, null) + Unit;
 
         public double ScenarioValueDouble
         {
@@ -210,11 +192,9 @@ namespace LazuriteUI.Windows.Main.Switches
             }
         }
 
-        public double SmoothChangeValue { 
-            get
-            {
-                return _smoothValue;
-            }
+        public double SmoothChangeValue
+        {
+            get => _smoothValue;
             set
             {
                 _smoothValue = value;
@@ -222,28 +202,13 @@ namespace LazuriteUI.Windows.Main.Switches
             }
         }
 
-        public double Max
-        {
-            get
-            {
-                return double.Parse((Scenario.ValueType as FloatValueType)?.AcceptedValues.Last());
-            }
-        }
-        
-        public double Min
-        {
-            get
-            {
-                return double.Parse((Scenario.ValueType as FloatValueType)?.AcceptedValues.First());
-            }
-        }
+        public double Max => double.Parse((Scenario.ValueType as FloatValueType)?.AcceptedValues.Last());
+
+        public double Min => double.Parse((Scenario.ValueType as FloatValueType)?.AcceptedValues.First());
 
         public bool EditMode
         {
-            get
-            {
-                return _editMode;
-            }
+            get => _editMode;
             set
             {
                 _editMode = value;
@@ -254,10 +219,7 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public bool Checked
         {
-            get
-            {
-                return _checked;
-            }
+            get => _checked;
             set
             {
                 _checked = value;

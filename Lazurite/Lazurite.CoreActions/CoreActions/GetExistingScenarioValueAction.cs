@@ -16,6 +16,10 @@ namespace Lazurite.CoreActions.CoreActions
     {
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
 
+        private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
+
+        private static readonly ScenarioActionSource ScenarioActionSource  = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.OtherScenario, ScenarioAction.ViewValue);
+
         public string TargetScenarioId
         {
             get; set;
@@ -92,9 +96,9 @@ namespace Lazurite.CoreActions.CoreActions
                 if (_scenario.GetInitializationState() == ScenarioInitializationValue.NotInitialized)
                     _scenario.FullInitialize();
                 else while (_scenario.GetInitializationState() == ScenarioInitializationValue.Initializing)
-                        SystemUtils.Sleep(100, context.CancellationTokenSource.Token);
-
-                return _scenario.CalculateCurrentValue(context);
+                    SystemUtils.Sleep(100, context.CancellationTokenSource.Token);
+                
+                return _scenario.CalculateCurrentValue(ScenarioActionSource, context);
             }
             return string.Empty;
         }

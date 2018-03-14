@@ -13,7 +13,6 @@ namespace LazuriteUI.Windows.Main.Common
         public static DependencyProperty ValueProperty;
         public static DependencyProperty MaxProperty;
         public static DependencyProperty MinProperty;
-        public static DependencyProperty IsTextVisibleProperty;
 
         static ScaleView()
         {
@@ -22,14 +21,6 @@ namespace LazuriteUI.Windows.Main.Common
                     DefaultValue = 0.0,
                     PropertyChangedCallback = (o,e) => {
                         ((ScaleView)o).AllocateScaleViewSize();
-                    }
-                });
-            IsTextVisibleProperty = DependencyProperty.Register(nameof(IsTextVisible), typeof(bool), typeof(ScaleView),
-                new FrameworkPropertyMetadata()
-                {
-                    DefaultValue = true,
-                    PropertyChangedCallback = (o, e) => {
-                        ((ScaleView)o).tbValue.Visibility = (bool)e.NewValue ? Visibility.Visible : Visibility.Collapsed;
                     }
                 });
             MaxProperty = DependencyProperty.Register(nameof(Max), typeof(double), typeof(ScaleView), new FrameworkPropertyMetadata(100.0));
@@ -55,14 +46,13 @@ namespace LazuriteUI.Windows.Main.Common
             if (marginBottom < 0)
                 marginBottom = 0;
             borderValue.Height = marginBottom;
-
-            tbValue.Text = Math.Round(Value).ToString();
+            
             if (percent < 0.25)
-                tbValue.Foreground = new SolidColorBrush(Colors.Gray);
+                borderValue.BorderBrush = new SolidColorBrush(Colors.Gray);
             else if (percent >= 0.25 && percent < 0.9)
-                tbValue.Foreground = new SolidColorBrush(Color.FromRgb(80,144,180));
+                borderValue.BorderBrush = Brushes.LightSkyBlue;
             else
-                tbValue.Foreground = new SolidColorBrush(Colors.Red);
+                borderValue.BorderBrush = new SolidColorBrush(Colors.Red);
         }
 
         public double Value
@@ -77,18 +67,6 @@ namespace LazuriteUI.Windows.Main.Common
             }
         }
         
-        public bool IsTextVisible
-        {
-            get
-            {
-                return (bool)GetValue(IsTextVisibleProperty);
-            }
-            set
-            {
-                SetValue(IsTextVisibleProperty, value);
-            }
-        }
-
         public double Min
         {
             get

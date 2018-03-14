@@ -13,5 +13,7 @@
         public static readonly ValueTypeStringToBoolInvert ValueTypeStringToBoolInvert = new ValueTypeStringToBoolInvert();
         public static readonly ValueTypeStringToDouble ValueTypeStringToDouble = new ValueTypeStringToDouble();
         public static readonly ValueTypeStringToDoubleRoundStr ValueTypeStringToDoubleRoundStr = new ValueTypeStringToDoubleRoundStr();
+        public static readonly Selection_BoolToColor Selection_BoolToColor = new Selection_BoolToColor();
+        public static readonly Background_BoolToColor Background_BoolToColor = new Background_BoolToColor();
     }
 }

@@ -6,7 +6,7 @@ namespace Lazurite.Security.Permissions
     [HumanFriendlyName("Запретить для меню быстрого запуска")]
     public class DenyForSystemUIUsage : IPermission
     {
-        public ScenarioAction DenyAction { get; set; } = ScenarioAction.Execute;
+        public ScenarioAction DenyAction { get; set; } = ScenarioAction.ViewValue;
 
         public bool IsAvailableForUser(UserBase user, ScenarioStartupSource source, ScenarioAction action)
         {

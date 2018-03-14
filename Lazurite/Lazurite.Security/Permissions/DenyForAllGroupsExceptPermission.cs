@@ -13,13 +13,13 @@ namespace Lazurite.Security.Permissions
 
         public List<string> GroupsIds { get; set; } = new List<string>();
 
-        public ScenarioAction DenyAction { get; set; } = ScenarioAction.Execute;
+        public ScenarioAction DenyAction { get; set; } = ScenarioAction.ViewValue;
 
         public bool IsAvailableForUser(UserBase user, ScenarioStartupSource source, ScenarioAction action)
         {
             if (action > DenyAction)
                 return true;
-            return user is SystemUser || GroupsIds.Any(x => 
+            return GroupsIds.Any(x => 
                 Repository.Groups.First(z=>z.Name.Equals(x))
                 .UsersIds.Any(z => z.Equals(user.Id)));
         }

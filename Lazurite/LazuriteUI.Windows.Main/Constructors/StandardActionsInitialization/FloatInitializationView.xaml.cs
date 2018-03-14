@@ -34,6 +34,7 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
             btApply.Click += (o, e) => {
                 action.ValueType.AcceptedValues[1] = tbMax.Text;
                 action.ValueType.AcceptedValues[0] = tbMin.Text;
+                ((FloatValueType)action.ValueType).Unit = tbUnit.Text;
                 action.Value = tbVal.Text;
                 ApplyClicked?.Invoke();
             };
@@ -51,6 +52,7 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
             }
 
             tbVal.Text = action.Value;
+            tbUnit.Text = ((FloatValueType)action.ValueType).Unit;
         }
 
         public event Action ApplyClicked;

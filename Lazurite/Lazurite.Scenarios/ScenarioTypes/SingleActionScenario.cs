@@ -47,9 +47,10 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
         }
         
-        public override void Execute(string param, out string executionId, ExecutionContext parentContext = null)
+        public override void Execute(ScenarioActionSource source, string param, out string executionId, ExecutionContext parentContext = null)
         {
             executionId = PrepareExecutionId();
+            CheckRights(source, parentContext);
             try
             {
                 CheckValue(param, parentContext);
@@ -68,19 +69,22 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
         }
         
-        public override void ExecuteAsync(string param, out string executionId, ExecutionContext parentContext = null)
+        public override void ExecuteAsync(ScenarioActionSource source, string param, out string executionId, ExecutionContext parentContext = null)
         {
             executionId = PrepareExecutionId();
-            TaskUtils.StartLongRunning(() => {
+            CheckRights(source, parentContext);
+            TaskUtils.StartLongRunning(() =>
+            {
                 CheckValue(param, parentContext);
                 TryCancelAll();
                 var context = PrepareExecutionContext(param, parentContext);
-                HandleExecution(() => {
+                HandleExecution(() =>
+                {
                     if (!ActionHolder.Action.IsSupportsEvent)
                         SetCurrentValue(param);
                     ExecuteInternal(context);
                 });
-            }, 
+            },
             HandleSet);
         }
 
@@ -94,12 +98,16 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return new[] { ActionHolder.Action.GetType() };
         }
 
-        public override void CalculateCurrentValueAsync(Action<string> callback, ExecutionContext parentContext)
+        public override void CalculateCurrentValueAsync(ScenarioActionSource source, Action<string> callback, ExecutionContext parentContext)
         {
             if (!ActionHolder.Action.IsSupportsEvent)
-                base.CalculateCurrentValueAsync(callback, parentContext);
+                base.CalculateCurrentValueAsync(source, callback, parentContext);
             //return cached value, callback in not neccesary
-            else callback(GetCurrentValue());
+            else
+            {
+                CheckRights(source, parentContext);
+                callback(GetCurrentValue());
+            }
         }
 
         protected override string CalculateCurrentValueInternal()

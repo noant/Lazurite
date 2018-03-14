@@ -49,9 +49,17 @@ namespace Lazurite.Scenarios.ScenarioTypes
             set => _valueType = value;
         }
 
-        public override string CalculateCurrentValue(ExecutionContext parentContext) => CalculateCurrentValueInternal();
+        public override string CalculateCurrentValue(ScenarioActionSource source, ExecutionContext parentContext)
+        {
+            CheckRights(source, parentContext);
+            return CalculateCurrentValueInternal();
+        }
 
-        public override void CalculateCurrentValueAsync(Action<string> callback, ExecutionContext parentContext) => callback(CalculateCurrentValueInternal());
+        public override void CalculateCurrentValueAsync(ScenarioActionSource source, Action<string> callback, ExecutionContext parentContext)
+        {
+            CheckRights(source, parentContext);
+            callback(CalculateCurrentValueInternal());
+        }
         
         protected override string CalculateCurrentValueInternal() => GetCurrentValue();
 
@@ -64,7 +72,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             var strErrPrefix = "Ошибка во время соединения с удаленным сценарием";
             if (execution)
-                strErrPrefix = "Ошибка во время исполнения удаленного сценария";
+                strErrPrefix = "Ошибка во время выполнения удаленного сценария";
             try
             {
                 action?.Invoke();
@@ -97,8 +105,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
         }
 
-        public override void Execute(string param, out string executionId, ExecutionContext parentContext)
+        public override void Execute(ScenarioActionSource source, string param, out string executionId, ExecutionContext parentContext)
         {
+            CheckRights(source, parentContext);
             CheckValue(param, parentContext);
             executionId = PrepareExecutionId();
             Log.DebugFormat("Scenario execution begin: [{0}][{1}]", Name, Id);
@@ -110,8 +119,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
             Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
         }
 
-        public override void ExecuteAsync(string param, out string executionId, ExecutionContext parentContext)
+        public override void ExecuteAsync(ScenarioActionSource source, string param, out string executionId, ExecutionContext parentContext)
         {
+            CheckRights(source, parentContext);
             CheckValue(param, parentContext);
             executionId = PrepareExecutionId();
             TaskUtils.Start(() =>
@@ -126,8 +136,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
             });
         }
 
-        public override void ExecuteAsyncParallel(string param, ExecutionContext parentContext)
+        public override void ExecuteAsyncParallel(ScenarioActionSource source, string param, ExecutionContext parentContext)
         {
+            CheckRights(source, parentContext);
             CheckValue(param, parentContext);
             TaskUtils.Start(() =>
             {
@@ -146,7 +157,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             base.TryCancelAll();
         }
 
-        public override Type[] GetAllUsedActionTypes() => new Type[] { };
+        public override Type[] GetAllUsedActionTypes() => new Type[0];
         
         protected override bool InitializeInternal()
         {

@@ -83,7 +83,10 @@ namespace LazuriteUI.Windows.Main.Switches
             _tokenSource = SystemUtils.StartTimer(
                 (token) => {
                     if (_tempValueToUpdate != _tempValueToInstall && !_scenarioValueChanged)
+                    {
                         model.ScenarioValue = _tempValueToInstall = _tempValueToUpdate;
+                        model.UpdateValue();
+                    }
                     if (_tempValueToInstall != _tempValueToUpdate && _scenarioValueChanged)
                         Dispatcher.BeginInvoke(new Action(() => {
                             slider.Value = double.Parse(_tempValueToUpdate = _tempValueToInstall);
