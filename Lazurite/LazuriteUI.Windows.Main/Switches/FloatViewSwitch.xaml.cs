@@ -85,7 +85,6 @@ namespace LazuriteUI.Windows.Main.Switches
                     if (_tempValueToUpdate != _tempValueToInstall && !_scenarioValueChanged)
                     {
                         model.ScenarioValue = _tempValueToInstall = _tempValueToUpdate;
-                        model.UpdateValue();
                     }
                     if (_tempValueToInstall != _tempValueToUpdate && _scenarioValueChanged)
                         Dispatcher.BeginInvoke(new Action(() => {

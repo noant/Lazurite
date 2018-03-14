@@ -34,14 +34,12 @@ namespace LazuriteMobile.App.Common
             if (marginBottom < 0)
                 marginBottom = 0;
             gridValue.HeightRequest = marginBottom;
-
-            lblValue.Text = Math.Round(Value).ToString();
             if (percent < 0.25)
-                lblValue.TextColor = Color.Gray;
+                gridValue.BackgroundColor = Color.Gray;
             else if (percent >= 0.25 && percent < 0.9)
-                lblValue.TextColor = Color.FromHex("5090B4");
+                gridValue.BackgroundColor = Color.FromHex("5090B4");
             else
-                lblValue.TextColor = Color.Red;
+                gridValue.BackgroundColor = Color.Red;
         }
 
         public double Value

@@ -11,7 +11,9 @@ namespace LazuriteUI.Windows.Main.Switches
         const int MaxLineWidth = 14;
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var str = (value ?? string.Empty).ToString();
+            if (string.IsNullOrEmpty(value?.ToString()))
+                return "[пусто]";
+            var str = value.ToString();
             return StringUtils.TruncateString(str, MaxLineWidth);
         }
 

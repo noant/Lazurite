@@ -52,7 +52,7 @@ namespace LazuriteMobile.App.Controls
                     if ((bool)newVal)
                         ((ItemView)sender).StartWaitingAndStrokeActions();
                 });
-            SelectionColorProperty = BindableProperty.Create(nameof(SelectionColor), typeof(Color), typeof(ItemView), false, BindingMode.OneWay, null,
+            SelectionColorProperty = BindableProperty.Create(nameof(SelectionColor), typeof(Color), typeof(ItemView), Color.SteelBlue, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) =>
                 {
                     ((ItemView)sender).backGrid.BackgroundColor = (Color)newVal;
@@ -173,8 +173,8 @@ namespace LazuriteMobile.App.Controls
             if (button.IsEnabled)
             {
                 var view = AnimateView ?? this;
-                await view.ScaleTo(0.85, 50, Easing.CubicOut).ContinueWith((o) =>
-                    view.ScaleTo(1, 50, Easing.CubicIn)
+                await view.ScaleTo(0.85, 50, Easing.Linear).ContinueWith((o) =>
+                    view.ScaleTo(1, 50, Easing.Linear)
                         .ContinueWith(o1 => Clicked?.Invoke(this, new EventsArgs<object>(this)))
                 );
                 if (Selectable)

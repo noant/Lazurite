@@ -9,6 +9,8 @@ namespace LazuriteUI.Windows.Main.Switches
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (string.IsNullOrEmpty(value?.ToString()))
+                return "[пусто]";
             var val = value.ToString();
             if (val.Length <= 14)
                 return val;

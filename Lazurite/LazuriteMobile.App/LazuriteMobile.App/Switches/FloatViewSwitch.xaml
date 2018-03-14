@@ -15,7 +15,7 @@
             <controls:IconView Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" VerticalOptions="Center" HeightRequest="45" WidthRequest="45" HorizontalOptions="End"></controls:IconView>
             <Label Margin="10,0,0,0" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}" HorizontalTextAlignment="Start" HorizontalOptions="Start" FontSize="Small" TextColor="White"></Label>
         </StackLayout>
-        <Slider x:Name="slider" x:FieldModifier="private" VerticalOptions="End" HorizontalOptions="FillAndExpand" Margin="5,5,5,15"></Slider>
+        <Slider Rotation="-90"  x:Name="slider" x:FieldModifier="private" VerticalOptions="End" HorizontalOptions="FillAndExpand" Margin="5,5,5,15"></Slider>
         <Label Opacity="0.5" InputTransparent="True" TextColor="#4682b4" Text="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToDoubleRoundStr}}" FontSize="Large" Scale="2" x:Name="tbValue" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="0,-20,40,20"></Label>
     </Grid>
 </ContentView>

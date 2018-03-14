@@ -86,12 +86,6 @@ namespace LazuriteUI.Windows.Main.Switches
             OnPropertyChanged(nameof(AllowClick));
             OnPropertyChanged(nameof(IsAvailable));
         }
-        
-        public void UpdateValue()
-        {
-            OnPropertyChanged(nameof(ScenarioValue));
-            OnPropertyChanged(nameof(ScenarioValueWithUnit));
-        }
 
         public bool AllowClick => EditMode || (!IsReadOnly && IsAvailable);
 
@@ -232,6 +226,7 @@ namespace LazuriteUI.Windows.Main.Switches
             _value = args.Value.GetCurrentValue();
             _smoothValue = ScenarioValueDouble;
             OnPropertyChanged(nameof(ScenarioValue));
+            OnPropertyChanged(nameof(ScenarioValueWithUnit));
             OnPropertyChanged(nameof(SmoothChangeValue));
         }
 

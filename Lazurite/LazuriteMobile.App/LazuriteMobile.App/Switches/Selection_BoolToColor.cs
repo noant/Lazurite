@@ -9,9 +9,9 @@ namespace LazuriteMobile.App.Switches
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((bool)value)
-                return Color.FromRgb(29, 25, 29);
+                return Color.SteelBlue;
             else
-                return Color.FromRgb(0, 49, 83);
+                return Color.FromRgb(0, 80, 130);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -297,7 +297,7 @@ namespace Lazurite.Windows.Service
                         ValueType = x.ValueType,
                         Name = x.Name,
                         VisualSettings = GetVisualSettings(user, x.Id),
-                        OnlyGetValue = x.IsAccessAvailable(executeScenarioAction),
+                        OnlyGetValue = !x.IsAccessAvailable(executeScenarioAction),
                         IsAvailable = x.GetIsAvailable()
                     }), 
                     _secretKey);

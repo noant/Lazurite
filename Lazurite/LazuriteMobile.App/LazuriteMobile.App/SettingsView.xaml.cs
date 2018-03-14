@@ -9,7 +9,7 @@ namespace LazuriteMobile.App
     {
         public SettingsView()
         {
-            InitializeComponent();
+        	InitializeComponent();
         }
 
         public void SetCredentials(ConnectionCredentials credentials)

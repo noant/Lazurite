@@ -3,6 +3,5 @@
     <Grid>
         <Grid BackgroundColor="Gray" VerticalOptions="FillAndExpand" HorizontalOptions="End" WidthRequest="4" Opacity="0.2"></Grid>
         <Grid x:Name="gridValue" WidthRequest="4" VerticalOptions="End" HorizontalOptions="End" BackgroundColor="#87CEFA"></Grid>
-        <Label x:Name="lblValue" HorizontalOptions="End" Margin="0,0,8,0">0</Label>
     </Grid>
 </ContentView>
