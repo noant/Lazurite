@@ -173,8 +173,8 @@ namespace LazuriteMobile.App.Controls
             if (button.IsEnabled)
             {
                 var view = AnimateView ?? this;
-                await view.ScaleTo(0.85, 50, Easing.Linear).ContinueWith((o) =>
-                    view.ScaleTo(1, 50, Easing.Linear)
+                await view.ScaleTo(0.85, 50, Easing.CubicIn).ContinueWith((o) =>
+                    view.ScaleTo(1, 50, Easing.CubicOut)
                         .ContinueWith(o1 => Clicked?.Invoke(this, new EventsArgs<object>(this)))
                 );
                 if (Selectable)

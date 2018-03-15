@@ -28,6 +28,12 @@ namespace LazuriteMobile.App.Switches
                 _changer.VolumeDown += _changer_VolumeChanged;
                 _changer.VolumeUp += _changer_VolumeChanged;
             }
+
+            //crutch
+            SizeChanged += (o, e) => {
+                HeightRequest = slider.WidthRequest = Height * 2; //set width to height, slider is rotated to 90
+                slider.Margin = new Thickness(0, 0, -100, 0);
+            };
         }
 
         private void _changer_VolumeChanged(object sender, Lazurite.Shared.EventsArgs<int> args)

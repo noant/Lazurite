@@ -241,7 +241,7 @@ namespace LazuriteMobile.App
                         _succeed = success;
                         _syncDataEndingToken.Cancel();
                     });
-                    if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || _refreshIncrement == 0 || Scenarios == null)
+                    if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || Scenarios == null)
                     {
                         Refresh(success =>
                         {

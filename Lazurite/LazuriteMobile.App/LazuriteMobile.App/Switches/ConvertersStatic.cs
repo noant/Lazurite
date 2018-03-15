@@ -9,6 +9,7 @@
         public static readonly StringToIcon StringToIcon = new StringToIcon();
         public static readonly StringToSplittedString StringToSplittedString = new StringToSplittedString();
         public static readonly StringToSplittedStringLong StringToSplittedStringLong = new StringToSplittedStringLong();
+        public static readonly StringToSplittedStringShort StringToSplittedStringShort = new StringToSplittedStringShort();
         public static readonly ValueTypeStringToBool ValueTypeStringToBool = new ValueTypeStringToBool();
         public static readonly ValueTypeStringToBoolInvert ValueTypeStringToBoolInvert = new ValueTypeStringToBoolInvert();
         public static readonly ValueTypeStringToDouble ValueTypeStringToDouble = new ValueTypeStringToDouble();

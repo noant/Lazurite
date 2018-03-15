@@ -10,10 +10,10 @@
         <Grid>
             <Grid BackgroundColor="Black" x:FieldModifier="private" Opacity="0.7" x:Name="gridBackground"></Grid>
             <Grid x:Name="mainContent">
-                <Grid x:FieldModifier="private" VerticalOptions="Center" MinimumHeightRequest="750" HorizontalOptions="FillAndExpand" x:Name="contentGrid"></Grid>
+                <Grid x:FieldModifier="private" VerticalOptions="CenterAndExpand" MinimumHeightRequest="750" HorizontalOptions="FillAndExpand" x:Name="contentGrid"></Grid>
             </Grid>
-            <local:ItemView IconVisibility="False" VerticalOptions="Start" HorizontalOptions="End" x:Name="closeItemView" Click="CloseItemView_Click" BackgroundColor="Black" Opacity="0.5" HeightRequest="80" WidthRequest="80"></local:ItemView>
-            <local:IconView Opacity="0.6" InputTransparent="True" VerticalOptions="Start" HorizontalOptions="End" Icon="NavigatePrevious" HeightRequest="40" WidthRequest="40" Margin="20"></local:IconView>
+            <local:ItemView IconVisibility="False" VerticalOptions="Start" HorizontalOptions="End" x:Name="closeItemView" Click="CloseItemView_Click" BackgroundColor="Black" Opacity="0.5" HeightRequest="60" WidthRequest="60"></local:ItemView>
+            <local:IconView Opacity="0.6" InputTransparent="True" VerticalOptions="Start" HorizontalOptions="End" Icon="NavigatePrevious" HeightRequest="30" WidthRequest="30" Margin="20"></local:IconView>
         </Grid>
     </ContentView.Content>
 </ContentView>

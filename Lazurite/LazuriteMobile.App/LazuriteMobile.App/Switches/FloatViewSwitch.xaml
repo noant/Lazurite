@@ -5,17 +5,24 @@
     x:Class="LazuriteMobile.App.Switches.FloatViewSwitch"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
     xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
-    BackgroundColor="#1D191D"
-    VerticalOptions="Start"
+    BackgroundColor="#991D191D"
+    VerticalOptions="FillAndExpand"
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
-    HorizontalOptions="FillAndExpand"
-    HeightRequest="110">
+    HorizontalOptions="FillAndExpand">
     <Grid>
-        <StackLayout Spacing="0" Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start" Margin="10,15,0,0">
-            <controls:IconView Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" VerticalOptions="Center" HeightRequest="45" WidthRequest="45" HorizontalOptions="End"></controls:IconView>
-            <Label Margin="10,0,0,0" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}" HorizontalTextAlignment="Start" HorizontalOptions="Start" FontSize="Small" TextColor="White"></Label>
-        </StackLayout>
-        <Slider Rotation="-90"  x:Name="slider" x:FieldModifier="private" VerticalOptions="End" HorizontalOptions="FillAndExpand" Margin="5,5,5,15"></Slider>
-        <Label Opacity="0.5" InputTransparent="True" TextColor="#4682b4" Text="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToDoubleRoundStr}}" FontSize="Large" Scale="2" x:Name="tbValue" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="0,-20,40,20"></Label>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <controls:IconView Grid.Row="1" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" VerticalOptions="Center" HeightRequest="45" WidthRequest="45" HorizontalOptions="Center"></controls:IconView>
+        <Label Grid.Row="2" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small" TextColor="White"></Label>
+        <Label Grid.Row="3" Opacity="0.5" InputTransparent="True" TextColor="#4682b4" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToSplittedStringShort}}" FontSize="Large" Scale="2" x:Name="tbValue" VerticalOptions="Start" HorizontalOptions="Center"></Label>
+        <Slider Grid.RowSpan="4" Grid.ColumnSpan="2" Rotation="-90" x:Name="slider" x:FieldModifier="private" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"></Slider>
     </Grid>
 </ContentView>

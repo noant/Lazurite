@@ -150,7 +150,8 @@ namespace LazuriteMobile.App.Droid
                         //do nothing
                     }
                     return interval;
-                });
+                },
+                false);
         }
 
         public override void OnDestroy()

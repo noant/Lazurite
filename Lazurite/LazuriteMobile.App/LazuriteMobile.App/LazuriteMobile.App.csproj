@@ -122,6 +122,7 @@
     <Compile Include="Switches\InfoView.xaml.cs">
       <DependentUpon>InfoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Switches\StringToSplittedStringShort.cs" />
     <Compile Include="Switches\SwitchBottomBorder.xaml.cs">
       <DependentUpon>SwitchBottomBorder.xaml</DependentUpon>
     </Compile>
