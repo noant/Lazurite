@@ -12,7 +12,7 @@
             <Grid x:Name="mainContent">
                 <Grid x:FieldModifier="private" VerticalOptions="CenterAndExpand" MinimumHeightRequest="750" HorizontalOptions="FillAndExpand" x:Name="contentGrid"></Grid>
             </Grid>
-            <local:ItemView IconVisibility="False" VerticalOptions="Start" HorizontalOptions="End" x:Name="closeItemView" Click="CloseItemView_Click" BackgroundColor="Black" Opacity="0.5" HeightRequest="60" WidthRequest="60"></local:ItemView>
+            <local:ItemView IconVisibility="False" VerticalOptions="Start" HorizontalOptions="End" x:Name="closeItemView" Click="CloseItemView_Click" BackgroundColor="Black" Opacity="0.5" HeightRequest="45" WidthRequest="45"></local:ItemView>
             <local:IconView Opacity="0.6" InputTransparent="True" VerticalOptions="Start" HorizontalOptions="End" Icon="NavigatePrevious" HeightRequest="30" WidthRequest="30" Margin="20"></local:IconView>
         </Grid>
     </ContentView.Content>

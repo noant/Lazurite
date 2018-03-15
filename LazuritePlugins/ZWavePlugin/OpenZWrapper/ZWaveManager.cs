@@ -307,7 +307,7 @@ namespace OpenZWrapper
                         {
                             _nodes.Where(x => !x.Initialized).All(x => x.Failed = true);
                             _manager.WriteConfig(notification.GetHomeId());
-                            this.State = ZWaveManagerState.Initialized;
+                            State = ZWaveManagerState.Initialized;
                             ManagerInitializedCallbacksPool.ExecuteAll(this);
                         }
                         break;

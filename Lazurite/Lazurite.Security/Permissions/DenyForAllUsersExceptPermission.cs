@@ -16,6 +16,8 @@ namespace Lazurite.Security.Permissions
         {
             if (action > DenyAction)
                 return true;
+            if (user is SystemUser)
+                return true;
             return UsersIds.Any(x => x.Equals(user.Id));
         }
     }

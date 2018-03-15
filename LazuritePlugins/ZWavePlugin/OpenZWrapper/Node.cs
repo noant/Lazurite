@@ -11,8 +11,8 @@ namespace OpenZWrapper
     {
         public Node(byte id, uint homeId, ZWManager manager)
         {
-            this.Id = id;
-            this.HomeId = homeId;
+            Id = id;
+            HomeId = homeId;
             Manager = manager;
             Values = new NodeValues();
         }

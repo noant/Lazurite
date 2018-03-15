@@ -18,7 +18,7 @@ namespace LazuriteMobile.App.Switches
 
             itemView.Click += (o, e) => {
                 var parent = Helper.GetLastParent(this);
-                InfoViewSwitch.Show((newVal) => model.ScenarioValue = newVal, parent);
+                InfoViewSwitch.Show(model, parent);
             };
         }
     }

@@ -19,6 +19,8 @@ namespace Lazurite.Security.Permissions
         {
             if (action > DenyAction)
                 return true;
+            if (user is SystemUser)
+                return true;
             return GroupsIds.Any(x => 
                 Repository.Groups.First(z=>z.Name.Equals(x))
                 .UsersIds.Any(z => z.Equals(user.Id)));

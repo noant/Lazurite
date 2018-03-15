@@ -31,8 +31,10 @@ namespace LazuriteMobile.App.Switches
 
             //crutch
             SizeChanged += (o, e) => {
+                BatchBegin();
                 HeightRequest = slider.WidthRequest = Height * 2; //set width to height, slider is rotated to 90
                 slider.Margin = new Thickness(0, 0, -100, 0);
+                BatchCommit();
             };
         }
 

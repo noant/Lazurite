@@ -63,7 +63,7 @@ namespace LazuriteUI.Windows.Main
                 SelectedTrigger = trigger;
 
             itemView.Tag = trigger;
-            itemView.Content = trigger.Name;
+            itemView.Content = TrimTriggerName(trigger.Name);
         }
 
         public void Add(Lazurite.MainDomain.TriggerBase trigger)
@@ -74,13 +74,20 @@ namespace LazuriteUI.Windows.Main
         private ItemView AddInternal(Lazurite.MainDomain.TriggerBase trigger)
         {
             var itemView = new ItemView();
-            itemView.Content = trigger.Name;
+            itemView.Content = TrimTriggerName(trigger.Name);
             itemView.Icon = Icons.Icon.ChevronRight;
             itemView.Tag = trigger;
             itemView.Margin = new Thickness(0, 1, 0, 0);
             itemsView.Children.Add(itemView);
             tbTriggersEmpty.Visibility = Visibility.Collapsed;
             return itemView;
+        }
+
+        private string TrimTriggerName(string triggerName)
+        {
+            if (triggerName.Length < 26)
+                return triggerName;
+            else return triggerName.Substring(0, 24) + "...";
         }
 
         public void Remove(Lazurite.MainDomain.TriggerBase trigger)

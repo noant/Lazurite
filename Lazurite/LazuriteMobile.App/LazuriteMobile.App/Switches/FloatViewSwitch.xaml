@@ -5,7 +5,7 @@
     x:Class="LazuriteMobile.App.Switches.FloatViewSwitch"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
     xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
-    BackgroundColor="#991D191D"
+    BackgroundColor="#22000000"
     VerticalOptions="FillAndExpand"
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     HorizontalOptions="FillAndExpand">
@@ -23,6 +23,6 @@
         <controls:IconView Grid.Row="1" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" VerticalOptions="Center" HeightRequest="45" WidthRequest="45" HorizontalOptions="Center"></controls:IconView>
         <Label Grid.Row="2" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small" TextColor="White"></Label>
         <Label Grid.Row="3" Opacity="0.5" InputTransparent="True" TextColor="#4682b4" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToSplittedStringShort}}" FontSize="Large" Scale="2" x:Name="tbValue" VerticalOptions="Start" HorizontalOptions="Center"></Label>
-        <Slider Grid.RowSpan="4" Grid.ColumnSpan="2" Rotation="-90" x:Name="slider" x:FieldModifier="private" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"></Slider>
+        <Slider Grid.RowSpan="4" Grid.ColumnSpan="2" Rotation="-90" x:Name="slider" x:FieldModifier="private" VerticalOptions="Fill" HorizontalOptions="Fill"></Slider>
     </Grid>
 </ContentView>

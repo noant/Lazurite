@@ -39,7 +39,7 @@ namespace OpenZWrapper
             switch (valueType)
             {
                 case ZWValueID.ValueType.Button:
-                    {                        
+                    {
                         return string.Empty;
                     }
                 case ZWValueID.ValueType.Bool:

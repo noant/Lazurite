@@ -9,9 +9,10 @@ namespace LazuriteMobile.App.Switches
 {
     public partial class InfoViewSwitch : ContentView
     {
-        public InfoViewSwitch()
+        public InfoViewSwitch(SwitchScenarioModel model)
         {
             InitializeComponent();
+            BindingContext = model;
             itemViewApply.Click += (o,e) => ApplyClicked?.Invoke(this, new EventsArgs<string>(tbText.Text));
             SizeChanged += (o,e) => tbText.Focus(); //crutch
             tbText.Keyboard = Keyboard.Chat;
@@ -20,14 +21,14 @@ namespace LazuriteMobile.App.Switches
         
         public event EventsHandler<string> ApplyClicked;
 
-        public static void Show(Action<string> callback, Grid parent)
+        public static void Show(SwitchScenarioModel model, Grid parent)
         {
-            var @switch = new InfoViewSwitch();
+            var @switch = new InfoViewSwitch(model);
             var dialog = new DialogView(@switch);
             @switch.ApplyClicked += (o, e) =>
             {
                 dialog.Close();
-                callback(e.Value);
+                model.ScenarioValue = e.Value;
             };
             dialog.Show(parent);
         }

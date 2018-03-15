@@ -19,26 +19,20 @@ namespace ZWPluginUI
 
         public decimal Max
         {
-            get
-            {
-                return decimal.Parse(tbMax.Text);
-            }
-            set
-            {
-                tbMax.Text = value.ToString();
-            }
+            get => decimal.Parse(tbMax.Text);
+            set => tbMax.Text = value.ToString();
         }
 
         public decimal Min
         {
-            get
-            {
-                return decimal.Parse(tbMin.Text);
-            }
-            set
-            {
-                tbMin.Text = value.ToString();
-            }
+            get => decimal.Parse(tbMin.Text);
+            set => tbMin.Text = value.ToString();
+        }
+
+        public string Unit
+        {
+            get => tbUnit.Text;
+            set => tbUnit.Text = value;
         }
 
         private void ItemView_Click(object sender, RoutedEventArgs e)
@@ -48,15 +42,16 @@ namespace ZWPluginUI
 
         public event Action<ChangeRangeView> OkClicked;
 
-        public static void Show(decimal min, decimal max, Action<decimal, decimal> callback, Grid parent)
+        public static void Show(decimal min, decimal max, string unit, Action<decimal, decimal, string> callback, Grid parent)
         {
             var changeRangeView = new ChangeRangeView();
             changeRangeView.Max = max;
             changeRangeView.Min = min;
+            changeRangeView.Unit = unit;
             var dialog = new DialogView(changeRangeView);
             changeRangeView.OkClicked += (s) =>
             {
-                callback?.Invoke(s.Min, s.Max);
+                callback?.Invoke(s.Min, s.Max, s.Unit);
                 dialog.Close();
             };
             dialog.Show(parent);

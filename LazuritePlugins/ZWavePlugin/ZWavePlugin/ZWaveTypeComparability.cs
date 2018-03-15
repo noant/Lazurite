@@ -52,7 +52,9 @@ namespace ZWavePlugin
                 nodeValue.ValueType == OpenZWrapper.ValueType.Int ||
                 nodeValue.ValueType == OpenZWrapper.ValueType.Short)
             {
-                ((FloatValueType)typeInstance).AcceptedValues = new string[] {
+                var floatValueType = (FloatValueType)typeInstance;
+                floatValueType.Unit = nodeValue.Unit;
+                floatValueType.AcceptedValues = new string[] {
                     nodeValue.Min.ToString(),
                     nodeValue.Max.ToString()
                 };

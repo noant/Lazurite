@@ -163,8 +163,8 @@ namespace Lazurite.Scenarios.ScenarioTypes
             if (ActionHolder.Action.IsSupportsEvent)
                 ActionHolder.Action.ValueChanged += (action, value) =>
                 {
-                    SetIsAvailable(true);
                     SetCurrentValue(value);
+                    SetIsAvailable(true);
                 };
         }
         

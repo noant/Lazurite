@@ -38,7 +38,7 @@ namespace ZWPluginUI
         {
             stackPanel.Children.Clear();
             _nodeValue = nodeValue;
-            AddDescription("Контроллер", _nodeValue.Node.Controller.Path);
+            AddDescription("Контроллер", _nodeValue.Node.Controller.Path + " (HomeID=" + _nodeValue.Node.Controller.HomeID + ")");
             AddDescription("Узел", string.Format("{0}\r\n{1}\r\nID={2}", _nodeValue.Node.Manufacturer, _nodeValue.Node.ProductName, _nodeValue.Node.Id));
             AddDescription("Параметр", string.Format("{0}\r\nID={1}", _nodeValue.Name, _nodeValue.Id));
             AddDescription("Тип параметра", Enum.GetName(typeof(OpenZWrapper.ValueType), _nodeValue.ValueType));
@@ -56,13 +56,17 @@ namespace ZWPluginUI
                         changeRangeButton.Margin = new Thickness(0,0,0,1);
                         changeRangeButton.Icon = LazuriteUI.Icons.Icon.MathPlusMinus;
                         changeRangeButton.Background = LazuriteUI.Windows.Controls.Visual.BrightItemBackground;
-                        changeRangeButton.Content = "Изменить максимум и минимум";
+                        changeRangeButton.Content = "Изменить параметры";
                         changeRangeButton.Click += (o, e) => {
-                            ChangeRangeView.Show(_nodeValue.Min, _nodeValue.Max,
-                                (min, max) =>
+                            ChangeRangeView.Show(
+                                _nodeValue.Min, 
+                                _nodeValue.Max,
+                                _nodeValue.Unit,
+                                (min, max, unit) =>
                                 {
                                     _nodeValue.Min = min;
                                     _nodeValue.Max = max;
+                                    _nodeValue.Unit = unit;
                                     RefreshWith(_nodeValue);
                                 },
                                 Window.GetWindow(this).Content as Grid);

@@ -41,25 +41,13 @@ namespace LazuriteUI.Windows.Main.Journal
             JournalView.Set(message, type);
             if (type <= MaxShowingWarnType || showAnyway)
                 JournalLightWindow.Show(message, type);
-            if (type == WarnType.Error || type == WarnType.Fatal)
+            if (type == WarnType.Fatal)
             {
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     var mainWindow = Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x is MainWindow);
                     if (mainWindow != null)
-                        switch (type)
-                        {
-                            case WarnType.Fatal:
-                                {
-                                    MessageView.ShowMessage(message + "\r\n" + e?.Message, "Критическая ошибка!", Icons.Icon.Close, mainWindow.Content as Panel, () => Application.Current.Shutdown(1));
-                                    break;
-                                }
-                            case WarnType.Error:
-                                {
-                                    MessageView.ShowMessage(message + "\r\n" + e?.Message, "Ошибка!", Icons.Icon.Bug, mainWindow.Content as Panel);
-                                    break;
-                                }
-                        }
+                        MessageView.ShowMessage(message + "\r\n" + e?.Message, "Критическая ошибка!", Icons.Icon.Close, mainWindow.Content as Panel, () => Application.Current.Shutdown(1));
                 }));
             }
         }

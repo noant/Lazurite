@@ -35,7 +35,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                 side == ActionInstanceSide.OnlyRight ? ScenarioAction.ViewValue : ScenarioAction.Execute);
             var scenarios = ScenariosRepository.Scenarios.Where(x => valueType == null || x.ValueType.GetType().Equals(valueType));
             if (side == ActionInstanceSide.OnlyRight)
-                scenarios = scenarios.Where(x => (x.ValueType is ButtonValueType) && x.IsAccessAvailable(scenarioActionSource));
+                scenarios = scenarios.Where(x => !(x.ValueType is ButtonValueType) && x.IsAccessAvailable(scenarioActionSource));
             else
                 scenarios = scenarios.Where(x => x.IsAccessAvailable(scenarioActionSource));
 

@@ -432,7 +432,7 @@ namespace Lazurite.MainDomain
                 if (SecuritySettings == null)
                     throw new NullReferenceException("Security settings is null");
                 var isReadonlyForThisSource = !OnlyGetValue || source.Source == ScenarioStartupSource.System; //crutch, scenario can be executed by itself or system
-                return GetIsAvailable() && isReadonlyForThisSource && SecuritySettings.IsAvailableForUser(source.User, source.Source, ScenarioAction.Execute);
+                return isReadonlyForThisSource && SecuritySettings.IsAvailableForUser(source.User, source.Source, ScenarioAction.Execute);
             }
             catch (Exception e)
             {

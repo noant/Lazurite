@@ -3,7 +3,7 @@ using Lazurite.MainDomain;
 
 namespace Lazurite.Security.Permissions
 {
-    [HumanFriendlyName("Запретить для всех групп и пользователей")]
+    [HumanFriendlyName("Запрет для любого использования")]
     public class DenyForAll : IPermission
     {
         public ScenarioAction DenyAction { get; set; } = ScenarioAction.ViewValue;

@@ -23,7 +23,6 @@ namespace Lazurite.Scenarios.TriggerTypes
         private readonly static int TriggerChangesListenInterval = GlobalSettings.Get(300);
         private readonly static UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private readonly static ScenarioActionSource ViewActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.OtherScenario, ScenarioAction.ViewValue);
-        private readonly static ScenarioActionSource ExecuteActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.OtherScenario, ScenarioAction.Execute);
 
         private EventsHandler<ScenarioBase> _lastSubscribe;
 

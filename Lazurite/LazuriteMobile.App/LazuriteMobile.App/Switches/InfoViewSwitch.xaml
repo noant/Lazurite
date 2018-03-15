@@ -9,10 +9,17 @@
     x:Class="LazuriteMobile.App.Switches.InfoViewSwitch">
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <local:EditorExt HeightRequest="80" VerticalOptions="StartAndExpand" BackgroundColor="#302530" TextColor="White" x:Name="tbText"></local:EditorExt>
-        <controls:ItemView Grid.Column="1" x:Name="itemViewApply" Icon="NavigateNext" VerticalOptions="Start" HeightRequest="45" WidthRequest="45" Text=""></controls:ItemView>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
+        </Grid.RowDefinitions>
+        <controls:IconView Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+        <Label VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" TextColor="SteelBlue" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}"></Label>
+        <local:EditorExt Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" VerticalOptions="StartAndExpand" BackgroundColor="#302530" TextColor="White" x:Name="tbText"></local:EditorExt>
+        <controls:ItemView Grid.Row="1" Grid.Column="2" x:Name="itemViewApply" Icon="NavigateNext" VerticalOptions="Start" HeightRequest="45" WidthRequest="45" Text=""></controls:ItemView>
     </Grid>
 </ContentView>
