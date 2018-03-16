@@ -19,7 +19,7 @@ namespace OpenZWrapper
                 case ValueType.Int:
                     return new Range(int.MinValue, int.MaxValue);
                 case ValueType.Short:
-                    return new Range(int.MinValue, int.MaxValue);
+                    return new Range(short.MinValue, short.MaxValue);
             }
             return new Range();
         }

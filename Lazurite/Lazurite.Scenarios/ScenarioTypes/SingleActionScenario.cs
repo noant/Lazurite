@@ -136,6 +136,11 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 var instanceManager = Singleton.Resolve<IInstanceManager>();
                 instanceManager.PrepareInstance(ActionHolder.Action, this);
                 ActionHolder.Action.Initialize();
+                if (ActionHolder.Action.IsSupportsEvent)
+                {
+                    ActionHolder.Action.ValueChanged -= OnActionEvent;
+                    ActionHolder.Action.ValueChanged += OnActionEvent;
+                }
                 SetCurrentValueNoEvents(ActionHolder.Action.GetValue(null));
                 SetIsAvailable(true);
                 return true;
@@ -152,6 +157,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
         }
 
+        private void OnActionEvent(IAction action, string value)
+        {
+            SetCurrentValue(value);
+            SetIsAvailable(true);
+        }
+
         public override void InitializeAsync(Action<bool> callback)
         {
             InitializeInternal(); //ignore async
@@ -160,12 +171,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override void AfterInitilize()
         {
-            if (ActionHolder.Action.IsSupportsEvent)
-                ActionHolder.Action.ValueChanged += (action, value) =>
-                {
-                    SetCurrentValue(value);
-                    SetIsAvailable(true);
-                };
+            //do nothing
         }
         
         public override void FullInitializeAsync(Action<bool> callback = null)

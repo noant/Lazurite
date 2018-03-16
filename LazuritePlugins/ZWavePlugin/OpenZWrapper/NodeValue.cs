@@ -1,4 +1,5 @@
-﻿using OpenZWaveDotNet;
+﻿using Lazurite.Shared;
+using OpenZWaveDotNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,9 +48,7 @@ namespace OpenZWrapper
 
         public decimal Max { get; set; } = 100;
         public decimal Min { get; set; } = 0;
-
-        public event Action<object, NodeValueChangedEventArgs> Changed;
-
+        
         private object _current;
         public object Current {
             get => _current;
@@ -71,10 +70,6 @@ namespace OpenZWrapper
         internal void InternalSet(object value)
         {
             _current = value;
-            Changed?.Invoke(this,
-                new NodeValueChangedEventArgs() {
-                    Value = this
-                });
         }
 
         public override int GetHashCode()

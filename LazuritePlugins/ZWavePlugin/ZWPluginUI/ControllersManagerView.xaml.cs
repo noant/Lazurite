@@ -262,10 +262,9 @@ namespace ZWPluginUI
 
         private void SelectNodeAnd(Action<Node> callback)
         {
-            var nodesView = new NodesListView();
-            {
-                Width = 450;
-            }
+            var nodesView = new NodesListView() {
+                MinWidth = 500
+            };
             var nodes = _manager.GetNodes().Where(x => x.Controller.Equals(controllersListView.SelectedController)).ToArray();
             nodesView.RefreshWith(nodes);
             var dialogView = new DialogView(nodesView);

@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Shared;
 using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using OpenZWrapper;
@@ -62,33 +63,13 @@ namespace ZWavePlugin
 
         public void Initialize()
         {
-            ZWaveManager.Current.NodeValueLoaded -= Current_NodeValueLoaded; //crutch
-            
-            try
-            {
-                var nodeValue = TryGetNodeValue();
-                nodeValue.Changed += NodeValue_Changed;
-            }
-            catch
-            { 
-                ZWaveManager.Current.NodeValueLoaded += Current_NodeValueLoaded;
-            }
+            ZWaveManager.Current.NodeValueChanged += NodeValue_Changed;
         }
-
-        private void Current_NodeValueLoaded(object sender, Lazurite.Shared.EventsArgs<NodeValue> args)
+        
+        private void NodeValue_Changed(object sender, EventsArgs<NodeValue> args)
         {
-            var nodeValue = args.Value;
-            if (nodeValue.Id == ValueId && nodeValue.Node.Id == NodeId && nodeValue.Node.HomeId == HomeId)
-            {
-                nodeValue.Changed += NodeValue_Changed;
-                ValueChanged?.Invoke(this, nodeValue.Current.ToString());
-                ZWaveManager.Current.NodeValueLoaded -= Current_NodeValueLoaded;
-            }
-        }
-
-        private void NodeValue_Changed(object sender, NodeValueChangedEventArgs args)
-        {
-            ValueChanged?.Invoke(this, args.Value.Current.ToString());
+            if (args.Value.Node.HomeId == HomeId && args.Value.Node.Id == NodeId && args.Value.Id == ValueId)
+                ValueChanged?.Invoke(this, args.Value.Current.ToString());
         }
 
         public void SetValue(ExecutionContext context, string value)
@@ -153,14 +134,12 @@ namespace ZWavePlugin
             window.RefreshWith(manager, nodeValue, (nv) => ZWaveTypeComparability.IsTypesComparable(nv, valueType, inheritsSupportedValueTypes));
             if (window.ShowDialog() ?? false)
             {
-                if (nodeValue != null)
-                    nodeValue.Changed -= NodeValue_Changed;
                 nodeValue = window.GetSelectedNodeValue();
                 NodeId = nodeValue.Node.Id;
                 HomeId = nodeValue.Node.HomeId;
                 ValueId = nodeValue.Id;
                 ValueType = ZWaveTypeComparability.CreateValueTypeFromNodeValue(nodeValue);
-                nodeValue.Changed += NodeValue_Changed;
+                Initialize();
                 return true;
             }
             else return false;
@@ -168,14 +147,7 @@ namespace ZWavePlugin
 
         public void Dispose()
         {
-            try
-            {
-                TryGetNodeValue().Changed -= NodeValue_Changed;
-            }
-            catch
-            {
-                ZWaveManager.Current.NodeValueLoaded -= Current_NodeValueLoaded;
-            }
+            ZWaveManager.Current.NodeValueChanged -= NodeValue_Changed;
         }
     }
 }

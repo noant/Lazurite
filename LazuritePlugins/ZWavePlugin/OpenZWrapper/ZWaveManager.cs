@@ -349,7 +349,7 @@ namespace OpenZWrapper
                             var nodeValue = new NodeValue(value, node);
                             node.Values.Add(nodeValue);
                             nodeValue.Refresh();
-                            NodeValueLoaded?.Invoke(this, new EventsArgs<NodeValue>(nodeValue));
+                            NodeValueChanged?.Invoke(this, new EventsArgs<NodeValue>(nodeValue));
                         }
                         break;
                     case ZWNotification.Type.ValueRefreshed:
@@ -357,6 +357,7 @@ namespace OpenZWrapper
                             var value = notification.GetValueID();
                             var nodeValue = node.Values.FirstOrDefault(x => x.Id.Equals(value.GetId()));
                             nodeValue.Refresh();
+                            NodeValueChanged?.Invoke(this, new EventsArgs<NodeValue>(nodeValue));
                         }
                         break;
                     case ZWNotification.Type.ValueRemoved:
@@ -376,6 +377,7 @@ namespace OpenZWrapper
                             nodeValue.CurrentByte = notification.GetByte();
                             nodeValue.CurrentGroupIdx = notification.GetGroupIdx();
                             nodeValue.InternalSet(Helper.GetValue(_manager, value, nodeValue.ZWValueType, nodeValue.PossibleValues));
+                            NodeValueChanged?.Invoke(this, new EventsArgs<NodeValue>(nodeValue));
                         }
                         break;
                 }
@@ -447,6 +449,6 @@ namespace OpenZWrapper
             }
         }
         
-        public event EventsHandler<NodeValue> NodeValueLoaded;
+        public event EventsHandler<NodeValue> NodeValueChanged;
     }
 }
