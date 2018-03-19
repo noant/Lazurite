@@ -11,8 +11,8 @@ namespace LazuriteMobile.App.Switches
             if (string.IsNullOrEmpty(value?.ToString()))
                 return "[пусто]";
             var str = value.ToString();
-            if (str.Length > 6)
-                str = str.Substring(0, 5) + "...";
+            if (str.Length > 13)
+                str = str.Substring(0, 11) + "...";
             return str;
         }
 

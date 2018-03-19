@@ -11,18 +11,19 @@
     HorizontalOptions="FillAndExpand">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="70"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <controls:IconView Grid.Row="1" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" VerticalOptions="Center" HeightRequest="45" WidthRequest="45" HorizontalOptions="Center"></controls:IconView>
-        <Label Grid.Row="2" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small" TextColor="White"></Label>
-        <Label Grid.Row="3" Opacity="0.5" InputTransparent="True" TextColor="#4682b4" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToSplittedStringShort}}" FontSize="Large" Scale="2" x:Name="tbValue" VerticalOptions="Start" HorizontalOptions="Center"></Label>
-        <Slider Grid.RowSpan="4" Grid.ColumnSpan="2" Rotation="-90" x:Name="slider" x:FieldModifier="private" VerticalOptions="Fill" HorizontalOptions="Fill"></Slider>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <controls:IconView Opacity="0.25" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" VerticalOptions="CenterAndExpand" HeightRequest="90" WidthRequest="90" HorizontalOptions="StartAndExpand" Margin="-10,0,0,0"></controls:IconView>
+            <Label Grid.Column="1" Opacity="0.25" VerticalOptions="CenterAndExpand" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}" HorizontalOptions="Start" FontSize="Large" Scale="2" TextColor="White"></Label>
+        </Grid>
+        <Label Grid.Row="1" Opacity="0.7" InputTransparent="True" TextColor="#4682b4" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToSplittedStringShort}}" FontSize="Large" x:Name="tbValue" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" Scale="2" Margin="40,0,0,0"></Label>
+        <common:SliderWrapperView Grid.RowSpan="3" x:Name="slider" x:FieldModifier="private" VerticalOptions="Fill" HorizontalOptions="Fill"></common:SliderWrapperView>
     </Grid>
 </ContentView>

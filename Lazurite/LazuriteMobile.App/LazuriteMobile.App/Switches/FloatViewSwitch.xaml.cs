@@ -13,7 +13,7 @@ namespace LazuriteMobile.App.Switches
         private static readonly int FloatView_ValueUpdateInterval = GlobalSettings.Get(300);
         private static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
 
-        private string _tempValue;//crutch#1
+        private string _tempValue; //crutch#1
         private string _tempValue_current; //crutch#2
         private double _iteration;
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
@@ -28,14 +28,6 @@ namespace LazuriteMobile.App.Switches
                 _changer.VolumeDown += _changer_VolumeChanged;
                 _changer.VolumeUp += _changer_VolumeChanged;
             }
-
-            //crutch
-            SizeChanged += (o, e) => {
-                BatchBegin();
-                HeightRequest = slider.WidthRequest = Height * 2; //set width to height, slider is rotated to 90
-                slider.Margin = new Thickness(0, 0, -100, 0);
-                BatchCommit();
-            };
         }
 
         private void _changer_VolumeChanged(object sender, Lazurite.Shared.EventsArgs<int> args)
@@ -62,7 +54,10 @@ namespace LazuriteMobile.App.Switches
                     if (_tempValue != _tempValue_current)
                         model.ScenarioValue = _tempValue_current = _tempValue;
                 },
-                () => FloatView_ValueUpdateInterval);            
+                () => FloatView_ValueUpdateInterval);
+            SizeChanged += (o, e) => {
+                HeightRequest = Width * 2;
+            };
         }
 
         public void Dispose()
