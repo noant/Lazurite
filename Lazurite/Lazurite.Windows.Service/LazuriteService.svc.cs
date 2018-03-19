@@ -1,6 +1,7 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.MessageSecurity;
+using Lazurite.MainDomain.Statistics;
 using Lazurite.Shared;
 using Lazurite.Visual;
 using Lazurite.Windows.Logging;
@@ -25,6 +26,7 @@ namespace Lazurite.Windows.Service
         private static readonly WarningHandlerBase WarningHandler = Singleton.Resolve<WarningHandlerBase>();
         private static readonly AddictionalDataManager AddictionalDataManager = Singleton.Resolve<AddictionalDataManager>();
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
+        //private static readonly IStatisticsManager StatisticsManager = Singleton.Resolve<IStatisticsManager>();
 
         private string _secretKey;
 
@@ -361,6 +363,21 @@ namespace Lazurite.Windows.Service
                 var preparedData = AddictionalDataManager.Prepare(user);
                 return new Encrypted<AddictionalData>(preparedData, _secretKey);
             });
+        }
+        
+        public StatisticsScenarioInfo GetStatisticsInfoForScenario(ScenarioInfo info)
+        {
+            throw new NotImplementedException();
+        }
+
+        public StatisticsItem[] GetStatistics(DateTime since, DateTime to, StatisticsScenarioInfo info)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsStatisticsRegistered(StatisticsScenarioInfo info)
+        {
+            throw new NotImplementedException();
         }
     }
 }

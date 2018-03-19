@@ -3,13 +3,13 @@ using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.Shared;
 using Lazurite.Utils;
-using Lazurite.Windows.ServiceClient.ServiceReference;
 using ProxyObjectCreating;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.ServiceModel.Security;
 
 namespace Lazurite.Windows.ServiceClient
@@ -26,13 +26,13 @@ namespace Lazurite.Windows.ServiceClient
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
-        private Dictionary<ConnectionCredentials, MainDomain.IServer> _cache = new Dictionary<ConnectionCredentials, MainDomain.IServer>();
+        private Dictionary<ConnectionCredentials, IServer> _cache = new Dictionary<ConnectionCredentials, IServer>();
 
         public ConnectionCredentials[] ConnectionCredentials => _cache.Keys.ToArray();
 
         public MainDomain.IServer GetServer(ConnectionCredentials credentials)
         {
-            MainDomain.IServer @object;
+            IServer @object;
 
             lock (_cache)
             {
@@ -43,43 +43,43 @@ namespace Lazurite.Windows.ServiceClient
             }
 
             var proxy = (Proxy)@object;
-            var connection = (ServerClient)proxy.Obj;
-
+            var connection = (ICommunicationObject)proxy.Obj;
             if (connection.State == CommunicationState.Faulted ||
                 connection.State == CommunicationState.Closed ||
                 connection.State == CommunicationState.Closing)
                 proxy.Obj = CreateClient(credentials);
-
+            
             return @object;
         }
 
-        private MainDomain.IServer CreateProxyClient(ConnectionCredentials credentials)
+        private IServer CreateProxyClient(ConnectionCredentials credentials)
         {
-            var connection = CreateClient(credentials);
-            MainDomain.IServer connectionProxy = null;
-            var state = false;
-            connectionProxy = ProxyObject.Create<MainDomain.IServer>(connection, (args) => {
+            var channelFactory = CreateClient(credentials);
+            var connection = channelFactory.CreateChannel();
+            IServer connectionProxy = null;
+            var isFailed = false;
+            connectionProxy = ProxyObject.Create(connection, (args) => {
                 Log.DebugFormat("Service method entered: [{0}]", args.MethodName);
                 var result = args.DefaultReturnValue;
                 try
                 {
                     result = args.Run();
-                    if (!state)
+                    if (!isFailed)
                     {
-                        state = true;
-                        ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connectionProxy, state, credentials));
+                        isFailed = true;
+                        ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connectionProxy, isFailed, credentials));
                     }
                 }
                 catch (Exception e)
                 {
                     Log.DebugFormat("Service method error: [{0}]; {1}", args.MethodName, e.InnerException.Message);
                     var targetException = e.InnerException;
-                    if (state 
+                    if (isFailed 
                         && !SystemUtils.IsFaultExceptionHasCode(targetException, ServiceFaultCodes.ObjectNotFound)
                         && !SystemUtils.IsFaultExceptionHasCode(targetException, ServiceFaultCodes.ObjectAccessDenied))
                     {
-                        state = false;
-                        ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connectionProxy, state, credentials));
+                        isFailed = false;
+                        ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(connectionProxy, isFailed, credentials));
                     }
                     //if communication exception
                     if (targetException is System.ServiceModel.ServerTooBusyException ||
@@ -93,9 +93,9 @@ namespace Lazurite.Windows.ServiceClient
                         targetException is System.ServiceModel.CommunicationObjectFaultedException ||
                         targetException.GetType().Equals(typeof(CommunicationException)) ||
                         targetException is System.TimeoutException ||
-                        connection.State == CommunicationState.Closed ||
-                        connection.State == CommunicationState.Closing ||
-                        connection.State == CommunicationState.Faulted)
+                        channelFactory.State == CommunicationState.Closed ||
+                        channelFactory.State == CommunicationState.Closing ||
+                        channelFactory.State == CommunicationState.Faulted)
                         AggregatedCommunicationException.Throw(targetException);
                     else if (targetException is MessageSecurityException && targetException.InnerException != null)
                         throw targetException.InnerException;
@@ -111,7 +111,7 @@ namespace Lazurite.Windows.ServiceClient
             return connectionProxy;
         }
 
-        private ServerClient CreateClient(ConnectionCredentials credentials)
+        private ChannelFactory<IServer> CreateClient(ConnectionCredentials credentials)
         {
             var binding = new BasicHttpBinding();
             binding.Security.Mode = BasicHttpSecurityMode.Transport;
@@ -121,22 +121,19 @@ namespace Lazurite.Windows.ServiceClient
             binding.ReaderQuotas.MaxDepth = 50;
             binding.ReaderQuotas.MaxNameTableCharCount = 9999;
             binding.ReaderQuotas.MaxStringContentLength = 2147483647;
-
             binding.CloseTimeout =
                 binding.OpenTimeout =
                 binding.SendTimeout = TimeSpan.FromMinutes(ConnectionTimeout_Minutes);
 
             var endpoint = new EndpointAddress(new Uri(credentials.GetAddress()));
 
-            var client = new ServerClient(binding, endpoint);
+            var channelFactory = new ChannelFactory<IServer>(binding, endpoint);
 
-            client.ClientCredentials.UserName.UserName = credentials.Login;
-            client.ClientCredentials.UserName.Password = credentials.Password;
+            channelFactory.Credentials.UserName.UserName = credentials.Login;
+            channelFactory.Credentials.UserName.Password = credentials.Password;
+            channelFactory.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
 
-            client.ClientCredentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
-            client.ChannelFactory.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.None;
-            
-            return client;
+            return channelFactory;
         }
 
         public event EventsHandler<bool> ConnectionStateChanged;

@@ -87,8 +87,13 @@
     <Compile Include="ScenarioInfo.cs" />
     <Compile Include="ScenarioStartupSource.cs" />
     <Compile Include="MessageSecurity\SecureEncoding.cs" />
+    <Compile Include="ScenarioValueChangedEventArgs.cs" />
     <Compile Include="SecuritySettingsBase.cs" />
     <Compile Include="ServiceFaultCodes.cs" />
+    <Compile Include="Statistics\IStatisticsManager.cs" />
+    <Compile Include="Statistics\StatisticsItem.cs" />
+    <Compile Include="Statistics\StatisticsItemSource.cs" />
+    <Compile Include="Statistics\StatisticsScenarioInfo.cs" />
     <Compile Include="TriggerBase.cs" />
     <Compile Include="UserBase.cs" />
     <Compile Include="UserGroupBase.cs" />

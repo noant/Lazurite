@@ -221,13 +221,16 @@ namespace LazuriteUI.Windows.Main.Switches
             }
         }
 
-        private void ScenarioValueChanged(object sender, EventsArgs<ScenarioBase> args)
+        private void ScenarioValueChanged(object sender, EventsArgs<ScenarioValueChangedEventArgs> args)
         {
-            _value = args.Value.GetCurrentValue();
-            _smoothValue = ScenarioValueDouble;
-            OnPropertyChanged(nameof(ScenarioValue));
-            OnPropertyChanged(nameof(ScenarioValueWithUnit));
-            OnPropertyChanged(nameof(SmoothChangeValue));
+            if (!args.Value.OnlyIntent)
+            {
+                _value = args.Value.Scenario.GetCurrentValue();
+                _smoothValue = ScenarioValueDouble;
+                OnPropertyChanged(nameof(ScenarioValue));
+                OnPropertyChanged(nameof(ScenarioValueWithUnit));
+                OnPropertyChanged(nameof(SmoothChangeValue));
+            }
         }
 
         private void ScenarioAvailabilityChanged(object sender, EventsArgs<ScenarioBase> args)

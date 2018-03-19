@@ -23,8 +23,9 @@ namespace Lazurite.Scenarios.TriggerTypes
         private readonly static int TriggerChangesListenInterval = GlobalSettings.Get(300);
         private readonly static UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private readonly static ScenarioActionSource ViewActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.OtherScenario, ScenarioAction.ViewValue);
+        private readonly static ScenarioActionSource ExecuteActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.System, ScenarioAction.Execute);
 
-        private EventsHandler<ScenarioBase> _lastSubscribe;
+        private EventsHandler<ScenarioValueChangedEventArgs> _lastSubscribe;
 
         public override IAction TargetAction
         {
@@ -109,19 +110,19 @@ namespace Lazurite.Scenarios.TriggerTypes
                         //crutch; scenario can be changed before initializing, then we need to remove 
                         //current subscribe from previous scenario. CancellationToken.IsCancellationRequested
                         //can be setted in true only when trigger stopped;
-                        args.Value.RemoveOnStateChanged(_lastSubscribe);
+                        args.Value.Scenario.RemoveOnStateChanged(_lastSubscribe);
                     }
                     else
                     {
                         var action = TargetAction;
                         var outputChanged = new OutputChangedDelegates();
-                        outputChanged.Add((value) => GetScenario().SetCurrentValue(value));
+                        outputChanged.Add((value) => GetScenario().SetCurrentValue(value, ExecuteActionSource));
                         contexCancellationTokenSource.Cancel();
                         contexCancellationTokenSource = new CancellationTokenSource();
-                        var executionContext = new ExecutionContext(this, args.Value.GetCurrentValue(), args.Value.GetPreviousValue(), outputChanged, contexCancellationTokenSource);
+                        var executionContext = new ExecutionContext(this, args.Value.Scenario.GetCurrentValue(), args.Value.Scenario.GetPreviousValue(), outputChanged, contexCancellationTokenSource);
                         TaskUtils.StartLongRunning(
                             () => action.SetValue(executionContext, string.Empty),
-                            (exception) => Log.ErrorFormat(exception, "Ошибка исполнения триггера [{0}][{1}]", Name, Id));
+                            (exception) => Log.ErrorFormat(exception, "Ошибка выполнения триггера [{0}][{1}]", Name, Id));
                     }
                 };
                 GetScenario().SetOnStateChanged(_lastSubscribe);

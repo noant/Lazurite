@@ -19,8 +19,6 @@ namespace Lazurite.Scenarios.ScenarioTypes
     [HumanFriendlyName("Композитный сценарий")]
     public class CompositeScenario : ScenarioBase, IStandardValueAction
     {
-        private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
-
         public ComplexAction TargetAction { get; set; } = new ComplexAction();
 
         public override ValueTypeBase ValueType { get; set; }
@@ -90,10 +88,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         public override void AfterInitilize()
         {
             if (ValueType != null && ValueType is ButtonValueType == false) //except buttonValueType because any input value starts scenario permanent
-            {
-                var scenarioActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.System, ScenarioAction.Execute);
-                ExecuteAsync(scenarioActionSource, InitializeWithValue, out string executionId);
-            }
+                ExecuteAsync(SystemActionSource, InitializeWithValue, out string executionId);
         }
 
         public override IAction[] GetAllActionsFlat()

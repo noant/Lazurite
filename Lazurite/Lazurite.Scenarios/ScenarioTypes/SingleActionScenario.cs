@@ -59,7 +59,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 HandleExecution(() =>
                 {
                     if (!ActionHolder.Action.IsSupportsEvent)
-                        SetCurrentValue(param);
+                        SetCurrentValue(param, source);
+                    else
+                        NotifyOnlyIntent(source);
                     ExecuteInternal(context);
                 });
             }
@@ -81,7 +83,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 HandleExecution(() =>
                 {
                     if (!ActionHolder.Action.IsSupportsEvent)
-                        SetCurrentValue(param);
+                        SetCurrentValue(param, source);
+                    else
+                        NotifyOnlyIntent(source);
                     ExecuteInternal(context);
                 });
             },
@@ -102,7 +106,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             if (!ActionHolder.Action.IsSupportsEvent)
                 base.CalculateCurrentValueAsync(source, callback, parentContext);
-            //return cached value, callback in not neccesary
+            //return cached value, callback in not necessary
             else
             {
                 CheckRights(source, parentContext);
@@ -141,7 +145,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     ActionHolder.Action.ValueChanged -= OnActionEvent;
                     ActionHolder.Action.ValueChanged += OnActionEvent;
                 }
-                SetCurrentValueNoEvents(ActionHolder.Action.GetValue(null));
+                SetCurrentValue(ActionHolder.Action.GetValue(null), SystemActionSource);
                 SetIsAvailable(true);
                 return true;
             }
@@ -159,7 +163,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         private void OnActionEvent(IAction action, string value)
         {
-            SetCurrentValue(value);
+            SetCurrentValue(value, SystemActionSource);
             SetIsAvailable(true);
         }
 

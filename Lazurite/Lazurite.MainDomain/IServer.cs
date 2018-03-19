@@ -1,4 +1,5 @@
 ﻿using Lazurite.MainDomain.MessageSecurity;
+using Lazurite.MainDomain.Statistics;
 using System;
 using System.ServiceModel;
 
@@ -27,9 +28,13 @@ namespace Lazurite.MainDomain
         EncryptedList<ScenarioInfoLW> GetChangedScenarios(DateTime since);
         [OperationContract]
         void SaveVisualSettings(Encrypted<UserVisualSettings> visualSettings);
-
-        //for future
         [OperationContract]
         Encrypted<AddictionalData> SyncAddictionalData(Encrypted<AddictionalData> data);
+        [OperationContract]
+        StatisticsScenarioInfo GetStatisticsInfoForScenario(ScenarioInfo info);
+        [OperationContract]
+        StatisticsItem[] GetStatistics(DateTime since, DateTime to, StatisticsScenarioInfo info);
+        [OperationContract]
+        bool IsStatisticsRegistered(StatisticsScenarioInfo info);
     }
 }

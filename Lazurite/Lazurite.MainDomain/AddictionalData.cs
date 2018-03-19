@@ -50,14 +50,8 @@ namespace Lazurite.MainDomain
 
         public object this[string key]
         {
-            get
-            {
-                return Data[key];
-            }
-            set
-            {
-                Data[key] = value;
-            }
+            get => Data[key];
+            set => Data[key] = value;
         }
 
         public bool ContainsKey(string key) => Data.ContainsKey(key);

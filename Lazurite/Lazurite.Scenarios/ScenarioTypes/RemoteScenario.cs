@@ -114,7 +114,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             HandleExceptions(() => 
             {
                 GetServer().ExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
-                SetCurrentValue(param);
+                SetCurrentValue(param, source);
             });
             Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
         }
@@ -130,7 +130,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 HandleExceptions(() =>
                 {
                     GetServer().AsyncExecuteScenario(new Encrypted<string>(RemoteScenarioId, Credentials.SecretKey), new Encrypted<string>(param, Credentials.SecretKey));
-                    SetCurrentValue(param);
+                    SetCurrentValue(param, source);
                 });
                 Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
             });
@@ -212,8 +212,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             _scenarioInfo = args.ScenarioInfo;
             ValueType = _scenarioInfo.ValueType;
-            if (!(_scenarioInfo.CurrentValue ?? string.Empty).Equals(GetCurrentValue()))
-                SetCurrentValue(_scenarioInfo.CurrentValue ?? string.Empty);
+            var value = _scenarioInfo.CurrentValue ?? ValueType.DefaultValue;
+            if (!value.Equals(GetCurrentValue()))
+                SetCurrentValue(value, SystemActionSource);
             if (_scenarioInfo.IsAvailable != GetIsAvailable())
                 SetIsAvailable(_scenarioInfo.IsAvailable);
         }
@@ -232,7 +233,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             if (ValueType == null)
                 ValueType = new ButtonValueType();
-            SetCurrentValue(ValueType.DefaultValue);
+            SetCurrentValue(ValueType.DefaultValue, SystemActionSource);
         }
 
         private void UpdateValueAsDefault()

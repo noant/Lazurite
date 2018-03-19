@@ -15,8 +15,10 @@ namespace Lazurite.MainDomain
     {
         private const int MaxStackValue = 100;
         protected static readonly ILogger Log = Singleton.Resolve<ILogger>();
+        protected static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
+        protected static readonly ScenarioActionSource SystemActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.System, ScenarioAction.Execute);
 
-        private List<EventsHandler<ScenarioBase>> _valueChangedEvents = new List<EventsHandler<ScenarioBase>>();
+        private List<EventsHandler<ScenarioValueChangedEventArgs>> _valueChangedEvents = new List<EventsHandler<ScenarioValueChangedEventArgs>>();
         private List<EventsHandler<ScenarioBase>> _availabilityChangedEvents = new List<EventsHandler<ScenarioBase>>();
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private bool _isAvailable = false;
@@ -82,7 +84,7 @@ namespace Lazurite.MainDomain
         protected ExecutionContext PrepareExecutionContext(string param, ExecutionContext parentContext)
         {
             var output = new OutputChangedDelegates();
-            output.Add(val => SetCurrentValue(val));
+            output.Add(val => SetCurrentValue(val, SystemActionSource));
             var tokenSource = PrepareCancellationTokenSource();
             ExecutionContext context;
             var prevValue = GetCurrentValue();
@@ -96,7 +98,6 @@ namespace Lazurite.MainDomain
             }
             return context;
         }
-
         /// <summary>
         /// Scenario category
         /// </summary>
@@ -224,11 +225,16 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Set result of scenario execution
         /// </summary>
-        public virtual void SetCurrentValue(string value)
+        public virtual void SetCurrentValue(string value, ScenarioActionSource source)
         {
             SetPreviousValue(GetCurrentValue());
             SetCurrentValueNoEvents(value);
-            RaiseValueChangedEvents();
+            RaiseValueChangedEvents(source, false);
+        }
+
+        public virtual void NotifyOnlyIntent(ScenarioActionSource source)
+        {
+            RaiseValueChangedEvents(source, true);
         }
 
         /// <summary>
@@ -334,7 +340,8 @@ namespace Lazurite.MainDomain
                 var context = PrepareExecutionContext(param, parentContext);
                 HandleExecution(() =>
                 {
-                    SetCurrentValue(param);
+                    SetPreviousValue(GetCurrentValue());
+                    SetCurrentValue(param, source);
                     ExecuteInternal(context);
                 });
             },
@@ -358,7 +365,7 @@ namespace Lazurite.MainDomain
                 HandleExecution(() =>
                 {
                     SetPreviousValue(GetCurrentValue());
-                    SetCurrentValue(param);
+                    SetCurrentValue(param, source);
                     ExecuteInternal(context);
                 });
             }
@@ -431,8 +438,8 @@ namespace Lazurite.MainDomain
             {
                 if (SecuritySettings == null)
                     throw new NullReferenceException("Security settings is null");
-                var isReadonlyForThisSource = !OnlyGetValue || source.Source == ScenarioStartupSource.System; //crutch, scenario can be executed by itself or system
-                return isReadonlyForThisSource && SecuritySettings.IsAvailableForUser(source.User, source.Source, ScenarioAction.Execute);
+                var writeAvailableForThisSource = !OnlyGetValue || source.Source == ScenarioStartupSource.System; //crutch, scenario can be executed by itself or system
+                return writeAvailableForThisSource && SecuritySettings.IsAvailableForUser(source.User, source.Source, ScenarioAction.Execute);
             }
             catch (Exception e)
             {
@@ -485,7 +492,7 @@ namespace Lazurite.MainDomain
         /// Set event on state changed
         /// </summary>
         /// <param name="action"></param>
-        public void SetOnStateChanged(EventsHandler<ScenarioBase> action)
+        public void SetOnStateChanged(EventsHandler<ScenarioValueChangedEventArgs> action)
         {
             _valueChangedEvents.Add(action);
         }
@@ -494,7 +501,7 @@ namespace Lazurite.MainDomain
         /// Remove event on state changed
         /// </summary>
         /// <param name="action"></param>
-        public void RemoveOnStateChanged(EventsHandler<ScenarioBase> action)
+        public void RemoveOnStateChanged(EventsHandler<ScenarioValueChangedEventArgs> action)
         {
             _valueChangedEvents.Remove(action);
         }
@@ -520,14 +527,15 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Raise events when state changed
         /// </summary>
-        protected void RaiseValueChangedEvents()
+        protected void RaiseValueChangedEvents(ScenarioActionSource source, bool onlyIntent)
         {
             LastChange = DateTime.Now.ToUniversalTime();
             for (int i = 0; i < _valueChangedEvents.Count; i++)
             {
                 try
                 {
-                    _valueChangedEvents[i](this, new EventsArgs<ScenarioBase>(this));
+                    _valueChangedEvents[i](this, 
+                        new EventsArgs<ScenarioValueChangedEventArgs>(new ScenarioValueChangedEventArgs(this, onlyIntent, source)));
                 }
                 catch(Exception e)
                 {

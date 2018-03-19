@@ -73,11 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\ServiceReference\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="ServiceClientFactory.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -86,28 +81,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\Lazurite.MainDomain.ScenarioInfo.datasource" />
-    <None Include="Properties\DataSources\Lazurite.MainDomain.ScenarioInfoLW.datasource" />
-    <None Include="Properties\DataSources\Lazurite.MainDomain.UserBase.datasource" />
-    <None Include="Service References\ServiceReference\Lazurite.MainDomain.MessageSecurity.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceReference\Lazurite.Windows.ServiceClient.ServiceReference.EncryptedListOfScenarioInfoLWr1_S29lkD.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ServiceReference\Lazurite.Windows.ServiceClient.ServiceReference.EncryptedListOfScenarioInfor1_S29lkD.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ServiceReference\Lazurite.Windows.ServiceClient.ServiceReference.EncryptedListOfstring.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\ServiceReference\service.wsdl" />
-    <None Include="Service References\ServiceReference\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceReference\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lazurite.ActionsDomain\Lazurite.ActionsDomain.csproj">
@@ -134,21 +107,6 @@
       <Project>{D4FDB9F4-F897-4F15-85FC-26E8D933AF6D}</Project>
       <Name>Lazurite.Utils</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\ServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
