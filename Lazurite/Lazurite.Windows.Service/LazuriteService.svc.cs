@@ -26,7 +26,7 @@ namespace Lazurite.Windows.Service
         private static readonly WarningHandlerBase WarningHandler = Singleton.Resolve<WarningHandlerBase>();
         private static readonly AddictionalDataManager AddictionalDataManager = Singleton.Resolve<AddictionalDataManager>();
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
-        //private static readonly IStatisticsManager StatisticsManager = Singleton.Resolve<IStatisticsManager>();
+        private static readonly IStatisticsManager StatisticsManager = Singleton.Resolve<IStatisticsManager>();
 
         private string _secretKey;
 
@@ -365,19 +365,35 @@ namespace Lazurite.Windows.Service
             });
         }
         
-        public StatisticsScenarioInfo GetStatisticsInfoForScenario(ScenarioInfo info)
+        public Encrypted<StatisticsScenarioInfo> GetStatisticsInfoForScenario(Encrypted<ScenarioInfo> info)
         {
-            throw new NotImplementedException();
+            return Handle((user) => {
+                var scenarioId = info.Decrypt(_secretKey).ScenarioId;
+                var scenario = ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == scenarioId);
+                if (scenario == null)
+                    return null;
+                return new Encrypted<StatisticsScenarioInfo>(StatisticsManager.GetStatisticsInfoForScenario(scenario, new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue)), _secretKey);
+            });
         }
 
-        public StatisticsItem[] GetStatistics(DateTime since, DateTime to, StatisticsScenarioInfo info)
+        public EncryptedList<StatisticsItem> GetStatistics(DateTime since, DateTime to, Encrypted<StatisticsScenarioInfo> encryptedInfo)
         {
-            throw new NotImplementedException();
+            return Handle((user) => {
+                var info = encryptedInfo.Decrypt(_secretKey);
+                return new EncryptedList<StatisticsItem>(StatisticsManager.GetItems(info, since, to, new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue)), _secretKey);
+            });
         }
 
-        public bool IsStatisticsRegistered(StatisticsScenarioInfo info)
+        public bool IsStatisticsRegistered(Encrypted<StatisticsScenarioInfo> encryptedInfo)
         {
-            throw new NotImplementedException();
+            return Handle((user) =>
+            {
+                var info = encryptedInfo.Decrypt(_secretKey);
+                var scenario = ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == info.ID && ActionsDomain.Utils.GetValueTypeClassName(x.ValueType.GetType()) == info.ValueTypeName);
+                if (scenario == null)
+                    return false;
+                return StatisticsManager.IsRegistered(scenario);
+            });
         }
     }
 }

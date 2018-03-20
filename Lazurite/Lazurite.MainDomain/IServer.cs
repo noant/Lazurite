@@ -31,10 +31,10 @@ namespace Lazurite.MainDomain
         [OperationContract]
         Encrypted<AddictionalData> SyncAddictionalData(Encrypted<AddictionalData> data);
         [OperationContract]
-        StatisticsScenarioInfo GetStatisticsInfoForScenario(ScenarioInfo info);
+        Encrypted<StatisticsScenarioInfo> GetStatisticsInfoForScenario(Encrypted<ScenarioInfo> info);
         [OperationContract]
-        StatisticsItem[] GetStatistics(DateTime since, DateTime to, StatisticsScenarioInfo info);
+        EncryptedList<StatisticsItem> GetStatistics(DateTime since, DateTime to, Encrypted<StatisticsScenarioInfo> info);
         [OperationContract]
-        bool IsStatisticsRegistered(StatisticsScenarioInfo info);
+        bool IsStatisticsRegistered(Encrypted<StatisticsScenarioInfo> info);
     }
 }

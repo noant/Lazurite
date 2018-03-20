@@ -98,6 +98,7 @@ namespace Lazurite.MainDomain
             }
             return context;
         }
+
         /// <summary>
         /// Scenario category
         /// </summary>

@@ -8,10 +8,10 @@ namespace Lazurite.MainDomain.Statistics
 {
     public interface IStatisticsManager
     {
-        StatisticsScenarioInfo GetSelectionItemForScenario(string scenarioId);
-        StatisticsItem[] GetItems(StatisticsScenarioInfo info, DateTime since, DateTime to);
+        StatisticsScenarioInfo GetStatisticsInfoForScenario(ScenarioBase scenario, ScenarioActionSource source);
+        StatisticsItem[] GetItems(StatisticsScenarioInfo info, DateTime since, DateTime to, ScenarioActionSource source);
         void Register(ScenarioBase scenario);
         void UnRegister(ScenarioBase scenario);
-        void IsRegistered(ScenarioBase scenario);
+        bool IsRegistered(ScenarioBase scenario);
     }
 }
