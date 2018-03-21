@@ -20,7 +20,6 @@ namespace Lazurite.Windows.Statistics
         private static readonly SaviorBase Savior = Singleton.Resolve<SaviorBase>();
         private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
-        private static readonly SecuritySettingsBase SecuritySettings = Singleton.Resolve<SecuritySettingsBase>();
 
         private List<ScenarioBase> _statisticsScenarios = new List<ScenarioBase>();
         private List<StatisticsScenarioInfoInternal> _statisticsScenariosInfos = new List<StatisticsScenarioInfoInternal>();
@@ -39,7 +38,9 @@ namespace Lazurite.Windows.Statistics
 
         private void LoadData()
         {
-            _statisticsScenariosInfos = Savior.Get<List<StatisticsScenarioInfoInternal>>(nameof(_statisticsScenariosInfos));
+            if (Savior.Has(nameof(_statisticsScenariosInfos)))
+                _statisticsScenariosInfos = Savior.Get<List<StatisticsScenarioInfoInternal>>(nameof(_statisticsScenariosInfos));
+            else _statisticsScenariosInfos = new List<StatisticsScenarioInfoInternal>();
         }
 
         private void Initialize()
@@ -92,7 +93,8 @@ namespace Lazurite.Windows.Statistics
 
         public StatisticsItem[] GetItems(StatisticsScenarioInfo info, DateTime since, DateTime to, ScenarioActionSource source)
         {
-            if (SecuritySettings.IsAvailableForUser(source.User, source.Source, source.Action))
+            var scenario = _statisticsScenarios.FirstOrDefault(x => x.Id == info.ID && ActionsDomain.Utils.GetValueTypeClassName(x.ValueType.GetType()) == info.ValueTypeName);
+            if (scenario?.SecuritySettings.IsAvailableForUser(source.User, source.Source, source.Action) ?? false)
             {
 
             }
@@ -101,7 +103,7 @@ namespace Lazurite.Windows.Statistics
 
         public StatisticsScenarioInfo GetStatisticsInfoForScenario(ScenarioBase scenario, ScenarioActionSource source)
         {
-            if (SecuritySettings.IsAvailableForUser(source.User, source.Source, source.Action))
+            if (scenario.SecuritySettings.IsAvailableForUser(source.User, source.Source, source.Action))
             {
 
             }

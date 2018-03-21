@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public partial class DateTimeView : ContentView
+    public partial class DateTimeView : Grid
     {
         public DateTimeView()
         {
@@ -23,7 +23,7 @@ namespace LazuriteMobile.App.Switches
         {
             var dateTime = DateTime.Now;
             DateTime.TryParse(((SwitchScenarioModel)BindingContext).ScenarioValue, out dateTime);
-            var dateTimeSwitch = new DateTimeViewSwitch()
+            var dateTimeSwitch = new DateTimeViewSwitch((SwitchScenarioModel)BindingContext)
             {
                 DateTime = dateTime
             };

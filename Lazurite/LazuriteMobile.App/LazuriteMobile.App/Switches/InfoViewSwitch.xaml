@@ -1,25 +1,24 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView 
+<Grid 
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
     BackgroundColor="Black"
+    Margin="5"
     x:Class="LazuriteMobile.App.Switches.InfoViewSwitch">
-    <Grid Margin="5">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35"></RowDefinition>
-            <RowDefinition Height="80"></RowDefinition>
-        </Grid.RowDefinitions>
-        <controls:IconView Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-        <Label VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" TextColor="SteelBlue" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}"></Label>
-        <local:EditorExt Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" VerticalOptions="StartAndExpand" BackgroundColor="#302530" TextColor="White" x:Name="tbText"></local:EditorExt>
-        <controls:ItemView Grid.Row="1" Grid.Column="2" x:Name="itemViewApply" Icon="NavigateNext" VerticalOptions="Start" HeightRequest="45" WidthRequest="45" Text=""></controls:ItemView>
-    </Grid>
-</ContentView>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"></ColumnDefinition>
+        <ColumnDefinition Width="*"></ColumnDefinition>
+        <ColumnDefinition Width="Auto"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="35"></RowDefinition>
+        <RowDefinition Height="80"></RowDefinition>
+    </Grid.RowDefinitions>
+    <controls:IconView Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+    <Label VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" TextColor="SteelBlue" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}"></Label>
+    <local:EditorExt Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" VerticalOptions="FillAndExpand" BackgroundColor="#302530" TextColor="White" x:Name="tbText"></local:EditorExt>
+    <controls:ItemView Grid.Row="1" Grid.Column="2" x:Name="itemViewApply" Icon="NavigateNext" VerticalOptions="Start" HeightRequest="45" WidthRequest="45" Text=""></controls:ItemView>
+</Grid>

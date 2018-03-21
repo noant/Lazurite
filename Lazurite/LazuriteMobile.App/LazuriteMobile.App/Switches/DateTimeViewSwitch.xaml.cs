@@ -4,10 +4,11 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public partial class DateTimeViewSwitch : ContentView
+    public partial class DateTimeViewSwitch : Grid
     {
-        public DateTimeViewSwitch()
+        public DateTimeViewSwitch(SwitchScenarioModel model)
         {
+            BindingContext = model;
             InitializeComponent();
         }
 

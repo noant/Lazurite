@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public partial class ButtonView : ContentView
+    public partial class ButtonView : Grid
     {
         private SwitchScenarioModel _model;
         public ButtonView()

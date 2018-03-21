@@ -95,6 +95,10 @@
       <Project>{8C79C90A-F696-4397-83C8-CB39AABBC872}</Project>
       <Name>Lazurite.Windows.ServiceClient</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Statistics\Lazurite.Windows.Statistics.csproj">
+      <Project>{89770310-5c0e-48d0-b76b-4b4f4a0fbc68}</Project>
+      <Name>Lazurite.Windows.Statistics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Utils\Lazurite.Windows.Utils.csproj">
       <Project>{09BE5F23-3903-4547-9D56-12CAE326C5CC}</Project>
       <Name>Lazurite.Windows.Utils</Name>

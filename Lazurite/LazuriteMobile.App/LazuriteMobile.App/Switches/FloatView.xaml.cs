@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public partial class FloatView : ContentView
+    public partial class FloatView : Grid
     {
         private SwitchScenarioModel _model;
         public FloatView()

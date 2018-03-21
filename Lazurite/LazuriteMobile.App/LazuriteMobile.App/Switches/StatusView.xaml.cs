@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public partial class StatusView : ContentView
+    public partial class StatusView : Grid
     {
         public StatusView()
         {

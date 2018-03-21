@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public partial class ToggleView : ContentView
+    public partial class ToggleView : Grid
     {
         public ToggleView()
         {

@@ -9,6 +9,7 @@ using Lazurite.Windows.Logging;
 using Lazurite.Windows.Modules;
 using Lazurite.Windows.Server;
 using Lazurite.Windows.ServiceClient;
+using Lazurite.Windows.Statistics;
 using Lazurite.Windows.Utils;
 using System;
 
@@ -74,6 +75,7 @@ namespace Lazurite.Windows.Core
             Singleton.Add(PluginsManager = new PluginsManager());
             ScenariosRepository.Initialize();
             Singleton.Add(VisualSettingsRepository = new VisualSettingsRepository());
+            Singleton.Add(new StatisticsManager());
             Singleton.Add(Server = new LazuriteServer());
             if (Savior.Has(SettingsKey))
                 SetSettings(Savior.Get<CoreSettings>(SettingsKey));

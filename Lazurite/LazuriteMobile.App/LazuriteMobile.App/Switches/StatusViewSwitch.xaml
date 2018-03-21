@@ -1,19 +1,24 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Grid 
+    x:Class="LazuriteMobile.App.Switches.StatusViewSwitch"
+    xmlns:common="clr-namespace:LazuriteMobile.App.Common"
+    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="LazuriteMobile.App.Switches.StatusViewSwitch"
-    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+    xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
     BackgroundColor="Black"
-    VerticalOptions="Center">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="28"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Label VerticalOptions="Fill" VerticalTextAlignment="Center" HorizontalOptions="Center" Grid.Row="0" Margin="5" x:Name="tbScenarioName" TextColor="#4682b4" FontSize="Small"></Label>
-        <ScrollView Grid.Row="1">
-            <controls:ListItemsView x:Name="listItemsStates" SelectionMode="Single" x:FieldModifier="private"></controls:ListItemsView>
-        </ScrollView>
-    </Grid>
+    Margin="5">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"></ColumnDefinition>
+        <ColumnDefinition Width="*"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="35"></RowDefinition>
+        <RowDefinition></RowDefinition>
+    </Grid.RowDefinitions>
+    <controls:IconView Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+    <Label VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" TextColor="SteelBlue" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}"></Label>
+    <ScrollView Grid.Row="1">
+        <controls:ListItemsView x:Name="listItemsStates" SelectionMode="Single" x:FieldModifier="private"></controls:ListItemsView>
+    </ScrollView>
 </Grid>

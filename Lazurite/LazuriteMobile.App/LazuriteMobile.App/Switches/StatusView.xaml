@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView 
+<Grid 
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="LazuriteMobile.App.Switches.StatusView"
@@ -11,17 +11,16 @@
     BackgroundColor="{Binding AllowClick, Converter={Static local:ConvertersStatic.Background_BoolToColor}}"
     Opacity="{Binding IsAvailable, Converter={Static local:ConvertersStatic.BoolToDouble}}"
     HorizontalOptions="Start"
+    x:Name="grid"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches">
-    <Grid x:Name="grid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <controls:ItemView AnimateView="{Binding Source={Reference Name=grid}}" InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" BackgroundColor="Transparent" IconVisibility="False" Selectable="False" Grid.RowSpan="3" x:Name="itemView" x:FieldModifier="private"></controls:ItemView>
-        <controls:IconView WidthRequest="20" InputTransparent="True" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-        <Label Grid.Row="1" InputTransparent="True" VerticalOptions="Center" Margin="4,-4,4,4" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="#4682b4" FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
-        <Label Grid.Row="2" InputTransparent="True" VerticalOptions="Center" Margin="4,-7,4,0" x:Name="textBlockScenValue" LineBreakMode="TailTruncation" Text="{Binding ScenarioValue}" x:FieldModifier="private" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small"></Label>
-        <local:SwitchBottomBorder Grid.Row="2"></local:SwitchBottomBorder>
-    </Grid>
-</ContentView>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="*"></RowDefinition>
+        <RowDefinition Height="*"></RowDefinition>
+        <RowDefinition Height="*"></RowDefinition>
+    </Grid.RowDefinitions>
+    <controls:ItemView AnimateView="{Binding Source={Reference Name=grid}}" InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" BackgroundColor="Transparent" IconVisibility="False" Selectable="False" Grid.RowSpan="3" x:Name="itemView" x:FieldModifier="private"></controls:ItemView>
+    <controls:IconView WidthRequest="20" InputTransparent="True" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+    <Label Grid.Row="1" InputTransparent="True" VerticalOptions="Center" Margin="4,-4,4,4" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="#4682b4" FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
+    <Label Grid.Row="2" InputTransparent="True" VerticalOptions="Center" Margin="4,-7,4,0" x:Name="textBlockScenValue" LineBreakMode="TailTruncation" Text="{Binding ScenarioValue}" x:FieldModifier="private" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small"></Label>
+    <local:SwitchBottomBorder Grid.Row="2"></local:SwitchBottomBorder>
+</Grid>

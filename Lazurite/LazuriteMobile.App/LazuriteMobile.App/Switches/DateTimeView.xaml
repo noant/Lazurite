@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView 
+<Grid 
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="LazuriteMobile.App.Switches.DateTimeView"
@@ -11,19 +11,18 @@
     BackgroundColor="{Binding AllowClick, Converter={Static local:ConvertersStatic.Background_BoolToColor}}"
     Opacity="{Binding IsAvailable, Converter={Static local:ConvertersStatic.BoolToDouble}}"
     VerticalOptions="Start"
+    x:Name="grid"
     HorizontalOptions="Start">
-    <Grid x:Name="grid">
-        <controls:ItemView BackgroundColor="Transparent" InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False" AnimateView="{Binding Source={Reference Name=grid}}" HorizontalOptions="FillAndExpand"></controls:ItemView>
-        <Grid InputTransparent="True">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <controls:IconView WidthRequest="20" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-            <Label InputTransparent="True" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center" Margin="4,-4,4,4" x:Name="textBlockScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="#4682b4" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Small"></Label>
-            <Label InputTransparent="True" Grid.Row="2" VerticalOptions="Center" HorizontalOptions="Center" Margin="4,-9,4,0" x:Name="textBlockDate" Text="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.DateTimeValueTypeToSplittedString}}" x:FieldModifier="private" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Micro"></Label>
-        </Grid>
-        <local:SwitchBottomBorder></local:SwitchBottomBorder>
+    <controls:ItemView BackgroundColor="Transparent" InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False" AnimateView="{Binding Source={Reference Name=grid}}" HorizontalOptions="FillAndExpand"></controls:ItemView>
+    <Grid InputTransparent="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <controls:IconView WidthRequest="20" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+        <Label InputTransparent="True" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center" Margin="4,-4,4,4" x:Name="textBlockScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="#4682b4" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Small"></Label>
+        <Label InputTransparent="True" Grid.Row="2" VerticalOptions="Center" HorizontalOptions="Center" Margin="4,-9,4,0" x:Name="textBlockDate" Text="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.DateTimeValueTypeToSplittedString}}" x:FieldModifier="private" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Micro"></Label>
     </Grid>
-</ContentView>
+    <local:SwitchBottomBorder></local:SwitchBottomBorder>
+</Grid>

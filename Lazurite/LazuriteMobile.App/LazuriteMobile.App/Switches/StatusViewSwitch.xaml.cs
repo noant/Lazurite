@@ -51,12 +51,14 @@ namespace LazuriteMobile.App.Switches
 
         public StatusViewSwitch(SwitchScenarioModel scenarioModel) : this()
         {
-            tbScenarioName.Text = scenarioModel.ScenarioName;
+            BindingContext = scenarioModel;
+
             foreach (var state in scenarioModel.AcceptedValues)
             {
                 var itemView = new ItemView();
                 itemView.Icon = LazuriteUI.Icons.Icon.NavigateNext;
                 itemView.Text = state;
+                itemView.HeightRequest = 50;
                 if (scenarioModel.ScenarioValue.Equals(state))
                     itemView.Selected = true;
                 listItemsStates.Children.Add(itemView);

@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public partial class GeolocationView : ContentView
+    public partial class GeolocationView : Grid
     {
         public GeolocationView()
         {

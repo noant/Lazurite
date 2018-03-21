@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public partial class InfoView : ContentView
+    public partial class InfoView : Grid
     {
         public InfoView()
         {
