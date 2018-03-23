@@ -120,7 +120,7 @@ namespace Lazurite.Windows.Statistics
                     new StatisticsScenarioInfoInternal()
                     {
                         ScenarioId = scenario.Id,
-                        ValueTypeName = Utils.GetValueTypeClassName(scenario.ValueType.GetType())
+                        ValueTypeName = ActionsDomain.Utils.GetValueTypeClassName(scenario.ValueType.GetType())
                     }
                 );
                 RegisterInternal(scenario);

@@ -19,6 +19,6 @@
     </Grid.RowDefinitions>
     <controls:IconView Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
     <Label VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" TextColor="SteelBlue" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}"></Label>
-    <local:EditorExt Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" VerticalOptions="FillAndExpand" BackgroundColor="#302530" TextColor="White" x:Name="tbText"></local:EditorExt>
+    <local:EditorExt HeightRequest="75" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" VerticalOptions="Start" BackgroundColor="#302530" TextColor="White" x:Name="tbText"></local:EditorExt>
     <controls:ItemView Grid.Row="1" Grid.Column="2" x:Name="itemViewApply" Icon="NavigateNext" VerticalOptions="Start" HeightRequest="45" WidthRequest="45" Text=""></controls:ItemView>
 </Grid>

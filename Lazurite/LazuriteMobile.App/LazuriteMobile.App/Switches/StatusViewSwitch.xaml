@@ -17,8 +17,8 @@
         <RowDefinition></RowDefinition>
     </Grid.RowDefinitions>
     <controls:IconView Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-    <Label VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" TextColor="SteelBlue" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}"></Label>
-    <ScrollView Grid.Row="1">
+    <Label VerticalOptions="Center" Grid.Column="1" TextColor="SteelBlue" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}"></Label>
+    <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
         <controls:ListItemsView x:Name="listItemsStates" SelectionMode="Single" x:FieldModifier="private"></controls:ListItemsView>
     </ScrollView>
 </Grid>

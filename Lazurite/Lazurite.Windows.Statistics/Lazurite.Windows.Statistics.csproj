@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internal\StatisticsDataItem.cs" />
+    <Compile Include="Internal\StatisticsDataManager.cs" />
     <Compile Include="Internal\StatisticsScenarioInfoInternal.cs" />
     <Compile Include="StatisticsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,7 +68,13 @@
       <Project>{9D1FABF0-1A55-47D2-8F0F-BD0BB14F65AA}</Project>
       <Name>Lazurite.Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.Utils\Lazurite.Windows.Utils.csproj">
+      <Project>{09BE5F23-3903-4547-9D56-12CAE326C5CC}</Project>
+      <Name>Lazurite.Windows.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
