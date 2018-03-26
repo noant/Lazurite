@@ -27,9 +27,7 @@ namespace LazuriteUI.Windows.Main.Security
                     Modified?.Invoke();
                 });
             };
-
-            btClose.Click += (o, e) => CloseClicked?.Invoke();
-
+            
             Refresh();
         }
 

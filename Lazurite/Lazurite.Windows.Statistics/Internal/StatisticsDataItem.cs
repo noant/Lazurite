@@ -21,12 +21,12 @@ namespace Lazurite.Windows.Statistics.Internal
         {
             SourceId = sourceId;
             SourceName = 
-                sourceName
+                sourceName?
                 .Replace(Splitter, SplitterReplacer)
                 .Replace(NewLineN, ' ')
                 .Replace(NewLineR, ' ');
             Value = 
-                value
+                value?
                 .Replace(Splitter, SplitterReplacer)
                 .Replace(NewLineN, ' ')
                 .Replace(NewLineR, ' ');
@@ -35,8 +35,12 @@ namespace Lazurite.Windows.Statistics.Internal
             Second = second;
         }
 
-        public StatisticsDataItem(string raw)
+        public StatisticsDataItem(string raw, byte day, byte month, ushort year)
         {
+            Day = day;
+            Month = month;
+            Year = year;
+
             var splitted = raw.Split(Splitter);
             Hour = byte.Parse(splitted[0]);
             Minute = byte.Parse(splitted[1]);
@@ -57,9 +61,14 @@ namespace Lazurite.Windows.Statistics.Internal
         public string SourceId { get; private set; }
         public string SourceName { get; private set; }
         public string Value { get; private set; }
+
         public byte Hour { get; private set; }
         public byte Minute { get; private set; }
         public byte Second { get; private set; }
+
+        public byte Day { get; private set; }
+        public byte Month { get; private set; }
+        public ushort Year { get; private set; }
 
         public string CreateString()
         {

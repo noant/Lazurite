@@ -1,0 +1,21 @@
+﻿<Grid x:Class="LazuriteUI.Windows.Main.Statistics.Settings.StatisticsScenariosView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Statistics.Settings"
+             mc:Ignorable="d" 
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             Background="{x:Static controls:Visual.Background}"
+             Width="800">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition></RowDefinition>
+    </Grid.RowDefinitions>
+    <controls:CaptionView Icon="Settings">Параметры статистики</controls:CaptionView>
+    <Label Grid.Row="1" Margin="0,8,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="SteelBlue">Выберите сценарии, все изменения которых должны фиксироваться в базе данных статистики.</Label>
+    <controls:WheelScroll HorizontalAlignment="Left" Margin="10" Grid.Row="2" VerticalAlignment="Top">
+        <StackPanel Orientation="Vertical" x:Name="spItems"></StackPanel>
+    </controls:WheelScroll>
+</Grid>

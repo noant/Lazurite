@@ -48,7 +48,7 @@ namespace Lazurite.MainDomain
                 parentContext?.CancelAll(); //stop execution
                 throw e;
             }
-}
+        }
 
         protected void CheckContext(ExecutionContext context)
         {
@@ -228,7 +228,6 @@ namespace Lazurite.MainDomain
         /// </summary>
         public virtual void SetCurrentValue(string value, ScenarioActionSource source)
         {
-            SetPreviousValue(GetCurrentValue());
             SetCurrentValueNoEvents(value);
             RaiseValueChangedEvents(source, false);
         }
@@ -242,7 +241,11 @@ namespace Lazurite.MainDomain
         /// Set current value witout raising any events
         /// </summary>
         /// <param name="value"></param>
-        protected virtual void SetCurrentValueNoEvents(string value) => _currentValue = value;
+        protected virtual void SetCurrentValueNoEvents(string value)
+        {
+            SetPreviousValue(_currentValue);
+            _currentValue = value;
+        }
         
         /// <summary>
         /// Internally initialize

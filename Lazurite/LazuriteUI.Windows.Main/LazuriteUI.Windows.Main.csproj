@@ -336,6 +336,21 @@
     <Compile Include="Server\ServerSettingsView.xaml.cs">
       <DependentUpon>ServerSettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Statistics\Settings\BoolToIcon_IsRegistered_Converter.cs" />
+    <Compile Include="Statistics\Settings\BoolToString_IsLocal_Converter.cs" />
+    <Compile Include="Statistics\Settings\BoolToString_IsRegistered_Converter.cs" />
+    <Compile Include="Statistics\Settings\ConvertersStatic.cs" />
+    <Compile Include="Statistics\Settings\StatisticsScenarioItemView.xaml.cs">
+      <DependentUpon>StatisticsScenarioItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\Settings\StatisticsScenarioItemModel.cs" />
+    <Compile Include="Statistics\Settings\StatisticsScenariosView.xaml.cs">
+      <DependentUpon>StatisticsScenariosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\Settings\StringToShortString_Converter.cs" />
+    <Compile Include="Statistics\StatisticsMainView.xaml.cs">
+      <DependentUpon>StatisticsMainView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Switches\Selection_BoolToBrush.cs" />
     <Compile Include="Switches\Background_BoolToBrush.cs" />
     <Compile Include="Switches\BoolToDouble.cs" />
@@ -732,6 +747,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Server\ServerSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\Settings\StatisticsScenarioItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\Settings\StatisticsScenariosView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\StatisticsMainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

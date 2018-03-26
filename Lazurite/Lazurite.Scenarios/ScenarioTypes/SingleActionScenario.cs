@@ -82,7 +82,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 var context = PrepareExecutionContext(param, parentContext);
                 HandleExecution(() =>
                 {
-                    if (!ActionHolder.Action.IsSupportsEvent)
+                    if (!ActionHolder.Action.IsSupportsEvent) 
                         SetCurrentValue(param, source);
                     else
                         NotifyOnlyIntent(source);
@@ -120,7 +120,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
             {
                 //if action not send some info when value changed then calculate value
                 if (!ActionHolder.Action.IsSupportsEvent)
-                    return ActionHolder.Action.GetValue(new ExecutionContext(this, string.Empty, string.Empty, new OutputChangedDelegates(), new CancellationTokenSource()));
+                {
+                    var value = ActionHolder.Action.GetValue(new ExecutionContext(this, string.Empty, string.Empty, new OutputChangedDelegates(), new CancellationTokenSource()));
+                    if (GetCurrentValue() != value)
+                        SetCurrentValueNoEvents(value);
+                    return value;
+                }
                 //else - cached value is fresh
                 return GetCurrentValue();
             }

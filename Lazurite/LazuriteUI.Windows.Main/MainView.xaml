@@ -8,6 +8,7 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              xmlns:journal="clr-namespace:LazuriteUI.Windows.Main.Journal"
              xmlns:server="clr-namespace:LazuriteUI.Windows.Main.Server"
+             xmlns:staistics="clr-namespace:LazuriteUI.Windows.Main.Statistics"
              mc:Ignorable="d"
              ClipToBounds="True"
              Background="{x:Static controls:Visual.Background}"
@@ -47,6 +48,7 @@
                     <local:MenuItemView Type="{x:Type pluginsViews:PluginsView}" Margin="0,0,0,1" Icon="Brick" Text="ПЛАГИНЫ"></local:MenuItemView>
                     <local:MenuItemView Type="{x:Type server:ServerSettingsView}" Margin="0,0,0,1" Icon="NetworkHome" Text="СЕРВЕР"></local:MenuItemView>
                     <local:MenuItemView Type="{x:Type local:UsersAndGroupsView}" Margin="0,0,0,1" Icon="PeopleMultiple" Text="ПОЛЬЗОВАТЕЛИ"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type staistics:StatisticsMainView}" Margin="0,0,0,1" Icon="GraphLine" Text="СТАТИСТИКА"></local:MenuItemView>
                     <local:MenuItemView Type="{x:Type journal:JournalView}" Margin="0,0,0,1" Icon="Journal" Text="ЖУРНАЛ"></local:MenuItemView>
                 </controls:ListItemsView>
                 <controls:CornerView HorizontalAlignment="Left" Margin="-10,0,0,0"></controls:CornerView>

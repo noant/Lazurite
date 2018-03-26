@@ -19,12 +19,5 @@
     <controls:WheelScroll Grid.Row="1">
         <StackPanel x:Name="stackPanel"></StackPanel>
     </controls:WheelScroll>
-    <Grid Grid.Row="2">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <controls:ItemView x:Name="btClose" Margin="5" Icon="Close">Закрыть</controls:ItemView>
-        <controls:ItemView x:Name="btAddNew" Margin="5" Icon="Add" Grid.Column="1">Добавить правило</controls:ItemView>
-    </Grid>
+    <controls:ItemView Grid.Row="2" x:Name="btAddNew" Margin="5" Icon="Add" Grid.Column="1">Добавить правило</controls:ItemView>
 </Grid>

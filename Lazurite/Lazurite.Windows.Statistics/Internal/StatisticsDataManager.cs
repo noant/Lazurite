@@ -26,10 +26,12 @@ namespace Lazurite.Windows.Statistics.Internal
 
         public StatisticsScenarioInfo GetInfo(string scenarioId, string scenarioName, string scenarioValueType)
         {
-            var info = new StatisticsScenarioInfo();
-            info.ID = scenarioId;
-            info.Name = scenarioName;
-            info.ValueTypeName = scenarioValueType;
+            var info = new StatisticsScenarioInfo
+            {
+                ID = scenarioId,
+                Name = scenarioName,
+                ValueTypeName = scenarioValueType
+            };
             var path = Path.Combine(_rootPath, scenarioId + scenarioValueType);
             var dates =
                 Directory.GetFiles(path)
@@ -49,22 +51,23 @@ namespace Lazurite.Windows.Statistics.Internal
                 .Select(x => DateTime.Parse(Path.GetFileName(x)))
                 .Where(x => x >= since && x <= to)
                 .OrderBy(x => x)
-                .Select(x => Path.Combine(path, string.Format("{0}.{1}.{2}", x.Day, x.Month, x.Year)))
-                .SelectMany(x => GetItems(x))
+                .SelectMany(x => GetItems(path, (byte)x.Day, (byte)x.Month, (ushort)x.Year))
                 .ToArray();
         }
 
-        private StatisticsDataItem[] GetItems(string filePath)
+        private StatisticsDataItem[] GetItems(string rootPath, byte day, byte month, ushort year)
         {
-            return File.ReadAllLines(filePath).Select(x => new StatisticsDataItem(x)).ToArray();
+            var path = Path.Combine(rootPath, string.Format("{0}.{1}.{2}", day, month, year));
+            return File.ReadAllLines(path).Select(x => new StatisticsDataItem(x, day, month, year)).ToArray();
         }
 
         public void SetItem(string scenarioId, string scenarioValueType, StatisticsDataItem dataItem)
         {
             var nowDay = DateTime.Now.ToString("dd.MM.yy");
-            var path = Path.Combine(_rootPath, scenarioId + scenarioValueType, nowDay);
-            if (!Directory.Exists(Path.Combine(_rootPath, scenarioId + scenarioValueType)))
-                Directory.CreateDirectory(path);
+            var directoryPath = Path.Combine(_rootPath, scenarioId + scenarioValueType);
+            var path = Path.Combine(directoryPath, nowDay);
+            if (!Directory.Exists(directoryPath))
+                Directory.CreateDirectory(directoryPath);
             File.AppendAllText(path, dataItem.CreateString() + Environment.NewLine);
         }
     }

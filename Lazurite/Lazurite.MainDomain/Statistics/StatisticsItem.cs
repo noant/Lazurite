@@ -21,7 +21,5 @@ namespace Lazurite.MainDomain.Statistics
         public StatisticsScenarioInfo Target { get; set; }
         [DataMember]
         public string Value { get; set; }
-        [DataMember]
-        public string ValueTypeName { get; set; }
     }
 }

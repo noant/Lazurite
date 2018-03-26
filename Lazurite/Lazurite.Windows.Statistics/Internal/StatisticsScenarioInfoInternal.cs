@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lazurite.Windows.Statistics.Internal
 {
-    internal class StatisticsScenarioInfoInternal
+    public class StatisticsScenarioInfoInternal
     {
         public string ScenarioId { get; set; }
         public string ValueTypeName { get; set; }

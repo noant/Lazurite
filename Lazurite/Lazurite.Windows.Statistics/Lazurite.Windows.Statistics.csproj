@@ -60,13 +60,25 @@
       <Project>{A002F2FB-6791-46A2-9061-38BBE59E1618}</Project>
       <Name>Lazurite.IOC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Logging\Lazurite.Logging.csproj">
+      <Project>{0A02DE31-B9E4-4AB7-8002-7F477A0F52DE}</Project>
+      <Name>Lazurite.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.MainDomain\Lazurite.MainDomain.csproj">
       <Project>{DCD8E6AF-A435-4556-AD74-84444B1DD816}</Project>
       <Name>Lazurite.MainDomain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Scenarios\Lazurite.Scenarios.csproj">
+      <Project>{EE271212-1572-4525-BC27-B2F283238740}</Project>
+      <Name>Lazurite.Scenarios</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Shared\Lazurite.Shared.csproj">
       <Project>{9D1FABF0-1A55-47D2-8F0F-BD0BB14F65AA}</Project>
       <Name>Lazurite.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Windows.ServiceClient\Lazurite.Windows.ServiceClient.csproj">
+      <Project>{8C79C90A-F696-4397-83C8-CB39AABBC872}</Project>
+      <Name>Lazurite.Windows.ServiceClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Utils\Lazurite.Windows.Utils.csproj">
       <Project>{09BE5F23-3903-4547-9D56-12CAE326C5CC}</Project>
