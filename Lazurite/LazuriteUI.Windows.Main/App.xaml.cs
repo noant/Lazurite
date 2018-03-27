@@ -3,6 +3,8 @@ using Lazurite.Windows.Core;
 using Lazurite.Windows.Logging;
 using LazuriteUI.Windows.Main.Journal;
 using System;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -54,6 +56,10 @@ namespace LazuriteUI.Windows.Main
             {
                 Core.WarningHandler.Fatal("Во время инициализации приложения возникла ошибка", e);
             }
+
+            var ci = new CultureInfo("ru-RU");
+            Thread.CurrentThread.CurrentCulture = ci;
+            Thread.CurrentThread.CurrentUICulture = ci;
         }
 
         private void HandleUnhandledException(Exception exception)

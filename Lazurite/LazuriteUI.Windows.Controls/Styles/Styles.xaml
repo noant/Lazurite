@@ -279,8 +279,7 @@
                     <Condition Property="Orientation" Value="Vertical"/>
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
-                    <Setter
-                            Property="Template">
+                    <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ScrollBar}">
                                 <Border                     

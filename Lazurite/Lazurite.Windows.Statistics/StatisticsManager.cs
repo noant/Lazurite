@@ -133,7 +133,7 @@ namespace Lazurite.Windows.Statistics
         {
             try
             {
-                var dataItem = new StatisticsDataItem(item.Source?.ID, item.Source?.Name, item.Value, (byte)item.DateTime.Hour, (byte)item.DateTime.Minute, (byte)item.DateTime.Second);
+                var dataItem = new StatisticsDataItem(item.Source?.ID, item.Source?.Name, item.Source?.SourceType ?? "Система", item.Value, (byte)item.DateTime.Hour, (byte)item.DateTime.Minute, (byte)item.DateTime.Second);
                 _dataManager.SetItem(item.Target.ID, item.Target.ValueTypeName, dataItem);
             }
             catch (Exception e)
@@ -226,17 +226,9 @@ namespace Lazurite.Windows.Statistics
                         {
                             var item = new StatisticsItem();
                             item.Source = new StatisticsItemSource();
-                            item.Source.SourceType = x.SourceName;
-                            if (string.IsNullOrEmpty(x.SourceId))
-                            {
-                                item.Source.ID = UsersRepository.SystemUser.Id;
-                                item.Source.Name = UsersRepository.SystemUser.Name;
-                            }
-                            else
-                            {
-                                item.Source.ID = x.SourceId;
-                                item.Source.Name = UsersRepository.Users.FirstOrDefault(z => z.Id == x.SourceId)?.Name ?? "[пользователь не существует]";
-                            }
+                            item.Source.SourceType = x.SourceType;
+                            item.Source.Name = x.SourceName;
+                            item.Source.ID = x.SourceId;
                             item.DateTime = new DateTime(x.Year, x.Month, x.Day, x.Hour, x.Minute, x.Second);
                             item.Value = x.Value;
                             item.Target = info;
@@ -256,7 +248,7 @@ namespace Lazurite.Windows.Statistics
                     try
                     {
                         var scenarioInfo = new ScenarioInfo();
-                        scenarioInfo.ScenarioId = remoteScenario.Id;
+                        scenarioInfo.ScenarioId = remoteScenario.RemoteScenarioId;
                         scenarioInfo.ValueType = scenario.ValueType;
                         var server = ClientFactory.GetServer(remoteScenario.Credentials);
                         return server.GetStatisticsInfoForScenario(new Encrypted<ScenarioInfo>(scenarioInfo, remoteScenario.Credentials.SecretKey))

@@ -67,6 +67,9 @@
       <HintPath>..\packages\PInvoke.Windows.Core.0.5.64\lib\net20\PInvoke.Windows.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Syncfusion.Data.WPF, Version=16.1451.0.24, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.SfGrid.WPF, Version=16.1451.0.24, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Shared.WPF, Version=16.1451.0.24, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -336,6 +339,7 @@
     <Compile Include="Server\ServerSettingsView.xaml.cs">
       <DependentUpon>ServerSettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Statistics\IStatisticsView.cs" />
     <Compile Include="Statistics\Settings\BoolToIcon_IsRegistered_Converter.cs" />
     <Compile Include="Statistics\Settings\BoolToString_IsLocal_Converter.cs" />
     <Compile Include="Statistics\Settings\BoolToString_IsRegistered_Converter.cs" />
@@ -348,8 +352,12 @@
       <DependentUpon>StatisticsScenariosView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statistics\Settings\StringToShortString_Converter.cs" />
+    <Compile Include="Statistics\StatisticsFilter.cs" />
     <Compile Include="Statistics\StatisticsMainView.xaml.cs">
       <DependentUpon>StatisticsMainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\Views\StatisticsTableView.xaml.cs">
+      <DependentUpon>StatisticsTableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Switches\Selection_BoolToBrush.cs" />
     <Compile Include="Switches\Background_BoolToBrush.cs" />
@@ -762,6 +770,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Statistics\Views\StatisticsTableView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Switches\GeolocationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -873,6 +885,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Syncfusion.Grid.Wpf.resx" />
+    <EmbeddedResource Include="Resources\Syncfusion.SfGrid.WPF.resx" />
+    <EmbeddedResource Include="Resources\Syncfusion.Shared.WPF.resx" />
+    <EmbeddedResource Include="Resources\Syncfusion.Tools.Wpf.resx" />
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>

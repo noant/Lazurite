@@ -23,5 +23,7 @@ namespace Lazurite.MainDomain.Statistics
         public DateTime Since { get; set; }
         [DataMember]
         public DateTime To { get; set; }
+        [DataMember]
+        public bool IsEmpty { get; set; }
     }
 }

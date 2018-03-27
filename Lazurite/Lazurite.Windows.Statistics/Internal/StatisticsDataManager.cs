@@ -33,11 +33,16 @@ namespace Lazurite.Windows.Statistics.Internal
                 ValueTypeName = scenarioValueType
             };
             var path = Path.Combine(_rootPath, scenarioId + scenarioValueType);
-            var dates =
-                Directory.GetFiles(path)
-                .Select(x => DateTime.Parse(Path.GetFileName(x)));
-            info.Since = dates.Min();
-            info.To = dates.Max();
+            if (!Directory.Exists(path) || !Directory.GetFiles(path).Any())
+                info.IsEmpty = true;
+            else
+            {
+                var dates =
+                    Directory.GetFiles(path)
+                    .Select(x => DateTime.Parse(Path.GetFileName(x)));
+                info.Since = dates.Min();
+                info.To = dates.Max();
+            }
             return info;
         }
 
@@ -46,13 +51,15 @@ namespace Lazurite.Windows.Statistics.Internal
             since = since.Date;
             to = to.Date;
             var path = Path.Combine(_rootPath, scenarioId + scenarioValueType);
-            return 
-                Directory.GetFiles(path)
-                .Select(x => DateTime.Parse(Path.GetFileName(x)))
-                .Where(x => x >= since && x <= to)
-                .OrderBy(x => x)
-                .SelectMany(x => GetItems(path, (byte)x.Day, (byte)x.Month, (ushort)x.Year))
-                .ToArray();
+            if (Directory.Exists(path))
+                return
+                    Directory.GetFiles(path)
+                    .Select(x => DateTime.Parse(Path.GetFileName(x)))
+                    .Where(x => x >= since && x <= to)
+                    .OrderBy(x => x)
+                    .SelectMany(x => GetItems(path, (byte)x.Day, (byte)x.Month, (ushort)x.Year))
+                    .ToArray();
+            else return new StatisticsDataItem[0];
         }
 
         private StatisticsDataItem[] GetItems(string rootPath, byte day, byte month, ushort year)
@@ -63,7 +70,7 @@ namespace Lazurite.Windows.Statistics.Internal
 
         public void SetItem(string scenarioId, string scenarioValueType, StatisticsDataItem dataItem)
         {
-            var nowDay = DateTime.Now.ToString("dd.MM.yy");
+            var nowDay = DateTime.Now.ToString("dd.M.yyyy");
             var directoryPath = Path.Combine(_rootPath, scenarioId + scenarioValueType);
             var path = Path.Combine(directoryPath, nowDay);
             if (!Directory.Exists(directoryPath))

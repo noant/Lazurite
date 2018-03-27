@@ -17,9 +17,10 @@ namespace Lazurite.Windows.Statistics.Internal
         private static char NewLineR = '\r';
         private static char NewLineN = '\n';
 
-        public StatisticsDataItem(string sourceId, string sourceName, string value, byte hour, byte minute, byte second)
+        public StatisticsDataItem(string sourceId, string sourceName, string sourceType, string value, byte hour, byte minute, byte second)
         {
             SourceId = sourceId;
+            SourceType = sourceType;
             SourceName = 
                 sourceName?
                 .Replace(Splitter, SplitterReplacer)
@@ -42,11 +43,12 @@ namespace Lazurite.Windows.Statistics.Internal
             Year = year;
 
             var splitted = raw.Split(Splitter);
-            Hour = byte.Parse(splitted[0]);
-            Minute = byte.Parse(splitted[1]);
-            Second = byte.Parse(splitted[2]);
-            Value = splitted[3] ?? string.Empty;
-            if (splitted.Length > 4)
+            SourceType = splitted[0];
+            Hour = byte.Parse(splitted[1]);
+            Minute = byte.Parse(splitted[2]);
+            Second = byte.Parse(splitted[3]);
+            Value = splitted[4] ?? string.Empty;
+            if (splitted.Length > 5)
             {
                 SourceId = splitted[5];
                 SourceName = splitted[6];
@@ -60,6 +62,7 @@ namespace Lazurite.Windows.Statistics.Internal
 
         public string SourceId { get; private set; }
         public string SourceName { get; private set; }
+        public string SourceType { get; private set; }
         public string Value { get; private set; }
 
         public byte Hour { get; private set; }
@@ -74,8 +77,8 @@ namespace Lazurite.Windows.Statistics.Internal
         {
             if ((string.IsNullOrEmpty(SourceId) && string.IsNullOrEmpty(SourceId)) ||
                 UsersRepository.SystemUser.Id == SourceId)
-                return string.Format("{0}~{1}~{2}~{3}", Hour, Minute, Second, Value);
-            return string.Format("{0}~{1}~{2}~{3}~{4}~{5}", Hour, Minute, Second, Value, SourceId, SourceName);
+                return string.Format("{0}~{1}~{2}~{3}~{4}", SourceType, Hour, Minute, Second, Value);
+            return string.Format("{0}~{1}~{2}~{3}~{4}~{5}~{6}", SourceType, Hour, Minute, Second, Value, SourceId, SourceName);
         }
     }
 }
