@@ -50,4 +50,4 @@ using System.Windows;
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.178.0")]
+[assembly: AssemblyFileVersion("1.0.180.0")]

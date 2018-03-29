@@ -5,16 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Statistics"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             Background="{x:Static controls:Visual.Background}"
+      xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
+      Background="{x:Static controls:Visual.Background}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition></RowDefinition>
     </Grid.RowDefinitions>
-    <controls:ListItemsView Margin="5,0,0,0" SelectionMode="Single" Orientation="Horizontal" >
-        <controls:ItemView x:Name="btTableView" Click="btTableView_Click" Icon="Table" Width="170" Selected="True">Таблица</controls:ItemView>
-    </controls:ListItemsView>
+    <StackPanel Orientation="Horizontal">
+        <common:DatesRangeItemView Margin="5" x:Name="datesRangeView"></common:DatesRangeItemView>
+        <controls:ListItemsView Margin="5" x:Name="listItems" SelectionMode="Single" Orientation="Horizontal" >
+            <controls:ItemView x:Name="btTableView" Icon="Table" Width="170" Selected="True">Таблица</controls:ItemView>
+        </controls:ListItemsView>
+    </StackPanel>
     <controls:ItemView Icon="Settings" x:Name="btSettings" Click="btSettings_Click" Width="170" Margin="5" HorizontalAlignment="Right">Параметры</controls:ItemView>
-    <ContentPresenter Margin="5,0,5,5"  Grid.Row="1" x:Name="viewHostControl"></ContentPresenter>
+    <ContentPresenter Margin="5,0,5,5" Grid.Row="1" x:Name="viewHostControl"></ContentPresenter>
 </Grid>

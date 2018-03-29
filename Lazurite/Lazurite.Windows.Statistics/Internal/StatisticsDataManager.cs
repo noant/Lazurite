@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Lazurite.Windows.Statistics.Internal
@@ -57,25 +58,40 @@ namespace Lazurite.Windows.Statistics.Internal
                     .Select(x => DateTime.Parse(Path.GetFileName(x)))
                     .Where(x => x >= since && x <= to)
                     .OrderBy(x => x)
-                    .SelectMany(x => GetItems(path, (byte)x.Day, (byte)x.Month, (ushort)x.Year))
+                    .SelectMany(x => GetItems(scenarioValueType, scenarioId, path, (byte)x.Day, (byte)x.Month, (ushort)x.Year))
                     .ToArray();
             else return new StatisticsDataItem[0];
         }
 
-        private StatisticsDataItem[] GetItems(string rootPath, byte day, byte month, ushort year)
+        private StatisticsDataItem[] GetItems(string scenarioValueType, string scenarioId, string rootPath, byte day, byte month, ushort year)
         {
+            var nowDay = string.Format("{0}.{1}.{2}", day, month, year);
             var path = Path.Combine(rootPath, string.Format("{0}.{1}.{2}", day, month, year));
-            return File.ReadAllLines(path).Select(x => new StatisticsDataItem(x, day, month, year)).ToArray();
+            StatisticsDataItem[] items;
+            var mutexName = scenarioId + scenarioValueType + nowDay;
+            using (var mutex = new Mutex(false, mutexName))
+            {
+                mutex.WaitOne();
+                items = File.ReadAllLines(path).Select(x => new StatisticsDataItem(x, day, month, year)).ToArray();
+                mutex.ReleaseMutex();
+            }
+            return items;
         }
 
         public void SetItem(string scenarioId, string scenarioValueType, StatisticsDataItem dataItem)
         {
-            var nowDay = DateTime.Now.ToString("dd.M.yyyy");
+            var nowDay = DateTime.Now.ToString("d.M.yyyy");
             var directoryPath = Path.Combine(_rootPath, scenarioId + scenarioValueType);
             var path = Path.Combine(directoryPath, nowDay);
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
-            File.AppendAllText(path, dataItem.CreateString() + Environment.NewLine);
+            var mutexName = scenarioId + scenarioValueType + nowDay;
+            using (var mutex = new Mutex(false, mutexName))
+            {
+                mutex.WaitOne();
+                File.AppendAllText(path, dataItem.CreateString() + Environment.NewLine);
+                mutex.ReleaseMutex();
+            }
         }
     }
 }

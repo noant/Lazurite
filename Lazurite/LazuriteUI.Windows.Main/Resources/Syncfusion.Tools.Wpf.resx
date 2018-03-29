@@ -124,7 +124,7 @@
     <value>None</value>
   </data>
   <data name="AccessTodayText" xml:space="preserve">
-    <value>Today :</value>
+    <value>Сегодня :</value>
   </data>
   <data name="AccessWatchText" xml:space="preserve">
     <value>Watch</value>
@@ -461,9 +461,9 @@ To add a custom group,click the tab where you want the group to appear,and then 
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
-<data name="Topmost" xml:space="preserve">
-   <value>Topmost</value>
-</data>
+  <data name="Topmost" xml:space="preserve">
+    <value>Topmost</value>
+  </data>
   <data name="QATToolTip" xml:space="preserve">
     <value>Customize Quick Access Toolbar</value>
   </data>
@@ -479,5 +479,4 @@ To add a custom group,click the tab where you want the group to appear,and then 
   <data name="PropertyGridSearchWatermarkText" xml:space="preserve">
     <value>Search</value>
   </data>
-
 </root>

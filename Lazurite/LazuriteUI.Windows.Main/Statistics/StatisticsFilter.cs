@@ -8,14 +8,8 @@ namespace LazuriteUI.Windows.Main.Statistics
 {
     public class StatisticsFilter
     {
-        public static readonly StatisticsFilter Empty = new StatisticsFilter()
-        {
-            Since = DateTime.MinValue,
-            To = DateTime.MaxValue,
-        };
+        public static readonly StatisticsFilter Empty = new StatisticsFilter();
 
-        public string ScenarioId { get; set; }
-        public DateTime Since { get; set; }
-        public DateTime To { get; set; }
+        public string[] ScenariosIds { get; set; }
     }
 }

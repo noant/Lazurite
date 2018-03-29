@@ -9,6 +9,7 @@ namespace LazuriteUI.Windows.Main.Statistics
 {
     public interface IStatisticsView
     {
-        Func<StatisticsFilter, StatisticsItem[]> NeedItems { get; set; }
+        Action<StatisticsFilter> NeedItems { get; set; }
+        void RefreshItems(StatisticsItem[] items);
     }
 }

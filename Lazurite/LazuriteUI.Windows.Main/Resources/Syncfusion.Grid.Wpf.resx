@@ -533,7 +533,7 @@
     <comment>For ExcelLikeFiltering</comment>
   </data>
   <data name="isafter" xml:space="preserve">
-    <value>is after</value>
+    <value>после</value>
     <comment>For ExcelLikeFiltering</comment>
   </data>
   <data name="isafterorequalto" xml:space="preserve">

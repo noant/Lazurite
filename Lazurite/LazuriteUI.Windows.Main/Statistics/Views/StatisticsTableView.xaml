@@ -10,7 +10,7 @@
              mc:Ignorable="d"
              ClipToBounds="True"
              d:DesignHeight="450" d:DesignWidth="800">
-    <sf:GridDataControl AllowSelection="Multiple" Margin="0,-3,0,0" ShowAddNewRow="False" AutoPopulateColumns="False" AllowEdit="False" AllowDragColumns="True" AllowGroup="True" AllowResizeColumns="True" AllowResizeRows="True" AllowSort="True" ShowGroupDropArea="True" ShowFilters="True" x:Name="gridControl">
+    <sf:GridDataControl EnableOptimizations="True" EnablePaging="True" AllowSelection="Multiple" Margin="0,-3,0,0" ShowAddNewRow="False" AutoPopulateColumns="False" AllowEdit="False" AllowDragColumns="True" AllowGroup="True" AllowResizeColumns="True" AllowResizeRows="True" AllowSort="True" ShowGroupDropArea="True" ShowFilters="True" x:Name="gridControl">
         <sf:GridDataControl.VisibleColumns>
             <sf:GridDataVisibleColumn HeaderText="СЦЕНАРИЙ" MappingName="ScenarioName"></sf:GridDataVisibleColumn>
             <sf:GridDataDateTimeVisibleColumn HeaderText="ВРЕМЯ" MappingName="DateTime">

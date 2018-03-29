@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -27,38 +28,29 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
         {
             InitializeComponent();
             gridControl.ColumnSizer = GridControlLengthUnitType.Star;
-            Loaded += StatisticsTableView_Loaded;
+
+            Loaded += (o, e) => NeedItems?.Invoke(StatisticsFilter.Empty);
+        }
+        
+        private DataTable CreateDataViews(StatisticsItem[] items)
+        {
+            var table = new DataTable();
+            table.Columns.Add("ScenarioName");
+            table.Columns.Add("DateTime", typeof(DateTime));
+            table.Columns.Add("Value");
+            table.Columns.Add("UserName");
+            table.Columns.Add("SourceType");
+            foreach (var item in items)
+                table.Rows.Add(item.Target.Name, item.DateTime, item.Value, item.Source.Name, item.Source.SourceType);
+            return table;
         }
 
-        private void StatisticsTableView_Loaded(object sender, RoutedEventArgs e)
+        public void RefreshItems(StatisticsItem[] items)
         {
-            var items = NeedItems?.Invoke(StatisticsFilter.Empty);
             if (items != null)
-            {
                 gridControl.ItemsSource = CreateDataViews(items);
-            }
         }
 
-        private StatisticItemView[] CreateDataViews(StatisticsItem[] items)
-        {
-            return items.Select(x => new StatisticItemView() {
-                DateTime = x.DateTime,
-                ScenarioName = x.Target.Name,
-                SourceType = x.Source?.SourceType ?? "Система",
-                UserName = x.Source?.Name ?? "Системный пользователь",
-                Value = x.Value
-            }).ToArray();
-        }
-
-        public Func<StatisticsFilter, StatisticsItem[]> NeedItems { get; set; }
-
-        private class StatisticItemView
-        {
-            public string ScenarioName { get; set; }
-            public string UserName { get; set; }
-            public DateTime DateTime { get; set; }
-            public string Value { get; set; }
-            public string SourceType { get; set; }
-        }
+        public Action<StatisticsFilter> NeedItems { get; set; }
     }
 }

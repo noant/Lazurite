@@ -1,7 +1,11 @@
 ﻿using Lazurite.IOC;
+using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
+using Lazurite.Utils;
 using LazuriteUI.Icons;
+using LazuriteUI.Windows.Controls;
+using LazuriteUI.Windows.Main.Common;
 using LazuriteUI.Windows.Main.Statistics.Settings;
 using LazuriteUI.Windows.Main.Statistics.Views;
 using System;
@@ -33,46 +37,94 @@ namespace LazuriteUI.Windows.Main.Statistics
         private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private static readonly ScenarioActionSource SystemActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.System, ScenarioAction.ViewValue);
+        private static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
         private IStatisticsView _currentView;
+        private string[] _selectedScenariosIds;
 
         public StatisticsMainView()
         {
             InitializeComponent();
+            
+            listItems.SelectionChanged += ListItemsView_SelectionChanged;
+            datesRangeView.SelectionChanged += (o, e) => Refresh();
+            Loaded += (o, args) =>
+            {
+                StuckUILoadingWindow.Show("Загрузка информации...", 
+                    () => {
+                        try
+                        {
+                            var min = ScenariosRepository.Scenarios
+                                .Where(x => StatisticsManager.IsRegistered(x))
+                                .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource))
+                                .Min(x => x.Since);
+                            datesRangeView.Min = min;
+                            datesRangeView.Max = DateTime.Now;
+                            datesRangeView.DateSelectionItem = new Common.DateSelectionItem(DateSelection.LastWeek);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error("Ошибка во время загрузки статистики", e);
+                        }
+                    }
+                );
+            };
         }
         
         private void btSettings_Click(object sender, RoutedEventArgs e)
         {
             StatisticsScenariosView.Show();
         }
-
-        private void btTableView_Click(object sender, RoutedEventArgs e)
-        {
-            AppendView(new StatisticsTableView());
-        }
-
+        
         private void AppendView(IStatisticsView view)
         {
-            _currentView = view;
-            view.NeedItems = (filter) =>
+            if (_currentView?.GetType() != view.GetType())
             {
-                if (!string.IsNullOrEmpty(filter.ScenarioId))
+                _currentView = view;
+                view.NeedItems = (filter) =>
                 {
-                    var scenario = ScenariosRepository.Scenarios.First(x => x.Id == filter.ScenarioId);
-                    var info = StatisticsManager.GetStatisticsInfoForScenario(scenario, SystemActionSource);
-                    return StatisticsManager.GetItems(info, filter.Since, filter.To, SystemActionSource);
-                }
-                else
-                {
-                    return ScenariosRepository
-                        .Scenarios
-                        .Where(x => StatisticsManager.IsRegistered(x))
-                        .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource))
-                        .SelectMany(x => StatisticsManager.GetItems(x, filter.Since, filter.To, SystemActionSource))
-                        .ToArray();
-                }
-            };
-            viewHostControl.Content = view;
+                    _selectedScenariosIds = filter.ScenariosIds;
+                    Refresh();
+                };
+                viewHostControl.Content = view;
+            }
+        }
+
+        private void Refresh()
+        {
+            if (_currentView == null)
+                AppendView(new StatisticsTableView());
+            else
+            {
+                bool selectionEmpty = _selectedScenariosIds == null || !_selectedScenariosIds.Any();
+                var dateSince = datesRangeView.DateSelectionItem.Start;
+                var dateTo = datesRangeView.DateSelectionItem.End;
+
+                StuckUILoadingWindow.Show("Загрузка информации...",
+                    () => {
+                        try
+                        {
+                            var items = ScenariosRepository
+                                .Scenarios
+                                .Where(x => StatisticsManager.IsRegistered(x) && (selectionEmpty || _selectedScenariosIds.Contains(x.Id)))
+                                .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource))
+                                .SelectMany(x => StatisticsManager.GetItems(x, dateSince, dateTo, SystemActionSource))
+                                .ToArray();
+                            _currentView.RefreshItems(items);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Error("Ошибка во время загрузки статистики", e);
+                        }
+                    }
+                );
+            }
+        }
+
+        private void ListItemsView_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (listItems.SelectedItem == btTableView)
+                AppendView(new StatisticsTableView());
         }
     }
 }
