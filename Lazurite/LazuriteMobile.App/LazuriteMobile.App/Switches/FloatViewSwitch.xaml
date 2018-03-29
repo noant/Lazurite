@@ -23,7 +23,7 @@
             <controls:IconView Opacity="0.40" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" VerticalOptions="CenterAndExpand" HeightRequest="90" WidthRequest="90" HorizontalOptions="StartAndExpand" Margin="-10,0,0,0"></controls:IconView>
             <Label Grid.Column="1" Opacity="0.40" VerticalOptions="CenterAndExpand" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}" HorizontalOptions="Start" FontSize="Large" Scale="2" TextColor="White"></Label>
         </Grid>
-        <Label Grid.Row="1" Opacity="0.7" InputTransparent="True" TextColor="#4682b4" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToSplittedStringShort}}" FontSize="Large" x:Name="tbValue" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Scale="2"></Label>
+        <Label Grid.Row="1" Opacity="0.7" InputTransparent="True" TextColor="{Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToSplittedStringShort}}" FontSize="Large" x:Name="tbValue" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Scale="2"></Label>
         <common:SliderWrapperView Grid.RowSpan="3" x:Name="slider" x:FieldModifier="private" VerticalOptions="Fill" HorizontalOptions="Fill"></common:SliderWrapperView>
     </Grid>
 </ContentView>

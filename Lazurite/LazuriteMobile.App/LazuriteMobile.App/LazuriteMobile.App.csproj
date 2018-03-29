@@ -41,6 +41,7 @@
     <Compile Include="Common\SliderWrapperView.xaml.cs">
       <DependentUpon>SliderWrapperView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Visual.cs" />
     <Compile Include="DeviceDataHandler.cs" />
     <Compile Include="GeolocationDataHandler.cs" />
     <Compile Include="App.xaml.cs">

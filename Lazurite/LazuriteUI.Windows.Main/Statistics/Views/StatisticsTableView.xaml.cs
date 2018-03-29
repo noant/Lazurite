@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Lazurite.MainDomain.Statistics;
+using Syncfusion.Windows.Controls.Grid;
 
 namespace LazuriteUI.Windows.Main.Statistics.Views
 {
@@ -24,7 +26,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
         public StatisticsTableView()
         {
             InitializeComponent();
-
+            gridControl.ColumnSizer = GridControlLengthUnitType.Star;
             Loaded += StatisticsTableView_Loaded;
         }
 
@@ -33,7 +35,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             var items = NeedItems?.Invoke(StatisticsFilter.Empty);
             if (items != null)
             {
-                dataGrid.ItemsSource = CreateDataViews(items);
+                gridControl.ItemsSource = CreateDataViews(items);
             }
         }
 

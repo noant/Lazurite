@@ -22,7 +22,7 @@
             <RowDefinition Height="35"></RowDefinition>
         </Grid.RowDefinitions>
         <controls:IconView Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-        <Label VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" TextColor="SteelBlue" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}"></Label>
+        <Label VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" TextColor="{Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}"></Label>
     </Grid>
     <Grid Grid.Row="1">
         <Grid.RowDefinitions>
@@ -36,11 +36,11 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <DatePicker HeightRequest="27" BackgroundColor="#302530" Grid.ColumnSpan="2" VerticalOptions="FillAndExpand" HorizontalOptions="Center" TextColor="White" x:Name="datePicker"></DatePicker>
-        <Label FontSize="Small" Grid.Row="1" HorizontalOptions="End" VerticalOptions="Center" TextColor="SteelBlue" Margin="3" Grid.Column="0">Час:</Label>
+        <Label FontSize="Small" Grid.Row="1" HorizontalOptions="End" VerticalOptions="Center" TextColor="{Static controls:Visual.CaptionForeground}" Margin="3" Grid.Column="0">Час:</Label>
         <common:NumericEntry BackgroundColor="#302530" Grid.Row="1" TextColor="White" x:Name="neHour" Max="23" Min="0" Margin="3" Grid.Column="1"></common:NumericEntry>
-        <Label FontSize="Small" Grid.Row="2" HorizontalOptions="End" VerticalOptions="Center" TextColor="SteelBlue" Margin="3" Grid.Column="0">Минута:</Label>
+        <Label FontSize="Small" Grid.Row="2" HorizontalOptions="End" VerticalOptions="Center" TextColor="{Static controls:Visual.CaptionForeground}" Margin="3" Grid.Column="0">Минута:</Label>
         <common:NumericEntry BackgroundColor="#302530" TextColor="White" Grid.Row="2" Max="59" Min="0" x:Name="neMinute" Margin="3" Grid.Column="1"></common:NumericEntry>
-        <Label FontSize="Small" Grid.Row="3" HorizontalOptions="End" VerticalOptions="Center" TextColor="SteelBlue" Margin="3" Grid.Column="0">Секунда:</Label>
+        <Label FontSize="Small" Grid.Row="3" HorizontalOptions="End" VerticalOptions="Center" TextColor="{Static controls:Visual.CaptionForeground}" Margin="3" Grid.Column="0">Секунда:</Label>
         <common:NumericEntry BackgroundColor="#302530" TextColor="White" Grid.Row="3" Max="59" Min="0" x:Name="neSecond" Margin="3" Grid.Column="1"></common:NumericEntry>
     </Grid>
     <controls:ItemView Grid.Row="2" VerticalOptions="EndAndExpand" Click="itemViewApply_Click" x:Name="itemViewApply" Icon="Check" Margin="5" Text="Применить"></controls:ItemView>

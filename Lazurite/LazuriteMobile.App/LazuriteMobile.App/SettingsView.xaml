@@ -3,13 +3,13 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
-    BackgroundColor="#1D191D" 
+    BackgroundColor="{Static controls:Visual.BackgroundLazurite}" 
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     x:Class="LazuriteMobile.App.SettingsView">
   <ContentView.Content>
         <Grid VerticalOptions="Center" HorizontalOptions="FillAndExpand">
             <Grid.RowDefinitions>
-                <RowDefinition Height="80"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
@@ -24,7 +24,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <controls:IconView Margin="0,0,-35,0" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="0" Grid.Column="0" Icon="Lazurite64" HeightRequest="50" WidthRequest="50"></controls:IconView>
-            <Label Grid.Row="0" Margin="35,0,0,0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Text="Lazurite" TextColor="#4682b4" FontSize="Large"></Label>
+            <Label Grid.Row="0" Margin="35,0,0,0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Text="Lazurite" TextColor="{Static controls:Visual.CaptionForeground}" FontSize="Large"></Label>
 
             <Label TextColor="Gray" VerticalOptions="Center" HorizontalOptions="End" Grid.Row="1" Grid.Column="0" Text="Хост"></Label>
             <Entry TextColor="White" Grid.Row="1" Grid.Column="1" x:Name="tbHost"></Entry>
@@ -38,10 +38,10 @@
             <Label TextColor="Gray" VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="4" Grid.Column="0" Text="Секретный ключ"></Label>
             <Entry TextColor="White" IsPassword="True" Grid.Row="4" Grid.Column="1" x:Name="tbSecretCode"></Entry>
 
-            <Label TextColor="#4682b4" VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="5" Grid.Column="0" Text="Логин"></Label>
+            <Label TextColor="{Static controls:Visual.CaptionForeground}" VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="5" Grid.Column="0" Text="Логин"></Label>
             <Entry TextColor="White" Grid.Row="5" Grid.Column="1" x:Name="tbLogin"></Entry>
 
-            <Label TextColor="#4682b4" VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="6" Grid.Column="0" Text="Пароль"></Label>
+            <Label TextColor="{Static controls:Visual.CaptionForeground}" VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="6" Grid.Column="0" Text="Пароль"></Label>
             <Entry TextColor="White" IsPassword="True" Grid.Row="6" Grid.Column="1" x:Name="tbPassword"></Entry>
             
             <Label HorizontalTextAlignment="Center" Grid.Row="7" Grid.ColumnSpan="2" TextColor="Olive" VerticalOptions="Center" HorizontalOptions="Center" x:Name="lblErrorMessage"></Label>

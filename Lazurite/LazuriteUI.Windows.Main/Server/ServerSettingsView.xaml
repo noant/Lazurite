@@ -5,10 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Server"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             mc:Ignorable="d" 
-             Background="{x:Static controls:Visual.Background}"
+             mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="500">
-    <Border BorderBrush="#112227" BorderThickness="2"  Height="Auto" VerticalAlignment="Center" Margin="10" MaxWidth="500" >
+    <Border BorderBrush="{x:Static controls:Visual.BorderBrush}" BorderThickness="2"  Height="Auto" VerticalAlignment="Center" Margin="10" MaxWidth="500" >
         <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="110"></ColumnDefinition>

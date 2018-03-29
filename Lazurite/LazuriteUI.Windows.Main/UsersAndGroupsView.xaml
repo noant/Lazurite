@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main"
              xmlns:security="clr-namespace:LazuriteUI.Windows.Main.Security"
              mc:Ignorable="d" 
@@ -17,10 +18,10 @@
     </Grid.RowDefinitions>
     <Label Style="{StaticResource LabelCaption}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="0">Пользователи</Label>
     <Label Style="{StaticResource LabelCaption}" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="0">Группы</Label>
-    <Border BorderBrush="#112227" BorderThickness="2" Margin="10,0,10,10" Grid.Row="1">
+    <Border BorderBrush="{x:Static controls:Visual.BorderBrush}" BorderThickness="2" Margin="10,0,10,10" Grid.Row="1">
         <security:UsersListViewExtended></security:UsersListViewExtended>
     </Border>
-    <Border BorderBrush="#112227" BorderThickness="2" Margin="10,0,10,10" Grid.Row="1" Grid.Column="1">
+    <Border BorderBrush="{x:Static controls:Visual.BorderBrush}" BorderThickness="2" Margin="10,0,10,10" Grid.Row="1" Grid.Column="1">
         <security:GroupsListViewExtended></security:GroupsListViewExtended>
     </Border>
 </Grid>

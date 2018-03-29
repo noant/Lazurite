@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Markup;
 
 namespace LazuriteUI.Windows.Main
 {
@@ -60,6 +61,12 @@ namespace LazuriteUI.Windows.Main
             var ci = new CultureInfo("ru-RU");
             Thread.CurrentThread.CurrentCulture = ci;
             Thread.CurrentThread.CurrentUICulture = ci;
+            CultureInfo.DefaultThreadCurrentCulture = ci;
+            CultureInfo.DefaultThreadCurrentUICulture = ci;
+            var lang = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(lang));
+            FrameworkContentElement.LanguageProperty.OverrideMetadata(typeof(System.Windows.Documents.TextElement), new FrameworkPropertyMetadata(lang));
+            System.Windows.Forms.Application.CurrentCulture = ci;
         }
 
         private void HandleUnhandledException(Exception exception)

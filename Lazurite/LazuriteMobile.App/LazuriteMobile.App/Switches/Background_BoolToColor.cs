@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LazuriteMobile.App.Controls;
+using System;
 using System.Globalization;
 using Xamarin.Forms;
 
@@ -9,9 +10,9 @@ namespace LazuriteMobile.App.Switches
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((bool)value)
-                return Color.FromRgb(29, 25, 29);
+                return Visual.SwitchBackground;
             else
-                return Color.FromRgb(0, 49, 83);
+                return Visual.SwitchBackgroundReadonly;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

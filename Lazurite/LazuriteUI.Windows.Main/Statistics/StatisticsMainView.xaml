@@ -16,5 +16,5 @@
         <controls:ItemView x:Name="btTableView" Click="btTableView_Click" Icon="Table" Width="170" Selected="True">Таблица</controls:ItemView>
     </controls:ListItemsView>
     <controls:ItemView Icon="Settings" x:Name="btSettings" Click="btSettings_Click" Width="170" Margin="5" HorizontalAlignment="Right">Параметры</controls:ItemView>
-    <ContentControl Grid.Row="1" x:Name="viewHostControl"></ContentControl>
+    <ContentPresenter Margin="5,0,5,5"  Grid.Row="1" x:Name="viewHostControl"></ContentPresenter>
 </Grid>

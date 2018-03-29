@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              xmlns:decompos="clr-namespace:LazuriteUI.Windows.Main.Constructors.Decomposition"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="1000">
     <controls:WheelScroll Margin="4,4,4,42" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.RowDefinitions>
@@ -27,6 +27,6 @@
         <controls:ItemView IconHorizontalAligment="Center" x:Name="btScalePlus" Icon="Add"></controls:ItemView>
         <controls:IconView Opacity="0.5" Background="Black" Width="30" Icon="Magnify"></controls:IconView>
         <controls:ItemView IconHorizontalAligment="Center" x:Name="btScaleMinus" Icon="Minus"></controls:ItemView>
-        <controls:ItemView x:Name="btSettings" Margin="10,0,0,0" Width="300" Icon="Settings">Значение по умолчанию и параметры</controls:ItemView>
+        <controls:ItemView x:Name="btSettings" Margin="5,0,0,0" Width="300" Icon="Settings">Значение по умолчанию и параметры</controls:ItemView>
     </StackPanel>
 </Grid>

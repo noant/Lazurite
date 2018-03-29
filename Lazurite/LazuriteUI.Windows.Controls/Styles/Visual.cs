@@ -13,12 +13,12 @@ namespace LazuriteUI.Windows.Controls
             BackgroundCubes = resource["BackCubes"] as Brush;
         }
 
-        public static readonly Brush ItemBackground = new SolidColorBrush(Color.FromRgb(37,37,37));
+        public static readonly Brush ItemBackground = new SolidColorBrush(Color.FromRgb(37,37,45));
         public static readonly Brush ItemSelection = Brushes.SteelBlue;
-        public static readonly Brush BrightItemBackground = new SolidColorBrush(Color.FromRgb(60,60,60));
-        public static readonly Brush Background = new SolidColorBrush(Color.FromRgb(26,26,26));
-        public static readonly Brush SplitterBrush = new SolidColorBrush(Color.FromRgb(38, 38, 38));
-        public static readonly Brush BackgroundLazurite = new SolidColorBrush(Color.FromRgb(29,25,29));
+        public static readonly Brush BrightItemBackground = new SolidColorBrush(Color.FromRgb(60,60,68));
+        public static readonly Brush Background = new SolidColorBrush(Color.FromRgb(26,26,34));
+        public static readonly Brush SplitterBrush = new SolidColorBrush(Color.FromRgb(38, 38, 46));
+        public static readonly Brush BackgroundLazurite = new SolidColorBrush(Color.FromRgb(29,25,39));
         public static readonly Brush Foreground = Brushes.White;
         public static readonly Brush BorderBrush = new SolidColorBrush(Color.FromRgb(17,34,39));
         public static readonly Brush CaptionForeground = Brushes.SteelBlue;

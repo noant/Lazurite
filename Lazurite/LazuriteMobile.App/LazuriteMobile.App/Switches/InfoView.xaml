@@ -21,7 +21,7 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <controls:IconView WidthRequest="20" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-        <Label Grid.Row="1" VerticalOptions="Center" Margin="4,-4,4,4" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="#4682b4"  FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
+        <Label Grid.Row="1" VerticalOptions="Center" Margin="4,-4,4,4" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="{Static controls:Visual.CaptionForeground}"  FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
         <Label Grid.Row="2" VerticalOptions="Center" Margin="4,-7,4,0" x:Name="textBlockScenValue" Text="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small"></Label>
         <local:SwitchBottomBorder Grid.Row="2"></local:SwitchBottomBorder>
     </Grid>

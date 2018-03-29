@@ -23,8 +23,11 @@ namespace LazuriteUI.Windows.Main.Constructors
             buttons.AddNewClick += () => complexActionView.AddFirst();
 
             btScaleMinus.Click += (o, e) => {
-                scale.ScaleX -= 0.1;
-                scale.ScaleY -= 0.1;
+                if (scale.ScaleY > 0.2)
+                {
+                    scale.ScaleX -= 0.1;
+                    scale.ScaleY -= 0.1;
+                }
             };
 
             btScalePlus.Click += (o, e) => {

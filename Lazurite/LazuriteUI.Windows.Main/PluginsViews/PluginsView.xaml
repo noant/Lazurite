@@ -20,14 +20,14 @@
         <controls:WheelScroll>
             <controls:ListItemsView x:Name="itemsView" SelectionMode="Single"></controls:ListItemsView>
         </controls:WheelScroll>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="5">
             <controls:ItemView Click="btAddPlugin_Click" x:Name="btAddPlugin" Margin="2" Content="Добавить плагин" Width="170" Icon="Add"></controls:ItemView>
             <controls:ItemView Click="btRemovePlugin_Click" x:Name="btRemovePlugin" Margin="2,0,2,2" Content="Удалить плагин" Width="170" Icon="AppRemove" Background="Crimson" VerticalAlignment="Bottom"></controls:ItemView>
             <controls:ItemView Click="updatePlugin_Click" x:Name="updatePlugin" Margin="2" Content="Обновить плагин" Width="170" Icon="Refresh"></controls:ItemView>
         </StackPanel>
-        <Border Grid.Column="1" BorderBrush="#112227" BorderThickness="2,2,2,2"></Border>
-        <Border BorderBrush="#112227" BorderThickness="2,2,0,2"></Border>
-        <TextBlock Grid.Column="1" Style="{StaticResource TextBlockCaption}" Margin="10,0,0,0">Типы в составе плагина:</TextBlock>
+        <Border Grid.Column="1" BorderBrush="{x:Static controls:Visual.BorderBrush}" BorderThickness="2,2,2,2"></Border>
+        <Border BorderBrush="{x:Static controls:Visual.BorderBrush}" BorderThickness="2,2,0,2"></Border>
+        <TextBlock Grid.Column="1" Style="{StaticResource TextBlockCaption}" Margin="10,5,0,0">Типы в составе плагина:</TextBlock>
         <StackPanel x:Name="spPluginTypes" Grid.Column="1" Margin="0,22,0,0"></StackPanel>
     </Grid>
 </UserControl>
