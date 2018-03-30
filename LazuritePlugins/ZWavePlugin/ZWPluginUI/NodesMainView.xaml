@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300"
              d:DesignWidth="1000"
-             Background="#111112"
+             Background="#111117"
              >
     <Grid>
         <Grid.ColumnDefinitions>

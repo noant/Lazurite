@@ -21,12 +21,12 @@
             <decompos:ComplexActionView Grid.Row="1" x:Name="complexActionView"></decompos:ComplexActionView>
         </Grid>
     </controls:WheelScroll>
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4,0,4,2">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4,0,2,0">
         <TextBlock VerticalAlignment="Center" Foreground="SteelBlue">Тип значения сценария:</TextBlock>
         <TextBlock Margin="5,0,10,0" VerticalAlignment="Center" x:Name="tbValueType" Foreground="White"></TextBlock>
         <controls:ItemView IconHorizontalAligment="Center" x:Name="btScalePlus" Icon="Add"></controls:ItemView>
         <controls:IconView Opacity="0.5" Background="Black" Width="30" Icon="Magnify"></controls:IconView>
         <controls:ItemView IconHorizontalAligment="Center" x:Name="btScaleMinus" Icon="Minus"></controls:ItemView>
-        <controls:ItemView x:Name="btSettings" Margin="5,0,0,0" Width="300" Icon="Settings">Значение по умолчанию и параметры</controls:ItemView>
+        <controls:ItemView x:Name="btSettings" Margin="4,0,0,0" Width="300" Icon="Settings">Значение по умолчанию и параметры</controls:ItemView>
     </StackPanel>
 </Grid>

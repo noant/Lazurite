@@ -507,7 +507,7 @@ namespace Lazurite.MainDomain
         /// <param name="action"></param>
         public void RemoveOnStateChanged(EventsHandler<ScenarioValueChangedEventArgs> action)
         {
-            _valueChangedEvents.Remove(action);
+            _valueChangedEvents.RemoveAll(x => x == action);
         }
 
         /// <summary>
@@ -525,7 +525,7 @@ namespace Lazurite.MainDomain
         /// <param name="action"></param>
         public void RemoveOnAvailabilityChanged(EventsHandler<ScenarioBase> action)
         {
-            _availabilityChangedEvents.Remove(action);
+            _availabilityChangedEvents.RemoveAll(x => x == action);
         }
 
         /// <summary>

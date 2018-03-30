@@ -58,7 +58,138 @@
             </DrawingGroup>
         </DrawingBrush.Drawing>
     </DrawingBrush>
-    
+
+    <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border Background="Black" Opacity="0.3" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border Background="{TemplateBinding Background}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="VerticalScrollBar" 
+			TargetType="{x:Type ScrollBar}">
+        <Grid Width="15">
+            <Track 
+                  Name="PART_Track"
+                  Grid.Row="1"
+                  IsDirectionReversed="true">
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton 
+                          Style="{DynamicResource ScrollBarPageButton}"
+                          Command="ScrollBar.PageUpCommand" />
+                </Track.DecreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb 
+                          Opacity="0.7"
+                          Style="{DynamicResource ScrollBarThumb}"
+                          Background="{x:Static local:Visual.BrightItemBackground}" />
+                </Track.Thumb>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton 
+                          Style="{DynamicResource ScrollBarPageButton}"
+                          Command="ScrollBar.PageDownCommand" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+    <ControlTemplate x:Key="HorizontalScrollBar" 
+			TargetType="{x:Type ScrollBar}">
+        <Grid Height="15">
+            <Track 
+                  Name="PART_Track"
+                  Grid.Column="1"
+                  IsDirectionReversed="False">
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton 
+                          Style="{DynamicResource ScrollBarPageButton}"
+                          Command="ScrollBar.PageLeftCommand" />
+                </Track.DecreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb 
+                          Style="{DynamicResource ScrollBarThumb}"
+                          Background="{x:Static local:Visual.BrightItemBackground}" />
+                </Track.Thumb>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton 
+                          Style="{DynamicResource ScrollBarPageButton}"
+                          Command="ScrollBar.PageRightCommand" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+    <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="Auto"/>
+                <Setter Property="Height" Value="10" />
+                <Setter Property="Template" 
+						Value="{DynamicResource HorizontalScrollBar}" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Width" Value="10"/>
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Template" 
+						Value="{DynamicResource VerticalScrollBar}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type ScrollViewer}" x:Key="LazScroll">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ScrollContentPresenter />
+                        <ScrollBar Name="PART_VerticalScrollBar"
+                                Grid.Column="1"
+                                Value="{TemplateBinding VerticalOffset}"
+                                Maximum="{TemplateBinding ScrollableHeight}"
+                                ViewportSize="{TemplateBinding ViewportHeight}"
+                                Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                        <ScrollBar Name="PART_HorizontalScrollBar"
+                                Orientation="Horizontal"
+                                Grid.Row="1"
+                                Value="{TemplateBinding HorizontalOffset}"
+                                Maximum="{TemplateBinding ScrollableWidth}"
+                                ViewportSize="{TemplateBinding ViewportWidth}"
+                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
     <Style x:Key="ItemButtonStyle" TargetType="{x:Type Button}">
         <Style.Setters>
             <Setter Property="Template">

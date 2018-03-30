@@ -54,13 +54,13 @@ namespace LazuriteUI.Windows.Main.Statistics
                     () => {
                         try
                         {
-                            var min = ScenariosRepository.Scenarios
+                            var registered = ScenariosRepository.Scenarios
                                 .Where(x => StatisticsManager.IsRegistered(x))
                                 .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource))
-                                .Min(x => x.Since);
-                            datesRangeView.Min = min;
+                                .ToArray();
+                            datesRangeView.Min = registered.Any() ? registered.Min(x => x.Since) : DateTime.Now;
                             datesRangeView.Max = DateTime.Now;
-                            datesRangeView.DateSelectionItem = new Common.DateSelectionItem(DateSelection.LastWeek);
+                            datesRangeView.DateSelectionItem = new Common.DateSelectionItem(DateSelection.Last24Hours);
                         }
                         catch (Exception e)
                         {
@@ -109,6 +109,7 @@ namespace LazuriteUI.Windows.Main.Statistics
                                 .Where(x => StatisticsManager.IsRegistered(x) && (selectionEmpty || _selectedScenariosIds.Contains(x.Id)))
                                 .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource))
                                 .SelectMany(x => StatisticsManager.GetItems(x, dateSince, dateTo, SystemActionSource))
+                                .OrderByDescending(x => x.DateTime)
                                 .ToArray();
                             _currentView.RefreshItems(items);
                         }

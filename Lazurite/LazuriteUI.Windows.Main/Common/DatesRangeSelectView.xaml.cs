@@ -26,16 +26,16 @@ namespace LazuriteUI.Windows.Main.Common
         {
             InitializeComponent();
 
-            dt1.MaxDateTime = dt2.MaxDateTime = max;
-            dt1.MinDateTime = dt2.MinDateTime = min;
+            dt1.DisplayDateEnd = dt2.DisplayDateEnd = max;
+            dt1.DisplayDateStart = dt2.DisplayDateStart = min;
 
-            dt1.DateTime = selectionItem.Start;
-            dt2.DateTime = selectionItem.End;
+            dt1.SelectedDate = selectionItem.Start;
+            dt2.SelectedDate = selectionItem.End;
         }
 
         private void btRange_Click(object sender, RoutedEventArgs e)
         {
-            Commited?.Invoke(this, new EventsArgs<DateSelectionItem>(new DateSelectionItem(dt1.DateTime ?? DateTime.Now.Date, dt2.DateTime ?? DateTime.Now.Date)));
+            Commited?.Invoke(this, new EventsArgs<DateSelectionItem>(new DateSelectionItem(dt1.SelectedDate ?? DateTime.Now.Date, dt2.SelectedDate ?? DateTime.Now.Date)));
         }
 
         private void btYear_Click(object sender, RoutedEventArgs e)
@@ -55,7 +55,7 @@ namespace LazuriteUI.Windows.Main.Common
 
         private void btDay_Click(object sender, RoutedEventArgs e)
         {
-            Commited?.Invoke(this, new EventsArgs<DateSelectionItem>(new DateSelectionItem(DateSelection.Today)));
+            Commited?.Invoke(this, new EventsArgs<DateSelectionItem>(new DateSelectionItem(DateSelection.Last24Hours)));
         }
 
         public event EventsHandler<DateSelectionItem> Commited;
@@ -78,7 +78,7 @@ namespace LazuriteUI.Windows.Main.Common
         LastYear,
         LastMonth,
         LastWeek,
-        Today,
+        Last24Hours,
         Custom
     }
 
@@ -111,7 +111,7 @@ namespace LazuriteUI.Windows.Main.Common
                     End = DateTime.Now;
                     break;
 
-                case DateSelection.Today:
+                case DateSelection.Last24Hours:
                     Start = DateTime.Now;
                     End = DateTime.Now;
                     break;

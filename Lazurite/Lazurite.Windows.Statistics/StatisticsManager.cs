@@ -26,7 +26,6 @@ namespace Lazurite.Windows.Statistics
         private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private static readonly ServiceClientFactory ClientFactory = Singleton.Resolve<ServiceClientFactory>();
 
-        private List<ScenarioBase> _statisticsScenarios = new List<ScenarioBase>();
         private List<StatisticsScenarioInfoInternal> _statisticsScenariosInfos = new List<StatisticsScenarioInfoInternal>();
         private CancellationTokenSource _timerCancellationTokenSource;
         private StatisticsDataManager _dataManager = new StatisticsDataManager();
@@ -66,7 +65,7 @@ namespace Lazurite.Windows.Statistics
 
         private void Initialize()
         {
-            InitializeScenarios();
+            RegisterScenariosInternal();
             InitializeTimer();
         }
 
@@ -95,7 +94,8 @@ namespace Lazurite.Windows.Statistics
 
         private void TimerTick()
         {
-            foreach (var scenario in _statisticsScenarios.ToArray())
+            var statisticsScenarios = ScenariosRepository.Scenarios.Where(x => _statisticsScenariosInfos.Any(z => z.ScenarioId == x.Id)).ToArray();
+            foreach (var scenario in statisticsScenarios.ToArray())
             {
                 if (scenario.ValueType is ButtonValueType == false)
                 {
@@ -118,14 +118,11 @@ namespace Lazurite.Windows.Statistics
                 }
             }
         }
-
-        private void InitializeScenarios()
+        
+        private void RegisterScenariosInternal()
         {
-            _statisticsScenarios = ScenariosRepository
-                .Scenarios
-                .Where(x => _statisticsScenariosInfos.Any(z => z.ScenarioId == x.Id))
-                .ToList();
-            foreach (var scenario in _statisticsScenarios)
+            var statisticsScenarios = ScenariosRepository.Scenarios.Where(x => _statisticsScenariosInfos.Any(z => z.ScenarioId == x.Id)).ToArray();
+            foreach (var scenario in statisticsScenarios)
                 RegisterInternal(scenario);
         }
 
@@ -197,13 +194,15 @@ namespace Lazurite.Windows.Statistics
 
         public StatisticsItem[] GetItems(StatisticsScenarioInfo info, DateTime since, DateTime to, ScenarioActionSource source)
         {
-            var scenario = _statisticsScenarios.FirstOrDefault(x => x.Id == info.ID && ActionsDomain.Utils.GetValueTypeClassName(x.ValueType.GetType()) == info.ValueTypeName);
+            var scenario = ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == info.ID && ActionsDomain.Utils.GetValueTypeClassName(x.ValueType.GetType()) == info.ValueTypeName);
             if (scenario?.SecuritySettings.IsAvailableForUser(source.User, source.Source, source.Action) ?? false)
             {
                 if (scenario is RemoteScenario remoteScenario)
                 {
                     try
                     {
+                        if (!scenario.GetIsAvailable())
+                            throw new ScenarioExecutionException(ScenarioExecutionError.NotAvailable);
                         var remoteScenarioInfo = new StatisticsScenarioInfo()
                         {
                             ID = remoteScenario.RemoteScenarioId,
@@ -247,6 +246,8 @@ namespace Lazurite.Windows.Statistics
                 {
                     try
                     {
+                        if (!scenario.GetIsAvailable())
+                            throw new ScenarioExecutionException(ScenarioExecutionError.NotAvailable);
                         var scenarioInfo = new ScenarioInfo();
                         scenarioInfo.ScenarioId = remoteScenario.RemoteScenarioId;
                         scenarioInfo.ValueType = scenario.ValueType;
@@ -266,13 +267,16 @@ namespace Lazurite.Windows.Statistics
 
         public bool IsRegistered(ScenarioBase scenario)
         {
+            var valueTypeName = ActionsDomain.Utils.GetValueTypeClassName(scenario.ValueType.GetType());
             if (scenario is RemoteScenario remoteScenario)
             {
                 try
                 {
+                    if (!scenario.GetIsAvailable())
+                        return false;
                     var scenarioInfo = new StatisticsScenarioInfo();
                     scenarioInfo.ID = remoteScenario.RemoteScenarioId;
-                    scenarioInfo.ValueTypeName = ActionsDomain.Utils.GetValueTypeClassName(scenario.ValueType.GetType());
+                    scenarioInfo.ValueTypeName = valueTypeName;
                     var server = ClientFactory.GetServer(remoteScenario.Credentials);
                     return server.IsStatisticsRegistered(new Encrypted<StatisticsScenarioInfo>(scenarioInfo, remoteScenario.Credentials.SecretKey));
                 }
@@ -281,7 +285,7 @@ namespace Lazurite.Windows.Statistics
                     return false;
                 }
             }
-            return _statisticsScenariosInfos.Any(x => x.ScenarioId == scenario.Id);
+            return _statisticsScenariosInfos.Any(x => x.ScenarioId == scenario.Id && x.ValueTypeName == valueTypeName);
         }
 
         public void Register(ScenarioBase scenario)
@@ -298,7 +302,6 @@ namespace Lazurite.Windows.Statistics
                 RegisterInternal(scenario);
                 InitializeTimer();
                 SaveData();
-                InitializeScenarios();
             }
         }
 
@@ -310,7 +313,16 @@ namespace Lazurite.Windows.Statistics
                 UnregisterInternal(scenario);
                 InitializeTimer();
                 SaveData();
-                InitializeScenarios();
+            }
+        }
+
+        public void ReRegister(ScenarioBase scenario)
+        {
+            var scenarioValueType = ActionsDomain.Utils.GetValueTypeClassName(scenario.ValueType.GetType());
+            if (_statisticsScenariosInfos.Any(x => x.ScenarioId == scenario.Id && x.ValueTypeName == scenarioValueType))
+            {
+                UnregisterInternal(scenario);
+                RegisterInternal(scenario);
             }
         }
     }

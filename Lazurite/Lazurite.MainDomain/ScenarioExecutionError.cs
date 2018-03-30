@@ -11,6 +11,7 @@ namespace Lazurite.MainDomain
         StackOverflow,
         CircularReference,
         InvalidValue,
-        AccessDenied
+        AccessDenied,
+        NotAvailable
     }
 }

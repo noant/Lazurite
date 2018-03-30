@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Switches"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d"
-             Background="Black"
+             Background="{x:Static controls:Visual.Background}"
              Width="500"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>

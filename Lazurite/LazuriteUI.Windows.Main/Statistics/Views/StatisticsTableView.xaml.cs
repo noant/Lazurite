@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.IOC;
+using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
 using Syncfusion.Windows.Controls.Grid;
 
@@ -24,6 +27,9 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
     /// </summary>
     public partial class StatisticsTableView : Grid, IStatisticsView
     {
+        private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private static readonly string FloatValueTypeName = Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(FloatValueType));
+
         public StatisticsTableView()
         {
             InitializeComponent();
@@ -32,25 +38,56 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             Loaded += (o, e) => NeedItems?.Invoke(StatisticsFilter.Empty);
         }
         
-        private DataTable CreateDataViews(StatisticsItem[] items)
-        {
-            var table = new DataTable();
-            table.Columns.Add("ScenarioName");
-            table.Columns.Add("DateTime", typeof(DateTime));
-            table.Columns.Add("Value");
-            table.Columns.Add("UserName");
-            table.Columns.Add("SourceType");
-            foreach (var item in items)
-                table.Rows.Add(item.Target.Name, item.DateTime, item.Value, item.Source.Name, item.Source.SourceType);
-            return table;
-        }
-
         public void RefreshItems(StatisticsItem[] items)
         {
             if (items != null)
                 gridControl.ItemsSource = CreateDataViews(items);
         }
 
+        private StatisticItemView[] CreateDataViews(StatisticsItem[] items)
+        {
+            var scenariosDictionary = ScenariosRepository.Scenarios.ToDictionary(x => x.Id);
+            return items
+                .Select
+                (
+                    x => {
+                        if (x.Target.ValueTypeName == FloatValueTypeName)
+                            return new StatisticItemView(x, ((FloatValueType)scenariosDictionary[x.Target.ID].ValueType).Unit);
+                        else return new StatisticItemView(x);
+                    }
+                ).ToArray();
+        }
+
         public Action<StatisticsFilter> NeedItems { get; set; }
+
+        private class StatisticItemView
+        {
+            private static Dictionary<string, string> ScenariosUnitsCache = new Dictionary<string, string>();
+
+            private static readonly string ToggleValueTypeName = Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(ToggleValueType));
+
+            public StatisticItemView(StatisticsItem item, string scenarioUnit = "")
+            {
+                ScenarioName = item.Target.Name;
+                UserName = item.Source.Name;
+                SourceType = item.Source.SourceType;
+                DateTime = item.DateTime;
+                Value = item.Value + scenarioUnit;
+                if (item.Target.ValueTypeName == ToggleValueTypeName)
+                {
+                    if (Value == ToggleValueType.ValueON)
+                        Value = "Вкл.";
+                    else
+                        Value = "Выкл.";
+                }
+            }
+
+            public string ScenarioName { get; }
+            public string UserName { get; }
+            public DateTime DateTime { get; }
+            public string Value { get; }
+            public string SourceType { get; }
+        }
+
     }
 }

@@ -13,11 +13,11 @@
         mc:Ignorable="d"
         Title="StuckUILoadingWindow" Height="150" Width="500">
     <Grid>
-        <Grid Background="Black" Opacity="0.9"></Grid>
+        <Grid Background="#1A1A22" Opacity="0.9"></Grid>
         <local:CornerView VerticalAlignment="Top" HorizontalAlignment="Left"></local:CornerView>
         <local:IconView VerticalAlignment="Center" HorizontalAlignment="Center"></local:IconView>
         <local:Progress x:Name="progressView"></local:Progress>
-        <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,7,0,0" Foreground="SteelBlue">Формирование элементов управления...</TextBlock>
+        <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,7,0,0" Foreground="SteelBlue">Пожалуйста, подождите...</TextBlock>
         <TextBlock x:Name="tbCaption" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,7,0,0" FontSize="15" Foreground="White">Формирование элементов управления...</TextBlock>
         <Border BorderThickness="1" Opacity="0.7" BorderBrush="DarkOrchid"></Border>
     </Grid>

@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
                     xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Common"
+                    xmlns:sf="http://schemas.syncfusion.com/wpf"
                     xmlns:switches="clr-namespace:LazuriteUI.Windows.Main.Switches">
     <Style x:Key="ApplyButton" TargetType="{x:Type controls:ItemView}">
         <Setter Property="Background" Value="{x:Static controls:Visual.BrightItemBackground}"></Setter>

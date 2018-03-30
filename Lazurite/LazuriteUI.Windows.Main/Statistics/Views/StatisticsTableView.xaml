@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Statistics.Views"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              xmlns:sf="http://schemas.syncfusion.com/wpf"
              Background="{x:Static controls:Visual.Background}"
              mc:Ignorable="d"
              ClipToBounds="True"
-             d:DesignHeight="450" d:DesignWidth="800">
-    <sf:GridDataControl EnableOptimizations="True" EnablePaging="True" AllowSelection="Multiple" Margin="0,-3,0,0" ShowAddNewRow="False" AutoPopulateColumns="False" AllowEdit="False" AllowDragColumns="True" AllowGroup="True" AllowResizeColumns="True" AllowResizeRows="True" AllowSort="True" ShowGroupDropArea="True" ShowFilters="True" x:Name="gridControl">
+             d:DesignHeight="450" 
+             d:DesignWidth="800">
+    <sf:GridDataControl sf:SkinStorage.VisualStyle="Blend" EnableOptimizations="True" EnablePaging="True" AllowSelection="Multiple" Margin="0,-3,0,0" ShowAddNewRow="False" AutoPopulateColumns="False" AllowEdit="False" AllowDragColumns="True" AllowGroup="True" AllowResizeColumns="True" AllowResizeRows="True" AllowSort="True" ShowGroupDropArea="True" ShowFilters="True" x:Name="gridControl">
         <sf:GridDataControl.VisibleColumns>
             <sf:GridDataVisibleColumn HeaderText="СЦЕНАРИЙ" MappingName="ScenarioName"></sf:GridDataVisibleColumn>
             <sf:GridDataDateTimeVisibleColumn HeaderText="ВРЕМЯ" MappingName="DateTime">

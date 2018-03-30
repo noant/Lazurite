@@ -13,5 +13,6 @@ namespace Lazurite.MainDomain.Statistics
         void Register(ScenarioBase scenario);
         void UnRegister(ScenarioBase scenario);
         bool IsRegistered(ScenarioBase scenario);
+        void ReRegister(ScenarioBase scenario);
     }
 }

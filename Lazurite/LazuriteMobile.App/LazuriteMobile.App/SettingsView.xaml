@@ -16,13 +16,14 @@
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
-                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
+            
             <controls:IconView Margin="0,0,-35,0" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="0" Grid.Column="0" Icon="Lazurite64" HeightRequest="50" WidthRequest="50"></controls:IconView>
             <Label Grid.Row="0" Margin="35,0,0,0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Text="Lazurite" TextColor="{Static controls:Visual.CaptionForeground}" FontSize="Large"></Label>
 

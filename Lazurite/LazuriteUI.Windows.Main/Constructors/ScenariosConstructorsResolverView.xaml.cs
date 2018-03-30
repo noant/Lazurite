@@ -1,6 +1,7 @@
 ﻿using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
+using Lazurite.MainDomain.Statistics;
 using Lazurite.Scenarios.ScenarioTypes;
 using LazuriteUI.Windows.Controls;
 using System;
@@ -14,8 +15,9 @@ namespace LazuriteUI.Windows.Main.Constructors
     /// </summary>
     public partial class ScenariosConstructorsResolverView : UserControl
     {
-        private ILogger _log = Singleton.Resolve<ILogger>();
-        private ScenariosRepositoryBase _repository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private static readonly ILogger Log = Singleton.Resolve<ILogger>();
+        private static readonly ScenariosRepositoryBase Repository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private static readonly IStatisticsManager StatisticsManager = Singleton.Resolve<IStatisticsManager>();
         private IScenarioConstructorView _constructorView;
         private ScenarioBase _originalSenario;
         private ScenarioBase _clonedScenario;
@@ -62,7 +64,7 @@ namespace LazuriteUI.Windows.Main.Constructors
                         }
                         catch (Exception e)
                         {
-                            _log.ErrorFormat(e, "Ошибка инициализации сценария {0}", scenario.Name);
+                            Log.ErrorFormat(e, "Ошибка инициализации сценария {0}", scenario.Name);
                         }
                     }
                     else
@@ -120,7 +122,8 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             try
             {
-                _repository.SaveScenario(_clonedScenario);
+                Repository.SaveScenario(_clonedScenario);
+                StatisticsManager.ReRegister(_clonedScenario);
                 _clonedScenario.InitializeAsync();
                 _clonedScenario.AfterInitilize();
                 IsModified = false;
@@ -134,7 +137,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             }
             catch (Exception e)
             {
-                _log.ErrorFormat(e, "Ошибка инициализации сценария {0}", _clonedScenario.Name);
+                Log.ErrorFormat(e, "Ошибка инициализации сценария {0}", _clonedScenario.Name);
             }
         }
 
@@ -150,7 +153,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             }
             catch (Exception e)
             {
-                _log.ErrorFormat(e, "Ошибка инициализации сценария {0}", _clonedScenario.Name);
+                Log.ErrorFormat(e, "Ошибка инициализации сценария {0}", _clonedScenario.Name);
             }
         }
     }

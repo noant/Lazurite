@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              VerticalAlignment="Top"
              HorizontalAlignment="Stretch"
-             Width="350"
+             Width="340"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid.RowDefinitions>
         <RowDefinition Height="30"></RowDefinition>

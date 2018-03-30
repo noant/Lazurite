@@ -33,22 +33,22 @@
         <local:ActionCategoryHeaderView Grid.Row="1" Grid.Column="3" Icon="Tv" Content="МЕДИА"></local:ActionCategoryHeaderView>
         <local:ActionCategoryHeaderView Grid.Row="1" Grid.Column="4" Icon="CalendarRange" Content="ДАТА/ВРЕМЯ"></local:ActionCategoryHeaderView>
         <local:ActionCategoryHeaderView Grid.Row="1" Grid.Column="5" Icon="HomeGarageOpen" Content="ДРУГОЕ"></local:ActionCategoryHeaderView>
-        <controls:WheelScroll Grid.Row="2" Margin="1">
+        <controls:WheelScroll HorizontalScrollBarVisibility="Hidden" Grid.Row="2" Margin="1">
             <controls:ListItemsView SelectionMode="Single" x:Name="itemsViewMeta"></controls:ListItemsView>
         </controls:WheelScroll>
-        <controls:WheelScroll Grid.Row="2" Grid.Column="1" Margin="1">
+        <controls:WheelScroll HorizontalScrollBarVisibility="Hidden" Grid.Row="2" Grid.Column="1" Margin="1">
             <controls:ListItemsView SelectionMode="Single" x:Name="itemsViewControl"></controls:ListItemsView>
         </controls:WheelScroll>
-        <controls:WheelScroll Grid.Row="2" Grid.Column="2" Margin="1">
+        <controls:WheelScroll HorizontalScrollBarVisibility="Hidden" Grid.Row="2" Grid.Column="2" Margin="1">
             <controls:ListItemsView SelectionMode="Single" x:Name="itemsViewGeolocation"></controls:ListItemsView>
         </controls:WheelScroll>
-        <controls:WheelScroll Grid.Row="2" Grid.Column="3" Margin="1">
+        <controls:WheelScroll HorizontalScrollBarVisibility="Hidden" Grid.Row="2" Grid.Column="3" Margin="1">
             <controls:ListItemsView SelectionMode="Single" x:Name="itemsViewMedia"></controls:ListItemsView>
         </controls:WheelScroll>
-        <controls:WheelScroll Grid.Row="2" Grid.Column="4" Margin="1">
+        <controls:WheelScroll HorizontalScrollBarVisibility="Hidden" Grid.Row="2" Grid.Column="4" Margin="1">
             <controls:ListItemsView SelectionMode="Single" x:Name="itemsViewDateTime"></controls:ListItemsView>
         </controls:WheelScroll>
-        <controls:WheelScroll Grid.Row="2" Grid.Column="5" Margin="1">
+        <controls:WheelScroll HorizontalScrollBarVisibility="Hidden" Grid.Row="2" Grid.Column="5" Margin="1">
             <controls:ListItemsView SelectionMode="Single" x:Name="itemsViewOther"></controls:ListItemsView>
         </controls:WheelScroll>
     </Grid>

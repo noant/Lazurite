@@ -15,7 +15,7 @@
     </Grid.RowDefinitions>
     <controls:CaptionView Icon="Settings">Параметры статистики</controls:CaptionView>
     <Label Grid.Row="1" Margin="0,8,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="SteelBlue">Выберите сценарии, все изменения которых должны фиксироваться в базе данных статистики.</Label>
-    <controls:WheelScroll HorizontalAlignment="Left" Margin="10" Grid.Row="2" VerticalAlignment="Top">
-        <StackPanel Orientation="Vertical" x:Name="spItems"></StackPanel>
+    <controls:WheelScroll VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Top">
+        <StackPanel Orientation="Vertical" x:Name="spItems" Margin="10"></StackPanel>
     </controls:WheelScroll>
 </Grid>

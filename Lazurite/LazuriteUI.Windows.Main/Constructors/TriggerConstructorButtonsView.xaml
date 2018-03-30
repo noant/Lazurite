@@ -9,9 +9,9 @@
              d:DesignHeight="300">
     <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
         <TextBlock Style="{StaticResource TextBlockCaption}" VerticalAlignment="Center" Margin="0,0,3,0">Имя триггера:</TextBlock>
-        <controls:EntryView x:Name="tbName" Margin="4,4,4,0"></controls:EntryView>
-        <controls:ItemView x:Name="btEnabled" Width="130" Selectable="True" Margin="4,2,2,2" Icon="TimerCheck">Активен</controls:ItemView>
-        <controls:ItemView x:Name="btApply" Width="230" Margin="4,2,2,2" Icon="Save">Сохранить изменения</controls:ItemView>
-        <controls:ItemView Style="{StaticResource ButtonCancel}" x:Name="btCancel" Margin="4,2,4,2" ToolTip="Сбросить изменения"></controls:ItemView>
+        <controls:EntryView x:Name="tbName" Margin="2,4,4,0"></controls:EntryView>
+        <controls:ItemView x:Name="btEnabled" Width="130" Selectable="True" Margin="2,2,2,2" Icon="TimerCheck">Активен</controls:ItemView>
+        <controls:ItemView x:Name="btApply" Width="230" Margin="2,2,2,2" Icon="Save">Сохранить изменения</controls:ItemView>
+        <controls:ItemView Style="{StaticResource ButtonCancel}" x:Name="btCancel" Margin="2,2,2,2" ToolTip="Сбросить изменения"></controls:ItemView>
     </StackPanel>
 </UserControl>

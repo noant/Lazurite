@@ -13,11 +13,11 @@
              Width="300">
     <controls:WheelScroll>
         <controls:ListItemsView x:Name="listItems">
-            <controls:ItemView Tag="{x:Type coreActions:ExecuteAction}" Margin="2" Icon="ControlPlay">Выполнить действие</controls:ItemView>
-            <controls:ItemView Tag="{x:Type coreActions:IfAction}" Margin="2" Icon="Question">Добавить условие</controls:ItemView>
-            <controls:ItemView Tag="{x:Type coreActions:WhileAction}" Margin="2" Icon="DebugStepOut">Добавить цикл</controls:ItemView>
-            <controls:ItemView Tag="{x:Type contextInitialization:SetReturnValueAction}" Margin="2" Icon="CabinetOut">Обновить значение сценария</controls:ItemView>
-            <controls:ItemView Tag="{x:Type coreActions:CancelExecutionAction}" Margin="2" Icon="Stop">Остановить выполнение</controls:ItemView>
+            <controls:ItemView Tag="{x:Type coreActions:ExecuteAction}" Margin="3" Icon="ControlPlay">Выполнить действие</controls:ItemView>
+            <controls:ItemView Tag="{x:Type coreActions:IfAction}" Margin="3,0,3,3" Icon="Question">Добавить условие</controls:ItemView>
+            <controls:ItemView Tag="{x:Type coreActions:WhileAction}" Margin="3,0,3,3" Icon="DebugStepOut">Добавить цикл</controls:ItemView>
+            <controls:ItemView Tag="{x:Type contextInitialization:SetReturnValueAction}" Margin="3,0,3,3" Icon="CabinetOut">Обновить значение сценария</controls:ItemView>
+            <controls:ItemView Tag="{x:Type coreActions:CancelExecutionAction}" Margin="3,0,3,3" Icon="Stop">Остановить выполнение</controls:ItemView>
         </controls:ListItemsView>
     </controls:WheelScroll>
 </UserControl>

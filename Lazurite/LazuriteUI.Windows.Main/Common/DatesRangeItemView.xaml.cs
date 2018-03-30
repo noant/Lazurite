@@ -71,8 +71,8 @@ namespace LazuriteUI.Windows.Main.Common
                 case DateSelection.LastYear:
                     lblDateView.Content = "Последний год";
                     break;
-                case DateSelection.Today:
-                    lblDateView.Content = "Последний день";
+                case DateSelection.Last24Hours:
+                    lblDateView.Content = "Последние сутки";
                     break;
             }
             SelectionChanged?.Invoke(this, new EventsArgs<DateSelectionItem>(DateSelectionItem));

@@ -59,10 +59,10 @@ namespace LazuriteUI.Windows.Main
             }
 
             var ci = new CultureInfo("ru-RU");
-            Thread.CurrentThread.CurrentCulture = ci;
-            Thread.CurrentThread.CurrentUICulture = ci;
             CultureInfo.DefaultThreadCurrentCulture = ci;
             CultureInfo.DefaultThreadCurrentUICulture = ci;
+            Thread.CurrentThread.CurrentCulture = ci;
+            Thread.CurrentThread.CurrentUICulture = ci;
             var lang = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
             FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(lang));
             FrameworkContentElement.LanguageProperty.OverrideMetadata(typeof(System.Windows.Documents.TextElement), new FrameworkPropertyMetadata(lang));
