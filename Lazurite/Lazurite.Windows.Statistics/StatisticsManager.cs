@@ -205,13 +205,23 @@ namespace Lazurite.Windows.Statistics
                             throw new ScenarioExecutionException(ScenarioExecutionError.NotAvailable);
                         var remoteScenarioInfo = new StatisticsScenarioInfo()
                         {
+                            Name = remoteScenario.Name,
                             ID = remoteScenario.RemoteScenarioId,
-                            ValueTypeName = ActionsDomain.Utils.GetValueTypeClassName(remoteScenario.ValueType.GetType())
+                            ValueTypeName = ActionsDomain.Utils.GetValueTypeClassName(remoteScenario.ValueType.GetType()),
+                            Since = DateTime.Now,
+                            To = DateTime.Now,
                         };
                         var server = ClientFactory.GetServer(remoteScenario.Credentials);
-                        return server.GetStatistics(since, to, new Encrypted<StatisticsScenarioInfo>(remoteScenarioInfo, remoteScenario.Credentials.SecretKey))
+                        var statistics = server.GetStatistics(since, to, new Encrypted<StatisticsScenarioInfo>(remoteScenarioInfo, remoteScenario.Credentials.SecretKey))
                             .Decrypt(remoteScenario.Credentials.SecretKey)
                             .ToArray();
+                        foreach (var item in statistics)
+                        {
+                            //crutch
+                            item.Target.ID = remoteScenario.Id;
+                            item.Target.Name = remoteScenario.Name;
+                        }
+                        return statistics;
                     }
                     catch (Exception e)
                     {
@@ -252,8 +262,11 @@ namespace Lazurite.Windows.Statistics
                         scenarioInfo.ScenarioId = remoteScenario.RemoteScenarioId;
                         scenarioInfo.ValueType = scenario.ValueType;
                         var server = ClientFactory.GetServer(remoteScenario.Credentials);
-                        return server.GetStatisticsInfoForScenario(new Encrypted<ScenarioInfo>(scenarioInfo, remoteScenario.Credentials.SecretKey))
+                        var remoteScenarioInfo = server.GetStatisticsInfoForScenario(new Encrypted<ScenarioInfo>(scenarioInfo, remoteScenario.Credentials.SecretKey))
                             .Decrypt(remoteScenario.Credentials.SecretKey);
+                        remoteScenarioInfo.ID = scenario.Id; //set current scenario id
+                        remoteScenarioInfo.Name = scenario.Name;
+                        return remoteScenarioInfo;
                     }
                     catch (Exception e)
                     {

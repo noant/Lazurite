@@ -19,9 +19,9 @@ namespace Lazurite.MainDomain.Statistics
         public string Name { get; set; }
         [DataMember]
         public string ValueTypeName { get; set; }
-        [DataMember]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public DateTime Since { get; set; }
-        [DataMember]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public DateTime To { get; set; }
         [DataMember]
         public bool IsEmpty { get; set; }

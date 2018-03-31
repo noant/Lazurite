@@ -8,6 +8,7 @@
              mc:Ignorable="d" 
              MinWidth="500">
     <Grid Background="{x:Static controls:Visual.Background}">
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" x:Name="lblNotExist" HorizontalAlignment="Center">Подключения отсутсвуют...</Label>
         <controls:ListItemsView Margin="5" SelectionMode="Single" x:Name="listItems"></controls:ListItemsView>
     </Grid>
 </UserControl>

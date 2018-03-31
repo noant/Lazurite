@@ -11,22 +11,17 @@ namespace Lazurite.MainDomain.MessageSecurity
         [DataMember]
         public List<Encrypted<T>> SourceList { get; set; } = new List<Encrypted<T>>();
 
-        public DateTime ServerTime
-        {
-            get
-            {
-                return (SourceList.FirstOrDefault()?.ServerTime ?? DateTime.Now);
-            }
-        }
+        [DataMember]
+        public DateTime ServerTime { get; set; }
 
         public EncryptedList()
         {
-            //
+            ServerTime = DateTime.Now.ToUniversalTime();
         }
         
         public EncryptedList(IEnumerable<T> objs, string secretKey) : this()
         {
-            SourceList.AddRange(objs.Select(x => new Encrypted<T>(x, secretKey)));
+            SourceList.AddRange(objs.Select(x => new Encrypted<T>(x, secretKey, true)));
         }
 
         public List<T> Decrypt(string secretKey)

@@ -10,7 +10,7 @@ namespace Lazurite.MainDomain.MessageSecurity
 {
     public class SecureEncoding
     {
-        private readonly static Encoding Encoding = Encoding.UTF8;
+        public readonly static Encoding TextEncoding = Encoding.UTF8;
         private readonly static ILogger Log = Singleton.Resolve<ILogger>();
         private readonly static ISystemUtils Utils = Singleton.Resolve<ISystemUtils>();
         private readonly static Random Rand = new Random();
@@ -18,7 +18,7 @@ namespace Lazurite.MainDomain.MessageSecurity
         public static byte[] CreateIV(string salt, string secretKey)
         {
             var saltBytes = Convert.FromBase64String(salt);
-            var secretKeyHashBytes = Utils.CreateMD5Hash(Encoding.GetBytes(secretKey));
+            var secretKeyHashBytes = Utils.CreateMD5Hash(TextEncoding.GetBytes(secretKey));
             //calculate offset of secretKeyHashBytes by summ of 
             //first secretKeyByte and first salt byte in proportion to 256
             var offset = (int)(((secretKeyHashBytes[0] + saltBytes[0]) / 256d) * 16);
@@ -61,7 +61,7 @@ namespace Lazurite.MainDomain.MessageSecurity
         
         public string Encrypt(string data, byte[] iv)
         {
-            return Encrypt(Encoding.GetBytes(data), iv);
+            return Encrypt(TextEncoding.GetBytes(data), iv);
         }
 
         public string Encrypt(byte[] data, byte[] iv)
@@ -84,20 +84,20 @@ namespace Lazurite.MainDomain.MessageSecurity
         private string EncryptInternal(byte[] data, byte[] iv)
         {
             var algo = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithm.AesCbcPkcs7);
-            var key = algo.CreateSymmetricKey(Encoding.GetBytes(_secretKey));
+            var key = algo.CreateSymmetricKey(TextEncoding.GetBytes(_secretKey));
             return Convert.ToBase64String(CryptographicEngine.Encrypt(key, data, iv));
         }
 
         public string Decrypt(string data, byte[] iv)
         {
             var bytes = DecryptBytes(data, iv);
-            return Encoding.GetString(bytes, 0, bytes.Length);
+            return TextEncoding.GetString(bytes, 0, bytes.Length);
         }
 
         private byte[] DecryptBytesInternal(string data, byte[] iv)
         {
             var algo = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithm.AesCbcPkcs7);
-            var key = algo.CreateSymmetricKey(Encoding.GetBytes(_secretKey));
+            var key = algo.CreateSymmetricKey(TextEncoding.GetBytes(_secretKey));
             return CryptographicEngine.Decrypt(key, Convert.FromBase64String(data), iv);
         }
 

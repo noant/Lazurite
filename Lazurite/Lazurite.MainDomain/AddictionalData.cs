@@ -6,7 +6,7 @@ namespace Lazurite.MainDomain
 {
     [KnownType(typeof(Geolocation))]
     [KnownType(typeof(DeviceInfo))]
-    [KnownType(typeof(Message[]))]
+    [KnownType(typeof(Messages))]
     [DataContract]
     public class AddictionalData
     {

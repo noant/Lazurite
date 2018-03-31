@@ -29,7 +29,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     ActionHolder.Action != null &&
                     !ActionHolder.Action.IsSupportsEvent && 
                     ActionsDomain.Utils.IsOnlyGetValue(ActionHolder.Action.GetType())) //determine when action needs recalculate every time
-                    return DateTime.Now;
+                    return DateTime.Now.ToUniversalTime();
                 return base.LastChange;
             }
             protected set => base.LastChange = value;

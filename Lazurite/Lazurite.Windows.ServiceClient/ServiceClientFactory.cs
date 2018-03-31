@@ -116,11 +116,13 @@ namespace Lazurite.Windows.ServiceClient
             var binding = new BasicHttpBinding();
             binding.Security.Mode = BasicHttpSecurityMode.Transport;
             binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
-            binding.ReaderQuotas.MaxArrayLength = 2147483647;
-            binding.ReaderQuotas.MaxBytesPerRead = 2147483647;
-            binding.ReaderQuotas.MaxDepth = 50;
+            binding.ReaderQuotas.MaxArrayLength = int.MaxValue;
+            binding.ReaderQuotas.MaxBytesPerRead = int.MaxValue;
             binding.ReaderQuotas.MaxNameTableCharCount = 9999;
-            binding.ReaderQuotas.MaxStringContentLength = 2147483647;
+            binding.ReaderQuotas.MaxStringContentLength = int.MaxValue;
+            binding.ReaderQuotas.MaxDepth = 50;
+            binding.MaxReceivedMessageSize = int.MaxValue;
+            binding.MaxBufferSize = int.MaxValue;
             binding.CloseTimeout =
                 binding.OpenTimeout =
                 binding.SendTimeout = TimeSpan.FromMinutes(ConnectionTimeout_Minutes);

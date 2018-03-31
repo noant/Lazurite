@@ -48,6 +48,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
         {
             var scenariosDictionary = ScenariosRepository.Scenarios.ToDictionary(x => x.Id);
             return items
+                .Where(x => scenariosDictionary.ContainsKey(x.Target.ID))
                 .Select
                 (
                     x => {
@@ -62,8 +63,6 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
 
         private class StatisticItemView
         {
-            private static Dictionary<string, string> ScenariosUnitsCache = new Dictionary<string, string>();
-
             private static readonly string ToggleValueTypeName = Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(ToggleValueType));
 
             public StatisticItemView(StatisticsItem item, string scenarioUnit = "")

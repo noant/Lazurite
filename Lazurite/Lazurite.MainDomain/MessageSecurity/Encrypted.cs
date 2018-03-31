@@ -2,6 +2,7 @@
 using Lazurite.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -34,19 +35,25 @@ namespace Lazurite.MainDomain.MessageSecurity
             //do nothing
         }
 
-        public Encrypted(T obj, string secretKey): this()
+        public Encrypted(T obj, string secretKey, bool nullServerTime = false): this()
         {
             Log.Debug("Encrypted object creating...");
             var serializer = SerializersFactory.GetSerializer<T>();
             Salt = SecureEncoding.CreateSalt();
             var iv = SecureEncoding.CreateIV(Salt, secretKey);
-            Data = GetSecureEncoding(secretKey).Encrypt(serializer.Serialize(obj), iv);
-            ServerTime = DateTime.Now;
+            using (var ms = new MemoryStream())
+            {
+                serializer.WriteObject(ms, obj);
+                ms.Position = 0;
+                Data = GetSecureEncoding(secretKey).Encrypt(ms.ToArray(), iv);
+            }
+            if (!nullServerTime)
+                ServerTime = DateTime.Now.ToUniversalTime();
             Log.Debug("Encrypted object created");
         }
 
         [DataMember]
-        public DateTime ServerTime { get; set; }
+        public DateTime? ServerTime { get; set; }
 
         public T Decrypt(string secretKey)
         {
@@ -56,8 +63,9 @@ namespace Lazurite.MainDomain.MessageSecurity
                 var iv = SecureEncoding.CreateIV(Salt, secretKey);
                 var secureEncoding = GetSecureEncoding(secretKey);
                 var serializer = SerializersFactory.GetSerializer<T>();
-                var decryptedRaw = secureEncoding.Decrypt(Data, iv);
-                return (T)serializer.Deserialize(decryptedRaw.TrimEnd('\0'));
+                var decryptedRaw = secureEncoding.DecryptBytes(Data, iv);
+                using (var ms = new MemoryStream(decryptedRaw))
+                    return (T)serializer.ReadObject(ms);
             }
             catch (Exception e)
             {

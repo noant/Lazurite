@@ -28,6 +28,9 @@ namespace LazuriteUI.Windows.Main.Constructors
                 listItems.Children.Add(itemView);
             }
 
+            if (credentials.Any())
+                lblNotExist.Visibility = Visibility.Collapsed;
+
             listItems.SelectionChanged += (o, e) =>
             {
                 if (listItems.GetSelectedItems().Any())

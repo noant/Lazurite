@@ -7,7 +7,7 @@
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     x:Class="LazuriteMobile.App.SettingsView">
   <ContentView.Content>
-        <Grid VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
@@ -16,8 +16,8 @@
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="70"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"></ColumnDefinition>
@@ -44,10 +44,9 @@
 
             <Label TextColor="{Static controls:Visual.CaptionForeground}" VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="6" Grid.Column="0" Text="Пароль"></Label>
             <Entry TextColor="White" IsPassword="True" Grid.Row="6" Grid.Column="1" x:Name="tbPassword"></Entry>
-            
-            <Label HorizontalTextAlignment="Center" Grid.Row="7" Grid.ColumnSpan="2" TextColor="Olive" VerticalOptions="Center" HorizontalOptions="Center" x:Name="lblErrorMessage"></Label>
 
-            <controls:ItemView HorizontalOptions="Center" WidthRequest="250" HeightRequest="70" x:Name="itemView" Click="itemView_Click" Grid.Row="8" Grid.ColumnSpan="2" Icon="ChevronRight" Selectable="False" Text="Подключиться"></controls:ItemView>
+            <controls:ItemView HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="250" HeightRequest="40" x:Name="itemView" Click="itemView_Click" Grid.Row="7" Grid.ColumnSpan="2" Icon="ChevronRight" Selectable="False" Text="Подключиться"></controls:ItemView>
+            <Label HorizontalTextAlignment="Center" Grid.Row="8" Grid.ColumnSpan="2" TextColor="Olive" VerticalOptions="Center" HorizontalOptions="Center" x:Name="lblErrorMessage"></Label>
         </Grid>
   </ContentView.Content>
 </ContentView>

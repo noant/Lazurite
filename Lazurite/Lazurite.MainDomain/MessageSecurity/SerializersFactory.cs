@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 
 namespace Lazurite.MainDomain.MessageSecurity
 {
@@ -19,7 +20,7 @@ namespace Lazurite.MainDomain.MessageSecurity
         {
             var allTypes = typeof(ValueTypeBase).GetTypeInfo().Assembly.DefinedTypes
                 .Union(typeof(SerializersFactory).GetTypeInfo().Assembly.DefinedTypes)
-                .Select(x=>x.AsType()).ToArray();
+                .Select(x => x.AsType()).ToArray();
 
             var knownTypes = new List<Type>();
 
@@ -32,10 +33,10 @@ namespace Lazurite.MainDomain.MessageSecurity
             KnownTypes = knownTypes.ToArray();
         }
 
-        private static Dictionary<Type, DataContractSerializer> Cached = new Dictionary<Type, DataContractSerializer>();
+        private static Dictionary<Type, DataContractJsonSerializer> Cached = new Dictionary<Type, DataContractJsonSerializer>();
         private static Type[] KnownTypes;
 
-        public static DataContractSerializer GetSerializer<T>()
+        public static DataContractJsonSerializer GetSerializer<T>()
         {
             var type = typeof(T);
             try
@@ -44,7 +45,7 @@ namespace Lazurite.MainDomain.MessageSecurity
                 {
                     if (!Cached.ContainsKey(type))
                     {
-                        var serializer = new DataContractSerializer(type, KnownTypes);
+                        var serializer = new DataContractJsonSerializer(type, KnownTypes);
                         Cached.Add(type, serializer);
                         Log.DebugFormat("Serializer for type [{0}] created", type.FullName);
                     }

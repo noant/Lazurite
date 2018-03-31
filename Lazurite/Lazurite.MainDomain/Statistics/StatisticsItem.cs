@@ -13,7 +13,7 @@ namespace Lazurite.MainDomain.Statistics
     [DataContract]
     public class StatisticsItem
     {
-        [DataMember]
+        [DataMember(IsRequired = false, EmitDefaultValue = false)]
         public DateTime DateTime { get; set; }
         [DataMember]
         public StatisticsItemSource Source { get; set; }

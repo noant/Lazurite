@@ -16,12 +16,19 @@ namespace LazuriteMobile.App
 
         public void Handle(AddictionalData data, object tag)
         {
-            if (_notifier != null)
+            try
             {
-                var messages = data.Resolve<Message[]>();
-                if (messages != null)
-                    foreach (var message in messages)
-                        _notifier.Notify(message);
+                if (_notifier != null)
+                {
+                    var messages = data.Resolve<Messages>();
+                    if (messages?.All != null)
+                        foreach (var message in messages.All)
+                            _notifier.Notify(message);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
 

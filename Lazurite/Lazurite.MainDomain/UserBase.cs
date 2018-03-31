@@ -32,11 +32,11 @@ namespace Lazurite.MainDomain
         public void SetMessage(string message, string title) => 
             _messages.Add(new Message() { DateTime = DateTime.Now, Text = message, Header = title });
 
-        public Message[] ExtractMessages()
+        public Messages ExtractMessages()
         {
             if (!_messages.Any())
                 return null;
-            var messages = _messages.ToArray();
+            var messages = new Messages() { All = _messages.ToArray() };
             _messages.Clear();
             return messages;
         }
