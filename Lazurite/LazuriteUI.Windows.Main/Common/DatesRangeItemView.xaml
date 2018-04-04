@@ -13,5 +13,5 @@
         <ColumnDefinition></ColumnDefinition>
     </Grid.ColumnDefinitions>
     <controls:ItemView x:Name="btSelect" Click="btSelect_Click" Icon="Calendar" ToolTip="Выбрать диапазон дат..."></controls:ItemView>
-    <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Column="1" x:Name="lblDateView" VerticalContentAlignment="Center" HorizontalAlignment="Left">12.12.2012 - 12.12.2013</Label>
+    <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Column="1" x:Name="lblDateView" VerticalContentAlignment="Center" HorizontalAlignment="Left"></Label>
 </Grid>

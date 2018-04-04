@@ -25,7 +25,9 @@ namespace Lazurite.Windows.Statistics
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
         private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private static readonly ServiceClientFactory ClientFactory = Singleton.Resolve<ServiceClientFactory>();
+        private static readonly ScenarioActionSource SystemActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.System, ScenarioAction.ViewValue);
 
+        private DateTime RefreshDate = DateTime.Now.AddDays(1);
         private List<StatisticsScenarioInfoInternal> _statisticsScenariosInfos = new List<StatisticsScenarioInfoInternal>();
         private CancellationTokenSource _timerCancellationTokenSource;
         private StatisticsDataManager _dataManager = new StatisticsDataManager();
@@ -94,13 +96,20 @@ namespace Lazurite.Windows.Statistics
 
         private void TimerTick()
         {
+            //force update values
+            if (RefreshDate >= DateTime.Now)
+            {
+                RefreshDate = DateTime.Now.AddDays(1);
+                _scenariosValuesCache.Clear();
+            }
+
             var statisticsScenarios = ScenariosRepository.Scenarios.Where(x => _statisticsScenariosInfos.Any(z => z.ScenarioId == x.Id)).ToArray();
             foreach (var scenario in statisticsScenarios.ToArray())
             {
                 if (scenario.ValueType is ButtonValueType == false)
                 {
                     var prevVal = GetValueCache(scenario.Id);
-                    var newVal = scenario.CalculateCurrentValue(new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.System, ScenarioAction.ViewValue), null);
+                    var newVal = scenario.CalculateCurrentValue(SystemActionSource, null);
                     if (newVal != prevVal)
                     {
                         AddValueCache(scenario.Id, newVal);

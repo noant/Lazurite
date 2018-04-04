@@ -364,6 +364,17 @@
     <Compile Include="Statistics\StatisticsMainView.xaml.cs">
       <DependentUpon>StatisticsMainView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Statistics\Views\DiagramView.xaml.cs">
+      <DependentUpon>DiagramView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\Views\DiagramViewImplementation\Constants.cs" />
+    <Compile Include="Statistics\Views\DiagramViewImplementation\DiagramItemsHostView.xaml.cs">
+      <DependentUpon>DiagramItemsHostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\Views\DiagramViewImplementation\GraphicsDiagramItemView.xaml.cs">
+      <DependentUpon>GraphicsDiagramItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\Views\DiagramViewImplementation\IDiagramItem.cs" />
     <Compile Include="Statistics\Views\StatisticsTableView.xaml.cs">
       <DependentUpon>StatisticsTableView.xaml</DependentUpon>
     </Compile>
@@ -783,6 +794,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Statistics\StatisticsMainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\Views\DiagramView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\Views\DiagramViewImplementation\DiagramItemsHostView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\Views\DiagramViewImplementation\GraphicsDiagramItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

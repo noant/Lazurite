@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
              MinWidth="500">
-    <Grid Background="{x:Static controls:Visual.Background}">
+    <controls:WheelScroll Background="{x:Static controls:Visual.Background}">
         <controls:ListItemsView Margin="5" SelectionMode="Single" x:Name="listItems"></controls:ListItemsView>
-    </Grid>
+    </controls:WheelScroll>
 </UserControl>

@@ -126,6 +126,7 @@ namespace LazuriteUI.Windows.Main.Statistics
         {
             if (listItems.SelectedItem == btTableView)
                 AppendView(new StatisticsTableView());
+            else AppendView(new DiagramView());
         }
     }
 }
