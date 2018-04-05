@@ -111,6 +111,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                 return _secondStart <= seconds && _secondEnd >= seconds;
             }).ToList();
 
+            //take one previous and one following items (to prevent diagram winking)
             if (itemsToDraw.Any())
             {
                 var firstItemDateTime = itemsToDraw.Min(x=>x.DateTime);
@@ -131,6 +132,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             }
             else
             {
+                //if items empty - take 
                 var firstItemDateTime = _items
                     .Select(x =>  new { Item = x, Diff = (x.DateTime - MinDate).TotalSeconds - _secondStart })
                     .Where(x => x.Diff > 0)
