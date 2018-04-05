@@ -20,6 +20,7 @@
         <Line Stroke="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicsDiagramItemView}}, Path=ScaleBrush}" X1="0" X2="20" Y1="1" Y2="1" Height="2" Grid.Row="9" Width="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"></Line>
     </Grid>
     <Line StrokeThickness="1" X1="0" X2="0" Y1="0" Y2="3000" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" Stroke="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicsDiagramItemView}}, Path=ScaleBrush}"></Line>
-    <Grid x:Name="gridMain" Grid.Column="1"></Grid>
+    <Grid ClipToBounds="True" x:Name="gridMain" Grid.Column="1"></Grid>
+    <Label Padding="3,0,0,0" x:Name="lblScenName" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicsDiagramItemView}}, Path=MainBrush}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
     <Line Grid.Column="1" StrokeThickness="1" X1="0" X2="3000" Y1="0" Y2="0" Margin="-11,100,0,0" x:Name="lineX" Stroke="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicsDiagramItemView}}, Path=ScaleBrush}"></Line>
 </Grid>

@@ -53,9 +53,17 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             var diagrams = new List<IDiagramItem>();
             foreach (var info in _infos)
             {
+                var scenarioName = info.Name;
+                if (info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(FloatValueType)))
+                {
+                    var unit = (ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == info.ID)?.ValueType as FloatValueType).Unit?.Trim();
+                    if (!string.IsNullOrEmpty(unit))
+                        scenarioName += ", " + unit;
+                }
+
                 var diagram = new GraphicsDiagramItemView();
                 var curItems = items.Where(x => x.Target.ID == info.ID).ToArray();
-                diagram.SetPoints(curItems);
+                diagram.SetPoints(scenarioName, curItems);
                 diagrams.Add(diagram);
             }
             diagramsHost.SetItems(diagrams.ToArray());

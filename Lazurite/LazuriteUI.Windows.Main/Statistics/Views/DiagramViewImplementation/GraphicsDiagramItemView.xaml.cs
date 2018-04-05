@@ -51,7 +51,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         public DateTime? MaxDateCurrent { get; private set; }
         public DateTime? MinDateCurrent { get; private set; }
 
-        public double Scroll { get; set; }
+        public int Scroll { get; set; }
 
         public DateTime MaxDate { get; set; }
         public DateTime MinDate { get; set; }
@@ -77,8 +77,10 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             throw new NotImplementedException();
         }
 
-        public void SetPoints(StatisticsItem[] items)
+        public void SetPoints(string scenarioName, StatisticsItem[] items)
         {
+            lblScenName.Content = scenarioName;
+
             _items = items;
             MaxDateCurrent = _items.Any() ? (DateTime?)_items.Max(x => x.DateTime) : null;
             MinDateCurrent = _items.Any() ? (DateTime?)_items.Min(x => x.DateTime) : null;
@@ -96,19 +98,54 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             _scaleYMax = Math.Round((max + scaleIncrease) + 0.5, 0);
         }
 
+        // =((((
         public void Refresh()
         {
             _totalSeconds = (int)(MaxDate - MinDate).TotalSeconds;
-            _secondStart = (int)(_totalSeconds * Scroll);
+            _secondStart = Scroll;
             _secondEnd = _secondStart + (int)(_totalSeconds / Zoom);
 
             var itemsToDraw = _items.Where(x =>
             {
-                var seconds = (MaxDate - x.DateTime).TotalSeconds;
+                var seconds = (x.DateTime - MinDate).TotalSeconds;
                 return _secondStart <= seconds && _secondEnd >= seconds;
-            }).ToArray();
+            }).ToList();
 
-            DrawItems(itemsToDraw);
+            if (itemsToDraw.Any())
+            {
+                var firstItemDateTime = itemsToDraw.Min(x=>x.DateTime);
+                var prevItems = _items.Where(x => x.DateTime < firstItemDateTime).ToArray();
+                if (prevItems.Any())
+                {
+                    var maxDate = prevItems.Max(x => x.DateTime);
+                    itemsToDraw.Insert(0, prevItems.First(x => x.DateTime == maxDate));
+                }
+
+                var lastItemDateTime = itemsToDraw.Max(x => x.DateTime);
+                var nextItems = _items.Where(x => x.DateTime > lastItemDateTime).ToArray();
+                if (nextItems.Any())
+                {
+                    var minDate = nextItems.Min(x => x.DateTime);
+                    itemsToDraw.Add(nextItems.First(x => x.DateTime == minDate));
+                }
+            }
+            else
+            {
+                var firstItemDateTime = _items
+                    .Select(x =>  new { Item = x, Diff = (x.DateTime - MinDate).TotalSeconds - _secondStart })
+                    .Where(x => x.Diff > 0)
+                    .OrderBy(x => x.Diff);
+                var lastItemDateTime = _items
+                    .Select(x => new { Item = x, Diff = _secondEnd - (x.DateTime - MinDate).TotalSeconds })
+                    .Where(x => x.Diff > 0)
+                    .OrderBy(x => x.Diff);
+                if (firstItemDateTime.Any())
+                    itemsToDraw.Add(firstItemDateTime.First().Item);
+                if (lastItemDateTime.Any())
+                    itemsToDraw.Add(lastItemDateTime.First().Item);
+            }
+
+            DrawItems(itemsToDraw.OrderBy(x => x.DateTime).ToArray());
         }
 
         private void DrawItems(StatisticsItem[] statisticsItems)
@@ -190,7 +227,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             var y = gridMain.ActualHeight - ((yVal - _scaleYMin) * kY);
 
             return new PointD() {
-                X = x,
+                X = double.IsNaN(x) ? 0 : x,
                 Y = y
             };
         }

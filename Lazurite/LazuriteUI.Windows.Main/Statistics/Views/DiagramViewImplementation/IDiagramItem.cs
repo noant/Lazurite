@@ -14,12 +14,12 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         double Zoom { get; set; }
         DateTime? MaxDateCurrent { get; }
         DateTime? MinDateCurrent { get; }
-        double Scroll { get; set; }
+        int Scroll { get; set; }
         DateTime MaxDate { get; set; }
         DateTime MinDate { get; set; }
         StatisticsItem GetItemNear(DateTime dateTime);
         void SelectPoint(DateTime dateTime);
-        void SetPoints(StatisticsItem[] items);
+        void SetPoints(string scenarioName, StatisticsItem[] items);
         void Refresh();
         bool RequireLarge { get; }
     }

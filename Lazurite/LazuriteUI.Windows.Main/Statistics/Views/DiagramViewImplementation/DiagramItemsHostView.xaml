@@ -4,13 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation"
-             mc:Ignorable="d" 
+      xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+      mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
     <Grid.RowDefinitions>
         <RowDefinition></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
-    <Grid x:Name="mainGrid"></Grid>
-    <ScrollBar Orientation="Horizontal" Grid.Row="1" x:Name="scrollBar"></ScrollBar>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition Width="Auto"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <Grid x:Name="mainGrid" Grid.ColumnSpan="2"></Grid>
+    <ScrollBar Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="1" x:Name="scrollBar"></ScrollBar>
+    <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Bottom">
+        <controls:ItemViewLE Background="Transparent" x:Name="btMagnifyMinus" Click="btMagnifyMinus_Click" Width="30" Height="30" Icon="MagnifyAdd"></controls:ItemViewLE>
+        <controls:ItemViewLE Background="Transparent" x:Name="btMagnifyAdd" Click="btMagnifyAdd_Click" Width="30" Height="30" Icon="MagnifyMinus"></controls:ItemViewLE>
+    </StackPanel>
 </Grid>

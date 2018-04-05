@@ -23,9 +23,19 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         public DiagramItemsHostView()
         {
             InitializeComponent();
+            scrollBar.Scroll += (o, e) => {
+                if (_minDate != null)
+                {
+                    Scroll = (int)(e.NewValue * (_maxDate.Value - _minDate.Value).TotalSeconds);
+                    Refresh();
+                }
+            };
         }
 
         private IDiagramItem[] _items;
+
+        DateTime? _minDate;
+        DateTime? _maxDate;
 
         public void SetItems(IDiagramItem[] items)
         {
@@ -48,13 +58,23 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
 
         public void Refresh()
         {
-            var maxDate = _items.Where(x=>x.MaxDateCurrent != null).Max(x => x.MaxDateCurrent);
-            var minDate = _items.Where(x => x.MaxDateCurrent != null).Min(x => x.MinDateCurrent);
+            _maxDate = _items.Where(x=>x.MaxDateCurrent != null).Max(x => x.MaxDateCurrent);
+            _minDate = _items.Where(x => x.MaxDateCurrent != null).Min(x => x.MinDateCurrent);
 
+            scrollBar.Maximum = 1;
+            scrollBar.Minimum = 0;
+            if (Zoom == 1)
+                scrollBar.Visibility = Visibility.Hidden;
+            else
+            {
+                scrollBar.Visibility = Visibility.Visible;
+                scrollBar.Track.ViewportSize = 1 / (Zoom - 1);
+            }
+            
             foreach (var item in _items)
             {
-                item.MaxDate = maxDate.Value;
-                item.MinDate = minDate.Value;
+                item.MaxDate = _maxDate.Value;
+                item.MinDate = _minDate.Value;
 
                 item.Zoom = Zoom;
                 item.Scroll = Scroll;
@@ -66,6 +86,21 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         }
 
         public double Zoom { get; set; } = 1;
-        public double Scroll { get; set; } = 0;
+        public int Scroll { get; set; } = 0;
+
+        private void btMagnifyMinus_Click(object sender, RoutedEventArgs e)
+        {
+            Zoom++;
+            Refresh();
+        }
+
+        private void btMagnifyAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (Zoom > 1)
+            {
+                Zoom--;
+                Refresh();
+            }
+        }
     }
 }
