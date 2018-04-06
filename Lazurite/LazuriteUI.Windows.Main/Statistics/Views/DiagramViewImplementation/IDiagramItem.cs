@@ -10,7 +10,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
 {
     public interface IDiagramItem
     {
-        void SetColors(Brush mainColor, Brush scaleColor);
+        void SetColors(SolidColorBrush mainColor, SolidColorBrush scaleColor);
         double Zoom { get; set; }
         DateTime? MaxDateCurrent { get; }
         DateTime? MinDateCurrent { get; }

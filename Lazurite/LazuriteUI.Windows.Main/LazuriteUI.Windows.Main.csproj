@@ -375,6 +375,7 @@
       <DependentUpon>GraphicsDiagramItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statistics\Views\DiagramViewImplementation\IDiagramItem.cs" />
+    <Compile Include="Statistics\Views\DiagramViewImplementation\LowGraphicsVisualHost.cs" />
     <Compile Include="Statistics\Views\StatisticsTableView.xaml.cs">
       <DependentUpon>StatisticsTableView.xaml</DependentUpon>
     </Compile>

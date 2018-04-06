@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -27,8 +27,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
 
         static GraphicsDiagramItemView()
         {
-            MainBrushProperty = DependencyProperty.Register(nameof(MainBrush), typeof(System.Windows.Media.Brush), typeof(GraphicsDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.White));
-            ScaleBrushProperty = DependencyProperty.Register(nameof(ScaleBrush), typeof(System.Windows.Media.Brush), typeof(GraphicsDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.Yellow));
+            MainBrushProperty = DependencyProperty.Register(nameof(MainBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(GraphicsDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.White));
+            ScaleBrushProperty = DependencyProperty.Register(nameof(ScaleBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(GraphicsDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.Yellow));
         }
 
         public GraphicsDiagramItemView()
@@ -112,49 +112,25 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             }).ToList();
 
             //take one previous and one following items (to prevent diagram winking)
-            if (itemsToDraw.Any())
-            {
-                var firstItemDateTime = itemsToDraw.Min(x=>x.DateTime);
-                var prevItems = _items.Where(x => x.DateTime < firstItemDateTime).ToArray();
-                if (prevItems.Any())
-                {
-                    var maxDate = prevItems.Max(x => x.DateTime);
-                    itemsToDraw.Insert(0, prevItems.First(x => x.DateTime == maxDate));
-                }
-
-                var lastItemDateTime = itemsToDraw.Max(x => x.DateTime);
-                var nextItems = _items.Where(x => x.DateTime > lastItemDateTime).ToArray();
-                if (nextItems.Any())
-                {
-                    var minDate = nextItems.Min(x => x.DateTime);
-                    itemsToDraw.Add(nextItems.First(x => x.DateTime == minDate));
-                }
-            }
-            else
-            {
-                //if items empty - take 
-                var firstItemDateTime = _items
-                    .Select(x =>  new { Item = x, Diff = (x.DateTime - MinDate).TotalSeconds - _secondStart })
-                    .Where(x => x.Diff > 0)
-                    .OrderBy(x => x.Diff);
-                var lastItemDateTime = _items
-                    .Select(x => new { Item = x, Diff = _secondEnd - (x.DateTime - MinDate).TotalSeconds })
-                    .Where(x => x.Diff > 0)
-                    .OrderBy(x => x.Diff);
-                if (firstItemDateTime.Any())
-                    itemsToDraw.Add(firstItemDateTime.First().Item);
-                if (lastItemDateTime.Any())
-                    itemsToDraw.Add(lastItemDateTime.First().Item);
-            }
+            var firstItemDateTime = _items
+                .Where(x => (x.DateTime - MinDate).TotalSeconds < _secondStart)
+                .OrderByDescending(x => x.DateTime);
+            var lastItemDateTime = _items
+                .Where(x => (x.DateTime - MinDate).TotalSeconds > _secondEnd)
+                .OrderBy(x => x.DateTime);
+            var item1 = firstItemDateTime.FirstOrDefault();
+            if (item1 != null)
+                itemsToDraw.Add(item1);
+            var item2 = lastItemDateTime.FirstOrDefault();
+            if (item2 != null)
+                itemsToDraw.Add(item2);
 
             DrawItems(itemsToDraw.OrderBy(x => x.DateTime).ToArray());
         }
 
         private void DrawItems(StatisticsItem[] statisticsItems)
         {
-            var items = statisticsItems.ToList();
-
-            gridMain.Children.Clear();
+            var items = statisticsItems;
 
             var scaleDiff = (_scaleYMax - _scaleYMin) / 4;
             lblScaleMin.Content = _scaleYMin;
@@ -179,46 +155,14 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                 lblScaleMax.Visibility = Visibility.Visible;
             }
 
-            if (items.Count == 1)
-            {
-                var point1 = Translate((int)(items[0].DateTime - MinDate).TotalSeconds, _values[items[0]]);
-
-                var ellipse = new Ellipse
-                {
-                    Width = 3,
-                    Height = 3,
-                    Fill = MainBrush,
-                    Margin = new Thickness(point1.X - 1, point1.Y - 1, 0, 0)
-                };
-
-                gridMain.Children.Add(ellipse);
-            }
-            else
-                for (int i = 1; i < items.Count; i++)
-                {
-                    var item1 = items[i - 1];
-                    var item2 = items[i];
-                    var point1 = Translate((int)(item1.DateTime - MinDate).TotalSeconds, _values[item1]);
-                    var point2 = Translate((int)(item2.DateTime - MinDate).TotalSeconds, _values[item2]);
-
-                    var line = new Line
-                    {
-                        X1 = point1.X,
-                        X2 = point2.X,
-                        Y1 = point1.Y,
-                        Y2 = point2.Y
-                    };
-
-                    line.Stroke = MainBrush;
-                    line.StrokeThickness = 2;
-                    line.VerticalAlignment = VerticalAlignment.Top;
-                    line.HorizontalAlignment = HorizontalAlignment.Left;
-
-                    gridMain.Children.Add(line);
-                }
+            graphicsVisualHost.DrawPoints(
+                items
+                .Select(x => Translate((int)(x.DateTime - MinDate).TotalSeconds, _values[x]))
+                .ToArray(),
+                MainBrush);
         }
 
-        private PointD Translate(int second, double yVal)
+        private Point Translate(int second, double yVal)
         {
             var rangeX = _secondEnd - _secondStart;
             var kX = gridMain.ActualWidth / rangeX;
@@ -228,36 +172,30 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             var kY = gridMain.ActualHeight / rangeY;
             var y = gridMain.ActualHeight - ((yVal - _scaleYMin) * kY);
 
-            return new PointD() {
+            return new Point() {
                 X = double.IsNaN(x) ? 0 : x,
                 Y = y
             };
         }
 
-        public void SetColors(System.Windows.Media.Brush mainColor, System.Windows.Media.Brush scaleColor)
+        public void SetColors(System.Windows.Media.SolidColorBrush mainColor, System.Windows.Media.SolidColorBrush scaleColor)
         {
             MainBrush = mainColor;
             ScaleBrush = scaleColor;
         }
 
-        public System.Windows.Media.Brush MainBrush
+        public System.Windows.Media.SolidColorBrush MainBrush
         {
-            get => (System.Windows.Media.Brush)GetValue(MainBrushProperty);
+            get => (System.Windows.Media.SolidColorBrush)GetValue(MainBrushProperty);
             set => SetValue(MainBrushProperty, value);
         }
 
-        public System.Windows.Media.Brush ScaleBrush
+        public System.Windows.Media.SolidColorBrush ScaleBrush
         {
-            get => (System.Windows.Media.Brush)GetValue(ScaleBrushProperty);
+            get => (System.Windows.Media.SolidColorBrush)GetValue(ScaleBrushProperty);
             set => SetValue(ScaleBrushProperty, value);
         }
 
         public bool RequireLarge => true;
-
-        private struct PointD
-        {
-            public double X;
-            public double Y;
-        }
     }
 }

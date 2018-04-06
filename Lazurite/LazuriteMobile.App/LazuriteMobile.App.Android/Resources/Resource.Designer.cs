@@ -26,6 +26,8 @@ namespace LazuriteMobile.App.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::LazuriteMobile.Android.ServiceClient.Resource.String.ApplicationName = global::LazuriteMobile.App.Droid.Resource.String.ApplicationName;
+			global::LazuriteMobile.Android.ServiceClient.Resource.String.Hello = global::LazuriteMobile.App.Droid.Resource.String.Hello;
 			global::PCLCrypto.Resource.String.ApplicationName = global::LazuriteMobile.App.Droid.Resource.String.ApplicationName;
 			global::PCLCrypto.Resource.String.Hello = global::LazuriteMobile.App.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::LazuriteMobile.App.Droid.Resource.Attribute.actionBarSize;

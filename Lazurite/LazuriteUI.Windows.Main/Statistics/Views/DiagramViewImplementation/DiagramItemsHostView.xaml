@@ -8,6 +8,7 @@
       mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
@@ -15,9 +16,13 @@
         <ColumnDefinition></ColumnDefinition>
         <ColumnDefinition Width="Auto"></ColumnDefinition>
     </Grid.ColumnDefinitions>
-    <Grid x:Name="mainGrid" Grid.ColumnSpan="2"></Grid>
-    <ScrollBar Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="1" x:Name="scrollBar"></ScrollBar>
-    <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Bottom">
+    <Grid x:Name="mainGrid" Grid.ColumnSpan="2" Grid.Row="1"></Grid>
+    <ScrollBar Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Row="2" x:Name="scrollBar"></ScrollBar>
+    <Grid Grid.ColumnSpan="2">
+        <Label Foreground="SteelBlue" x:Name="lblStart" HorizontalAlignment="Left"></Label>
+        <Label Foreground="SteelBlue" x:Name="lblEnd" HorizontalAlignment="Right"></Label>
+    </Grid>
+    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom">
         <controls:ItemViewLE Background="Transparent" x:Name="btMagnifyMinus" Click="btMagnifyMinus_Click" Width="30" Height="30" Icon="MagnifyAdd"></controls:ItemViewLE>
         <controls:ItemViewLE Background="Transparent" x:Name="btMagnifyAdd" Click="btMagnifyAdd_Click" Width="30" Height="30" Icon="MagnifyMinus"></controls:ItemViewLE>
     </StackPanel>

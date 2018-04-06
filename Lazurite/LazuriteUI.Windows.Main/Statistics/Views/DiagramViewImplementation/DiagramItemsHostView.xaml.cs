@@ -24,9 +24,9 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         {
             InitializeComponent();
             scrollBar.Scroll += (o, e) => {
-                if (_minDate != null)
+                if (!_ingoreScrollEvent)
                 {
-                    Scroll = (int)(e.NewValue * (_maxDate.Value - _minDate.Value).TotalSeconds);
+                    Scroll = (int)e.NewValue;
                     Refresh();
                 }
             };
@@ -37,40 +37,43 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         DateTime? _minDate;
         DateTime? _maxDate;
 
+        private bool _ingoreScrollEvent = false;
+
         public void SetItems(IDiagramItem[] items)
         {
             _items = items;
             mainGrid.Children.Clear();
             mainGrid.RowDefinitions.Clear();
 
-            var index = 0;
-            foreach(FrameworkElement item in items)
+            if (items.Any())
             {
-                var rowDef = new RowDefinition();
-                rowDef.Height = new GridLength(((IDiagramItem)item).RequireLarge ? 2 : 1, GridUnitType.Star);
-                mainGrid.RowDefinitions.Add(rowDef);
-                mainGrid.Children.Add(item);
-                SetRow(item, index++);
-            }
+                var index = 0;
+                foreach (FrameworkElement item in items)
+                {
+                    var rowDef = new RowDefinition();
+                    rowDef.Height = new GridLength(((IDiagramItem)item).RequireLarge ? 2 : 1, GridUnitType.Star);
+                    mainGrid.RowDefinitions.Add(rowDef);
+                    mainGrid.Children.Add(item);
+                    SetRow(item, index++);
+                }
 
-            Refresh();
+                _maxDate = _items.Where(x => x.MaxDateCurrent != null).Max(x => x.MaxDateCurrent);
+                _minDate = _items.Where(x => x.MaxDateCurrent != null).Min(x => x.MinDateCurrent);
+
+                BringScrollBarToZoom();
+
+                Refresh();
+            }
         }
 
         public void Refresh()
         {
-            _maxDate = _items.Where(x=>x.MaxDateCurrent != null).Max(x => x.MaxDateCurrent);
-            _minDate = _items.Where(x => x.MaxDateCurrent != null).Min(x => x.MinDateCurrent);
+            var minDate = _minDate.Value.AddSeconds(Scroll);
+            var seconds = (_maxDate.Value - _minDate.Value).TotalSeconds / Zoom;
+            var maxDate = minDate.AddSeconds(seconds);
+            lblStart.Content = minDate.ToString();
+            lblEnd.Content = maxDate.ToString();
 
-            scrollBar.Maximum = 1;
-            scrollBar.Minimum = 0;
-            if (Zoom == 1)
-                scrollBar.Visibility = Visibility.Hidden;
-            else
-            {
-                scrollBar.Visibility = Visibility.Visible;
-                scrollBar.Track.ViewportSize = 1 / (Zoom - 1);
-            }
-            
             foreach (var item in _items)
             {
                 item.MaxDate = _maxDate.Value;
@@ -91,6 +94,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         private void btMagnifyMinus_Click(object sender, RoutedEventArgs e)
         {
             Zoom++;
+            BringScrollBarToZoom();
             Refresh();
         }
 
@@ -99,8 +103,26 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             if (Zoom > 1)
             {
                 Zoom--;
+                BringScrollBarToZoom();
                 Refresh();
             }
+        }
+
+        private void BringScrollBarToZoom()
+        {
+            _ingoreScrollEvent = true;
+            var totalSeconds = (_maxDate.Value - _minDate.Value).TotalSeconds;
+            scrollBar.Maximum = totalSeconds - totalSeconds / Zoom;
+            scrollBar.Minimum = 0;
+
+            if (Scroll > scrollBar.Maximum)
+                scrollBar.Value = Scroll = (int)scrollBar.Maximum;
+
+            if (Zoom > 1)
+                scrollBar.Track.ViewportSize = scrollBar.Maximum / (Zoom - 1);
+            else
+                scrollBar.Track.ViewportSize = double.NaN;
+            _ingoreScrollEvent = false;
         }
     }
 }
