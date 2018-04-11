@@ -35,7 +35,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             InitializeComponent();
 
             Loaded += (o, e) => {
-                var scenarios = ScenariosRepository.Scenarios.Where(x => x.ValueType is FloatValueType && StatisticsManager.IsRegistered(x)).ToArray();
+                var scenarios = ScenariosRepository.Scenarios.Where(x => (x.ValueType is FloatValueType || x.ValueType is StateValueType) && StatisticsManager.IsRegistered(x)).ToArray();
                 _infos = scenarios.Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource)).Take(5).ToArray();
                 NeedItems?.Invoke(new StatisticsFilter()
                 {
@@ -48,25 +48,42 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
 
         public Action<StatisticsFilter> NeedItems { get; set; }
 
-        public void RefreshItems(StatisticsItem[] items)
+        public void RefreshItems(StatisticsItem[] items, DateTime since, DateTime to)
         {
-            var diagrams = new List<IDiagramItem>();
-            foreach (var info in _infos)
+            diagramsHost.MaxDate = to;
+            diagramsHost.MinDate = since;
+            if (items.Any())
             {
-                var scenarioName = info.Name;
-                if (info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(FloatValueType)))
+                lblDataEmpty.Visibility = Visibility.Collapsed;
+                diagramsHost.Visibility = Visibility.Visible;
+                var diagrams = new List<IDiagramItem>();
+                foreach (var info in _infos)
                 {
-                    var unit = (ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == info.ID)?.ValueType as FloatValueType).Unit?.Trim();
-                    if (!string.IsNullOrEmpty(unit))
-                        scenarioName += ", " + unit;
-                }
+                    var scenarioName = info.Name;
+                    IDiagramItem diagram = null;
+                    if (info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(FloatValueType)))
+                    {
+                        var unit = (ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == info.ID)?.ValueType as FloatValueType).Unit?.Trim();
+                        if (!string.IsNullOrEmpty(unit))
+                            scenarioName += ", " + unit;
+                        diagram = new GraphicsDiagramItemView();
+                    }
+                    else if (info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(StateValueType)))
+                    {
+                        diagram = new StatesDiagramItemView();
+                    }
 
-                var diagram = new GraphicsDiagramItemView();
-                var curItems = items.Where(x => x.Target.ID == info.ID).ToArray();
-                diagram.SetPoints(scenarioName, curItems);
-                diagrams.Add(diagram);
+                    var curItems = items.Where(x => x.Target.ID == info.ID).ToArray();
+                    diagram.SetPoints(scenarioName, curItems);
+                    diagrams.Add(diagram);
+                }
+                diagramsHost.SetItems(diagrams.ToArray());
             }
-            diagramsHost.SetItems(diagrams.ToArray());
+            else
+            {
+                lblDataEmpty.Visibility = Visibility.Visible;
+                diagramsHost.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

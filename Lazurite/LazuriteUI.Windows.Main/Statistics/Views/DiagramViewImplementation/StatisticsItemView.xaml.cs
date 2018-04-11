@@ -1,0 +1,62 @@
+﻿using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.IOC;
+using Lazurite.MainDomain;
+using Lazurite.MainDomain.Statistics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
+{
+    /// <summary>
+    /// Логика взаимодействия для StatisticsItemView.xaml
+    /// </summary>
+    public partial class StatisticsItemView : Grid
+    {
+        private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
+        private ScenarioBase _scen;
+        private bool _notExist;
+
+        public StatisticsItemView()
+        {
+            InitializeComponent();
+        }
+
+        public void Refresh(StatisticsItem item, DateTime dateTime)
+        {
+            if (item == null)
+                Visibility = Visibility.Collapsed;
+            else
+            {
+                Visibility = Visibility.Visible;
+                tbScenName.Text = item.Target.Name;
+                tbScenVal.Text = item.Value?.Trim();
+                var unit = string.Empty;
+                if (_scen == null && !_notExist)
+                {
+                    _scen = ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == item.Target.ID);
+                    if (_scen == null)
+                        _notExist = true;
+                }
+                if (_scen != null && _scen.ValueType is FloatValueType floatValueType)
+                    tbScenVal.Text += floatValueType.Unit;
+                tbScenVal.Visibility = string.IsNullOrEmpty(tbScenVal.Text) ? Visibility.Collapsed : Visibility.Visible;
+                tbUser.Text = item.Source?.Name;
+                tbUser.Visibility = string.IsNullOrEmpty(tbUser.Text) || tbUser.Text == UsersRepository.SystemUser.Name ? Visibility.Collapsed : Visibility.Visible;
+                tbDateTimeSetted.Text = "Выставлено: " + item.DateTime.ToString();
+            }
+        }
+    }
+}

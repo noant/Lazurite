@@ -28,7 +28,7 @@ namespace LazuriteUI.Windows.Main.Common
 
             dt1.DisplayDateEnd = dt2.DisplayDateEnd = max;
             dt1.DisplayDateStart = dt2.DisplayDateStart = min;
-
+            
             dt1.SelectedDate = selectionItem.Start;
             dt2.SelectedDate = selectionItem.End;
         }
@@ -112,7 +112,7 @@ namespace LazuriteUI.Windows.Main.Common
                     break;
 
                 case DateSelection.Last24Hours:
-                    Start = DateTime.Now;
+                    Start = DateTime.Now.AddDays(-1);
                     End = DateTime.Now;
                     break;
             }

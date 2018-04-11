@@ -371,11 +371,18 @@
     <Compile Include="Statistics\Views\DiagramViewImplementation\DiagramItemsHostView.xaml.cs">
       <DependentUpon>DiagramItemsHostView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Statistics\Views\DiagramViewImplementation\StatesDiagramItemView.xaml.cs">
+      <DependentUpon>StatesDiagramItemView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Statistics\Views\DiagramViewImplementation\GraphicsDiagramItemView.xaml.cs">
       <DependentUpon>GraphicsDiagramItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statistics\Views\DiagramViewImplementation\IDiagramItem.cs" />
     <Compile Include="Statistics\Views\DiagramViewImplementation\LowGraphicsVisualHost.cs" />
+    <Compile Include="Statistics\Views\DiagramViewImplementation\StatisticsItemView.xaml.cs">
+      <DependentUpon>StatisticsItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\Views\DiagramViewImplementation\Utils.cs" />
     <Compile Include="Statistics\Views\StatisticsTableView.xaml.cs">
       <DependentUpon>StatisticsTableView.xaml</DependentUpon>
     </Compile>
@@ -806,7 +813,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Statistics\Views\DiagramViewImplementation\StatesDiagramItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Statistics\Views\DiagramViewImplementation\GraphicsDiagramItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\Views\DiagramViewImplementation\StatisticsItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

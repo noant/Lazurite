@@ -2,6 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
                     xmlns:local="clr-namespace:LazuriteUI.Windows.Controls">
+    <Style TargetType="{x:Type Window}">
+        <Setter Property="FontFamily" Value="{Binding Source={x:Static local:Visual.FontFamily}}"/>
+    </Style>
     <Style TargetType="Label" x:Key="LabelStyle">
         <Setter Property="FontWeight" Value="{Binding Source={x:Static local:Visual.FontWeight}}"></Setter>
         <Setter Property="FontFamily" Value="{Binding Source={x:Static local:Visual.FontFamily}}"></Setter>

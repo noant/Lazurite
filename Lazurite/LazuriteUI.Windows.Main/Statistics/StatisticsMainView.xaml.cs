@@ -111,7 +111,7 @@ namespace LazuriteUI.Windows.Main.Statistics
                                 .SelectMany(x => StatisticsManager.GetItems(x, dateSince, dateTo, SystemActionSource))
                                 .OrderByDescending(x => x.DateTime)
                                 .ToArray();
-                            _currentView.RefreshItems(items);
+                            _currentView.RefreshItems(items, dateSince, dateTo);
                         }
                         catch (Exception e)
                         {

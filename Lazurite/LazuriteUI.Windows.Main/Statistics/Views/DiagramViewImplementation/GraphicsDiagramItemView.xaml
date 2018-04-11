@@ -7,7 +7,7 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
              ClipToBounds="True"
-             Margin="10"
+             Margin="{x:Static local:Constants.DiagramsMargin}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="{x:Static local:Constants.ScaleLeftMarginGrid}"></ColumnDefinition>
@@ -20,10 +20,11 @@
         <Label Padding="0" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicsDiagramItemView}}, Path=ScaleBrush}" Margin="0,0,11,0" HorizontalAlignment="Right" VerticalAlignment="Bottom" x:Name="lblScaleMin">10</Label>
         <Line Stroke="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicsDiagramItemView}}, Path=ScaleBrush}" X1="0" X2="20" Y1="1" Y2="1" Height="2" Grid.Row="9" Width="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"></Line>
     </Grid>
-    <Line StrokeThickness="1" X1="0" X2="0" Y1="0" Y2="3000" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" Stroke="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicsDiagramItemView}}, Path=ScaleBrush}"></Line>
+    <Line StrokeThickness="1" X1="0" X2="0" Y1="0" Y2="30000" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" Stroke="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicsDiagramItemView}}, Path=ScaleBrush}"></Line>
     <Grid ClipToBounds="True" x:Name="gridMain" Grid.Column="1">
         <local:LowGraphicsVisualHost x:Name="graphicsVisualHost"></local:LowGraphicsVisualHost>
+        <Ellipse Visibility="Collapsed" VerticalAlignment="Top" Height="5" Width="5" Fill="Yellow" HorizontalAlignment="Left" x:Name="ellipseSelectior"></Ellipse>
     </Grid>
     <Label Padding="3,0,0,0" x:Name="lblScenName" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicsDiagramItemView}}, Path=MainBrush}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
-    <Line Grid.Column="1" StrokeThickness="1" X1="0" X2="3000" Y1="0" Y2="0" Margin="-11,100,0,0" x:Name="lineX" Stroke="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicsDiagramItemView}}, Path=ScaleBrush}"></Line>
+    <Line Grid.Column="1" StrokeThickness="1" X1="0" X2="30000" Y1="0" Y2="0" Margin="-11,100,0,0" x:Name="lineX" Stroke="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:GraphicsDiagramItemView}}, Path=ScaleBrush}"></Line>
 </Grid>

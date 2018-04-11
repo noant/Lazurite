@@ -38,7 +38,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             Loaded += (o, e) => NeedItems?.Invoke(StatisticsFilter.Empty);
         }
         
-        public void RefreshItems(StatisticsItem[] items)
+        public void RefreshItems(StatisticsItem[] items, DateTime since, DateTime to)
         {
             if (items != null)
                 gridControl.ItemsSource = CreateDataViews(items);
