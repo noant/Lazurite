@@ -27,8 +27,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
 
         static GraphicsDiagramItemView()
         {
-            MainBrushProperty = DependencyProperty.Register(nameof(MainBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(GraphicsDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.White));
-            ScaleBrushProperty = DependencyProperty.Register(nameof(ScaleBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(GraphicsDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.Yellow));
+            MainBrushProperty = DependencyProperty.Register(nameof(MainBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(GraphicsDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.SteelBlue));
+            ScaleBrushProperty = DependencyProperty.Register(nameof(ScaleBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(GraphicsDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.Gray));
         }
 
         public GraphicsDiagramItemView()
@@ -68,7 +68,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             if (item != null && p.X != double.PositiveInfinity && p.X != double.NegativeInfinity && p.X != double.NaN)
             {
                 ellipseSelectior.Visibility = Visibility.Visible;
-                ellipseSelectior.Margin = new Thickness(p.X - 2, p.Y - 2, 0, 0);
+                ellipseSelectior.Margin = new Thickness(p.X - 3, p.Y - 3, 0, 0);
             }
             else
                 ellipseSelectior.Visibility = Visibility.Collapsed;

@@ -46,14 +46,16 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                     dc.DrawLine(new Pen(((ColoredLine)line).Brush, 4), line.Point1, line.Point2);
         }
 
-        public void DrawPoint(Point p, Brush brush)
+        public void DrawPoints(Point[] points, Brush brush)
         {
+            points = points.Distinct().ToArray();
             children.Clear();
             var visual = new DrawingVisual();
             children.Add(visual);
             var pen = new Pen(brush, 1);
             using (var dc = visual.RenderOpen())
-                dc.DrawEllipse(brush, pen, p, 2, 2);
+                foreach (var point in points)
+                    dc.DrawEllipse(brush, pen, point, 3, 3);
         }
 
         private void Optimize(List<Line> lines)

@@ -11,5 +11,5 @@
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
     <local:GroupsListView x:Name="listView" Multiselect="False"></local:GroupsListView>
-    <controls:ItemView x:Name="btUsers" Grid.Row="1" Margin="5" Icon="Group">Пользователи группы</controls:ItemView>
+    <controls:ItemView x:Name="btUsers" Grid.Row="1" Margin="4" Icon="Group">Пользователи группы</controls:ItemView>
 </Grid>

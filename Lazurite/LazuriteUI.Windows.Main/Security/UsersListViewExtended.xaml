@@ -16,6 +16,6 @@
         <ColumnDefinition></ColumnDefinition>
     </Grid.ColumnDefinitions>
     <local:UsersListView x:Name="listView" Grid.ColumnSpan="2" Multiselect="False"></local:UsersListView>
-    <controls:ItemView x:Name="btEdit" Grid.Column="0" Grid.Row="1" Margin="5" Icon="Edit">Редактировать</controls:ItemView>
-    <controls:ItemView x:Name="btChangePass" Grid.Column="1" Grid.Row="1" Margin="5" Icon="KeyOld">Изменить пароль</controls:ItemView>
+    <controls:ItemView x:Name="btEdit" Grid.Column="0" Grid.Row="1" Margin="4,4,2,4" Icon="Edit">Редактировать</controls:ItemView>
+    <controls:ItemView x:Name="btChangePass" Grid.Column="1" Grid.Row="1" Margin="2,4,4,4" Icon="KeyOld">Изменить пароль</controls:ItemView>
 </Grid>

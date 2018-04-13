@@ -17,6 +17,6 @@
         <ColumnDefinition></ColumnDefinition>
     </Grid.ColumnDefinitions>
     <controls:ListItemsView Grid.ColumnSpan="2" x:Name="itemsView" SelectionMode="Multiple"></controls:ListItemsView>
-    <controls:ItemView x:Name="btAdd" Grid.Row="1" Margin="5,5,5,0" Icon="Add">Создать пользователя</controls:ItemView>
-    <controls:ItemView x:Name="btRemove" Grid.Row="1" Grid.Column="1" Margin="5,5,5,0" Style="{StaticResource ButtonRemove}">Удалить</controls:ItemView>
+    <controls:ItemView x:Name="btAdd" Grid.Row="1" Margin="4,4,2,0" Icon="Add">Создать пользователя</controls:ItemView>
+    <controls:ItemView x:Name="btRemove" Grid.Row="1" Grid.Column="1" Margin="2,4,4,0" Style="{StaticResource ButtonRemove}">Удалить</controls:ItemView>
 </Grid>

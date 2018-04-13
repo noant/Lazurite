@@ -30,7 +30,7 @@
                 </EventTrigger>
             </StackPanel.Triggers>
             <local:IconView Height="35" Width="35" IsHitTestVisible="False" x:Name="iconView" x:FieldModifier="private" Icon="AddMultiple" Visibility="{Binding IconVisibility}" VerticalAlignment="Center" HorizontalAlignment="Left"></local:IconView>
-            <Label Style="{DynamicResource BigLabelStyle}" IsHitTestVisible="False" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" Name="label" x:FieldModifier="private"></Label>
+            <Label Style="{DynamicResource BigLabelStyle}" Padding="0" IsHitTestVisible="False" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" Name="label" x:FieldModifier="private"></Label>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.MainDomain.Statistics;
 
 namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
@@ -20,32 +21,29 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
     /// <summary>
     /// Логика взаимодействия для GraphicsView.xaml
     /// </summary>
-    public partial class StatesDiagramItemView : Grid, IDiagramItem
+    public partial class ToggleDiagramItemView : Grid, IDiagramItem
     {
         public static readonly DependencyProperty MainBrushProperty;
         public static readonly DependencyProperty ScaleBrushProperty;
-        private static readonly Color OriginalLineColor = Colors.SteelBlue;
-        private static Dictionary<int, Brush> BrushesCache = new Dictionary<int, Brush>();
 
-        static StatesDiagramItemView()
+        static ToggleDiagramItemView()
         {
-            MainBrushProperty = DependencyProperty.Register(nameof(MainBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(StatesDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.SteelBlue));
-            ScaleBrushProperty = DependencyProperty.Register(nameof(ScaleBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(StatesDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.Gray));
+            MainBrushProperty = DependencyProperty.Register(nameof(MainBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(ToggleDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.SteelBlue));
+            ScaleBrushProperty = DependencyProperty.Register(nameof(ScaleBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(ToggleDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.Gray));
         }
 
-        public StatesDiagramItemView()
+        public ToggleDiagramItemView()
         {
             InitializeComponent();
             SizeChanged += (o, e) => Refresh();
         }
 
-        private Dictionary<string, int> _valuesIds;
         private StatisticsItem[] _items;
         private int _totalSeconds;
         private int _secondStart;
         private int _secondEnd;
-        private int _scaleYMin = -1;
-        private int _scaleYMax;
+        private int _scaleYMin = -2;
+        private int _scaleYMax = 2;
 
         public double Zoom { get; set; }
 
@@ -65,7 +63,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         public void SelectPoint(DateTime dateTime)
         {
             var item = GetItemNear(dateTime);
-            var p = item == null ? new Point() : Translate((int)(item.DateTime - MinDate).TotalSeconds, _valuesIds[item.Value ?? string.Empty]);
+            var p = item == null ? new Point() : Translate((int)(item.DateTime - MinDate).TotalSeconds, item.Value == ToggleValueType.ValueON ? 1 : -1);
             if (item != null && p.X != double.PositiveInfinity && p.X != double.NegativeInfinity && p.X != double.NaN)
             {
                 ellipseSelectior.Visibility = Visibility.Visible;
@@ -78,14 +76,12 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         public void SetPoints(string scenarioName, StatisticsItem[] items)
         {
             var values = items.Select(x => x.Value ?? string.Empty).Distinct().OrderBy(x => x).ToList();
-            _valuesIds = Enumerable.Range(0, values.Count).ToDictionary(x => values[x]);
 
             lblScenName.Content = scenarioName;
 
             _items = items.OrderBy(x=>x.DateTime).ToArray();
             MaxDateCurrent = _items.Any() ? (DateTime?)_items.Max(x => x.DateTime) : null;
             MinDateCurrent = _items.Any() ? (DateTime?)_items.Min(x => x.DateTime) : null;
-            _scaleYMax = _valuesIds.Count + 1;
         }
 
         // =((((
@@ -126,8 +122,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                 items
                 .Select(x =>
                     {
-                        var index = _valuesIds[x.Value ?? string.Empty];
-                        var brush = GetBrush(index);
+                        var index = x.Value == ToggleValueType.ValueON ? 1 : -1;
+                        var brush = index == 1 ? Brushes.SteelBlue : Brushes.Gray;
                         return new
                         {
                             Point = Translate((int)(x.DateTime - MinDate).TotalSeconds, index),
@@ -161,23 +157,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                 graphicsVisualHost.DrawLines(lines);
             }
         }
-
-        private Brush GetBrush(int index)
-        {
-            if (BrushesCache.ContainsKey(index))
-                return BrushesCache[index];
-            else
-            {
-                var blueOriginal = OriginalLineColor.B;
-                var blueIncrement = blueOriginal - ((blueOriginal / 12) * index);
-                if (blueIncrement < 0)
-                    blueIncrement = 0;
-                var brush = new SolidColorBrush(Color.FromRgb(OriginalLineColor.R, OriginalLineColor.G, (byte)blueIncrement));
-                BrushesCache.Add(index, brush);
-                return brush;
-            }
-        }
-
+        
         private Point Translate(int second, double yVal)
         {
             return Utils.Translate(second, yVal, _secondStart, _secondEnd, _scaleYMin, _scaleYMax, gridMain.ActualWidth, gridMain.ActualHeight);

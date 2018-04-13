@@ -371,6 +371,15 @@
     <Compile Include="Statistics\Views\DiagramViewImplementation\DiagramItemsHostView.xaml.cs">
       <DependentUpon>DiagramItemsHostView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Statistics\Views\DiagramViewImplementation\InfoDiagramItemView.xaml.cs">
+      <DependentUpon>InfoDiagramItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\Views\DiagramViewImplementation\SelectScenarioView.xaml.cs">
+      <DependentUpon>SelectScenarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\Views\DiagramViewImplementation\ToggleDiagramItemView.xaml.cs">
+      <DependentUpon>ToggleDiagramItemView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Statistics\Views\DiagramViewImplementation\StatesDiagramItemView.xaml.cs">
       <DependentUpon>StatesDiagramItemView.xaml</DependentUpon>
     </Compile>
@@ -812,6 +821,18 @@
     <Page Include="Statistics\Views\DiagramViewImplementation\DiagramItemsHostView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\Views\DiagramViewImplementation\InfoDiagramItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Statistics\Views\DiagramViewImplementation\SelectScenarioView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\Views\DiagramViewImplementation\ToggleDiagramItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Statistics\Views\DiagramViewImplementation\StatesDiagramItemView.xaml">
       <Generator>MSBuild:Compile</Generator>

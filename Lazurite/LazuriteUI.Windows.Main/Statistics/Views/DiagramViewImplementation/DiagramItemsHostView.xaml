@@ -6,31 +6,28 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d"
-             MouseLeftButtonDown="Grid_MouseLeftButtonDown"
-             MouseLeftButtonUp="Grid_MouseLeftButtonUp"
-             MouseMove="Grid_MouseMove"
-             Background="{x:Static controls:Visual.Background}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition></ColumnDefinition>
-    </Grid.ColumnDefinitions>
-    <Border Visibility="Collapsed" Margin="200,0,0,0" x:Name="line" Width="1" Background="Orchid" Grid.ColumnSpan="2" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Border>
-    <Grid x:Name="mainGrid" Grid.Row="1"></Grid>
+    <Grid x:Name="mainGrid" Margin="0,2,0,0"
+             Background="{x:Static controls:Visual.Background}"
+             MouseMove="Grid_MouseMove"
+             MouseLeftButtonDown="Grid_MouseLeftButtonDown"
+             MouseLeftButtonUp="Grid_MouseLeftButtonUp"></Grid>
+    <Border MouseLeftButtonUp="Grid_MouseLeftButtonUp" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Visibility="Collapsed" Margin="200,0,0,0" x:Name="line" Width="1" Background="Orchid" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Left"></Border>
     <ScrollBar Orientation="Horizontal" Grid.Row="2" x:Name="scrollBar"></ScrollBar>
-    <Grid Grid.ColumnSpan="2">
+    <Grid Grid.Row="1" Grid.ColumnSpan="2">
         <Label Foreground="SteelBlue" x:Name="lblStart" HorizontalAlignment="Left"></Label>
         <Label Foreground="SteelBlue" x:Name="lblEnd" HorizontalAlignment="Right"></Label>
     </Grid>
-    <Label Visibility="Collapsed" VerticalAlignment="Bottom" x:Name="lblSelectedTime" Margin="200,0,0,0" Background="Orchid" HorizontalAlignment="Left" Padding="2" FontSize="11">15.06.2017</Label>
+    <Label Grid.Row="1" Visibility="Collapsed" VerticalAlignment="Top" x:Name="lblSelectedTime" Margin="200,0,0,0" Background="Orchid" HorizontalAlignment="Left" Padding="2" FontSize="11">15.06.2017</Label>
     <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right">
-        <controls:ItemViewLE Margin="1,2,1,2" Background="{x:Static controls:Visual.ItemBackground}" x:Name="btViewSettings" Width="30" Height="30" Icon="Eye" ToolTip="Сценарии для отображения"></controls:ItemViewLE>
-        <controls:ItemViewLE Margin="1,2,1,2" Background="{x:Static controls:Visual.ItemBackground}" ToolTip="Увеличить" x:Name="btMagnifyMinus" Click="btMagnifyMinus_Click" Width="30" Height="30" Icon="MagnifyAdd"></controls:ItemViewLE>
-        <controls:ItemViewLE Margin="1,2,1,2" Background="{x:Static controls:Visual.ItemBackground}" ToolTip="Уменьшить" x:Name="btMagnifyAdd" Click="btMagnifyAdd_Click" Width="30" Height="30" Icon="MagnifyMinus"></controls:ItemViewLE>
+        <controls:ItemViewLE Margin="4,4,2,4" Background="{x:Static controls:Visual.ItemBackground}" x:Name="btViewSettings" Width="30" Height="30" Click="btViewSettings_Click" Icon="Eye" ToolTip="Сценарии для отображения"></controls:ItemViewLE>
+        <controls:ItemViewLE Margin="2,4,2,4" Background="{x:Static controls:Visual.ItemBackground}" ToolTip="Увеличить" x:Name="btMagnifyMinus" Click="btMagnifyMinus_Click" Width="30" Height="30" Icon="MagnifyAdd"></controls:ItemViewLE>
+        <controls:ItemViewLE Margin="2,4,4,4" Background="{x:Static controls:Visual.ItemBackground}" ToolTip="Уменьшить" x:Name="btMagnifyAdd" Click="btMagnifyAdd_Click" Width="30" Height="30" Icon="MagnifyMinus"></controls:ItemViewLE>
     </StackPanel>
 </Grid>

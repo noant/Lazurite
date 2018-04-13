@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lazurite.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -63,13 +64,14 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
 
                 BringScrollBarToZoom();
 
-                Refresh();
             }
+
+            Refresh();
         }
 
         public void Refresh()
         {
-            if (_items.Any())
+            if (_items?.Any() ?? false)
             {
                 var minDate = MinDate.AddSeconds(Scroll);
                 var seconds = (MaxDate - MinDate).TotalSeconds / Zoom;
@@ -86,17 +88,21 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                     item.Zoom = Zoom;
                     item.Scroll = Scroll;
 
-                    item.SetColors(Brushes.SteelBlue, Brushes.Gray);
-
                     item.Refresh();
                 }
 
+                lblEnd.Visibility = Visibility.Visible;
+                lblStart.Visibility = Visibility.Visible;
                 line.Visibility = Visibility.Visible;
                 lblSelectedTime.Visibility = Visibility.Visible;
+                scrollBar.Visibility = Visibility.Visible;
                 RefreshAddictionalInfo();
             }
             else
             {
+                lblEnd.Visibility = Visibility.Collapsed;
+                lblStart.Visibility = Visibility.Collapsed;
+                scrollBar.Visibility = Visibility.Collapsed;
                 line.Visibility = Visibility.Collapsed;
                 lblSelectedTime.Visibility = Visibility.Collapsed;
             }
@@ -141,6 +147,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                     scrollBar.Track.ViewportSize = scrollBar.Maximum / (Zoom - 1);
                 else
                     scrollBar.Track.ViewportSize = double.NaN;
+
                 _ingoreScrollEvent = false;
             }
         }
@@ -178,15 +185,15 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                 var statisticsItem = captionPair.Key.GetItemNear(dateTime);
                 captionPair.Value.Refresh(statisticsItem, dateTime);
                 if (lineLeftMargin + captionPair.Value.ActualWidth > mainGrid.ActualWidth - Constants.DiagramsMargin.Left)
-                    captionPair.Value.Margin = new Thickness(mainGrid.ActualWidth - Constants.DiagramsMargin.Left - captionPair.Value.ActualWidth, 0, 0, 18);
+                    captionPair.Value.Margin = new Thickness(mainGrid.ActualWidth - Constants.DiagramsMargin.Left - captionPair.Value.ActualWidth, -5, 0, 0);
                 else
-                    captionPair.Value.Margin = new Thickness(lineLeftMargin + 1, 0, 0, 18);
+                    captionPair.Value.Margin = new Thickness(lineLeftMargin, -5, 0, 0);
             }
 
             if (lineLeftMargin + lblSelectedTime.ActualWidth > mainGrid.ActualWidth - Constants.DiagramsMargin.Left)
                 lblSelectedTime.Margin = new Thickness(mainGrid.ActualWidth - Constants.DiagramsMargin.Left - lblSelectedTime.ActualWidth, 0, 0, 0);
             else
-                lblSelectedTime.Margin = new Thickness(lineLeftMargin - 1, 0, 0, 0);
+                lblSelectedTime.Margin = new Thickness(lineLeftMargin, 0, 0, 0);
 
             lblSelectedTime.Content = dateTime.ToString();
         }
@@ -211,5 +218,12 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                 HandleMouseClick(position);
             }
         }
+
+        private void btViewSettings_Click(object sender, RoutedEventArgs e)
+        {
+            ScenariosSelectPressed?.Invoke(this, new EventsArgs<object>(null));
+        }
+
+        public event EventsHandler<object> ScenariosSelectPressed;
     }
 }

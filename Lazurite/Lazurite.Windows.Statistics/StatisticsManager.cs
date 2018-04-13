@@ -97,7 +97,7 @@ namespace Lazurite.Windows.Statistics
         private void TimerTick()
         {
             //force update values
-            if (RefreshDate >= DateTime.Now)
+            if (DateTime.Now >= RefreshDate)
             {
                 RefreshDate = DateTime.Now.AddDays(1);
                 _scenariosValuesCache.Clear();

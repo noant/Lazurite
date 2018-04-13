@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation"
              mc:Ignorable="d"
              HorizontalAlignment="Left"
-             VerticalAlignment="Bottom"
+             VerticalAlignment="Top"
              Height="Auto"
              Width="Auto">
     <Grid.ColumnDefinitions>
@@ -16,9 +16,9 @@
         <ColumnDefinition Width="Auto"></ColumnDefinition>
         <ColumnDefinition Width="Auto"></ColumnDefinition>
     </Grid.ColumnDefinitions>
-    <TextBlock x:Name="tbScenName" FontSize="10" Padding="2,0,2,2" Foreground="White" Background="DarkSlateBlue" FontWeight="Thin">Новый сценарий</TextBlock>
-    <TextBlock x:Name="tbScenVal" FontSize="10" Padding="2,0,2,2" Foreground="White" Background="DarkOrchid" Grid.Column="1" FontWeight="Bold">Выключено</TextBlock>
-    <TextBlock x:Name="tbUser" FontSize="10" Padding="2,0,2,2" Foreground="White" Background="DarkSlateBlue" Grid.Column="2" FontWeight="Thin">Антон</TextBlock>
-    <TextBlock x:Name="tbDateTimeSetted" FontSize="10" Padding="2,0,2,2" Foreground="White" Background="DarkOrchid" Grid.Column="3" FontWeight="Thin">15.02.2018 10:12:11</TextBlock>
-    
+    <TextBlock Visibility="Collapsed" x:Name="tbScenName" FontSize="10" Padding="2,0,2,2" Foreground="White" Background="DarkSlateBlue" FontWeight="Thin">Новый сценарий</TextBlock>
+    <TextBlock x:Name="tbScenVal" FontSize="10" Padding="2,0,2,2" Foreground="White" Background="DarkMagenta" Grid.Column="1" FontWeight="Thin">Выключено</TextBlock>
+    <TextBlock x:Name="tbUser" FontSize="10" Padding="2,0,2,2" Foreground="White" Background="SteelBlue" Grid.Column="2" FontWeight="Thin">Антон</TextBlock>
+    <TextBlock x:Name="tbDateTimeSetted" FontSize="10" Padding="2,0,2,2" Foreground="White" Background="DarkBlue" Grid.Column="3" FontWeight="Thin">15.02.2018 10:12:11</TextBlock>
+    <Border Grid.ColumnSpan="4" BorderBrush="SteelBlue" BorderThickness="0,0,0,2"></Border>
 </Grid>

@@ -20,32 +20,29 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
     /// <summary>
     /// Логика взаимодействия для GraphicsView.xaml
     /// </summary>
-    public partial class StatesDiagramItemView : Grid, IDiagramItem
+    public partial class InfoDiagramItemView : Grid, IDiagramItem
     {
         public static readonly DependencyProperty MainBrushProperty;
         public static readonly DependencyProperty ScaleBrushProperty;
-        private static readonly Color OriginalLineColor = Colors.SteelBlue;
-        private static Dictionary<int, Brush> BrushesCache = new Dictionary<int, Brush>();
 
-        static StatesDiagramItemView()
+        static InfoDiagramItemView()
         {
-            MainBrushProperty = DependencyProperty.Register(nameof(MainBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(StatesDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.SteelBlue));
-            ScaleBrushProperty = DependencyProperty.Register(nameof(ScaleBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(StatesDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.Gray));
+            MainBrushProperty = DependencyProperty.Register(nameof(MainBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(InfoDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.SteelBlue));
+            ScaleBrushProperty = DependencyProperty.Register(nameof(ScaleBrush), typeof(System.Windows.Media.SolidColorBrush), typeof(InfoDiagramItemView), new PropertyMetadata(System.Windows.Media.Brushes.Gray));
         }
 
-        public StatesDiagramItemView()
+        public InfoDiagramItemView()
         {
             InitializeComponent();
             SizeChanged += (o, e) => Refresh();
         }
 
-        private Dictionary<string, int> _valuesIds;
         private StatisticsItem[] _items;
         private int _totalSeconds;
         private int _secondStart;
         private int _secondEnd;
         private int _scaleYMin = -1;
-        private int _scaleYMax;
+        private int _scaleYMax = 1;
 
         public double Zoom { get; set; }
 
@@ -65,7 +62,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         public void SelectPoint(DateTime dateTime)
         {
             var item = GetItemNear(dateTime);
-            var p = item == null ? new Point() : Translate((int)(item.DateTime - MinDate).TotalSeconds, _valuesIds[item.Value ?? string.Empty]);
+            var p = item == null ? new Point() : Translate((int)(item.DateTime - MinDate).TotalSeconds, 0);
             if (item != null && p.X != double.PositiveInfinity && p.X != double.NegativeInfinity && p.X != double.NaN)
             {
                 ellipseSelectior.Visibility = Visibility.Visible;
@@ -77,15 +74,11 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         
         public void SetPoints(string scenarioName, StatisticsItem[] items)
         {
-            var values = items.Select(x => x.Value ?? string.Empty).Distinct().OrderBy(x => x).ToList();
-            _valuesIds = Enumerable.Range(0, values.Count).ToDictionary(x => values[x]);
-
             lblScenName.Content = scenarioName;
 
             _items = items.OrderBy(x=>x.DateTime).ToArray();
             MaxDateCurrent = _items.Any() ? (DateTime?)_items.Max(x => x.DateTime) : null;
             MinDateCurrent = _items.Any() ? (DateTime?)_items.Min(x => x.DateTime) : null;
-            _scaleYMax = _valuesIds.Count + 1;
         }
 
         // =((((
@@ -122,62 +115,14 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         {
             var items = statisticsItems;
 
-            var brushedPoints = 
+            var points = 
                 items
-                .Select(x =>
-                    {
-                        var index = _valuesIds[x.Value ?? string.Empty];
-                        var brush = GetBrush(index);
-                        return new
-                        {
-                            Point = Translate((int)(x.DateTime - MinDate).TotalSeconds, index),
-                            Brush = brush
-                        };
-                    })
-                .ToList();
-                        
-            if (brushedPoints.Count > 0)
-            {
-                var last = brushedPoints.Last();
-                var now = Translate(_secondEnd + 86400, 0);
-                now.Y = last.Point.Y;
-
-                brushedPoints.Add(new { Point = now, Brush = last.Brush });
-
-                var lines = new List<ColoredLine>();
-                
-                for (int i = 0; i < brushedPoints.Count - 1; i++)
-                {
-                    var brushedPointStart = brushedPoints[i];
-                    var pointEnd = new Point(brushedPoints[i + 1].Point.X, brushedPointStart.Point.Y);
-                    lines.Add(new ColoredLine()
-                    {
-                        Point1 = brushedPointStart.Point,
-                        Point2 = pointEnd,
-                        Brush = brushedPointStart.Brush
-                    });
-                }
-                
-                graphicsVisualHost.DrawLines(lines);
-            }
+                .Select(x =>Translate((int)(x.DateTime - MinDate).TotalSeconds, 0))
+                .ToArray();
+            
+            graphicsVisualHost.DrawPoints(points, MainBrush);
         }
-
-        private Brush GetBrush(int index)
-        {
-            if (BrushesCache.ContainsKey(index))
-                return BrushesCache[index];
-            else
-            {
-                var blueOriginal = OriginalLineColor.B;
-                var blueIncrement = blueOriginal - ((blueOriginal / 12) * index);
-                if (blueIncrement < 0)
-                    blueIncrement = 0;
-                var brush = new SolidColorBrush(Color.FromRgb(OriginalLineColor.R, OriginalLineColor.G, (byte)blueIncrement));
-                BrushesCache.Add(index, brush);
-                return brush;
-            }
-        }
-
+        
         private Point Translate(int second, double yVal)
         {
             return Utils.Translate(second, yVal, _secondStart, _secondEnd, _scaleYMin, _scaleYMax, gridMain.ActualWidth, gridMain.ActualHeight);

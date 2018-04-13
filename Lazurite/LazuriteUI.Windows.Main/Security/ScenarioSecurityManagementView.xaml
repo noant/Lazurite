@@ -19,5 +19,5 @@
     <controls:WheelScroll Grid.Row="1">
         <StackPanel x:Name="stackPanel"></StackPanel>
     </controls:WheelScroll>
-    <controls:ItemView Grid.Row="2" x:Name="btAddNew" Margin="5" Icon="Add" Grid.Column="1">Добавить правило</controls:ItemView>
+    <controls:ItemView Grid.Row="2" x:Name="btAddNew" Margin="4" Icon="Add" Grid.Column="1">Добавить правило</controls:ItemView>
 </Grid>

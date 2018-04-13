@@ -42,7 +42,10 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             {
                 Visibility = Visibility.Visible;
                 tbScenName.Text = item.Target.Name;
-                tbScenVal.Text = item.Value?.Trim();
+                if (item.Target.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(ToggleValueType)))
+                    tbScenVal.Text = item.Value == ToggleValueType.ValueON ? "Вкл." : "Выкл.";
+                else
+                    tbScenVal.Text = item.Value;
                 var unit = string.Empty;
                 if (_scen == null && !_notExist)
                 {

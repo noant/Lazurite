@@ -18,6 +18,6 @@
     </Grid.ColumnDefinitions>
     <controls:ListItemsView Grid.ColumnSpan="3" x:Name="itemsView" SelectionMode="Multiple">
     </controls:ListItemsView>
-    <controls:ItemView x:Name="btAdd" Grid.Row="1" Margin="5,5,5,0" Icon="Add">Создать группу</controls:ItemView>
-    <controls:ItemView x:Name="btRemove" Grid.Row="1" Grid.Column="1" Margin="5,5,5,0" Style="{StaticResource ButtonRemove}">Удалить</controls:ItemView>
+    <controls:ItemView x:Name="btAdd" Grid.Row="1" Margin="4,2,2,0" Icon="Add">Создать группу</controls:ItemView>
+    <controls:ItemView x:Name="btRemove" Grid.Row="1" Grid.Column="1" Margin="2,2,4,0" Style="{StaticResource ButtonRemove}">Удалить</controls:ItemView>
 </Grid>

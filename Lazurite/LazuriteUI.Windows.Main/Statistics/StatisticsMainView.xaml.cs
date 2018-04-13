@@ -93,7 +93,7 @@ namespace LazuriteUI.Windows.Main.Statistics
         private void Refresh()
         {
             if (_currentView == null)
-                AppendView(new StatisticsTableView());
+                AppendView(new DiagramView());
             else
             {
                 bool selectionEmpty = _selectedScenariosIds == null || !_selectedScenariosIds.Any();
