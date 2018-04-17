@@ -37,7 +37,7 @@
         </Grid>
         <Grid Grid.Row="1" Margin="0,1,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="170" x:Name="columnMenu"></ColumnDefinition>
+                <ColumnDefinition Width="173" x:Name="columnMenu"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Vertical">

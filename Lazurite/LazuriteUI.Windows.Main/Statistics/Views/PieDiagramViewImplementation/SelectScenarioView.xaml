@@ -1,0 +1,22 @@
+﻿<Grid x:Class="LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation.SelectScenarioView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             Background="{x:Static controls:Visual.Background}"
+             mc:Ignorable="d" 
+             Width="500" 
+             MinHeight="200"
+             Height="Auto">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition></RowDefinition>
+    </Grid.RowDefinitions>
+    <controls:CaptionView Icon="Eye">Выбрать сценарий для отображения</controls:CaptionView>
+    <controls:WheelScroll Grid.Row="1">
+        <controls:ListItemsView SelectionMode="Single" Margin="0,0,0,2" x:Name="itemsList">            
+        </controls:ListItemsView>
+    </controls:WheelScroll>
+    <Label x:Name="lblEmpty" Foreground="{x:Static controls:Visual.CaptionForeground}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">Сценарии отсутствуют...</Label>
+</Grid>

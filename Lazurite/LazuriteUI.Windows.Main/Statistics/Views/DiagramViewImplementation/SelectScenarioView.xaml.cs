@@ -50,7 +50,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                 var item = new ItemView();
                 item.Icon = Icons.Icon.ChevronRight;
                 item.Selectable = true;
-                item.Content = scenario.Name.Length > 22 ? scenario.Name.Substring(0, 20) + "..." : scenario.Name;
+                item.Content = scenario.Name.Length > 57 ? scenario.Name.Substring(0, 55) + "..." : scenario.Name;
                 item.Tag = scenario.Id;
                 item.Margin = new Thickness(2, 2, 2, 0);
                 item.Selected = selectedScenarios?.Contains(scenario.Id) ?? false;

@@ -34,7 +34,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
 
         private bool _ingoreScrollEvent = false;
         private bool _dragMode = false;
-
+        
         public void SetItems(IDiagramItem[] items)
         {
             _captions.Clear();
@@ -61,9 +61,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
 
                     index++;
                 }
-
                 BringScrollBarToZoom();
-
             }
 
             Refresh();

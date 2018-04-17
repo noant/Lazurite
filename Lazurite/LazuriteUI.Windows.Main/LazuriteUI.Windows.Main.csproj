@@ -71,7 +71,10 @@
     </Reference>
     <Reference Include="Syncfusion.Grid.WPF, Version=16.1451.0.24, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.GridCommon.WPF, Version=16.1451.0.24, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.GridConverter.WPF, Version=16.1451.0.24, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.SfChart.WPF, Version=16.1451.0.24, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.Shared.WPF, Version=16.1451.0.24, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.XlsIO.Base, Version=16.1451.0.24, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -392,6 +395,15 @@
       <DependentUpon>StatisticsItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statistics\Views\DiagramViewImplementation\Utils.cs" />
+    <Compile Include="Statistics\Views\PieDiagramView.xaml.cs">
+      <DependentUpon>PieDiagramView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\Views\PieDiagramViewImplementation\PieChartView.xaml.cs">
+      <DependentUpon>PieChartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\Views\PieDiagramViewImplementation\SelectScenarioView.xaml.cs">
+      <DependentUpon>SelectScenarioView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Statistics\Views\StatisticsTableView.xaml.cs">
       <DependentUpon>StatisticsTableView.xaml</DependentUpon>
     </Compile>
@@ -845,6 +857,18 @@
     <Page Include="Statistics\Views\DiagramViewImplementation\StatisticsItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\Views\PieDiagramView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\Views\PieDiagramViewImplementation\PieChartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\Views\PieDiagramViewImplementation\SelectScenarioView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Statistics\Views\StatisticsTableView.xaml">
       <SubType>Designer</SubType>

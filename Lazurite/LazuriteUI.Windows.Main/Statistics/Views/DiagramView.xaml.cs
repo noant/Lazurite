@@ -87,44 +87,50 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
 
         public void RefreshItems(StatisticsItem[] items, DateTime since, DateTime to)
         {
-            diagramsHost.MaxDate = to;
-            diagramsHost.MinDate = since;
-            var diagrams = new List<IDiagramItem>();
-            if (items.Any())
-            {
-                lblDataEmpty.Visibility = Visibility.Collapsed;
-                diagramsHost.Visibility = Visibility.Visible;
-                foreach (var info in _infos)
+            var refresh = new Action(() => {
+                diagramsHost.MaxDate = to;
+                diagramsHost.MinDate = since;
+                var diagrams = new List<IDiagramItem>();
+                if (items.Any())
                 {
-                    var scenarioName = info.Name;
-                    IDiagramItem diagram = null;
-                    if (info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(FloatValueType)))
+                    lblDataEmpty.Visibility = Visibility.Collapsed;
+                    diagramsHost.Visibility = Visibility.Visible;
+                    foreach (var info in _infos)
                     {
-                        var unit = (ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == info.ID)?.ValueType as FloatValueType).Unit?.Trim();
-                        if (!string.IsNullOrEmpty(unit))
-                            scenarioName += ", " + unit;
-                        diagram = new GraphicsDiagramItemView();
+                        var scenarioName = info.Name;
+                        IDiagramItem diagram = null;
+                        if (info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(FloatValueType)))
+                        {
+                            var unit = (ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == info.ID)?.ValueType as FloatValueType).Unit?.Trim();
+                            if (!string.IsNullOrEmpty(unit))
+                                scenarioName += ", " + unit;
+                            diagram = new GraphicsDiagramItemView();
+                        }
+                        else if (info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(StateValueType)))
+                            diagram = new StatesDiagramItemView();
+                        else if (info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(ToggleValueType)))
+                            diagram = new ToggleDiagramItemView();
+                        else
+                            diagram = new InfoDiagramItemView();
+                        var curItems = items.Where(x => x.Target.ID == info.ID).ToArray();
+                        diagram.SetPoints(scenarioName, curItems);
+                        diagrams.Add(diagram);
                     }
-                    else if (info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(StateValueType)))
-                        diagram = new StatesDiagramItemView();
-                    else if (info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(ToggleValueType)))
-                        diagram = new ToggleDiagramItemView();
-                    else
-                        diagram = new InfoDiagramItemView();
-                    var curItems = items.Where(x => x.Target.ID == info.ID).ToArray();
-                    diagram.SetPoints(scenarioName, curItems);
-                    diagrams.Add(diagram);
+                    var ordered = diagrams
+                        .OrderByDescending(x => x is ToggleDiagramItemView)
+                        .OrderByDescending(x => x is StatesDiagramItemView)
+                        .OrderByDescending(x => x is GraphicsDiagramItemView)
+                        .ToArray();
+                    diagramsHost.SetItems(ordered);
                 }
-                var ordered = diagrams
-                    .OrderByDescending(x => x is ToggleDiagramItemView)
-                    .OrderByDescending(x => x is StatesDiagramItemView)
-                    .OrderByDescending(x => x is GraphicsDiagramItemView)
-                    .ToArray();
-                diagramsHost.SetItems(ordered);
-            }
 
-            if (!items.Any() || !diagrams.Any())
-                lblDataEmpty.Visibility = Visibility.Visible;
+                if (!items.Any() || !diagrams.Any())
+                    lblDataEmpty.Visibility = Visibility.Visible;
+            });
+
+            if (IsLoaded)
+                refresh();
+            else Loaded += (o, e) => refresh();
         }
     }
 }

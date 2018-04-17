@@ -65,7 +65,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         {
             var item = GetItemNear(dateTime);
             var p = item == null ? new Point() : Translate((int)(item.DateTime - MinDate).TotalSeconds, _values[item]);
-            if (item != null && p.X != double.PositiveInfinity && p.X != double.NegativeInfinity && p.X != double.NaN)
+            if (!(p.Y == 0 && p.X == 0) && item != null && p.X != double.PositiveInfinity && p.X != double.NegativeInfinity && p.X != double.NaN)
             {
                 ellipseSelectior.Visibility = Visibility.Visible;
                 ellipseSelectior.Margin = new Thickness(p.X - 3, p.Y - 3, 0, 0);

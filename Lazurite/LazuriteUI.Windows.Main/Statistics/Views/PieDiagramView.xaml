@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Statistics.Views.PieDiagramView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:local2="clr-namespace:LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation"
+             mc:Ignorable="d" 
+             Background="#55000000"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <local2:PieChartView Content="ЗНАЧЕНИЯ" x:Name="chartByVal" Grid.Column="0" Grid.Row="1"></local2:PieChartView>
+        <local2:PieChartView Content="ПОЛЬЗОВАТЕЛИ" x:Name="chartByUser" Grid.Column="1" Grid.Row="1"></local2:PieChartView>
+        <local2:PieChartView Content="ДНИ НЕДЕЛИ" x:Name="chartByWeek" Grid.Column="2" Grid.Row="1"></local2:PieChartView>
+        <controls:ItemViewLE Click="SelectScenarioClick" Background="{x:Static controls:Visual.ItemBackground}" Margin="2" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="2" Width="30" Icon="Eye"></controls:ItemViewLE>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" x:Name="lblEmpty" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="3" Grid.RowSpan="3" Visibility="Collapsed">Нет данных...</Label>
+    </Grid>
+</UserControl>

@@ -16,8 +16,9 @@
     <StackPanel Orientation="Horizontal">
         <common:DatesRangeItemView Margin="5" x:Name="datesRangeView"></common:DatesRangeItemView>
         <controls:ListItemsView Margin="5" x:Name="listItems" SelectionMode="Single" Orientation="Horizontal" >
-            <controls:ItemView x:Name="btDiagramView" Icon="GraphLine" Width="170" Selected="True">Графики</controls:ItemView>
-            <controls:ItemView x:Name="btTableView" Margin="5,0,0,0" Icon="Table" Width="170">Таблица</controls:ItemView>
+            <controls:ItemView x:Name="btDiagramView" Icon="GraphLine" Width="190" Selected="True">Графики</controls:ItemView>
+            <controls:ItemView x:Name="btPieView" Margin="5,0,0,0" Icon="Table" Width="190">Круговая диаграмма</controls:ItemView>
+            <controls:ItemView x:Name="btTableView" Margin="5,0,0,0" Icon="Table" Width="190">Таблица</controls:ItemView>
         </controls:ListItemsView>
     </StackPanel>
     <controls:ItemView Icon="Settings" x:Name="btSettings" Click="btSettings_Click" Width="170" Margin="5" HorizontalAlignment="Right">Параметры</controls:ItemView>

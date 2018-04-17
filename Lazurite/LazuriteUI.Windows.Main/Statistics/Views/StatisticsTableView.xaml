@@ -27,4 +27,5 @@
             <sf:GridDataVisibleColumn HeaderText="ИСТОЧНИК" MappingName="SourceType"></sf:GridDataVisibleColumn>
         </sf:GridDataControl.VisibleColumns>
     </sf:GridDataControl>
+    <controls:ItemView VerticalAlignment="Top" HorizontalAlignment="Right" Margin="8" Width="150" Icon="OfficeExcel" Click="ExportClick">Экспорт</controls:ItemView>
 </Grid>

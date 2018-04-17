@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -16,9 +18,13 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
+using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
+using LazuriteUI.Windows.Controls;
 using Syncfusion.Windows.Controls.Grid;
+using Syncfusion.Windows.Controls.Grid.Converter;
+using Syncfusion.XlsIO;
 
 namespace LazuriteUI.Windows.Main.Statistics.Views
 {
@@ -29,6 +35,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
     {
         private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private static readonly string FloatValueTypeName = Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(FloatValueType));
+        private static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
         public StatisticsTableView()
         {
@@ -88,5 +95,27 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             public string SourceType { get; }
         }
 
+        private void ExportClick(object sender, RoutedEventArgs e)
+        {
+            var sfd = new SaveFileDialog();
+            sfd.Filter = "Таблица MS Excel (*.xlsx)|*.xlsx";
+            sfd.FileName = "smarthome_data";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    gridControl.ExportToExcel(sfd.FileName, ExcelVersion.Excel2007);
+                    MessageView.ShowYesNo(string.Format("Экспортировано успешно.\r\nОткрыть файл [{0}]?", sfd.FileName), "Экспорт", Icons.Icon.OfficeExcel,
+                        (result) => {
+                            if (result)
+                                Process.Start(sfd.FileName);                            
+                        });
+                }
+                catch (Exception exception)
+                {
+                    Log.Error(exception.Message, exception);
+                }
+            }
+        }
     }
 }

@@ -22,8 +22,8 @@ namespace LazuriteUI.Windows.Controls
         public static readonly Brush Foreground = Brushes.White;
         public static readonly Brush BorderBrush = new SolidColorBrush(Color.FromRgb(17,34,39));
         public static readonly Brush CaptionForeground = Brushes.SteelBlue;
-        public static readonly int FontSize = 14;
-        public static readonly int BigFontSize = 17;
+        public static readonly double FontSize = 14;
+        public static readonly double BigFontSize = 17;
         public static readonly FontFamily FontFamily = new FontFamily("Segoe UI");
         public static readonly FontWeight FontWeight = System.Windows.FontWeight.FromOpenTypeWeight(2);
 
