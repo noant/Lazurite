@@ -45,6 +45,12 @@
     <ApplicationIcon>Lazurite64.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GMap.NET.Core, Version=1.7.5.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+      <HintPath>..\packages\GMap.NET.WindowsForms.1.7.5\lib\net40\GMap.NET.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GMap.NET.WindowsForms, Version=1.7.5.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+      <HintPath>..\packages\GMap.NET.WindowsForms.1.7.5\lib\net40\GMap.NET.WindowsForms.dll</HintPath>
+    </Reference>
     <Reference Include="HierarchicalData, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Libs\HierarchicalData.dll</HintPath>
@@ -395,6 +401,16 @@
       <DependentUpon>StatisticsItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statistics\Views\DiagramViewImplementation\Utils.cs" />
+    <Compile Include="Statistics\Views\GeolocationView.xaml.cs">
+      <DependentUpon>GeolocationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\Views\GeolocationViewImplementation\MarkersEnumerator.cs" />
+    <Compile Include="Statistics\Views\GeolocationViewImplementation\LocationsView.xaml.cs">
+      <DependentUpon>LocationsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statistics\Views\GeolocationViewImplementation\SelectScenarioView.xaml.cs">
+      <DependentUpon>SelectScenarioView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Statistics\Views\PieDiagramView.xaml.cs">
       <DependentUpon>PieDiagramView.xaml</DependentUpon>
     </Compile>
@@ -858,6 +874,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Statistics\Views\GeolocationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statistics\Views\GeolocationViewImplementation\LocationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Statistics\Views\GeolocationViewImplementation\SelectScenarioView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Statistics\Views\PieDiagramView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1096,6 +1124,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Icons\Lazurite32.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)" == "Release" start CopyToReleaseDir.bat

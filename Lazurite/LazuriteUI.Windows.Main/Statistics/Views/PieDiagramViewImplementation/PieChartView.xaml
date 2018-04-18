@@ -15,7 +15,7 @@
     <Label x:Name="lblCaption" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{x:Static controls:Visual.CaptionForeground}" FontSize="{x:Static controls:Visual.BigFontSize}">ПОДПИСЬ</Label>
     <syncfusion:SfChart AreaBorderThickness="0" Grid.Row="1">
         <syncfusion:SfChart.Legend>
-            <syncfusion:ChartLegend DockPosition="Bottom" Orientation="Vertical" LegendPosition="Inside">
+            <syncfusion:ChartLegend DockPosition="Bottom" Orientation="Vertical" LegendPosition="Inside" >
                 <syncfusion:ChartLegend.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="0,4,0,0">

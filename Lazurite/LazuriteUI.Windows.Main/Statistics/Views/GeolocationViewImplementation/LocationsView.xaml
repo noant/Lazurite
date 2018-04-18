@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation.LocationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             xmlns:local="clr-namespace:UserGeolocationPluginUI"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="900">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="2">
+            <controls:ItemView Background="{x:Static controls:Visual.ItemBackground}" x:Name="btSearch" Width="30" Icon="Magnify"></controls:ItemView>
+            <controls:EntryView ToolTip="Можно ввести координаты, адрес или ключевое слово" MinWidth="150" x:Name="tbSearch"></controls:EntryView>
+            <controls:IconView Height="30" Icon="LocationCheckin" Opacity="0.3"></controls:IconView>
+            <controls:EntryView Foreground="Gray" x:Name="tbCurrentLocation" IsReadOnly="True"></controls:EntryView>
+        </StackPanel>
+        <controls:ItemViewLE Click="ScenarioSelectClick" Grid.Row="1" HorizontalAlignment="Right" Width="30" Margin="2" Icon="Eye" Background="{x:Static controls:Visual.ItemBackground}"></controls:ItemViewLE>
+        <WindowsFormsHost x:Name="wfHost" ></WindowsFormsHost>
+    </Grid>
+</UserControl>

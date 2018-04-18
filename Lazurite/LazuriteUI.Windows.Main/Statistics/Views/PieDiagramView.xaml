@@ -21,8 +21,8 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <local2:PieChartView Content="ЗНАЧЕНИЯ" x:Name="chartByVal" Grid.Column="0" Grid.Row="1"></local2:PieChartView>
-        <local2:PieChartView Content="ПОЛЬЗОВАТЕЛИ" x:Name="chartByUser" Grid.Column="1" Grid.Row="1"></local2:PieChartView>
-        <local2:PieChartView Content="ДНИ НЕДЕЛИ" x:Name="chartByWeek" Grid.Column="2" Grid.Row="1"></local2:PieChartView>
+        <local2:PieChartView Content="ИЗМЕНЕНИЯ ПО ПОЛЬЗОВАТЕЛЯМ" x:Name="chartByUser" Grid.Column="1" Grid.Row="1"></local2:PieChartView>
+        <local2:PieChartView Content="ИЗМЕНЕНИЯ ПО ДНЯМ НЕДЕЛИ" x:Name="chartByWeek" Grid.Column="2" Grid.Row="1"></local2:PieChartView>
         <controls:ItemViewLE Click="SelectScenarioClick" Background="{x:Static controls:Visual.ItemBackground}" Margin="2" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="2" Width="30" Icon="Eye"></controls:ItemViewLE>
         <Label Foreground="{x:Static controls:Visual.CaptionForeground}" x:Name="lblEmpty" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="3" Grid.RowSpan="3" Visibility="Collapsed">Нет данных...</Label>
     </Grid>

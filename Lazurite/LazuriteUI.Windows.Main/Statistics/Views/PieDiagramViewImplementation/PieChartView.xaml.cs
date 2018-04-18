@@ -69,7 +69,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
                 first9.Add(itemLast);
                 items = first9.ToArray();
             }
-
+            chart.ItemsSource = null; //crutch
             chart.ItemsSource = items;
         }
 

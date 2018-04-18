@@ -52,8 +52,12 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
 
             if (targetScenarios.Any())
                 lblEmpty.Visibility = Visibility.Collapsed;
-            
-            itemsList.SelectionChanged += (o, e) => Selected?.Invoke(this, new EventsArgs<string>(SelectedId));
+
+            itemsList.SelectionChanged += (o, e) =>
+            {
+                if (itemsList.SelectedItem != null)
+                    Selected?.Invoke(this, new EventsArgs<string>(SelectedId));
+            };
         }
 
         public string SelectedId
