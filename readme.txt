@@ -31,6 +31,7 @@ Features short list:
 - ZWave and Modbus "from box";
 - Geolocation actions;
 - Send and recieve messages;
+- Statistics maintaining
 ------------------------------------
 Copyright (c) 2018 Novgorodcev Anton
 MIT License
