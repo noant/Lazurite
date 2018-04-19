@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lazurite.Shared;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -66,8 +67,9 @@ namespace LazuriteUI.Windows.Controls
                 dockControl.HorizontalAlignment = HorizontalAlignment.Left;
                 Loaded += (o, e) => RefreshPosition();
             }
+            DialogOpened?.Invoke(this, new EventsArgs<object>(contentControl.Content));
         }
-        
+
         private void RefreshPosition()
         {
             var mainWindowPanel = Utils.GetMainWindowPanel();
@@ -103,6 +105,7 @@ namespace LazuriteUI.Windows.Controls
                 }
                 parentPanel.Children.Remove(this);
                 Closed?.Invoke(this, new RoutedEventArgs());
+                DialogClosed?.Invoke(this, new EventsArgs<object>(contentControl.Content));
             }
         }
 
@@ -112,5 +115,8 @@ namespace LazuriteUI.Windows.Controls
         }
         
         public event RoutedEventHandler Closed;
+
+        public static event EventsHandler<object> DialogOpened;
+        public static event EventsHandler<object> DialogClosed;
     }
 }

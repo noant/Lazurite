@@ -5,22 +5,11 @@ using GMap.NET.WindowsForms.Markers;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.Shared;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
 {
@@ -33,9 +22,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
 
         private GMapControl _gmapControl;
         private GeolocationScenarioHistoryView[] _viewTargets;
-        private DateTime _viewSince = DateTime.Now.AddDays(-1);
         private MarkersEnumerator _markersEnumerator;
-        private string _currentDevice;
 
         public LocationsView()
         {
@@ -145,8 +132,13 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
                     CreateRoute(points, target.ScenarioInfo.Id, target.ScenarioInfo.Name);
                 }
 
+            wfHost.Visibility = 
+                _viewTargets == null || !_viewTargets.Any() ? 
+                Visibility.Collapsed : Visibility.Visible;
+
             _gmapControl.ResumeLayout();
             UpdateCurrentCoords();
+            FitToMarkers();
         }
                 
         private void CreateRoute(PointDate[] points, string scenarioId, string scenarioName)

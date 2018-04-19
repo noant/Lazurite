@@ -65,7 +65,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
 
         public event EventsHandler<string[]> ApplyClicked;
 
-        public static void Show(string[] selectedScenarios, Action<string[]> callback, Action dialogClosed)
+        public static void Show(string[] selectedScenarios, Action<string[]> callback)
         {
             var control = new SelectScenarioView(selectedScenarios);
             var dialog = new DialogView(control);
@@ -73,7 +73,6 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
                 callback?.Invoke(e.Value);
                 dialog.Close();
             };
-            dialog.Closed += (o, e) => dialogClosed?.Invoke();
             dialog.Show();
         }
     }

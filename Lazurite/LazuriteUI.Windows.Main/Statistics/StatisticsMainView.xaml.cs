@@ -9,20 +9,10 @@ using LazuriteUI.Windows.Main.Common;
 using LazuriteUI.Windows.Main.Statistics.Settings;
 using LazuriteUI.Windows.Main.Statistics.Views;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace LazuriteUI.Windows.Main.Statistics
 {
@@ -40,7 +30,7 @@ namespace LazuriteUI.Windows.Main.Statistics
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
         private IStatisticsView _currentView;
-        private string[] _selectedScenariosIds;
+        private StatisticsFilter _filter = StatisticsFilter.Empty;
 
         public StatisticsMainView()
         {
@@ -83,7 +73,7 @@ namespace LazuriteUI.Windows.Main.Statistics
                 _currentView = view;
                 view.NeedItems = (filter) =>
                 {
-                    _selectedScenariosIds = filter.ScenariosIds;
+                    _filter = filter;
                     Refresh();
                 };
                 viewHostControl.Content = view;
@@ -96,7 +86,6 @@ namespace LazuriteUI.Windows.Main.Statistics
                 AppendView(new DiagramView());
             else
             {
-                bool selectionEmpty = _selectedScenariosIds == null || !_selectedScenariosIds.Any();
                 var dateSince = datesRangeView.DateSelectionItem.Start;
                 var dateTo = datesRangeView.DateSelectionItem.End;
 
@@ -106,7 +95,7 @@ namespace LazuriteUI.Windows.Main.Statistics
                         {
                             var items = ScenariosRepository
                                 .Scenarios
-                                .Where(x => StatisticsManager.IsRegistered(x) && (selectionEmpty || _selectedScenariosIds.Contains(x.Id)))
+                                .Where(x => StatisticsManager.IsRegistered(x) && (_filter.All || (_filter.ScenariosIds?.Contains(x.Id) ?? false)))
                                 .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource))
                                 .SelectMany(x => StatisticsManager.GetItems(x, dateSince, dateTo, SystemActionSource))
                                 .OrderByDescending(x => x.DateTime)
@@ -128,6 +117,8 @@ namespace LazuriteUI.Windows.Main.Statistics
                 AppendView(new StatisticsTableView());
             else if (listItems.SelectedItem == btPieView)
                 AppendView(new PieDiagramView());
+            else if (listItems.SelectedItem == btGeolocationView)
+                AppendView(new GeolocationView());
             else AppendView(new DiagramView());
         }
     }

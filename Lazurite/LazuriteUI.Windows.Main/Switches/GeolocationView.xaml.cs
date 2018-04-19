@@ -1,6 +1,9 @@
 ﻿using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.IOC;
+using Lazurite.Logging;
 using Lazurite.MainDomain;
 using LazuriteUI.Windows.Controls;
+using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -13,6 +16,8 @@ namespace LazuriteUI.Windows.Main.Switches
     /// </summary>
     public partial class GeolocationView : UserControl
     {
+        private static readonly ILogger Log = Singleton.Resolve<ILogger>();
+
         public GeolocationView()
         {
             InitializeComponent();
@@ -31,7 +36,17 @@ namespace LazuriteUI.Windows.Main.Switches
             var data = GeolocationData.FromString(((ScenarioModel)DataContext).ScenarioValue);
             var lat = data.Latitude.ToString().Replace(",", ".");
             var lng = data.Longtitude.ToString().Replace(",", ".");
-            Process.Start(string.Format(browserUrl, lng, lat));
+
+            var url = string.Format(browserUrl, lng, lat);
+
+            try
+            {
+                Process.Start(url);
+            }
+            catch
+            {
+                Process.Start("IEXPLORE.EXE", url); //crutch
+            }
         }
     }
 }

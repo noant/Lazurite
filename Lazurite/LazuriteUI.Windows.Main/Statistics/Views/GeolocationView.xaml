@@ -1,11 +1,12 @@
-﻿<UserControl x:Class="LazuriteUI.Windows.Main.Statistics.Views.GeolocationView"
+﻿<Grid x:Class="LazuriteUI.Windows.Main.Statistics.Views.GeolocationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Statistics.Views"
              xmlns:local2="clr-namespace:LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <local2:LocationsView x:Name="locationsView"></local2:LocationsView>
-</UserControl>
+</Grid>
