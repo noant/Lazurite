@@ -50,6 +50,7 @@
                     <local:MenuItemView Type="{x:Type local:UsersAndGroupsView}" Margin="0,0,0,1" Icon="PeopleMultiple" Text="ПОЛЬЗОВАТЕЛИ"></local:MenuItemView>
                     <local:MenuItemView Type="{x:Type staistics:StatisticsMainView}" Margin="0,0,0,1" Icon="GraphLine" Text="СТАТИСТИКА"></local:MenuItemView>
                     <local:MenuItemView Type="{x:Type journal:JournalView}" Margin="0,0,0,1" Icon="Journal" Text="ЖУРНАЛ"></local:MenuItemView>
+                    <local:MenuItemView Type="{x:Type local:DocumentationView}" Margin="0,0,0,1" Icon="InformationCircle" Text="ДОКУМЕНТАЦИЯ"></local:MenuItemView>
                 </controls:ListItemsView>
                 <controls:CornerView HorizontalAlignment="Left" Margin="-10,0,0,0"></controls:CornerView>
             </StackPanel>
