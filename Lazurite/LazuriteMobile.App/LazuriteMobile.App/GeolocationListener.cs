@@ -18,47 +18,55 @@ namespace LazuriteMobile.App
         private static readonly double GeolocationMetersMinimumDistance = GlobalSettings.Get(10.0);
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
+        private bool _started = false;
+
         public Geolocation LastGeolocation { get; private set; } = Geolocation.Empty;
 
         private Task<bool> IsLocationAvailable() => CrossGeolocator.Current.CheckPermissionsAsync();
 
         public void StartListenChanges()
         {
-            IsLocationAvailable().ContinueWith((isLocationAvailable) => {
-                try
+            if (!_started)
+            {
+                _started = true;
+                IsLocationAvailable().ContinueWith((isLocationAvailable) =>
                 {
-                    if (isLocationAvailable.Result && CrossGeolocator.Current.IsGeolocationEnabled)
+                    try
                     {
-                        CrossGeolocator.Current.PositionChanged -= Current_PositionChanged;
-                        CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
-                        CrossGeolocator.Current.GetLastKnownLocationAsync().ContinueWith((t) =>
+                        if (isLocationAvailable.Result)
                         {
-                            if (t.Result != null)
-                                LastGeolocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, t.Result.Source == LocationSource.GPS);
-                        });
-                        CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromMinutes(10)).ContinueWith((t) =>
-                        {
-                            if (t.Result != null)
-                                LastGeolocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, t.Result.Source == LocationSource.GPS);
-                        });
-                        CrossGeolocator.Current.StartListeningAsync(
-                            minimumTime: TimeSpan.FromMinutes(2),
-                            minimumDistance: GeolocationMetersMinimumDistance,
-                            listenerSettings: new ListenerSettings()
+                            CrossGeolocator.Current.PositionChanged -= Current_PositionChanged;
+                            CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
+                            CrossGeolocator.Current.GetLastKnownLocationAsync().ContinueWith((t) =>
                             {
-                                ActivityType = ActivityType.Fitness
+                                if (t.Result != null)
+                                    LastGeolocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, t.Result.Source == LocationSource.GPS);
                             });
+                            CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromMinutes(10)).ContinueWith((t) =>
+                            {
+                                if (t.Result != null)
+                                    LastGeolocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, t.Result.Source == LocationSource.GPS);
+                            });
+                            CrossGeolocator.Current.StartListeningAsync(
+                                minimumTime: TimeSpan.FromMinutes(2),
+                                minimumDistance: GeolocationMetersMinimumDistance,
+                                listenerSettings: new ListenerSettings()
+                                {
+                                    ActivityType = ActivityType.Fitness
+                                });
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    Log.Error("Error while initializing GeolocationDataHandler", e);
-                }
-            });
+                    catch (Exception e)
+                    {
+                        Log.Error("Error while initializing GeolocationDataHandler", e);
+                    }
+                });
+            }
         }
 
         public void Stop()
         {
+            _started = false;
             CrossGeolocator.Current.PositionChanged -= Current_PositionChanged;
             CrossGeolocator.Current.StopListeningAsync();
         }

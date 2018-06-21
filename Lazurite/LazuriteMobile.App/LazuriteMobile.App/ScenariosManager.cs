@@ -83,8 +83,8 @@ namespace LazuriteMobile.App
             if (!Singleton.Any<IGeolocationListener>())
             {
                 var listener = new GeolocationListener();
-                listener.StartListenChanges();
                 Singleton.Add(listener);
+                listener.StartListenChanges();
             }
 
             if (!Bus.Any<GeolocationDataHandler>())
