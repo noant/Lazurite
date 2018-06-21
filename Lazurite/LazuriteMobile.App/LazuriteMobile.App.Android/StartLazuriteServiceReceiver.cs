@@ -4,7 +4,7 @@ using Android.Content;
 
 namespace LazuriteMobile.App.Droid
 {
-    [BroadcastReceiver(Enabled = false, Exported = true)]
+    [BroadcastReceiver(Enabled = true, Exported = true)]
     [IntentFilter(new[] { Intent.ActionBootCompleted })]
     public class StartLazuriteServiceReceiver : BroadcastReceiver
     {

@@ -38,9 +38,7 @@
   <PropertyGroup>
     <UICulture>ru-RU</UICulture>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationIcon>Lazurite64.ico</ApplicationIcon>
   </PropertyGroup>
@@ -1023,9 +1021,6 @@
     <EmbeddedResource Include="Resources\Syncfusion.Grid.Wpf.resx" />
     <EmbeddedResource Include="Resources\Syncfusion.Shared.WPF.resx" />
     <EmbeddedResource Include="Resources\Syncfusion.Tools.Wpf.resx" />
-    <None Include="app.manifest">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="CopyToReleaseDir.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

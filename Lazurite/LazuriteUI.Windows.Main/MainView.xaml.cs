@@ -19,7 +19,7 @@ namespace LazuriteUI.Windows.Main
             };
 
             btHide.Click += (o, e) => {
-                if (columnMenu.Width.Value == 170)
+                if (columnMenu.Width.Value == 173)
                 {
                     columnMenu.Width = new GridLength(50);
                     rowTop.Height = new GridLength(0);
@@ -27,7 +27,7 @@ namespace LazuriteUI.Windows.Main
                 }
                 else
                 {
-                    columnMenu.Width = new GridLength(170);
+                    columnMenu.Width = new GridLength(173);
                     rowTop.Height = GridLength.Auto;
                     btHide.Icon = Icons.Icon.ArrowExpand;
                 }

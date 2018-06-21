@@ -80,6 +80,13 @@ namespace LazuriteMobile.App
 
         public ScenariosManager()
         {
+            if (!Singleton.Any<IGeolocationListener>())
+            {
+                var listener = new GeolocationListener();
+                listener.StartListenChanges();
+                Singleton.Add(listener);
+            }
+
             if (!Bus.Any<GeolocationDataHandler>())
                 Bus.Register<GeolocationDataHandler>();
             if (!Bus.Any<DeviceDataHandler>())

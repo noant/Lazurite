@@ -71,6 +71,7 @@
     <Compile Include="Controls\ListItemsView.cs" />
     <Compile Include="Controls\ListItemsViewSelectionChangedEventArgs.cs" />
     <Compile Include="Controls\ListViewItemsSelectionMode.cs" />
+    <Compile Include="GeolocationListener.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="IUpdatable.cs" />
     <Compile Include="MainPage.xaml.cs">

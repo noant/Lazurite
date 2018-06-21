@@ -14,7 +14,7 @@ namespace ModbusPluginUI
         {
             InitializeComponent();
 
-            this.Loaded += (o, e) => {
+            Loaded += (o, e) => {
                 var grid = Window.GetWindow(this).Content as Grid;
                 btEdit.Click += (o1, e1) => {
                     ModbusValueTypeSelectionView.Show(

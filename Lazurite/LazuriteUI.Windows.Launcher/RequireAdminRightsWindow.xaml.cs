@@ -12,7 +12,11 @@ namespace LazuriteUI.Windows.Launcher
         {
             InitializeComponent();
 
-            btApply.Click += (o, e) => ApplyClick?.Invoke();            
+            btApply.Click += (o, e) =>
+            {
+                btApply.IsEnabled = false;
+                ApplyClick?.Invoke();
+            };
             btCancel.Click += (o, e) => CancelClick?.Invoke();
         }
 

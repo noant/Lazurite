@@ -24,9 +24,8 @@ namespace TestProject
             //});
 
             var action = new ModbusRegistersAction();
-            var result = action.UserInitializeWith(new FloatValueType(), false);
-            result = action.UserInitializeWith(new InfoValueType(), false);
-            result = action.UserInitializeWith(null, false);
+            var result = action.UserInitializeWith(null, false);
+
             var a = 0;
         }
     }

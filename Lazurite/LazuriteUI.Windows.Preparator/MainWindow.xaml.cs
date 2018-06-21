@@ -35,6 +35,8 @@ namespace LazuriteUI.Windows.Preparator
 
             Utils.VcRedistInstallAll();
 
+            Utils.FirewallSettings();
+
             if (!fileSavior.Has(LazuriteServer.SettingsKey))
             {
                 //certificate installing
