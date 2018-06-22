@@ -15,7 +15,7 @@
                        Width="300" Margin="48,0,0,0" VerticalAlignment="Center" Padding="0" Foreground="{x:Static controls:Visual.Foreground}"></Label>
             </controls:ItemView.Content>
         </controls:ItemView>
-        <controls:IconView HorizontalAlignment="Left" Margin="20,0,0,0" Icon="{Binding Icon, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MenuItemView}}}"></controls:IconView>
+        <controls:IconView IsHitTestVisible="False" HorizontalAlignment="Left" Margin="20,0,0,0" Icon="{Binding Icon, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MenuItemView}}}"></controls:IconView>
         <Grid IsHitTestVisible="False" HorizontalAlignment="Left" Width="20" Background="BlueViolet" Opacity="0.2"></Grid>
     </Grid>
 </UserControl>

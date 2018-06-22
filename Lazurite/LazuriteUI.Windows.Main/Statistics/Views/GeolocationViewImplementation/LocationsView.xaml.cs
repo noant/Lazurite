@@ -143,6 +143,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
                 
         private void CreateRoute(PointDate[] points, string scenarioId, string scenarioName)
         {
+            const int maxMarkersPerRoute = 100;
+
             var style = _markersEnumerator.Next;
 
             var overlay = new GMapOverlay("overlay");
@@ -152,8 +154,13 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
                     Stroke = style.Stroke
                 }
             );
-            foreach (var pointDate in points.Take(points.Length - 1))
+
+            var counter = points.Length <= maxMarkersPerRoute ? 1 : points.Length / maxMarkersPerRoute;
+
+            for (int i = 0; i < points.Length; i += counter)
             {
+                var pointDate = points[i];
+
                 var marker = new GMarkerGoogle(pointDate.Point, style.SmallMarker);
                 marker.ToolTipText = marker.ToolTipText = string.Format(
                     "{0}\r\nДата: {1}",
@@ -163,14 +170,15 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
                 marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                 overlay.Markers.Add(marker);
             }
+
             if (points.Any())
             {
-                var lastPointDate = points.Last();
-                var markerEnd = new GMarkerGoogle(lastPointDate.Point, style.BigMarker);
+                var firstPointDate = points.First();
+                var markerEnd = new GMarkerGoogle(firstPointDate.Point, style.BigMarker);
                 markerEnd.ToolTipText = string.Format(
                     "{0}\r\nДата: {1}",
                     scenarioName, 
-                    lastPointDate.DateTime.ToShortDateString() + " " + lastPointDate.DateTime.ToShortTimeString());
+                    firstPointDate.DateTime.ToShortDateString() + " " + firstPointDate.DateTime.ToShortTimeString());
                 markerEnd.ToolTip.Font = new Font("Calibri", 9);
                 markerEnd.Tag = new ScenarioInfo() {
                     Id = scenarioId,
