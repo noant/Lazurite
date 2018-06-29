@@ -62,7 +62,10 @@ namespace LazuriteMobile.App.Droid
 
             var context = global::Android.App.Application.Context;
 
-            var builder = new Notification.Builder(context);
+            var channelId = "channel1";
+            NotificationChannel mChannel = new NotificationChannel(channelId, "laz", NotificationImportance.High);
+
+            var builder = new Notification.Builder(context, channelId);
             builder.SetContentTitle(message.Header);
             builder.SetContentText(message.Text);
             builder.SetSmallIcon(Resource.Drawable.icon);

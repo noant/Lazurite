@@ -48,7 +48,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
         
         public override string ToString() => HumanFriendlyName;
 
-        //интерпертирует входящее значение
+        //интерпретирует входящее значение
         public abstract ValueTypeInterpreteResult Interprete(string param);
 
         public virtual string DefaultValue => string.Empty;
