@@ -65,27 +65,30 @@ namespace LazuriteMobile.App.Droid
             var notificationManager =
                 context.GetSystemService(Context.NotificationService) as NotificationManager;
 
-            var channelId = "channel1";
-
-            NotificationChannel mChannel;
-            var builder = new Notification.Builder(context, channelId);
+            Notification.Builder builder;
 
             if (Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.O)
             {
+                var channelId = "channel1";
+                NotificationChannel mChannel;
+
                 mChannel = new NotificationChannel(channelId, "laz", NotificationImportance.High);
                 mChannel.EnableLights(true);
                 mChannel.LightColor = Color.White;
                 mChannel.SetShowBadge(true);
                 mChannel.LockscreenVisibility = NotificationVisibility.Private;
-
                 notificationManager.CreateNotificationChannel(mChannel);
+                builder = new Notification.Builder(context, channelId);
             }
+            else
+                builder = new Notification.Builder(context);
 
             builder.SetContentTitle(message.Header);
             builder.SetContentText(message.Text);
             builder.SetSmallIcon(Resource.Drawable.icon);
             builder.SetVisibility(NotificationVisibility.Private);
             builder.SetOnlyAlertOnce(true);
+            builder.SetDefaults(NotificationDefaults.All);
             builder.SetAutoCancel(true);
             builder.SetColor(Color.Argb(0, 255, 255, 255).ToArgb());
 
