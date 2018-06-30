@@ -62,17 +62,31 @@ namespace LazuriteMobile.App.Droid
 
             var context = global::Android.App.Application.Context;
 
-            var channelId = "channel1";
-            NotificationChannel mChannel = new NotificationChannel(channelId, "laz", NotificationImportance.High);
+            var notificationManager =
+                context.GetSystemService(Context.NotificationService) as NotificationManager;
 
+            var channelId = "channel1";
+
+            NotificationChannel mChannel;
             var builder = new Notification.Builder(context, channelId);
+
+            if (Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.O)
+            {
+                mChannel = new NotificationChannel(channelId, "laz", NotificationImportance.High);
+                mChannel.EnableLights(true);
+                mChannel.LightColor = Color.White;
+                mChannel.SetShowBadge(true);
+                mChannel.LockscreenVisibility = NotificationVisibility.Private;
+
+                notificationManager.CreateNotificationChannel(mChannel);
+            }
+
             builder.SetContentTitle(message.Header);
             builder.SetContentText(message.Text);
             builder.SetSmallIcon(Resource.Drawable.icon);
             builder.SetVisibility(NotificationVisibility.Private);
             builder.SetOnlyAlertOnce(true);
             builder.SetAutoCancel(true);
-            builder.SetDefaults(NotificationDefaults.All);
             builder.SetColor(Color.Argb(0, 255, 255, 255).ToArgb());
 
             var activityIntent = new Intent(context, typeof(MainActivity));
@@ -85,9 +99,6 @@ namespace LazuriteMobile.App.Droid
 
             var notification = builder.Build();
 
-            var notificationManager =
-                context.GetSystemService(Context.NotificationService) as NotificationManager;
-            
             notificationManager.Notify(newId, notification);
 
             if (Singleton.Any<INotificationsHandler>())
