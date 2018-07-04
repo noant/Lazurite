@@ -77,6 +77,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MainWindow_ConfigParam.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -99,10 +103,17 @@
     <Compile Include="GenreSelectView.xaml.cs">
       <DependentUpon>GenreSelectView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainWindow_ConfigParam.xaml.cs">
+      <DependentUpon>MainWindow_ConfigParam.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NodeConfigParamMainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="NodesMainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -114,6 +125,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NodesListView.cs" />
+    <Compile Include="NodeConfigParamMainView.xaml.cs">
+      <DependentUpon>NodeConfigParamMainView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NodesMainView.xaml.cs">
       <DependentUpon>NodesMainView.xaml</DependentUpon>
     </Compile>

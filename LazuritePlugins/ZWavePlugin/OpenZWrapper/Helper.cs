@@ -44,44 +44,37 @@ namespace OpenZWrapper
                     }
                 case ZWValueID.ValueType.Bool:
                     {
-                        bool result;
-                        manager.GetValueAsBool(valueId, out result);
+                        manager.GetValueAsBool(valueId, out bool result);
                         return result;
                     }
                 case ZWValueID.ValueType.Byte:
                     {
-                        byte result;
-                        manager.GetValueAsByte(valueId, out result);
+                        manager.GetValueAsByte(valueId, out byte result);
                         return result;
                     }
                 case ZWValueID.ValueType.Decimal:
                     {
-                        decimal result;
-                        manager.GetValueAsDecimal(valueId, out result);
+                        manager.GetValueAsDecimal(valueId, out decimal result);
                         return result;
                     }
                 case ZWValueID.ValueType.Int:
                     {
-                        int result;
-                        manager.GetValueAsInt(valueId, out result);
+                        manager.GetValueAsInt(valueId, out int result);
                         return result;
                     }
                 case ZWValueID.ValueType.Short:
                     {
-                        short result;
-                        manager.GetValueAsShort(valueId, out result);
+                        manager.GetValueAsShort(valueId, out short result);
                         return result;
                     }
                 case ZWValueID.ValueType.String:
                     {
-                        string result;
-                        manager.GetValueAsString(valueId, out result);
+                        manager.GetValueAsString(valueId, out string result);
                         return result;
                     }
                 case ZWValueID.ValueType.List:
                     {
-                        string result;
-                        manager.GetValueListSelection(valueId, out result);
+                        manager.GetValueListSelection(valueId, out string result);
                         return result;
                     }
             }

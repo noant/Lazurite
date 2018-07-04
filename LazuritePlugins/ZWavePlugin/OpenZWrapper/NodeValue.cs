@@ -67,19 +67,11 @@ namespace OpenZWrapper
         public byte CurrentGroupIdx { get; internal set; }
         public byte CurrentByte { get; internal set; }
 
-        internal void InternalSet(object value)
-        {
-            _current = value;
-        }
+        internal void InternalSet(object value) => _current = value;
 
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode() ^ Node.GetHashCode();
-        }
+        public override int GetHashCode() => Id.GetHashCode() ^ Node.GetHashCode();
 
-        public override bool Equals(object obj)
-        {
-            return (obj as NodeValue)?.GetHashCode() == GetHashCode();
-        }
+        public override bool Equals(object obj) => 
+            (obj as NodeValue)?.GetHashCode() == GetHashCode();
     }
 }

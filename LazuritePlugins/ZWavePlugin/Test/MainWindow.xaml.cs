@@ -18,7 +18,7 @@ namespace Test
             InitializeComponent();
             Singleton.Add(new DataManagerStub());
             ZWaveManager.Current.WaitForInitialized();
-            ZWaveManager.Current.AddController(new OpenZWrapper.Controller() { IsHID = false, Path = "COM8" }, (res) => {
+            ZWaveManager.Current.AddController(new OpenZWrapper.Controller() { IsHID = false, Path = "COM4" }, (res) => {
                 if (res)
                 {
                     var b = new ZWaveNodeValue() {
@@ -26,6 +26,7 @@ namespace Test
                         ValueId = 72057594093240320,
                         NodeId = 3
                     };
+
                     var t = new Thread(() => {
                         b.Initialize();
                         while (true)

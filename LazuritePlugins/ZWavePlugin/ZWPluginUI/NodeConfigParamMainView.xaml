@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="ZWPluginUI.NodeConfigParamMainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ZWPluginUI"
+             xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300"
+             d:DesignWidth="1000"
+             Background="#111117">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <controls:CaptionView Grid.ColumnSpan="3" Icon="HomeEmpty">Конфигурационный параметр устройства Z-Wave</controls:CaptionView>
+        <controls:ItemView x:Name="btControllers" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="490,0,0,0" Icon="Settings" Width="160" VerticalAlignment="Center" Height="30" ToolTip="Настройки контроллеров">Контроллеры</controls:ItemView>
+        <controls:ItemView Grid.ColumnSpan="3" x:Name="btRefresh" HorizontalAlignment="Left" Margin="455,0,0,0" Icon="Refresh" Width="30" VerticalAlignment="Center" Height="30" ToolTip="Обновить список узлов">Обновить</controls:ItemView>
+        <Label Margin="5,5,5,0" VerticalContentAlignment="Center" Grid.Row="1" Background="{x:Static controls:Visual.BackgroundLazurite}" Foreground="SteelBlue">Узлы</Label>
+        <controls:WheelScroll Margin="5" Grid.Row="2">
+            <local:NodesListView Background="{x:Static controls:Visual.Background}" x:Name="nodesListView"></local:NodesListView>
+        </controls:WheelScroll>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
+            <Label VerticalAlignment="Center" Foreground="SteelBlue">Номер конфигурационного параметра:</Label>
+            <controls:EntryView Padding="5" Background="{x:Static controls:Visual.BackgroundLazurite}" VerticalAlignment="Center" Width="100" x:Name="tbId">0</controls:EntryView>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="4" Margin="5" Grid.ColumnSpan="3">
+            <controls:ItemView Width="150" x:Name="ButtonApply" Icon="Check">Применить</controls:ItemView>
+            <controls:ItemView Width="150" x:Name="ButtonCancel" Icon="Cancel" Margin="5,0,0,0">Отмена</controls:ItemView>
+        </StackPanel>
+        <Grid Grid.RowSpan="4" Grid.ColumnSpan="3" x:Name="gridExternalContent"></Grid>
+    </Grid>
+</UserControl>

@@ -20,9 +20,9 @@ namespace OpenZWrapper
         public void Refresh()
         {
             Manufacturer = Manager.GetNodeManufacturerName(HomeId, Id);
-            Name = Manager.GetNodeName(HomeId, Id);
+            Name = Manager.GetNodeName(HomeId, Id).Replace("Unknown", Manufacturer);
+            ProductName = Manager.GetNodeProductName(HomeId, Id).Replace("Unknown", Manufacturer);
             Type = Manager.GetNodeType(HomeId, Id);
-            ProductName = Manager.GetNodeProductName(HomeId, Id);
             ProductType = Manager.GetNodeType(HomeId, Id);
             Location = Manager.GetNodeLocation(HomeId, Id);
         }
@@ -43,14 +43,13 @@ namespace OpenZWrapper
 
         internal bool Initialized { get; set; }
 
-        public override int GetHashCode()
-        {
-            return HomeId.GetHashCode() ^ Name.GetHashCode() ^ ProductName.GetHashCode() ^ Id.GetHashCode();
-        }
+        public bool SetConfigParam(byte configParamId, int value) =>
+            Manager.SetConfigParam(HomeId, Id, configParamId, value);
 
-        public override bool Equals(object obj)
-        {
-            return GetHashCode() == obj?.GetHashCode();
-        }
+        public override int GetHashCode() =>
+            HomeId.GetHashCode() ^ Name.GetHashCode() ^ ProductName.GetHashCode() ^ Id.GetHashCode();
+
+        public override bool Equals(object obj) => 
+            obj is Node && GetHashCode() == obj?.GetHashCode();
     }
 }
