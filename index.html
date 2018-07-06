@@ -26,9 +26,20 @@
             border-bottom: 2px solid;
             border-bottom-color: #7d28a6;
             padding: 5px;
-            height: 300px;
+            height: 250px;
             width: 410px;
             float: left;
+            text-align:center;
+        }
+        [name=brick_text] {
+            height: 50px;
+            width: 400px;
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+        [name=splitter]{
+            color: steelblue;
         }
         a{
             color:white;
@@ -96,13 +107,13 @@
                     </table>
                 </td>
                 <td>
-                    <table name="item" style="padding-right:10px;width:330px;">
+                    <table name="item" style="padding-right:10px;width:329px;">
                         <tr>
                             <td>
                                 <img src="pics/Bug.png" style="margin-right:16px;" align="middle" />
                             </td>
                             <td style="color:gray;">
-                                Сообщить автору об ошибке можно <a href="https://github.com/noant/Lazurite/issues">здесь</a> или<br />
+                                Сообщить автору об ошибке можно <a href="https://github.com/noant/Lazurite/issues">здесь</a><br />или
                                 по адресу <a href="mailto:anton.novgorodcev@gmail.com">anton.novgorodcev@gmail.com</a>
                             </td>
                         </tr>
@@ -111,27 +122,64 @@
             </tr>
         </table>
         <br />
-        <div style="text-align:center">
+        <div>
             <div name="brick">
                 <img src="pics/test.jpg" />
+                <div name="brick_text">
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%9A%D0%BB%D0%B8%D0%B5%D0%BD%D1%82-Lazurite">Управление с помощью смартфона</a><span name="splitter"> | </span>
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%9E%D1%82%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B0-%D1%81%D0%BE%D0%BE%D0%B1%D1%89%D0%B5%D0%BD%D0%B8%D0%B9">Нотификации</a>
+                </div>
             </div>
             <div name="brick">
-                <img src="pics/test.jpg" />
+                <img src="pics/zwave.jpg" />
+                <div name="brick_text">
+                    <a href="https://github.com/noant/Lazurite/wiki/ZWave">Z-Wave</a><span name="splitter"> | </span>
+                    <a href="https://github.com/noant/Lazurite/wiki/Modbus">Modbus</a><span name="splitter"> | </span>
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%92%D1%81%D0%B5-%D0%B4%D0%B5%D0%B9%D1%81%D1%82%D0%B2%D0%B8%D1%8F">Управление мультимедиа</a>
+                </div>
             </div>
             <div name="brick">
-                <img src="pics/test.jpg" />
+                <img src="pics/geo.jpg" />
+                <div name="brick_text">
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%98%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%8F-%D0%BF%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D1%89%D0%B5%D0%BD%D0%B8%D0%B9">История перемещений</a> <span name="splitter"> | </span>
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%93%D0%B5%D0%BE%D0%BB%D0%BE%D0%BA%D0%B0%D1%86%D0%B8%D1%8F-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F">GPS-трекинг</a>
+                </div>
             </div>
             <div name="brick">
-                <img src="pics/test.jpg" />
+                <img src="pics/algo.jpg" />
+                <div name="brick_text">
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%A1%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B8">Сложные сценарии</a> <span name="splitter"> | </span>
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80-%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D1%8B%D1%85-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B5%D0%B2#action1_if">Условия</a> <span name="splitter"> | </span>
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80-%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D1%8B%D1%85-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B5%D0%B2#action1_while">Циклы</a> <span name="splitter"> | </span>
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%A2%D1%80%D0%B8%D0%B3%D0%B3%D0%B5%D1%80%D1%8B">Триггеры</a>
+                </div>
             </div>
             <div name="brick">
-                <img src="pics/test.jpg" />
+                <img src="pics/stat.jpg" />
+                <div name="brick_text">
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0">Ведение статистики и учет</a>
+                </div>
             </div>
             <div name="brick">
-                <img src="pics/test.jpg" />
+                <img src="pics/users.jpg" />
+                <div name="brick_text">
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%9F%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B8">Пользователи</a><span name="splitter"> | </span>
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%93%D1%80%D1%83%D0%BF%D0%BF%D1%8B">Группы</a><span name="splitter"> | </span>
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%91%D0%B5%D0%B7%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D0%BE%D1%81%D1%82%D1%8C-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D1%8F">Распределение прав</a>
+                </div>
             </div>
             <div name="brick">
-                <img src="pics/test.jpg" />
+                <img src="pics/distr.jpg" />
+                <div name="brick_text">
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%A1%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B8#type2_remote">Распределенная система</a>
+                </div>
+            </div>
+            <div name="brick">
+                <img src="pics/plug.jpg" />
+                <div name="brick_text">
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%9F%D0%BB%D0%B0%D0%B3%D0%B8%D0%BD%D1%8B">Плагины</a><span name="splitter"> | </span>
+                    <a href="https://github.com/noant/Lazurite/wiki/%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BB%D0%B0%D0%B3%D0%B8%D0%BD%D0%BE%D0%B2">Создание плагинов</a>
+                </div>
             </div>
         </div>
     </div>
