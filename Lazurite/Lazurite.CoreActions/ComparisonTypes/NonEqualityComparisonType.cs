@@ -26,7 +26,7 @@ namespace Lazurite.CoreActions.ComparisonTypes
 
         public bool Calculate(IAction val1, IAction val2, ExecutionContext context)
         {
-            return !val1.GetValue(context).Equals(val2.GetValue(context));
+            return !val1?.GetValue(context)?.Equals(val2?.GetValue(context)) ?? true;
         }
     }
 }

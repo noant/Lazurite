@@ -83,8 +83,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             lblScenName.Content = scenarioName;
 
             _items = items.OrderBy(x=>x.DateTime).ToArray();
-            MaxDateCurrent = _items.Any() ? (DateTime?)_items.Max(x => x.DateTime) : null;
-            MinDateCurrent = _items.Any() ? (DateTime?)_items.Min(x => x.DateTime) : null;
+            MaxDateCurrent = _items.Any() ? (DateTime?)_items.Last().DateTime : null;
+            MinDateCurrent = _items.Any() ? (DateTime?)_items.First().DateTime : null;
             _scaleYMax = _valuesIds.Count + 1;
         }
 

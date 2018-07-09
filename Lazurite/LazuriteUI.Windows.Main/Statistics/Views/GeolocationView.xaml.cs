@@ -26,11 +26,15 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             DialogView.DialogOpened += DialogView_DialogOpened;
             DialogView.DialogClosed += DialogView_DialogClosed;
 
-            _scenarioIds = 
-                ScenariosRepository.Scenarios
-                .Where(x => x.ValueType is GeolocationValueType && StatisticsManager.IsRegistered(x))
-                .Select(x => x.Id)
+            var geolocationScenarios = ScenariosRepository
+                .Scenarios
+                .Where(x => x.ValueType is GeolocationValueType)
                 .ToArray();
+
+            var registrationInfo = StatisticsManager
+                .GetRegistrationInfo(geolocationScenarios);
+
+            _scenarioIds = registrationInfo.RegisteredIds;
 
             locationsView.ScenarioSelectClicked += (o, e) => {
                 SelectScenarioView.Show(

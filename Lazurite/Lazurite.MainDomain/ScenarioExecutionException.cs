@@ -29,6 +29,8 @@ namespace Lazurite.MainDomain
                         return "Стек переполнен! Выполение будет прекращено.";
                     case ScenarioExecutionError.AccessDenied:
                         return "Доступ запрещен.";
+                    case ScenarioExecutionError.NotAvailable:
+                        return "Сценарий недоступен";
                     case ScenarioExecutionError.InvalidValue:
                         return string.Format("Значение [{0}] не может быть принято.", Tag);
                 }

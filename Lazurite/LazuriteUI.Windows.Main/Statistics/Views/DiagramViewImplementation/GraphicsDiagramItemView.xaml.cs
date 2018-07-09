@@ -35,9 +35,10 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         {
             InitializeComponent();
             SizeChanged += (o, e) => Refresh();
+            //Loaded += (o, e) => RefreshScalesLabels(); //crutch
         }
 
-        private StatisticsItem[] _items;
+        private List<StatisticsItem> _items;
         private Dictionary<StatisticsItem, double> _values;
         private double _scaleYMin;
         private double _scaleYMax;
@@ -56,11 +57,9 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         public DateTime MaxDate { get; set; }
         public DateTime MinDate { get; set; }
 
-        public StatisticsItem GetItemNear(DateTime dateTime)
-        {
-            return _items.LastOrDefault(x => x.DateTime <= dateTime);
-        }
-
+        public StatisticsItem GetItemNear(DateTime dateTime) => 
+            _items.LastOrDefault(x => x.DateTime <= dateTime);
+        
         public void SelectPoint(DateTime dateTime)
         {
             var item = GetItemNear(dateTime);
@@ -77,13 +76,15 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         public void SetPoints(string scenarioName, StatisticsItem[] items)
         {
             lblScenName.Content = scenarioName;
-
-            _items = items.OrderBy(x=>x.DateTime).ToArray();
-            MaxDateCurrent = _items.Any() ? (DateTime?)_items.Max(x => x.DateTime) : null;
-            MinDateCurrent = _items.Any() ? (DateTime?)_items.Min(x => x.DateTime) : null;
+            _items = items.OrderBy(x => x.DateTime).ToList();
             _values = new Dictionary<StatisticsItem, double>();
-            foreach(var item in _items)
-                _values.Add(item, double.Parse(item.Value));
+            foreach (var item in _items.ToArray())
+                if (double.TryParse(item.Value, out double val))
+                    _values.Add(item, val);
+                else
+                    _items.Remove(item); //crutch
+            MaxDateCurrent = _items.Any() ? (DateTime?)_items.Last().DateTime : null;
+            MinDateCurrent = _items.Any() ? (DateTime?)_items.First().DateTime : null;
             var min = _realYMin = _values.Any() ? _values.Min(x => x.Value) : 0;
             var max = _values.Any() ? _values.Max(x => x.Value) : 0;
             var scaleIncrease = (max - min) / 5;
@@ -125,18 +126,12 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             DrawItems(itemsToDraw.OrderBy(x => x.DateTime).ToArray());
         }
 
-        private void DrawItems(StatisticsItem[] statisticsItems)
+        private void RefreshScalesLabels()
         {
-            var items = statisticsItems;
-
-            var scaleDiff = (_scaleYMax - _scaleYMin) / 4;
-            lblScaleMin.Content = _scaleYMin;
-            lblScaleMax.Content = _scaleYMax;
-
             lineX.Margin = new Thickness(-11, Translate(0, 0).Y, 0, 0);
             lblScaleZero.Margin = new Thickness(0, lineX.Margin.Top, 11, 0);
 
-            if (lineX.Margin.Top >= gridMain.ActualHeight - 30)
+            if (lineX.Margin.Top >= gridMain.ActualHeight - 30 && lineX.Margin.Top <= gridMain.ActualHeight)
             {
                 lblScaleMin.Visibility = Visibility.Collapsed;
                 lblScaleMax.Visibility = Visibility.Visible;
@@ -151,9 +146,21 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                 lblScaleMin.Visibility = Visibility.Visible;
                 lblScaleMax.Visibility = Visibility.Visible;
             }
+        }
+
+        private void DrawItems(StatisticsItem[] statisticsItems)
+        {
+            var items = statisticsItems;
+
+            var scaleDiff = (_scaleYMax - _scaleYMin) / 4;
+            lblScaleMin.Content = _scaleYMin;
+            lblScaleMax.Content = _scaleYMax;
+
+            RefreshScalesLabels();
 
             var points = 
                 items
+                .Where(x=>_values.ContainsKey(x))
                 .Select(x => Translate((int)(x.DateTime - MinDate).TotalSeconds, _values[x]))
                 .ToList();
                         

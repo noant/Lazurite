@@ -60,34 +60,49 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             var scenarioInfo = StatisticsManager.GetStatisticsInfoForScenario(scenario, SystemActionSource);
             NeedItems?.Invoke(new StatisticsFilter() {
                 ScenariosIds = new[] { _scenarioId }
-            });            
+            });
         }
 
         public void RefreshItems(StatisticsItem[] items, DateTime since, DateTime to)
         {
-            var views = items.Select(x => new PieItemView()
+            items = items.OrderBy(x => x.DateTime).ToArray();
+            PieItemView prev = null;
+            var views = items.Select(x =>
             {
-                DayOfWeek = GetDayOfWeek(x.DateTime.DayOfWeek),
-                UserName = x.Source.Name,
-                Value = GetValue(x)
+                if (prev != null)
+                    //calculating weights
+                    prev.Weight = (x.DateTime - prev.DateTime).Seconds;
+
+                var weight = 0;
+                if (x == items.Last())
+                    weight = (DateTime.Now - x.DateTime).Seconds;
+
+                return prev = new PieItemView()
+                {
+                    DayOfWeek = GetDayOfWeek(x.DateTime.DayOfWeek),
+                    UserName = x.Source.Name,
+                    Value = GetValue(x),
+                    DateTime = x.DateTime,
+                    Weight = weight
+                };
             }).ToArray();
 
             var viewsByVal = views.Select(x => x.Value).Distinct().Select(x => new StatisticsCategoryView()
             {
                 Category = x,
-                Count = views.Count(z => z.Value == x)
+                Weight = views.Where(z => z.Value == x).Sum(z => z.Weight)
             }).ToArray();
 
             var viewsByUser = views.Select(x => x.UserName).Distinct().Select(x => new StatisticsCategoryView()
             {
                 Category = x,
-                Count = views.Count(z => z.UserName == x)
+                Weight = views.Count(z => z.UserName == x)
             }).ToArray();
 
             var viewsByWeek = views.Select(x => x.DayOfWeek).Distinct().Select(x => new StatisticsCategoryView()
             {
                 Category = x,
-                Count = views.Count(z => z.DayOfWeek == x)
+                Weight = views.Count(z => z.DayOfWeek == x)
             }).ToArray();
 
             chartByVal.SetItems(viewsByVal);
@@ -131,6 +146,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             public string Value { get; set; }
             public string UserName { get; set; }
             public string DayOfWeek { get; set; }
+            public DateTime DateTime { get; set; }
+            public int Weight { get; set; }
         }
     }
 }

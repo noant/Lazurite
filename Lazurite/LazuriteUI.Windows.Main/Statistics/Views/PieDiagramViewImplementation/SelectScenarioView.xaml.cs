@@ -33,25 +33,31 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
         {
             InitializeComponent();
 
-            var targetScenarios =
-                ScenariosRepository.Scenarios
-                .Where(x => StatisticsManager.IsRegistered(x))
-                .ToArray();
+            StuckUILoadingWindow.Show("Загрузка данных...",
+                () => {
+                    var registrationInfo = StatisticsManager
+                        .GetRegistrationInfo(ScenariosRepository.Scenarios);
 
-            foreach (var scenario in targetScenarios)
-            {
-                var item = new ItemView();
-                item.Icon = Icons.Icon.ChevronRight;
-                item.Selectable = true;
-                item.Content = scenario.Name.Length > 57 ? scenario.Name.Substring(0, 55) + "..." : scenario.Name;
-                item.Tag = scenario.Id;
-                item.Margin = new Thickness(2, 2, 2, 0);
-                item.Selected = selectedScenarios?.Contains(scenario.Id) ?? false;
-                itemsList.Children.Add(item);
-            }
+                    var registeredScenarios = ScenariosRepository
+                        .Scenarios
+                        .Where(x => registrationInfo.IsRegistered(x.Id))
+                        .ToArray();
 
-            if (targetScenarios.Any())
-                lblEmpty.Visibility = Visibility.Collapsed;
+                    foreach (var scenario in registeredScenarios)
+                    {
+                        var item = new ItemView();
+                        item.Icon = Icons.Icon.ChevronRight;
+                        item.Selectable = true;
+                        item.Content = scenario.Name.Length > 57 ? scenario.Name.Substring(0, 55) + "..." : scenario.Name;
+                        item.Tag = scenario.Id;
+                        item.Margin = new Thickness(2, 2, 2, 0);
+                        item.Selected = selectedScenarios?.Contains(scenario.Id) ?? false;
+                        itemsList.Children.Add(item);
+                    }
+
+                    if (registeredScenarios.Any())
+                        lblEmpty.Visibility = Visibility.Collapsed;
+                });
 
             itemsList.SelectionChanged += (o, e) =>
             {

@@ -36,7 +36,6 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             var targetScenarios =
                 ScenariosRepository.Scenarios
                 .Where(x => 
-                    StatisticsManager.IsRegistered(x) &&
                     (x.ValueType is FloatValueType ||
                     x.ValueType is StateValueType ||
                     x.ValueType is ButtonValueType ||
@@ -44,6 +43,10 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                     x.ValueType is InfoValueType ||
                     x.ValueType is DateTimeValueType))
                 .ToArray();
+
+            var registrationInfo = StatisticsManager.GetRegistrationInfo(targetScenarios);
+
+            targetScenarios = targetScenarios.Where(x => registrationInfo.IsRegistered(x.Id)).ToArray();
 
             foreach (var scenario in targetScenarios)
             {

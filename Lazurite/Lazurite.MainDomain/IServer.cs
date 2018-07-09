@@ -35,6 +35,6 @@ namespace Lazurite.MainDomain
         [OperationContract]
         EncryptedList<StatisticsItem> GetStatistics(DateTime since, DateTime to, Encrypted<StatisticsScenarioInfo> info);
         [OperationContract]
-        bool IsStatisticsRegistered(Encrypted<StatisticsScenarioInfo> info);
+        Encrypted<ScenarioStatisticsRegistration> GetStatisticsRegistration(EncryptedList<string> scenariosIds);
     }
 }

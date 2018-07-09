@@ -318,6 +318,8 @@ namespace OpenZWrapper
                             _nodes.Add(node);
                             node.Controller = controller;
                             _manager.RequestAllConfigParams(node.HomeId, node.Id);
+                            _manager.RefreshNodeInfo(node.HomeId, node.Id);
+                            _manager.RequestNodeDynamic(node.HomeId, node.Id);
                             _callbacksPool.Dequeue(true, 
                                 nameof(AddNewDevice),
                                 nameof(AddNewSecureDevice));

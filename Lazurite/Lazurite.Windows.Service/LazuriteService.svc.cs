@@ -384,15 +384,13 @@ namespace Lazurite.Windows.Service
             });
         }
 
-        public bool IsStatisticsRegistered(Encrypted<StatisticsScenarioInfo> encryptedInfo)
+        public Encrypted<ScenarioStatisticsRegistration> GetStatisticsRegistration(EncryptedList<string> scenariosIds)
         {
             return Handle((user) =>
             {
-                var info = encryptedInfo.Decrypt(_secretKey);
-                var scenario = ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == info.ID && ActionsDomain.Utils.GetValueTypeClassName(x.ValueType.GetType()) == info.ValueTypeName);
-                if (scenario == null)
-                    return false;
-                return StatisticsManager.IsRegistered(scenario);
+                var ids = scenariosIds.Decrypt(_secretKey);
+                var scenarios = ScenariosRepository.Scenarios.Where(x => ids.Contains(x.Id)).ToArray();
+                return new Encrypted<ScenarioStatisticsRegistration>(StatisticsManager.GetRegistrationInfo(scenarios), _secretKey);
             });
         }
     }

@@ -44,8 +44,10 @@ namespace LazuriteUI.Windows.Main.Statistics
                     () => {
                         try
                         {
+                            var registrationInfo = StatisticsManager
+                                .GetRegistrationInfo(ScenariosRepository.Scenarios);
                             var registered = ScenariosRepository.Scenarios
-                                .Where(x => StatisticsManager.IsRegistered(x))
+                                .Where(x => registrationInfo.IsRegistered(x.Id))
                                 .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource))
                                 .ToArray();
                             datesRangeView.Min = registered.Any() ? registered.Min(x => x.Since) : DateTime.Now;
@@ -93,9 +95,18 @@ namespace LazuriteUI.Windows.Main.Statistics
                     () => {
                         try
                         {
+                            var registrationInfo = StatisticsManager
+                                .GetRegistrationInfo(
+                                    ScenariosRepository
+                                    .Scenarios
+                                    .Where(z => 
+                                        _filter.All || 
+                                        (_filter.ScenariosIds?.Contains(z.Id) ?? false))
+                                    .ToArray());
+                            
                             var items = ScenariosRepository
                                 .Scenarios
-                                .Where(x => StatisticsManager.IsRegistered(x) && (_filter.All || (_filter.ScenariosIds?.Contains(x.Id) ?? false)))
+                                .Where(x => registrationInfo.IsRegistered(x.Id))
                                 .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource))
                                 .SelectMany(x => StatisticsManager.GetItems(x, dateSince, dateTo, SystemActionSource))
                                 .OrderByDescending(x => x.DateTime)

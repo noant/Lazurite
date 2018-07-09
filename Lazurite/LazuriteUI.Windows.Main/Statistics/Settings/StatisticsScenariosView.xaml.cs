@@ -1,5 +1,6 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.MainDomain.Statistics;
 using LazuriteUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
@@ -24,13 +25,15 @@ namespace LazuriteUI.Windows.Main.Statistics.Settings
     public partial class StatisticsScenariosView : Grid
     {
         private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
+        private static readonly IStatisticsManager StatisticsManager = Singleton.Resolve<IStatisticsManager>();
 
         public StatisticsScenariosView()
         {
             InitializeComponent();
+            var registrationInfo = StatisticsManager.GetRegistrationInfo(ScenariosRepository.Scenarios);
             foreach (var scenario in ScenariosRepository.Scenarios)
             {
-                var item = new StatisticsScenarioItemView(scenario);
+                var item = new StatisticsScenarioItemView(scenario, registrationInfo.IsRegistered(scenario.Id));
                 spItems.Children.Add(item);
             }
         }

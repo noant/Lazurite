@@ -43,6 +43,12 @@ namespace OpenZWrapper
 
         internal bool Initialized { get; set; }
 
+        public void SetNodeOn() =>
+            Manager.SetNodeOn(HomeId, Id);
+        
+        public void SetNodeOff() =>
+            Manager.SetNodeOff(HomeId, Id);
+
         public bool SetConfigParam(byte configParamId, int value) =>
             Manager.SetConfigParam(HomeId, Id, configParamId, value);
 

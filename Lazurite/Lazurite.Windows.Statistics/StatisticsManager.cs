@@ -287,32 +287,64 @@ namespace Lazurite.Windows.Statistics
             throw new ScenarioExecutionException(ScenarioExecutionError.AccessDenied);
         }
 
-        public bool IsRegistered(ScenarioBase scenario)
+        private ScenarioStatisticsRegistration GetRegistrationInfoInternal(RemoteScenario[] scenarios) //only for equals credentials
         {
-            var valueTypeName = ActionsDomain.Utils.GetValueTypeClassName(scenario.ValueType.GetType());
-            if (scenario is RemoteScenario remoteScenario)
+            if (!scenarios.Any())
+                return new ScenarioStatisticsRegistration();
+
+            try
             {
-                try
-                {
-                    if (!scenario.GetIsAvailable())
-                        return false;
-                    var scenarioInfo = new StatisticsScenarioInfo();
-                    scenarioInfo.ID = remoteScenario.RemoteScenarioId;
-                    scenarioInfo.ValueTypeName = valueTypeName;
-                    var server = ClientFactory.GetServer(remoteScenario.Credentials);
-                    return server.IsStatisticsRegistered(new Encrypted<StatisticsScenarioInfo>(scenarioInfo, remoteScenario.Credentials.SecretKey));
-                }
-                catch
-                {
-                    return false;
-                }
+                var creds = scenarios.First().Credentials;
+
+                var remoteScenariosInfo = scenarios.ToDictionary(x => x.RemoteScenarioId);
+
+                var server = ClientFactory.GetServer(creds);
+
+                var remoteResult = server
+                    .GetStatisticsRegistration(
+                        new EncryptedList<string>(remoteScenariosInfo.Select(x => x.Value.RemoteScenarioId), creds.SecretKey))
+                    .Decrypt(creds.SecretKey);
+
+                var result = new ScenarioStatisticsRegistration(
+                    remoteResult.RegisteredIds.Select(x => remoteScenariosInfo[x].Id).ToArray());
+
+                return result;
             }
-            return _statisticsScenariosInfos.Any(x => x.ScenarioId == scenario.Id && x.ValueTypeName == valueTypeName);
+            catch
+            {
+                //connection failed
+                return new ScenarioStatisticsRegistration();
+            }
+        }
+
+        public ScenarioStatisticsRegistration GetRegistrationInfo(ScenarioBase[] scenarios)
+        {
+            var result = new ScenarioStatisticsRegistration();
+
+            //for remote scenarios
+
+            var remoteScenariosGroups = scenarios
+                .OfType<RemoteScenario>()
+                .GroupBy(x => x.Credentials)
+                .ToArray();
+
+            foreach (var group in remoteScenariosGroups)
+                result.Union(GetRegistrationInfoInternal(group.ToArray()));
+
+            //end -- for remote scenarios
+
+            var targetIds = _statisticsScenariosInfos
+                .Where(x => scenarios.Any(z => z.Id == x.ScenarioId))
+                .Select(x => x.ScenarioId)
+                .ToArray();
+            result.Union(new ScenarioStatisticsRegistration(targetIds));
+
+            return result;
         }
 
         public void Register(ScenarioBase scenario)
         {
-            if (scenario is RemoteScenario == false && !IsRegistered(scenario))
+            if (scenario is RemoteScenario == false && !IsRegisteredInternal(scenario))
             {
                 _statisticsScenariosInfos.Add(
                     new StatisticsScenarioInfoInternal()
@@ -327,9 +359,14 @@ namespace Lazurite.Windows.Statistics
             }
         }
 
+        private bool IsRegisteredInternal(ScenarioBase scenario)
+        {
+            return GetRegistrationInfo(new[] { scenario }).IsRegistered(scenario.Id);
+        }
+
         public void UnRegister(ScenarioBase scenario)
         {
-            if (IsRegistered(scenario))
+            if (IsRegisteredInternal(scenario))
             {
                 _statisticsScenariosInfos.RemoveAll(x=> x.ScenarioId == scenario.Id);
                 UnregisterInternal(scenario);

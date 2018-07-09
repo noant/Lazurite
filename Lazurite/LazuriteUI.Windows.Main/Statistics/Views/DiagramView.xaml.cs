@@ -75,8 +75,14 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
 
         private void InitiateReload()
         {
-            var scenarios = ScenariosRepository.Scenarios
-                    .Where(x => _diagramsScenariosViews.Contains(x.Id) && StatisticsManager.IsRegistered(x))
+            var selectedScenarios = ScenariosRepository
+                .Scenarios
+                .Where(x => _diagramsScenariosViews.Contains(x.Id))
+                .ToArray();
+            var registrationInfo = StatisticsManager
+                .GetRegistrationInfo(selectedScenarios);
+            var scenarios = selectedScenarios
+                    .Where(x => registrationInfo.IsRegistered(x.Id))
                     .ToArray();
             _infos = scenarios.Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource)).ToArray();
             NeedItems?.Invoke(new StatisticsFilter()

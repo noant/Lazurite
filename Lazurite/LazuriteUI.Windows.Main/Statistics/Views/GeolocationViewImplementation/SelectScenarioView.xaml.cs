@@ -32,12 +32,17 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
         public SelectScenarioView(string[] selectedScenarios)
         {
             InitializeComponent();
-
+            
             var targetScenarios =
                 ScenariosRepository.Scenarios
-                .Where(x => 
-                    StatisticsManager.IsRegistered(x) &&
-                    x.ValueType is GeolocationValueType)
+                .Where(x => x.ValueType is GeolocationValueType)
+                .ToArray();
+
+            var registrationInfo = StatisticsManager
+                .GetRegistrationInfo(targetScenarios);
+
+            targetScenarios = targetScenarios
+                .Where(x => registrationInfo.IsRegistered(x.Id))
                 .ToArray();
 
             foreach (var scenario in targetScenarios)

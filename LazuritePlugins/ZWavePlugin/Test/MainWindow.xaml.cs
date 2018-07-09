@@ -1,7 +1,10 @@
 ﻿using Lazurite.Data;
 using Lazurite.IOC;
+using OpenZWrapper;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using ZWavePlugin;
@@ -13,12 +16,18 @@ namespace Test
     /// </summary>
     public partial class MainWindow : Window
     {
+        const int OutputPower = 28;
+        const int OutputPort = 29;
+        const int TransmissionMode = 31;
+        const int Endpoint = 38;
+        const int TvCode = 27;
+
         public MainWindow()
         {
             InitializeComponent();
             Singleton.Add(new DataManagerStub());
-            ZWaveManager.Current.WaitForInitialized();
-            ZWaveManager.Current.AddController(new OpenZWrapper.Controller() { IsHID = false, Path = "COM4" }, (res) => {
+            ZWavePlugin.ZWaveManager.Current.WaitForInitialized();
+            ZWavePlugin.ZWaveManager.Current.AddController(new OpenZWrapper.Controller() { IsHID = false, Path = "COM4" }, (res) => {
                 if (res)
                 {
                     var b = new ZWaveNodeValue() {
@@ -29,13 +38,59 @@ namespace Test
 
                     var t = new Thread(() => {
                         b.Initialize();
+                        var codes = new[] { 1181,
+                                            2551,
+                                            2591,
+                                            2791,
+                                            2931,
+                                            2941,
+                                            2951,
+                                            2961,
+                                            3191,
+                                            3331,
+                                            3541,
+                                            3591,
+                                            3601,
+                                            3681,
+                                            3711,
+                                            3731,
+                                            3841,
+                                            3851,
+                                            3881,
+                                            3891,
+                                            3911,
+                                            3921,
+                                            4401};
                         while (true)
-                            b.UserInitializeWith(null, false);
+                        {
+                            b.UserInitializeWith(null, true);
+
+                            var node = ZWavePlugin.ZWaveManager.Current.GetNodes().Last();
+                            var basic = node.Values.First();
+                            SendCommand(node, basic, 2931, 5);
+                            //foreach (var code in codes)
+                            //{
+                            //    SendCommand(node, basic, code);
+                            //}
+                        }
                     });
                     t.SetApartmentState(ApartmentState.STA);
                     t.Start();
                 }
             });
+        }
+
+        private void SendCommand(Node node, NodeValue val, int tvcode, int btcode)
+        {
+            //node.SetConfigParam(TvCode, tvcode);
+            node.SetConfigParam(Endpoint, 1);
+            node.SetConfigParam(21, 5);
+            //val.Current = (byte)5;
+            //node.SetConfigParam(OutputPort, 1);
+            //node.SetConfigParam(OutputPower, 255);
+            node.SetConfigParam(TransmissionMode, 255);
+
+            Debug.WriteLine("code: " + tvcode + " dt:" + DateTime.Now);
         }
 
         private void B_ValueChanged(Lazurite.ActionsDomain.IAction action, string value)

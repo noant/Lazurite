@@ -247,12 +247,11 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public bool InitializedInternal { get; private set; }
 
-        public override IAction[] GetAllActionsFlat() => new IAction[0];
+        public override IAction[] GetAllActionsFlat() => 
+            new IAction[0];
 
-        public IServer GetServer()
-        {
-            return _server = _clientFactory.GetServer(Credentials);
-        }
+        public IServer GetServer() => 
+            _server = _clientFactory.GetServer(Credentials);
 
         public override SecuritySettingsBase SecuritySettings { get; set; } = new SecuritySettings();        
     }

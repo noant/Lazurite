@@ -47,12 +47,12 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
 
         public void SetItems(StatisticsCategoryView[] views)
         {
-            var total = views.Sum(x => x.Count);
+            var total = views.Sum(x => x.Weight);
             var items = views.Select(x => new StatisticsCategoryViewInternal()
                 {
                     Category = x.Category,
-                    Count = x.Count,
-                    Percentage = x.Count / (double)total
+                    Count = x.Weight,
+                    Percentage = x.Weight / (double)total
                 })
                 .ToArray();
 
@@ -89,6 +89,6 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
     public class StatisticsCategoryView
     {
         public string Category { get; set; }
-        public int Count { get; set; }
+        public int Weight { get; set; }
     }
 }
