@@ -52,6 +52,13 @@ namespace OpenZWrapper
         public bool SetConfigParam(byte configParamId, int value) =>
             Manager.SetConfigParam(HomeId, Id, configParamId, value);
 
+        public bool SendNodeInformation() =>
+            Manager.SendNodeInformation(HomeId, Id);
+
+        public void Test() {
+
+        }
+
         public override int GetHashCode() =>
             HomeId.GetHashCode() ^ Name.GetHashCode() ^ ProductName.GetHashCode() ^ Id.GetHashCode();
 

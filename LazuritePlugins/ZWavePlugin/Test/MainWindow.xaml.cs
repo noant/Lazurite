@@ -67,7 +67,7 @@ namespace Test
 
                             var node = ZWavePlugin.ZWaveManager.Current.GetNodes().Last();
                             var basic = node.Values.First();
-                            SendCommand(node, basic, 2931, 5);
+                            SendCommand(node, basic, 3711, 5);
                             //foreach (var code in codes)
                             //{
                             //    SendCommand(node, basic, code);
@@ -83,12 +83,17 @@ namespace Test
         private void SendCommand(Node node, NodeValue val, int tvcode, int btcode)
         {
             //node.SetConfigParam(TvCode, tvcode);
-            node.SetConfigParam(Endpoint, 1);
-            node.SetConfigParam(21, 5);
-            //val.Current = (byte)5;
+            //node.SendNodeInformation();
+            //Thread.Sleep(20000);
+            //node.SetConfigParam(21, 29);
+            //node.SetConfigParam(25, 5);
+            //node.SetConfigParam(21, 0);
+            //node.SetConfigParam(30, 255);
+            val.Current = (byte)29;
             //node.SetConfigParam(OutputPort, 1);
             //node.SetConfigParam(OutputPower, 255);
-            node.SetConfigParam(TransmissionMode, 255);
+            //node.SetNodeOn();
+            //node.SetConfigParam(TransmissionMode, 255);
 
             Debug.WriteLine("code: " + tvcode + " dt:" + DateTime.Now);
         }

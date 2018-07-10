@@ -113,7 +113,7 @@ namespace OpenZWrapper
         {
             _callbacksPool.ExecuteBool(() => _manager.ReplaceFailedNode(controller.HomeID, node.Id), callback);
         }
-
+        
         public void RemoveFailedNode(Controller controller, Node node, Action<bool> callback)
         {
             _callbacksPool.ExecuteBool(() => _manager.RemoveFailedNode(controller.HomeID, node.Id), 
@@ -180,7 +180,7 @@ namespace OpenZWrapper
         {
             _callbacksPool.ExecuteBool(() => _manager.CreateNewPrimary(controller.HomeID), callback, 5*60);
         }
-
+        
         public bool SupportsCancellation(string methodName)
         {
             switch (methodName)
@@ -320,6 +320,7 @@ namespace OpenZWrapper
                             _manager.RequestAllConfigParams(node.HomeId, node.Id);
                             _manager.RefreshNodeInfo(node.HomeId, node.Id);
                             _manager.RequestNodeDynamic(node.HomeId, node.Id);
+                            _manager.SendNodeInformation(node.HomeId, node.Id);
                             _callbacksPool.Dequeue(true, 
                                 nameof(AddNewDevice),
                                 nameof(AddNewSecureDevice));

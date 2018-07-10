@@ -15,7 +15,6 @@ namespace OpenZWrapper
             {
                 case ZWValueID.ValueType.Button:
                     return manager.PressButton(valueId);
-                    break;
                 case ZWValueID.ValueType.Bool:
                     return manager.SetValue(valueId, (bool)value);
                 case ZWValueID.ValueType.Byte:
@@ -30,6 +29,29 @@ namespace OpenZWrapper
                     return manager.SetValue(valueId, (string)value);
                 case ZWValueID.ValueType.List:
                     return manager.SetValueListSelection(valueId, (string)value);
+            }
+            return false;
+        }
+
+
+        public static bool SetValueSucceed(ZWManager manager, ZWValueID valueId, ZWValueID.ValueType valueType, object value, string[] possibleValues, byte sceneId)
+        {
+            switch (valueType)
+            {
+                case ZWValueID.ValueType.Bool:
+                    return manager.SetSceneValue(sceneId, valueId, (bool)value);
+                case ZWValueID.ValueType.Byte:
+                    return manager.SetSceneValue(sceneId, valueId, (byte)value);
+                case ZWValueID.ValueType.Decimal:
+                    return manager.SetSceneValue(sceneId, valueId, (float)(decimal)value);
+                case ZWValueID.ValueType.Int:
+                    return manager.SetSceneValue(sceneId, valueId, (int)value);
+                case ZWValueID.ValueType.Short:
+                    return manager.SetSceneValue(sceneId, valueId, (short)value);
+                case ZWValueID.ValueType.String:
+                    return manager.SetSceneValue(sceneId, valueId, (string)value);
+                case ZWValueID.ValueType.List:
+                    return manager.SetSceneValueListSelection(sceneId, valueId, (string)value);
             }
             return false;
         }

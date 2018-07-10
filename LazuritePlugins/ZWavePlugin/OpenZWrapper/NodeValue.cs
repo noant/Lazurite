@@ -18,7 +18,6 @@ namespace OpenZWrapper
             ZWValueType = id.GetType();
             ValueType = (ValueType)(int)ZWValueType;
             Genre = (ValueGenre)(int)id.GetGenre();
-
             var range = Utils.GetRangeFor(ValueType);
             Min = range.Min;
             Max = range.Max;
@@ -49,6 +48,18 @@ namespace OpenZWrapper
         public decimal Max { get; set; } = 100;
         public decimal Min { get; set; } = 0;
         
+        public void SetSceneValue(byte sceneId, object value)
+        {
+            if (!Helper.SetValueSucceed(Node.Manager, Source, ZWValueType, value, PossibleValues, sceneId))
+                throw new OperationCanceledException(string.Format("Значение [{0}] не выставлено для параметра [{1}][{2}]", value, this.Name, this.Id));
+        }
+
+        public void PressButton()
+        {
+            if (!Node.Manager.PressButton(Source))
+                throw new OperationCanceledException(string.Format("Команда PressButton не выполнена для параметра [{0}][{1}]", this.Name, this.Id));
+        }
+
         private object _current;
         public object Current {
             get => _current;
