@@ -77,7 +77,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow_ConfigParam.xaml">
+    <Page Include="MainWindowSetConfigParam.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindowRequestConfigParam.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -103,14 +107,21 @@
     <Compile Include="GenreSelectView.xaml.cs">
       <DependentUpon>GenreSelectView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow_ConfigParam.xaml.cs">
-      <DependentUpon>MainWindow_ConfigParam.xaml</DependentUpon>
+    <Compile Include="MainWindowSetConfigParam.xaml.cs">
+      <DependentUpon>MainWindowSetConfigParam.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindowRequestConfigParam.xaml.cs">
+      <DependentUpon>MainWindowRequestConfigParam.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NodeConfigParamMainView.xaml">
+    <Page Include="NodeSetConfigParamMainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="NodeRequestConfigParamMainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -124,9 +135,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NodeSetConfigParamMainView.xaml.cs">
+      <DependentUpon>NodeSetConfigParamMainView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NodesListView.cs" />
-    <Compile Include="NodeConfigParamMainView.xaml.cs">
-      <DependentUpon>NodeConfigParamMainView.xaml</DependentUpon>
+    <Compile Include="NodeRequestConfigParamMainView.xaml.cs">
+      <DependentUpon>NodeRequestConfigParamMainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NodesMainView.xaml.cs">
       <DependentUpon>NodesMainView.xaml</DependentUpon>
@@ -169,4 +183,8 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
 </Project>

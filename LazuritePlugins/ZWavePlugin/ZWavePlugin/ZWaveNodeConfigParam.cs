@@ -11,7 +11,7 @@ using ZWPluginUI;
 
 namespace ZWavePlugin
 {
-    [HumanFriendlyName("ZWave конфигурационный параметр")]
+    [HumanFriendlyName("ZWave задать значение конфигурационного параметра")]
     [SuitableValueTypes(typeof(FloatValueType))]
     [LazuriteIcon(Icon.Settings)]
     [Category(Category.Control)]
@@ -29,7 +29,7 @@ namespace ZWavePlugin
                 try
                 {
                     var node = ZWaveManager.Current.GetNodes().FirstOrDefault(x => x.Id == NodeId && x.HomeId == HomeId);
-                    return node.ProductName + " (ID=" + node.Id + ") -> p:" + ConfigParam;
+                    return node.FullName + " -> Index=" + ConfigParam;
                 }
                 catch
                 {
@@ -68,7 +68,7 @@ namespace ZWavePlugin
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValueTypes)
         {
             var manager = ZWaveManager.Current;
-            var window = new MainWindow_ConfigParam();
+            var window = new MainWindowSetConfigParam();
             var node = manager.GetNodes().FirstOrDefault(x => x.HomeId == HomeId && x.Id == NodeId);
             window.RefreshWith(manager, node, ConfigParam);
             if (window.ShowDialog() ?? false)

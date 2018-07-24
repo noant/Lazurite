@@ -39,8 +39,9 @@ namespace ZWPluginUI
             stackPanel.Children.Clear();
             _nodeValue = nodeValue;
             AddDescription("Контроллер", _nodeValue.Node.Controller.Path + " (HomeID=" + _nodeValue.Node.Controller.HomeID + ")");
-            AddDescription("Узел", string.Format("{0}\r\n{1}\r\nID={2}", _nodeValue.Node.Manufacturer, _nodeValue.Node.ProductName, _nodeValue.Node.Id));
-            AddDescription("Параметр", string.Format("{0}\r\nID={1}", _nodeValue.Name, _nodeValue.Id));
+            AddDescription("Узел", string.Format("{0}\r\nID={1}", _nodeValue.Node.FullName, _nodeValue.Node.Id));
+            AddDescription("Параметр", string.Format("{0}\r\nID={1}\r\nIndex={2}", _nodeValue.Name, _nodeValue.Id, _nodeValue.Index));
+            AddDescription("Описание", _nodeValue.Description);
             AddDescription("Тип параметра", Enum.GetName(typeof(OpenZWrapper.ValueType), _nodeValue.ValueType));
             if (_nodeValue.ValueType != OpenZWrapper.ValueType.Button)
                 AddDescription("Текущее значение", _nodeValue.Current?.ToString());
@@ -78,7 +79,6 @@ namespace ZWPluginUI
                     AddDescription("Возможные значения", _nodeValue.PossibleValues.Aggregate((x1, x2) => x1 + ",\r\n" + x2));
                     break;
             }
-            AddDescription("Описание", _nodeValue.Description);
         }
 
         private void AddDescription(string caption, string description)

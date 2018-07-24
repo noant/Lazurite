@@ -1,5 +1,5 @@
 ﻿using Lazurite.Shared;
-using OpenZWaveDotNet;
+using OpenZWave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +10,15 @@ namespace OpenZWrapper
 {
     public class NodeValue
     {
-        public NodeValue(ZWValueID id, Node node)
+        public NodeValue(ZWValueId id, Node node)
         {
             Source = id;
             Node = node;
-            Id = id.GetId();
-            ZWValueType = id.GetType();
+            Id = id.Id;
+            ZWValueType = id.Type;
+            Index = id.Index;
             ValueType = (ValueType)(int)ZWValueType;
-            Genre = (ValueGenre)(int)id.GetGenre();
+            Genre = (ValueGenre)(int)id.Genre;
             var range = Utils.GetRangeFor(ValueType);
             Min = range.Min;
             Max = range.Max;
@@ -38,9 +39,9 @@ namespace OpenZWrapper
             InternalSet(Helper.GetValue(manager, Source, ZWValueType, PossibleValues));
         }
         
-        public ZWValueID Source { get; private set; }
+        public ZWValueId Source { get; private set; }
         public Node Node { get; private set; }
-        internal ZWValueID.ValueType ZWValueType { get; private set; }
+        internal OpenZWave.ZWValueType ZWValueType { get; private set; }
         public ValueType ValueType { get; private set; }
 
         public string[] PossibleValues { get; private set; }
@@ -48,12 +49,6 @@ namespace OpenZWrapper
         public decimal Max { get; set; } = 100;
         public decimal Min { get; set; } = 0;
         
-        public void SetSceneValue(byte sceneId, object value)
-        {
-            if (!Helper.SetValueSucceed(Node.Manager, Source, ZWValueType, value, PossibleValues, sceneId))
-                throw new OperationCanceledException(string.Format("Значение [{0}] не выставлено для параметра [{1}][{2}]", value, this.Name, this.Id));
-        }
-
         public void PressButton()
         {
             if (!Node.Manager.PressButton(Source))
@@ -72,8 +67,9 @@ namespace OpenZWrapper
         public ulong Id { get; private set; }
         public ValueGenre Genre { get; private set; }
         public string Description { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public string Unit { get; set; }
+        public int Index { get; set; }
 
         public byte CurrentGroupIdx { get; internal set; }
         public byte CurrentByte { get; internal set; }

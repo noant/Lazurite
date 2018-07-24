@@ -16,18 +16,18 @@ namespace ZWPluginUI
             if (Node.Failed)
                 this.Opacity = 0.8;
             this.Icon = LazuriteUI.Icons.Icon.Connect;
-            if (node.ProductName.ToLower().Contains("usb"))
+            if (node.ProductName?.ToLower().Contains("usb") ?? false)
                 this.Icon = LazuriteUI.Icons.Icon.Usb;
-            if (node.ProductName.ToLower().Contains("light"))
+            if (node.ProductName?.ToLower().Contains("light") ?? false)
                 this.Icon = LazuriteUI.Icons.Icon.LightbulbHueOn;
-            if (node.ProductName.ToLower().Contains("sensor"))
-                this.Icon = LazuriteUI.Icons.Icon.ManSensor;            
-            var caption = Node.ProductName;
+            if (node.ProductName?.ToLower().Contains("sensor") ?? false)
+                this.Icon = LazuriteUI.Icons.Icon.ManSensor;    
             if (Node.Failed)
-                caption = string.Format("id {0}; node failed;", Node.Id);
-            caption = caption.Length > 40 ? caption.Substring(0, 37) + "..." : caption;
-            this.Content = caption;
-            this.Margin = new System.Windows.Thickness(1);
+                Opacity = 0.5;
+            var caption = Node.FullName;
+            caption = caption.Length > 55 ? caption.Substring(0, 52) + "..." : caption;
+            Content = caption;
+            Margin = new System.Windows.Thickness(1);
         }
 
         public Node Node { get; private set; }

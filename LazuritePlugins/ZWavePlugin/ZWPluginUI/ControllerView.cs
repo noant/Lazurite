@@ -14,15 +14,21 @@ namespace ZWPluginUI
         {
             Controller = controller;
             var node = manager.GetControllerNode(controller);
-            Content = string.Format("{0} ({1}) (id {2})", node?.ProductName ?? "[название загружается]", controller.Path, controller.HomeID);
+            var name = string.Format("{0} ({1}) (HomeID={2})", node?.FullName ?? "[название загружается]", controller.Path, controller.HomeID);
+            ToolTip = name;
+            if (name.Length > 40)
+                name = name.Substring(0, 37)+"...";
+            Content = name;
+
             if (controller.IsHID)
                 Icon = LazuriteUI.Icons.Icon.UsbDrive;
             else
                 Icon = LazuriteUI.Icons.Icon.ChevronRight;
+
             if (controller.Failed)
             {
-                Content = Content.ToString() + " (?)";
-                ToolTip = "Возможны неполадки";
+                Opacity = 0.5;
+                ToolTip += " Возможны неполадки или устройство еще не проинициализировано";
             }
         }
 

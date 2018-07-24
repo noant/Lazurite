@@ -1,7 +1,7 @@
 ﻿using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.Shared;
-using OpenZWaveDotNet;
+using OpenZWave;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +20,7 @@ namespace OpenZWrapper
         private ZWManager _manager;
         private List<Controller> _controllers = new List<Controller>();
         private List<Node> _nodes = new List<Node>();
-
+        
         public ManagerInitializedCallbacksPool ManagerInitializedCallbacksPool
         {
             get;
@@ -29,20 +29,12 @@ namespace OpenZWrapper
 
         public ZWaveManagerState State { get; private set; } = ZWaveManagerState.None;
 
-        private void SaveControllersList()
-        {
+        private void SaveControllersList() =>
             Singleton.Resolve<PluginsDataManagerBase>().Set(_key, _controllers);
-        }
 
-        public Controller[] GetControllers()
-        {
-            return _controllers.ToArray();
-        }
+        public Controller[] GetControllers() => _controllers.ToArray();
 
-        public Node[] GetNodes()
-        {
-            return _nodes.ToArray();
-        }
+        public Node[] GetNodes() => _nodes.ToArray();
 
         public void AddController(Controller controller, Action<bool> callback)
         {
@@ -193,93 +185,73 @@ namespace OpenZWrapper
             }
         }
 
+        private void ControllerStateHandle(ZWControllerState state)
+        {
+            bool? operationFailed = null;
+            switch (state)
+            {
+                case ZWControllerState.Cancel:
+                case ZWControllerState.Error:
+                case ZWControllerState.Failed:
+                case ZWControllerState.NodeFailed:
+                    operationFailed = true;
+                    break;
+                case ZWControllerState.Completed:
+                case ZWControllerState.NodeOK:
+                    operationFailed = false;
+                    break;
+            }
+
+            if (operationFailed != null)
+                _callbacksPool.Dequeue(!operationFailed.Value,
+                    nameof(AddNewDevice),
+                    nameof(AddNewSecureDevice),
+                    nameof(RemoveDevice),
+                    nameof(RemoveController),
+                    nameof(AddController),
+                    nameof(UpdateNetwork),
+                    nameof(EraseAll),
+                    nameof(ResetController),
+                    nameof(RecieveConfiguration),
+                    nameof(CheckNodeFailed),
+                    nameof(HealControllerNetwork),
+                    nameof(RemoveFailedNode),
+                    nameof(ReplaceFailedNode),
+                    nameof(TransferPrimaryRole),
+                    nameof(CreateNewPrimary),
+                    nameof(UpdateNodeNeighborList));
+        }
+
         public void Initialize()
         {
             State = ZWaveManagerState.Initializing;
             var hasAnyControllers = LoadControllers();
             SetOptions();
-            _manager = new ZWManager();
-            _manager.OnControllerStateChanged = (state) => {
-                switch (state)
-                {
-                    case ZWControllerState.Cancel:
-                    case ZWControllerState.Error:
-                    case ZWControllerState.Failed:
-                        _callbacksPool.Dequeue(false,
-                            nameof(AddNewDevice),
-                            nameof(AddNewSecureDevice),
-                            nameof(RemoveDevice),
-                            nameof(RemoveController),
-                            nameof(AddController),
-                            nameof(UpdateNetwork),
-                            nameof(EraseAll),
-                            nameof(ResetController),
-                            nameof(RecieveConfiguration),
-                            nameof(CheckNodeFailed),
-                            nameof(HealControllerNetwork),
-                            nameof(RemoveFailedNode),
-                            nameof(ReplaceFailedNode),
-                            nameof(TransferPrimaryRole),
-                            nameof(CreateNewPrimary),
-                            nameof(UpdateNodeNeighborList));
-                        break;
-                    default:
-                        //do nothing
-                        break;
-                }
-            };
-            _manager.OnNotification = (notification) =>
-            {
-                var zwevent = (ZWControllerState)notification.GetEvent();
-                bool? operationFailed = null;
-                switch (zwevent)
-                {
-                    case ZWControllerState.Cancel:
-                    case ZWControllerState.Error:
-                    case ZWControllerState.Failed:
-                    case ZWControllerState.NodeFailed:
-                        operationFailed = true;
-                        break;
-                    case ZWControllerState.Completed:
-                    case ZWControllerState.NodeOK:
-                        operationFailed = false;
-                        break;
-                }
+            _manager = ZWManager.Instance;
 
-                if (operationFailed != null)
-                    _callbacksPool.Dequeue(!operationFailed.Value,
-                        nameof(AddNewDevice),
-                        nameof(AddNewSecureDevice),
-                        nameof(RemoveDevice),
-                        nameof(RemoveController),
-                        nameof(AddController),
-                        nameof(UpdateNetwork),
-                        nameof(EraseAll),
-                        nameof(ResetController),
-                        nameof(RecieveConfiguration),
-                        nameof(CheckNodeFailed),
-                        nameof(HealControllerNetwork),
-                        nameof(RemoveFailedNode),
-                        nameof(ReplaceFailedNode),
-                        nameof(TransferPrimaryRole),
-                        nameof(CreateNewPrimary),
-                        nameof(UpdateNodeNeighborList));
-
-                var homeId = notification.GetHomeId();
+            _manager.NotificationReceived += (s, e) =>
+            {                
+                var homeId = e.Notification.HomeId;
                 var path =_manager.GetControllerPath(homeId);
                 var controller = _controllers.FirstOrDefault(x => x.Path.Equals(path));
-                var nodeId = notification.GetNodeId();
+                var nodeId = e.Notification.NodeId;
                 var node = _nodes.FirstOrDefault(x => x.Id.Equals(nodeId) && x.HomeId.Equals(homeId));
-                var notificationType = notification.GetType();
+                var valueId = e.Notification.ValueId;
+                var notificationType = e.Notification.Type;
                 switch (notificationType)
                 {
-                    case ZWNotification.Type.DriverRemoved:
+                    case ZWNotificationType.ControllerCommand:
+                        {
+                            ControllerStateHandle((ZWControllerState)e.Notification.Event);
+                        }
+                        break;
+                    case ZWNotificationType.DriverRemoved:
                         {
                             _nodes.RemoveAll(x => x.HomeId.Equals(homeId));
                             _callbacksPool.Dequeue(true, nameof(RemoveController));
                         }
                         break;
-                    case ZWNotification.Type.DriverFailed:
+                    case ZWNotificationType.DriverFailed:
                         {
                             controller.Failed = true;
                             if (_controllers.All(x => x.Failed))
@@ -292,7 +264,7 @@ namespace OpenZWrapper
                                 nameof(RemoveController));
                         }
                         break;
-                    case ZWNotification.Type.DriverReady:
+                    case ZWNotificationType.DriverReady:
                         {
                             controller.Failed = false;
                             controller.HomeID = homeId;
@@ -301,93 +273,90 @@ namespace OpenZWrapper
                                 nameof(AddController));
                         }
                         break;
-                    case ZWNotification.Type.AwakeNodesQueried:
-                    case ZWNotification.Type.AllNodesQueriedSomeDead:
-                    case ZWNotification.Type.AllNodesQueried:
+                    case ZWNotificationType.AwakeNodesQueried:
+                    case ZWNotificationType.AllNodesQueriedSomeDead:
+                    case ZWNotificationType.AllNodesQueried:
                         {
                             _nodes.Where(x => !x.Initialized).All(x => x.Failed = true);
-                            _manager.WriteConfig(notification.GetHomeId());
+                            _manager.WriteConfig(homeId);
                             State = ZWaveManagerState.Initialized;
                             ManagerInitializedCallbacksPool.ExecuteAll(this);
                         }
                         break;
-                    case ZWNotification.Type.NodeAdded:
-                    case ZWNotification.Type.NodeNew:
+                    case ZWNotificationType.NodeAdded:
+                    case ZWNotificationType.NodeNew:
                         {
-                            node = new Node(nodeId, homeId, _manager);
+                            node = new Node(nodeId, homeId, ZWManager.Instance);
                             _nodes.Add(node);
                             node.Controller = controller;
-                            _manager.RequestAllConfigParams(node.HomeId, node.Id);
-                            _manager.RefreshNodeInfo(node.HomeId, node.Id);
                             _manager.RequestNodeDynamic(node.HomeId, node.Id);
-                            _manager.SendNodeInformation(node.HomeId, node.Id);
+                            _manager.RequestAllConfigParams(node.HomeId, node.Id);
+
                             _callbacksPool.Dequeue(true, 
                                 nameof(AddNewDevice),
                                 nameof(AddNewSecureDevice));
                         }
                         break;
-                    case ZWNotification.Type.EssentialNodeQueriesComplete:
-                    case ZWNotification.Type.NodeQueriesComplete:
+                    case ZWNotificationType.EssentialNodeQueriesComplete:
+                    case ZWNotificationType.NodeQueriesComplete:
                         {
                             node.Initialized = true;
                         }
                         break;
-                    case ZWNotification.Type.NodeProtocolInfo:
-                    case ZWNotification.Type.NodeNaming:
+                    case ZWNotificationType.NodeProtocolInfo:
+                    case ZWNotificationType.NodeNaming:
                         {
                             node.Refresh();
                             node.Failed = false;
                         }
                         break;
-                    case ZWNotification.Type.NodeRemoved:
+                    case ZWNotificationType.NodeRemoved:
                         {
                             _nodes.Remove(node);
                             _callbacksPool.Dequeue(true,
                                 nameof(RemoveDevice));
                         }
                         break;
-                    case ZWNotification.Type.ValueAdded:
+                    case ZWNotificationType.ValueAdded:
                         {
-                            var value = notification.GetValueID();
-                            var nodeValue = new NodeValue(value, node);
-                            node.Values.Add(nodeValue);
+                            if (!node.Values.Any(x => x.Id == valueId.Id)) //crutch
+                            {
+                                var nodeValue = new NodeValue(valueId, node);
+                                if (valueId.Genre == ZWValueGenre.Config && valueId.Index < 256)
+                                    node.RequestConfigParam((byte)valueId.Index); //crutch
+                                node.Values.Add(nodeValue);
+                                nodeValue.Refresh();
+                                NodeValueChanged?.Invoke(this, new EventsArgs<NodeValue>(nodeValue));
+                            }
+                        }
+                        break;
+                    case ZWNotificationType.ValueRefreshed:
+                        {
+                            var nodeValue = node.Values.FirstOrDefault(x => x.Id.Equals(valueId));
                             nodeValue.Refresh();
                             NodeValueChanged?.Invoke(this, new EventsArgs<NodeValue>(nodeValue));
                         }
                         break;
-                    case ZWNotification.Type.ValueRefreshed:
+                    case ZWNotificationType.ValueRemoved:
                         {
-                            var value = notification.GetValueID();
-                            var nodeValue = node.Values.FirstOrDefault(x => x.Id.Equals(value.GetId()));
-                            nodeValue.Refresh();
-                            NodeValueChanged?.Invoke(this, new EventsArgs<NodeValue>(nodeValue));
-                        }
-                        break;
-                    case ZWNotification.Type.ValueRemoved:
-                        {
-                            var value = notification.GetValueID();
                             if (node != null)
                             {
-                                var nodeValue = node.Values.FirstOrDefault(x => x.Id.Equals(value.GetId()));
+                                var nodeValue = node.Values.FirstOrDefault(x => x.Id.Equals(valueId.Id));
                                 node.Values.Remove(nodeValue);
                             }
                         }
                         break;
-                    case ZWNotification.Type.ValueChanged:
+                    case ZWNotificationType.ValueChanged:
                         {
-                            var value = notification.GetValueID();
-                            var nodeValue = node.Values.FirstOrDefault(x => x.Id.Equals(value.GetId()));
-                            nodeValue.CurrentByte = notification.GetByte();
-                            nodeValue.CurrentGroupIdx = notification.GetGroupIdx();
-                            nodeValue.InternalSet(Helper.GetValue(_manager, value, nodeValue.ZWValueType, nodeValue.PossibleValues));
+                            var nodeValue = node.Values.FirstOrDefault(x => x.Id.Equals(valueId.Id));
+                            nodeValue.CurrentGroupIdx = e.Notification.GroupIndex;
+                            nodeValue.InternalSet(Helper.GetValue(_manager, valueId, nodeValue.ZWValueType, nodeValue.PossibleValues));
                             NodeValueChanged?.Invoke(this, new EventsArgs<NodeValue>(nodeValue));
                         }
                         break;
                 }
-                //crutch
-                node?.Refresh();
             };
-            _manager.Create();
+            _manager.Initialize();
             foreach (var controller in _controllers)
             {
                 var ctrl = controller;
@@ -418,19 +387,18 @@ namespace OpenZWrapper
             }
         }
 
-        public bool CancelOperation(Controller controller)
-        {
-            return _manager.CancelControllerCommand(controller.HomeID);
-        }
+        public bool CancelOperation(Controller controller) => 
+            _manager.CancelControllerCommand(controller.HomeID);
 
         private void SetOptions()
         {
-            var options = new ZWOptions();
-            options.Create(
-                  Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config"),
-                  string.Empty,
-                  string.Empty);
-            options.AddOptionInt("SaveLogLevel", (int)ZWLogLevel.None);
+            var options = ZWOptions.Instance;
+            var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "config");
+            options.Initialize(path, path, string.Empty);
+            options.AddOptionInt("SaveLogLevel", (int)ZWLogLevel.Info);
+            options.AddOptionBool("AssumeAwake", true);
+            options.AddOptionBool("SaveConfiguration", true);
+            options.AddOptionBool("RefreshAllUserCodes", true);
             options.Lock();
         }
 

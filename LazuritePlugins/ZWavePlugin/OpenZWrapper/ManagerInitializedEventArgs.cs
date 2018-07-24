@@ -9,11 +9,7 @@ namespace OpenZWrapper
     public class ManagerInitializedEventArgs: EventArgs
     {
         public ZWaveManager Manager { get; internal set; }
-        public bool Successful {
-            get
-            {
-                return Manager.State == ZWaveManagerState.Initialized;
-            }
-        }
+
+        public bool Successful => Manager.State == ZWaveManagerState.Initialized;
     }
 }

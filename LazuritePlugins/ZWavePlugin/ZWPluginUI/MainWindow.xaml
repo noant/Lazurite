@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZWPluginUI"
         mc:Ignorable="d"
-        Width="1000"
+        Width="1200"
         Height="700"
         WindowStartupLocation="CenterScreen"
         Title="Z-Wave">

@@ -1,4 +1,4 @@
-﻿using OpenZWaveDotNet;
+﻿using OpenZWave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,92 +9,69 @@ namespace OpenZWrapper
 {
     internal static class Helper
     {
-        public static bool SetValueSucceed(ZWManager manager, ZWValueID valueId, ZWValueID.ValueType valueType, object value, string[] possibleValues)
+        public static bool SetValueSucceed(ZWManager manager, ZWValueId valueId, ZWValueType valueType, object value, string[] possibleValues)
         {
             switch (valueType)
             {
-                case ZWValueID.ValueType.Button:
+                case ZWValueType.Button:
                     return manager.PressButton(valueId);
-                case ZWValueID.ValueType.Bool:
+                case ZWValueType.Bool:
                     return manager.SetValue(valueId, (bool)value);
-                case ZWValueID.ValueType.Byte:
+                case ZWValueType.Byte:
                     return manager.SetValue(valueId, (byte)value);
-                case ZWValueID.ValueType.Decimal:
-                    return manager.SetValue(valueId, (float)(decimal)value);
-                case ZWValueID.ValueType.Int:
+                case ZWValueType.Decimal:
+                    return manager.SetValue(valueId, (float)value);
+                case ZWValueType.Int:
                     return manager.SetValue(valueId, (int)value);
-                case ZWValueID.ValueType.Short:
+                case ZWValueType.Short:
                     return manager.SetValue(valueId, (short)value);
-                case ZWValueID.ValueType.String:
+                case ZWValueType.String:
                     return manager.SetValue(valueId, (string)value);
-                case ZWValueID.ValueType.List:
+                case ZWValueType.List:
                     return manager.SetValueListSelection(valueId, (string)value);
             }
             return false;
         }
-
-
-        public static bool SetValueSucceed(ZWManager manager, ZWValueID valueId, ZWValueID.ValueType valueType, object value, string[] possibleValues, byte sceneId)
+                
+        public static object GetValue(ZWManager manager, ZWValueId valueId, ZWValueType valueType, string[] possibleValues)
         {
             switch (valueType)
             {
-                case ZWValueID.ValueType.Bool:
-                    return manager.SetSceneValue(sceneId, valueId, (bool)value);
-                case ZWValueID.ValueType.Byte:
-                    return manager.SetSceneValue(sceneId, valueId, (byte)value);
-                case ZWValueID.ValueType.Decimal:
-                    return manager.SetSceneValue(sceneId, valueId, (float)(decimal)value);
-                case ZWValueID.ValueType.Int:
-                    return manager.SetSceneValue(sceneId, valueId, (int)value);
-                case ZWValueID.ValueType.Short:
-                    return manager.SetSceneValue(sceneId, valueId, (short)value);
-                case ZWValueID.ValueType.String:
-                    return manager.SetSceneValue(sceneId, valueId, (string)value);
-                case ZWValueID.ValueType.List:
-                    return manager.SetSceneValueListSelection(sceneId, valueId, (string)value);
-            }
-            return false;
-        }
-
-        public static object GetValue(ZWManager manager, ZWValueID valueId, ZWValueID.ValueType valueType, string[] possibleValues)
-        {
-            switch (valueType)
-            {
-                case ZWValueID.ValueType.Button:
+                case ZWValueType.Button:
                     {
                         return string.Empty;
                     }
-                case ZWValueID.ValueType.Bool:
+                case ZWValueType.Bool:
                     {
                         manager.GetValueAsBool(valueId, out bool result);
                         return result;
                     }
-                case ZWValueID.ValueType.Byte:
+                case ZWValueType.Byte:
                     {
                         manager.GetValueAsByte(valueId, out byte result);
                         return result;
                     }
-                case ZWValueID.ValueType.Decimal:
+                case ZWValueType.Decimal:
                     {
-                        manager.GetValueAsDecimal(valueId, out decimal result);
+                        manager.GetValueAsFloat(valueId, out float result);
                         return result;
                     }
-                case ZWValueID.ValueType.Int:
+                case ZWValueType.Int:
                     {
                         manager.GetValueAsInt(valueId, out int result);
                         return result;
                     }
-                case ZWValueID.ValueType.Short:
+                case ZWValueType.Short:
                     {
                         manager.GetValueAsShort(valueId, out short result);
                         return result;
                     }
-                case ZWValueID.ValueType.String:
+                case ZWValueType.String:
                     {
                         manager.GetValueAsString(valueId, out string result);
                         return result;
                     }
-                case ZWValueID.ValueType.List:
+                case ZWValueType.List:
                     {
                         manager.GetValueListSelection(valueId, out string result);
                         return result;

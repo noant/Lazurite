@@ -49,10 +49,10 @@ namespace ZWPluginUI
                     break;
             }
 
-            this.IsEnabled = isComparable?.Invoke(NodeValue) ?? true;
-            this.Content = NodeValue.Name.Length > 40 ? NodeValue.Name.Substring(0, 37) + "..." : NodeValue.Name;
-            this.ToolTip = string.Format("{0} (ID={1})", NodeValue.Name, NodeValue.Id);
-            this.Margin = new System.Windows.Thickness(1);
+            IsEnabled = isComparable?.Invoke(NodeValue) ?? true;
+            Content = NodeValue.Name.Length > 55 ? NodeValue.Name.Substring(0, 52) + "..." : NodeValue.Name;
+            ToolTip = string.Format("{0} (Index={1})", NodeValue.Name, NodeValue.Index);
+            Margin = new System.Windows.Thickness(1);
         }
 
         public NodeValue NodeValue { get; private set; }

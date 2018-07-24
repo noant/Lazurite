@@ -30,7 +30,7 @@ namespace ZWavePlugin
                 try
                 {
                     var nodeValue = TryGetNodeValue();
-                    return nodeValue?.Node.ProductName + " -> " + nodeValue?.Name + " (ID=" + nodeValue?.Id + ")";
+                    return nodeValue.Node.FullName + " -> " + nodeValue.Name + " (Index=" + nodeValue.Index + ")";
                 }
                 catch
                 {

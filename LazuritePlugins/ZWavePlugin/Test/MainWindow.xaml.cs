@@ -64,14 +64,86 @@ namespace Test
                         while (true)
                         {
                             b.UserInitializeWith(null, true);
+                            var val = ZWavePlugin.ZWaveManager.Current.GetNodes()
+                                .FirstOrDefault(x => x.Id == b.NodeId)
+                                .Values.FirstOrDefault(x => x.Id == b.ValueId);
 
-                            var node = ZWavePlugin.ZWaveManager.Current.GetNodes().Last();
-                            var basic = node.Values.First();
-                            SendCommand(node, basic, 3711, 5);
-                            //foreach (var code in codes)
+                            var node = val.Node;
+
+                            //node.SetConfigParam(38, 2);
+                            //Thread.Sleep(5000);
+                            //Thread.Sleep(1500);
+                            //node.SetConfigParam(29, 2);
+                            //Debug.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            //Thread.Sleep(9000);
+                            //node.SetConfigParam(38, 3);
+                            //Thread.Sleep(1500);
+                            //node.SetConfigParam(29, 3);
+                            //Debug.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            //Thread.Sleep(9000);
+                            //node.SetConfigParam(38, 4);
+                            //Thread.Sleep(1500);
+                            //node.SetConfigParam(29, 4);
+                            //Debug.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            //Thread.Sleep(9000);
+                            //node.SetConfigParam(38, 5);
+                            //Thread.Sleep(1500);
+                            //node.SetConfigParam(29, 5);
+                            //Debug.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            //Thread.Sleep(9000);
+                            //node.SetConfigParam(38, 6);
+                            //Thread.Sleep(1500);
+                            //node.SetConfigParam(29, 6);
+                            //Debug.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            //Thread.Sleep(9000);
+
+                            //var val2 = ZWavePlugin.ZWaveManager.Current.GetNodes()
+                            //    .FirstOrDefault(x => x.Id == b.NodeId)
+                            //    .Values.FirstOrDefault(x => x.Name.StartsWith("IR Code num")).Current = (short)3711;
+
+                            //Thread.Sleep(5000);
+
+                            //for (int i = 1; i <= 6; i++)
                             //{
-                            //    SendCommand(node, basic, code);
+                            //    node.SetConfigParam(38, i);
+                            //    Thread.Sleep(3000);
+                            //    node.SetConfigParam(29, i);
+                            //    Thread.Sleep(3000);
                             //}
+                            //for (int i = 0; i<=10;i++)
+                            //val.Current = (short)39;
+
+                            var valueLearning = node.Values.FirstOrDefault(x => x.Name.StartsWith("IR Code Lear"));
+                            var valueEndPoint = node.Values.FirstOrDefault(x => x.Name.StartsWith("End-point selection"));
+                            var valueStatus = node.Values.FirstOrDefault(x => x.Name.StartsWith("Learning status register"));
+                            var valueOutput1 = node.Values.FirstOrDefault(x => x.Name.StartsWith("OutputMain"));
+
+                            //valueEndPoint.Current = (byte)1;
+
+                            //Thread.Sleep(5000);
+                            //MessageBox.Show("now");
+                            //valueLearning.Current = (byte)26;
+
+                            //Thread.Sleep(5000);
+
+                            //MessageBox.Show(valueStatus.Current.ToString());
+
+                            valueOutput1.Current = (short)39;
+
+                            //node.RequestConfigParam(27);
+                            //node.SetConfigParam(27, 3711);
+                            //var basic = node.GetNodeBasic();
+                            //var specific = node.GetNodeSpecific();
+                            //var supports = node.SupportsCommandClass(148);
+                            //MessageBox.Show("now_AV!");
+                            //node.Values.FirstOrDefault(x => x.Name == "AV").Current = (short)39;
+                            //Thread.Sleep(4000);
+                            //MessageBox.Show("now_AV_1!");
+                            //node.Values.FirstOrDefault(x => x.Name == "AV_1").Current = (short)39;
+                            //Thread.Sleep(4000);
+                            //MessageBox.Show("now_AV_2!");
+                            //node.Values.FirstOrDefault(x => x.Name == "AV_2").Current = (short)39;
+                            Thread.Sleep(4000);
                         }
                     });
                     t.SetApartmentState(ApartmentState.STA);
@@ -82,18 +154,22 @@ namespace Test
 
         private void SendCommand(Node node, NodeValue val, int tvcode, int btcode)
         {
-            //node.SetConfigParam(TvCode, tvcode);
-            //node.SendNodeInformation();
-            //Thread.Sleep(20000);
-            //node.SetConfigParam(21, 29);
-            //node.SetConfigParam(25, 5);
-            //node.SetConfigParam(21, 0);
-            //node.SetConfigParam(30, 255);
-            val.Current = (byte)29;
-            //node.SetConfigParam(OutputPort, 1);
-            //node.SetConfigParam(OutputPower, 255);
-            //node.SetNodeOn();
-            //node.SetConfigParam(TransmissionMode, 255);
+            //node.RequestConfigParam(21);
+            //node.RequestConfigParam(22);
+            //node.RequestConfigParam(25);
+            //node.RequestConfigParam(26);
+            //node.RequestConfigParam(27);
+            //node.RequestConfigParam(28);
+            //node.RequestConfigParam(29);
+            //node.RequestConfigParam(30);
+            //node.RequestConfigParam(31);
+            //node.RequestConfigParam(38);
+
+            //node.RequestConfigParam(23);
+            //node.RequestConfigParam(24);
+
+            //node.RequestConfigParam(148);
+
 
             Debug.WriteLine("code: " + tvcode + " dt:" + DateTime.Now);
         }
