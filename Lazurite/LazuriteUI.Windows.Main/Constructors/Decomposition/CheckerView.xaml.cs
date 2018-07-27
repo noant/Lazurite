@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.CoreActions;
 using Lazurite.IOC;
+using Lazurite.Logging;
 using Lazurite.Windows.Modules;
 using LazuriteUI.Windows.Controls;
 using System;
@@ -14,6 +15,8 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
     /// </summary>
     public partial class CheckerView : Grid, IConstructorElement
     {
+        private static ILogger Log = Singleton.Resolve<ILogger>();
+
         public CheckerView()
         {
             InitializeComponent();
@@ -30,12 +33,16 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
         public void BeginSelectAction()
         {
             SelectActionView.Show(
-                    (type) => {
+                (type) =>
+                {
+                    try
+                    {
                         var newAction = Singleton.Resolve<PluginsManager>().CreateInstance(type, AlgorithmContext);
                         if (newAction != null)
                         {
                             ActionControlResolver.UserInitialize(
-                                (result) => {
+                                (result) =>
+                                {
                                     if (result)
                                     {
                                         ActionHolder.Action = newAction;
@@ -52,41 +59,55 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                                 MessageView.ShowMessage(
                                     "Тип действия не совпадает с типом действия главного действия. Нужно настроить подчиненное действие еще раз.",
                                     "Внимание!",
-                                    Icons.Icon.WarningCircle, null, 
-                                    () => {
+                                    Icons.Icon.WarningCircle, null,
+                                    () =>
+                                    {
                                         BeginSelectAction();
                                     });
                             }
                         }
-                    },
-                    MasterAction?.ValueType.GetType(),
-                    ActionInstanceSide.OnlyRight,
-                    ActionHolder?.Action.GetType());
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error("Ошибка во время настройки действия", e);
+                    }
+                },
+                MasterAction?.ValueType.GetType(),
+                ActionInstanceSide.OnlyRight,
+                ActionHolder?.Action.GetType());
         }
 
         public void BeginEditAction()
         {
-            ActionControlResolver.UserInitialize(
-                (result) => {
-                    if (result)
+            try
+            {
+                ActionControlResolver.UserInitialize(
+                    (result) =>
                     {
-                        Model.Refresh(ActionHolder);
-                        Modified?.Invoke(this);
-                        if (MasterAction != null && MasterAction.ValueType.GetType() != ActionHolder.Action.ValueType.GetType())
+                        if (result)
                         {
-                            MessageView.ShowMessage(
-                                "Тип действия не совпадает с типом главного действия. Нужно настроить подчиненное действие еще раз.",
-                                "Внимание!",
-                                Icons.Icon.WarningCircle, null,
-                                () => BeginEditAction()
-                            );
+                            Model.Refresh(ActionHolder);
+                            Modified?.Invoke(this);
+                            if (MasterAction != null && MasterAction.ValueType.GetType() != ActionHolder.Action.ValueType.GetType())
+                            {
+                                MessageView.ShowMessage(
+                                    "Тип действия не совпадает с типом главного действия. Нужно настроить подчиненное действие еще раз.",
+                                    "Внимание!",
+                                    Icons.Icon.WarningCircle, null,
+                                    () => BeginEditAction()
+                                );
+                            }
                         }
-                    }
-                },
-                ActionHolder.Action,
-                MasterAction?.ValueType,
-                MasterAction != null,
-                MasterAction);
+                    },
+                    ActionHolder.Action,
+                    MasterAction?.ValueType,
+                    MasterAction != null,
+                    MasterAction);
+            }
+            catch (Exception e)
+            {
+                Log.Error("Ошибка во время настройки действия", e);
+            }
         }
 
         public void Refresh(ActionHolder actionHolder, IAlgorithmContext algoContext)

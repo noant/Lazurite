@@ -116,7 +116,7 @@ namespace Test
                             var valueLearning = node.Values.FirstOrDefault(x => x.Name.StartsWith("IR Code Lear"));
                             var valueEndPoint = node.Values.FirstOrDefault(x => x.Name.StartsWith("End-point selection"));
                             var valueStatus = node.Values.FirstOrDefault(x => x.Name.StartsWith("Learning status register"));
-                            var valueOutput1 = node.Values.FirstOrDefault(x => x.Name.StartsWith("OutputMain"));
+                            var valueOutput1 = node.Values.FirstOrDefault(x => x.Name.StartsWith("OutputAVCommand_2"));
 
                             //valueEndPoint.Current = (byte)1;
 
@@ -128,7 +128,7 @@ namespace Test
 
                             //MessageBox.Show(valueStatus.Current.ToString());
 
-                            valueOutput1.Current = (short)39;
+                            valueOutput1.Current = "Power";
 
                             //node.RequestConfigParam(27);
                             //node.SetConfigParam(27, 3711);
