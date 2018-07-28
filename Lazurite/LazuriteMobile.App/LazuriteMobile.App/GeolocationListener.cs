@@ -22,45 +22,39 @@ namespace LazuriteMobile.App
 
         public Geolocation LastGeolocation { get; private set; } = Geolocation.Empty;
 
-        private Task<bool> IsLocationAvailable() => CrossGeolocator.Current.CheckPermissionsAsync();
+        private bool IsLocationAvailable() => CrossGeolocator.Current.IsGeolocationAvailable && CrossGeolocator.Current.IsGeolocationEnabled;
 
         public void StartListenChanges()
         {
-            if (!_started)
+            if (!_started && IsLocationAvailable())
             {
                 _started = true;
-                IsLocationAvailable().ContinueWith((isLocationAvailable) =>
-                {
                     try
                     {
-                        if (isLocationAvailable.Result)
+                        CrossGeolocator.Current.PositionChanged -= Current_PositionChanged;
+                        CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
+                        CrossGeolocator.Current.GetLastKnownLocationAsync().ContinueWith((t) =>
                         {
-                            CrossGeolocator.Current.PositionChanged -= Current_PositionChanged;
-                            CrossGeolocator.Current.PositionChanged += Current_PositionChanged;
-                            CrossGeolocator.Current.GetLastKnownLocationAsync().ContinueWith((t) =>
+                            if (t.Result != null)
+                                LastGeolocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, true);
+                        });
+                        CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromMinutes(10)).ContinueWith((t) =>
+                        {
+                            if (t.Result != null)
+                                LastGeolocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, true);
+                        });
+                        CrossGeolocator.Current.StartListeningAsync(
+                            minimumTime: TimeSpan.FromMinutes(2),
+                            minimumDistance: GeolocationMetersMinimumDistance,
+                            listenerSettings: new ListenerSettings()
                             {
-                                if (t.Result != null)
-                                    LastGeolocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, t.Result.Source == LocationSource.GPS);
+                                ActivityType = ActivityType.Other
                             });
-                            CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromMinutes(10)).ContinueWith((t) =>
-                            {
-                                if (t.Result != null)
-                                    LastGeolocation = new Geolocation(t.Result.Latitude, t.Result.Longitude, t.Result.Source == LocationSource.GPS);
-                            });
-                            CrossGeolocator.Current.StartListeningAsync(
-                                minimumTime: TimeSpan.FromMinutes(2),
-                                minimumDistance: GeolocationMetersMinimumDistance,
-                                listenerSettings: new ListenerSettings()
-                                {
-                                    ActivityType = ActivityType.Fitness
-                                });
-                        }
                     }
                     catch (Exception e)
                     {
                         Log.Error("Error while initializing GeolocationDataHandler", e);
                     }
-                });
             }
         }
 
@@ -74,7 +68,7 @@ namespace LazuriteMobile.App
         private void Current_PositionChanged(object sender, PositionEventArgs e)
         {
             if (e.Position.Accuracy <= 100)
-                LastGeolocation = new Geolocation(e.Position.Latitude, e.Position.Longitude, e.Position.Source == LocationSource.GPS);
+                LastGeolocation = new Geolocation(e.Position.Latitude, e.Position.Longitude, true);
         }
     }
 }

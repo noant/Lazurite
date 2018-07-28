@@ -71,6 +71,7 @@
       <HintPath>..\..\packages\Xamarin.Forms.2.5.0.121934\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Java.Interop" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
@@ -98,9 +99,8 @@
       <HintPath>..\..\packages\PInvoke.Windows.Core.0.5.64\lib\portable-net45+win8+wpa81\PInvoke.Windows.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Plugin.CurrentActivity, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Plugin.CurrentActivity.1.0.1\lib\MonoAndroid10\Plugin.CurrentActivity.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Plugin.CurrentActivity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Plugin.CurrentActivity.2.1.0.2\lib\monoandroid44\Plugin.CurrentActivity.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.DeviceInfo, Version=3.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xam.Plugin.DeviceInfo.3.0.2\lib\MonoAndroid10\Plugin.DeviceInfo.dll</HintPath>
@@ -108,19 +108,11 @@
     <Reference Include="Plugin.DeviceInfo.Abstractions, Version=3.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xam.Plugin.DeviceInfo.3.0.2\lib\MonoAndroid10\Plugin.DeviceInfo.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Plugin.Geolocator, Version=4.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libs\Xamarin.Plugins.Geolocator\android\Plugin.Geolocator.dll</HintPath>
+    <Reference Include="Plugin.Geolocator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.Geolocator.4.5.0.6\lib\monoandroid71\Plugin.Geolocator.dll</HintPath>
     </Reference>
-    <Reference Include="Plugin.Geolocator.Abstractions, Version=4.1.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Libs\Xamarin.Plugins.Geolocator\android\Plugin.Geolocator.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin.Permissions, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Plugin.Permissions.2.2.1\lib\MonoAndroid10\Plugin.Permissions.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin.Permissions.Abstractions, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Plugin.Permissions.2.2.1\lib\MonoAndroid10\Plugin.Permissions.Abstractions.dll</HintPath>
+    <Reference Include="Plugin.Permissions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Plugin.Permissions.3.0.0.12\lib\monoandroid71\Plugin.Permissions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
