@@ -15,8 +15,8 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left">
-            <controls:IconView Icon="List" Height="20"></controls:IconView>
-            <TextBlock x:Name="tbScenarioName" VerticalAlignment="Center" Style="{StaticResource TextBlockCaption}"></TextBlock>
+            <controls:IconView Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" Height="30"></controls:IconView>
+            <TextBlock Margin="5,0,0,0" x:Name="tbScenarioName" VerticalAlignment="Center" Style="{StaticResource TextBlockCaption}"></TextBlock>
         </StackPanel>
         <controls:WheelScroll Grid.Row="1">
             <controls:ListItemsView x:Name="listItemsStates" SelectionMode="Single" x:FieldModifier="private"></controls:ListItemsView>

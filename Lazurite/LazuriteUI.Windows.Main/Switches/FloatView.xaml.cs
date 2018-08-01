@@ -38,8 +38,10 @@ namespace LazuriteUI.Windows.Main.Switches
             InitializeComponent();
             PreviewMouseWheel += OnMouseWheel;
             _changer = this;
-            _changer.VolumeDown += _changer_VolumeChanged;
-            _changer.VolumeUp += _changer_VolumeChanged;
+
+            //disable this feature
+            //_changer.VolumeDown += _changer_VolumeChanged;
+            //_changer.VolumeUp += _changer_VolumeChanged;
         }
 
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
@@ -88,12 +90,14 @@ namespace LazuriteUI.Windows.Main.Switches
         public FloatView(ScenarioBase scenario): this()
         {
             DataContext = _model = new ScenarioModel(scenario);
+
             //crutch
             _model.PropertyChanged += (o, e) =>
             {
                 if (e.PropertyName == nameof(_model.ScenarioValue))
                     scaleView.Dispatcher.BeginInvoke(
-                        new Action(() => scaleView.Value = _model.ScenarioValueDouble));
+                        new Action(() => 
+                            scaleViewSmooth.Value = scaleView.Value = _model.ScenarioValueDouble));
             };
 
             Loaded += (o, e) => scaleView.Value = _model.ScenarioValueDouble;

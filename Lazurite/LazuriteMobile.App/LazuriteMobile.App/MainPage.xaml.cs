@@ -13,7 +13,7 @@ namespace LazuriteMobile.App
     public partial class MainPage : ContentPage, INotificationsHandler
 	{
         private IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
-        private ISupportsResume _supportsResume = Singleton.Resolve<ISupportsResume>();        
+        private ISupportsResume _supportsResume = Singleton.Resolve<ISupportsResume>();
         private SynchronizationContext _currentContext = SynchronizationContext.Current;
         private bool _initialized;
         private event EventsHandler<bool> ConnectionToServiceInitialized;

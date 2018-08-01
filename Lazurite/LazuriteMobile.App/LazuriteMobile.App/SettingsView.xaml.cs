@@ -1,4 +1,5 @@
 ﻿using Lazurite.MainDomain;
+using LazuriteMobile.App.Controls;
 using System;
 
 using Xamarin.Forms;
@@ -10,6 +11,25 @@ namespace LazuriteMobile.App
         public SettingsView()
         {
         	InitializeComponent();
+
+            tbHost.Completed += AnyTextBox_Completed;
+            tbLogin.Completed += AnyTextBox_Completed;
+            tbPassword.Completed += AnyTextBox_Completed;
+            tbSecretCode.Completed += AnyTextBox_Completed;
+            tbService.Completed += AnyTextBox_Completed;
+            numPort.Completed += AnyTextBox_Completed;
+        }
+
+        // Navigate next control on OK pressed
+        private void AnyTextBox_Completed(object sender, EventArgs e)
+        {
+            var sourceTb = sender as Entry;
+            var index = gridMain.Children.IndexOf(sourceTb) + 1;
+            View nextControl = null;
+            while (!(nextControl is Entry || nextControl is ItemView) && index < gridMain.Children.Count)
+                nextControl = gridMain.Children[index++];
+            if (nextControl != null)
+                nextControl.Focus();
         }
 
         public void SetCredentials(ConnectionCredentials credentials)

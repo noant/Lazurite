@@ -13,13 +13,28 @@ namespace LazuriteUI.Windows.Main
     /// </summary>
     public partial class FastSwitchWindow : Window, IHardwareVolumeChanger
     {
+        private IHardwareVolumeChanger _oldChanger;
+
         public FastSwitchWindow()
         {
-            Singleton.Clear<IHardwareVolumeChanger>();
-            Singleton.Add(this);
+            if (Singleton.Any<IHardwareVolumeChanger>())
+            {
+                _oldChanger = Singleton.Resolve<IHardwareVolumeChanger>();
+                Singleton.Clear<IHardwareVolumeChanger>();
+            }
+            Singleton.Add(this); // Add as IHardwareVolumeChanger
+
             MouseWheel += Window_MouseWheel;
+            Closed += FastSwitchWindow_Closed;
             InitializeComponent();
             switchesGrid.Initialize();
+        }
+
+        private void FastSwitchWindow_Closed(object sender, System.EventArgs e)
+        {
+            Singleton.Clear<IHardwareVolumeChanger>();
+            if (_oldChanger != null)
+                Singleton.Add(_oldChanger);
         }
 
         public event EventsHandler<int> VolumeDown;

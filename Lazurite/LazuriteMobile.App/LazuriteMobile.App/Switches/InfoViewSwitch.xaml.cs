@@ -13,6 +13,7 @@ namespace LazuriteMobile.App.Switches
         {
             InitializeComponent();
             BindingContext = model;
+            tbText.Completed += (o, e) => ApplyClicked?.Invoke(this, new EventsArgs<string>(tbText.Text));
             itemViewApply.Click += (o,e) => ApplyClicked?.Invoke(this, new EventsArgs<string>(tbText.Text));
             SizeChanged += (o,e) => tbText.Focus(); //crutch
             tbText.Keyboard = Keyboard.Chat;

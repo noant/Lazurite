@@ -42,6 +42,11 @@ namespace LazuriteUI.Windows.Main
             try
             {
                 Core = new LazuriteCore();
+
+                // Crutch; after this actions first window run is faster
+                JournalLightWindow.Show("Lazurite запущен...", WarnType.Info);
+                JournalLightWindow.CloseWindow();
+                
                 Core.WarningHandler.OnWrite += (o, e) => {
                     var args = (WarningEventArgs)e;
                     JournalManager.Set(args.Message, args.Value, args.Exception);

@@ -175,14 +175,10 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             get
             {
-                try
-                {
-                    return double.Parse((!string.IsNullOrEmpty(ScenarioValue) ? ScenarioValue : "0"));
-                }
-                catch
-                {
-                    return -1;
-                }
+                if (string.IsNullOrEmpty(ScenarioValue))
+                    return 0;
+                double.TryParse(ScenarioValue, out double result);
+                return result;
             }
         }
 

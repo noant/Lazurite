@@ -14,7 +14,7 @@ namespace LazuriteUI.Windows.Launcher
 
             btApply.Click += (o, e) =>
             {
-                btApply.IsEnabled = false;
+                btCancel.IsEnabled = btApply.IsEnabled = false;
                 ApplyClick?.Invoke();
             };
             btCancel.Click += (o, e) => CancelClick?.Invoke();

@@ -7,7 +7,7 @@
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     x:Class="LazuriteMobile.App.SettingsView">
   <ContentView.Content>
-        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="gridMain">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>

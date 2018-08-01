@@ -93,6 +93,9 @@
     <Compile Include="SwitchesGrid.xaml.cs">
       <DependentUpon>SwitchesGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Switches\FloatViewManualSwitch.xaml.cs">
+      <DependentUpon>FloatViewManualSwitch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Switches\Selection_BoolToColor.cs" />
     <Compile Include="Switches\BoolInvert.cs" />
     <Compile Include="Switches\Background_BoolToColor.cs" />
@@ -118,8 +121,8 @@
     <Compile Include="Switches\DateTimeViewSwitch.xaml.cs">
       <DependentUpon>DateTimeViewSwitch.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Switches\FloatViewSwitch.xaml.cs">
-      <DependentUpon>FloatViewSwitch.xaml</DependentUpon>
+    <Compile Include="Switches\FloatViewSliderSwitch.xaml.cs">
+      <DependentUpon>FloatViewSliderSwitch.xaml</DependentUpon>
     </Compile>
     <Compile Include="Switches\ImageView.xaml.cs">
       <DependentUpon>ImageView.xaml</DependentUpon>
@@ -249,7 +252,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Switches\FloatViewSwitch.xaml">
+    <EmbeddedResource Include="Switches\FloatViewSliderSwitch.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -408,6 +411,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Common\SliderWrapperView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Switches\FloatViewManualSwitch.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -18,6 +18,8 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public StatusViewSwitch(ScenarioModel scenarioModel): this()
         {
+            DataContext = scenarioModel;
+
             tbScenarioName.Text = scenarioModel.ScenarioName;
             ItemView toSelect = null;
             foreach (var state in scenarioModel.AcceptedValues)

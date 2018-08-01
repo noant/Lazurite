@@ -41,6 +41,15 @@ namespace LazuriteUI.Windows.Main.Journal
                 }));
         }
 
+        public static void CloseWindow()
+        {
+            Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (_current != null || !_closed)
+                    _current.Close();
+            }));
+        }
+
         private void Set(string message, WarnType type)
         {
             if (!string.IsNullOrEmpty(message))
