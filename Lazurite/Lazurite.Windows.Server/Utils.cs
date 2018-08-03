@@ -70,7 +70,7 @@ namespace Lazurite.Windows.Server
         public static void NetshDeleteUrlacl(string address)
         {
             var commandString = string.Format(@" http delete urlacl url={0}", address.Replace("https://", "http://"));
-            var output = Windows.Utils.Utils.ExecuteProcess(Path.Combine(Environment.SystemDirectory, "netsh.exe"), commandString);
+            Windows.Utils.Utils.ExecuteProcess(Path.Combine(Environment.SystemDirectory, "netsh.exe"), commandString);
         }
 
         public static string AddCertificate(string filename, string password)
@@ -84,6 +84,16 @@ namespace Lazurite.Windows.Server
             store.Add(cert);
             store.Close();
             return cert.GetCertHashString();
+        }
+
+        public static void NetshAllowPort(ushort port)
+        {
+            var ruleName = "Lazurite" + Windows.Utils.Utils.GetCurrentLazuriteUniqueHash();
+            var commandRemove = string.Format(" advfirewall firewall delete rule name = \"{0}\"", ruleName);
+            var commandAdd = string.Format(" firewall add portopening TCP {0} {1} enable ALL", port, ruleName);
+            var netshpath = Path.Combine(Environment.SystemDirectory, "netsh.exe");
+            Windows.Utils.Utils.ExecuteProcess(netshpath, commandRemove);
+            Windows.Utils.Utils.ExecuteProcess(netshpath, commandAdd);
         }
 
         public class CertificateInfo

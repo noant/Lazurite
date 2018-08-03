@@ -26,6 +26,11 @@ namespace Lazurite.Windows.Utils
             return Path.GetDirectoryName(GetAssemblyPath(assembly));
         }
 
+        public static string GetCurrentLazuriteUniqueHash()
+        {
+            return CryptoUtils.CreatePasswordHash(GetAssemblyFolder(Assembly.GetExecutingAssembly()));
+        }
+
         public static string ExecuteProcess(string filePath, string arguments, bool asAdmin=false, bool waitForExit=true, ProcessPriorityClass priority = ProcessPriorityClass.Normal)
         {
             var process = new Process();
@@ -65,9 +70,12 @@ namespace Lazurite.Windows.Utils
             }
             catch (Exception e)
             {
-                Log.InfoFormat("command executing error: [{0} {1}]", e, e.Message);
-                outstr = "command executing error: " + e.Message;
+                outstr = string.Format("command executing error: [{0} {1}]", e, e.Message);
             }
+
+            if (!string.IsNullOrWhiteSpace(outstr))
+                Log.InfoFormat("command [{0} {1}] execution result:\r\n{2}", filePath, arguments, outstr);
+
             return outstr;
         }
 

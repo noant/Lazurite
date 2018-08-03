@@ -59,6 +59,7 @@ namespace LazuriteUI.Windows.Main.Server
                     _server.SetSettings(_settings);
                     Lazurite.Windows.Server.Utils.NetshAddSslCert(_settings.CertificateHash, _settings.Port);
                     Lazurite.Windows.Server.Utils.NetshAddUrlacl(_settings.GetAddress());
+                    Lazurite.Windows.Server.Utils.NetshAllowPort(_settings.Port);
                     _server.Restart(null);
                     btApply.IsEnabled = false;
                 }

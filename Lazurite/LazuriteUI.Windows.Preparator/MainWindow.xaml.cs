@@ -34,7 +34,6 @@ namespace LazuriteUI.Windows.Preparator
             var error = false;
 
             Utils.VcRedistInstallAll();
-
             Utils.FirewallSettings();
 
             if (!fileSavior.Has(LazuriteServer.SettingsKey))
@@ -47,6 +46,8 @@ namespace LazuriteUI.Windows.Preparator
                     fileSavior.Set(LazuriteServer.SettingsKey, settingsStub);
                     Lazurite.Windows.Server.Utils.NetshAddSslCert(settingsStub.CertificateHash, settingsStub.Port);
                     Lazurite.Windows.Server.Utils.NetshAddUrlacl(settingsStub.GetAddress());
+                    Lazurite.Windows.Server.Utils.NetshAllowPort(settingsStub.Port);
+
                     message += "*Стандартный сертификат для HTTPS установлен.\r\n";
                 }
                 catch (Exception e)

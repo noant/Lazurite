@@ -19,6 +19,7 @@ namespace Lazurite.MainDomain.MessageSecurity
         {
             var saltBytes = Convert.FromBase64String(salt);
             var secretKeyHashBytes = Utils.CreateMD5Hash(TextEncoding.GetBytes(secretKey));
+
             //calculate offset of secretKeyHashBytes by summ of 
             //first secretKeyByte and first salt byte in proportion to 256
             var offset = (int)(((secretKeyHashBytes[0] + saltBytes[0]) / 256d) * 16);

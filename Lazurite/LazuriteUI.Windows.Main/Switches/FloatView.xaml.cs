@@ -36,10 +36,10 @@ namespace LazuriteUI.Windows.Main.Switches
         public FloatView()
         {
             InitializeComponent();
-            PreviewMouseWheel += OnMouseWheel;
             _changer = this;
 
             //disable this feature
+            //PreviewMouseWheel += OnMouseWheel;
             //_changer.VolumeDown += _changer_VolumeChanged;
             //_changer.VolumeUp += _changer_VolumeChanged;
         }
@@ -97,7 +97,7 @@ namespace LazuriteUI.Windows.Main.Switches
                 if (e.PropertyName == nameof(_model.ScenarioValue))
                     scaleView.Dispatcher.BeginInvoke(
                         new Action(() => 
-                            scaleViewSmooth.Value = scaleView.Value = _model.ScenarioValueDouble));
+                            scaleView.Value = _model.ScenarioValueDouble));
             };
 
             Loaded += (o, e) => scaleView.Value = _model.ScenarioValueDouble;

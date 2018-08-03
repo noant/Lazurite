@@ -54,9 +54,9 @@ namespace LazuriteUI.Windows.Preparator
             {
                 var basePath = Lazurite.Windows.Utils.Utils.GetAssemblyFolder(typeof(Utils).Assembly);
                 var fullPath = Path.Combine(basePath, LazuriteProcessName + ".exe");
-                var command = string.Format("firewall add allowedprogram \"{0}\" LazuriteAccess_{1} ENABLE", 
+                var command = string.Format("firewall add allowedprogram \"{0}\" LazuriteAccess{1} ENABLE", 
                     fullPath,
-                    Guid.NewGuid());
+                    Lazurite.Windows.Utils.Utils.GetCurrentLazuriteUniqueHash());
                 Lazurite.Windows.Utils.Utils.ExecuteProcess(Path.Combine(Environment.SystemDirectory, "netsh.exe"), command);
             }
             catch (Exception e)
