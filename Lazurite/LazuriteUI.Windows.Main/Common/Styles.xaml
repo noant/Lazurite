@@ -20,7 +20,7 @@
         <Setter Property="Foreground" Value="SteelBlue"></Setter>
     </Style>
     <Style x:Key="TextBlockCaptionLight" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="Foreground" Value="LightGray"></Setter>
     </Style>
     <Style x:Key="ButtonRemove" TargetType="{x:Type controls:ItemView}">
         <Setter Property="Background" Value="Crimson"></Setter>
@@ -34,18 +34,34 @@
         <Setter Property="Background" Value="DarkSlateBlue"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="Foreground" Value="LightGray"></Setter>
     </Style>
     <Style x:Key="LabelWhileView" TargetType="Label">
         <Setter Property="Background" Value="#FF4B628B"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="Foreground" Value="LightGray"></Setter>
     </Style>
-    <switches:BoolToDouble x:Key="boolToDouble"></switches:BoolToDouble>
-    <switches:StringToIcon x:Key="stringToIcon"></switches:StringToIcon>
-    <switches:StringToSplittedString x:Key="stringToSplittedString"></switches:StringToSplittedString>
-    <switches:BoolToVisibilityInvert x:Key="boolToVisibilityInvert"></switches:BoolToVisibilityInvert>
-    <switches:BoolToVisibility x:Key="boolToVisibility"></switches:BoolToVisibility>
-    <switches:BoolInvert x:Key="boolInvert"></switches:BoolInvert>
+    <Style x:Key="switchStyle" TargetType="UserControl">
+        <Setter Property="Height" Value="85"></Setter>
+        <Setter Property="Width" Value="110"></Setter>
+    </Style>
+    <Style x:Key="switchTextBlockCaption" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="LightGray"></Setter>
+        <Setter Property="FontSize" Value="12"></Setter>
+        <Setter Property="FontWeight" Value="ExtraLight"></Setter>
+        <Setter Property="TextWrapping" Value="NoWrap"></Setter>
+        <Setter Property="IsHitTestVisible" Value="False"></Setter>
+    </Style>
+    <Style x:Key="switchTextBlockValue" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="SteelBlue"></Setter>
+        <Setter Property="FontSize" Value="12"></Setter>
+        <Setter Property="FontWeight" Value="ExtraLight"></Setter>
+        <Setter Property="TextWrapping" Value="NoWrap"></Setter>
+        <Setter Property="IsHitTestVisible" Value="False"></Setter>
+    </Style>
+    <Style x:Key="switchIconView" TargetType="{x:Type controls:IconView}">
+        <Setter Property="Opacity" Value="0.65"></Setter>
+        <Setter Property="IsHitTestVisible" Value="False"></Setter>
+    </Style>
 </ResourceDictionary>

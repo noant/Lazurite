@@ -125,7 +125,7 @@ namespace LazuriteUI.Windows.Controls
         public ItemView()
         {
             InitializeComponent();
-
+            
             button.Click += (o, e) => Click?.Invoke(this, e);
             Click += (o, e) => Selected = !Selected;
             SizeChanged += (o, e) =>
@@ -134,9 +134,12 @@ namespace LazuriteUI.Windows.Controls
                     label.Visibility = Visibility.Collapsed;
                 else
                     label.Visibility = Visibility.Visible;
+
+                if (VerticalAlignment == VerticalAlignment.Stretch)
+                    Height = double.NaN;
             };
         }
-
+                
         private void InitializeComponent()
         {
             //not xaml because i need inherit from this class
@@ -147,6 +150,7 @@ namespace LazuriteUI.Windows.Controls
             Width = double.NaN;
             IsHitTestVisible = true;
             Focusable = true;
+            VerticalAlignment = VerticalAlignment.Top;
             FocusManager.SetFocusedElement(this, button);
 
             var grid = new Grid();
@@ -183,7 +187,7 @@ namespace LazuriteUI.Windows.Controls
             {
                 Visibility = Visibility.Collapsed,
                 Name = "backView",
-                Background = Brushes.SteelBlue
+                Background = Visual.ItemSelection
             };
 
             grid.Children.Add(backView);

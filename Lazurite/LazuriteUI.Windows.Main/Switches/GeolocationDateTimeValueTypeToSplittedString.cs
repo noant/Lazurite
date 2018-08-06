@@ -11,10 +11,7 @@ namespace LazuriteUI.Windows.Main.Switches
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null)
-            {
-                var dateTime = GeolocationData.FromString(value.ToString()).DateTime;
-                return dateTime.ToString().Replace(" ", "\r\n");
-            }
+                return GeolocationData.FromString(value.ToString()).DateTime.ToString();
             return string.Empty;
         }
 

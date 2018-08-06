@@ -8,4 +8,4 @@
     VerticalAlignment="Bottom" 
     HorizontalAlignment="Stretch" 
     BorderBrush="#7d28a6"
-    BorderThickness="1" />
+    BorderThickness="0.5" />

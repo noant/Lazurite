@@ -50,7 +50,7 @@ namespace LazuriteUI.Windows.Main.Common
             if (percent < 0.25)
                 borderValue.BorderBrush = new SolidColorBrush(Colors.Gray);
             else if (percent >= 0.25 && percent < 0.9)
-                borderValue.BorderBrush = Brushes.LightSkyBlue;
+                borderValue.BorderBrush = Brushes.MediumOrchid;
             else
                 borderValue.BorderBrush = new SolidColorBrush(Colors.Red);
         }

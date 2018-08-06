@@ -476,14 +476,11 @@
     <Compile Include="Switches\StatusViewSwitch.xaml.cs">
       <DependentUpon>StatusViewSwitch.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Switches\DateTimeValueTypeToSplittedString.cs" />
     <Compile Include="Switches\StringToIcon.cs" />
     <Compile Include="Switches\ButtonView.xaml.cs">
       <DependentUpon>ButtonView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Switches\StringToShortString.cs" />
-    <Compile Include="Switches\StringToSplittedString.cs" />
-    <Compile Include="Switches\StringToSplittedStringLong.cs" />
     <Compile Include="Switches\SwitchesCreator.cs" />
     <Compile Include="Switches\SwitchSettings\SwitchIconModel.cs" />
     <Compile Include="Switches\SwitchSettings\SwitchIconSelect.xaml.cs">

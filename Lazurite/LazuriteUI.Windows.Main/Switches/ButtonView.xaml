@@ -7,22 +7,15 @@
              mc:Ignorable="d" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
-             Height="110" Width="110"
+             Style="{StaticResource switchStyle}"
              Background="{Binding AllowClick, Converter={x:Static local:ConvertersStatic.Background_BoolToBrush}}"
              IsEnabled="{Binding AllowClick}"
-             Opacity="{Binding IsAvailable, Converter={x:Static local:ConvertersStatic.BoolToDouble}}"
-             d:DesignHeight="110" d:DesignWidth="110">
-    <Grid >
+             Opacity="{Binding IsAvailable, Converter={x:Static local:ConvertersStatic.BoolToDouble}}">
+    <Grid>
         <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolToVisibility}}"></common:CheckPanel>
-        <controls:ItemView IsEnabled="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolInvert}}" Background="Transparent" Name="itemView" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed"  Selectable="False"  HorizontalAlignment="Stretch"></controls:ItemView>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="3*"></RowDefinition>
-                <RowDefinition Height="2*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <controls:IconView Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" IsHitTestVisible="False" x:Name="iconViewOff" x:FieldModifier="private" Width="50" VerticalAlignment="Center" HorizontalAlignment="Center"></controls:IconView>
-            <TextBlock Margin="3,3,3,3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" IsHitTestVisible="False" Name="textBlock" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" Foreground="White"></TextBlock>
-        </Grid>
+        <controls:ItemView IsEnabled="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolInvert}}" Background="Transparent" Name="itemView" VerticalAlignment="Stretch" IconVisibility="Collapsed"  Selectable="False"  HorizontalAlignment="Stretch"></controls:ItemView>
+        <controls:IconView Margin="0,-30,0,0" Style="{StaticResource switchIconView}" Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" IsHitTestVisible="False" x:Name="iconViewOff" x:FieldModifier="private" Width="45" VerticalAlignment="Center" HorizontalAlignment="Center"></controls:IconView>
+        <TextBlock Margin="0,0,0,7" Style="{StaticResource switchTextBlockCaption}" VerticalAlignment="Bottom" HorizontalAlignment="Center" IsHitTestVisible="False" Name="textBlock" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private"></TextBlock>
         <local:SwitchBottomBorder></local:SwitchBottomBorder>
     </Grid>
 </UserControl>

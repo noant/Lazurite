@@ -6,12 +6,11 @@
         public static readonly BoolToDouble BoolToDouble = new BoolToDouble();
         public static readonly BoolToVisibility BoolToVisibility = new BoolToVisibility();
         public static readonly BoolToVisibilityInvert BoolToVisibilityInvert = new BoolToVisibilityInvert();
-        public static readonly DateTimeValueTypeToSplittedString DateTimeValueTypeToSplittedString = new DateTimeValueTypeToSplittedString();
         public static readonly GeolocationDateTimeValueTypeToSplittedString GeolocationDateTimeValueTypeToSplittedString = new GeolocationDateTimeValueTypeToSplittedString();
         public static readonly StringToIcon StringToIcon = new StringToIcon();
-        public static readonly StringToShortString StringToShortString = new StringToShortString();
-        public static readonly StringToSplittedString StringToSplittedString = new StringToSplittedString();
-        public static readonly StringToSplittedStringLong StringToSplittedStringLong = new StringToSplittedStringLong();
+        public static readonly StringToShortString StringToShortString = new StringToShortString(16);
+        public static readonly StringToShortString StringToShortStringSmall = new StringToShortString(7);
+        public static readonly StringToShortString StringToShortStringBig = new StringToShortString(40);
         public static readonly ValueTypeStringToBool ValueTypeStringToBool = new ValueTypeStringToBool();
         public static readonly ValueTypeStringToDouble ValueTypeStringToDouble = new ValueTypeStringToDouble();
         public static readonly ValueTypeStringToDoubleRound ValueTypeStringToDoubleRound = new ValueTypeStringToDoubleRound();

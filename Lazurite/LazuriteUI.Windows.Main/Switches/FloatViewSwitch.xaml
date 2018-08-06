@@ -176,7 +176,7 @@
             </Grid.Resources>
             <StackPanel Height="50" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,5">
                 <controls:IconView VerticalAlignment="Center" Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" Height="50" Width="50"></controls:IconView>
-                <TextBlock VerticalAlignment="Center" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToSplittedStringLong}}" Foreground="White"></TextBlock>
+                <TextBlock VerticalAlignment="Center" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToShortStringBig}}" Foreground="White"></TextBlock>
             </StackPanel>
             <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolToVisibility}}"></common:CheckPanel>
             <Slider x:Name="slider" IsEnabled="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolInvert}}" IsMoveToPointEnabled="True" Style="{StaticResource SliderStyle}" Minimum="{Binding Min}" Maximum="{Binding Max}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="5,5,5,10"></Slider>

@@ -18,7 +18,7 @@
         <StackPanel Orientation="Horizontal" Background="{x:Static controls:Visual.BackgroundLazurite}">
             <controls:ItemView Selectable="False" Content="История журнала" Margin="5" HorizontalAlignment="Left" Width="200" Icon="TimerRewind" Click="ItemView_Click"></controls:ItemView>
             <TextBlock Margin="20,10,10,10" VerticalAlignment="Center" Style="{DynamicResource TextBlockCaption}">Максимальный отображаемый пользователю тип сообщений:</TextBlock>
-            <controls:ItemView x:Name="btWarnTypeSelect" Width="140" Icon="WindowRestore"></controls:ItemView>
+            <controls:ItemView VerticalAlignment="Center" x:Name="btWarnTypeSelect" Width="140" Icon="WindowRestore"></controls:ItemView>
         </StackPanel>
     </Grid>
 </UserControl>

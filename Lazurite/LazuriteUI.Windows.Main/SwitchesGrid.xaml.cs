@@ -33,8 +33,9 @@ namespace LazuriteUI.Windows.Main
         public static DependencyProperty IsConstructorModeProperty;
 
         private static readonly int MaxX = 3;
-        private static readonly int ElementSize = 111;
-        private static readonly int ElementMargin = 6;
+        private static readonly int ElementWidth = 110;
+        private static readonly int ElementHeight = 85;
+        private static readonly int ElementMargin = 2;
 
         static SwitchesGrid()
         {
@@ -107,9 +108,8 @@ namespace LazuriteUI.Windows.Main
             if (EditMode && _draggableCurrent != null)
             {
                 var margin = ElementMargin;
-                var elementSize = ElementSize;
                 var position = e.GetPosition(grid);
-                var potentialPosition = new Point(position.X / (elementSize + margin), position.Y / (elementSize + margin));
+                var potentialPosition = new Point(position.X / (ElementWidth + margin), position.Y / (ElementHeight + margin));
                 var model = ((ScenarioModel)_draggableCurrent.DataContext);
                 var currentPosition = CreatePositionByIndex(CreateRealVisualIndex(model.VisualSettings));
                 if ((currentPosition.Item1 != (int)potentialPosition.X || currentPosition.Item2 != (int)potentialPosition.Y) && (int)potentialPosition.X < MaxX)
@@ -170,19 +170,20 @@ namespace LazuriteUI.Windows.Main
             SelectFirst();
         }
         
-        private UserControl CreateControl(ScenarioBase scenario)
+        private FrameworkElement CreateControl(ScenarioBase scenario)
         {
             var control = SwitchesCreator.CreateScenarioControl(scenario);
             control.MouseLeftButtonDown += ElementClick;
             control.MouseLeftButtonUp += ElementMouseRelease;
             control.VerticalAlignment = VerticalAlignment.Top;
             control.HorizontalAlignment = HorizontalAlignment.Left;
-            control.Width = control.Height = ElementSize;
+            control.Width = ElementWidth;
+            control.Height = ElementHeight;
             control.Margin = CreateControlMargin(GetVisualSettings(control));
             return control;
         }
         
-        private UserVisualSettings GetVisualSettings(UserControl control)
+        private UserVisualSettings GetVisualSettings(FrameworkElement control)
         {
             var model = control.DataContext as ScenarioModel;
             return model?.VisualSettings;
@@ -236,7 +237,7 @@ namespace LazuriteUI.Windows.Main
 
         public void RefreshItemFull(ScenarioBase scenario)
         {
-            var control = grid.Children.Cast<UserControl>()
+            var control = grid.Children.Cast<FrameworkElement>()
                 .FirstOrDefault(x => ((ScenarioModel)x.DataContext).Scenario.Id.Equals(scenario.Id));
             if (control != null)
             {
@@ -436,8 +437,8 @@ namespace LazuriteUI.Windows.Main
             var position = CreatePositionByIndex(CreateRealVisualIndex(visualSettings));
             
             return new Thickness(
-                ElementMargin * (1 + position.Item1) + ElementSize * position.Item1,
-                ElementMargin * (1 + position.Item2) + ElementSize * position.Item2, 0, 0);
+                ElementMargin * (1 + position.Item1) + ElementWidth * position.Item1,
+                ElementMargin * (1 + position.Item2) + ElementHeight * position.Item2, 0, 0);
         }
 
         public void CancelDragging() => _draggableCurrent = null;

@@ -1,12 +1,13 @@
 ﻿using Lazurite.MainDomain;
 using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace LazuriteUI.Windows.Main.Switches
 {
     public static class SwitchesCreator
     {
-        public static UserControl CreateScenarioControl(ScenarioBase scenario)
+        public static FrameworkElement CreateScenarioControl(ScenarioBase scenario)
         {
             if (scenario.ValueType is Lazurite.ActionsDomain.ValueTypes.ButtonValueType || scenario.ValueType == null)
                 return new ButtonView(scenario);

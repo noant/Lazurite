@@ -7,23 +7,22 @@
              xmlns:common="clr-namespace:LazuriteUI.Windows.Main.Common"
              mc:Ignorable="d" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             Height="110" Width="110" 
+             Style="{StaticResource switchStyle}"
              IsEnabled="{Binding AllowClick}"
              Background="{Binding AllowClick, Converter={x:Static local:ConvertersStatic.Background_BoolToBrush}}"
              Opacity="{Binding IsAvailable, Converter={x:Static local:ConvertersStatic.BoolToDouble}}"
              d:DesignHeight="110" d:DesignWidth="110">
     <Grid>
         <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolToVisibility}}"></common:CheckPanel>
-        <controls:ItemView Background="Transparent" IsEnabled="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolInvert}}" Name="itemView" VerticalAlignment="Stretch" Height="110" IconVisibility="Collapsed" HorizontalAlignment="Stretch"></controls:ItemView>
-        <Grid IsHitTestVisible="False">
+        <controls:ItemView Background="Transparent" IsEnabled="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolInvert}}" Name="itemView" VerticalAlignment="Stretch" IconVisibility="Collapsed" HorizontalAlignment="Stretch"></controls:ItemView>
+        <controls:IconView Style="{StaticResource switchIconView}" Width="40" Height="40" Margin="0,-35,0,0" Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+        <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,7">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <controls:IconView Width="35" Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-            <TextBlock Grid.Row="1" VerticalAlignment="Center" Margin="0,-4,0,4" Name="textBlockScenName" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private" Foreground="SteelBlue" TextAlignment="Center" ></TextBlock>
-            <TextBlock Grid.Row="2" VerticalAlignment="Center" Margin="0,-7,0,0" Name="textBlockDate" Text="{Binding ScenarioValue, Converter={x:Static local:ConvertersStatic.DateTimeValueTypeToSplittedString}}" x:FieldModifier="private" Foreground="White" TextAlignment="Center" ></TextBlock>
+            <TextBlock HorizontalAlignment="Center" Grid.Row="1" Style="{StaticResource switchTextBlockCaption}" Name="textBlockScenName" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private"></TextBlock>
+            <TextBlock HorizontalAlignment="Center" Grid.Row="0" Style="{StaticResource switchTextBlockValue}" Name="textBlockDate" x:FieldModifier="private"></TextBlock>
         </Grid>
         <local:SwitchBottomBorder></local:SwitchBottomBorder>
     </Grid>

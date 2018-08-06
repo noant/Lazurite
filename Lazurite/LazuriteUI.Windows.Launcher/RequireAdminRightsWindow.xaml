@@ -15,7 +15,7 @@
     <Grid>
         <controls:CaptionView VerticalAlignment="Top" Icon="Alert">Запрос прав администратора</controls:CaptionView>
         <controls:IconView Icon="Alert" Height="70" VerticalAlignment="Top" Margin="0,50,0,0"></controls:IconView>
-        <TextBlock TextAlignment="Center" Margin="0,150,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="14" MaxWidth="500" TextWrapping="Wrap" Foreground="White">Lazurite требует повышения прав.<LineBreak/>Для запуска от имени администратора нажмите "Продолжить".</TextBlock>
+        <TextBlock TextAlignment="Center" Margin="0,150,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="14" MaxWidth="500" TextWrapping="Wrap" Foreground="{x:Static controls:Visual.Foreground}">Lazurite требует повышения прав.<LineBreak/>Для запуска от имени администратора нажмите "Продолжить".</TextBlock>
         <controls:ItemView TabIndex="1" x:Name="btCancel" VerticalAlignment="Bottom" Margin="80" HorizontalAlignment="Center" Width="300" Icon="Cancel">Отменить запуск</controls:ItemView>
         <controls:ItemView TabIndex="0" x:Name="btApply" VerticalAlignment="Bottom" Margin="35" HorizontalAlignment="Center" Width="300" Icon="Check">Продолжить</controls:ItemView>
     </Grid>
