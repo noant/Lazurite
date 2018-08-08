@@ -25,7 +25,7 @@
                                Visibility="{Binding EditModeButtonVisible, Converter={StaticResource boolToVisibility}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SwitchesGrid}}}" 
                                Width="260" Margin="10" Icon="Settings" Content="Режим редактирования"></controls:ItemView>
             <Border Margin="2,0,2,0" ClipToBounds="True" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Static controls:Visual.BackgroundLazurite}" BorderThickness="0,1,0,1">
-                <controls:WheelScroll Grid.Row="1" HorizontalAlignment="Center" Background="{x:Static controls:Visual.BackgroundLazurite}">
+                <controls:WheelScroll Grid.Row="1" HorizontalAlignment="Center" Background="Black">
                     <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Name="grid"></Grid>
                 </controls:WheelScroll>
             </Border>

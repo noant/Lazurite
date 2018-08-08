@@ -18,9 +18,9 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:IconView Margin="0,0,-5,0" Grid.RowSpan="2" InputTransparent="True" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" HeightRequest="65" WidthRequest="65"></controls:IconView>
-        <Label Grid.Column="1" InputTransparent="True" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}" FontSize="Large" TextColor="{Static controls:Visual.CaptionForeground}"></Label>
-        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" InputTransparent="True" TextColor="{Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToSplittedStringShort}}" FontSize="Large" x:Name="tbValue" VerticalOptions="CenterAndExpand" />
+        <controls:IconView Opacity="0.70" Margin="0,0,-5,0" Grid.RowSpan="2" InputTransparent="True" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" HeightRequest="65" WidthRequest="65"></controls:IconView>
+        <Label Grid.Column="1" InputTransparent="True" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}" FontSize="Large" TextColor="{Static controls:Visual.CaptionForeground}"></Label>
+        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" InputTransparent="True" TextColor="{Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToShortStringSmall}}" FontSize="Large" x:Name="tbValue" VerticalOptions="CenterAndExpand" />
     </Grid>
     <common:SliderWrapperView x:Name="slider" x:FieldModifier="private" VerticalOptions="Fill" HorizontalOptions="Fill"></common:SliderWrapperView>
     <controls:ItemView VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand" x:Name="btInput" Icon="InputPen" HeightRequest="40" WidthRequest="250" Margin="20" Text="Ручной ввод..."></controls:ItemView>

@@ -59,6 +59,7 @@ namespace LazuriteMobile.App.Switches
                 itemView.Icon = LazuriteUI.Icons.Icon.NavigateNext;
                 itemView.Text = state;
                 itemView.HeightRequest = 50;
+                itemView.Margin = new Thickness(0, 0, 0, 1);
                 if (scenarioModel.ScenarioValue.Equals(state))
                     itemView.Selected = true;
                 listItemsStates.Children.Add(itemView);

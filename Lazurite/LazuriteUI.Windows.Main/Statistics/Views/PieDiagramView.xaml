@@ -20,6 +20,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" x:Name="lblCaption" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="7" Grid.ColumnSpan="3" FontSize="16">ИМЯ СЦЕНАРИЯ...</Label>
         <local2:PieChartView Content="ЗНАЧЕНИЯ" x:Name="chartByVal" Grid.Column="0" Grid.Row="1"></local2:PieChartView>
         <local2:PieChartView Content="ИЗМЕНЕНИЯ ПО ПОЛЬЗОВАТЕЛЯМ" x:Name="chartByUser" Grid.Column="1" Grid.Row="1"></local2:PieChartView>
         <local2:PieChartView Content="ИЗМЕНЕНИЯ ПО ДНЯМ НЕДЕЛИ" x:Name="chartByWeek" Grid.Column="2" Grid.Row="1"></local2:PieChartView>

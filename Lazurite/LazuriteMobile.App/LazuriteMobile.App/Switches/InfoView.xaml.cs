@@ -1,10 +1,10 @@
 ﻿using Lazurite.MainDomain;
-
+using LazuriteMobile.App.Switches.Bases;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public partial class InfoView : Grid
+    public partial class InfoView : SwitchBase
     {
         public InfoView()
         {

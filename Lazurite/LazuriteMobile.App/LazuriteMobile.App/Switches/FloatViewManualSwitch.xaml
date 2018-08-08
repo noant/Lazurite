@@ -5,8 +5,9 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
-    BackgroundColor="Black"
-    Margin="5"
+    BackgroundColor="{Static controls:Visual.Background}"
+    Margin="4"
+    Padding="4"
     x:Class="LazuriteMobile.App.Switches.FloatViewManualSwitch">
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -15,10 +16,10 @@
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
         <RowDefinition Height="35"></RowDefinition>
-        <RowDefinition Height="80"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
-    <controls:IconView  VerticalOptions="Center" Margin="0,5,0,0" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-    <Label VerticalOptions="Center" Margin="0,5,0,0" Grid.Column="1" Grid.ColumnSpan="2" TextColor="{Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedStringLong}}"></Label>
+    <controls:IconView Opacity="0.64" VerticalOptions="Center" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+    <Label VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" TextColor="{Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></Label>
     <common:NumericEntry x:Name="numericEntry" Grid.Row="1" HeightRequest="75" Grid.ColumnSpan="2" Grid.Column="0" VerticalOptions="Start" BackgroundColor="#302530" TextColor="White"></common:NumericEntry>
     <controls:ItemView Grid.Row="1" Grid.Column="2" x:Name="itemViewApply" Icon="NavigateNext" VerticalOptions="Start" HeightRequest="45" WidthRequest="45" Text=""></controls:ItemView>
 </Grid>

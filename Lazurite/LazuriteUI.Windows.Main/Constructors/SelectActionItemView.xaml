@@ -15,7 +15,7 @@
         <ColumnDefinition Width="Auto"></ColumnDefinition>
         <ColumnDefinition></ColumnDefinition>
     </Grid.ColumnDefinitions>
-    <controls:ItemView Background="{x:Static controls:Visual.BrightItemBackground}" Height="Auto" Width="Auto" x:Name="itemView" Grid.ColumnSpan="2"></controls:ItemView>
+    <controls:ItemView VerticalAlignment="Stretch" Background="{x:Static controls:Visual.BrightItemBackground}" Height="Auto" Width="Auto" x:Name="itemView" Grid.ColumnSpan="2"></controls:ItemView>
     <controls:IconView Height="25" x:Name="iconView" IsHitTestVisible="False" Icon="Acorn"></controls:IconView>
     <TextBlock Margin="-2,5,3,5" x:Name="tbText" TextWrapping="Wrap" IsHitTestVisible="False" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Foreground="White">asasdf</TextBlock>
 </Grid>

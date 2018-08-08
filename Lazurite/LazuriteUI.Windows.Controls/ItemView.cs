@@ -42,7 +42,10 @@ namespace LazuriteUI.Windows.Controls
             {
                 PropertyChangedCallback = (o, e) =>
                 {
-                    ((ItemView)o).label.Content = e.NewValue;
+                    var newVal = e.NewValue;
+                    if (newVal is string)
+                        newVal = newVal.ToString().Replace("_", "__"); // Сrutch for "mnemonic key using"
+                    ((ItemView)o).label.Content = newVal;
                 }
             });
             SelectableProperty = DependencyProperty.Register(nameof(Selectable), typeof(bool), typeof(ItemView), new FrameworkPropertyMetadata()

@@ -1,11 +1,12 @@
 ﻿using Lazurite.MainDomain;
+using LazuriteMobile.App.Switches.Bases;
 using System;
 
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public partial class ButtonView : Grid
+    public partial class ButtonView : SwitchBase
     {
         private SwitchScenarioModel _model;
         public ButtonView()

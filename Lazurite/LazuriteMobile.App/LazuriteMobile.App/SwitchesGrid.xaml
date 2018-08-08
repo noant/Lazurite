@@ -3,11 +3,13 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="LazuriteMobile.App.SwitchesGrid"
-    xmlns:common="clr-namespace:LazuriteMobile.App.Common">
+    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+    xmlns:common="clr-namespace:LazuriteMobile.App.Common"
+    BackgroundColor="{Static controls:Visual.Background}">
     <ScrollView x:Name="scrollView">
         <common:ViewBox  HorizontalOptions="FillAndExpand" VerticalOptions="Start">
             <Grid x:Name="grid"></Grid>
         </common:ViewBox>
     </ScrollView>
-    <Label x:Name="lblEmpty" TextColor="#4682b4" VerticalOptions="Center" HorizontalOptions="Center">Сценарии пока не созданы...</Label>
+    <Label x:Name="lblEmpty" TextColor="{Static controls:Visual.CaptionForeground}" VerticalOptions="Center" HorizontalOptions="Center">Сценарии пока не созданы...</Label>
 </Grid>

@@ -23,10 +23,13 @@ namespace LazuriteMobile.App.Common
 
         public void AddTabInfo(TabInfo info)
         {
-            var itemView = new ItemView();
-            itemView.Icon = info.Icon;
-            itemView.HeightRequest = itemView.WidthRequest = 45;
-            itemView.BackgroundColor = Color.Transparent;
+            var itemView = new ItemView() {
+                Opacity = 0.71,
+                Icon = info.Icon,
+                HeightRequest = 45,
+                WidthRequest = 45,
+                BackgroundColor = Color.Transparent
+            };
             itemView.Clicked += (o, e) => info.Menu.Show();
             stackPanel.Children.Add(itemView);
             _tabs.Add(info);

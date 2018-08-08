@@ -2,6 +2,6 @@
 <ContentView WidthRequest="40" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="LazuriteMobile.App.Common.ScaleView">
     <Grid>
         <Grid BackgroundColor="Gray" VerticalOptions="FillAndExpand" HorizontalOptions="End" WidthRequest="4" Opacity="0.2"></Grid>
-        <Grid x:Name="gridValue" WidthRequest="4" VerticalOptions="End" HorizontalOptions="End" BackgroundColor="#87CEFA"></Grid>
+        <Grid x:Name="gridValue" WidthRequest="4" VerticalOptions="End" HorizontalOptions="End" BackgroundColor="MediumOrchid"></Grid>
     </Grid>
 </ContentView>

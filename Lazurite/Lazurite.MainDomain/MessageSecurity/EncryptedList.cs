@@ -9,7 +9,7 @@ namespace Lazurite.MainDomain.MessageSecurity
     public class EncryptedList<T>
     {
         [DataMember]
-        public List<Encrypted<T>> SourceList { get; set; } = new List<Encrypted<T>>();
+        public Encrypted<List<T>> SourceList { get; set; } = new Encrypted<List<T>>();
 
         [DataMember]
         public DateTime ServerTime { get; set; }
@@ -21,12 +21,12 @@ namespace Lazurite.MainDomain.MessageSecurity
         
         public EncryptedList(IEnumerable<T> objs, string secretKey) : this()
         {
-            SourceList.AddRange(objs.Select(x => new Encrypted<T>(x, secretKey, true)));
+            SourceList = new Encrypted<List<T>>(objs.ToList(), secretKey);
         }
 
         public List<T> Decrypt(string secretKey)
         {
-            return SourceList.Select(x => x.Decrypt(secretKey)).ToList();
+            return SourceList.Decrypt(secretKey);
         }
     }
 }

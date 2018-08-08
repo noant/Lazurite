@@ -10,9 +10,11 @@ namespace LazuriteMobile.App
     public partial class SwitchesGrid : Grid
     {
         private static object Locker = new object();
+
         private static readonly int MaxX = 3;
-        private static readonly int ElementSize = 111;
-        private static readonly int ElementMargin = 6;
+        private static readonly int ElementWidth = 110;
+        private static readonly int ElementHeight = 85;
+        private static readonly int ElementMargin = 2;
 
         public SwitchesGrid()
         {
@@ -34,7 +36,8 @@ namespace LazuriteMobile.App
 
                 var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext);
                 var models = modelsViews.Select(x => x.Key).ToArray();
-                //add new scenarios and refresh existing
+                
+                // Add new scenarios and refresh existing
                 foreach (var scenario in scenarios)
                 {
                     var scenarioModel = models.FirstOrDefault(x => x.Scenario.ScenarioId.Equals(scenario.ScenarioId));
@@ -57,7 +60,7 @@ namespace LazuriteMobile.App
                     }
                 }
 
-                //remove not existing scenarios
+                // Remove not existing scenarios
                 foreach (var modelView in modelsViews)
                 {
                     if (!scenarios.Any(x => x.ScenarioId.Equals(modelView.Key.Scenario.ScenarioId)))
@@ -91,7 +94,8 @@ namespace LazuriteMobile.App
             var control = SwitchesCreator.CreateScenarioControl(scenario);
             control.VerticalOptions = LayoutOptions.Start;
             control.HorizontalOptions = LayoutOptions.Start;
-            control.WidthRequest = control.HeightRequest = ElementSize;
+            control.WidthRequest = ElementWidth;
+            control.HeightRequest = ElementHeight;
             control.Margin = CreateControlMargin(scenario.VisualSettings);
             return control;
         }
@@ -103,7 +107,8 @@ namespace LazuriteMobile.App
                 BatchBegin();
                 var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext).ToList();
                 var models = modelsViews.Select(x => x.Key).ToArray();
-                //add new scenarios and refresh existing
+                
+                // Add new scenarios and refresh existing
                 foreach (var scenario in scenarios)
                 {
                     var scenarioModel = models.FirstOrDefault(x => x.Scenario.ScenarioId.Equals(scenario.ScenarioId));
@@ -139,8 +144,8 @@ namespace LazuriteMobile.App
             var position = CreatePositionByIndex(realVisualIndex);
 
             return new Thickness(
-                ElementMargin * (1 + position.Item1) + ElementSize * position.Item1,
-                ElementMargin * (1 + position.Item2) + ElementSize * position.Item2, 0, 0);
+                ElementMargin * (1 + position.Item1) + ElementWidth * position.Item1,
+                ElementMargin * (1 + position.Item2) + ElementHeight * position.Item2, 0, 0);
         }
 
         public void ScenariosEmptyModeOn()

@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Grid xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LazuriteMobile.App.MessagesView" BackgroundColor="Black">
+             xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+             x:Class="LazuriteMobile.App.MessagesView" BackgroundColor="{Static controls:Visual.Background}">
     <ScrollView x:Name="scrollView">
-        <StackLayout Spacing="2" Orientation="Vertical" x:Name="stackView" BackgroundColor="DarkOrchid" VerticalOptions="StartAndExpand"></StackLayout>
+        <StackLayout Orientation="Vertical" x:Name="stackView" BackgroundColor="Transparent" VerticalOptions="StartAndExpand"></StackLayout>
     </ScrollView>
-    <Label x:Name="lblEmpty" IsVisible="False" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Orchid">
+    <Label FontFamily="{Static controls:Visual.FontFamily}" x:Name="lblEmpty" IsVisible="False" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Orchid">
         Сообщений пока нет...
     </Label>
 </Grid>

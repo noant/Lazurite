@@ -10,8 +10,7 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              Style="{StaticResource switchStyle}"
              IsEnabled="{Binding AllowClick}"
-             Opacity="{Binding IsAvailable, Converter={x:Static local:ConvertersStatic.BoolToDouble}}"
-             d:DesignHeight="110" d:DesignWidth="110">
+             Opacity="{Binding IsAvailable, Converter={x:Static local:ConvertersStatic.BoolToDouble}}">
     <Grid>
         <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolToVisibility}}"></common:CheckPanel>
         <controls:ItemView SelectionBrush="{Binding AllowClick, Converter={x:Static local:ConvertersStatic.Selection_BoolToBrush}}" IsEnabled="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolInvert}}" Background="Transparent" Grid.RowSpan="2" Name="itemView" Selected="{Binding ScenarioValue, Converter={x:Static local:ConvertersStatic.ValueTypeStringToBool}, Mode=TwoWay}" VerticalAlignment="Stretch" IconVisibility="Collapsed" Selectable="True" HorizontalAlignment="Stretch"></controls:ItemView>

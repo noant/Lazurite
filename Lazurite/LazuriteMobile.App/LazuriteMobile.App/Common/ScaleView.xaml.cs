@@ -37,7 +37,7 @@ namespace LazuriteMobile.App.Common
             if (percent < 0.25)
                 gridValue.BackgroundColor = Color.Gray;
             else if (percent >= 0.25 && percent < 0.9)
-                gridValue.BackgroundColor = Color.FromHex("5090B4");
+                gridValue.BackgroundColor = Color.MediumOrchid;
             else
                 gridValue.BackgroundColor = Color.Red;
         }

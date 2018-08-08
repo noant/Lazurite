@@ -1,12 +1,13 @@
 ﻿using Lazurite.MainDomain;
 using LazuriteMobile.App.Controls;
+using LazuriteMobile.App.Switches.Bases;
 using System;
 using System.Threading;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public partial class FloatView : Grid
+    public partial class FloatView : SwitchBase
     {
         private SynchronizationContext _currentContext = SynchronizationContext.Current;
 

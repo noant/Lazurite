@@ -35,12 +35,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Switches\Bases\SwitchIconView.cs" />
+    <Compile Include="Switches\Bases\LabelValueView.cs" />
+    <Compile Include="Switches\Bases\LabelCaptionView.cs" />
     <Compile Include="Common\SliderTabsView.xaml.cs">
       <DependentUpon>SliderTabsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\SliderWrapperView.xaml.cs">
       <DependentUpon>SliderWrapperView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Switches\Bases\SwitchBase.cs" />
     <Compile Include="Controls\Visual.cs" />
     <Compile Include="DeviceDataHandler.cs" />
     <Compile Include="GeolocationDataHandler.cs" />
@@ -93,6 +97,7 @@
     <Compile Include="SwitchesGrid.xaml.cs">
       <DependentUpon>SwitchesGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Switches\Bases\SwitchItemView.cs" />
     <Compile Include="Switches\FloatViewManualSwitch.xaml.cs">
       <DependentUpon>FloatViewManualSwitch.xaml</DependentUpon>
     </Compile>
@@ -114,7 +119,6 @@
     <Compile Include="Switches\ButtonView.xaml.cs">
       <DependentUpon>ButtonView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Switches\DateTimeValueTypeToSplittedString.cs" />
     <Compile Include="Switches\DateTimeView.xaml.cs">
       <DependentUpon>DateTimeView.xaml</DependentUpon>
     </Compile>
@@ -130,8 +134,7 @@
     <Compile Include="Switches\InfoView.xaml.cs">
       <DependentUpon>InfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Switches\StringToSplittedStringShort.cs" />
-    <Compile Include="Switches\SwitchBottomBorder.xaml.cs">
+    <Compile Include="Switches\Bases\SwitchBottomBorder.xaml.cs">
       <DependentUpon>SwitchBottomBorder.xaml</DependentUpon>
     </Compile>
     <Compile Include="Switches\SwitchScenarioModel.cs" />
@@ -142,8 +145,7 @@
       <DependentUpon>StatusViewSwitch.xaml</DependentUpon>
     </Compile>
     <Compile Include="Switches\StringToIcon.cs" />
-    <Compile Include="Switches\StringToSplittedStringLong.cs" />
-    <Compile Include="Switches\StringToSplittedString.cs" />
+    <Compile Include="Switches\StringToShortString.cs" />
     <Compile Include="Switches\SwitchesCreator.cs" />
     <Compile Include="Switches\ToggleView.xaml.cs">
       <DependentUpon>ToggleView.xaml</DependentUpon>
@@ -374,7 +376,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Switches\SwitchBottomBorder.xaml">
+    <EmbeddedResource Include="Switches\Bases\SwitchBottomBorder.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

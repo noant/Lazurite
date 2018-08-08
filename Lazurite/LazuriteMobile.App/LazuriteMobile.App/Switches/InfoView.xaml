@@ -1,28 +1,21 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Grid 
-    xmlns="http://xamarin.com/schemas/2014/forms"
+<bases:SwitchBase 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="LazuriteMobile.App.Switches.InfoView"
-    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
-    HeightRequest="110"
-    WidthRequest="110"
-    VerticalOptions="Start" 
-    xmlns:common="clr-namespace:LazuriteMobile.App.Common"
+    xmlns:bases="clr-namespace:LazuriteMobile.App.Switches.Bases"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
     BackgroundColor="{Binding AllowClick, Converter={Static local:ConvertersStatic.Background_BoolToColor}}"
     Opacity="{Binding IsAvailable, Converter={Static local:ConvertersStatic.BoolToDouble}}"
-    x:Name="grid"
-    HorizontalOptions="Start">
-    <controls:ItemView BackgroundColor="Transparent" InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" x:Name="itemView" VerticalOptions="FillAndExpand" HeightRequest="80" IconVisibility="False" AnimateView="{Binding Source={Reference Name=grid}}" HorizontalOptions="FillAndExpand"></controls:ItemView>
-    <Grid InputTransparent="True">
+    x:Name="grid">
+    <bases:SwitchItemView InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" x:Name="itemView" AnimateView="{Binding Source={Reference Name=grid}}"></bases:SwitchItemView>
+    <bases:SwitchIconView HeightRequest="40" WidthRequest="40" Margin="0,-35,0,0" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></bases:SwitchIconView>
+    <Grid InputTransparent="True" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand" Margin="0,0,0,7">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:IconView WidthRequest="20" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-        <Label Grid.Row="1" VerticalOptions="Center" Margin="4,-4,4,4" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="{Static controls:Visual.CaptionForeground}"  FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"></Label>
-        <Label Grid.Row="2" VerticalOptions="Center" Margin="4,-7,4,0" x:Name="textBlockScenValue" Text="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.StringToSplittedString}}" x:FieldModifier="private" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" FontSize="Small"></Label>
-        <local:SwitchBottomBorder Grid.Row="2"></local:SwitchBottomBorder>
+        <bases:LabelValueView Margin="0,0,0,-5" x:Name="textBlockVal" Text="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private"></bases:LabelValueView>
+        <bases:LabelCaptionView Grid.Row="1" x:Name="textBlockScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private"></bases:LabelCaptionView>
     </Grid>
-</Grid>
+</bases:SwitchBase>

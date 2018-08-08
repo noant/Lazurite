@@ -35,7 +35,7 @@ namespace LazuriteUI.Windows.Main
         private static readonly int MaxX = 3;
         private static readonly int ElementWidth = 110;
         private static readonly int ElementHeight = 85;
-        private static readonly int ElementMargin = 2;
+        private static readonly int ElementMargin = 3;
 
         static SwitchesGrid()
         {

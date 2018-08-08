@@ -226,7 +226,7 @@ namespace LazuriteMobile.App
             if (show)
                 gridCaption.IsVisible = true;
             lblCaption.Text = text;
-            lblCaption.TextColor = error ? Color.Purple : Color.White;
+            lblCaption.TextColor = error ? Visual.Foreground : Visual.CaptionForeground;
             settingsView.SetErrorMessage(text);
         }
 

@@ -10,16 +10,15 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              Style="{StaticResource switchStyle}"
              IsEnabled="{Binding AllowClick}"
              Background="{Binding AllowClick, Converter={x:Static local:ConvertersStatic.Background_BoolToBrush}}"
-             Opacity="{Binding IsAvailable, Converter={x:Static local:ConvertersStatic.BoolToDouble}}"
-             d:DesignHeight="110" d:DesignWidth="110">
+             Opacity="{Binding IsAvailable, Converter={x:Static local:ConvertersStatic.BoolToDouble}}">
     <Grid>
-        <Grid HorizontalAlignment="Center" Margin="-4,0,0,0">
+        <Grid HorizontalAlignment="Center" Margin="-7,0,0,27">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <controls:IconView Grid.Column="0" Style="{StaticResource switchIconView}" HorizontalAlignment="Right" Width="45" Margin="0,0,0,27" Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-            <Viewbox Width="50" Grid.Column="1"  Margin="0,0,0,27">
+            <controls:IconView Grid.Column="0" Style="{StaticResource switchIconView}" HorizontalAlignment="Right" Width="45" Icon="{Binding Icon1, Converter={x:Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+            <Viewbox Width="50" Grid.Column="1">
                 <TextBlock HorizontalAlignment="Left" FontSize="20" Style="{StaticResource switchTextBlockValue}" VerticalAlignment="Center" Name="textBlockScenValue" Text="{Binding ScenarioValueWithUnit, Converter={x:Static local:ConvertersStatic.StringToShortStringSmall}}" x:FieldModifier="private"></TextBlock>
             </Viewbox>
         </Grid>

@@ -9,9 +9,9 @@
              x:Class="LazuriteMobile.App.MainPage">
     <Grid x:Name="grid" VerticalOptions="Fill" HorizontalOptions="FillAndExpand">
         <app:SwitchesGrid x:Name="swgrid"></app:SwitchesGrid>
-        <Grid BackgroundColor="Black" x:Name="gridCaption" Opacity="0.9">
-            <controls:IconView Icon="Lazurite256" VerticalOptions="Center" HorizontalOptions="Center"></controls:IconView>
-            <Label HorizontalTextAlignment="Center" VerticalOptions="End" TextColor="White" HorizontalOptions="Center" Margin="0,0,0,100" FontSize="Medium" x:Name="lblCaption">Соединение...</Label>
+        <Grid BackgroundColor="{Static controls:Visual.BackgroundLazurite}" x:Name="gridCaption" Opacity="0.9">
+            <controls:IconView Icon="Lazurite256" VerticalOptions="Center" HeightRequest="210" WidthRequest="210" HorizontalOptions="Center"></controls:IconView>
+            <Label HorizontalTextAlignment="Center" VerticalOptions="End" TextColor="{Static controls:Visual.CaptionForeground}" HorizontalOptions="Center" Margin="0,0,0,100" FontSize="Medium" x:Name="lblCaption">Соединение...</Label>
         </Grid>
         <common:SliderTabsView x:Name="tabsView"></common:SliderTabsView>
         <common:SliderMenu x:Name="connectionSettingsSlider">

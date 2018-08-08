@@ -14,7 +14,7 @@ namespace LazuriteMobile.App.Switches
                 if (value != null)
                 {
                     var dateTime = GeolocationData.FromString(value.ToString()).DateTime;
-                    return dateTime.ToString().Replace(" ", "\r\n");
+                    return dateTime.ToString();
                 }
                 return string.Empty;
             }

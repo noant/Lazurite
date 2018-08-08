@@ -1,12 +1,13 @@
 ﻿using Lazurite.MainDomain;
 using LazuriteMobile.App.Controls;
+using LazuriteMobile.App.Switches.Bases;
 using System;
 
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {
-    public partial class StatusView : Grid
+    public partial class StatusView : SwitchBase
     {
         public StatusView()
         {
