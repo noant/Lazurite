@@ -7,10 +7,10 @@ using LazuriteUI.Icons;
 namespace VolumePlugin
 {
     [LazuriteIcon(Icon.Sound3)]
-    [HumanFriendlyName("Устройство воспроизведения")]
-    [SuitableValueTypes(typeof(FloatValueType))]
+    [HumanFriendlyName("Устройство воспроизведения (список)")]
+    [SuitableValueTypes(typeof(StateValueType))]
     [Category(Category.Multimedia)]
-    public class ChangeOutputDeviceAction : IAction
+    public class ChangeOutputDeviceByIdAction : IAction
     {
         public string Caption
         {
@@ -28,25 +28,28 @@ namespace VolumePlugin
 
         public ValueTypeBase ValueType
         {
-            get;
-            set;
-        } = new FloatValueType()
-        {
-            AcceptedValues = new[] { "0", "100" }
-        };
+            get
+            {
+                return new StateValueType()
+                {
+                    AcceptedValues = Utils.GetDevices()
+                };
+            }
+            set { }
+        }
 
         public event ValueChangedEventHandler ValueChanged;
 
         public string GetValue(ExecutionContext context) => 
-            Utils.GetDefaultOutputDeviceIndex().ToString();
+            Utils.GetDefaultOutputDeviceName();
 
         public void Initialize()
         {
             //do nothing
         }
 
-        public void SetValue(ExecutionContext context, string value) =>
-            Utils.SetOutputAudioDevice((int)double.Parse(value));
+        public void SetValue(ExecutionContext context, string value) => 
+            Utils.SetPlaybackDevice(value);
 
         public bool UserInitializeWith(ValueTypeBase valueType, bool inheritsSupportedValues) => true;
     }

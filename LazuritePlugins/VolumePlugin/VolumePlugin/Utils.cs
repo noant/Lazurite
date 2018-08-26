@@ -59,6 +59,20 @@ namespace VolumePlugin
             return devices.IndexOf(CoreAudioDevice);
         }
 
+        public static string GetDefaultOutputDeviceName() =>
+            CoreAudioDevice.FullName;
+
+        public static string[] GetDevices() => 
+            CoreAudioController.GetPlaybackDevices().Select(x => x.FullName).ToArray();
+
+        public static void SetPlaybackDevice(string name)
+        {
+            var devices = CoreAudioController.GetPlaybackDevices();
+            var device = devices.FirstOrDefault(x => x.FullName == name);
+            if (device != null)
+                CoreAudioController.DefaultPlaybackDevice = device;
+        }
+
         private class Observer<T> : IObserver<T>
         {
             public Observer(Action<T> callback)

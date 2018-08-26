@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangeOutputDeviceByIdAction.cs" />
     <Compile Include="ChangeOutputDeviceAction.cs" />
     <Compile Include="VolumeAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
