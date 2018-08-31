@@ -22,7 +22,7 @@ namespace LazuriteMobile.App.Droid
         private static readonly int SleepInterval_PowerSaving = 120000;
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
 
-        public static bool Started => IsServiceRunning(typeof(LazuriteService));
+        private static bool AlreadyStarted = false;
 
         private bool IsPhoneSleeping
         {
@@ -41,15 +41,6 @@ namespace LazuriteMobile.App.Droid
             }
         }
 
-        private static bool IsServiceRunning(System.Type type)
-        {
-            var manager = (ActivityManager)Application.Context.GetSystemService(Context.ActivityService);
-            foreach (var service in manager.GetRunningServices(int.MaxValue))
-                if (service.Service.ClassName.Equals(Java.Lang.Class.FromType(type).CanonicalName))
-                    return true;
-            return false;
-        }
-        
         private static ILogger Log;
         private ScenariosManager _manager;
         private Messenger _messenger;
@@ -75,58 +66,62 @@ namespace LazuriteMobile.App.Droid
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
-            SingletonPreparator.Initialize();
-            MainApplication.InitializeUnhandledExceptionsHandler();
-            Log = Singleton.Resolve<ILogger>();
-
-            _manager = new ScenariosManager();
-            _messenger = new Messenger(_inHandler);
-            _inHandler.HasCome += InHandler_HasCome;
-            _manager.ConnectionLost += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionLost));
-            _manager.ConnectionRestored += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionRestored));
-            _manager.LoginOrPasswordInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.CredentialsInvalid));
-            _manager.NeedClientSettings += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedClientSettings));
-            _manager.NeedRefresh += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedRefresh));
-            _manager.ScenariosChanged += (scenarios) => Handle((messenger) => Utils.RaiseEvent(scenarios, messenger, _messenger, ServiceOperation.ScenariosChanged));
-            _manager.SecretCodeInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.SecretCodeInvalid));
-            _manager.ConnectionError += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionError));
-            _manager.Initialize(null);
-
-            RegisterReceiver(new ScreenOnReciever(), new IntentFilter(Intent.ActionScreenOn));
-
-            var manager = (AlarmManager)GetSystemService(AlarmService);
-            var triggerAtTime = SystemClock.ElapsedRealtime() + (10 * 60 * 1000);
-            var onAndroidAvailable = new Intent(this, typeof(BackgroundReceiver));
-            var startServiceIntent = PendingIntent.GetBroadcast(this, 0, onAndroidAvailable, 0);
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            if (!AlreadyStarted)
             {
-                manager.Cancel(startServiceIntent);
-                manager.SetAndAllowWhileIdle(AlarmType.ElapsedRealtimeWakeup, triggerAtTime, startServiceIntent);
+                AlreadyStarted = true;
+                SingletonPreparator.Initialize();
+                MainApplication.InitializeUnhandledExceptionsHandler();
+                Log = Singleton.Resolve<ILogger>();
+
+                _manager = new ScenariosManager();
+                _messenger = new Messenger(_inHandler);
+                _inHandler.HasCome += InHandler_HasCome;
+                _manager.ConnectionLost += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionLost));
+                _manager.ConnectionRestored += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionRestored));
+                _manager.LoginOrPasswordInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.CredentialsInvalid));
+                _manager.NeedClientSettings += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedClientSettings));
+                _manager.NeedRefresh += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedRefresh));
+                _manager.ScenariosChanged += (scenarios) => Handle((messenger) => Utils.RaiseEvent(scenarios, messenger, _messenger, ServiceOperation.ScenariosChanged));
+                _manager.SecretCodeInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.SecretCodeInvalid));
+                _manager.ConnectionError += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionError));
+                _manager.Initialize(null);
+
+                RegisterReceiver(new ScreenOnReciever(), new IntentFilter(Intent.ActionScreenOn));
+
+                var manager = (AlarmManager)GetSystemService(AlarmService);
+                var triggerAtTime = SystemClock.ElapsedRealtime() + (10 * 60 * 1000);
+                var onAndroidAvailable = new Intent(this, typeof(BackgroundReceiver));
+                var startServiceIntent = PendingIntent.GetBroadcast(this, 0, onAndroidAvailable, 0);
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+                {
+                    manager.Cancel(startServiceIntent);
+                    manager.SetAndAllowWhileIdle(AlarmType.ElapsedRealtimeWakeup, triggerAtTime, startServiceIntent);
+                }
+                else if (Build.VERSION.SdkInt == BuildVersionCodes.Kitkat || Build.VERSION.SdkInt == BuildVersionCodes.Lollipop)
+                {
+                    manager.Cancel(startServiceIntent);
+                    manager.SetExact(AlarmType.ElapsedRealtimeWakeup, triggerAtTime, startServiceIntent);
+                }
+
+                ReInitTimer();
+
+                var activityIntent = new Intent(this, typeof(MainActivity));
+
+                var showActivityIntent = PendingIntent.GetActivity(Application.Context, 0,
+                    activityIntent, PendingIntentFlags.UpdateCurrent);
+
+                _currentNotification =
+                    new Notification.Builder(this).
+                        SetContentTitle("Lazurite работает...").
+                        SetSmallIcon(Resource.Drawable.icon).
+                        SetContentIntent(showActivityIntent).
+                        SetVisibility(NotificationVisibility.Private).
+                        SetColor(Color.Argb(0, 255, 255, 255).ToArgb()).
+                        SetOnlyAlertOnce(true).
+                        Build();
+
+                StartForeground(1, _currentNotification);
             }
-            else if (Build.VERSION.SdkInt == BuildVersionCodes.Kitkat || Build.VERSION.SdkInt == BuildVersionCodes.Lollipop)
-            {
-                manager.Cancel(startServiceIntent);
-                manager.SetExact(AlarmType.ElapsedRealtimeWakeup, triggerAtTime, startServiceIntent);
-            }
-
-            ReInitTimer();
-
-            var activityIntent = new Intent(this, typeof(MainActivity));
-
-            var showActivityIntent = PendingIntent.GetActivity(Application.Context, 0,
-                activityIntent, PendingIntentFlags.UpdateCurrent);
-
-            _currentNotification =
-                new Notification.Builder(this).
-                    SetContentTitle("Lazurite работает...").
-                    SetSmallIcon(Resource.Drawable.icon).
-                    SetContentIntent(showActivityIntent).
-                    SetVisibility(NotificationVisibility.Private).
-                    SetColor(Color.Argb(0,255,255,255).ToArgb()).
-                    SetOnlyAlertOnce(true).
-                    Build();
-
-            StartForeground(1, _currentNotification);
             return StartCommandResult.Sticky;
         }
 
@@ -156,6 +151,7 @@ namespace LazuriteMobile.App.Droid
 
         public override void OnDestroy()
         {
+            AlreadyStarted = false;
             _currentNotification.Dispose();
             _manager.Close();
             base.OnDestroy();
