@@ -1,0 +1,221 @@
+Всем добрый день! В продолжении идеи из моего <a href="https://habr.com/post/309070/">старого поста</a>, мной была разработана программа, которую можно использовать в качестве системы для управления умным домом.
+
+![image](raw.githubusercontent.com/wiki/noant/Lazurite/pics/main_compressed.jpg)
+<cut text="Далее..." />
+
+Чтобы сразу заинтересовать читателя, продемонстрирую некоторую часть сценариев использования ПО:
+<table>
+<tr>
+<td>
+<img width="500px" src="https://raw.githubusercontent.com/wiki/noant/Lazurite/gifs/light.gif" /> 
+</td>
+<td rowspan="3">
+<i>
+Управление освещением, климатом,<br/>мультимедиа и т.д., посредством<br/>устройств <a href="https://github.com/wiki/noant/Lazurite/ZWave">Z-Wave</a> и <a href="https://github.com/wiki/noant/Lazurite/Modbus">Modbus</a>,<br/>возможность расширять список<br/>совместимых протоколов<br/>посредством <a href="https://github.com/noant/Lazurite/wiki/%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BB%D0%B0%D0%B3%D0%B8%D0%BD%D0%BE%D0%B2">написания плагинов</a>.
+</i>
+</td>
+</tr>
+<tr>
+<td>
+<img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/gifs/humidity.gif" /> 
+</td>
+</tr>
+<tr>
+<td>
+<img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/gifs/multimedia.gif" /> 
+</td>
+</tr>
+<tr>
+<td>
+<img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/gifs/geo.gif" /> 
+</td>
+<td>
+<i><a href="https://github.com/noant/Lazurite/wiki/%D0%93%D0%B5%D0%BE%D0%BB%D0%BE%D0%BA%D0%B0%D1%86%D0%B8%D1%8F-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F">GPS-трекер и триггеры геолокации.</a></i>
+</td>
+</tr>
+<tr>
+<td>
+<img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/gifs/scen.gif" /> 
+</td>
+<td>
+<i>
+Создание алгоритмов работы<br/><a href="https://github.com/noant/Lazurite/wiki/%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80-%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D1%8B%D1%85-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B5%D0%B2">сценария с циклами и условиями</a>,<br/><a href="https://github.com/noant/Lazurite/wiki/%D0%92%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D0%B4%D0%B5%D0%B9%D1%81%D1%82%D0%B2%D0%B8%D1%8F#get_existing">использование одного сценария в<br/>другом</a>, возможность объединить<br/>несколько серверов Lazurite<br/>  посредством <a href="https://github.com/noant/Lazurite/wiki/%D0%A1%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B8#type2_remote">удаленных сценариев</a>.
+</i>
+</td>
+</tr>
+</table>
+
+
+<H2><font color="steelblue">СЦЕНАРИИ</font></H2>
+
+Lazurite позволяет создавать [триггеры](https://github.com/noant/Lazurite/wiki/%D0%A2%D1%80%D0%B8%D0%B3%D0%B3%D0%B5%D1%80%D1%8B) и сложные [сценарии](https://github.com/noant/Lazurite/wiki/%D0%A1%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B8) с [условиями](https://github.com/noant/Lazurite/wiki/%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80-%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D1%8B%D1%85-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B5%D0%B2#action1_if) и [циклами](https://github.com/noant/Lazurite/wiki/%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80-%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D1%8B%D1%85-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B5%D0%B2#action1_while), т.е. пользователь может «запрограммировать» программу с помощью встроенного [конструктора](https://github.com/noant/Lazurite/wiki/%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80-%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D1%8B%D1%85-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B5%D0%B2) на любые свои нужды.
+
+Любой сценарий имеет свой переключатель в пользовательском интерфейсе, "плитка". В зависимости от [типа данных сценария](https://github.com/noant/Lazurite/wiki/%D0%A1%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B8#data_types) переключатель будет выглядеть по-разному.
+
+<span style="color:gray">*Примеры переключателей сценариев:*</span>
+![](https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/t_toggle_off.jpg) ![](https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/t_toggle_on.jpg) ![](https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/t_info.jpg) ![](https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/t_state.jpg) ![](https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/t_numeric.jpg)
+
+[\>\> Подробнее о типах данных и переключателях.](https://github.com/noant/Lazurite/wiki/%D0%A1%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B8)
+
+Помимо этого, в Lazurite существует три разновидности сценариев: одиночное действие, сложный сценарий и удаленный сценарий.
+
+*Окно выбора типа создаваемого сценария.*
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/scenario_type_selection2.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/scenario_type_selection2.jpg" /></a>
+<h3>Одиночное действие</h3>
+
+Одиночные действия - это сценарии, не требующие сложной логики, такие как включение света или изменение уровня звука с помощью "плитки" в меню переключателей. В таком сценарии не получится создать цикл или условие, в нем можно лишь привязать отдельное действие из [плагина](https://github.com/noant/Lazurite/wiki/%D0%92%D1%81%D0%B5-%D0%B4%D0%B5%D0%B9%D1%81%D1%82%D0%B2%D0%B8%D1%8F) (о них ниже) к переключателю.
+
+*Конструктор одиночного действия на примере создания переключателя [ModbusRTU](https://ru.wikipedia.org/wiki/Modbus).*
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/type2_single.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/type2_single.jpg" /></a>
+
+<h3>Сложный сценарий </h3>
+
+Сложный сценарий - это сценарии со сложной логикой, в котором есть циклы и условия. 
+
+[\>\> Подробно о создании сложного сценария.](https://github.com/noant/Lazurite/wiki/%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80-%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D1%8B%D1%85-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B5%D0%B2)
+
+*Пока влажность в комнате меньше или равно 40%, то регулировать влажность.*
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/action1_while.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/action1_while.jpg" /></a>
+
+*Сложный сценарий на примере работы с [Z-Wave устройствами](https://ru.wikipedia.org/wiki/Z-Wave).*
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/action1_action_from_plugin_selected_button2.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/action1_action_from_plugin_selected_button2.jpg" /></a>
+
+*Сложное условие с группами и сравнениями числовых значений.*
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/action1_if4.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/action1_if4.jpg" /></a>
+
+<h3>Удаленный сценарий</h3>
+
+Lazurite имеет [встроенный сервер](https://github.com/noant/Lazurite/wiki/%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%B0), на котором крутится WCF-сервис. Именно это позволяет клиентским приложениям получать информацию о сценариях и выполнять некоторые действия. Но, помимо этого, к серверу Lazurite может подключиться другой сервер Lazurite и использовать сценарии удаленного сервера. Для того, чтобы использовать этот функционал, необходимо создать *удаленный сценарий*.
+
+Поддержка удаленных сценариев позволяет создать сеть из устройств с установленным Lazurite. Т.е. в сценарии одного сервера можно вызывать сценарии или получать значения сценариев другого сервера.
+
+*Например, в большом доме можно создать распределенную систему, в которой несколько узлов с установленным Lazurite будут стоять на разных этажах (комнатах, корпусах), с которыми будет связываться центральное устройство Lazurite. Администратор сконфигурирует систему и решит, насколько будут самостоятельными подчиненные устройства, будут ли они использоваться как простые исполнители или же в них будет заложена некоторая автономность.*
+
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/type2_remote.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/type2_remote.jpg" /></a>
+
+
+<h2>ТРИГГЕРЫ</h2>
+
+Триггеры - это определенные действия, которые запускаются при наступлении особых условий. От сценария отличаются тем, что не имеют типа данных и не имеют "плитки". Спусковым крючком для запуска триггера является изменение выбранного сценария, т.е. если мы захотим выполнить какие-либо действия при изменении температуры, изменении влажности, появлении пользователя дома и т.д., то нам нужно будет создать триггер на соответствующий сценарий. Конструктор триггера является копией конструктора сценариев, там можно создавать циклы, условия, действия.
+
+*Триггер на срабатывание датчика движения.*
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/trigger3.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/trigger3.jpg" /></a>
+
+
+<h2>ДЕЙСТВИЯ</h2>
+
+Любая строка, добавляемая в конструкторе сценария, является "действием". Каждый плагин, устанавливаемый в Lazurite, добавляет в программу некоторые новые возможности - действия. Любая работа с Z-Wave, Modbus, геолокацией и т.д. производится через этот функционал. Соответственно, любое действие, как и сценарий, имеет свой [тип данных](https://github.com/noant/Lazurite/wiki/%D0%A1%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B8#data_types). 
+
+[\>\> Список всех действий в Lazurite.](https://github.com/noant/Lazurite/wiki/%D0%92%D1%81%D0%B5-%D0%B4%D0%B5%D0%B9%D1%81%D1%82%D0%B2%D0%B8%D1%8F)
+
+*Окно выбора действия в конструкторе сценария.*
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/all_actions_small.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/all_actions_small.jpg" /></a>
+
+
+<h2>БЕЗОПАСНОСТЬ</h2>
+
+В Lazurite можно настроить доступ к просмотру и изменению значения сценария. Это может быть нужно, когда мы [создаем пользователя](https://github.com/noant/Lazurite/wiki/%D0%9F%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B8) в системе для нашего гостя или когда просто хотим скрыть сценарий, который выполняет вспомогательные функции и не должен быть отображен пользователям.
+
+_Окно настройки безопасности сценария._
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/scenario_security.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/scenario_security.jpg" /></a>
+
+Для настройки безопасности доступны следующие пункты:
+
+* "Запретить для любого использования";
+* "Запретить для всех [групп](https://github.com/noant/Lazurite/wiki/%D0%93%D1%80%D1%83%D0%BF%D0%BF%D1%8B), кроме..." - запрет на использование сценария пользователям, не состоящим в выбранных группах;
+* "Запретить для всех пользователей, кроме..." - запрет на использование сценария для всех пользователей, кроме выбранных;
+* "Запретить для групп" - запрет на выполнение для выбранных групп пользователей;
+* "Запретить для запуска из сети" - сценарии с этим ограничением не могут быть отображены в клиентских приложениях и не могут быть использованы как "удаленный сценарий";
+* "Запретить для меню быстрого запуска" - сценарий не будет отображаться в меню быстрого запуска;
+* "Запретить для пользователей" - запрет на выполнение для выбранных пользователей;
+* "Запретить использовать из другого сценария/триггера" - сценарий не может быть [выполнен](https://github.com/noant/Lazurite/wiki/%D0%92%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D0%B4%D0%B5%D0%B9%D1%81%D1%82%D0%B2%D0%B8%D1%8F#set_existing) в другом сценарии или триггере.
+
+По умолчанию любой сценарий запрещен для запуска из сети и для меню быстрого запуска.
+
+
+<h2>ПОЛЬЗОВАТЕЛИ И ГРУППЫ</h2>
+
+Пользователи в Lazurite являются неотъемлемой частью системы. Не имея учетной записи, пользователи не смогут получить доступ к нужным сценариям и управлять устройствами в доме. Если бы не было аутентификации, то любой человек подключился бы к системе и выполнил любые сценарии, что крайне не желательно.
+
+Для удобства настройки [безопасности сценария](https://github.com/noant/Lazurite/wiki/%D0%91%D0%B5%D0%B7%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D0%BE%D1%81%D1%82%D1%8C-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D1%8F) пользователей можно объединять в группы, например, можно создать группу "Гости" и запретить этой группе выполнение некоторых сценариев.
+
+\>\> Подробнее о [пользователях](https://github.com/noant/Lazurite/wiki/%D0%9F%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B8) и [группах](https://github.com/noant/Lazurite/wiki/%D0%93%D1%80%D1%83%D0%BF%D0%BF%D1%8B).
+
+
+<h2>Z-WAVE</h2>
+
+Z-Wave — это беспроводной протокол связи, использующийся в домашней автоматизации. Для реализации протокола используются миниатюрные маломощные радиочастотные модули. Сейчас на рынке ZWave представлен довольно обширный перечень устройств, таких как ZWave лампочки, розетки, релейные модули, переключатели, замки, датчики температуры (влажности, движения, протечки), терморегуляторы, устройства управления кондиционером и т.д. Также распространены мультисенсоры — устройства, сочетающие несколько датчиков (например, датчик освещенности, присутствия, температуры, дверной датчик и т.д.), что весьма привлекательно с точки зрения финансовых затрат и расположения в помещении.
+
+В Lazurite модуль ZWave позволяет производить все стандартные операции с устройствами, такие как удаление, добавление устройств, сброс контроллера. Также можно использовать несколько ZWave контроллеров, конечный пользователь не увидит разницы. К примеру, можно осуществить снятие показаний температуры с датчика, который соединён с контроллером «А», и запустить кондиционер с помощью контроллера «Б». Тут нет ни каких ограничений, любое действие и проверка осуществляются стандартными способами и добавляются в [конструкторе сценариев](https://github.com/noant/Lazurite/wiki/%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80-%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D1%8B%D1%85-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B5%D0%B2).
+
+_На изображении выбран узел, мультисенсор - ZW100, затем выбран его пользовательский параметр, с помощью которого можно измерить температуру в комнате_.
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/action2_zwave2_small.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/action2_zwave2_small.jpg" /></a>
+
+*После того, как будет создан сценарий, использующий этот узел, появится плитка с информацией о температуре.*
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/switch_temperature.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/switch_temperature.jpg" /></a>
+
+
+
+[\>\> Подробнее о Z-Wave в Lazurite.](https://github.com/noant/Lazurite/wiki/ZWave)
+
+
+<h2>СТАТИСТИКА</h2>
+
+Lazurite имеет функционал, который позволяет вести историю значений разных сценариев (например температура в гостиной, влажность в комнате, уровень ультрафиолета, обнаружение движений). Пользователь может выбрать сценарии, по которым необходимо вести статистику, затем посмотреть на графиках их динамику за определённый промежуток времени.
+
+*Отображение статистики в виде графиков.*
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/stat1_small.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/stat1_small.jpg" /></a>
+
+
+*Отображение статистики в виде круговой диаграммы.*
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/stat2_small.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/stat2_small.jpg" /></a>
+
+
+[\>\> Подробнее о статистике.](https://github.com/noant/Lazurite/wiki/%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0)
+
+
+<h2>ГЕОЛОКАЦИЯ ПОЛЬЗОВАТЕЛЯ</h2>
+
+В Lazurite присутствует функционал GPS-трекера. Любое клиентское приложение отправляет информацию о геоданных на сервер Lazurite, где эти данные можно обработать, сохранить и отобразить. Действия, представленные в плагине [UserGeolocationPlugin](https://github.com/noant/Lazurite/wiki/Геолокация-пользователя), созданы для работы с геолокацией пользователей и позволяют вычислять такие значения, как расстояние пользователя до места, нахождение пользователя в определенном месте и т.д.
+
+Некоторые действия предполагают наличие не только пользователя, но и места, или "локации", которое должно быть заведено и настроено в программе. Таким местом может быть дом, работа, город, станция метро. Действия с таким параметром нужны для того, чтобы произвести какое-либо действие по появлению или отдалению пользователя от этой "локации". Место имеет три параметра: координаты центра, радиус и наименование.
+
+*Пример созданных мест (дом и работа) и маршрут пользователя между ними в выбранную дату.*
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/geolocation_small.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/geolocation_small.jpg" /></a>
+
+*Позицию пользователя можно просматривать через приложение Lazurite на смартфоне.*
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/t_geo_android.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/t_geo_android.jpg" /></a>
+
+Помимо этого, можно вести историю перемещений, если [добавить соответствующий сценарий в статистику](https://github.com/noant/Lazurite/wiki/%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0).
+
+*Перемещения пользователя за большой промежуток времени.*
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/stat_geo_small.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/stat_geo_small.jpg" /></a>
+
+[\>\> Подробнее о плагине.](https://github.com/noant/Lazurite/wiki/%D0%93%D0%B5%D0%BE%D0%BB%D0%BE%D0%BA%D0%B0%D1%86%D0%B8%D1%8F-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F)
+[\>\> Подробнее об истории перемещений.](https://github.com/noant/Lazurite/wiki/%D0%98%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%8F-%D0%BF%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D1%89%D0%B5%D0%BD%D0%B8%D0%B9)
+
+<h2>РАЗНОЕ</h2>
+
+В программе присутствует возможность создавать сценарии для [обмена сообщениями между пользователями](https://github.com/noant/Lazurite/wiki/%D0%9E%D1%82%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B0-%D1%81%D0%BE%D0%BE%D0%B1%D1%89%D0%B5%D0%BD%D0%B8%D0%B9) и получать нотификации от системы о разных событиях.
+
+_Окно отображения входящих сообщений._
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/action2_message_android.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/action2_message_android.jpg" /></a>
+
+_Отправка сообщения другому пользователю._
+<a href="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/t_info_android.jpg" target="_blank"><img src="https://raw.githubusercontent.com/wiki/noant/Lazurite/pics/t_info_android.jpg" /></a>
+
+Помимо этого, присутствуют разные другие функции, например [Wake-on-Lan](https://github.com/noant/Lazurite/wiki/WakeOnLan), [эмуляция мультимедиа клавиш на Windows](https://github.com/noant/Lazurite/wiki/%D0%9C%D1%83%D0%BB%D1%8C%D1%82%D0%B8%D0%BC%D0%B5%D0%B4%D0%B8%D0%B0-%D0%BA%D0%BB%D0%B0%D0%B2%D0%B8%D1%88%D0%B8), [управление звуком на Windows](https://github.com/noant/Lazurite/wiki/%D0%A0%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81%D0%BE-%D0%B7%D0%B2%D1%83%D0%BA%D0%BE%D0%BC), [работа с процессами Windows](https://github.com/noant/Lazurite/wiki/%D0%A3%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D0%BC), [управление устройствами Modbus](https://github.com/noant/Lazurite/wiki/Modbus) и т.д.
+
+О том, как создавать плагины, можно узнать [здесь](https://github.com/noant/Lazurite/wiki/%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BB%D0%B0%D0%B3%D0%B8%D0%BD%D0%BE%D0%B2).
+
+Дальнейшее развитие системы на данный момент видится следующим образом:
+* модернизация архитектуры программы будет проведена таким образом, чтобы можно было использовать готовые движки или сервисы распознавания речи как плагины;
+* дальнейшая декомпозиция и модернизация функционала плагинов и сценариев в будущем позволит создавать сценарии с планшета или смартфона;
+* планируется создать модуль видеонаблюдения, в котором был бы функционал записи видео, трансляции видеопотока на мобильные устройства, распознавание движения и т.д.
+
+[\>\> WIKI проекта](https://github.com/noant/Lazurite/wiki/Home)
+[\>\> Веб-сайт проекта](https://noant.github.io/Lazurite/)
+[\>\> На GOOGLE PLAY](https://play.google.com/store/apps/details?id=lazurite.lazurite)
+[\>\> Последняя версия](https://github.com/noant/Lazurite/releases)
+
+<video>https://youtu.be/GpwxF0JhorY</video>
