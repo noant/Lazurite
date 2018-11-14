@@ -574,5 +574,14 @@ namespace Lazurite.MainDomain
             _availabilityChangedEvents.Clear();
             TryCancelAll();
         }
+
+        public ScenarioCast CreateCast()
+        {
+            return new ScenarioCast(
+                (v) => ExecuteAsync(SystemActionSource, v, out string executionId),
+                () => CalculateCurrentValueInternal(),
+                ValueType,
+                Name);
+        }
     }
 }

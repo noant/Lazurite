@@ -48,10 +48,18 @@
     <Compile Include="IGeolocationTarget.cs" />
     <Compile Include="IMessagesSender.cs" />
     <Compile Include="IMessageTarget.cs" />
+    <Compile Include="IScenariosEnumerator.cs" />
     <Compile Include="IUsersGeolocationAccess.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScenarioCast.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lazurite.ActionsDomain\Lazurite.ActionsDomain.csproj">
+      <Project>{e6be3954-3d6f-447a-91bf-04d892a1c025}</Project>
+      <Name>Lazurite.ActionsDomain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>

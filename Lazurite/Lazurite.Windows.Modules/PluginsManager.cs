@@ -238,6 +238,18 @@ namespace Lazurite.Windows.Modules
                 geolocationAccessObj.SetNeedTargets(() => _usersRepository.Users.ToArray());
             if (action is IMessagesSender messagesSender)
                 messagesSender.SetNeedTargets(() => _usersRepository.Users.ToArray());
+            if (action is IScenariosEnumerator scenariosEnumerator)
+            {
+                var scenariosActionSource = new ScenarioActionSource(_usersRepository.SystemUser, ScenarioStartupSource.OtherScenario, ScenarioAction.Execute);
+                scenariosEnumerator.SetCasts(() => 
+                    _scenarioRepository
+                    .Scenarios
+                    .Where(x => 
+                        x.IsAccessAvailable(scenariosActionSource))
+                    .Select(x => x.CreateCast())
+                    .ToArray());
+            }
+
             return action;
         }
 
