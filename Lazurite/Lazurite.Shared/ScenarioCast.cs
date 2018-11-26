@@ -15,12 +15,17 @@ namespace Lazurite.Shared
         private Action<string> _set;
         private Func<string> _get;
         
-        public ScenarioCast(Action<string> set, Func<string> get, ValueTypeBase valueType, string name)
+        public ScenarioCast(Action<string> set, Func<string> get, ValueTypeBase valueType, string name, string id, bool enabled, bool canSet, bool canView)
         {
             _set = set;
             _get = get;
             ValueType = valueType;
             Name = name;
+            ID = id;
+            Enabled = enabled;
+            CanView = canView;
+            CanSet = canSet;
+
         }
 
         public string Value
@@ -31,5 +36,9 @@ namespace Lazurite.Shared
 
         public string Name { get; private set; }
         public ValueTypeBase ValueType { get; private set; }
+        public string ID { get; private set; }
+        public bool Enabled { get; private set; }
+        public bool CanView { get; private set; }
+        public bool CanSet { get; private set; }
     }
 }

@@ -17,6 +17,8 @@ namespace Lazurite.MainDomain
         protected static readonly ILogger Log = Singleton.Resolve<ILogger>();
         protected static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
         protected static readonly ScenarioActionSource SystemActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.System, ScenarioAction.Execute);
+        protected static readonly ScenarioActionSource NetworkSetActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.Network, ScenarioAction.Execute);
+        protected static readonly ScenarioActionSource NetworkViewActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.Network, ScenarioAction.ViewValue);
 
         private List<EventsHandler<ScenarioValueChangedEventArgs>> _valueChangedEvents = new List<EventsHandler<ScenarioValueChangedEventArgs>>();
         private List<EventsHandler<ScenarioBase>> _availabilityChangedEvents = new List<EventsHandler<ScenarioBase>>();
@@ -26,15 +28,9 @@ namespace Lazurite.MainDomain
         private string _currentValue;
         private ScenarioInitializationValue _initializationState = ScenarioInitializationValue.NotInitialized;
 
-        protected void HandleGet(Exception e)
-        {
-            Log.ErrorFormat(e, "Ошибка во время вычисления значения сценария: {0}, {1};", Name, Id);
-        }
+        protected void HandleGet(Exception e) => Log.ErrorFormat(e, "Ошибка во время вычисления значения сценария: {0}, {1};", Name, Id);
 
-        protected void HandleSet(Exception e)
-        {
-            Log.ErrorFormat(e, "Ошибка во время выполения сценария: {0}, {1};", Name, Id);
-        }
+        protected void HandleSet(Exception e) => Log.ErrorFormat(e, "Ошибка во время выполения сценария: {0}, {1};", Name, Id);
 
         protected void CheckValue(string param, ExecutionContext parentContext)
         {
@@ -232,10 +228,7 @@ namespace Lazurite.MainDomain
             RaiseValueChangedEvents(source, false);
         }
 
-        public virtual void NotifyOnlyIntent(ScenarioActionSource source)
-        {
-            RaiseValueChangedEvents(source, true);
-        }
+        public virtual void NotifyOnlyIntent(ScenarioActionSource source) => RaiseValueChangedEvents(source, true);
 
         /// <summary>
         /// Set current value witout raising any events
@@ -387,15 +380,9 @@ namespace Lazurite.MainDomain
             _tokenSource?.Cancel();
         }
 
-        protected CancellationTokenSource PrepareCancellationTokenSource()
-        {
-            return _tokenSource = new CancellationTokenSource();
-        }
+        protected CancellationTokenSource PrepareCancellationTokenSource() => _tokenSource = new CancellationTokenSource();
 
-        protected string PrepareExecutionId()
-        {
-            return LastExecutionId = Guid.NewGuid().ToString();
-        }
+        protected string PrepareExecutionId() => LastExecutionId = Guid.NewGuid().ToString();
 
         /// <summary>
         /// All execution operation must executing through this method
@@ -491,42 +478,30 @@ namespace Lazurite.MainDomain
         /// </summary>
         /// <returns></returns>
         public abstract IAction[] GetAllActionsFlat();
-        
-        /// <summary>
-        /// Set event on state changed
-        /// </summary>
-        /// <param name="action"></param>
-        public void SetOnStateChanged(EventsHandler<ScenarioValueChangedEventArgs> action)
-        {
-            _valueChangedEvents.Add(action);
-        }
-
-        /// <summary>
-        /// Remove event on state changed
-        /// </summary>
-        /// <param name="action"></param>
-        public void RemoveOnStateChanged(EventsHandler<ScenarioValueChangedEventArgs> action)
-        {
-            _valueChangedEvents.RemoveAll(x => x == action);
-        }
 
         /// <summary>
         /// Set event on state changed
         /// </summary>
         /// <param name="action"></param>
-        public void SetOnAvailabilityChanged(EventsHandler<ScenarioBase> action)
-        {
-            _availabilityChangedEvents.Add(action);
-        }
+        public void SetOnStateChanged(EventsHandler<ScenarioValueChangedEventArgs> action) => _valueChangedEvents.Add(action);
 
         /// <summary>
         /// Remove event on state changed
         /// </summary>
         /// <param name="action"></param>
-        public void RemoveOnAvailabilityChanged(EventsHandler<ScenarioBase> action)
-        {
-            _availabilityChangedEvents.RemoveAll(x => x == action);
-        }
+        public void RemoveOnStateChanged(EventsHandler<ScenarioValueChangedEventArgs> action) => _valueChangedEvents.RemoveAll(x => x == action);
+
+        /// <summary>
+        /// Set event on state changed
+        /// </summary>
+        /// <param name="action"></param>
+        public void SetOnAvailabilityChanged(EventsHandler<ScenarioBase> action) => _availabilityChangedEvents.Add(action);
+
+        /// <summary>
+        /// Remove event on state changed
+        /// </summary>
+        /// <param name="action"></param>
+        public void RemoveOnAvailabilityChanged(EventsHandler<ScenarioBase> action) => _availabilityChangedEvents.RemoveAll(x => x == action);
 
         /// <summary>
         /// Raise events when state changed
@@ -578,10 +553,14 @@ namespace Lazurite.MainDomain
         public ScenarioCast CreateCast()
         {
             return new ScenarioCast(
-                (v) => ExecuteAsync(SystemActionSource, v, out string executionId),
+                (v) => ExecuteAsync(NetworkSetActionSource, v, out string executionId),
                 () => CalculateCurrentValueInternal(),
                 ValueType,
-                Name);
+                Name,
+                Id,
+                GetIsAvailable(),
+                CanExecute(NetworkSetActionSource),
+                CanViewValue(NetworkViewActionSource));
         }
     }
 }

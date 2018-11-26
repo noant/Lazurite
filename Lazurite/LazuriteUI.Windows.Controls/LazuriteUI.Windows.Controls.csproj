@@ -44,13 +44,13 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -66,6 +66,13 @@
     </ApplicationDefinition>
     <Compile Include="CaptionView.xaml.cs">
       <DependentUpon>CaptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComboItemsViewInfo.cs" />
+    <Compile Include="ComboBoxItemsView_List.xaml.cs">
+      <DependentUpon>ComboBoxItemsView_List.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComboItemsView.xaml.cs">
+      <DependentUpon>ComboItemsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CornerView.xaml.cs">
       <DependentUpon>CornerView.xaml</DependentUpon>
@@ -99,7 +106,18 @@
     <Compile Include="Styles\Visual.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="WheelScroll.cs" />
+    <Compile Include="WindowTest.xaml.cs">
+      <DependentUpon>WindowTest.xaml</DependentUpon>
+    </Compile>
     <Page Include="CaptionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComboBoxItemsView_List.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComboItemsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,6 +179,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="WindowTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -183,6 +205,7 @@
     <None Include="CopyToReleaseDir.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

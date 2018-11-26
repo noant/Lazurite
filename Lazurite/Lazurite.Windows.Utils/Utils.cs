@@ -21,15 +21,9 @@ namespace Lazurite.Windows.Utils
             return Path.GetFullPath(Uri.UnescapeDataString(uri.Path));
         }
 
-        public static string GetAssemblyFolder(Assembly assembly)
-        {
-            return Path.GetDirectoryName(GetAssemblyPath(assembly));
-        }
+        public static string GetAssemblyFolder(Assembly assembly) => Path.GetDirectoryName(GetAssemblyPath(assembly));
 
-        public static string GetCurrentLazuriteUniqueHash()
-        {
-            return CryptoUtils.CreatePasswordHash(GetAssemblyFolder(Assembly.GetExecutingAssembly()));
-        }
+        public static string GetCurrentLazuriteUniqueHash() => CryptoUtils.CreatePasswordHash(GetAssemblyFolder(Assembly.GetExecutingAssembly()));
 
         public static string ExecuteProcess(string filePath, string arguments, bool asAdmin=false, bool waitForExit=true, ProcessPriorityClass priority = ProcessPriorityClass.Normal)
         {

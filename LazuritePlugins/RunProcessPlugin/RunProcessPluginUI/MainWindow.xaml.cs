@@ -17,10 +17,10 @@ namespace RunProcessPluginUI
         {
             _action = action;
             InitializeComponent();
-            btCancel.Click += (o, e) => this.DialogResult = false;
+            btCancel.Click += (o, e) => DialogResult = false;
             btApply.Click += (o, e) => {
                 Commit();
-                this.DialogResult = true;
+                DialogResult = true;
             };
             btSelectPath.Click += (o, e) => {
                 var dialog = new OpenFileDialog();
@@ -29,6 +29,8 @@ namespace RunProcessPluginUI
             };
             SetCloseProcessMode(_action.CloseMode);
             SetProcessPriority(_action.Priority);
+            SetStyle(_action.Style);
+            SetCreateWindow(!_action.CreateNoWindow);
             tbArguments.Text = _action.Arguments;
             tbExePath.Text = _action.ExePath;
         }
@@ -39,6 +41,8 @@ namespace RunProcessPluginUI
             _action.ExePath = tbExePath.Text;
             _action.Priority = GetProcessPriority();
             _action.CloseMode = GetCloseProcessMode();
+            _action.Style = GetStyle();
+            _action.CreateNoWindow = !GetCreateWindow();
         }
 
         private CloseProcessMode GetCloseProcessMode()
@@ -69,6 +73,33 @@ namespace RunProcessPluginUI
         {
             var name = Enum.GetName(typeof(ProcessPriorityClass), @class);
             lvProcessPriority.GetItems().Where(x => ((ItemView)x).Tag.ToString().Equals(name)).All(x => x.Selected = true);
+        }
+
+        private void SetStyle(ProcessWindowStyle style)
+        {
+            var name = Enum.GetName(typeof(ProcessWindowStyle), style);
+            lvStyle.GetItems().Where(x => ((ItemView)x).Tag.ToString().Equals(name)).All(x => x.Selected = true);
+        }
+
+        private ProcessWindowStyle GetStyle()
+        {
+            var selectedItem = lvStyle.GetSelectedItems().FirstOrDefault();
+            if (selectedItem == null)
+                return ProcessWindowStyle.Normal;
+            else
+                return (ProcessWindowStyle)Enum.Parse(typeof(ProcessWindowStyle), ((ItemView)selectedItem).Tag.ToString());
+        }
+
+        private void SetCreateWindow(bool noWindow)
+        {
+            if (noWindow)
+                btYes.Selected = true;
+            else btNo.Selected = true;
+        }
+
+        private bool GetCreateWindow()
+        {
+            return !btNo.Selected;
         }
     }
 }

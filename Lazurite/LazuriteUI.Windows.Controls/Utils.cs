@@ -13,10 +13,10 @@ namespace LazuriteUI.Windows.Controls
 
         public static Window GetMainWindow()
         {
-            var activatedWindow = App.Current.Windows.Cast<Window>().FirstOrDefault(x => x.IsActive);
-            if (activatedWindow != null)
-                return activatedWindow;
-            return App.Current.Windows.Cast<Window>().OrderBy(x => x.Name == "MainWindow").FirstOrDefault();
+            var activatedWindow = App.Current.Windows.Cast<Window>()
+                .OrderByDescending(x => x.IsActive)
+                .OrderByDescending(x => x.Tag?.ToString() == "MainContainer").FirstOrDefault();
+            return activatedWindow;
         }
         
         public static System.Windows.Point GetMousePosition()

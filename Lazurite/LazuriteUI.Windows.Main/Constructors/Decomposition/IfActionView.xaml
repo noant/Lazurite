@@ -8,11 +8,11 @@
              Height="Auto">
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto"></RowDefinition>
-        <RowDefinition></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
-        <RowDefinition></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
-        <RowDefinition></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
     <Label Grid.Row="0" Width="40" Style="{StaticResource LabelIfView}" HorizontalAlignment="Left" Height="30">ЕСЛИ</Label>

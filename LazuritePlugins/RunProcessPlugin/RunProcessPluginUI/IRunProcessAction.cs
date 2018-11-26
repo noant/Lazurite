@@ -8,5 +8,7 @@ namespace RunProcessPluginUI
         string Arguments { get; set; }
         CloseProcessMode CloseMode { get; set; }
         ProcessPriorityClass Priority { get; set; }
+        bool CreateNoWindow { get; set; }
+        ProcessWindowStyle Style { get; set; }
     }
 }

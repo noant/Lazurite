@@ -76,6 +76,19 @@ namespace Lazurite.Windows.Modules
             }
         }
 
+        public static void DoWithFiles(string directory, Func<string, bool> action)
+        {
+            var allFiles = Directory.GetFiles(directory);
+            var allDirs = Directory.GetDirectories(directory);
+            var result = true;
+            foreach (var file in allFiles)
+                if (!(result = action(file)))
+                    break;
+            if (result)
+                foreach (var dir in allDirs)
+                    DoWithFiles(dir, action);
+        }
+
         public static void CreatePackage(string folder, string outerFile)
         {
             var zip = new FastZip();

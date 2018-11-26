@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="LazuriteUI.Windows.Controls.ComboBoxItemsView_List"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LazuriteUI.Windows.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="{x:Static local:Visual.BackgroundLazurite}" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Margin="7" Foreground="{x:Static local:Visual.CaptionForeground}" HorizontalAlignment="Center" x:Name="lblCaption"></Label>
+        <local:WheelScroll Margin="7,0,7,0" Grid.Row="1">
+            <local:ListItemsView Width="600" x:Name="itemsView"></local:ListItemsView>
+        </local:WheelScroll>
+        <local:ItemView Grid.Row="2" x:Name="btApply" Click="btApply_Click" Margin="10" Width="200" Content="Применить" Icon="Check" Background="{x:Static local:Visual.BrightItemBackground}"></local:ItemView>
+    </Grid>
+</UserControl>

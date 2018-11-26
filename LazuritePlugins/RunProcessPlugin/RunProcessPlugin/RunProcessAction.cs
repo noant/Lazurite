@@ -20,6 +20,8 @@ namespace RunProcessPlugin
         public string Arguments { get; set; } = string.Empty;
         public CloseProcessMode CloseMode { get; set; } = CloseProcessMode.Kill;
         public ProcessPriorityClass Priority { get; set; } = ProcessPriorityClass.Normal;
+        public bool CreateNoWindow { get; set; } = false;
+        public ProcessWindowStyle Style { get; set; } = ProcessWindowStyle.Normal;
 
         public string Caption
         {
@@ -33,21 +35,9 @@ namespace RunProcessPlugin
             }
         }
 
-        public bool IsSupportsEvent
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool IsSupportsEvent => true;
 
-        public bool IsSupportsModification
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool IsSupportsModification => true;
 
         public ValueTypeBase ValueType
         {
@@ -118,6 +108,8 @@ namespace RunProcessPlugin
                 _process = new Process();
                 _process.StartInfo.FileName = ExePath;
                 _process.StartInfo.Arguments = Arguments;
+                _process.StartInfo.CreateNoWindow = CreateNoWindow;
+                _process.StartInfo.WindowStyle = Style;
                 _process.EnableRaisingEvents = true;
                 _process.Exited += (o, e) => ValueChanged?.Invoke(this, GetValue(null));
                 success = _process.Start();

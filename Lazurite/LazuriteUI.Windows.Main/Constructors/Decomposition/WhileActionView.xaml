@@ -8,9 +8,9 @@
              Height="Auto">
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto"></RowDefinition>
-        <RowDefinition></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
-        <RowDefinition></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
     <Label Style="{StaticResource LabelWhileView}" Width="45" Grid.Row="0" HorizontalAlignment="Left" Height="30">ПОКА</Label>

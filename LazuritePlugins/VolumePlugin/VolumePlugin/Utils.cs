@@ -38,7 +38,11 @@ namespace VolumePlugin
         public static void SetVolumeLevel(double value)
         {
             if (CoreAudioDevice != null)
+            {
+                if (value > 0 && CoreAudioDevice.IsMuted)
+                    CoreAudioDevice.Mute(false);
                 CoreAudioDevice.Volume = value;
+            }
         }
 
         public static void SetOutputAudioDevice(int index)

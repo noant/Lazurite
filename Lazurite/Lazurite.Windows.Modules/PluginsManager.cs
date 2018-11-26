@@ -192,7 +192,44 @@ namespace Lazurite.Windows.Modules
             if (pluginTypeInfo != null)
                 return pluginTypeInfo.Assembly;
             else
-               _warningHandler.Info(exception: new DllNotFoundException("Cannot resolve assembly: " + args.Name));
+            {
+                // Теперь ищем совпадение по имени, неточный поиск
+                var name = new string(args.Name.TakeWhile(x => x != ',').ToArray());
+                var assembly = _catchedAssemblies.Values.FirstOrDefault(x => x.GetName().Name == name);
+                if (assembly != null)
+                {
+                    _warningHandler.DebugFormat("Inexact search of library [{0}] gives result [{1}]", args.Name, assembly.FullName);
+                    return assembly;
+                }
+                else
+                {
+                    var dllName = name.ToUpperInvariant() + ".DLL";
+                    
+                    // Теперь ищем во всех файлах плагинов
+                    Utils.DoWithFiles(_baseDir, (filePath) => {
+                        if (Path.GetFileName(filePath).ToUpperInvariant() == dllName)
+                        {
+                            try
+                            {
+                                assembly = Utils.LoadAssembly(filePath);
+                                return false;
+                            }
+                            catch
+                            {
+                                // file not C# library
+                                return true;
+                            }
+                        }
+                        return true;
+                    });
+                    if (assembly != null)
+                    {
+                        _warningHandler.DebugFormat("Inexact search in plugins directory of library [{0}] gives result [{1}]", args.Name, assembly.FullName);
+                        return assembly;
+                    }
+                }
+                _warningHandler.Info(exception: new DllNotFoundException("Cannot resolve assembly: " + args.Name));
+            }
             return null;
         }
         

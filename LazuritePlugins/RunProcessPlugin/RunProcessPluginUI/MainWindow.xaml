@@ -20,6 +20,8 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
@@ -32,13 +34,15 @@
         <Label Margin="4" Grid.Row="2" HorizontalAlignment="Right" Foreground="{x:Static controls:Visual.CaptionForeground}">Аргументы:</Label>
         <Label Margin="4" Grid.Row="3" HorizontalAlignment="Right" Foreground="{x:Static controls:Visual.CaptionForeground}">Приоритет процесса:</Label>
         <Label Margin="4" Grid.Row="4" HorizontalAlignment="Right" Foreground="{x:Static controls:Visual.CaptionForeground}">Режим выключения процесса:</Label>
+        <Label Margin="4" Grid.Row="5" HorizontalAlignment="Right" Foreground="{x:Static controls:Visual.CaptionForeground}">Видимость окна:</Label>
+        <Label Margin="4" Grid.Row="6" HorizontalAlignment="Right" Foreground="{x:Static controls:Visual.CaptionForeground}">Создавать окно:</Label>
         <controls:EntryView IsReadOnly="True" Grid.Row="1" Grid.Column="1" Margin="4,4,57,4" x:Name="tbExePath"></controls:EntryView>
         <controls:ItemView x:Name="btSelectPath" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="4" Height="26" Width="51">...</controls:ItemView>
         <controls:EntryView Grid.Row="2" Grid.Column="1" Margin="4,4,4,4" x:Name="tbArguments"></controls:EntryView>
         <controls:ListItemsView x:Name="lvProcessPriority" Grid.Row="3" Grid.Column="1" Orientation="Horizontal" SelectionMode="Single">
-            <controls:ItemView Tag="BelowNormal" Margin="2" Width="100">Ниже среднего</controls:ItemView>
+            <controls:ItemView Tag="BelowNormal" Margin="2" Width="105">Ниже среднего</controls:ItemView>
             <controls:ItemView Tag="Normal" Margin="2" Width="65">Средний</controls:ItemView>
-            <controls:ItemView Tag="AboveNormal" Margin="2" Width="100">Выше среднего</controls:ItemView>
+            <controls:ItemView Tag="AboveNormal" Margin="2" Width="105">Выше среднего</controls:ItemView>
             <controls:ItemView Tag="High" Margin="2" Width="65">Высокий</controls:ItemView>
             <controls:ItemView Tag="RealTime" Margin="2" Width="130">Реального времени</controls:ItemView>
             <controls:ItemView Tag="Idle" Margin="2" Width="51">Idle</controls:ItemView>
@@ -48,7 +52,17 @@
             <controls:ItemView Tag="Kill" Margin="2" Width="170">Убить процесс</controls:ItemView>
             <controls:ItemView Tag="CloseMainWindow" Margin="2" Width="170">Закрыть главное окно</controls:ItemView>
         </controls:ListItemsView>
-        <StackPanel Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="10">
+        <controls:ListItemsView x:Name="lvStyle" Grid.Row="5" Grid.Column="1" Orientation="Horizontal" SelectionMode="Single">
+            <controls:ItemView Tag="Hidden" Margin="2" Width="70">Скрытое</controls:ItemView>
+            <controls:ItemView Tag="Minimized" Margin="2" Width="100">Свернутое</controls:ItemView>
+            <controls:ItemView Tag="Normal" Margin="2" Width="120">Нормальное</controls:ItemView>
+            <controls:ItemView Tag="Maximized" Margin="2" Width="120">Развернутое</controls:ItemView>
+        </controls:ListItemsView>
+        <controls:ListItemsView x:Name="lvNoWindow" Grid.Row="6" Grid.Column="1" Orientation="Horizontal" SelectionMode="Single">
+            <controls:ItemView x:Name="btYes" Margin="2" Width="70">Да</controls:ItemView>
+            <controls:ItemView x:Name="btNo" Margin="2" Width="70">Нет</controls:ItemView>
+        </controls:ListItemsView>
+        <StackPanel Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="10">
             <controls:ItemView x:Name="btApply" Icon="Check" Width="150" Margin="0,0,5,0">Применить</controls:ItemView>
             <controls:ItemView x:Name="btCancel" Icon="Cancel" Background="Crimson" Width="150">Отмена</controls:ItemView>
         </StackPanel>
