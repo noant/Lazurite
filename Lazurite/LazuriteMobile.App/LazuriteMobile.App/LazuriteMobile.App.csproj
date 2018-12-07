@@ -35,6 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Switches\AutoSizeBehavior.cs" />
+    <Compile Include="Controls\ItemViewFast.cs" />
     <Compile Include="Switches\Bases\SwitchIconView.cs" />
     <Compile Include="Switches\Bases\LabelValueView.cs" />
     <Compile Include="Switches\Bases\LabelCaptionView.cs" />

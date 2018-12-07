@@ -4,8 +4,10 @@ using Lazurite.Shared;
 using Lazurite.Utils;
 using LazuriteMobile.App.Controls;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
@@ -16,6 +18,10 @@ namespace LazuriteMobile.App.Switches
         private static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         
         private IHardwareVolumeChanger _changer;
+        private SwitchScenarioModel _model;
+        private string _currentVal;
+        private ItemView _prevItem;
+        private Dictionary<string, ItemView> _visibleItems = new Dictionary<string, ItemView>();
 
         public StatusViewSwitch()
         {
@@ -31,49 +37,127 @@ namespace LazuriteMobile.App.Switches
         private void _changer_VolumeChanged(object sender, EventsArgs<int> args)
         {
             //megaCrutchCode
-            var prevItem = listItemsStates.GetItems().Cast<ItemView>().FirstOrDefault(x => x.StrokeVisible);
-            if (prevItem == null)
-                prevItem = listItemsStates.GetSelectedItems().FirstOrDefault() as ItemView;
-            if (prevItem == null)
-                prevItem = listItemsStates.GetItems().LastOrDefault() as ItemView;
-            if (prevItem != null)
+            if (_model.AcceptedValues.Length > 1)
             {
-                prevItem.StrokeVisible = false;
-                var index = listItemsStates.GetItems().ToList().IndexOf(prevItem) - (args.Value / Math.Abs(args.Value));
-                if (index == listItemsStates.GetItems().Length)
-                    index = 0;
-                else if (index == -1)
-                    index = listItemsStates.GetItems().Length - 1;
-                var targetItem = (ItemView)listItemsStates.GetItems().ElementAt(index);
-                targetItem.StrokeVisible = true;
+                var direction = args.Value > 0 ? -1 : 1;
+
+                var currentValues = listView.ItemsSource as string[];
+
+                var currentIndex = currentValues.ToList().IndexOf(_currentVal);
+                var nextIndex = currentIndex + direction;
+                if (nextIndex >= currentValues.Length)
+                    nextIndex = 0;
+                else if (nextIndex < 0)
+                    nextIndex = currentValues.Length - 1;
+
+                _currentVal = currentValues[nextIndex];
+
+                if (_prevItem != null)
+                    _prevItem.StrokeVisible = false;
+                listView.ScrollTo(_currentVal, ScrollToPosition.MakeVisible, false);
+                if (_visibleItems.ContainsKey(_currentVal))
+                {
+                    var itemView = _visibleItems[_currentVal];
+                    _prevItem = itemView;
+                    itemView.StrokeVisible = true;
+                }
             }
         }
 
         public StatusViewSwitch(SwitchScenarioModel scenarioModel) : this()
         {
-            BindingContext = scenarioModel;
+            BindingContext = _model = scenarioModel;
 
-            foreach (var state in scenarioModel.AcceptedValues)
+            _currentVal = _model.ScenarioValue;
+
+            listView.ItemsSource = GetItemsSource();
+            
+            if (_model.AcceptedValues.Length > 10)
+                tbSearch.Completed += (o, e) =>
+                    listView.ItemsSource = GetItemsSource();
+            else
             {
-                var itemView = new ItemView();
-                itemView.Icon = LazuriteUI.Icons.Icon.NavigateNext;
-                itemView.Text = state;
-                itemView.HeightRequest = 50;
-                itemView.Margin = new Thickness(0, 0, 0, 1);
-                if (scenarioModel.ScenarioValue.Equals(state))
-                    itemView.Selected = true;
-                listItemsStates.Children.Add(itemView);
+                tbSearch.IsVisible = false;
+                iconSearch.IsVisible = false;
             }
 
-            listItemsStates.SelectionChanged += (o, e) =>
-            {
-                var selectedItem = listItemsStates.GetSelectedItems().FirstOrDefault() as ItemView;
-                if (selectedItem != null && selectedItem.Text != scenarioModel.ScenarioValue)
+            // Невозможно замапить объекты, так как, почему-то, сбивается размер всего контрола.
+            // Если мапить строки, то размер нормальный.
+
+            listView.ItemTemplate = new DataTemplate(() => {
+                var itemView = new ItemView();
+                itemView.SetBinding(ItemView.TextProperty, ".");
+                itemView.Icon = LazuriteUI.Icons.Icon.ChevronRight;
+                itemView.Selectable = true;
+                itemView.StrokeVisibilityClick = true;
+
+                itemView.SelectionChanged += (o, e) => {
+                    if (itemView.Selected)
+                    {
+                        foreach (var item in _visibleItems.Values)
+                            if (item != itemView && item.Selected)
+                                item.Selected = false;
+                    }
+                };
+
+                itemView.PropertyChanged += (o, e) => {
+                    if (e.PropertyName == nameof(itemView.Text))
+                    {
+                        if (itemView.Text == _model.ScenarioValue)
+                            itemView.Selected = true;
+                        else if (itemView.Selected)
+                            itemView.Selected = false;
+                    }
+                };
+
+                itemView.Click += (o, e) => RaiseSelect(itemView.Text, (ItemView.ClickSource)e.Value);
+
+                var viewCell = new ViewCell();
+
+                viewCell.Appearing += (o, e) =>
                 {
-                    scenarioModel.ScenarioValue = selectedItem.Text;
-                    StateChanged?.Invoke(this, new EventsArgs<StateChangedSource>(selectedItem.StrokeVisible ? StateChangedSource.VolumeButton : StateChangedSource.Tap));
-                }
-            };
+                    if (itemView.Text != null)
+                    {
+                        if (_visibleItems.ContainsKey(itemView.Text))
+                            _visibleItems.Remove(itemView.Text);
+                        _visibleItems.Add(itemView.Text, itemView);
+                    }
+                };
+                viewCell.Disappearing += (o, e) =>
+                {
+                    if (itemView.Text != null && _visibleItems.ContainsKey(itemView.Text))
+                        _visibleItems.Remove(itemView.Text);
+                };
+                
+                viewCell.View = itemView;
+                return viewCell;
+            });
+        }
+
+        private string[] GetItemsSource()
+        {
+            var searchText = tbSearch.Text?.Trim().ToLowerInvariant();
+
+            if (string.IsNullOrEmpty(searchText))
+                return _model.AcceptedValues;
+
+            return _model
+                .AcceptedValues
+                .Where(x => x.ToLowerInvariant().Contains(searchText))
+                .ToArray();
+        }
+
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            if (_model != null)
+                listView.ScrollTo(_model.ScenarioValue, ScrollToPosition.MakeVisible, false);
+            base.OnSizeAllocated(width, height);
+        }
+
+        private void RaiseSelect(string value, ItemView.ClickSource source)
+        {
+            _currentVal = _model.ScenarioValue = value;
+            StateChanged?.Invoke(this, new EventsArgs<ItemView.ClickSource>(source));
         }
 
         public void Dispose()
@@ -85,13 +169,7 @@ namespace LazuriteMobile.App.Switches
             }
         }
 
-        public event EventsHandler<StateChangedSource> StateChanged;
-
-        public enum StateChangedSource
-        {
-            Tap,
-            VolumeButton
-        }
+        public event EventsHandler<ItemView.ClickSource> StateChanged;
     }
 
 }

@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="EntryView.cs" />
     <Compile Include="ISelectable.cs" />
+    <Compile Include="ItemViewFast.cs" />
     <Compile Include="ItemView.cs" />
     <Compile Include="ItemViewLE.xaml.cs">
       <DependentUpon>ItemViewLE.xaml</DependentUpon>

@@ -38,8 +38,9 @@ namespace LazuriteMobile.App.Controls
             var item = child as ISelectable;
             if (item != null)
             {
-                ((View)child).HorizontalOptions = new LayoutOptions(LayoutAlignment.Fill, true);
-                ((View)child).WidthRequest = Width;
+                var c = ((View)child);
+                c.HorizontalOptions = new LayoutOptions(LayoutAlignment.Fill, true);
+                c.WidthRequest = Width;
                 item.Selectable = SelectionMode != ListViewItemsSelectionMode.None;
                 item.SelectionChanged += (o, e) =>
                 {

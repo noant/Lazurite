@@ -8,8 +8,8 @@
     BackgroundColor="{Static local:Visual.ItemBackground}"
     x:Class="LazuriteMobile.App.Controls.ItemView">
     <Grid x:Name="backGrid" InputTransparent="True" VerticalOptions="Fill" HorizontalOptions="Fill" BackgroundColor="{Static local:Visual.ItemSelection}" Opacity="0"></Grid>
-        <Button Opacity="0" Margin="0" BorderColor="Transparent" BorderRadius="0" BorderWidth="0" x:Name="button" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" Clicked="Button_Clicked" ></Button>
-        <local:IconView Opacity="0.64" HeightRequest="35" WidthRequest="35" HorizontalOptions="Start" InputTransparent="True" VerticalOptions="Center" x:Name="iconView" x:FieldModifier="private" Icon="AdobeAcrobat" IsVisible="{Binding IconVisibility}" Margin="4"></local:IconView>
-        <Label FontFamily="{Static local:Visual.FontFamily}" x:Name="label" InputTransparent="True" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" BackgroundColor="Transparent"></Label>
-        <Grid HeightRequest="3" Opacity="0" VerticalOptions="End" HorizontalOptions="FillAndExpand" BackgroundColor="DarkOrchid" x:Name="strokeGrid"></Grid>
+    <Button Opacity="0" Margin="0" BorderColor="Transparent" BorderRadius="0" BorderWidth="0" x:Name="button" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" Clicked="Button_Clicked"></Button>
+    <local:IconView Opacity="0.64" HeightRequest="35" WidthRequest="35" HorizontalOptions="Start" InputTransparent="True" VerticalOptions="Center" x:Name="iconView" x:FieldModifier="private" Icon="AdobeAcrobat" IsVisible="{Binding IconVisibility}" Margin="4"></local:IconView>
+    <Label FontFamily="{Static local:Visual.FontFamily}" x:Name="label" InputTransparent="True" TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" BackgroundColor="Transparent"></Label>
+    <Grid HeightRequest="3" Opacity="0" VerticalOptions="End" HorizontalOptions="FillAndExpand" BackgroundColor="DarkOrchid" x:Name="strokeGrid"></Grid>
 </Grid>

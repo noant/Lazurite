@@ -5,6 +5,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
+    xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     BackgroundColor="{Static controls:Visual.Background}"
     Padding="4"
     Margin="4">
@@ -13,12 +14,18 @@
         <ColumnDefinition Width="*"></ColumnDefinition>
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
-        <RowDefinition Height="35"></RowDefinition>
-        <RowDefinition></RowDefinition>
+        <RowDefinition Height="38"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
     <controls:IconView Opacity="0.64" VerticalOptions="Center" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
     <Label VerticalOptions="Center" Grid.Column="1" TextColor="{Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></Label>
-    <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
-        <controls:ListItemsView Spacing="0" x:Name="listItemsStates" SelectionMode="Single" x:FieldModifier="private"></controls:ListItemsView>
-    </ScrollView>
+    <Grid BackgroundColor="DarkSlateBlue" Grid.Row="1" Grid.ColumnSpan="2"></Grid>
+    <controls:IconView x:Name="iconSearch" Grid.Row="1" Opacity="0.4" VerticalOptions="Center" Icon="PageSearch"></controls:IconView>
+    <Entry FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" Margin="0,0,0,-2" TextColor="White" Grid.Row="1" Grid.Column="1" x:Name="tbSearch"></Entry>
+    <ListView Grid.ColumnSpan="2" VerticalOptions="Start" Grid.Row="3" RowHeight="35" x:Name="listView" MinimumHeightRequest="0">
+        <ListView.Behaviors>
+            <local:AutoSizeBehavior></local:AutoSizeBehavior>
+        </ListView.Behaviors>
+    </ListView>
 </Grid>

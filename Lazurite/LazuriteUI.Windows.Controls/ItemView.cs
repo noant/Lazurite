@@ -142,10 +142,10 @@ namespace LazuriteUI.Windows.Controls
                     Height = double.NaN;
             };
         }
-                
+        
         private void InitializeComponent()
         {
-            //not xaml because i need inherit from this class
+            // Not xaml because i need inherit from this class
 
             Resources = new ResourceDictionary() { Source = new System.Uri("/LazuriteUI.Windows.Controls;component/Styles/Styles.xaml", System.UriKind.Relative ) };
             

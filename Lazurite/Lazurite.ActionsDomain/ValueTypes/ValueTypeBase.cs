@@ -29,13 +29,13 @@ namespace Lazurite.ActionsDomain.ValueTypes
 
         public bool IsCompatibleWith(ValueTypeBase valueType)
         {
+            if (valueType == null)
+                return false;
             if (this is InfoValueType) return true;
             if (valueType.GetType() != GetType()) return false;
             if (valueType.SupportsNumericalComparisons.Equals(SupportsNumericalComparisons) &&
                 Enumerable.SequenceEqual(AcceptedValues, valueType.AcceptedValues))
-            {
                 return true;
-            }
             return false;
         }
 

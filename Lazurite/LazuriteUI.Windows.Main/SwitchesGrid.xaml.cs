@@ -33,9 +33,9 @@ namespace LazuriteUI.Windows.Main
         public static DependencyProperty IsConstructorModeProperty;
 
         private static readonly int MaxX = 3;
-        private static readonly int ElementWidth = 110;
-        private static readonly int ElementHeight = 85;
-        private static readonly int ElementMargin = 3;
+        private static readonly double ElementWidth = 110;
+        private static readonly double ElementHeight = 85;
+        private static readonly double ElementMargin = 2;
 
         static SwitchesGrid()
         {
@@ -263,9 +263,7 @@ namespace LazuriteUI.Windows.Main
             {
                 var model = ((ScenarioModel)@switch.DataContext);
                 if (model?.Scenario.Id != SelectedModel?.Scenario.Id || SelectedModel == null)
-                {
                     SelectInternal(model);
-                }
             }
         }
 
@@ -331,9 +329,7 @@ namespace LazuriteUI.Windows.Main
                     _draggableCurrent = (UserControl)sender;
                     var model = (ScenarioModel)_draggableCurrent.DataContext;
                     if (model?.Scenario.Id != SelectedModel?.Scenario.Id || SelectedModel == null)
-                    {
                         SelectInternal(model);
-                    }
                 }
             }
         }

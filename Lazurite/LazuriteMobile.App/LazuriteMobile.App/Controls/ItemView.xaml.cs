@@ -72,6 +72,8 @@ namespace LazuriteMobile.App.Controls
             };
         }
 
+        public bool StrokeVisibilityClick { get; set; } = false;
+
         public bool StrokeVisible
         {
             get
@@ -179,7 +181,7 @@ namespace LazuriteMobile.App.Controls
                 );
                 if (Selectable)
                     Selected = !Selected;
-                Click?.Invoke(this, new EventsArgs<object>(this));
+                Click?.Invoke(this, new EventsArgs<object>(ClickSource.Tap));
             }
         }
 
@@ -187,7 +189,12 @@ namespace LazuriteMobile.App.Controls
         {
             await Task.Delay(1000);
             if (StrokeVisible && !Selected)
+            {
                 Selected = true;
+                StrokeVisible = false;
+                if (StrokeVisibilityClick)
+                    Click?.Invoke(this, new EventsArgs<object>(ClickSource.UnderscoreWaiting));
+            }
         }
 
         private void RaiseSelectionChanged()
@@ -198,5 +205,11 @@ namespace LazuriteMobile.App.Controls
         public event EventsHandler<object> Click;
         public event EventsHandler<object> Clicked;
         public event EventsHandler<object> SelectionChanged;
+
+        public enum ClickSource
+        {
+            Tap,
+            UnderscoreWaiting
+        }
     }
 }
