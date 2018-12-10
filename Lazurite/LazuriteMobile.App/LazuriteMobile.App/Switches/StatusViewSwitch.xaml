@@ -9,23 +9,23 @@
     BackgroundColor="{Static controls:Visual.Background}"
     Padding="4"
     Margin="4">
-    <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"></ColumnDefinition>
-        <ColumnDefinition Width="*"></ColumnDefinition>
-    </Grid.ColumnDefinitions>
+
     <Grid.RowDefinitions>
-        <RowDefinition Height="38"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
-    <controls:IconView Opacity="0.64" VerticalOptions="Center" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-    <Label VerticalOptions="Center" Grid.Column="1" TextColor="{Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></Label>
-    <Grid BackgroundColor="DarkSlateBlue" Grid.Row="1" Grid.ColumnSpan="2"></Grid>
-    <controls:IconView x:Name="iconSearch" Grid.Row="1" Opacity="0.4" VerticalOptions="Center" Icon="PageSearch"></controls:IconView>
-    <Entry FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" Margin="0,0,0,-2" TextColor="White" Grid.Row="1" Grid.Column="1" x:Name="tbSearch"></Entry>
-    <ListView Grid.ColumnSpan="2" VerticalOptions="Start" Grid.Row="3" RowHeight="35" x:Name="listView" MinimumHeightRequest="0">
-        <ListView.Behaviors>
-            <local:AutoSizeBehavior></local:AutoSizeBehavior>
-        </ListView.Behaviors>
-    </ListView>
+
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="30"></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+
+    <controls:IconView x:Name="iconTitle" Opacity="0.64" VerticalOptions="Center" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+    <Label HeightRequest="30" VerticalTextAlignment="Center" x:Name="lblTitle" Grid.Column="1" TextColor="{Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></Label>
+
+    <controls:IconView x:Name="iconSearch" Opacity="0.4" VerticalOptions="Center" Icon="Magnify"></controls:IconView>
+    <controls:ItemView IsVisible="False" x:Name="btClearSearch" Icon="Close"></controls:ItemView>
+    <Entry HeightRequest="40" HorizontalOptions="Fill" Grid.Column="1" FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" Margin="0,0,0,-2" TextColor="White" x:Name="tbSearch"></Entry>
+
+    <ListView Grid.Row="1" RowHeight="37" x:Name="listView" Grid.ColumnSpan="2"></ListView>
 </Grid>

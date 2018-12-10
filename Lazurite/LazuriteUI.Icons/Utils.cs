@@ -23,7 +23,16 @@ namespace LazuriteUI.Icons
                     .GetTypeInfo()
                     .Assembly
                     .GetManifestResourceStream(iconPath);
+
             return stream;
+        }
+
+        public static byte[] GetIconDataBytes(Icon icon)
+        {
+            var stream = GetIconData(icon);
+            var buff = new byte[stream.Length];
+            stream.Read(buff, 0, buff.Length);
+            return buff;
         }
     }
 }

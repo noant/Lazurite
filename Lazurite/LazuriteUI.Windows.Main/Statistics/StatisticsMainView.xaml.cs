@@ -2,6 +2,7 @@
 using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
+using Lazurite.Scenarios.ScenarioTypes;
 using Lazurite.Utils;
 using LazuriteUI.Icons;
 using LazuriteUI.Windows.Controls;
@@ -47,7 +48,7 @@ namespace LazuriteUI.Windows.Main.Statistics
                             var registrationInfo = StatisticsManager
                                 .GetRegistrationInfo(ScenariosRepository.Scenarios);
                             var registered = ScenariosRepository.Scenarios
-                                .Where(x => registrationInfo.IsRegistered(x.Id))
+                                .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
                                 .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource))
                                 .ToArray();
                             datesRangeView.Min = registered.Any() ? registered.Min(x => x.Since) : DateTime.Now;

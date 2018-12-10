@@ -33,9 +33,7 @@ namespace LazuriteUI.Windows.Main.Journal
                 Savior.Set(nameof(MaxShowingWarnType), _maxShowingWarnType);
             }
         }
-
-        private static readonly object _locker = new object();
-
+        
         public static void Set(string message, WarnType type, Exception e = null, bool showAnyway = false)
         {
             JournalView.Set(message, type);
@@ -43,12 +41,8 @@ namespace LazuriteUI.Windows.Main.Journal
                 JournalLightWindow.Show(message, type);
             if (type == WarnType.Fatal)
             {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    var mainWindow = Application.Current.Windows.Cast<Window>().FirstOrDefault(x => x is MainWindow);
-                    if (mainWindow != null)
-                        MessageView.ShowMessage(message + "\r\n" + e?.Message, "Критическая ошибка!", Icons.Icon.Close, mainWindow.Content as Panel, () => Application.Current.Shutdown(1));
-                }));
+                MessageBox.Show(message + "\r\n" + (e?.Message ?? string.Empty), "Критическая ошибка! Lazurite будет закрыт.", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.Application.Current.Shutdown(1);
             }
         }
     }

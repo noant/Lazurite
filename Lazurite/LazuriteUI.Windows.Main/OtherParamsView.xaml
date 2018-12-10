@@ -8,15 +8,17 @@
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              Background="{x:Static controls:Visual.Background}"
              Width="400"
-             Height="159">
+             Height="212">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:ItemView x:Name="btShutdown" Margin="3,3,3,0" Height="50" Icon="Power">Отключить</controls:ItemView>
-        <controls:ItemView x:Name="btRestart" Margin="3,3,3,0" Grid.Row="1" Height="50" Icon="Repeat">Перезапустить</controls:ItemView>
-        <controls:ItemView x:Name="cbStartOnLogon" Selectable="True" Grid.Row="2" Margin="3" Height="50" Icon="Companioncube" Background="#111111">Запускать Lazurite при входе пользователя</controls:ItemView>
+        <controls:ItemView x:Name="btShutdown" Margin="3,3,3,0" Height="50" Icon="Power">Выключить Lazurite</controls:ItemView>
+        <controls:ItemView x:Name="btRestart" Margin="3,3,3,0" Grid.Row="1" Height="50" Icon="Refresh">Перезапустить</controls:ItemView>
+        <controls:ItemView x:Name="cbRightSideHover" ToolTip="При наведении курсора на нижнюю четверть правой границы экрана будет показано окошко быстрого доступа" Selectable="True" Grid.Row="2" Margin="3,3,3,0" Height="50" Icon="CursorDefault" Background="#111111">Быстрый доступ при наведении курсора вправо</controls:ItemView>
+        <controls:ItemView x:Name="cbStartOnLogon" Selectable="True" Grid.Row="3" Margin="3" Height="50" Icon="Companioncube" Background="#111111">Запускать Lazurite при входе пользователя</controls:ItemView>
     </Grid>
 </UserControl>

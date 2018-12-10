@@ -26,6 +26,17 @@ namespace LazuriteMobile.App.Switches
         public StatusViewSwitch()
         {
             InitializeComponent();
+
+            // Extra f****** crutch, list view calculates wrong height
+            bool crutch = true;
+            listView.SizeChanged += (o, e) => {
+                if (crutch)
+                {
+                    crutch = false;
+                    listView.HeightRequest = listView.Height + 5;
+                }
+            };
+
             if (Singleton.Any<IHardwareVolumeChanger>())
             {
                 _changer = Singleton.Resolve<IHardwareVolumeChanger>();
@@ -54,7 +65,8 @@ namespace LazuriteMobile.App.Switches
 
                 if (_prevItem != null)
                     _prevItem.StrokeVisible = false;
-                listView.ScrollTo(_currentVal, ScrollToPosition.MakeVisible, false);
+
+                ScrollTo(_currentVal);
                 if (_visibleItems.ContainsKey(_currentVal))
                 {
                     var itemView = _visibleItems[_currentVal];
@@ -66,19 +78,37 @@ namespace LazuriteMobile.App.Switches
 
         public StatusViewSwitch(SwitchScenarioModel scenarioModel) : this()
         {
+            //megaCrutchCode
+
             BindingContext = _model = scenarioModel;
+
+            _model.PropertyChanged += _model_PropertyChanged;
 
             _currentVal = _model.ScenarioValue;
 
             listView.ItemsSource = GetItemsSource();
-            
+
             if (_model.AcceptedValues.Length > 10)
+            {
                 tbSearch.Completed += (o, e) =>
+                {
+                    btClearSearch.IsVisible = !string.IsNullOrEmpty(tbSearch.Text);
                     listView.ItemsSource = GetItemsSource();
+                };
+                btClearSearch.Click += (o, e) =>
+                {
+                    tbSearch.Text = string.Empty;
+                    btClearSearch.IsVisible = false;
+                    listView.ItemsSource = GetItemsSource();
+                };
+
+                iconTitle.IsVisible = false;
+                lblTitle.IsVisible = false;
+            }
             else
             {
-                tbSearch.IsVisible = false;
                 iconSearch.IsVisible = false;
+                tbSearch.IsVisible = false;
             }
 
             // Невозможно замапить объекты, так как, почему-то, сбивается размер всего контрола.
@@ -121,17 +151,36 @@ namespace LazuriteMobile.App.Switches
                         if (_visibleItems.ContainsKey(itemView.Text))
                             _visibleItems.Remove(itemView.Text);
                         _visibleItems.Add(itemView.Text, itemView);
+
+                        itemView.Selected = itemView.Text == _model.ScenarioValue;
                     }
                 };
                 viewCell.Disappearing += (o, e) =>
                 {
                     if (itemView.Text != null && _visibleItems.ContainsKey(itemView.Text))
                         _visibleItems.Remove(itemView.Text);
+
+                    itemView.Selected = false;
                 };
-                
                 viewCell.View = itemView;
                 return viewCell;
             });
+        }
+
+        private void _model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (_currentVal != _model.ScenarioValue)
+            {
+                _currentVal = _model.ScenarioValue;
+                ScrollTo(_currentVal);
+                if (_visibleItems.ContainsKey(_currentVal))
+                    _visibleItems[_currentVal].Selected = true;
+            }
+        }
+
+        private void ScrollTo(string val)
+        {
+            listView.ScrollTo(val, ScrollToPosition.Center, false);
         }
 
         private string[] GetItemsSource()
@@ -150,7 +199,7 @@ namespace LazuriteMobile.App.Switches
         protected override void OnSizeAllocated(double width, double height)
         {
             if (_model != null)
-                listView.ScrollTo(_model.ScenarioValue, ScrollToPosition.MakeVisible, false);
+                ScrollTo(_model.ScenarioValue);
             base.OnSizeAllocated(width, height);
         }
 
@@ -167,6 +216,7 @@ namespace LazuriteMobile.App.Switches
                 _changer.VolumeDown -= _changer_VolumeChanged;
                 _changer.VolumeUp -= _changer_VolumeChanged;
             }
+            _model.PropertyChanged -= _model_PropertyChanged;
         }
 
         public event EventsHandler<ItemView.ClickSource> StateChanged;

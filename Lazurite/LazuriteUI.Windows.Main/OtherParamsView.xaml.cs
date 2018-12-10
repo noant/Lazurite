@@ -20,8 +20,14 @@ namespace LazuriteUI.Windows.Main
             {
                 _manager.Settings.RunOnUserLogon = cbStartOnLogon.Selected;
                 _manager.SaveSettings();
-                Refresh();
             };
+
+            cbRightSideHover.SelectionChanged += (o, e) => {
+                UISettings.Current.MouseRightSideHoverEvent = cbRightSideHover.Selected;
+                UISettings.Save();
+                RightSideHoverForm.Initialize();
+            };
+
             btRestart.Click += (o, e) => Utils.RestartApp();
             btShutdown.Click += (o, e) => Process.GetCurrentProcess().Kill();
         }
@@ -29,6 +35,7 @@ namespace LazuriteUI.Windows.Main
         public void Refresh()
         {
             cbStartOnLogon.Selected = _manager.Settings.RunOnUserLogon;
+            cbRightSideHover.Selected = UISettings.Current.MouseRightSideHoverEvent;
         }
 
         public static void Show()

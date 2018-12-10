@@ -46,7 +46,6 @@ namespace LazuriteUI.Windows.Main
                 // Crutch; after this actions first window run is faster
                 JournalLightWindow.Show("Lazurite запущен...", WarnType.Info);
                 JournalLightWindow.CloseWindow();
-                
                 Core.WarningHandler.OnWrite += (o, e) => {
                     var args = (WarningEventArgs)e;
                     JournalManager.Set(args.Message, args.Value, args.Exception);
@@ -57,6 +56,7 @@ namespace LazuriteUI.Windows.Main
                 NotifyIconManager.Initialize();
                 DuplicatedProcessesListener.Found += (o, e) => NotifyIconManager.ShowMainWindow();
                 DuplicatedProcessesListener.Start();
+                RightSideHoverForm.Initialize();
             }
             catch (Exception e)
             {
@@ -71,10 +71,12 @@ namespace LazuriteUI.Windows.Main
         private void HandleUnhandledException(Exception exception)
         {
             WarningHandler.ExtremeLog("Unhandled exception!", exception);
+
             if (exception != null)
                 Core.WarningHandler.FatalFormat(exception, "Необработанная ошибка");
             else
                 Core.WarningHandler.FatalFormat(new Exception("unknown exception"), "Необработанная неизвестная ошибка");
+
             System.Windows.Application.Current.Shutdown(1);
         }
     }

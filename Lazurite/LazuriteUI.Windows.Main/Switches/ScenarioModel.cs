@@ -28,7 +28,7 @@ namespace LazuriteUI.Windows.Main.Switches
                 {
                     UserId = UsersRepository.SystemUser.Id,
                     ScenarioId = scenario.Id,
-                    VisualIndex = (Repository.VisualSettings.Any() ? Repository.VisualSettings.Max(x=>x.VisualIndex) : 0) + 1
+                    VisualIndex = (Repository.VisualSettings.Any() ? Repository.VisualSettings.Max(x => x.VisualIndex) : 0) + 1
                 });
                 VisualSettings.AddictionalData.Set(Icon1Key, GetStandardIcon1());
                 VisualSettings.AddictionalData.Set(Icon2Key, GetStandardIcon2());

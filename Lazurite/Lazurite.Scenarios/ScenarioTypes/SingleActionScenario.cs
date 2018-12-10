@@ -37,16 +37,10 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override ValueTypeBase ValueType
         {
-            get
-            {
-                return ActionHolder.Action.ValueType;
-            }
-            set
-            {
-                ///
-            }
+            get => ActionHolder.Action.ValueType;
+            set { }
         }
-        
+
         public override void Execute(ScenarioActionSource source, string param, out string executionId, ExecutionContext parentContext = null)
         {
             executionId = PrepareExecutionId();
@@ -189,10 +183,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             callback?.Invoke(result);
         }
 
-        public override IAction[] GetAllActionsFlat()
-        {
-            return new[] { ActionHolder.Action };
-        }
+        public override IAction[] GetAllActionsFlat() => new[] { ActionHolder.Action };
 
         public override SecuritySettingsBase SecuritySettings { get; set; } = new SecuritySettings();
     }

@@ -118,9 +118,7 @@ namespace LazuriteMobile.App
                 if (!cancellationToken.IsCancellationRequested)
                 {
                     if (SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.AccessDenied))
-                    {
                         LoginOrPasswordInvalid?.Invoke();
-                    }
                     //if data is wrong or secretKey.Length is wrong
                     else if (
                         SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.DecryptionError)

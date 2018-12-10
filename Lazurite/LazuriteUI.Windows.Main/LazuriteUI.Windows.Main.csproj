@@ -324,6 +324,12 @@
     <Compile Include="PluginsViews\PluginsView.xaml.cs">
       <DependentUpon>PluginsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RightSideHoverForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RightSideHoverForm.Designer.cs">
+      <DependentUpon>RightSideHoverForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ScenariosConstructionView.xaml.cs">
       <DependentUpon>ScenariosConstructionView.xaml</DependentUpon>
     </Compile>
@@ -531,6 +537,7 @@
     <Compile Include="TriggersListView.xaml.cs">
       <DependentUpon>TriggersListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UISettings.cs" />
     <Compile Include="UsersAndGroupsView.xaml.cs">
       <DependentUpon>UsersAndGroupsView.xaml</DependentUpon>
     </Compile>
@@ -1043,6 +1050,9 @@
     <EmbeddedResource Include="Resources\Syncfusion.Grid.Wpf.resx" />
     <EmbeddedResource Include="Resources\Syncfusion.Shared.WPF.resx" />
     <EmbeddedResource Include="Resources\Syncfusion.Tools.Wpf.resx" />
+    <EmbeddedResource Include="RightSideHoverForm.resx">
+      <DependentUpon>RightSideHoverForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="CopyToReleaseDir.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

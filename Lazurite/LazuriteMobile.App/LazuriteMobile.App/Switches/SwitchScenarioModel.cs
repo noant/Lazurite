@@ -13,7 +13,27 @@ namespace LazuriteMobile.App.Switches
         private static readonly string Icon1Key = "Icon1";
         private static readonly string Icon2Key = "Icon2";
 
-        private IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager; 
+        private string _value;
+        private bool _available;
+        private bool _checked;
+
+        private IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
+
+        public UserVisualSettings VisualSettings => Scenario?.VisualSettings;
+
+        public ScenarioInfo Scenario { get; private set; }
+
+        public string ScenarioValueWithUnit => ConvertersStatic.ValueTypeStringToDoubleRoundStr.Convert(ScenarioValue, null, null, null) + Unit;
+
+        public string Unit => (Scenario.ValueType as FloatValueType)?.Unit;
+        
+        public bool AllowClick => !Scenario.OnlyGetValue && Scenario.IsAvailable;
+
+        public bool IsAvailable => Scenario.IsAvailable;
+
+        public string ScenarioName => Scenario?.Name;
+
+        public string[] AcceptedValues => Scenario.ValueType.AcceptedValues;
 
         public SwitchScenarioModel(ScenarioInfo scenario)
         {
@@ -37,10 +57,6 @@ namespace LazuriteMobile.App.Switches
             return "New";
         }
 
-        public string ScenarioValueWithUnit => ConvertersStatic.ValueTypeStringToDoubleRoundStr.Convert(ScenarioValue, null, null, null) + Unit;
-        
-        public string Unit => (Scenario.ValueType as FloatValueType)?.Unit;
-
         private string GetStandardIcon2()
         {
             if (Scenario.ValueType is ToggleValueType)
@@ -57,15 +73,7 @@ namespace LazuriteMobile.App.Switches
         {
             Available = false;
         }
-
-        private string _value;
-        private bool _available;
-        private bool _checked;
-
-        public UserVisualSettings VisualSettings => Scenario?.VisualSettings;
-
-        public ScenarioInfo Scenario { get; private set; }
-        
+                
         public void RefreshWith(ScenarioInfo scenario)
         {
             var prevIcon1 = Icon1;
@@ -123,15 +131,6 @@ namespace LazuriteMobile.App.Switches
                 OnPropertyChanged(nameof(Icon2));
             }
         }
-
-        public bool AllowClick => !Scenario.OnlyGetValue && Scenario.IsAvailable;
-
-        public bool IsAvailable => Scenario.IsAvailable;
-
-        public string ScenarioName => Scenario?.Name;
-
-        public string[] AcceptedValues => Scenario.ValueType.AcceptedValues;
-
         public string ScenarioValue
         {
             get => _value;
@@ -154,15 +153,9 @@ namespace LazuriteMobile.App.Switches
             }
         }
 
-        public double Max
-        {
-            get =>  (Scenario.ValueType as FloatValueType)?.Max ?? 100;
-        }
+        public double Max => (Scenario.ValueType as FloatValueType)?.Max ?? 100;
 
-        public double Min
-        {
-            get =>  (Scenario.ValueType as FloatValueType)?.Min ?? 0;
-        }
+        public double Min => (Scenario.ValueType as FloatValueType)?.Min ?? 0;
 
         public bool Available
         {

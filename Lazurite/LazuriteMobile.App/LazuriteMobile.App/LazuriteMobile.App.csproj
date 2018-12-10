@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Switches\AutoSizeBehavior.cs" />
+    <Compile Include="Controls\IconView.cs" />
     <Compile Include="Controls\ItemViewFast.cs" />
     <Compile Include="Switches\Bases\SwitchIconView.cs" />
     <Compile Include="Switches\Bases\LabelValueView.cs" />
@@ -66,9 +66,6 @@
     <Compile Include="Common\ViewBox.cs" />
     <Compile Include="Controls\DialogView.xaml.cs">
       <DependentUpon>DialogView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\IconView.xaml.cs">
-      <DependentUpon>IconView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ISelectable.cs" />
     <Compile Include="Controls\ItemView.xaml.cs">
@@ -175,10 +172,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\DialogView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\IconView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
