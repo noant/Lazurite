@@ -2,6 +2,7 @@
 using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
+using Lazurite.Scenarios.ScenarioTypes;
 using Lazurite.Shared;
 using LazuriteUI.Windows.Controls;
 using System;
@@ -40,7 +41,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
 
                     var registeredScenarios = ScenariosRepository
                         .Scenarios
-                        .Where(x => registrationInfo.IsRegistered(x.Id))
+                        .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
                         .ToArray();
 
                     foreach (var scenario in registeredScenarios)

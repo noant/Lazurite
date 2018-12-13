@@ -107,7 +107,7 @@ namespace LazuriteUI.Windows.Main.Statistics
                             
                             var items = ScenariosRepository
                                 .Scenarios
-                                .Where(x => registrationInfo.IsRegistered(x.Id))
+                                .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
                                 .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource))
                                 .SelectMany(x => StatisticsManager.GetItems(x, dateSince, dateTo, SystemActionSource))
                                 .OrderByDescending(x => x.DateTime)

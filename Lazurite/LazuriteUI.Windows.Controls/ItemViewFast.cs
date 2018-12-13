@@ -74,7 +74,7 @@ namespace LazuriteUI.Windows.Controls
         }
 
         private Button button;
-        private Label label;
+        private TextBlock tblock;
 
         public ItemViewFast()
         {
@@ -100,8 +100,8 @@ namespace LazuriteUI.Windows.Controls
                     .Replace("\n", string.Empty)
                     .ToString().Replace("_", "__"); // Сrutch for "mnemonic key using"
                 if (textWidth > ActualWidth)
-                    label.Content = Text.Substring(0, (int)(ActualWidth / CharWidth) - 2) + "...";
-                else label.Content = Text;
+                    tblock.Text = Text.Substring(0, (int)(ActualWidth / CharWidth) - 2) + "...";
+                else tblock.Text = Text;
             }
         }
 
@@ -159,7 +159,7 @@ namespace LazuriteUI.Windows.Controls
 
             button.Template = EmptyButtonTemplate;
 
-            label = new Label()
+            tblock = new TextBlock()
             {
                 IsHitTestVisible = false,
                 Background = Brushes.Transparent,
@@ -169,7 +169,7 @@ namespace LazuriteUI.Windows.Controls
                 Foreground = Visual.Foreground,
                 FontSize = Visual.FontSize
             };
-            grid.Children.Add(label);
+            grid.Children.Add(tblock);
 
             var ellipse = new Ellipse();
             ellipse.Fill = Brushes.LightSlateGray;

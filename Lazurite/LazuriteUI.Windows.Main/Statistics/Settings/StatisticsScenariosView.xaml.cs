@@ -1,6 +1,7 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
+using Lazurite.Scenarios.ScenarioTypes;
 using LazuriteUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Settings
             var registrationInfo = StatisticsManager.GetRegistrationInfo(ScenariosRepository.Scenarios);
             foreach (var scenario in ScenariosRepository.Scenarios)
             {
-                var item = new StatisticsScenarioItemView(scenario, registrationInfo.IsRegistered(scenario.Id));
+                var item = new StatisticsScenarioItemView(scenario, registrationInfo.IsRegistered(scenario.Id) && (scenario.GetIsAvailable() || !(scenario is RemoteScenario)));
                 spItems.Children.Add(item);
             }
         }

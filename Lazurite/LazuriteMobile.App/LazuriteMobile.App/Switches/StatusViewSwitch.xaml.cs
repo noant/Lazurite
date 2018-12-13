@@ -93,6 +93,11 @@ namespace LazuriteMobile.App.Switches
             }
         }
 
+        private bool IsNeedShowSearchButton()
+        {
+            return _model.AcceptedValues.Length > 15;
+        }
+
         public StatusViewSwitch(SwitchScenarioModel scenarioModel) : this()
         {
             //megaCrutchCode
@@ -103,21 +108,29 @@ namespace LazuriteMobile.App.Switches
 
             _currentVal = _model.ScenarioValue;
 
-            listView.ItemsSource = GetItemsSource();
+            listView.ItemsSource = _model.AcceptedValues; // Crutch to allocate listView height
 
-            if (_model.AcceptedValues.Length > 10)
+            if (IsNeedShowSearchButton())
             {
                 tbSearch.Text = GetSearchCache(_model.Scenario.ScenarioId);
-                HandleSearch();
 
                 tbSearch.Completed += (o, e) => HandleSearch();
+
+                // HELL
+                bool initiateSearchHandled = false;
+                listView.SizeChanged += (o, e) => {
+                    if (!initiateSearchHandled)
+                    {
+                        initiateSearchHandled = true;
+                        if (!string.IsNullOrEmpty(tbSearch.Text))
+                            HandleSearch();
+                    }
+                };
 
                 btClearSearch.Click += (o, e) =>
                 {
                     tbSearch.Text = string.Empty;
-                    SetSearchCache(_model.Scenario.ScenarioId, string.Empty);
-                    btClearSearch.IsVisible = false;
-                    listView.ItemsSource = GetItemsSource();
+                    HandleSearch();
                 };
 
                 iconTitle.IsVisible = false;
@@ -204,6 +217,7 @@ namespace LazuriteMobile.App.Switches
         {
             SetSearchCache(_model.Scenario.ScenarioId, tbSearch.Text);
             btClearSearch.IsVisible = !string.IsNullOrEmpty(tbSearch.Text);
+
             listView.ItemsSource = GetItemsSource();
         }
 

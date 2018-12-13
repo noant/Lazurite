@@ -2,6 +2,7 @@
 using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
+using Lazurite.Scenarios.ScenarioTypes;
 using Lazurite.Shared;
 using LazuriteUI.Windows.Controls;
 using System;
@@ -42,7 +43,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
                 .GetRegistrationInfo(targetScenarios);
 
             targetScenarios = targetScenarios
-                .Where(x => registrationInfo.IsRegistered(x.Id))
+                .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
                 .ToArray();
 
             foreach (var scenario in targetScenarios)

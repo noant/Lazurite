@@ -17,6 +17,7 @@ using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
+using Lazurite.Scenarios.ScenarioTypes;
 using LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation;
 
 namespace LazuriteUI.Windows.Main.Statistics.Views
@@ -82,7 +83,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             var registrationInfo = StatisticsManager
                 .GetRegistrationInfo(selectedScenarios);
             var scenarios = selectedScenarios
-                    .Where(x => registrationInfo.IsRegistered(x.Id))
+                    .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
                     .ToArray();
             _infos = scenarios.Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource)).ToArray();
             NeedItems?.Invoke(new StatisticsFilter()
