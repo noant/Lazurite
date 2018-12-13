@@ -13,6 +13,8 @@ namespace LazuriteUI.Windows.Controls
     /// </summary>
     public partial class ItemViewFast : UserControl, ISelectable
     {
+        public const int CharWidth = 7;
+
         private static ControlTemplate EmptyButtonTemplate = new ControlTemplate(typeof(Button))
         {
             VisualTree = new FrameworkElementFactory(typeof(ContentPresenter))
@@ -29,9 +31,7 @@ namespace LazuriteUI.Windows.Controls
             {
                 PropertyChangedCallback = (o, e) =>
                 {
-                    var newVal = e.NewValue as string;
-                    newVal = newVal.ToString().Replace("_", "__"); // Сrutch for "mnemonic key using"
-                    ((ItemViewFast)o).tblock.Text = newVal;
+                    (o as ItemViewFast).ApplyText();
                 }
             });
             SelectableProperty = DependencyProperty.Register(nameof(Selectable), typeof(bool), typeof(ItemViewFast), new FrameworkPropertyMetadata()
@@ -74,7 +74,7 @@ namespace LazuriteUI.Windows.Controls
         }
 
         private Button button;
-        private TextBlock tblock;
+        private Label label;
 
         public ItemViewFast()
         {
@@ -86,9 +86,50 @@ namespace LazuriteUI.Windows.Controls
             {
                 if (VerticalAlignment == VerticalAlignment.Stretch)
                     Height = double.NaN;
-            };            
+                ApplyText();
+            };
         }
         
+        private void ApplyText()
+        {
+            if (Text != null && Text.Length != 0 && ActualWidth > 0 && ActualWidth > 0)
+            {
+                var textWidth = Text.Length * CharWidth;
+                var txt = Text
+                    .Replace("\r", string.Empty)
+                    .Replace("\n", string.Empty)
+                    .ToString().Replace("_", "__"); // Сrutch for "mnemonic key using"
+                if (textWidth > ActualWidth)
+                    label.Content = Text.Substring(0, (int)(ActualWidth / CharWidth) - 2) + "...";
+                else label.Content = Text;
+            }
+        }
+
+        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        {
+            if (oldParent is FrameworkElement p)
+                p.SizeChanged -= P_SizeChanged;
+            if (Parent is FrameworkElement p1)
+            {
+                p1.SizeChanged += P_SizeChanged;
+                if (!double.IsNaN(p1.ActualWidth) && p1.ActualWidth > 0)
+                {
+                    MaxWidth = p1.ActualWidth;
+                    ApplyText();
+                }
+            }
+        }
+
+        private void P_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var p = sender as FrameworkElement;
+            if (!double.IsNaN(p.ActualWidth) && p.ActualWidth > 0)
+            {
+                MaxWidth = p.ActualWidth;
+                ApplyText();
+            }
+        }
+
         private void InitializeComponent()
         {
             // Not xaml because i need inherit from this class
@@ -118,7 +159,7 @@ namespace LazuriteUI.Windows.Controls
 
             button.Template = EmptyButtonTemplate;
 
-            tblock = new TextBlock()
+            label = new Label()
             {
                 IsHitTestVisible = false,
                 Background = Brushes.Transparent,
@@ -128,7 +169,7 @@ namespace LazuriteUI.Windows.Controls
                 Foreground = Visual.Foreground,
                 FontSize = Visual.FontSize
             };
-            grid.Children.Add(tblock);
+            grid.Children.Add(label);
 
             var ellipse = new Ellipse();
             ellipse.Fill = Brushes.LightSlateGray;

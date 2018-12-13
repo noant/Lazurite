@@ -225,10 +225,10 @@ namespace Lazurite.MainDomain
         public virtual void SetCurrentValue(string value, ScenarioActionSource source)
         {
             SetCurrentValueNoEvents(value);
-            RaiseValueChangedEvents(source, false);
+            RaiseValueChangedEvents(source, false, value, _previousValue);
         }
 
-        public virtual void NotifyOnlyIntent(ScenarioActionSource source) => RaiseValueChangedEvents(source, true);
+        public virtual void NotifyOnlyIntent(ScenarioActionSource source, string value, string prevValue) => RaiseValueChangedEvents(source, true, value, prevValue);
 
         /// <summary>
         /// Set current value witout raising any events
@@ -506,7 +506,7 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Raise events when state changed
         /// </summary>
-        protected void RaiseValueChangedEvents(ScenarioActionSource source, bool onlyIntent)
+        protected void RaiseValueChangedEvents(ScenarioActionSource source, bool onlyIntent, string value, string prevValue)
         {
             LastChange = DateTime.Now.ToUniversalTime();
             for (int i = 0; i < _valueChangedEvents.Count; i++)
@@ -514,7 +514,7 @@ namespace Lazurite.MainDomain
                 try
                 {
                     _valueChangedEvents[i](this, 
-                        new EventsArgs<ScenarioValueChangedEventArgs>(new ScenarioValueChangedEventArgs(this, onlyIntent, source)));
+                        new EventsArgs<ScenarioValueChangedEventArgs>(new ScenarioValueChangedEventArgs(this, onlyIntent, source, value, prevValue)));
                 }
                 catch(Exception e)
                 {

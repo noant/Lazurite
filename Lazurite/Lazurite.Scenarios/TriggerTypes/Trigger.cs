@@ -114,15 +114,18 @@ namespace Lazurite.Scenarios.TriggerTypes
                     }
                     else
                     {
-                        var action = TargetAction;
-                        var outputChanged = new OutputChangedDelegates();
-                        outputChanged.Add((value) => GetScenario().SetCurrentValue(value, ExecuteActionSource));
-                        contexCancellationTokenSource.Cancel();
-                        contexCancellationTokenSource = new CancellationTokenSource();
-                        var executionContext = new ExecutionContext(this, args.Value.Scenario.GetCurrentValue(), args.Value.Scenario.GetPreviousValue(), outputChanged, contexCancellationTokenSource);
-                        TaskUtils.StartLongRunning(
-                            () => action.SetValue(executionContext, string.Empty),
-                            (exception) => Log.ErrorFormat(exception, "Ошибка выполнения триггера [{0}][{1}]", Name, Id));
+                        if (!args.Value.OnlyIntent)
+                        {
+                            var action = TargetAction;
+                            var outputChanged = new OutputChangedDelegates();
+                            outputChanged.Add((value) => GetScenario().SetCurrentValue(value, ExecuteActionSource));
+                            contexCancellationTokenSource.Cancel();
+                            contexCancellationTokenSource = new CancellationTokenSource();
+                            var executionContext = new ExecutionContext(this, args.Value.Value, args.Value.PreviousValue, outputChanged, contexCancellationTokenSource);
+                            TaskUtils.StartLongRunning(
+                                () => action.SetValue(executionContext, string.Empty),
+                                (exception) => Log.ErrorFormat(exception, "Ошибка выполнения триггера [{0}][{1}]", Name, Id));
+                        }
                     }
                 };
                 GetScenario().SetOnStateChanged(_lastSubscribe);

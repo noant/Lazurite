@@ -1,5 +1,6 @@
 ﻿using LazuriteUI.Windows.Controls;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -13,6 +14,7 @@ namespace LazuriteUI.Windows.Main.Switches
     public partial class StatusViewSwitch : UserControl
     {
         private Timer _timer;
+        private static Dictionary<string, string> SearchCache = new Dictionary<string, string>();
 
         public StatusViewSwitch()
         {
@@ -24,8 +26,10 @@ namespace LazuriteUI.Windows.Main.Switches
             DataContext = scenarioModel;
 
             BeginInit();
-
+            
+#if !DEBUG
             spSearch.Visibility = scenarioModel.AcceptedValues.Length > 150 ? Visibility.Visible : Visibility.Collapsed;
+#endif
 
             tbScenarioName.Text = scenarioModel.ScenarioName;
             ItemViewFast toSelect = null;
@@ -38,6 +42,11 @@ namespace LazuriteUI.Windows.Main.Switches
                     toSelect = itemView;
                 listItemsStates.Children.Add(itemView);
             }
+
+            tbSearch.Text = GetSearchCache(scenarioModel.Scenario.Id);
+
+            if (!string.IsNullOrEmpty(tbSearch.Text))
+                ShowSearchResult();
 
             Loaded += (o, e) =>
             {
@@ -60,20 +69,44 @@ namespace LazuriteUI.Windows.Main.Switches
 
             tbSearch.TextChanged += (o, e) => {
                 _timer?.Dispose();
+                SetSearchCache(scenarioModel.Scenario.Id, tbSearch.Text);
                 _timer = new Timer((s) => {
                     _timer = null;
-                    Dispatcher.BeginInvoke(new Action(() => {
-                        var text = tbSearch.Text.ToLowerInvariant().Trim();
-                        foreach (ItemViewFast itemView in listItemsStates.Children)
-                            itemView.Visibility =
-                            string.IsNullOrEmpty(text) || itemView.Text.Contains(text) ?
-                            Visibility.Visible :
-                            Visibility.Collapsed;
-                    }));
+                    Dispatcher.BeginInvoke(new Action(ShowSearchResult));
                 }, null, 600, Timeout.Infinite);
             };
 
             EndInit();
+        }
+
+        private void ShowSearchResult()
+        {
+            var text = 
+                GetSearchCache((DataContext as ScenarioModel).Scenario.Id)
+                .ToLowerInvariant()
+                .Trim();
+            foreach (ItemViewFast itemView in listItemsStates.Children)
+                itemView.Visibility =
+                string.IsNullOrEmpty(text) ||
+                itemView.Text.ToLowerInvariant().Contains(text) ?
+                Visibility.Visible :
+                Visibility.Collapsed;
+        }
+
+        private static string GetSearchCache(string scenarioId)
+        {
+            if (SearchCache.ContainsKey(scenarioId))
+                return SearchCache[scenarioId] ?? string.Empty;
+            else
+                return string.Empty;
+        }
+
+        private static void SetSearchCache(string scenarioId, string searchString)
+        {
+            if (SearchCache.ContainsKey(scenarioId))
+                SearchCache[scenarioId] = searchString;
+            else
+                SearchCache.Add(scenarioId, searchString);
         }
 
         public event Action<object, RoutedEventArgs> StateChanged; 

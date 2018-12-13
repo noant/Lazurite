@@ -16,12 +16,13 @@ namespace LazuriteMobile.App.Switches
     {
         private static readonly int FloatView_ValueUpdateInterval = GlobalSettings.Get(300);
         private static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
-        
+        private static Dictionary<string, string> SearchCache = new Dictionary<string, string>();
+
         private IHardwareVolumeChanger _changer;
         private SwitchScenarioModel _model;
         private string _currentVal;
-        private ItemView _prevItem;
-        private Dictionary<string, ItemView> _visibleItems = new Dictionary<string, ItemView>();
+        private ItemViewFast _prevItem;
+        private Dictionary<string, ItemViewFast> _visibleItems = new Dictionary<string, ItemViewFast>();
 
         public StatusViewSwitch()
         {
@@ -43,6 +44,22 @@ namespace LazuriteMobile.App.Switches
                 _changer.VolumeDown += _changer_VolumeChanged;
                 _changer.VolumeUp += _changer_VolumeChanged;
             }
+        }
+
+        private static string GetSearchCache(string scenarioId)
+        {
+            if (SearchCache.ContainsKey(scenarioId))
+                return SearchCache[scenarioId] ?? string.Empty;
+            else
+                return string.Empty;
+        }
+
+        private static void SetSearchCache(string scenarioId, string searchString)
+        {
+            if (SearchCache.ContainsKey(scenarioId))
+                SearchCache[scenarioId] = searchString;
+            else
+                SearchCache.Add(scenarioId, searchString);
         }
 
         private void _changer_VolumeChanged(object sender, EventsArgs<int> args)
@@ -90,14 +107,15 @@ namespace LazuriteMobile.App.Switches
 
             if (_model.AcceptedValues.Length > 10)
             {
-                tbSearch.Completed += (o, e) =>
-                {
-                    btClearSearch.IsVisible = !string.IsNullOrEmpty(tbSearch.Text);
-                    listView.ItemsSource = GetItemsSource();
-                };
+                tbSearch.Text = GetSearchCache(_model.Scenario.ScenarioId);
+                HandleSearch();
+
+                tbSearch.Completed += (o, e) => HandleSearch();
+
                 btClearSearch.Click += (o, e) =>
                 {
                     tbSearch.Text = string.Empty;
+                    SetSearchCache(_model.Scenario.ScenarioId, string.Empty);
                     btClearSearch.IsVisible = false;
                     listView.ItemsSource = GetItemsSource();
                 };
@@ -115,9 +133,8 @@ namespace LazuriteMobile.App.Switches
             // Если мапить строки, то размер нормальный.
 
             listView.ItemTemplate = new DataTemplate(() => {
-                var itemView = new ItemView();
-                itemView.SetBinding(ItemView.TextProperty, ".");
-                itemView.Icon = LazuriteUI.Icons.Icon.ChevronRight;
+                var itemView = new ItemViewFast();
+                itemView.SetBinding(ItemViewFast.TextProperty, ".");
                 itemView.Selectable = true;
                 itemView.StrokeVisibilityClick = true;
 
@@ -169,7 +186,7 @@ namespace LazuriteMobile.App.Switches
 
         private void _model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (_currentVal != _model.ScenarioValue)
+            if (e.PropertyName == nameof(_model.ScenarioValue) && _currentVal != _model.ScenarioValue)
             {
                 _currentVal = _model.ScenarioValue;
                 ScrollTo(_currentVal);
@@ -183,9 +200,16 @@ namespace LazuriteMobile.App.Switches
             listView.ScrollTo(val, ScrollToPosition.Center, false);
         }
 
+        private void HandleSearch()
+        {
+            SetSearchCache(_model.Scenario.ScenarioId, tbSearch.Text);
+            btClearSearch.IsVisible = !string.IsNullOrEmpty(tbSearch.Text);
+            listView.ItemsSource = GetItemsSource();
+        }
+
         private string[] GetItemsSource()
         {
-            var searchText = tbSearch.Text?.Trim().ToLowerInvariant();
+            var searchText = GetSearchCache(_model.Scenario.ScenarioId).Trim().ToLowerInvariant();
 
             if (string.IsNullOrEmpty(searchText))
                 return _model.AcceptedValues;
@@ -205,7 +229,7 @@ namespace LazuriteMobile.App.Switches
 
         private void RaiseSelect(string value, ItemView.ClickSource source)
         {
-            _currentVal = _model.ScenarioValue = value;
+            _model.ScenarioValue  = _currentVal = value;
             StateChanged?.Invoke(this, new EventsArgs<ItemView.ClickSource>(source));
         }
 

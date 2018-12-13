@@ -25,6 +25,8 @@ namespace LazuriteMobile.App
             Singleton.Clear<INotificationsHandler>();
             Singleton.Add((INotificationsHandler)this);
 
+            iconAnimation.StartAnimate();
+
             tabsView.AddTabInfo(new SliderTabsView.TabInfo(connectionSettingsSlider, LazuriteUI.Icons.Icon.Settings));
             tabsView.AddTabInfo(new SliderTabsView.TabInfo(messagesSlider, LazuriteUI.Icons.Icon.EmailMinimal));
             _supportsResume.StateChanged = (sender, currentState, previousState) =>
@@ -165,7 +167,7 @@ namespace LazuriteMobile.App
         {
             Invoke(() => {
                 connectionSettingsSlider.Show();
-                ShowCaption("Необходим ввод логина/пароля", false, false);
+                ShowCaption("Необходим ввод логина/пароля", true, false);
             });
         }
 
@@ -214,19 +216,28 @@ namespace LazuriteMobile.App
         public void HideCaption()
         {
             gridCaption.IsVisible = false;
+            iconAnimation.StopAnimate();
             lblCaption.Text = string.Empty;
             settingsView.SetErrorMessage(string.Empty);
         }
 
-        public void ShowCaption(string text, bool error = false, bool show = true)
+        public void ShowCaption(string text = "", bool error = false, bool showLoadingGrid = true)
         {
             //close dialogviews
             DialogView.CloseLast();
 
-            if (show)
+            if (showLoadingGrid)
+            {
                 gridCaption.IsVisible = true;
-            lblCaption.Text = text;
-            lblCaption.TextColor = error ? Visual.Foreground : Visual.CaptionForeground;
+                if (!error)
+                    iconAnimation.StartAnimate();
+                else
+                    iconAnimation.StopAnimate();
+            }
+
+            if (error)
+                lblCaption.Text = text;
+
             settingsView.SetErrorMessage(text);
         }
 

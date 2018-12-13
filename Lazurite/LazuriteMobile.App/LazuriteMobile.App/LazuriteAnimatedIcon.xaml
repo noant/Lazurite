@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+             x:Class="LazuriteMobile.App.LazuriteAnimatedIcon"
+             BackgroundColor="Transparent">
+    <controls:IconView x:Name="icon1" Icon="Lazurite256"></controls:IconView>
+    <controls:IconView x:Name="icon2" Icon="Lazurite256_reflected" Opacity="0"></controls:IconView>
+</Grid>

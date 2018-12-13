@@ -10,12 +10,15 @@ namespace LazuriteMobile.App.Controls
 {
     public class ItemViewFast: Grid, ISelectable
     {
+        public const int CharWidth = 9;
+
         public static readonly BindableProperty SelectedProperty;
         public static readonly BindableProperty SelectableProperty;
         public static readonly BindableProperty StrokeVisibleProperty;
         public static readonly BindableProperty TextProperty;
 
         public event EventsHandler<object> SelectionChanged;
+        public event EventsHandler<object> Click;
 
         static ItemViewFast()
         {
@@ -45,12 +48,13 @@ namespace LazuriteMobile.App.Controls
                 });
             TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(ItemViewFast), "itemView", BindingMode.OneWay, null,
                  (sender, oldVal, newVal) => {
-                     (sender as ItemViewFast).button.Text = (string)newVal;
+                     (sender as ItemViewFast).ApplyText();
                  });
         }
 
         private Grid line;
         private Button button;
+        private Label label;
 
         public ItemViewFast()
         {
@@ -62,8 +66,42 @@ namespace LazuriteMobile.App.Controls
             button.BackgroundColor = Color.Transparent;
             button.FontSize = Visual.FontSize;
             button.TextColor = Visual.Foreground;
+            button.Clicked += Button_Clicked;
+
+            var round = new Label();
+            round.Text = "•";
+            round.FontSize = 33;
+            round.TextColor = Color.LightSlateGray;
+            round.VerticalTextAlignment = TextAlignment.Center;
+            round.HorizontalOptions = new LayoutOptions(LayoutAlignment.Start, false);
+            round.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, true);
+            round.InputTransparent = true;
+            round.Margin = new Thickness(8,-4,0,0);
+
+            label = new Label();
+            label.TextColor = Color.WhiteSmoke;
+            label.VerticalTextAlignment = TextAlignment.Center;
+            label.HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, false);
+            label.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);
+            label.InputTransparent = true;
 
             Children.Add(button);
+            Children.Add(label);
+            Children.Add(round);
+
+            SizeChanged += (o, e) => ApplyText();
+        }
+        
+        private void ApplyText()
+        {
+            if (Text != null && Text.Length != 0 && Width > 0 && Height > 0)
+            {
+                var textWidth = Text.Length * CharWidth;
+                var txt = Text.Replace("\r", string.Empty).Replace("\n", string.Empty);
+                if (textWidth > Width)
+                    label.Text = Text.Substring(0, (int)(Width / CharWidth) - 2) + "...";
+                else label.Text = Text;
+            }
         }
         
         private void ShowStroke()
@@ -92,7 +130,25 @@ namespace LazuriteMobile.App.Controls
         {
             await Task.Delay(1000);
             if (StrokeVisible && !Selected)
+            {
                 Selected = true;
+                StrokeVisible = false;
+                if (StrokeVisibilityClick)
+                    Click?.Invoke(this, new EventsArgs<object>(ItemView.ClickSource.UnderscoreWaiting));
+            }
+        }
+
+        async private void Button_Clicked(object sender, EventArgs e)
+        {
+            if (button.IsEnabled)
+            {
+                var view = this;
+                await view.ScaleTo(0.85, 50, Easing.CubicIn);
+                await view.ScaleTo(1, 50, Easing.CubicOut);
+                if (Selectable)
+                    Selected = !Selected;
+                Click?.Invoke(this, new EventsArgs<object>(ItemView.ClickSource.Tap));
+            }
         }
 
         private void RaiseSelectionChanged()
@@ -147,5 +203,7 @@ namespace LazuriteMobile.App.Controls
                 SetValue(TextProperty, value);
             }
         }
+
+        public bool StrokeVisibilityClick { get; set; } = false;
     }
 }

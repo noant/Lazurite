@@ -37,6 +37,9 @@
   <ItemGroup>
     <Compile Include="Controls\IconView.cs" />
     <Compile Include="Controls\ItemViewFast.cs" />
+    <Compile Include="LazuriteAnimatedIcon.xaml.cs">
+      <DependentUpon>LazuriteAnimatedIcon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Switches\Bases\SwitchIconView.cs" />
     <Compile Include="Switches\Bases\LabelValueView.cs" />
     <Compile Include="Switches\Bases\LabelCaptionView.cs" />
@@ -405,6 +408,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Switches\FloatViewManualSwitch.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LazuriteAnimatedIcon.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

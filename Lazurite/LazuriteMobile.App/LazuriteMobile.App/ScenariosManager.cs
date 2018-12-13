@@ -136,6 +136,7 @@ namespace LazuriteMobile.App
                     success = false;
                 }
             }
+
             if (cancellationToken.IsCancellationRequested)
                 return false;
             return success;

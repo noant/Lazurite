@@ -1266,6 +1266,7 @@
         Lazurite32,
         Lazurite16,
         Off,
-        ButtonOn
+        ButtonOn,
+        Lazurite256_reflected,
     }
 }

@@ -55,7 +55,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     if (!ActionHolder.Action.IsSupportsEvent)
                         SetCurrentValue(param, source);
                     else
-                        NotifyOnlyIntent(source);
+                        NotifyOnlyIntent(source, param, GetPreviousValue());
                     ExecuteInternal(context);
                 });
             }
@@ -79,7 +79,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                     if (!ActionHolder.Action.IsSupportsEvent) 
                         SetCurrentValue(param, source);
                     else
-                        NotifyOnlyIntent(source);
+                        NotifyOnlyIntent(source, param, GetPreviousValue());
                     ExecuteInternal(context);
                 });
             },

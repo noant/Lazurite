@@ -46,7 +46,10 @@ namespace UserGeolocationPluginMain
         public ValueTypeBase ValueType
         {
             get; set;
-        } = new FloatValueType() { AcceptedValues = new[] { 0.0.ToString(), UserGeolocationPlugin.Utils.EquatorLength.ToString() } };
+        } = new FloatValueType() {
+            AcceptedValues = new[] { 0.0.ToString(), UserGeolocationPlugin.Utils.EquatorLength.ToString() },
+            Unit = "м"
+        };
 
         public bool IsSupportsEvent => false;
 
@@ -84,9 +87,9 @@ namespace UserGeolocationPluginMain
             window.SelectedPlace = PlacesManager.Current.Places.FirstOrDefault(x => x.Name.Equals(this.PlaceName));
             if (window.ShowDialog() ?? false)
             {
-                this.DeviceId = window.SelectedDevice;
-                this.UserId = window.SelectedUser.Id;
-                this.PlaceName = window.SelectedPlace.Name;
+                DeviceId = window.SelectedDevice;
+                UserId = window.SelectedUser.Id;
+                PlaceName = window.SelectedPlace.Name;
                 return true;
             }
             else return false;
