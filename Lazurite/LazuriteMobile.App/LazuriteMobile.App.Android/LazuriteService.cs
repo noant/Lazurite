@@ -7,7 +7,6 @@ using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
-using LazuriteMobile.Android.ServiceClient;
 using LazuriteMobile.MainDomain;
 using System;
 using System.Threading;
@@ -58,7 +57,7 @@ namespace LazuriteMobile.App.Droid
         public override void OnCreate()
         {
             base.OnCreate();
-            PowerManager pmanager = (PowerManager)GetSystemService(Context.PowerService);
+            var pmanager = (PowerManager)GetSystemService(PowerService);
             _wakelock = pmanager.NewWakeLock(WakeLockFlags.Partial, "servicewakelock");
             _wakelock.SetReferenceCounted(false);
         }
@@ -76,6 +75,7 @@ namespace LazuriteMobile.App.Droid
                 _manager = new ScenariosManager();
                 _messenger = new Messenger(_inHandler);
                 _inHandler.HasCome += InHandler_HasCome;
+                                
                 _manager.ConnectionLost += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionLost));
                 _manager.ConnectionRestored += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionRestored));
                 _manager.LoginOrPasswordInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.CredentialsInvalid));
@@ -124,7 +124,7 @@ namespace LazuriteMobile.App.Droid
             }
             return StartCommandResult.Sticky;
         }
-
+        
         private void ReInitTimer()
         {
             _timerCancellationToken?.Cancel();

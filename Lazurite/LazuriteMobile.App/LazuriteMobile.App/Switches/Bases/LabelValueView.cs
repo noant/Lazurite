@@ -17,12 +17,12 @@ namespace LazuriteMobile.App.Switches.Bases
 
         public void InitializeComponent()
         {
-            TextColor = Visual.CaptionForeground;
+            TextColor = Controls.Visual.CaptionForeground;
             VerticalOptions = new LayoutOptions(LayoutAlignment.End, true);
             HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, true);
             InputTransparent = true;
             FontSize = 11;
-            FontFamily = Visual.FontFamily;
+            FontFamily = Controls.Visual.FontFamily;
         }
     }
 }

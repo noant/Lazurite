@@ -11,7 +11,7 @@ namespace LazuriteMobile.App
     {
         private static object Locker = new object();
 
-        private static readonly int MaxX = 3;
+        private static int MaxX = 3;
         private static readonly int ElementWidth = 110;
         private static readonly int ElementHeight = 85;
         private static readonly int ElementMargin = 2;
@@ -21,6 +21,9 @@ namespace LazuriteMobile.App
             InitializeComponent();
             ScenariosEmptyModeOff();
             grid.Margin = new Thickness(0, 0, ElementMargin, 40);
+
+            if (Device.Idiom != TargetIdiom.Phone)
+                MaxX = 5;
         }
          
         private ScenarioInfo[] GetCurrentScenarios()

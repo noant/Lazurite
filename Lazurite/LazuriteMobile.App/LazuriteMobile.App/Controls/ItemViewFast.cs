@@ -31,7 +31,7 @@ namespace LazuriteMobile.App.Controls
             SelectedProperty = BindableProperty.Create(nameof(SelectedProperty), typeof(bool), typeof(ItemViewFast), false, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) =>
                 {
-                    ((ItemViewFast)sender).BackgroundColor = (bool)newVal ? Visual.ItemSelection : Visual.ItemBackground;
+                    ((ItemViewFast)sender).BackgroundColor = (bool)newVal ? Controls.Visual.ItemSelection : Controls.Visual.ItemBackground;
                     ((ItemViewFast)sender).RaiseSelectionChanged();
                 });
             StrokeVisibleProperty = BindableProperty.Create(nameof(StrokeVisible), typeof(bool), typeof(ItemViewFast), false, BindingMode.OneWay, null,
@@ -55,17 +55,18 @@ namespace LazuriteMobile.App.Controls
         private Grid line;
         private Button button;
         private Label label;
+        private bool _lockClick = false;
 
         public ItemViewFast()
         {
-            BackgroundColor = Visual.ItemBackground;
+            BackgroundColor = Controls.Visual.ItemBackground;
 
             button = new Button();
             button.BorderWidth = 0;
             button.BorderColor = Color.Transparent;
             button.BackgroundColor = Color.Transparent;
-            button.FontSize = Visual.FontSize;
-            button.TextColor = Visual.Foreground;
+            button.FontSize = Controls.Visual.FontSize;
+            button.TextColor = Controls.Visual.Foreground;
             button.Clicked += Button_Clicked;
 
             var round = new Label();
@@ -140,11 +141,13 @@ namespace LazuriteMobile.App.Controls
 
         async private void Button_Clicked(object sender, EventArgs e)
         {
-            if (button.IsEnabled)
+            if (!_lockClick && button.IsEnabled)
             {
+                _lockClick = true;
                 var view = this;
-                await view.ScaleTo(0.85, 50, Easing.CubicIn);
-                await view.ScaleTo(1, 50, Easing.CubicOut);
+                await view.ScaleTo(0.85, 50, Easing.CubicIn)
+                    .ContinueWith((o) => view.ScaleTo(1, 50, Easing.CubicOut));
+                _lockClick = false;
                 if (Selectable)
                     Selected = !Selected;
                 Click?.Invoke(this, new EventsArgs<object>(ItemView.ClickSource.Tap));

@@ -1,0 +1,46 @@
+﻿<Window x:Class="MediaHost.LazuritePlugin.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:laz="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
+        xmlns:local="clr-namespace:MediaHost.LazuritePlugin"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        Background="{x:Static laz:Visual.BackgroundLazurite}"
+        mc:Ignorable="d"
+        Title="Мультимедиа" Height="450" Width="900">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <laz:CaptionView Icon="TvNews">Выбор объекта для управления мультимедиа</laz:CaptionView>
+        <TextBlock Grid.Row="1" Margin="60,10,60,10" TextWrapping="Wrap" Foreground="{x:Static laz:Visual.CaptionForeground}" HorizontalAlignment="Center">
+            <system:String xml:space="preserve">       Выберите объект для управления мультимедиа и один из его управляемых параметров, например "Переключить канал" или "Загрузить плейлист".</system:String>
+            <LineBreak/>
+            <LineBreak/>
+            <system:String xml:space="preserve">       Данный плагин позволяет выводить изображение с карт захвата AverMedia</system:String> (SDK Edition, 
+            <Hyperlink NavigateUri="https://www.avermedia.com/professional#">
+                https://www.avermedia.com/professional#
+            </Hyperlink>), поэтому для работы требуется установка драйверов карты захвата. 
+            Скачать их можно на сайте 
+            <Hyperlink NavigateUri="https://www.avermedia.com/professional#">AverMedia</Hyperlink>, выбрав свою модель карты.
+            <LineBreak/>
+            <LineBreak/>
+            <system:String xml:space="preserve">       Для вывода IPTV потоков необходимо загрузить плейлист (находится в одном из действий, которые можно выбрать ниже). Так как вопроизведение видеопотока IPTV построено на базе VLC, то для работы плагина требуется установленная версия x86 VLC плеера. Скачать можно здесь: </system:String> 
+            <Hyperlink NavigateUri="https://www.avermedia.com/professional#">
+                https://www.videolan.org/vlc
+            </Hyperlink>. Плагин работает только с 32-битной версией.
+        </TextBlock>
+        <!--<TextBlock Margin="10" Grid.Row="2" HorizontalAlignment="Center" Foreground="Gray" FontSize="17">Объект и команда не выбраны</TextBlock>-->
+        <laz:ComboItemsView Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="100,0,100,0" x:Name="cbCommands"></laz:ComboItemsView>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+            <laz:ItemView x:Name="btOk" Width="150" Icon="Check" Margin="0,0,10,0">Применить</laz:ItemView>
+            <laz:ItemView x:Name="btCancel" Width="150" Icon="Cancel">Отмена</laz:ItemView>
+        </StackPanel>
+        <Grid x:Name="gridHost" Grid.RowSpan="5"></Grid>
+    </Grid>
+</Window>

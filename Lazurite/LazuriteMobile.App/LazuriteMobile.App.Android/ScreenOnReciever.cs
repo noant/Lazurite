@@ -16,7 +16,7 @@ namespace LazuriteMobile.App.Droid
             if (Singleton.Any<LazuriteContext>())
             {
                 var scenariosManager = Singleton.Resolve<LazuriteContext>().Manager;
-                scenariosManager.ScreenOnActions();
+                scenariosManager?.ScreenOnActions(); // В старых версиях андройда это свойство может быть не инициализировано при разблокировке экрана
             }
         }
     }

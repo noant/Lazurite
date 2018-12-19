@@ -127,7 +127,7 @@ namespace Lazurite.MainDomain
         {
             _isAvailable = value;
             RaiseAvailabilityChangedEvents();
-            LastChange = DateTime.Now.ToUniversalTime();
+            LastChange = DateTime.Now;
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Time when CurrentValue was changed last time
         /// </summary>
-        public virtual DateTime LastChange { get; protected set; } = DateTime.Now.ToUniversalTime();
+        public virtual DateTime LastChange { get; protected set; } = DateTime.Now;
 
         /// <summary>
         /// Current value of scenario execution
@@ -508,7 +508,7 @@ namespace Lazurite.MainDomain
         /// </summary>
         protected void RaiseValueChangedEvents(ScenarioActionSource source, bool onlyIntent, string value, string prevValue)
         {
-            LastChange = DateTime.Now.ToUniversalTime();
+            LastChange = DateTime.Now;
             for (int i = 0; i < _valueChangedEvents.Count; i++)
             {
                 try

@@ -23,27 +23,33 @@
                 <ColumnDefinition Width="120"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            
-            <controls:IconView Margin="0,0,-35,0" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="0" Grid.Column="0" Icon="Lazurite64" HeightRequest="50" WidthRequest="50"></controls:IconView>
-            <Label FontFamily="{Static controls:Visual.FontFamily}" Grid.Row="0" Margin="35,0,0,0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Text="Lazurite" TextColor="{Static controls:Visual.CaptionForeground}" FontSize="Large"></Label>
 
+            <Grid Grid.ColumnSpan="2" HorizontalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <controls:IconView HorizontalOptions="End" VerticalOptions="Center" Grid.Column="0" Icon="Lazurite64" HeightRequest="80" WidthRequest="80"></controls:IconView>
+                <Label FontFamily="{Static controls:Visual.FontFamily}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Text="Lazurite" TextColor="{Static controls:Visual.CaptionForeground}" FontSize="Large"></Label>
+            </Grid>
+            
             <Label FontFamily="{Static controls:Visual.FontFamily}" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="End" Grid.Row="1" Grid.Column="0" Text="Хост"></Label>
-            <Entry FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" Margin="0,0,0,-2" TextColor="White" Grid.Row="1" Grid.Column="1" x:Name="tbHost"></Entry>
+            <Entry VerticalOptions="End" FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" TextColor="White" Grid.Row="1" Grid.Column="1" x:Name="tbHost"></Entry>
 
             <Label FontFamily="{Static controls:Visual.FontFamily}" TextColor="Gray" VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="2" Grid.Column="0" Text="Порт"></Label>
-            <common:NumericEntry FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" Margin="0,0,0,-2" TextColor="White" Grid.Row="2" Grid.Column="1" Min="1" Max="65536" Value="8080" x:Name="numPort"></common:NumericEntry>
+            <common:NumericEntry VerticalOptions="End" FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" TextColor="White" Grid.Row="2" Grid.Column="1" Min="1" Max="65536" Value="8080" x:Name="numPort"></common:NumericEntry>
 
             <Label FontFamily="{Static controls:Visual.FontFamily}" TextColor="Gray" VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="3" Grid.Column="0" Text="Имя сервиса"></Label>
-            <Entry FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" Margin="0,0,0,-2" TextColor="White" Grid.Row="3" Grid.Column="1" x:Name="tbService" Text="Lazurite"></Entry>
+            <Entry VerticalOptions="End" FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" TextColor="White" Grid.Row="3" Grid.Column="1" x:Name="tbService" Text="Lazurite"></Entry>
 
             <Label FontFamily="{Static controls:Visual.FontFamily}" TextColor="Gray" VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="4" Grid.Column="0" Text="Секретный ключ"></Label>
-            <Entry FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" Margin="0,0,0,-2" TextColor="White" IsPassword="True" Grid.Row="4" Grid.Column="1" x:Name="tbSecretCode"></Entry>
+            <Entry VerticalOptions="End" FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" TextColor="White" IsPassword="True" Grid.Row="4" Grid.Column="1" x:Name="tbSecretCode"></Entry>
 
             <Label FontFamily="{Static controls:Visual.FontFamily}" TextColor="{Static controls:Visual.CaptionForeground}" VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="5" Grid.Column="0" Text="Логин"></Label>
-            <Entry FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" Margin="0,0,0,-2" TextColor="White" Grid.Row="5" Grid.Column="1" x:Name="tbLogin"></Entry>
+            <Entry VerticalOptions="End" FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" TextColor="White" Grid.Row="5" Grid.Column="1" x:Name="tbLogin"></Entry>
 
             <Label FontFamily="{Static controls:Visual.FontFamily}" TextColor="{Static controls:Visual.CaptionForeground}" VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="6" Grid.Column="0" Text="Пароль"></Label>
-            <Entry FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" Margin="0,0,0,-2" TextColor="White" IsPassword="True" Grid.Row="6" Grid.Column="1" x:Name="tbPassword"></Entry>
+            <Entry VerticalOptions="End" FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" TextColor="White" IsPassword="True" Grid.Row="6" Grid.Column="1" x:Name="tbPassword"></Entry>
 
             <controls:ItemView HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="250" HeightRequest="40" x:Name="itemView" Click="itemView_Click" Grid.Row="7" Grid.ColumnSpan="2" Icon="ChevronRight" Selectable="False" Text="Подключиться"></controls:ItemView>
             <Label FontFamily="{Static controls:Visual.FontFamily}" HorizontalTextAlignment="Center" Grid.Row="8" Grid.ColumnSpan="2" TextColor="Olive" VerticalOptions="Center" HorizontalOptions="Center" x:Name="lblErrorMessage"></Label>

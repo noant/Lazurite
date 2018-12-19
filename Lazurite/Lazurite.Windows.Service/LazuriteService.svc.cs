@@ -134,6 +134,34 @@ namespace Lazurite.Windows.Service
             return scenario;
         }
 
+        private ScenarioInfoLW[] GetChangedScenariosInternal(DateTime since, UserBase user)
+        {
+            var scenarioActionSource = new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue);
+            return ScenariosRepository
+                .Scenarios
+                .Where(x => x.LastChange >= since)
+                .Select(x =>
+                {
+                    bool isAvailable = true;
+                    var curVal = string.Empty;
+                    try
+                    {
+                        curVal = x.CalculateCurrentValue(scenarioActionSource, null);
+                    }
+                    catch
+                    {
+                        isAvailable = false;
+                        curVal = x.ValueType.DefaultValue;
+                    }
+                    return new ScenarioInfoLW()
+                    {
+                        IsAvailable = isAvailable && x.GetIsAvailable(),
+                        CurrentValue = curVal,
+                        ScenarioId = x.Id
+                    };
+                }).ToArray();
+        }
+
         private ScenarioBase GetScenario(string scenarioId)
         {
             var scenario = ScenariosRepository
@@ -182,7 +210,7 @@ namespace Lazurite.Windows.Service
             });
         }
 
-        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public void ExecuteScenario(Encrypted<string> scenarioId, Encrypted<string> value)
         {
             Handle((user) =>
@@ -193,7 +221,7 @@ namespace Lazurite.Windows.Service
             });
         }
 
-        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public void AsyncExecuteScenario(Encrypted<string> scenarioId, Encrypted<string> value)
         {
             Handle((user) =>
@@ -215,38 +243,19 @@ namespace Lazurite.Windows.Service
             });
         }
 
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public EncryptedList<ScenarioInfoLW> GetChangedScenarios(SafeDateTime since)
+        {
+            return Handle((user) => new EncryptedList<ScenarioInfoLW>(GetChangedScenariosInternal(since.ToDateTime(), user), _secretKey));
+        }
+
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public EncryptedList<ScenarioInfoLW> GetChangedScenarios(DateTime since)
         {
-            return Handle((user) =>
-            {
-                since = since.ToUniversalTime();
-                var scenarioActionSource = new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue);
-                return new EncryptedList<ScenarioInfoLW>(ScenariosRepository
-                    .Scenarios
-                    .Where(x => x.LastChange >= since)
-                    .Select(x =>
-                    {
-                        bool isAvailable = true;
-                        var curVal = string.Empty;
-                        try
-                        {
-                            curVal = x.CalculateCurrentValue(scenarioActionSource, null);
-                        }
-                        catch
-                        {
-                            isAvailable = false;
-                            curVal = x.ValueType.DefaultValue;
-                        }
-                        return new ScenarioInfoLW()
-                        {
-                            IsAvailable = isAvailable && x.GetIsAvailable(),
-                            CurrentValue = curVal,
-                            ScenarioId = x.Id
-                        };
-                    }), _secretKey);
-            });
+            return Handle((user) => new EncryptedList<ScenarioInfoLW>(GetChangedScenariosInternal(since, user), _secretKey));
         }
-        
+
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public Encrypted<ScenarioInfo> GetScenarioInfo(Encrypted<string> scenarioId)
         {
             return Handle((user) =>
@@ -258,6 +267,7 @@ namespace Lazurite.Windows.Service
                 var currentValue = string.Empty;
                 var canSetValue = true;
                 var isAvailable = true;
+
                 try
                 {
                     currentValue = scenario.CalculateCurrentValue(viewScenarioAction, null);
@@ -283,6 +293,7 @@ namespace Lazurite.Windows.Service
             });
         }
 
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public EncryptedList<ScenarioInfo> GetScenariosInfo()
         {
             return Handle((user) =>
@@ -308,6 +319,7 @@ namespace Lazurite.Windows.Service
             });
         }
 
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public Encrypted<string> GetScenarioValue(Encrypted<string> scenarioId)
         {
             return Handle((user) => {
@@ -316,7 +328,7 @@ namespace Lazurite.Windows.Service
             });
         }
 
-        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped)]
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public bool IsScenarioValueChanged(Encrypted<string> scenarioId, Encrypted<string> lastKnownValue)
         {
             return Handle((user) =>
@@ -336,7 +348,8 @@ namespace Lazurite.Windows.Service
                 }
             });
         }
-        
+
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public void SaveVisualSettings(Encrypted<UserVisualSettings> visualSettings)
         {
             Handle((user) =>
@@ -354,6 +367,7 @@ namespace Lazurite.Windows.Service
             });
         }
 
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public Encrypted<AddictionalData> SyncAddictionalData(Encrypted<AddictionalData> encryptedData)
         {
             return Handle((user) => {
@@ -364,7 +378,8 @@ namespace Lazurite.Windows.Service
                 return new Encrypted<AddictionalData>(preparedData, _secretKey);
             });
         }
-        
+
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public Encrypted<StatisticsScenarioInfo> GetStatisticsInfoForScenario(Encrypted<ScenarioInfo> info)
         {
             return Handle((user) => {
@@ -376,14 +391,16 @@ namespace Lazurite.Windows.Service
             });
         }
 
-        public EncryptedList<StatisticsItem> GetStatistics(DateTime since, DateTime to, Encrypted<StatisticsScenarioInfo> encryptedInfo)
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        public EncryptedList<StatisticsItem> GetStatistics(SafeDateTime since, SafeDateTime to, Encrypted<StatisticsScenarioInfo> encryptedInfo)
         {
             return Handle((user) => {
                 var info = encryptedInfo.Decrypt(_secretKey);
-                return new EncryptedList<StatisticsItem>(StatisticsManager.GetItems(info, since, to, new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue)), _secretKey);
+                return new EncryptedList<StatisticsItem>(StatisticsManager.GetItems(info, since.ToDateTime(), to.ToDateTime(), new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue)), _secretKey);
             });
         }
 
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
         public Encrypted<ScenarioStatisticsRegistration> GetStatisticsRegistration(EncryptedList<string> scenariosIds)
         {
             return Handle((user) =>

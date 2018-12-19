@@ -221,7 +221,7 @@ namespace Lazurite.Windows.Statistics
                             To = DateTime.Now,
                         };
                         var server = ClientFactory.GetServer(remoteScenario.Credentials);
-                        var statistics = server.GetStatistics(since, to, new Encrypted<StatisticsScenarioInfo>(remoteScenarioInfo, remoteScenario.Credentials.SecretKey))
+                        var statistics = server.GetStatistics(SafeDateTime.FromDateTime(since), SafeDateTime.FromDateTime(to), new Encrypted<StatisticsScenarioInfo>(remoteScenarioInfo, remoteScenario.Credentials.SecretKey))
                             .Decrypt(remoteScenario.Credentials.SecretKey)
                             .ToArray();
                         foreach (var item in statistics)

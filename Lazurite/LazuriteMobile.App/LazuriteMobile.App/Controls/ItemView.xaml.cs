@@ -60,6 +60,8 @@ namespace LazuriteMobile.App.Controls
             AnimateViewProperty = BindableProperty.Create(nameof(AnimateView), typeof(View), typeof(ItemView), null, BindingMode.OneWay);
         }
 
+        private bool _lockClick = false;
+
         public ItemView()
 		{
 			InitializeComponent();
@@ -172,13 +174,15 @@ namespace LazuriteMobile.App.Controls
 
         async private void Button_Clicked(object sender, EventArgs e)
         {
-            if (button.IsEnabled)
+            if (!_lockClick && button.IsEnabled)
             {
+                _lockClick = true;
                 var view = AnimateView ?? this;
                 await view.ScaleTo(0.85, 50, Easing.CubicIn).ContinueWith((o) =>
                     view.ScaleTo(1, 50, Easing.CubicOut)
                         .ContinueWith(o1 => Clicked?.Invoke(this, new EventsArgs<object>(this)))
                 );
+                _lockClick = false;
                 if (Selectable)
                     Selected = !Selected;
                 Click?.Invoke(this, new EventsArgs<object>(ClickSource.Tap));

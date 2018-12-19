@@ -74,6 +74,7 @@
     <Compile Include="MessageSecurity\Encrypted.cs" />
     <Compile Include="MessageSecurity\EncryptedList.cs" />
     <Compile Include="MessageSecurity\SerializersFactory.cs" />
+    <Compile Include="SafeDateTime.cs" />
     <Compile Include="ScenarioAction.cs" />
     <Compile Include="ScenarioActionSource.cs" />
     <Compile Include="ScenarioExecutionError.cs" />

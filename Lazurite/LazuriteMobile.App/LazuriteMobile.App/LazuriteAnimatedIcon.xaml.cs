@@ -24,19 +24,29 @@ namespace LazuriteMobile.App
             InitializeComponent();
         }
         
-        public async void StartAnimate()
+        public void StartAnimate()
         {
             if (_stopAnimate.IsCancellationRequested)
             {
                 _stopAnimate = new CancellationTokenSource();
-                while (!_stopAnimate.IsCancellationRequested)
-                {
-                    await icon2.FadeTo(1, 1000, Easing.SpringOut);
-                    await icon2.FadeTo(0, 1000, Easing.SpringOut);
-                }
+
+                //while (!_stopAnimate.IsCancellationRequested)
+                //{
+                //    await icon2.FadeTo(1, 1000, Easing.SpringOut);
+                //    await icon2.FadeTo(0, 1000, Easing.SpringOut);
+                //} // Код работает плохо на ранних версиях Android
+
+                var task = new Task(() => {
+                    while (!_stopAnimate.IsCancellationRequested)
+                    {
+                        icon2.FadeTo(0, 1000, Easing.SpringOut).Wait();
+                        icon2.FadeTo(1, 1000, Easing.SpringOut).Wait();
+                    }
+                });
+                task.Start();
             }
         }
-
+        
         public void StopAnimate()
         {
             if (!_stopAnimate.IsCancellationRequested)

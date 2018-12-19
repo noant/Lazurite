@@ -133,13 +133,13 @@ namespace LazuriteMobile.App.Switches
                     HandleSearch();
                 };
 
-                iconTitle.IsVisible = false;
-                lblTitle.IsVisible = false;
+                iconSearch.IsVisible = true;
+                tbSearch.IsVisible = true;
             }
             else
             {
-                iconSearch.IsVisible = false;
-                tbSearch.IsVisible = false;
+                iconTitle.IsVisible = true;
+                lblTitle.IsVisible = true;
             }
 
             // Невозможно замапить объекты, так как, почему-то, сбивается размер всего контрола.
@@ -150,6 +150,7 @@ namespace LazuriteMobile.App.Switches
                 itemView.SetBinding(ItemViewFast.TextProperty, ".");
                 itemView.Selectable = true;
                 itemView.StrokeVisibilityClick = true;
+                itemView.HeightRequest = 42;
 
                 itemView.SelectionChanged += (o, e) => {
                     if (itemView.Selected)

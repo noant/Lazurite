@@ -55,12 +55,11 @@
     <Compile Include="INotificationsHandler.cs" />
     <Compile Include="INotifier.cs" />
     <Compile Include="IScenariosManager.cs" />
-    <Compile Include="IServiceClient.cs" />
-    <Compile Include="IServiceClientManager.cs" />
     <Compile Include="ISupportsResume.cs" />
     <Compile Include="Keys.cs" />
     <Compile Include="LazuriteNotification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IClientManager.cs" />
     <Compile Include="SupportsResumeState.cs" />
   </ItemGroup>
   <ItemGroup>

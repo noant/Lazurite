@@ -25,7 +25,7 @@ namespace Lazurite.MainDomain
         [OperationContract]
         void AsyncExecuteScenarioParallel(Encrypted<string> scenarioId, Encrypted<string> value);
         [OperationContract]
-        EncryptedList<ScenarioInfoLW> GetChangedScenarios(DateTime since);
+        EncryptedList<ScenarioInfoLW> GetChangedScenarios(SafeDateTime since);
         [OperationContract]
         void SaveVisualSettings(Encrypted<UserVisualSettings> visualSettings);
         [OperationContract]
@@ -33,7 +33,7 @@ namespace Lazurite.MainDomain
         [OperationContract]
         Encrypted<StatisticsScenarioInfo> GetStatisticsInfoForScenario(Encrypted<ScenarioInfo> info);
         [OperationContract]
-        EncryptedList<StatisticsItem> GetStatistics(DateTime since, DateTime to, Encrypted<StatisticsScenarioInfo> info);
+        EncryptedList<StatisticsItem> GetStatistics(SafeDateTime since, SafeDateTime to, Encrypted<StatisticsScenarioInfo> info);
         [OperationContract]
         Encrypted<ScenarioStatisticsRegistration> GetStatisticsRegistration(EncryptedList<string> scenariosIds);
     }

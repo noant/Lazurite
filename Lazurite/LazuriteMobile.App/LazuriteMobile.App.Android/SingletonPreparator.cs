@@ -13,7 +13,7 @@ using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
-using LazuriteMobile.Android.ServiceClient;
+using LazuriteMobile.App.Android.ServiceClient;
 using LazuriteMobile.MainDomain;
 
 namespace LazuriteMobile.App.Droid
@@ -30,8 +30,8 @@ namespace LazuriteMobile.App.Droid
                 Singleton.Add(new JsonFileSavior());
             if (!Singleton.Any<ISystemUtils>())
                 Singleton.Add(new SystemUtils());
-            if (!Singleton.Any<IServiceClientManager>())
-                Singleton.Add(new ServiceClientManager());
+            if (!Singleton.Any<IClientManager>())
+                Singleton.Add(new Manager());
             if (!Singleton.Any<AddictionalDataManager>())
                 Singleton.Add(new AddictionalDataManager());
             if (!Singleton.Any<INotifier>())

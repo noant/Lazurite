@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
+using System.ServiceModel;
 using System.Threading;
 
 namespace LazuriteMobile.App
@@ -18,23 +19,9 @@ namespace LazuriteMobile.App
     {
         private class OperationResult<T>
         {
-            public T Value
-            {
-                get;
-                private set;
-            }
-
-            public bool Success
-            {
-                get;
-                private set;
-            }
-
-            public DateTime? ServerTime
-            {
-                get;
-                private set;
-            }
+            public T Value { get; private set; }
+            public bool Success { get; private set; }
+            public DateTime? ServerTime { get; private set; }
 
             public OperationResult(T result, bool success, DateTime? serverTime = null)
             {
@@ -51,14 +38,13 @@ namespace LazuriteMobile.App
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
         private static readonly SaviorBase Savior = Singleton.Resolve<SaviorBase>();
         private static readonly AddictionalDataManager Bus = Singleton.Resolve<AddictionalDataManager>();
-        private static readonly IServiceClientManager ClientsManager = Singleton.Resolve<IServiceClientManager>();
+        private static readonly IClientManager ClientManager = Singleton.Resolve<IClientManager>();
         private static readonly INotifier Notifier = Singleton.Resolve<INotifier>();
 
         private readonly string _cachedScenariosKey = "scensCache";
         private readonly string _credentialsKey = "credentials";
         private CancellationTokenSource _listenersCancellationTokenSource;
         private CancellationTokenSource _operationCancellationTokenSource;
-        private IServiceClient _serviceClient;
         private ConnectionCredentials? _credentials;
         private DateTime _lastUpdateTime;
         
@@ -66,7 +52,6 @@ namespace LazuriteMobile.App
         public ManagerConnectionState ConnectionState { get; private set; } = ManagerConnectionState.Disconnected;
         private bool _succeed = true;
         private int _refreshIncrement = 0;
-        private CancellationTokenSource _refreshEndingToken;
 
         public event Action<ScenarioInfo[]> ScenariosChanged;
         public event Action ConnectionLost;
@@ -95,17 +80,18 @@ namespace LazuriteMobile.App
                 Bus.Register<MessagesDataHandler>();
         }
 
-        private bool HandleExceptions(Action action)
+        private bool HandleExceptions(Action<IServer> action)
         {
             var cancellationToken = _operationCancellationTokenSource.Token;
             bool success = false;
             try
             {
-                if (_credentials != null && (_serviceClient?.IsClosedOrFaulted ?? false))
-                    _serviceClient = ClientsManager.Create(_credentials.Value);
+                if (_credentials != null && ClientManager.IsClosed())
+                    RecreateConnection();
                 if (ConnectionState == ManagerConnectionState.Disconnected)
                     ConnectionState = ManagerConnectionState.Connecting;
-                action();
+                using (var connection = (IDisposable)ClientManager.GetActualInstance())
+                    action((IServer)connection);
                 success = true;
                 if (ConnectionState != ManagerConnectionState.Connected)
                 {
@@ -125,9 +111,7 @@ namespace LazuriteMobile.App
                         || e is SerializationException
                         || e is DecryptException
                         || e.Message == "Key length not 128/192/256 bits.")
-                    {
                         SecretCodeInvalid?.Invoke();
-                    }
                     else if (ConnectionState != ManagerConnectionState.Connected)
                         ConnectionLost?.Invoke();
                     else
@@ -142,27 +126,27 @@ namespace LazuriteMobile.App
             return success;
         }
 
-        private OperationResult<T> Handle<T>(Func<Encrypted<T>> func) {
+        private OperationResult<T> Handle<T>(Func<IServer, Encrypted<T>> func) {
             T result = default(T);
             DateTime? serverTime = null;
-            var success = HandleExceptions(() =>
+            var success = HandleExceptions((s) =>
             {
-                var encryptedResult = func();
+                var encryptedResult = func(s);
                 result = encryptedResult.Decrypt(_credentials.Value.SecretKey);
-                serverTime = encryptedResult.ServerTime;
+                serverTime = encryptedResult.ServerTime.ToDateTime();
             });
             return new OperationResult<T>(result, success, serverTime);
         }
 
-        private OperationResult<List<T>> Handle<T>(Func<EncryptedList<T>> func)
+        private OperationResult<List<T>> Handle<T>(Func<IServer, EncryptedList<T>> func)
         {
             List<T> result = null;
             DateTime? serverTime = null;
-            var success = HandleExceptions(() =>
+            var success = HandleExceptions((s) =>
             {
-                var encryptedResult = func();
+                var encryptedResult = func(s);
                 result = encryptedResult.Decrypt(_credentials.Value.SecretKey);
-                serverTime = encryptedResult.ServerTime;
+                serverTime = encryptedResult.ServerTime.ToDateTime();
             });
             return new OperationResult<List<T>>(result, success, serverTime);
         }
@@ -192,17 +176,15 @@ namespace LazuriteMobile.App
             _operationCancellationTokenSource = new CancellationTokenSource();
             StopListenChanges();
             RecreateConnection();
-            Refresh(callback);
+            Refresh();
         }
 
         private void RecreateConnection()
         {
-            ConnectionState = ManagerConnectionState.Connecting;
-            if (_serviceClient != null)
-                _serviceClient.Close();
-            _serviceClient = ClientsManager.Create(_credentials.Value);
+            ClientManager.Close();
+            ClientManager.CreateConnection(_credentials.Value);
         }
-        
+
         public void StartListenChanges()
         {
             _listenersCancellationTokenSource?.Cancel();
@@ -231,30 +213,13 @@ namespace LazuriteMobile.App
                 {
                     if (!_succeed)
                         RecreateConnection();
-                    _refreshEndingToken = new CancellationTokenSource();
-                    _refreshEndingToken.Token.Register(() => {
-                        _iterationRefreshNow = false;
-                    });
-                    SyncAddictionalData(success =>
+                    if (SyncAddictionalData())
                     {
-                        _succeed = success;
                         if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || Scenarios == null)
-                        {
-                            Refresh(success2 =>
-                            {
-                                _succeed = success2;
-                                _refreshEndingToken.Cancel();
-                            });
-                        }
+                            Refresh();
                         else
-                        {
-                            Update(success2 =>
-                            {
-                                _succeed = success2;
-                                _refreshEndingToken.Cancel();
-                            });
-                        }
-                    });
+                            Update();
+                    }
                 }
                 _refreshIncrement++;
             }
@@ -262,109 +227,94 @@ namespace LazuriteMobile.App
             {
                 Log.Error("Error in listen changes iteration", e);
             }
+            _iterationRefreshNow = false;
         }
 
-        private bool IsMultiples(int sum, int num)
-        {
-            return (sum >= num && sum % num == 0);
-        }
+        private bool IsMultiples(int sum, int num) => (sum >= num && sum % num == 0);
 
         public void StopListenChanges()
         {
             _listenersCancellationTokenSource?.Cancel();
-            _serviceClient?.Close();
+            ClientManager.Close();
             ConnectionState = ManagerConnectionState.Disconnected;
         }
 
         public void ExecuteScenario(ExecuteScenarioArgs args)
         {
-            _serviceClient.BeginAsyncExecuteScenario(new Encrypted<string>(args.Id, _credentials.Value.SecretKey), new Encrypted<string>(args.Value, _credentials.Value.SecretKey), 
-                (result) => {
-                    HandleExceptions(() => _serviceClient.EndAsyncExecuteScenario(result));
-                },
-            null);
+            HandleExceptions((s) =>
+               s.AsyncExecuteScenario(
+                   new Encrypted<string>(args.Id, _credentials.Value.SecretKey), 
+                   new Encrypted<string>(args.Value, _credentials.Value.SecretKey)));
         }
 
-        private void Refresh(Action<bool> callback)
+        private bool Refresh()
         {
             try
             {
-                var client = _serviceClient;
-                client.BeginGetScenariosInfo((x) =>
+                var result = Handle((s) => s.GetScenariosInfo());
+                if (_succeed = result.Success)
                 {
-                    var result = Handle(() => client.EndGetScenariosInfo(x));
-                    if (result.Success)
-                    {
-                        _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
-                        Scenarios = result.Value.ToArray();
-                        NeedRefresh?.Invoke();
-                    }
-                    callback?.Invoke(result.Success);
-                }, null);
+                    _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
+                    Scenarios = result.Value.ToArray();
+                    NeedRefresh?.Invoke();
+                }
+                return result.Success;
             }
             catch
             {
-                callback(false);
+                return false;
             }
         }
 
-        public void Refresh()
+        public void RefreshAndRecreate()
         {
-            Refresh(success => {
-                if (!success)
-                    RecreateConnection();
-            });
+            if (!Refresh())
+                RecreateConnection();
         }
 
-        private void Update(Action<bool> callback)
+        private bool Update()
         {
             try
             {
-                _serviceClient.BeginGetChangedScenarios(_lastUpdateTime,
-                (o) =>
+                var result = Handle((s) => s.GetChangedScenarios(SafeDateTime.FromDateTime(_lastUpdateTime)));
+                _succeed = result.Success;
+                if (result.Success && result.Value != null && result.Value.Any())
                 {
-                    var result = Handle(() => _serviceClient.EndGetChangedScenarios(o));
-                    if (result.Success && result.Value != null && result.Value.Any())
+                    var changedScenariosLW = result.Value;
+                    var changedScenarios = Scenarios.Where(x => changedScenariosLW.Any(z => z.ScenarioId == x.ScenarioId)).ToArray();
+                    foreach (var changedScenario in changedScenariosLW)
                     {
-                        var changedScenariosLW = result.Value;
-                        var changedScenarios = Scenarios.Where(x => changedScenariosLW.Any(z => z.ScenarioId == x.ScenarioId)).ToArray();
-                        foreach (var changedScenario in changedScenariosLW)
+                        var existingScenario = changedScenarios.FirstOrDefault(x => x.ScenarioId.Equals(changedScenario.ScenarioId));
+                        if (existingScenario != null)
                         {
-                            var existingScenario = changedScenarios.FirstOrDefault(x => x.ScenarioId.Equals(changedScenario.ScenarioId));
-                            if (existingScenario != null)
-                            {
-                                existingScenario.CurrentValue = changedScenario.CurrentValue;
-                                existingScenario.IsAvailable = changedScenario.IsAvailable;
-                            }
+                            existingScenario.CurrentValue = changedScenario.CurrentValue;
+                            existingScenario.IsAvailable = changedScenario.IsAvailable;
                         }
-                        _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
-                        ScenariosChanged?.Invoke(changedScenarios);
                     }
-                    callback?.Invoke(result.Success);
-                }, null);
+                    _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
+                    ScenariosChanged?.Invoke(changedScenarios);
+                }
+                return result.Success;
             }
             catch
             {
-                callback?.Invoke(false);
+                return false;
             }
         }
 
-        private void SyncAddictionalData(Action<bool> callback)
+        private bool SyncAddictionalData()
         {
             try
             {
-                _serviceClient.BeginSyncAddictionalData(new Encrypted<AddictionalData>(Bus.Prepare(null), _credentials.Value.SecretKey), 
-                    (o) => {
-                        var result = Handle(() => _serviceClient.EndSyncAddictionalData(o));
-                        if (result.Success && result.Value != null && result.Value.Data.Any())
-                            Bus.Handle(result.Value, null);
-                        callback(result.Success);
-                    },
-                null);
+                var result = Handle((s) => s.SyncAddictionalData(new Encrypted<AddictionalData>(Bus.Prepare(null), _credentials.Value.SecretKey)));
+                _succeed = result.Success;
+                if (result.Success && result.Value != null && result.Value.Data.Any())
+                    Bus.Handle(result.Value, null);
+                return result.Success;
             }
             catch
             {
-                callback(false);
+                return false;
             }
         }
 

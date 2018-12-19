@@ -8,6 +8,7 @@ using Lazurite.Windows.Service;
 using System;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.ServiceModel.Security;
 using System.ServiceModel.Web;
 using System.Threading;
@@ -16,7 +17,9 @@ namespace Lazurite.Windows.Server
 {
     public class LazuriteServer
     {
-        private static readonly int ServerTimoutMinutes = GlobalSettings.Get(1);
+        private static readonly int ServerTimeoutMinutes = GlobalSettings.Get(3);
+        private static readonly int MaxConcurrentSessions = GlobalSettings.Get(30);
+        private static readonly int MaxConcurrentCalls = GlobalSettings.Get(100);
         public static readonly string SettingsKey = "serverSettings";
         private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
@@ -57,12 +60,23 @@ namespace Lazurite.Windows.Server
                 _warningHandler.Info("Service starting: " + _settings.GetAddress());
                 var binding = new BasicHttpBinding(BasicHttpSecurityMode.Transport);
                 binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+                binding.ReaderQuotas.MaxArrayLength = int.MaxValue;
+                binding.ReaderQuotas.MaxBytesPerRead = int.MaxValue;
+                binding.ReaderQuotas.MaxNameTableCharCount = 9999;
+                binding.ReaderQuotas.MaxStringContentLength = int.MaxValue;
+                binding.ReaderQuotas.MaxDepth = 50;
+                binding.MaxReceivedMessageSize = int.MaxValue;
+                binding.MaxBufferSize = int.MaxValue;
                 binding.CloseTimeout =
                     binding.OpenTimeout =
-                    binding.SendTimeout = TimeSpan.FromMinutes(ServerTimoutMinutes);
+                    binding.SendTimeout = TimeSpan.FromMinutes(ServerTimeoutMinutes);
                 var address = new Uri(_settings.GetAddress());
                 var service = new LazuriteService(_settings.SecretKey);
                 _host = new WebServiceHost(service, address);
+                var behaviour = new ServiceThrottlingBehavior();
+                behaviour.MaxConcurrentSessions = MaxConcurrentSessions;
+                behaviour.MaxConcurrentCalls = MaxConcurrentCalls;
+                _host.Description.Behaviors.Add(behaviour);
                 _host.AddServiceEndpoint(typeof(IServer), binding, address);
                 _host.Credentials.UserNameAuthentication.UserNamePasswordValidationMode = UserNamePasswordValidationMode.Custom;
                 _host.Credentials.UserNameAuthentication.CustomUserNamePasswordValidator = new LoginValidator();

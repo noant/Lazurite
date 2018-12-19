@@ -25,8 +25,6 @@ namespace LazuriteMobile.App
             Singleton.Clear<INotificationsHandler>();
             Singleton.Add((INotificationsHandler)this);
 
-            iconAnimation.StartAnimate();
-
             tabsView.AddTabInfo(new SliderTabsView.TabInfo(connectionSettingsSlider, LazuriteUI.Icons.Icon.Settings));
             tabsView.AddTabInfo(new SliderTabsView.TabInfo(messagesSlider, LazuriteUI.Icons.Icon.EmailMinimal));
             _supportsResume.StateChanged = (sender, currentState, previousState) =>
@@ -147,13 +145,14 @@ namespace LazuriteMobile.App
 
         private void SettingsView_ConnectClicked(SettingsView obj)
         {
+            ShowCaption();
             connectionSettingsSlider.Hide();
             var credentials = settingsView.GetCredentials();
             if (string.IsNullOrEmpty(credentials.Host) || string.IsNullOrEmpty(credentials.Login)
                 || string.IsNullOrEmpty(credentials.Password) || string.IsNullOrEmpty(credentials.SecretKey)
                 || string.IsNullOrEmpty(credentials.ServiceName) || credentials.Port < 1)
             {
-                ShowCaption("Не все поля введены", true);
+                ShowCaption("Не все поля введены", true, false);
                 connectionSettingsSlider.Show();
             }
             else
@@ -235,8 +234,7 @@ namespace LazuriteMobile.App
                     iconAnimation.StopAnimate();
             }
 
-            if (error)
-                lblCaption.Text = text;
+            lblCaption.Text = error ? text : string.Empty;
 
             settingsView.SetErrorMessage(text);
         }

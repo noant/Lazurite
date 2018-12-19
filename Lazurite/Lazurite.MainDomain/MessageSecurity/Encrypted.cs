@@ -48,12 +48,12 @@ namespace Lazurite.MainDomain.MessageSecurity
                 Data = GetSecureEncoding(secretKey).Encrypt(ms.ToArray(), iv);
             }
             if (!nullServerTime)
-                ServerTime = DateTime.Now.ToUniversalTime();
+                ServerTime = SafeDateTime.FromDateTime(DateTime.Now);
             Log.Debug("Encrypted object created");
         }
 
         [DataMember]
-        public DateTime? ServerTime { get; set; }
+        public SafeDateTime ServerTime { get; set; }
 
         public T Decrypt(string secretKey)
         {

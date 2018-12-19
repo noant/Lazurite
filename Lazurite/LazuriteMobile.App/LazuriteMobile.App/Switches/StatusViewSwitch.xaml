@@ -10,7 +10,7 @@
     Margin="4">
 
     <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="40"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
 
@@ -19,12 +19,12 @@
         <ColumnDefinition></ColumnDefinition>
     </Grid.ColumnDefinitions>
 
-    <controls:IconView x:Name="iconTitle" Opacity="0.64" VerticalOptions="Center" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-    <Label HeightRequest="30" VerticalTextAlignment="Center" x:Name="lblTitle" Grid.Column="1" TextColor="{Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></Label>
+    <controls:IconView IsVisible="False" x:Name="iconTitle" Opacity="0.64" VerticalOptions="Center" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+    <Label IsVisible="False" VerticalTextAlignment="Center" x:Name="lblTitle" Grid.Column="1" TextColor="{Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></Label>
 
-    <controls:IconView x:Name="iconSearch" Opacity="0.4" VerticalOptions="Center" Icon="Magnify"></controls:IconView>
+    <controls:IconView IsVisible="False" x:Name="iconSearch" Opacity="0.4" VerticalOptions="Center" Icon="Magnify"></controls:IconView>
     <controls:ItemView IsVisible="False" x:Name="btClearSearch" Icon="Close"></controls:ItemView>
-    <Entry HeightRequest="40" HorizontalOptions="Fill" Grid.Column="1" FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" Margin="0,0,0,-2" TextColor="White" x:Name="tbSearch"></Entry>
+    <Entry IsVisible="False" VerticalOptions="Center" HorizontalOptions="Fill" Grid.Column="1" FontSize="Small" FontFamily="{Static controls:Visual.FontFamily}" Margin="0,0,0,-2" TextColor="White" x:Name="tbSearch"></Entry>
 
-    <ListView Grid.Row="1" RowHeight="37" x:Name="listView" Grid.ColumnSpan="2"></ListView>
+    <ListView Grid.Row="1" RowHeight="42" x:Name="listView" Grid.ColumnSpan="2"></ListView>
 </Grid>

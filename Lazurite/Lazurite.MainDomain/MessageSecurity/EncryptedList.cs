@@ -12,11 +12,11 @@ namespace Lazurite.MainDomain.MessageSecurity
         public Encrypted<List<T>> SourceList { get; set; } = new Encrypted<List<T>>();
 
         [DataMember]
-        public DateTime ServerTime { get; set; }
+        public SafeDateTime ServerTime { get; set; }
 
         public EncryptedList()
         {
-            ServerTime = DateTime.Now.ToUniversalTime();
+            ServerTime = SafeDateTime.FromDateTime(DateTime.Now);
         }
         
         public EncryptedList(IEnumerable<T> objs, string secretKey) : this()
