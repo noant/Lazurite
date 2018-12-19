@@ -3,6 +3,7 @@ using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.MessageSecurity;
+using Lazurite.Shared;
 using Lazurite.Utils;
 using LazuriteMobile.MainDomain;
 using System;
@@ -62,6 +63,7 @@ namespace LazuriteMobile.App
         public event Action SecretCodeInvalid;
         public event Action CredentialsLoaded;
         public event Action ConnectionError;
+        public event Action AccessLocked;
 
         public ScenariosManager()
         {
@@ -105,6 +107,8 @@ namespace LazuriteMobile.App
                 {
                     if (SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.AccessDenied))
                         LoginOrPasswordInvalid?.Invoke();
+                    else if (SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.Locked))
+                        AccessLocked?.Invoke();
                     //if data is wrong or secretKey.Length is wrong
                     else if (
                         SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.DecryptionError)

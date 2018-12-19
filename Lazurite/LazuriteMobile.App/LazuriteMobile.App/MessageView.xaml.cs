@@ -17,7 +17,7 @@ namespace LazuriteMobile.App
 		{
 			InitializeComponent ();
             lblText.Text = notification.Message.Text.Trim();
-            lblDateTime.Text = notification.Message.DateTime.ToString();
+            lblDateTime.Text = notification.Message.DateTime.ToDateTime().ToString();
             lblTitle.Text = notification.Message.Header.Trim();
             lblNew.IsVisible = !notification.IsRead;
 		}

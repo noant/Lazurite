@@ -214,7 +214,7 @@
       <Name>Lazurite.Security</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Lazurite.Shared\Lazurite.Shared.csproj">
-      <Project>{9D1FABF0-1A55-47D2-8F0F-BD0BB14F65AA}</Project>
+      <Project>{9d1fabf0-1a55-47d2-8f0f-bd0bb14f65aa}</Project>
       <Name>Lazurite.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Lazurite.Utils\Lazurite.Utils.csproj">

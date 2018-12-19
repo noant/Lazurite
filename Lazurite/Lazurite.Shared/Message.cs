@@ -10,8 +10,8 @@ namespace Lazurite.Shared
     [DataContract]
     public class Message
     {
-        [DataMember(IsRequired = false, EmitDefaultValue = false)]
-        public DateTime DateTime { get; set; }
+        [DataMember]
+        public SafeDateTime DateTime { get; set; }
         [DataMember]
         public string Text { get; set; }
         [DataMember]

@@ -1,5 +1,6 @@
 ﻿using Lazurite.MainDomain.MessageSecurity;
 using Lazurite.MainDomain.Statistics;
+using Lazurite.Shared;
 using System;
 using System.ServiceModel;
 

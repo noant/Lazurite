@@ -42,9 +42,12 @@ namespace LazuriteMobile.App
             _manager.ConnectionRestored += _manager_ConnectionRestored;
             _manager.NeedClientSettings += _manager_NeedClientSettings;
             _manager.LoginOrPasswordInvalid += _manager_LoginOrPasswordInvalid;
+            _manager.AccessLocked += _manager_AccessLocked;
             _manager.CredentialsLoaded += _manager_CredentialsLoaded;
             _manager.SecretCodeInvalid += _manager_SecretCodeInvalid;
             _manager.ScenariosChanged += _manager_ScenariosChanged;
+
+            ShowCaption();
         }
 
         private void InitializeManager()
@@ -61,13 +64,9 @@ namespace LazuriteMobile.App
                             Invoke(() => HideCaption());
                         }
                         else if (state == ManagerConnectionState.Disconnected)
-                        {
                             ReConnectAndRefresh();
-                        }
                         else
-                        {
                             RefreshCredentials();
-                        }
                         _initialized = true;
                         ConnectionToServiceInitialized?.Invoke(this, new EventsArgs<bool>(_initialized));
                     });
@@ -136,6 +135,15 @@ namespace LazuriteMobile.App
             });
         }
 
+        private void _manager_AccessLocked()
+        {
+            Invoke(() => {
+                connectionSettingsSlider.Show();
+                swgrid.IsEnabled = false;
+                ShowCaption("Доступ временно заблокирован", true, true);
+            });
+        }
+
         private void _manager_CredentialsLoaded()
         {
             _manager.GetClientSettings((settings) => {
@@ -143,10 +151,9 @@ namespace LazuriteMobile.App
             });
         }
 
-        private void SettingsView_ConnectClicked(SettingsView obj)
+        private async void SettingsView_ConnectClicked(SettingsView obj)
         {
-            ShowCaption();
-            connectionSettingsSlider.Hide();
+            await connectionSettingsSlider.Hide();
             var credentials = settingsView.GetCredentials();
             if (string.IsNullOrEmpty(credentials.Host) || string.IsNullOrEmpty(credentials.Login)
                 || string.IsNullOrEmpty(credentials.Password) || string.IsNullOrEmpty(credentials.SecretKey)

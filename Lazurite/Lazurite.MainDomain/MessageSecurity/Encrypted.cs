@@ -1,5 +1,6 @@
 ﻿using Lazurite.IOC;
 using Lazurite.Logging;
+using Lazurite.Shared;
 using System;
 using System.Collections.Generic;
 using System.IO;

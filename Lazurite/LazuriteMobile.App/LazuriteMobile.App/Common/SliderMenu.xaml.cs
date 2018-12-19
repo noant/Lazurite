@@ -1,6 +1,7 @@
 ﻿using Lazurite.Shared;
 using LazuriteUI.Icons;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Common
@@ -42,10 +43,10 @@ namespace LazuriteMobile.App.Common
 
         public bool MenuVisible { get; private set; } = true;
 
-        public void Hide()
+        public async Task Hide()
         {
-            this.TranslateTo(0, Height, 100, Easing.Linear);
             MenuVisible = false;
+            await this.TranslateTo(0, Height, 100, Easing.Linear);
         }
 
         public void Show()

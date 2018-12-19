@@ -29,7 +29,7 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <controls:IconView HorizontalOptions="End" VerticalOptions="Center" Grid.Column="0" Icon="Lazurite64" HeightRequest="80" WidthRequest="80"></controls:IconView>
+                <controls:IconView HorizontalOptions="End" VerticalOptions="Center" Grid.Column="0" Icon="Lazurite128" HeightRequest="80" WidthRequest="80"></controls:IconView>
                 <Label FontFamily="{Static controls:Visual.FontFamily}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Text="Lazurite" TextColor="{Static controls:Visual.CaptionForeground}" FontSize="Large"></Label>
             </Grid>
             
