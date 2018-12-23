@@ -24,7 +24,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.ColumnSpan="2" HorizontalOptions="Center">
+            <Grid Grid.ColumnSpan="2" HorizontalOptions="Center" Margin="-40,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>

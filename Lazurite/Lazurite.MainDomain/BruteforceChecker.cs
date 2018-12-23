@@ -1,10 +1,8 @@
 ﻿using Lazurite.MainDomain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
-namespace Lazurite.Windows.Service
+namespace Lazurite.MainDomain
 {
     public class BruteforceChecker
     {
@@ -14,13 +12,13 @@ namespace Lazurite.Windows.Service
 
         private Dictionary<string, LoginInfo> _loginInfos = new Dictionary<string, LoginInfo>();
 
-        private LoginInfo PrepareLastTryObject(string login)
+        private LoginInfo PrepareLastTryObject(string ip)
         {
-            if (_loginInfos.ContainsKey(login))
-                return _loginInfos[login];
+            if (_loginInfos.ContainsKey(ip))
+                return _loginInfos[ip];
             else {
                 var info = new LoginInfo();
-                _loginInfos.Add(login, info);
+                _loginInfos.Add(ip, info);
                 return info;
             };
         }
@@ -46,15 +44,15 @@ namespace Lazurite.Windows.Service
             return info.IsBrutforceSuspicion;
         }
         
-        public bool CheckIsBruteforce(string login)
+        public bool CheckIsBruteforce(string ip)
         {
-            var info = PrepareLastTryObject(login);
+            var info = PrepareLastTryObject(ip);
             return CheckBruteforceInternal(info);
         }
 
-        public bool IsWaitListContains(string login)
+        public bool IsWaitListContains(string ip)
         {
-            var info = PrepareLastTryObject(login);
+            var info = PrepareLastTryObject(ip);
             return info.IsBrutforceSuspicion && (DateTime.Now - info.LastLoginTry).TotalHours < LoginHoursWaitTime;
         }
 

@@ -124,6 +124,7 @@ namespace Lazurite.Windows.ServiceClient
             binding.MaxReceivedMessageSize = int.MaxValue;
             binding.MaxBufferSize = int.MaxValue;
             binding.CloseTimeout =
+                binding.ReceiveTimeout =
                 binding.OpenTimeout =
                 binding.SendTimeout = TimeSpan.FromMinutes(ConnectionTimeout_Minutes);
 

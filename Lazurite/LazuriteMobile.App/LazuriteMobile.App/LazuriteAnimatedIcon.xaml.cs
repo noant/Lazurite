@@ -1,4 +1,5 @@
 ﻿using Lazurite.IOC;
+using Lazurite.Utils;
 using LazuriteMobile.MainDomain;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,11 @@ namespace LazuriteMobile.App
                 //    await icon2.FadeTo(0, 1000, Easing.SpringOut);
                 //} // Код работает плохо на ранних версиях Android
 
-                await new Task(() => {
+                await icon2.FadeTo(1, 1000, Easing.SpringOut);
+                await icon2.FadeTo(0, 1000, Easing.SpringOut);
+
+                TaskUtils.Start(() =>
+                {
                     while (!_stopAnimate.IsCancellationRequested)
                     {
                         icon2.FadeTo(0, 1000, Easing.SpringOut).Wait();

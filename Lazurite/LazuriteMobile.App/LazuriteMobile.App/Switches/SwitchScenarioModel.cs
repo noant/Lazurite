@@ -131,6 +131,7 @@ namespace LazuriteMobile.App.Switches
                 OnPropertyChanged(nameof(Icon2));
             }
         }
+
         public string ScenarioValue
         {
             get => _value;

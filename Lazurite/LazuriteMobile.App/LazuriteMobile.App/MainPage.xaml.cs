@@ -140,7 +140,7 @@ namespace LazuriteMobile.App
             Invoke(() => {
                 connectionSettingsSlider.Show();
                 swgrid.IsEnabled = false;
-                ShowCaption("Доступ временно заблокирован", true, true);
+                ShowCaption("Логин или пароль введен неверно. Сервер заблокировал доступ на 2 часа.", true, true);
             });
         }
 

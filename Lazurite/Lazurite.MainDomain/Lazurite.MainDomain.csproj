@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="AddictionalData.cs" />
     <Compile Include="AddictionalDataManager.cs" />
+    <Compile Include="BruteforceChecker.cs" />
     <Compile Include="ConnectionCredentials.cs" />
     <Compile Include="DeviceInfo.cs" />
     <Compile Include="GlobalSettings.cs" />

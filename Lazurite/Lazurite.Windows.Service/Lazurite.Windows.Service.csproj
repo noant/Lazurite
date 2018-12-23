@@ -92,7 +92,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BruteforceChecker.cs" />
     <Compile Include="LoginValidator.cs" />
     <Compile Include="LazuriteService.svc.cs">
       <DependentUpon>LazuriteService.svc</DependentUpon>

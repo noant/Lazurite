@@ -25,9 +25,9 @@ namespace LazuriteMobile.App.Switches
             model.PropertyChanged += (o, e) =>
             {
                 if (e.PropertyName == nameof(SwitchScenarioModel.ScenarioValue))
-                    context.Post((state) => {
-                        itemView.Selected = (bool)_converter.Convert(model.ScenarioValue, null, null, null);
-                    }, null);
+                    context.Post((state) =>
+                        itemView.Selected = (bool)_converter.Convert(model.ScenarioValue, null, null, null),
+                    null);
             };
             itemView.Selected = (bool)_converter.Convert(model.ScenarioValue, null, null, null);
         }
@@ -35,7 +35,7 @@ namespace LazuriteMobile.App.Switches
         //binding works incorrectly
         private void itemView_SelectionChanged(object arg1, EventArgs arg2)
         {
-            var model = ((SwitchScenarioModel)BindingContext);
+            var model = (SwitchScenarioModel)BindingContext;
             var currValue = (bool)_converter.Convert(model.ScenarioValue, null, null, null);
             if (currValue != itemView.Selected)
                 model.ScenarioValue = _converter.ConvertBack(itemView.Selected, null, null, null).ToString();

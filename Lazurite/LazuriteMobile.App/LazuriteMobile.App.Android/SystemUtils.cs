@@ -20,6 +20,8 @@ namespace LazuriteMobile.App.Droid
             {
                 case ServiceFaultCodes.AccessDenied:
                     return e.Message.Contains(ServiceFaultCodes.AccessDenied);
+                case ServiceFaultCodes.Locked:
+                    return e.Message.Contains(ServiceFaultCodes.Locked);
                 case ServiceFaultCodes.InternalError:
                     return e.Message.Contains(ServiceFaultCodes.InternalError);
             }

@@ -16,9 +16,9 @@ namespace LazuriteMobile.App.Droid
     [Service(Exported = false, Enabled = true)]
     public class LazuriteService : Service
     {
-        private static readonly int SleepInterval_Normal = 10000;
+        private static readonly int SleepInterval_Normal = 16000;
         private static readonly int SleepInterval_ScreenOff = 60000;
-        private static readonly int SleepInterval_PowerSaving = 120000;
+        private static readonly int SleepInterval_PowerSaving = 180000;
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
 
         private static bool AlreadyStarted = false;
@@ -75,11 +75,11 @@ namespace LazuriteMobile.App.Droid
                 _manager = new ScenariosManager();
                 _messenger = new Messenger(_inHandler);
                 _inHandler.HasCome += InHandler_HasCome;
-                                
+                
                 _manager.ConnectionLost += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionLost));
-                _manager.ConnectionRestored += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionRestored));
-                _manager.LoginOrPasswordInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.CredentialsInvalid));
-                _manager.AccessLocked += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.AccessLocked));
+                _manager.ConnectionRestored += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionRestored), TimerAction.Start);
+                _manager.LoginOrPasswordInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.CredentialsInvalid), TimerAction.Stop);
+                _manager.AccessLocked += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.AccessLocked), TimerAction.Stop);
                 _manager.NeedClientSettings += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedClientSettings));
                 _manager.NeedRefresh += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedRefresh));
                 _manager.ScenariosChanged += (scenarios) => Handle((messenger) => Utils.RaiseEvent(scenarios, messenger, _messenger, ServiceOperation.ScenariosChanged));
@@ -150,6 +150,13 @@ namespace LazuriteMobile.App.Droid
                 false);
         }
 
+        private void StopTimer()
+        {
+            _timerCancellationToken?.Cancel();
+        }
+
+        private bool IsTimerStarted => !_timerCancellationToken?.IsCancellationRequested ?? false;
+
         public override void OnDestroy()
         {
             AlreadyStarted = false;
@@ -158,8 +165,20 @@ namespace LazuriteMobile.App.Droid
             base.OnDestroy();
         }
 
-        private new void Handle(Action<Messenger> action)
+        private new void Handle(Action<Messenger> action, TimerAction timerAction = TimerAction.Nothing)
         {
+            switch (timerAction)
+            {
+                case TimerAction.Start:
+                    if (!IsTimerStarted)
+                        ReInitTimer();
+                    break;
+                case TimerAction.Stop:
+                    StopTimer();
+                    break;
+                case TimerAction.Nothing:
+                    break;
+            }
             try
             {
                 if (_toActivityMessenger != null) 
@@ -242,6 +261,13 @@ namespace LazuriteMobile.App.Droid
             {
                 Log.Warn("Error on Handler_HasCome", e);
             }
+        }
+
+        private enum TimerAction
+        {
+            Stop,
+            Start,
+            Nothing
         }
     }
 }

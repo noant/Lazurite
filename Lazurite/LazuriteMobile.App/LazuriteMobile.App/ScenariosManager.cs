@@ -32,8 +32,8 @@ namespace LazuriteMobile.App
             }
         }
 
-        private static readonly int ScenariosManagerListenInterval = 12000;
-        private static readonly int ScenariosManagerListenInterval_onError = 40000;
+        private static readonly int ScenariosManagerListenInterval = 16000;
+        private static readonly int ScenariosManagerListenInterval_onError = 45000;
         private static readonly int ScenariosManagerFullRefreshInterval = 10;
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
@@ -107,8 +107,6 @@ namespace LazuriteMobile.App
                 {
                     if (SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.AccessDenied))
                         LoginOrPasswordInvalid?.Invoke();
-                    else if (SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.Locked))
-                        AccessLocked?.Invoke();
                     //if data is wrong or secretKey.Length is wrong
                     else if (
                         SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.DecryptionError)
@@ -245,10 +243,11 @@ namespace LazuriteMobile.App
 
         public void ExecuteScenario(ExecuteScenarioArgs args)
         {
-            HandleExceptions((s) =>
-               s.AsyncExecuteScenario(
-                   new Encrypted<string>(args.Id, _credentials.Value.SecretKey), 
-                   new Encrypted<string>(args.Value, _credentials.Value.SecretKey)));
+            TaskUtils.Start(() =>
+                HandleExceptions((s) =>
+                   s.AsyncExecuteScenario(
+                       new Encrypted<string>(args.Id, _credentials.Value.SecretKey),
+                       new Encrypted<string>(args.Value, _credentials.Value.SecretKey))));
         }
 
         private bool Refresh()

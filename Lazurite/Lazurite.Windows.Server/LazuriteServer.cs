@@ -73,10 +73,15 @@ namespace Lazurite.Windows.Server
                 var address = new Uri(_settings.GetAddress());
                 var service = new LazuriteService(_settings.SecretKey);
                 _host = new WebServiceHost(service, address);
-                var behaviour = new ServiceThrottlingBehavior();
-                behaviour.MaxConcurrentSessions = MaxConcurrentSessions;
-                behaviour.MaxConcurrentCalls = MaxConcurrentCalls;
-                _host.Description.Behaviors.Add(behaviour);
+
+                var serviceThrottlingBehavior = new ServiceThrottlingBehavior();
+                serviceThrottlingBehavior.MaxConcurrentSessions = MaxConcurrentSessions;
+                serviceThrottlingBehavior.MaxConcurrentCalls = MaxConcurrentCalls;
+                _host.Description.Behaviors.Add(serviceThrottlingBehavior);
+
+                var debuggingBehavior = _host.Description.Behaviors[typeof(ServiceDebugBehavior)] as ServiceDebugBehavior;
+                debuggingBehavior.IncludeExceptionDetailInFaults = true;
+                
                 _host.AddServiceEndpoint(typeof(IServer), binding, address);
                 _host.Credentials.UserNameAuthentication.UserNamePasswordValidationMode = UserNamePasswordValidationMode.Custom;
                 _host.Credentials.UserNameAuthentication.CustomUserNamePasswordValidator = new LoginValidator();
