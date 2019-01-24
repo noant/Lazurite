@@ -39,10 +39,12 @@ namespace LazuriteUI.Windows.Main.Constructors
             Scenario = (SingleActionScenario)scenario;
             ReInitialize();
         }
-        
+
+#pragma warning disable 67
         public event Action Modified;
         public event Action Failed;
         public event Action Succeed;
+#pragma warning restore 67
 
         public SingleActionScenario Scenario { get; private set; }
     }

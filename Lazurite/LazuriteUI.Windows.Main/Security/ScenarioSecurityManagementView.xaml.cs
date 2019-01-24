@@ -50,9 +50,11 @@ namespace LazuriteUI.Windows.Main.Security
 
             stackPanel.Children.Add(control);
         }
-        
+
+#pragma warning disable 67
         public event Action Modified;
         public event Action CloseClicked;
+#pragma warning restore 67
 
         public static void Show(ScenarioBase scenario, Action modified)
         {

@@ -15,7 +15,6 @@ namespace LazuriteUI.Windows.Main.Constructors
     public partial class RemoteScenarioView : UserControl, IScenarioConstructorView
     {
         public static readonly WarningHandlerBase WarningHandler = Singleton.Resolve<WarningHandlerBase>();
-        public static readonly IClientFactory ClientFactory = Singleton.Resolve<IClientFactory>();
 
         private RemoteScenario _scenario;
 
@@ -33,7 +32,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             tbLogin.TextChanged += (o, e) => ApplyCurrent();
             tbHost.TextChanged += (o, e) => ApplyCurrent();
             btExitingCredentials.Click += (o, e) => {
-                var credentialsSelect = new ExistingConnectionSelect(ClientFactory.ConnectionCredentials);
+                var credentialsSelect = new ExistingConnectionSelect(ServiceClientFactory.Current.ConnectionCredentials);
                 var dialog = new DialogView(credentialsSelect);
                 credentialsSelect.SelectedCredentialsChanged += (o1, args) => {
                     tbHost.Text = args.Value.Host;
@@ -41,17 +40,16 @@ namespace LazuriteUI.Windows.Main.Constructors
                     tbPassword.Password = args.Value.Password;
                     tbPort.Text = args.Value.Port.ToString();
                     tbSecretCode.Password = args.Value.SecretKey;
-                    tbServiceName.Text = args.Value.ServiceName;
                     Modified?.Invoke();
                     dialog.Close();
                 };
                 dialog.Show();
             };
-            btScenariosList.Click += (o, e) =>
+            btScenariosList.Click += async (o, e) =>
             {
                 try
                 {
-                    var remoteScenarios = _scenario.GetServer().GetScenariosInfo().Decrypt(_scenario.Credentials.SecretKey).ToArray();
+                    var remoteScenarios = await _scenario.GetClient().GetScenariosInfo();
                     if (!remoteScenarios.Any())
                         throw new Exception("На удаленном сервере отсутсвуют сценарии.");
                     var selectScenarioControl = new RemoteScenarioSelect(remoteScenarios, _scenario.RemoteScenarioId);
@@ -115,7 +113,6 @@ namespace LazuriteUI.Windows.Main.Constructors
             tbPort.Text = _scenario.Credentials.Port.ToString();
             tbScenario.Text = _scenario.RemoteScenarioName;
             tbSecretCode.Password = _scenario.Credentials.SecretKey;
-            tbServiceName.Text = _scenario.Credentials.ServiceName;
         }
 
         private void ApplyCurrent()
@@ -127,7 +124,6 @@ namespace LazuriteUI.Windows.Main.Constructors
                 Password = tbPassword.Password,
                 Port = ushort.Parse(string.IsNullOrEmpty(tbPort.Text) ? "0" : tbPort.Text),
                 SecretKey = tbSecretCode.Password,
-                ServiceName = tbServiceName.Text
             };
             Modified?.Invoke();
             Failed?.Invoke();

@@ -1,20 +1,20 @@
-﻿using System.Runtime.Serialization;
+﻿using ProtoBuf;
 
 namespace Lazurite.MainDomain
 {
-    [DataContract]
+    [ProtoContract]
     public class UserVisualSettings
     {
-        [DataMember]
+        [ProtoMember(1)]
         public string UserId { get; set; }
 
-        [DataMember]
+        [ProtoMember(2)]
         public string ScenarioId { get; set; } //guid
 
-        [DataMember]
+        [ProtoMember(3)]
         public AddictionalData AddictionalData { get; set; } = new AddictionalData();
 
-        [DataMember]
+        [ProtoMember(4)]
         public int VisualIndex { get; set; } = int.MaxValue;
         
         public bool SameAs(UserVisualSettings settings)

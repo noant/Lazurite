@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace LazuriteUI.Windows.Controls
 {
@@ -45,6 +34,15 @@ namespace LazuriteUI.Windows.Controls
             newUiThread.IsBackground = true;
             newUiThread.SetApartmentState(ApartmentState.STA);
             newUiThread.Start();
+        }
+
+        public static StuckUILoadingWindow Loading(string message)
+        {
+            var view = new StuckUILoadingWindow();
+            view.Show();
+            view.tbCaption.Text = message;
+            view.progressView.StartProgress();
+            return view;
         }
     }
 }

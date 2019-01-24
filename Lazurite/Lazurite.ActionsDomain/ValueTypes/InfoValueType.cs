@@ -1,10 +1,10 @@
 ﻿using Lazurite.ActionsDomain.Attributes;
-using System.Runtime.Serialization;
+using ProtoBuf;
 
 namespace Lazurite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Информация")]
-    [DataContract]
+    [ProtoContract]
     public class InfoValueType : ValueTypeBase
     {
         public InfoValueType() => _acceptedValues = new string[] { };

@@ -26,16 +26,6 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             DialogView.DialogOpened += DialogView_DialogOpened;
             DialogView.DialogClosed += DialogView_DialogClosed;
 
-            var geolocationScenarios = ScenariosRepository
-                .Scenarios
-                .Where(x => x.ValueType is GeolocationValueType)
-                .ToArray();
-
-            var registrationInfo = StatisticsManager
-                .GetRegistrationInfo(geolocationScenarios);
-
-            _scenarioIds = registrationInfo.RegisteredIds;
-
             locationsView.ScenarioSelectClicked += (o, e) => {
                 SelectScenarioView.Show(
                     _scenarioIds,
@@ -48,8 +38,17 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
                     });
             };
 
-            Loaded += (o, e) =>
+            Loaded += async (o, e) =>
             {
+                var geolocationScenarios = ScenariosRepository
+                    .Scenarios
+                    .Where(x => x.ValueType is GeolocationValueType)
+                    .ToArray();
+
+                var registrationInfo = await StatisticsManager.GetRegistrationInfo(geolocationScenarios);
+
+                _scenarioIds = registrationInfo.RegisteredIds;
+
                 NeedItems?.Invoke(
                     new StatisticsFilter()
                     {
@@ -57,7 +56,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
                     });
             };
         }
-
+        
         private void DialogView_DialogClosed(object sender, Lazurite.Shared.EventsArgs<object> args)
         {
             locationsView.Visibility = Visibility.Visible;

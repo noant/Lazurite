@@ -62,8 +62,10 @@ namespace LazuriteUI.Windows.Main.Constructors
             Revert(trigger);
         }
 
+#pragma warning disable 67
         public event Action Modified;
         public event Action Failed;
         public event Action Succeed;
+#pragma warning restore 67
     }
 }

@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Lazurite.ActionsDomain.ValueTypes;
+﻿using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
 using Lazurite.Scenarios.ScenarioTypes;
 using LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace LazuriteUI.Windows.Main.Statistics.Views
 {
@@ -74,18 +66,26 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             });
         }
 
-        private void InitiateReload()
+        private async void InitiateReload()
         {
-            var selectedScenarios = ScenariosRepository
+            var selectedScenarios = 
+                ScenariosRepository
                 .Scenarios
                 .Where(x => _diagramsScenariosViews.Contains(x.Id))
                 .ToArray();
-            var registrationInfo = StatisticsManager
-                .GetRegistrationInfo(selectedScenarios);
-            var scenarios = selectedScenarios
-                    .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
-                    .ToArray();
-            _infos = scenarios.Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource)).ToArray();
+
+            var registrationInfo = await StatisticsManager.GetRegistrationInfo(selectedScenarios);
+
+            var scenarios = 
+                selectedScenarios
+                .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
+                .ToArray();
+
+            _infos = 
+                await Task.WhenAll(
+                    scenarios
+                    .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource)));
+
             NeedItems?.Invoke(new StatisticsFilter()
             {
                 ScenariosIds = _infos.Select(x => x.ID).ToArray()

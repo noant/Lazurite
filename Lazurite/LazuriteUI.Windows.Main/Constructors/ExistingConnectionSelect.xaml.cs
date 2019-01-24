@@ -2,7 +2,6 @@
 using Lazurite.Shared;
 using LazuriteUI.Icons;
 using LazuriteUI.Windows.Controls;
-using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;

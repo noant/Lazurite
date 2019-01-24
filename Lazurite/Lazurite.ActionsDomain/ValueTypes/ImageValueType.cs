@@ -1,10 +1,10 @@
 ﻿using Lazurite.ActionsDomain.Attributes;
-using System.Runtime.Serialization;
+using ProtoBuf;
 
 namespace Lazurite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Изображение")]
-    [DataContract]
+    [ProtoContract]
     public class ImageValueType : ValueTypeBase
     {
         public ImageValueType()

@@ -21,6 +21,6 @@
         RefreshIteration = 65536,
         GetNotifications = 131072,
         ScreenOnActions = 262144,
-        AccessLocked = 524288,
+        BruteforceSuspition = 524288,
     }
 }

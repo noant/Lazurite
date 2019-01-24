@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Lazurite.Windows.Statistics</RootNamespace>
     <AssemblyName>Lazurite.Windows.Statistics</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -75,10 +75,6 @@
     <ProjectReference Include="..\Lazurite.Shared\Lazurite.Shared.csproj">
       <Project>{9D1FABF0-1A55-47D2-8F0F-BD0BB14F65AA}</Project>
       <Name>Lazurite.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lazurite.Windows.ServiceClient\Lazurite.Windows.ServiceClient.csproj">
-      <Project>{8C79C90A-F696-4397-83C8-CB39AABBC872}</Project>
-      <Name>Lazurite.Windows.ServiceClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Utils\Lazurite.Windows.Utils.csproj">
       <Project>{09BE5F23-3903-4547-9D56-12CAE326C5CC}</Project>

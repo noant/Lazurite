@@ -1,11 +1,11 @@
 ﻿using Lazurite.ActionsDomain.Attributes;
-using System.Runtime.Serialization;
+using ProtoBuf;
 
 namespace Lazurite.ActionsDomain.ValueTypes
 {
     [OnlyExecute]
     [HumanFriendlyName("Кнопка")]
-    [DataContract]
+    [ProtoContract]
     public class ButtonValueType : ValueTypeBase
     {
         private static readonly ValueTypeInterpreteResult InterpreteResult = new ValueTypeInterpreteResult(true, string.Empty);

@@ -7,8 +7,8 @@ namespace LazuriteMobile.App.Droid
 {
     public class LogStub : ILogger
     {
-        private string _logFileName = "log.txt";
-        private object _locker = new object();
+        private static readonly string LogFileName = "log.txt";
+        private static readonly object Locker = new object();
 
         public void Debug(string message = null, Exception exception = null)
         {
@@ -83,12 +83,12 @@ namespace LazuriteMobile.App.Droid
         {
             try
             {
-                lock (_locker)
+                lock (Locker)
                 {
                     var logDir = Path.Combine(global::Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "LazuriteLogs");
                     if (!Directory.Exists(logDir))
                         Directory.CreateDirectory(logDir);
-                    var logPath = Path.Combine(logDir, _logFileName);
+                    var logPath = Path.Combine(logDir, LogFileName);
                     if (!File.Exists(logPath))
                         File.Create(logPath);
                     if (new FileInfo(logPath).Length > 1024 * 1024 * 1024) //1mb

@@ -1,53 +1,45 @@
 ﻿using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.Shared;
-using System.Runtime.Serialization;
+using ProtoBuf;
 
 namespace Lazurite.MainDomain
 {
-    [DataContract]
-    [KnownType(typeof(ActionsDomain.ValueTypes.ButtonValueType))]
-    [KnownType(typeof(ActionsDomain.ValueTypes.DateTimeValueType))]
-    [KnownType(typeof(ActionsDomain.ValueTypes.FloatValueType))]
-    [KnownType(typeof(ActionsDomain.ValueTypes.ImageValueType))]
-    [KnownType(typeof(ActionsDomain.ValueTypes.InfoValueType))]
-    [KnownType(typeof(ActionsDomain.ValueTypes.StateValueType))]
-    [KnownType(typeof(ActionsDomain.ValueTypes.ToggleValueType))]
-    [KnownType(typeof(ActionsDomain.ValueTypes.GeolocationValueType))]
+    [ProtoContract]
     public class ScenarioInfo
     {
         private string _currentValue;
         private UserVisualSettings _visualSettings = new UserVisualSettings();
 
-        [DataMember]
+        [ProtoMember(1)]
         public string Name { get; set; }
 
-        [DataMember]
+        [ProtoMember(2)]
         public string ScenarioId { get; set; } //guid
 
-        [DataMember]
-        public string CurrentValue {
-            get {
-                return _currentValue;
-            }
-            set {
+        [ProtoMember(3)]
+        public string CurrentValue
+        {
+            get => _currentValue;
+            set
+            {
                 _currentValue = value;
                 ValueChanged?.Invoke(this, new EventsArgs<ScenarioInfo>(this));
             }
         }
 
-        [DataMember]
+        [ProtoMember(4)]
         public ValueTypeBase ValueType { get; set; }
 
-        [DataMember]
+        [ProtoMember(5)]
         public UserVisualSettings VisualSettings {
             get => _visualSettings;
             set => _visualSettings = value ?? _visualSettings;
         }
 
-        [DataMember]
+        [ProtoMember(6)]
         public bool IsAvailable { get; set; }
 
-        [DataMember]
+        [ProtoMember(7)]
         public bool OnlyGetValue { get; set; }
 
         public event EventsHandler<ScenarioInfo> ValueChanged;

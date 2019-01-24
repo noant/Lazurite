@@ -1,7 +1,4 @@
 ﻿using Lazurite.Shared;
-using LazuriteMobile.App.Controls;
-using System;
-using System.Reflection;
 
 using Xamarin.Forms;
 

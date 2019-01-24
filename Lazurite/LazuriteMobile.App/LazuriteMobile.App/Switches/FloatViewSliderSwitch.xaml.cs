@@ -1,7 +1,6 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.Utils;
-using LazuriteMobile.App.Controls;
 using System;
 using System.Threading;
 

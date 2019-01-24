@@ -25,7 +25,7 @@ namespace LazuriteUI.Windows.Main.Server
         public ServerSettingsView()
         {
             InitializeComponent();
-            _settings = (ServerSettings)Lazurite.Windows.Utils.Utils.CloneObject(_server.GetSettings());
+            _settings = (ServerSettings)Lazurite.Windows.Utils.Utils.CloneObject(_server.Settings);
             tbPort.Validation = (v) => EntryViewValidation.UShortValidation().Invoke(v);
             tbServiceName.Validation = (v) => {
                 var value = v.InputString.Replace(" ", "");
@@ -55,17 +55,13 @@ namespace LazuriteUI.Windows.Main.Server
                 try
                 {
                     _settings.Port = ushort.Parse(tbPort.Text);
-                    _settings.ServiceName = tbServiceName.Text;
-                    _server.SetSettings(_settings);
-                    Lazurite.Windows.Server.Utils.NetshAddSslCert(_settings.CertificateHash, _settings.Port);
-                    Lazurite.Windows.Server.Utils.NetshAddUrlacl(_settings.GetAddress());
-                    Lazurite.Windows.Server.Utils.NetshAllowPort(_settings.Port);
+                    _server.Settings = _settings;
                     _server.Restart(null);
                     btApply.IsEnabled = false;
                 }
                 catch (Exception exception)
                 {
-                    _warningHandler.Error("Во время применения настроек сервера произошла ошибка", exception);
+                    _warningHandler.Error("Во время применения настроек сервера произошла ошибка.", exception);
                 }
             };
             Refresh();
@@ -78,7 +74,7 @@ namespace LazuriteUI.Windows.Main.Server
 
         public void UpdateServerInfo()
         {
-            lblCurrentAddress.Content = _server.GetSettings().GetAddress();
+            lblCurrentAddress.Content = _server.Settings.GetAddress();
             lblCurrentStatus.Content = _server.Started ? "Запущен" : "!Отключен";
         }
 
@@ -91,7 +87,6 @@ namespace LazuriteUI.Windows.Main.Server
         {
             UpdateServerInfo();
             tbPort.Text = _settings.Port.ToString();
-            tbServiceName.Text = _settings.ServiceName;
             btApply.IsEnabled = false;
         }
 

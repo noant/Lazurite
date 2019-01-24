@@ -51,10 +51,12 @@ namespace LazuriteUI.Windows.Main.Constructors
             complexActionView.EndInit();
             complexActionView.Modified += (element) => Modified?.Invoke();
         }
-
+        
+#pragma warning disable 67
         public event Action Failed;
         public event Action Modified;
         public event Action Succeed;
+#pragma warning restore 67
 
         public void Revert(ScenarioBase scenario)
         {

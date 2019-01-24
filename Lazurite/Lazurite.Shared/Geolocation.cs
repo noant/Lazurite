@@ -1,8 +1,8 @@
-﻿using System.Runtime.Serialization;
+﻿using ProtoBuf;
 
 namespace Lazurite.Shared
 {
-    [DataContract]
+    [ProtoContract]
     public class Geolocation
     {
         public static readonly Geolocation Empty = new Geolocation(double.NaN, double.NaN, false);
@@ -19,11 +19,11 @@ namespace Lazurite.Shared
             //stub
         }
 
-        [DataMember]
+        [ProtoMember(1)]
         public double Latitude { get; set; }
-        [DataMember]
+        [ProtoMember(2)]
         public double Longtitude { get; set; }
-        [DataMember]
+        [ProtoMember(3)]
         public bool IsGPS { get; set; }
 
         public bool IsInvalid => Equals(Empty);

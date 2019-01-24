@@ -38,7 +38,6 @@ namespace LazuriteMobile.App
             tbLogin.Text = credentials.Login;
             tbPassword.Text = credentials.Password;
             tbSecretCode.Text = credentials.SecretKey;
-            tbService.Text = credentials.ServiceName;
             numPort.Value = credentials.Port;
         }
 
@@ -49,8 +48,7 @@ namespace LazuriteMobile.App
                 Login = tbLogin.Text,
                 Password = tbPassword.Text,
                 SecretKey = tbSecretCode.Text,
-                Port = (ushort)numPort.Value,
-                ServiceName = tbService.Text
+                Port = (ushort)numPort.Value
             };
         }
 

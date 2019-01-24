@@ -43,7 +43,9 @@ namespace Lazurite.CoreActions.CoreActions
 
         private ScenarioBase _scenario;
 
+#pragma warning disable 67
         public event ValueChangedEventHandler ValueChanged;
+#pragma warning restore 67
 
         public void SetTargetScenario(ScenarioBase scenario)
         {

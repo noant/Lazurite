@@ -1,131 +1,34 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DCD8E6AF-A435-4556-AD74-84444B1DD816}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lazurite.MainDomain</RootNamespace>
-    <AssemblyName>Lazurite.MainDomain</AssemblyName>
-    <DefaultLanguage>ru-RU</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Lazurite.ActionsDomain\Lazurite.ActionsDomain.csproj">
-      <Project>{e6be3954-3d6f-447a-91bf-04d892a1c025}</Project>
-      <Name>Lazurite.ActionsDomain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lazurite.Data\Lazurite.Data.csproj">
-      <Project>{47C6BAC6-34D8-4013-9739-2C0F6DCB6FFA}</Project>
-      <Name>Lazurite.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj">
-      <Project>{a002f2fb-6791-46a2-9061-38bbe59e1618}</Project>
-      <Name>Lazurite.IOC</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lazurite.Logging\Lazurite.Logging.csproj">
-      <Project>{0A02DE31-B9E4-4AB7-8002-7F477A0F52DE}</Project>
-      <Name>Lazurite.Logging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lazurite.Shared\Lazurite.Shared.csproj">
-      <Project>{9D1FABF0-1A55-47D2-8F0F-BD0BB14F65AA}</Project>
-      <Name>Lazurite.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lazurite.Utils\Lazurite.Utils.csproj">
-      <Project>{d4fdb9f4-f897-4f15-85fc-26e8d933af6d}</Project>
-      <Name>Lazurite.Utils</Name>
-    </ProjectReference>
+    <PackageReference Include="Konscious.Security.Cryptography.Blake2" Version="1.0.9" />
+    <PackageReference Include="protobuf-net" Version="2.4.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="AddictionalData.cs" />
-    <Compile Include="AddictionalDataManager.cs" />
-    <Compile Include="BruteforceChecker.cs" />
-    <Compile Include="ConnectionCredentials.cs" />
-    <Compile Include="DeviceInfo.cs" />
-    <Compile Include="GlobalSettings.cs" />
-    <Compile Include="IAddictionalDataHandler.cs" />
-    <Compile Include="IClientFactory.cs" />
-    <Compile Include="IInstanceManager.cs" />
-    <Compile Include="MessageSecurity\DataContractSerializerExtension.cs" />
-    <Compile Include="MessageSecurity\Encrypted.cs" />
-    <Compile Include="MessageSecurity\EncryptedList.cs" />
-    <Compile Include="MessageSecurity\SerializersFactory.cs" />
-    <Compile Include="ScenarioAction.cs" />
-    <Compile Include="ScenarioActionSource.cs" />
-    <Compile Include="ScenarioExecutionError.cs" />
-    <Compile Include="ScenarioExecutionException.cs" />
-    <Compile Include="ScenarioInfoLW.cs" />
-    <Compile Include="ScenarioInitializationValue.cs" />
-    <Compile Include="ScenariosRepositoryBase.cs" />
-    <Compile Include="IServer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScenarioBase.cs" />
-    <Compile Include="ScenarioInfo.cs" />
-    <Compile Include="ScenarioStartupSource.cs" />
-    <Compile Include="MessageSecurity\SecureEncoding.cs" />
-    <Compile Include="ScenarioValueChangedEventArgs.cs" />
-    <Compile Include="SecuritySettingsBase.cs" />
-    <Compile Include="ServiceFaultCodes.cs" />
-    <Compile Include="Statistics\IStatisticsManager.cs" />
-    <Compile Include="Statistics\StatisticsItem.cs" />
-    <Compile Include="Statistics\StatisticsItemSource.cs" />
-    <Compile Include="Statistics\StatisticsScenarioInfo.cs" />
-    <Compile Include="TriggerBase.cs" />
-    <Compile Include="UserBase.cs" />
-    <Compile Include="UserGroupBase.cs" />
-    <Compile Include="UsersRepositoryBase.cs" />
-    <Compile Include="ISystemUtils.cs" />
-    <Compile Include="UserVisualSettings.cs" />
+    <ProjectReference Include="..\Lazurite.ActionsDomain\Lazurite.ActionsDomain.csproj" />
+    <ProjectReference Include="..\Lazurite.Data\Lazurite.Data.csproj" />
+    <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj" />
+    <ProjectReference Include="..\Lazurite.Logging\Lazurite.Logging.csproj" />
+    <ProjectReference Include="..\Lazurite.Shared\Lazurite.Shared.csproj" />
+    <ProjectReference Include="..\Lazurite.Utils\Lazurite.Utils.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\portable-net45+win8+wp8+wpa81\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="SimpleRemoteMethods.Bases">
+      <HintPath>..\..\Libs\SimpleRemoteMethods\SimpleRemoteMethods.Bases.dll</HintPath>
     </Reference>
-    <Reference Include="PCLCrypto, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d4421c8a4786956c, processorArchitecture=MSIL">
-      <HintPath>..\packages\PCLCrypto.2.0.147\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\PCLCrypto.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel">
-      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.ServiceModel.dll</HintPath>
-    </Reference>
-    <Reference Include="Validation, Version=2.4.0.0, Culture=neutral, PublicKeyToken=2fc06f0d701809a7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Validation.2.4.15\lib\portable-net45+win8+wp8+wpa81\Validation.dll</HintPath>
+    <Reference Include="SimpleRemoteMethods.ClientSide">
+      <HintPath>..\..\Libs\SimpleRemoteMethods\SimpleRemoteMethods.ClientSide.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="start ..\..\Libs\SimpleRemoteMethods\srmGen.exe bin\$(ConfigurationName)\netstandard2.0\Lazurite.MainDomain.dll Lazurite.MainDomain.IServer Lazurite.ServiceClient LazuriteClient ..\Lazurite.ServiceClient\LazuriteClient.cs" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

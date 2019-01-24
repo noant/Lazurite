@@ -42,7 +42,9 @@ namespace Lazurite.CoreActions
             set;
         } = new ButtonValueType();
 
+#pragma warning disable 67
         public event ValueChangedEventHandler ValueChanged;
+#pragma warning restore 67
 
         public string GetValue(ExecutionContext context)
         {

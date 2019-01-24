@@ -7,7 +7,7 @@ using Lazurite.Utils;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Xml.Serialization;
+using ExecutionContext = Lazurite.ActionsDomain.ExecutionContext;
 
 namespace Lazurite.MainDomain
 {

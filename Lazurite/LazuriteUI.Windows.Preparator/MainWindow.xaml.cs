@@ -5,6 +5,7 @@ using Lazurite.Security;
 using Lazurite.Windows.Logging;
 using Lazurite.Windows.Modules;
 using Lazurite.Windows.Server;
+using SimpleRemoteMethods.Utils.Windows;
 using System;
 using System.IO;
 using System.Linq;
@@ -34,34 +35,18 @@ namespace LazuriteUI.Windows.Preparator
             var error = false;
 
             Utils.VcRedistInstallAll();
-            Utils.FirewallSettings();
 
             if (!fileSavior.Has(LazuriteServer.SettingsKey))
             {
-                //certificate installing
-                try
-                {
-                    var settingsStub = new ServerSettings();
-                    settingsStub.CertificateHash = Lazurite.Windows.Server.Utils.AddCertificate(Path.Combine(assemblyFolder, CertificateFilename), "28021992");
-                    fileSavior.Set(LazuriteServer.SettingsKey, settingsStub);
-                    Lazurite.Windows.Server.Utils.NetshAddSslCert(settingsStub.CertificateHash, settingsStub.Port);
-                    Lazurite.Windows.Server.Utils.NetshAddUrlacl(settingsStub.GetAddress());
-                    Lazurite.Windows.Server.Utils.NetshAllowPort(settingsStub.Port);
-
-                    message += "*Стандартный сертификат для HTTPS установлен.\r\n";
-                }
-                catch (Exception e)
-                {
-                    var msg = "*!Ошибка при установке стандартного сертификата для HTTPS. Сервер не будет запущен.\r\n";
-                    message += msg;
-                    log.ErrorFormat(e, msg);
-                    error = true;
-                }
+                // Certificate installing
+                var settingsStub = new ServerSettings();
+                settingsStub.CertificateHash = SecurityHelper.AddCertificateInWindows(Path.Combine(assemblyFolder, CertificateFilename), "28021992");
+                fileSavior.Set(LazuriteServer.SettingsKey, settingsStub);
             }
             
-            //plugins installing
-            Singleton.Add(new ScenariosRepository()); //stub for pluginsManager
-            Singleton.Add(new UsersRepository()); //stub for pluginsManager
+            // Plugins installing
+            Singleton.Add(new ScenariosRepository()); // Stub for pluginsManager
+            Singleton.Add(new UsersRepository()); // Stub for pluginsManager
             var pluginsFolderPath = Path.Combine(Lazurite.Windows.Utils.Utils.GetAssemblyFolder(typeof(App).Assembly), "PluginsToInstall");
             var pluginsFiles = Directory.GetFiles(pluginsFolderPath).Where(x => x.EndsWith(PluginsManager.PluginFileExtension)).ToArray();
             try
@@ -75,7 +60,7 @@ namespace LazuriteUI.Windows.Preparator
                     }
                     catch (Exception e)
                     {
-                        var msg = "*!Ошибка при установке плагина\r\n["+pluginPath+"].\r\n";
+                        var msg = $"*!Ошибка при установке плагина\r\n[{pluginPath}].\r\n";
                         message += msg;
                         log.ErrorFormat(e, msg);
                         error = true;
@@ -91,16 +76,16 @@ namespace LazuriteUI.Windows.Preparator
                 error = true;
             }
 
-            //autorun installing
+            // Autorun installing
             try
             {
                 var mainAppName = Path.Combine(Lazurite.Windows.Utils.Utils.GetAssemblyFolder(typeof(App).Assembly), LauncherExeName);
                 TaskSchedulerUtils.CreateLogonTask(desktopUser, mainAppName);
-                message += string.Format("*Программа добавлена в планировщик задач для пользователя [{0}].\r\n", desktopUser);
+                message += $"*Программа добавлена в планировщик задач для пользователя [{desktopUser}].\r\n";
             }
             catch (Exception e)
             {
-                var msg = string.Format("*!Невозможно добавить программу в автозапуск под пользователем [{0}].\r\nПрограмма не будет запускаться автоматически при логине пользователя [{0}].", desktopUser);
+                var msg = $"*!Невозможно добавить программу в автозапуск для пользователем [{desktopUser}].\r\nПрограмма не будет запускаться автоматически при логине пользователя [{desktopUser}].";
                 message += msg;
                 log.ErrorFormat(e, msg);
                 error = true;

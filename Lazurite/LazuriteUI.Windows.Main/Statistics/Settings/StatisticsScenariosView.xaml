@@ -13,9 +13,12 @@
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition></RowDefinition>
     </Grid.RowDefinitions>
-    <controls:CaptionView Icon="Settings">Параметры статистики</controls:CaptionView>
-    <Label Grid.Row="1" Margin="0,8,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="SteelBlue">Выберите сценарии, все изменения которых должны фиксироваться в базе данных статистики.</Label>
+    <controls:CaptionView x:Name="captionView" Icon="Settings">Параметры статистики</controls:CaptionView>
+    <Label Grid.Row="1" Margin="0,8,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{x:Static controls:Visual.CaptionForeground}">Выберите сценарии, все изменения которых должны фиксироваться в базе данных статистики.</Label>
     <controls:WheelScroll VerticalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Top">
         <StackPanel Orientation="Vertical" x:Name="spItems" Margin="10"></StackPanel>
     </controls:WheelScroll>
+    <Label x:Name="lblLoading" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Foreground="{x:Static controls:Visual.CaptionForeground}">
+        Загрузка списка сценариев...
+    </Label>
 </Grid>

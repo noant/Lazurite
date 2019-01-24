@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LazuriteMobile.MainDomain
+﻿namespace LazuriteMobile.MainDomain
 {
     public interface ISupportsResume
     {

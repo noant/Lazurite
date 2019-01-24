@@ -4,7 +4,6 @@ using Lazurite.MainDomain;
 using Lazurite.Shared;
 using LazuriteMobile.MainDomain;
 using System;
-using System.Linq;
 
 namespace LazuriteMobile.App.Switches
 {

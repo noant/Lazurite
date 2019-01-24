@@ -2,17 +2,12 @@
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.CoreActions;
-using Lazurite.CoreActions.ContextInitialization;
-using Lazurite.CoreActions.CoreActions;
 using Lazurite.IOC;
-using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.Security;
-using Lazurite.Shared;
-using Lazurite.Utils;
 using System;
 using System.Linq;
-using System.Threading;
+using ExecutionContext = Lazurite.ActionsDomain.ExecutionContext;
 
 namespace Lazurite.Scenarios.ScenarioTypes
 {

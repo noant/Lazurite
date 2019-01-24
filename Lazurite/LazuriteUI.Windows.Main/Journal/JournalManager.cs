@@ -1,11 +1,8 @@
 ﻿using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.Windows.Logging;
-using LazuriteUI.Windows.Controls;
 using System;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace LazuriteUI.Windows.Main.Journal
 {

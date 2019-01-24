@@ -1,16 +1,12 @@
-﻿using Lazurite.Shared;
+﻿using ProtoBuf;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace Lazurite.MainDomain
 {
-    [KnownType(typeof(Geolocation))]
-    [KnownType(typeof(DeviceInfo))]
-    [KnownType(typeof(Messages))]
-    [DataContract]
+    [ProtoContract]
     public class AddictionalData
     {
-        [DataMember]
+        [ProtoMember(1)]
         public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
 
         public AddictionalData()

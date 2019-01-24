@@ -79,7 +79,8 @@ namespace Lazurite.CoreActions
         {
             return GetValue(context) == ToggleValueType.ValueON;
         }
-        
+#pragma warning disable 67
         public event ValueChangedEventHandler ValueChanged;
+#pragma warning restore 67
     }
 }

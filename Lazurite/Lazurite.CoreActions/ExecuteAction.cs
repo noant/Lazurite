@@ -91,7 +91,9 @@ namespace Lazurite.CoreActions
                 _inputValue = value;
             }
         }
-        
+
+#pragma warning disable 67
         public event ValueChangedEventHandler ValueChanged;
+#pragma warning restore 67
     }
 }

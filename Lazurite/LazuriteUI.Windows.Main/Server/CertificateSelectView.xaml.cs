@@ -3,11 +3,11 @@ using Lazurite.Windows.Logging;
 using Lazurite.Windows.Server;
 using LazuriteUI.Windows.Controls;
 using LazuriteUI.Windows.Main.Common;
+using SimpleRemoteMethods.Utils.Windows;
 using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
-using static Lazurite.Windows.Server.Utils;
 
 namespace LazuriteUI.Windows.Main.Server
 {
@@ -32,9 +32,9 @@ namespace LazuriteUI.Windows.Main.Server
                     EnterPasswordView.Show("Введите пароль сертификата...", (pass) => {
                         try
                         {
-                            var certHash = Lazurite.Windows.Server.Utils.AddCertificate(openFileDialog.FileName, pass);
+                            var certHash = SecurityHelper.AddCertificateInWindows(openFileDialog.FileName, pass);
                             Refresh();
-                            certListView.GetItems().Where(x => ((CertificateInfo)((ItemView)x).Tag).Hash.Equals(certHash)).All(x => x.Selected = true);
+                            certListView.GetItems().Where(x => ((ServerHelper.CertificateInfo)((ItemView)x).Tag).Hash.Equals(certHash)).All(x => x.Selected = true);
                         }
                         catch (Exception exception)
                         {
@@ -47,7 +47,7 @@ namespace LazuriteUI.Windows.Main.Server
             certListView.SelectionChanged += (o, e) => btApply.IsEnabled = true;
             btApply.Click += (o, e) =>
             {
-                var selectedCert = (CertificateInfo)((ItemView)certListView.SelectedItem).Tag;
+                var selectedCert = (ServerHelper.CertificateInfo)((ItemView)certListView.SelectedItem).Tag;
                 _settings.CertificateHash = selectedCert.Hash;
                 Selected?.Invoke(settings);
             };
@@ -60,7 +60,7 @@ namespace LazuriteUI.Windows.Main.Server
         public void Refresh()
         {
             certListView.Children.Clear();
-            var certs = Lazurite.Windows.Server.Utils.GetInstalledCertificates();
+            var certs = ServerHelper.GetInstalledCertificates();
             foreach (var cert in certs)
             {
                 var itemView = new ItemView();

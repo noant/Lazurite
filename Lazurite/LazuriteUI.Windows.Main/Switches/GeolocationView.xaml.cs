@@ -2,9 +2,6 @@
 using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
-using LazuriteUI.Windows.Controls;
-using Microsoft.Win32;
-using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;

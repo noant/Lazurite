@@ -154,8 +154,10 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             set;
         }
 
+#pragma warning disable 67
         public event Action<IConstructorElement> NeedAddNext;
         public event Action<IConstructorElement> NeedRemove;
         public event Action<IConstructorElement> Modified;
+#pragma warning restore 67
     }
 }

@@ -1,6 +1,4 @@
-﻿using Lazurite.IOC;
-using Lazurite.MainDomain;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]

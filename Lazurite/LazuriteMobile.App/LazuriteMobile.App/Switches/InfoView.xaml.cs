@@ -1,6 +1,5 @@
 ﻿using Lazurite.MainDomain;
 using LazuriteMobile.App.Switches.Bases;
-using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {

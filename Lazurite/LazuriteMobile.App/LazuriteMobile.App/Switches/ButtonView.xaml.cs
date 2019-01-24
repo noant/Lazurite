@@ -2,8 +2,6 @@
 using LazuriteMobile.App.Switches.Bases;
 using System;
 
-using Xamarin.Forms;
-
 namespace LazuriteMobile.App.Switches
 {
     public partial class ButtonView : SwitchBase

@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lazurite.MainDomain\Lazurite.MainDomain.csproj" />
+    <ProjectReference Include="..\Lazurite.Visual\Lazurite.Visual.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SimpleRemoteMethods.Bases">
+      <HintPath>..\..\Libs\SimpleRemoteMethods\SimpleRemoteMethods.Bases.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleRemoteMethods.ServerSide">
+      <HintPath>..\..\Libs\SimpleRemoteMethods\SimpleRemoteMethods.ServerSide.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

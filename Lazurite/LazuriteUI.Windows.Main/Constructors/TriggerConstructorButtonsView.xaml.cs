@@ -95,9 +95,11 @@ namespace LazuriteUI.Windows.Main.Constructors
             btApply.IsEnabled = true;
         }
 
+#pragma warning disable 67
         public event Action ApplyClicked;
         public event Action ResetClicked;
         public event Action Modified;
         public event Action Succeed;
+#pragma warning restore 67
     }
 }

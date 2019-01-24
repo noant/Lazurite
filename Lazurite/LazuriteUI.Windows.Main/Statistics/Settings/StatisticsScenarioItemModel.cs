@@ -2,12 +2,6 @@
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
 using Lazurite.Scenarios.ScenarioTypes;
-using Lazurite.Visual;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LazuriteUI.Windows.Main.Statistics.Settings
 {

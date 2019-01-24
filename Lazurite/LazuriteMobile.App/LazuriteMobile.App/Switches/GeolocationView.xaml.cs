@@ -1,12 +1,9 @@
 ﻿using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
-using LazuriteMobile.App.Controls;
 using LazuriteMobile.App.Switches.Bases;
 using LazuriteMobile.MainDomain;
 using System;
-
-using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches
 {

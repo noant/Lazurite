@@ -37,7 +37,7 @@ namespace Lazurite.MainDomain
                     }
                     else
                     {
-                        return (T)(dynamic)(Data[key].Object); //crutch for mono
+                        return (T)Data[key].Object;
                     }
                 }
             }

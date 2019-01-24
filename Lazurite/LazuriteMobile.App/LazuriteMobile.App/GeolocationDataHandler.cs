@@ -1,12 +1,8 @@
 ﻿using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
-using Lazurite.Shared;
 using LazuriteMobile.MainDomain;
-using Plugin.Geolocator;
-using Plugin.Geolocator.Abstractions;
 using System;
-using System.Threading.Tasks;
 
 namespace LazuriteMobile.App
 {

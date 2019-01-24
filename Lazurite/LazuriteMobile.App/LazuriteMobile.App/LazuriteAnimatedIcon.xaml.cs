@@ -1,12 +1,5 @@
-﻿using Lazurite.IOC;
-using Lazurite.Utils;
-using LazuriteMobile.MainDomain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Lazurite.Utils;
 using System.Threading;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

@@ -1,11 +1,11 @@
 ﻿using Lazurite.ActionsDomain.Attributes;
+using ProtoBuf;
 using System;
-using System.Runtime.Serialization;
 
 namespace Lazurite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Дата и время")]
-    [DataContract]
+    [ProtoContract]
     public class DateTimeValueType: ValueTypeBase
     {
         private static readonly DateTime DefaultDateTime = new DateTime();

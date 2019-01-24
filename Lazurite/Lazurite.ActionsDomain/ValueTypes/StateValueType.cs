@@ -1,11 +1,11 @@
 ﻿using Lazurite.ActionsDomain.Attributes;
+using ProtoBuf;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace Lazurite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Статус")]
-    [DataContract]
+    [ProtoContract]
     public class StateValueType : ValueTypeBase
     {
         public StateValueType()

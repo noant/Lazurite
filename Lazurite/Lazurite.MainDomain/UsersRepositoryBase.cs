@@ -10,26 +10,11 @@ namespace Lazurite.MainDomain
 
         public Action<UserBase> OnUserRemoved { get; set; }
 
-        public UserBase[] Users
-        {
-            get
-            {
-                return _users.ToArray();
-            }
-        }
+        public UserBase[] Users => _users.ToArray();
 
-        public UserGroupBase[] Groups
-        {
-            get
-            {
-                return _groups.ToArray();
-            }
-        }
+        public UserGroupBase[] Groups => _groups.ToArray();
 
-        protected void RaiseUserRemoved(UserBase user)
-        {
-            OnUserRemoved?.Invoke(user);
-        }
+        protected void RaiseUserRemoved(UserBase user) => OnUserRemoved?.Invoke(user);
 
         public abstract void Initialize();
         public abstract UserBase SystemUser { get; }

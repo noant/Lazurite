@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Windows;
+﻿using System.Windows;
 
 namespace LazuriteUI.Windows.Main
 {

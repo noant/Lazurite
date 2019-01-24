@@ -1,7 +1,6 @@
 ﻿using Lazurite.MainDomain;
 using System;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace LazuriteUI.Windows.Main.Switches
 {

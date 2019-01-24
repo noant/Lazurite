@@ -7,7 +7,6 @@ using LazuriteUI.Windows.Controls;
 using LazuriteUI.Windows.Main.Constructors;
 using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 

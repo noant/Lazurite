@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Lazurite.Windows.Core</RootNamespace>
     <AssemblyName>Lazurite.Windows.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -91,10 +92,6 @@
       <Project>{89D16D58-FF5F-455B-A5AC-74E9B6CA8210}</Project>
       <Name>Lazurite.Windows.Server</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lazurite.Windows.ServiceClient\Lazurite.Windows.ServiceClient.csproj">
-      <Project>{8C79C90A-F696-4397-83C8-CB39AABBC872}</Project>
-      <Name>Lazurite.Windows.ServiceClient</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Statistics\Lazurite.Windows.Statistics.csproj">
       <Project>{89770310-5c0e-48d0-b76b-4b4f4a0fbc68}</Project>
       <Name>Lazurite.Windows.Statistics</Name>
@@ -106,7 +103,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

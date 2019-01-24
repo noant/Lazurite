@@ -27,7 +27,7 @@ namespace LazuriteMobile.App.Droid
         {
             get
             {
-                var service = ((PowerManager)GetSystemService(Service.PowerService));
+                var service = ((PowerManager)GetSystemService(PowerService));
                 return !service.IsInteractive || service.IsDeviceIdleMode;
             }
         }
@@ -35,7 +35,7 @@ namespace LazuriteMobile.App.Droid
         {
             get
             {
-                var service = ((PowerManager)GetSystemService(Service.PowerService));
+                var service = ((PowerManager)GetSystemService(PowerService));
                 return service.IsPowerSaveMode && !service.IsIgnoringBatteryOptimizations(PackageName);
             }
         }
@@ -79,7 +79,7 @@ namespace LazuriteMobile.App.Droid
                 _manager.ConnectionLost += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionLost));
                 _manager.ConnectionRestored += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionRestored), TimerAction.Start);
                 _manager.LoginOrPasswordInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.CredentialsInvalid), TimerAction.Stop);
-                _manager.AccessLocked += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.AccessLocked), TimerAction.Stop);
+                _manager.BruteforceSuspition += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.BruteforceSuspition), TimerAction.Stop);
                 _manager.NeedClientSettings += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedClientSettings));
                 _manager.NeedRefresh += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedRefresh));
                 _manager.ScenariosChanged += (scenarios) => Handle((messenger) => Utils.RaiseEvent(scenarios, messenger, _messenger, ServiceOperation.ScenariosChanged));
@@ -112,7 +112,9 @@ namespace LazuriteMobile.App.Droid
                     activityIntent, PendingIntentFlags.UpdateCurrent);
 
                 _currentNotification =
+#pragma warning disable CS0618 // Тип или член устарел
                     new Notification.Builder(this).
+#pragma warning restore CS0618 // Тип или член устарел
                         SetContentTitle("Lazurite работает...").
                         SetSmallIcon(Resource.Drawable.icon).
                         SetContentIntent(showActivityIntent).

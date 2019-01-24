@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ProtoBuf;
+using System;
 
 namespace Lazurite.MainDomain.Statistics
 {
     /// <summary>
     /// Info of one statistics change
     /// </summary>
-    [DataContract]
+    [ProtoContract]
     public class StatisticsItem
     {
-        [DataMember(IsRequired = false, EmitDefaultValue = false)]
+        [ProtoMember(1)]
         public DateTime DateTime { get; set; }
-        [DataMember]
+        [ProtoMember(2)]
         public StatisticsItemSource Source { get; set; }
-        [DataMember]
+        [ProtoMember(3)]
         public StatisticsScenarioInfo Target { get; set; }
-        [DataMember]
+        [ProtoMember(4)]
         public string Value { get; set; }
     }
 }

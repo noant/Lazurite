@@ -49,8 +49,8 @@ namespace LazuriteMobile.App.Droid
                 case ServiceOperation.CredentialsInvalid:
                     LoginOrPasswordInvalid?.Invoke();
                     break;
-                case ServiceOperation.AccessLocked:
-                    AccessLocked?.Invoke();
+                case ServiceOperation.BruteforceSuspition:
+                    BruteforceSuspition?.Invoke();
                     break;
                 case ServiceOperation.CredentialsLoaded:
                     CredentialsLoaded?.Invoke();
@@ -82,7 +82,7 @@ namespace LazuriteMobile.App.Droid
         public event Action<ScenarioInfo[]> ScenariosChanged;
         public event Action SecretCodeInvalid;
         public event Action ConnectionError;
-        public event Action AccessLocked;
+        public event Action BruteforceSuspition;
 
         public void Initialize(Action<bool> callback)
         {

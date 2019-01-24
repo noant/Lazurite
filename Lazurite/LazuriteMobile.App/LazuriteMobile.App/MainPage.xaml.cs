@@ -4,14 +4,13 @@ using LazuriteMobile.App.Common;
 using LazuriteMobile.App.Controls;
 using LazuriteMobile.MainDomain;
 using System;
-using System.Linq;
 using System.Threading;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App
 {
     public partial class MainPage : ContentPage, INotificationsHandler
-	{
+    {
         private IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
         private ISupportsResume _supportsResume = Singleton.Resolve<ISupportsResume>();
         private SynchronizationContext _currentContext = SynchronizationContext.Current;
@@ -19,7 +18,7 @@ namespace LazuriteMobile.App
         private event EventsHandler<bool> ConnectionToServiceInitialized;
 
         public MainPage()
-		{
+        {
             InitializeComponent();
 
             Singleton.Clear<INotificationsHandler>();
@@ -42,7 +41,7 @@ namespace LazuriteMobile.App
             _manager.ConnectionRestored += _manager_ConnectionRestored;
             _manager.NeedClientSettings += _manager_NeedClientSettings;
             _manager.LoginOrPasswordInvalid += _manager_LoginOrPasswordInvalid;
-            _manager.AccessLocked += _manager_AccessLocked;
+            _manager.BruteforceSuspition += _manager_BruteforceSuspition;
             _manager.CredentialsLoaded += _manager_CredentialsLoaded;
             _manager.SecretCodeInvalid += _manager_SecretCodeInvalid;
             _manager.ScenariosChanged += _manager_ScenariosChanged;
@@ -135,7 +134,7 @@ namespace LazuriteMobile.App
             });
         }
 
-        private void _manager_AccessLocked()
+        private void _manager_BruteforceSuspition()
         {
             Invoke(() => {
                 connectionSettingsSlider.Show();
@@ -157,14 +156,14 @@ namespace LazuriteMobile.App
             var credentials = settingsView.GetCredentials();
             if (string.IsNullOrEmpty(credentials.Host) || string.IsNullOrEmpty(credentials.Login)
                 || string.IsNullOrEmpty(credentials.Password) || string.IsNullOrEmpty(credentials.SecretKey)
-                || string.IsNullOrEmpty(credentials.ServiceName) || credentials.Port < 1)
+                ||  credentials.Port < 1)
             {
                 ShowCaption("Не все поля введены", true, false);
                 connectionSettingsSlider.Show();
             }
             else
             {
-                ShowCaption("Соединение с\r\n[" + credentials.GetAddress() + "]");
+                ShowCaption($"Соединение с\r\n[{credentials.GetAddress()}]");
                 _manager.SetClientSettings(credentials);
             }
         }
@@ -180,7 +179,9 @@ namespace LazuriteMobile.App
         private void _manager_ConnectionRestored()
         {
             Invoke(() => {
+#pragma warning disable CS4014 // Так как этот вызов не ожидается, выполнение существующего метода продолжается до завершения вызова
                 connectionSettingsSlider.Hide();
+#pragma warning restore CS4014 // Так как этот вызов не ожидается, выполнение существующего метода продолжается до завершения вызова
                 HideCaption();
                 swgrid.IsEnabled = true;
             });

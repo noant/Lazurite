@@ -1,19 +1,17 @@
-﻿using Lazurite.ActionsDomain;
-using Lazurite.ActionsDomain.ValueTypes;
+﻿using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
-using Lazurite.MainDomain.MessageSecurity;
 using Lazurite.MainDomain.Statistics;
 using Lazurite.Scenarios.ScenarioTypes;
 using Lazurite.Shared;
-using Lazurite.Windows.ServiceClient;
 using Lazurite.Windows.Statistics.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Lazurite.Windows.Statistics
 {
@@ -144,7 +142,7 @@ namespace Lazurite.Windows.Statistics
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Ошибка во время записи значения сценария в файлы статистики. Сценарий: [\"{0}\"]", item.Target.ID);
+                Log.Error($"Ошибка во время записи значения сценария в файлы статистики. Сценарий: [{item.Target.ID}]", e);
             }
         }
 
@@ -156,7 +154,7 @@ namespace Lazurite.Windows.Statistics
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Ошибка во время записи значения сценария в файлы статистики. Сценарий: [\"{0}\"]", scenarioId);
+                Log.Error($"Ошибка во время получения статистики. Сценарий: [{scenarioId}]", e);
                 return new StatisticsDataItem[0];
             }
         }
@@ -201,7 +199,7 @@ namespace Lazurite.Windows.Statistics
             }
         }
 
-        public StatisticsItem[] GetItems(StatisticsScenarioInfo info, DateTime since, DateTime to, ScenarioActionSource source)
+        public async Task<StatisticsItem[]> GetItems(StatisticsScenarioInfo info, DateTime since, DateTime to, ScenarioActionSource source)
         {
             var scenario = ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == info.ID && ActionsDomain.Utils.GetValueTypeClassName(x.ValueType.GetType()) == info.ValueTypeName);
             if (scenario?.SecuritySettings.IsAvailableForUser(source.User, source.Source, source.Action) ?? false)
@@ -220,10 +218,8 @@ namespace Lazurite.Windows.Statistics
                             Since = DateTime.Now,
                             To = DateTime.Now,
                         };
-                        var server = ClientFactory.GetServer(remoteScenario.Credentials);
-                        var statistics = server.GetStatistics(SafeDateTime.FromDateTime(since), SafeDateTime.FromDateTime(to), new Encrypted<StatisticsScenarioInfo>(remoteScenarioInfo, remoteScenario.Credentials.SecretKey))
-                            .Decrypt(remoteScenario.Credentials.SecretKey)
-                            .ToArray();
+                        var client = ServiceClientFactory.Current.GetClient(remoteScenario.Credentials);
+                        var statistics = await client.GetStatistics(since, to, remoteScenarioInfo);
                         foreach (var item in statistics)
                         {
                             //crutch
@@ -239,7 +235,8 @@ namespace Lazurite.Windows.Statistics
                 }
                 else
                 {
-                    return _dataManager.GetDataItems(info.ID, info.ValueTypeName, since, to)
+                    return 
+                        _dataManager.GetDataItems(info.ID, info.ValueTypeName, since, to)
                         .Select(x =>
                         {
                             var item = new StatisticsItem();
@@ -257,7 +254,7 @@ namespace Lazurite.Windows.Statistics
             throw new ScenarioExecutionException(ScenarioExecutionError.AccessDenied);
         }
 
-        public StatisticsScenarioInfo GetStatisticsInfoForScenario(ScenarioBase scenario, ScenarioActionSource source)
+        public async Task<StatisticsScenarioInfo> GetStatisticsInfoForScenario(ScenarioBase scenario, ScenarioActionSource source)
         {
             if (scenario.SecuritySettings.IsAvailableForUser(source.User, source.Source, source.Action))
             {
@@ -270,10 +267,9 @@ namespace Lazurite.Windows.Statistics
                         var scenarioInfo = new ScenarioInfo();
                         scenarioInfo.ScenarioId = remoteScenario.RemoteScenarioId;
                         scenarioInfo.ValueType = scenario.ValueType;
-                        var server = ClientFactory.GetServer(remoteScenario.Credentials);
-                        var remoteScenarioInfo = server.GetStatisticsInfoForScenario(new Encrypted<ScenarioInfo>(scenarioInfo, remoteScenario.Credentials.SecretKey))
-                            .Decrypt(remoteScenario.Credentials.SecretKey);
-                        remoteScenarioInfo.ID = scenario.Id; //set current scenario id
+                        var client = ServiceClientFactory.Current.GetClient(remoteScenario.Credentials);
+                        var remoteScenarioInfo = await client.GetStatisticsInfoForScenario(scenarioInfo);
+                        remoteScenarioInfo.ID = scenario.Id; // Set current scenario id
                         remoteScenarioInfo.Name = scenario.Name;
                         return remoteScenarioInfo;
                     }
@@ -287,7 +283,7 @@ namespace Lazurite.Windows.Statistics
             throw new ScenarioExecutionException(ScenarioExecutionError.AccessDenied);
         }
 
-        private ScenarioStatisticsRegistration GetRegistrationInfoInternal(RemoteScenario[] scenarios) //only for equals credentials
+        private async Task<ScenarioStatisticsRegistration> GetRegistrationInfoInternal(RemoteScenario[] scenarios) //only for equals credentials
         {
             if (!scenarios.Any())
                 return new ScenarioStatisticsRegistration();
@@ -298,15 +294,11 @@ namespace Lazurite.Windows.Statistics
 
                 var remoteScenariosInfo = scenarios.ToDictionary(x => x.RemoteScenarioId);
 
-                var server = ClientFactory.GetServer(creds);
+                var client = ServiceClientFactory.Current.GetClient(creds);
 
-                var remoteResult = server
-                    .GetStatisticsRegistration(
-                        new EncryptedList<string>(remoteScenariosInfo.Select(x => x.Value.RemoteScenarioId), creds.SecretKey))
-                    .Decrypt(creds.SecretKey);
+                var remoteResult = await client.GetStatisticsRegistration(remoteScenariosInfo.Select(x => x.Value.RemoteScenarioId).ToArray());
 
-                var result = new ScenarioStatisticsRegistration(
-                    remoteResult.RegisteredIds.Select(x => remoteScenariosInfo[x].Id).ToArray());
+                var result = new ScenarioStatisticsRegistration(remoteResult.RegisteredIds.Select(x => remoteScenariosInfo[x].Id).ToArray());
 
                 return result;
             }
@@ -317,11 +309,21 @@ namespace Lazurite.Windows.Statistics
             }
         }
 
-        public ScenarioStatisticsRegistration GetRegistrationInfo(ScenarioBase[] scenarios)
+        public async Task<ScenarioStatisticsRegistration> GetRegistrationInfo(ScenarioBase[] scenarios)
         {
             var result = new ScenarioStatisticsRegistration();
 
-            //for remote scenarios
+            var targetIds = _statisticsScenariosInfos
+                .Where(x => scenarios.Any(z => z.Id == x.ScenarioId))
+                .Select(x => x.ScenarioId)
+                .ToArray();
+
+            result.Union(new ScenarioStatisticsRegistration(targetIds));
+
+            // For remote scenarios
+
+            if (scenarios.Length == 1 && targetIds.Length == 1)
+                return result;
 
             var remoteScenariosGroups = scenarios
                 .OfType<RemoteScenario>()
@@ -329,22 +331,16 @@ namespace Lazurite.Windows.Statistics
                 .ToArray();
 
             foreach (var group in remoteScenariosGroups)
-                result.Union(GetRegistrationInfoInternal(group.ToArray()));
+                result.Union(await GetRegistrationInfoInternal(group.ToArray()));
 
-            //end -- for remote scenarios
-
-            var targetIds = _statisticsScenariosInfos
-                .Where(x => scenarios.Any(z => z.Id == x.ScenarioId))
-                .Select(x => x.ScenarioId)
-                .ToArray();
-            result.Union(new ScenarioStatisticsRegistration(targetIds));
+            // End -- for remote scenarios
 
             return result;
         }
 
-        public void Register(ScenarioBase scenario)
+        public async void Register(ScenarioBase scenario)
         {
-            if (scenario is RemoteScenario == false && !IsRegisteredInternal(scenario))
+            if (scenario is RemoteScenario == false && !await IsRegisteredInternal(scenario))
             {
                 _statisticsScenariosInfos.Add(
                     new StatisticsScenarioInfoInternal()
@@ -359,14 +355,15 @@ namespace Lazurite.Windows.Statistics
             }
         }
 
-        private bool IsRegisteredInternal(ScenarioBase scenario)
+        private async Task<bool> IsRegisteredInternal(ScenarioBase scenario)
         {
-            return GetRegistrationInfo(new[] { scenario }).IsRegistered(scenario.Id);
+            var info = await GetRegistrationInfo(new[] { scenario });
+            return info.IsRegistered(scenario.Id);
         }
 
-        public void UnRegister(ScenarioBase scenario)
+        public async void UnRegister(ScenarioBase scenario)
         {
-            if (IsRegisteredInternal(scenario))
+            if (await IsRegisteredInternal(scenario))
             {
                 _statisticsScenariosInfos.RemoveAll(x=> x.ScenarioId == scenario.Id);
                 UnregisterInternal(scenario);

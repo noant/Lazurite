@@ -30,7 +30,7 @@ namespace Lazurite.MainDomain
         public void UpdateLocation(GeolocationInfo geolocationInfo) => AddGeolocationIfNotLast(geolocationInfo);
 
         public void SetMessage(string message, string title) => 
-            _messages.Add(new Message() { DateTime = SafeDateTime.FromDateTime(DateTime.Now), Text = message, Header = title });
+            _messages.Add(new Message() { DateTime = DateTime.Now, Text = message, Header = title });
 
         public Messages ExtractMessages()
         {

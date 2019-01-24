@@ -55,21 +55,9 @@ namespace Lazurite.Scenarios
             }
         }
 
-        public override ScenarioBase[] Scenarios
-        {
-            get
-            {
-                return _scenarios.ToArray();
-            }
-        }
+        public override ScenarioBase[] Scenarios => _scenarios.ToArray();
 
-        public override TriggerBase[] Triggers
-        {
-            get
-            {
-                return _triggers.ToArray();
-            }
-        }
+        public override TriggerBase[] Triggers => _triggers.ToArray();
 
         public override void AddScenario(ScenarioBase scenario)
         {
@@ -123,7 +111,7 @@ namespace Lazurite.Scenarios
             var allActionsWithScen = 
                 _scenarios
                 .SelectMany(x => x.GetAllActionsFlat())
-                .Union(_triggers.SelectMany(x=>x.GetAllActionsFlat()))
+                .Union(_triggers.SelectMany(x => x.GetAllActionsFlat()))
                 .Where(x => x is IScenariosAccess scenarioAccessObj && scenarioAccessObj.TargetScenarioId == scenario.Id)
                 .ToArray();
 

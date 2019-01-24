@@ -63,8 +63,8 @@ namespace LazuriteMobile.App.Controls
         private bool _lockClick = false;
 
         public ItemView()
-		{
-			InitializeComponent();
+        {
+            InitializeComponent();
             PropertyChanged += (o, e) => {
                 if (e.PropertyName == nameof(IsEnabled))
                 {

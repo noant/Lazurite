@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ProtoBuf;
+using System;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Lazurite.MainDomain.Statistics
 {
     public interface IStatisticsManager
     {
-        StatisticsScenarioInfo GetStatisticsInfoForScenario(ScenarioBase scenario, ScenarioActionSource source);
-        StatisticsItem[] GetItems(StatisticsScenarioInfo info, DateTime since, DateTime to, ScenarioActionSource source);
+        Task<StatisticsScenarioInfo> GetStatisticsInfoForScenario(ScenarioBase scenario, ScenarioActionSource source);
+        Task<StatisticsItem[]> GetItems(StatisticsScenarioInfo info, DateTime since, DateTime to, ScenarioActionSource source);
         void Register(ScenarioBase scenario);
         void UnRegister(ScenarioBase scenario);
-        ScenarioStatisticsRegistration GetRegistrationInfo(ScenarioBase[] scenarios);
+        Task<ScenarioStatisticsRegistration> GetRegistrationInfo(ScenarioBase[] scenarios);
         void ReRegister(ScenarioBase scenario);
     }
 
-    [DataContract]
+    [ProtoContract]
     public class ScenarioStatisticsRegistration
     {
         public ScenarioStatisticsRegistration(string[] registeredIds) =>
@@ -25,7 +23,7 @@ namespace Lazurite.MainDomain.Statistics
 
         public ScenarioStatisticsRegistration() { } //empty
 
-        [DataMember]
+        [ProtoMember(1)]
         public string[] RegisteredIds { get; set; }
 
         public bool IsRegistered(string scenarioId) => 

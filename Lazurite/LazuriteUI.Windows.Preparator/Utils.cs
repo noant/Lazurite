@@ -46,23 +46,5 @@ namespace LazuriteUI.Windows.Preparator
                 log.Info("VcRedist x64 installation error", e);
             }
         }
-
-        public static void FirewallSettings()
-        {
-            var log = Singleton.Resolve<ILogger>();
-            try
-            {
-                var basePath = Lazurite.Windows.Utils.Utils.GetAssemblyFolder(typeof(Utils).Assembly);
-                var fullPath = Path.Combine(basePath, LazuriteProcessName + ".exe");
-                var command = string.Format("firewall add allowedprogram \"{0}\" LazuriteAccess{1} ENABLE", 
-                    fullPath,
-                    Lazurite.Windows.Utils.Utils.GetCurrentLazuriteUniqueHash());
-                Lazurite.Windows.Utils.Utils.ExecuteProcess(Path.Combine(Environment.SystemDirectory, "netsh.exe"), command);
-            }
-            catch (Exception e)
-            {
-                log.Info("Firewall settings error", e);
-            }
-        }
     }
 }

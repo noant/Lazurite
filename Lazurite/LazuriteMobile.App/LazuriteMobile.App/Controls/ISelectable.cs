@@ -1,5 +1,4 @@
 ﻿using Lazurite.Shared;
-using System;
 
 namespace LazuriteMobile.App.Controls
 {

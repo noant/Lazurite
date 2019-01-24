@@ -1,12 +1,11 @@
 ﻿using Lazurite.ActionsDomain.Attributes;
+using ProtoBuf;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Lazurite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Геолокация")]
+    [ProtoContract]
     public class GeolocationValueType : ValueTypeBase
     {
         private static readonly GeolocationData DefaultGeolocationData = new GeolocationData();

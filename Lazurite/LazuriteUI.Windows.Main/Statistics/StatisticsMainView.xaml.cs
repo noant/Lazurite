@@ -3,7 +3,6 @@ using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
 using Lazurite.Scenarios.ScenarioTypes;
-using Lazurite.Utils;
 using LazuriteUI.Icons;
 using LazuriteUI.Windows.Controls;
 using LazuriteUI.Windows.Main.Common;
@@ -12,6 +11,7 @@ using LazuriteUI.Windows.Main.Statistics.Views;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -38,29 +38,29 @@ namespace LazuriteUI.Windows.Main.Statistics
             InitializeComponent();
             
             listItems.SelectionChanged += ListItemsView_SelectionChanged;
-            datesRangeView.SelectionChanged += (o, e) => Refresh();
-            Loaded += (o, args) =>
+            datesRangeView.SelectionChanged += async (o, e) => await Refresh();
+            Loaded += async (o, args) =>
             {
-                StuckUILoadingWindow.Show("Загрузка информации...", 
-                    () => {
-                        try
-                        {
-                            var registrationInfo = StatisticsManager
-                                .GetRegistrationInfo(ScenariosRepository.Scenarios);
-                            var registered = ScenariosRepository.Scenarios
-                                .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
-                                .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource))
-                                .ToArray();
-                            datesRangeView.Min = registered.Any() ? registered.Min(x => x.Since) : DateTime.Now;
-                            datesRangeView.Max = DateTime.Now;
-                            datesRangeView.DateSelectionItem = new Common.DateSelectionItem(DateSelection.Last24Hours);
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Error("Ошибка во время загрузки статистики", e);
-                        }
-                    }
-                );
+                var loadingWindow = StuckUILoadingWindow.Loading("Загрузка информации...");
+                try
+                {
+                    var registrationInfo = await StatisticsManager.GetRegistrationInfo(ScenariosRepository.Scenarios);
+
+                    var registered =
+                        await Task.WhenAll(
+                            ScenariosRepository.Scenarios
+                            .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
+                            .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource)));
+
+                    datesRangeView.Min = registered.Any() ? registered.Min(x => x.Since) : DateTime.Now;
+                    datesRangeView.Max = DateTime.Now;
+                    datesRangeView.DateSelectionItem = new Common.DateSelectionItem(DateSelection.Last24Hours);
+                }
+                catch (Exception e)
+                {
+                    Log.Error("Ошибка во время загрузки статистики", e);
+                }
+                loadingWindow.Close();
             };
         }
         
@@ -74,16 +74,16 @@ namespace LazuriteUI.Windows.Main.Statistics
             if (_currentView?.GetType() != view.GetType())
             {
                 _currentView = view;
-                view.NeedItems = (filter) =>
+                view.NeedItems = async (filter) =>
                 {
                     _filter = filter;
-                    Refresh();
+                    await Refresh();
                 };
                 viewHostControl.Content = view;
             }
         }
 
-        private void Refresh()
+        private async Task Refresh()
         {
             if (_currentView == null)
                 AppendView(new DiagramView());
@@ -92,34 +92,42 @@ namespace LazuriteUI.Windows.Main.Statistics
                 var dateSince = datesRangeView.DateSelectionItem.Start;
                 var dateTo = datesRangeView.DateSelectionItem.End;
 
-                StuckUILoadingWindow.Show("Загрузка информации...",
-                    () => {
-                        try
-                        {
-                            var registrationInfo = StatisticsManager
-                                .GetRegistrationInfo(
-                                    ScenariosRepository
-                                    .Scenarios
-                                    .Where(z => 
-                                        _filter.All || 
-                                        (_filter.ScenariosIds?.Contains(z.Id) ?? false))
-                                    .ToArray());
-                            
-                            var items = ScenariosRepository
+                var loading = StuckUILoadingWindow.Loading("Загрузка информации о статистике...");
+                try
+                {
+                    var registrationInfo = await StatisticsManager
+                        .GetRegistrationInfo(
+                            ScenariosRepository
+                            .Scenarios
+                            .Where(z => 
+                                _filter.All || (_filter.ScenariosIds?.Contains(z.Id) ?? false))
+                            .ToArray());
+
+                    var statisticScenariosInfos =
+                        await Task.WhenAll(
+                            ScenariosRepository
                                 .Scenarios
                                 .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
-                                .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource))
-                                .SelectMany(x => StatisticsManager.GetItems(x, dateSince, dateTo, SystemActionSource))
-                                .OrderByDescending(x => x.DateTime)
-                                .ToArray();
-                            _currentView.RefreshItems(items, dateSince, dateTo);
-                        }
-                        catch (Exception e)
-                        {
-                            Log.Error("Ошибка во время загрузки статистики", e);
-                        }
-                    }
-                );
+                                .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource)));
+
+                    var groupedItems =
+                        await Task.WhenAll(
+                            statisticScenariosInfos
+                                .Select(x => StatisticsManager.GetItems(x, dateSince, dateTo, SystemActionSource)));
+
+                    var items =
+                        groupedItems
+                        .SelectMany(x => x)
+                        .OrderByDescending(x => x.DateTime)
+                        .ToArray();
+
+                    _currentView.RefreshItems(items, dateSince, dateTo);
+                }
+                catch (Exception e)
+                {
+                    Log.Error("Ошибка во время загрузки статистики", e);
+                }
+                loading.Close();
             }
         }
 

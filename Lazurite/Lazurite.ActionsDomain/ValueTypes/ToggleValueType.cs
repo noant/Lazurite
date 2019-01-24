@@ -1,11 +1,11 @@
 ﻿using Lazurite.ActionsDomain.Attributes;
+using ProtoBuf;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace Lazurite.ActionsDomain.ValueTypes
 {
     [HumanFriendlyName("Переключатель")]
-    [DataContract]
+    [ProtoContract]
     public class ToggleValueType: ValueTypeBase
     {
         public static readonly string ValueON = true.ToString();

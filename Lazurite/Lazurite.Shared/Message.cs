@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ProtoBuf;
+using System;
 
 namespace Lazurite.Shared
 {
-    [DataContract]
+    [ProtoContract]
     public class Message
     {
-        [DataMember]
-        public SafeDateTime DateTime { get; set; }
-        [DataMember]
+        [ProtoMember(1)]
+        public DateTime DateTime { get; set; }
+        [ProtoMember(2)]
         public string Text { get; set; }
-        [DataMember]
+        [ProtoMember(3)]
         public string Header { get; set; }
     }
 }

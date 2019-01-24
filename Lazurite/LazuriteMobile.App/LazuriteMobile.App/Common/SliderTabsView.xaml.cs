@@ -1,10 +1,7 @@
 ﻿using LazuriteMobile.App.Controls;
 using LazuriteUI.Icons;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -35,10 +32,10 @@ namespace LazuriteMobile.App.Common
             _tabs.Add(info);
         }
 
-        public void HideAll()
+        public async void HideAll()
         {
             foreach (var tab in _tabs)
-                tab.Menu.Hide();
+                await tab.Menu.Hide();
         }
 
         public bool AnyOpened() => _tabs.Any(x => x.Menu.MenuVisible);

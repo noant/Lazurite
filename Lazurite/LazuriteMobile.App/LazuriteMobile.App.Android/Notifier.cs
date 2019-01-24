@@ -81,14 +81,18 @@ namespace LazuriteMobile.App.Droid
                 builder = new Notification.Builder(context, channelId);
             }
             else
+#pragma warning disable CS0618 // Тип или член устарел
                 builder = new Notification.Builder(context);
+#pragma warning restore CS0618 // Тип или член устарел
 
             builder.SetContentTitle(message.Header);
             builder.SetContentText(message.Text);
             builder.SetSmallIcon(Resource.Drawable.icon);
             builder.SetVisibility(NotificationVisibility.Private);
             builder.SetOnlyAlertOnce(true);
+#pragma warning disable CS0618 // Тип или член устарел
             builder.SetDefaults(NotificationDefaults.All);
+#pragma warning restore CS0618 // Тип или член устарел
             builder.SetAutoCancel(true);
             builder.SetColor(Color.Argb(0, 255, 255, 255).ToArgb());
 

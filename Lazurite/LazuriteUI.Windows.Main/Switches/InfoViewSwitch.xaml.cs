@@ -1,5 +1,4 @@
-﻿using Lazurite.ActionsDomain;
-using Lazurite.Shared;
+﻿using Lazurite.Shared;
 using LazuriteUI.Windows.Controls;
 using System;
 using System.Windows.Controls;

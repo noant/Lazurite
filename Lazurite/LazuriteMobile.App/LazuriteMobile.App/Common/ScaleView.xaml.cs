@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Common

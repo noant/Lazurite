@@ -1,17 +1,17 @@
-﻿using System.Runtime.Serialization;
+﻿using ProtoBuf;
 
 namespace Lazurite.MainDomain
 {
-    [DataContract]
+    [ProtoContract]
     public class ScenarioInfoLW
     {
-        [DataMember]
+        [ProtoMember(1)]
         public string ScenarioId { get; set; } //guid
 
-        [DataMember]
+        [ProtoMember(2)]
         public bool IsAvailable { get; set; }
 
-        [DataMember]
+        [ProtoMember(3)]
         public string CurrentValue { get; set; }
     }
 }

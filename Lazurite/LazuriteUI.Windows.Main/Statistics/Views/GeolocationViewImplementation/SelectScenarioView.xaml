@@ -15,11 +15,11 @@
         <RowDefinition></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
-    <controls:CaptionView Icon="Eye">Видимость сценариев на карте</controls:CaptionView>
+    <controls:CaptionView x:Name="captionView" Icon="Eye">Видимость сценариев на карте</controls:CaptionView>
     <controls:WheelScroll Grid.Row="1">
         <controls:ListItemsView SelectionMode="Multiple" x:Name="itemsList">            
         </controls:ListItemsView>
     </controls:WheelScroll>
-    <Label x:Name="lblEmpty" Foreground="{x:Static controls:Visual.CaptionForeground}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">Сценарии отсутствуют...</Label>
+    <Label x:Name="lblInfo" Foreground="{x:Static controls:Visual.CaptionForeground}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">Загрузка сценариев...</Label>
     <controls:ItemView x:Name="btApply" Grid.Row="2" Margin="4" Icon="Check" Background="{x:Static controls:Visual.BrightItemBackground}">Применить</controls:ItemView>
 </Grid>

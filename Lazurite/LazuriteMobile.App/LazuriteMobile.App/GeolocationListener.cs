@@ -6,10 +6,6 @@ using LazuriteMobile.MainDomain;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LazuriteMobile.App
 {

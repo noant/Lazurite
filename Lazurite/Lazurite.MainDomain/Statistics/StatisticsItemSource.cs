@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ProtoBuf;
 
 namespace Lazurite.MainDomain.Statistics
 {
     /// <summary>
     /// Source of scenario changes (it can be user, other scenario or network)
     /// </summary>
-    [DataContract]
+    [ProtoContract]
     public class StatisticsItemSource
     {
-        [DataMember]
+        [ProtoMember(1)]
         public string ID { get; set; }
-        [DataMember]
+        [ProtoMember(2)]
         public string Name { get; set; }
-        [DataMember]
+        [ProtoMember(3)]
         public string SourceType { get; set; }
     }
 }

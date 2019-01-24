@@ -2,12 +2,10 @@
 using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.Shared;
-using Lazurite.Utils;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 
 namespace LazuriteUI.Windows.Main
 {

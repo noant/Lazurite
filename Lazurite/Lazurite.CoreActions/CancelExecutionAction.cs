@@ -1,11 +1,6 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lazurite.CoreActions
 {
@@ -21,9 +16,9 @@ namespace Lazurite.CoreActions
         public bool IsSupportsEvent => false;
 
         public bool IsSupportsModification => false;
-
+#pragma warning disable 67
         public event ValueChangedEventHandler ValueChanged;
-
+#pragma warning restore 67
         public string GetValue(ExecutionContext context) => string.Empty;
 
         public void Initialize()

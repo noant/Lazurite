@@ -2,17 +2,12 @@
 using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
-using Lazurite.MainDomain.MessageSecurity;
-using Lazurite.Shared;
-using Lazurite.Utils;
 using LazuriteMobile.MainDomain;
+using SimpleRemoteMethods.Bases;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
-using System.ServiceModel;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace LazuriteMobile.App
 {
@@ -22,13 +17,11 @@ namespace LazuriteMobile.App
         {
             public T Value { get; private set; }
             public bool Success { get; private set; }
-            public DateTime? ServerTime { get; private set; }
 
-            public OperationResult(T result, bool success, DateTime? serverTime = null)
+            public OperationResult(T result, bool success)
             {
                 Value = result;
                 Success = success;
-                ServerTime = serverTime;
             }
         }
 
@@ -39,7 +32,6 @@ namespace LazuriteMobile.App
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
         private static readonly SaviorBase Savior = Singleton.Resolve<SaviorBase>();
         private static readonly AddictionalDataManager Bus = Singleton.Resolve<AddictionalDataManager>();
-        private static readonly IClientManager ClientManager = Singleton.Resolve<IClientManager>();
         private static readonly INotifier Notifier = Singleton.Resolve<INotifier>();
 
         private readonly string _cachedScenariosKey = "scensCache";
@@ -47,12 +39,13 @@ namespace LazuriteMobile.App
         private CancellationTokenSource _listenersCancellationTokenSource;
         private CancellationTokenSource _operationCancellationTokenSource;
         private ConnectionCredentials? _credentials;
-        private DateTime _lastUpdateTime;
+        private LazuriteClient _client;
         
         public ScenarioInfo[] Scenarios { get; private set; }
         public ManagerConnectionState ConnectionState { get; private set; } = ManagerConnectionState.Disconnected;
         private bool _succeed = true;
         private int _refreshIncrement = 0;
+        private bool _iterationRefreshNow;
 
         public event Action<ScenarioInfo[]> ScenariosChanged;
         public event Action ConnectionLost;
@@ -63,7 +56,7 @@ namespace LazuriteMobile.App
         public event Action SecretCodeInvalid;
         public event Action CredentialsLoaded;
         public event Action ConnectionError;
-        public event Action AccessLocked;
+        public event Action BruteforceSuspition;
 
         public ScenariosManager()
         {
@@ -82,77 +75,6 @@ namespace LazuriteMobile.App
                 Bus.Register<MessagesDataHandler>();
         }
 
-        private bool HandleExceptions(Action<IServer> action)
-        {
-            var cancellationToken = _operationCancellationTokenSource.Token;
-            bool success = false;
-            try
-            {
-                if (_credentials != null && ClientManager.IsClosed())
-                    RecreateConnection();
-                if (ConnectionState == ManagerConnectionState.Disconnected)
-                    ConnectionState = ManagerConnectionState.Connecting;
-                using (var connection = (IDisposable)ClientManager.GetActualInstance())
-                    action((IServer)connection);
-                success = true;
-                if (ConnectionState != ManagerConnectionState.Connected)
-                {
-                    ConnectionState = ManagerConnectionState.Connected;
-                    ConnectionRestored?.Invoke();
-                }
-            }
-            catch (System.Exception e)
-            {
-                if (!cancellationToken.IsCancellationRequested)
-                {
-                    if (SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.AccessDenied))
-                        LoginOrPasswordInvalid?.Invoke();
-                    //if data is wrong or secretKey.Length is wrong
-                    else if (
-                        SystemUtils.IsFaultExceptionHasCode(e, ServiceFaultCodes.DecryptionError)
-                        || e is SerializationException
-                        || e is DecryptException
-                        || e.Message == "Key length not 128/192/256 bits.")
-                        SecretCodeInvalid?.Invoke();
-                    else if (ConnectionState != ManagerConnectionState.Connected)
-                        ConnectionLost?.Invoke();
-                    else
-                        ConnectionError?.Invoke();
-                    ConnectionState = ManagerConnectionState.Disconnected;
-                    success = false;
-                }
-            }
-
-            if (cancellationToken.IsCancellationRequested)
-                return false;
-            return success;
-        }
-
-        private OperationResult<T> Handle<T>(Func<IServer, Encrypted<T>> func) {
-            T result = default(T);
-            DateTime? serverTime = null;
-            var success = HandleExceptions((s) =>
-            {
-                var encryptedResult = func(s);
-                result = encryptedResult.Decrypt(_credentials.Value.SecretKey);
-                serverTime = encryptedResult.ServerTime.ToDateTime();
-            });
-            return new OperationResult<T>(result, success, serverTime);
-        }
-
-        private OperationResult<List<T>> Handle<T>(Func<IServer, EncryptedList<T>> func)
-        {
-            List<T> result = null;
-            DateTime? serverTime = null;
-            var success = HandleExceptions((s) =>
-            {
-                var encryptedResult = func(s);
-                result = encryptedResult.Decrypt(_credentials.Value.SecretKey);
-                serverTime = encryptedResult.ServerTime.ToDateTime();
-            });
-            return new OperationResult<List<T>>(result, success, serverTime);
-        }
-        
         public void Initialize(Action<bool> callback)
         {
             TryLoadClientSettings();
@@ -167,24 +89,9 @@ namespace LazuriteMobile.App
 
         public void ReConnect()
         {
-            RecreateConnection();
+#pragma warning disable CS4014 // Так как этот вызов не ожидается, выполнение существующего метода продолжается до завершения вызова
             Refresh();
-        }
-
-        private void InitializeInternal(Action<bool> callback)
-        {
-            //cancel all operations
-            _operationCancellationTokenSource?.Cancel();
-            _operationCancellationTokenSource = new CancellationTokenSource();
-            StopListenChanges();
-            RecreateConnection();
-            Refresh();
-        }
-
-        private void RecreateConnection()
-        {
-            ClientManager.Close();
-            ClientManager.CreateConnection(_credentials.Value);
+#pragma warning restore CS4014 // Так как этот вызов не ожидается, выполнение существующего метода продолжается до завершения вызова
         }
 
         public void StartListenChanges()
@@ -196,8 +103,6 @@ namespace LazuriteMobile.App
                     () => _succeed ? ScenariosManagerListenInterval : ScenariosManagerListenInterval_onError);
         }
 
-        private bool _iterationRefreshNow;
-
         public void RefreshIteration()
         {
             if (_iterationRefreshNow)
@@ -205,7 +110,6 @@ namespace LazuriteMobile.App
             _iterationRefreshNow = true;
             try
             {
-                //recreate connection if error
                 if (_credentials == null)
                 {
                     NeedClientSettings?.Invoke();
@@ -213,14 +117,12 @@ namespace LazuriteMobile.App
                 }
                 else
                 {
-                    if (!_succeed)
-                        RecreateConnection();
-                    if (SyncAddictionalData())
+                    if (Wait(SyncAddictionalData()))
                     {
                         if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || Scenarios == null)
-                            Refresh();
+                            Wait(Refresh());
                         else
-                            Update();
+                            Wait(Update());
                     }
                 }
                 _refreshIncrement++;
@@ -232,32 +134,193 @@ namespace LazuriteMobile.App
             _iterationRefreshNow = false;
         }
 
-        private bool IsMultiples(int sum, int num) => (sum >= num && sum % num == 0);
-
         public void StopListenChanges()
         {
             _listenersCancellationTokenSource?.Cancel();
-            ClientManager.Close();
             ConnectionState = ManagerConnectionState.Disconnected;
         }
 
         public void ExecuteScenario(ExecuteScenarioArgs args)
         {
-            TaskUtils.Start(() =>
-                HandleExceptions((s) =>
-                   s.AsyncExecuteScenario(
-                       new Encrypted<string>(args.Id, _credentials.Value.SecretKey),
-                       new Encrypted<string>(args.Value, _credentials.Value.SecretKey))));
+#pragma warning disable CS4014 // Так как этот вызов не ожидается, выполнение существующего метода продолжается до завершения вызова
+            Handle((s) => s.AsyncExecuteScenario(args.Id, args.Value));
+#pragma warning restore CS4014 // Так как этот вызов не ожидается, выполнение существующего метода продолжается до завершения вызова
         }
 
-        private bool Refresh()
+        public void SetClientSettings(ConnectionCredentials credentials)
+        {
+            _credentials = credentials;
+            SaveClientSettings();
+            if (_getClientSettingsCallbackCrutch != null)
+            {
+                _getClientSettingsCallbackCrutch(credentials);
+                _getClientSettingsCallbackCrutch = null;
+            }
+            InitializeInternal(null);
+        }
+
+        private Action<ConnectionCredentials> _getClientSettingsCallbackCrutch;
+        public void GetClientSettings(Action<ConnectionCredentials> callback)
+        {
+            if (_credentials == null)
+            {
+                NeedClientSettings?.Invoke();
+                _getClientSettingsCallbackCrutch = callback;
+            }
+            else
+                callback(_credentials.Value);
+        }
+
+        public void IsConnected(Action<ManagerConnectionState> callback)
+        {
+            callback(ConnectionState);
+        }
+
+        public void GetScenarios(Action<ScenarioInfo[]> callback)
+        {
+            callback(Scenarios);
+        }
+
+        public void GetNotifications(Action<LazuriteNotification[]> callback)
+        {
+            callback(Notifier.GetNotifications());
+        }
+
+        public void Close()
+        {
+            StopListenChanges();
+        }
+
+        public void ScreenOnActions()
+        {
+            //do nothing there
+        }
+
+        private void InitializeInternal(Action<bool> callback)
+        {
+            //cancel all operations
+            _operationCancellationTokenSource?.Cancel();
+            _operationCancellationTokenSource = new CancellationTokenSource();
+            StopListenChanges();
+            _client = ServiceClientFactory.Current.GetClient(_credentials.Value);
+#pragma warning disable CS4014 // Так как этот вызов не ожидается, выполнение существующего метода продолжается до завершения вызова
+            Refresh().ContinueWith(t => callback?.Invoke(t.Result));
+#pragma warning restore CS4014 // Так как этот вызов не ожидается, выполнение существующего метода продолжается до завершения вызова
+        }
+
+
+        private async Task<bool> HandleExceptions<T>(Func<LazuriteClient, Task<T>> action)
+        {
+            var cancellationToken = _operationCancellationTokenSource.Token;
+            bool success = false;
+            try
+            {
+                if (ConnectionState == ManagerConnectionState.Disconnected)
+                    ConnectionState = ManagerConnectionState.Connecting;
+                await action(_client);
+                success = true;
+                if (ConnectionState != ManagerConnectionState.Connected)
+                {
+                    ConnectionState = ManagerConnectionState.Connected;
+                    ConnectionRestored?.Invoke();
+                }
+            }
+            catch (RemoteException e) when (e.Code == RemoteExceptionData.LoginOrPasswordInvalid)
+            {
+                LoginOrPasswordInvalid?.Invoke();
+                success = false;
+            }
+            catch (RemoteException e) when (e.Code == RemoteExceptionData.UnknownData)
+            {
+                SecretCodeInvalid?.Invoke();
+                success = false;
+            }
+            catch (RemoteException e) when (e.Code == RemoteExceptionData.BruteforceSuspicion)
+            {
+                BruteforceSuspition?.Invoke();
+                success = false;
+            }
+            catch (Exception) when (!cancellationToken.IsCancellationRequested)
+            {
+                if (ConnectionState != ManagerConnectionState.Connected)
+                    ConnectionLost?.Invoke();
+                else
+                    ConnectionError?.Invoke();
+                success = false;
+            }
+
+            if (!success)
+                ConnectionState = ManagerConnectionState.Disconnected;
+
+            if (cancellationToken.IsCancellationRequested)
+                return false;
+
+            return success;
+        }
+
+        private async Task<bool> Handle(Func<LazuriteClient, Task> action)
+        {
+            var cancellationToken = _operationCancellationTokenSource.Token;
+            bool success = false;
+            try
+            {
+                if (ConnectionState == ManagerConnectionState.Disconnected)
+                    ConnectionState = ManagerConnectionState.Connecting;
+                await action(_client);
+                success = true;
+                if (ConnectionState != ManagerConnectionState.Connected)
+                {
+                    ConnectionState = ManagerConnectionState.Connected;
+                    ConnectionRestored?.Invoke();
+                }
+            }
+            catch (RemoteException e) when (e.Code == RemoteExceptionData.LoginOrPasswordInvalid)
+            {
+                LoginOrPasswordInvalid?.Invoke();
+                success = false;
+            }
+            catch (RemoteException e) when (e.Code == RemoteExceptionData.UnknownData)
+            {
+                SecretCodeInvalid?.Invoke();
+                success = false;
+            }
+            catch (RemoteException e) when (e.Code == RemoteExceptionData.BruteforceSuspicion)
+            {
+                BruteforceSuspition?.Invoke();
+                success = false;
+            }
+            catch (Exception) when (!cancellationToken.IsCancellationRequested)
+            {
+                if (ConnectionState != ManagerConnectionState.Connected)
+                    ConnectionLost?.Invoke();
+                else
+                    ConnectionError?.Invoke();
+                success = false;
+            }
+
+            if (!success)
+                ConnectionState = ManagerConnectionState.Disconnected;
+
+            if (cancellationToken.IsCancellationRequested)
+                return false;
+
+            return success;
+        }
+
+        private async Task<OperationResult<T>> Handle<T>(Func<LazuriteClient, Task<T>> func)
+        {
+            T result = default(T);
+            var success = await HandleExceptions(async (s) => result = await func(s));
+            return new OperationResult<T>(result, success);
+        }
+
+        private async Task<bool> Refresh()
         {
             try
             {
-                var result = Handle((s) => s.GetScenariosInfo());
+                var result = await Handle((s) => s.GetScenariosInfo());
                 if (_succeed = result.Success)
                 {
-                    _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
                     Scenarios = result.Value.ToArray();
                     NeedRefresh?.Invoke();
                 }
@@ -269,17 +332,11 @@ namespace LazuriteMobile.App
             }
         }
 
-        public void RefreshAndRecreate()
-        {
-            if (!Refresh())
-                RecreateConnection();
-        }
-
-        private bool Update()
+        private async Task<bool> Update()
         {
             try
             {
-                var result = Handle((s) => s.GetChangedScenarios(SafeDateTime.FromDateTime(_lastUpdateTime)));
+                var result = await Handle((s) => s.GetChangedScenarios(_client.Client.LastCallServerTime));
                 _succeed = result.Success;
                 if (result.Success && result.Value != null && result.Value.Any())
                 {
@@ -294,7 +351,6 @@ namespace LazuriteMobile.App
                             existingScenario.IsAvailable = changedScenario.IsAvailable;
                         }
                     }
-                    _lastUpdateTime = result.ServerTime ?? _lastUpdateTime;
                     ScenariosChanged?.Invoke(changedScenarios);
                 }
                 return result.Success;
@@ -305,13 +361,13 @@ namespace LazuriteMobile.App
             }
         }
 
-        private bool SyncAddictionalData()
+        private async Task<bool> SyncAddictionalData()
         {
             try
             {
-                var result = Handle((s) => s.SyncAddictionalData(new Encrypted<AddictionalData>(Bus.Prepare(null), _credentials.Value.SecretKey)));
+                var result = await Handle((s) => s.SyncAddictionalData(Bus.Prepare(null)));
                 _succeed = result.Success;
-                if (result.Success && result.Value != null && result.Value.Data.Any())
+                if (result.Success && (result.Value?.Data.Any() ?? false))
                     Bus.Handle(result.Value, null);
                 return result.Success;
             }
@@ -362,54 +418,13 @@ namespace LazuriteMobile.App
         {
             Savior.Set(_credentialsKey, _credentials);
         }
-        
-        public void SetClientSettings(ConnectionCredentials credentials)
-        {
-            _credentials = credentials;
-            SaveClientSettings();
-            if (_getClientSettingsCallbackCrutch != null)
-            {
-                _getClientSettingsCallbackCrutch(credentials);
-                _getClientSettingsCallbackCrutch = null;
-            }
-            InitializeInternal(null);
-        }
 
-        private Action<ConnectionCredentials> _getClientSettingsCallbackCrutch;
-        public void GetClientSettings(Action<ConnectionCredentials> callback)
-        {
-            if (_credentials == null)
-            {
-                NeedClientSettings?.Invoke();
-                _getClientSettingsCallbackCrutch = callback;
-            }
-            else
-                callback(_credentials.Value);
-        }
+        private bool IsMultiples(int sum, int num) => (sum >= num && sum % num == 0);
 
-        public void IsConnected(Action<ManagerConnectionState> callback)
+        private T Wait<T>(Task<T> task)
         {
-            callback(ConnectionState);
-        }
-
-        public void GetScenarios(Action<ScenarioInfo[]> callback)
-        {
-            callback(Scenarios);
-        }
-
-        public void GetNotifications(Action<LazuriteNotification[]> callback)
-        {
-            callback(Notifier.GetNotifications());
-        }
-
-        public void Close()
-        {
-            StopListenChanges();
-        }
-
-        public void ScreenOnActions()
-        {
-            //do nothing there
+            task.Wait();
+            return task.Result;
         }
     }
 }

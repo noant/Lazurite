@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lazurite.ActionsDomain.ValueTypes
+﻿namespace Lazurite.ActionsDomain.ValueTypes
 {
     public class ValueTypeInterpreteResult
     {

@@ -1,6 +1,5 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.CoreActions;
-using Lazurite.CoreActions.ContextInitialization;
 using System;
 using System.Windows.Controls;
 
@@ -47,8 +46,10 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             action1View.Refresh(actionHolder, algoContext);
         }
 
-        public event Action<IConstructorElement> Modified;
+#pragma warning disable 67
         public event Action<IConstructorElement> NeedAddNext;
         public event Action<IConstructorElement> NeedRemove;
+        public event Action<IConstructorElement> Modified;
+#pragma warning restore 67
     }
 }

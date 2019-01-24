@@ -1,5 +1,4 @@
 ﻿using Lazurite.Shared;
-using LazuriteUI.Icons;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -29,9 +28,9 @@ namespace LazuriteMobile.App.Common
             BackgroundColor = Color.Black;
             TranslationY = Height;
 
-            SizeChanged += (o, e) =>
+            SizeChanged += async (o, e) =>
             {
-                Hide();
+                await Hide();
                 _initialized = true;
                 if (_needShow)
                 {

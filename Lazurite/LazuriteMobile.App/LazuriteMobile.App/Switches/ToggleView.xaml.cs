@@ -3,8 +3,6 @@ using LazuriteMobile.App.Switches.Bases;
 using System;
 using System.Threading;
 
-using Xamarin.Forms;
-
 namespace LazuriteMobile.App.Switches
 {
     public partial class ToggleView : SwitchBase
