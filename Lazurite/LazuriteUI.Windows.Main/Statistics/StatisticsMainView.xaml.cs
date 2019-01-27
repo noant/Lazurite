@@ -62,9 +62,11 @@ namespace LazuriteUI.Windows.Main.Statistics
                 }
                 loadingWindow.Close();
             };
+
+            Unloaded += (o, e) => (_currentView as IDisposable)?.Dispose();
         }
         
-        private void btSettings_Click(object sender, RoutedEventArgs e)
+        private void BtSettings_Click(object sender, RoutedEventArgs e)
         {
             StatisticsScenariosView.Show();
         }

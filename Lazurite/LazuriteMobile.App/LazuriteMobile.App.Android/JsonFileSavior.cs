@@ -5,11 +5,15 @@ using System.IO;
 
 namespace LazuriteMobile.App.Droid
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2146:TypesMustBeAtLeastAsCriticalAsBaseTypesFxCopRule")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2132:DefaultConstructorsMustHaveConsistentTransparencyFxCopRule")]
     public class JsonFileSavior : SaviorBase
     {
-        private string _baseDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-        private string _ext = ".json";
+        private readonly string _baseDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+        private readonly string _ext = ".json";
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public override void Clear(string key)
         {
             var path = GetPath(key);
@@ -17,6 +21,8 @@ namespace LazuriteMobile.App.Droid
                 File.Delete(path);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public override T Get<T>(string key)
         {
             var path = GetPath(key);
@@ -27,6 +33,8 @@ namespace LazuriteMobile.App.Droid
             });
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public override bool Has(string key)
         {
             var path = GetPath(key);
@@ -34,6 +42,8 @@ namespace LazuriteMobile.App.Droid
             return result;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public override void Set<T>(string key, T obj)
         {
             var path = GetPath(key);

@@ -17,5 +17,18 @@ namespace Lazurite.Utils
         {
             Start(action, onException, TaskCreationOptions.LongRunning);
         }
+
+        public static T Wait<T>(Task<T> task)
+        {
+            try
+            {
+                task.Wait();
+                return task.Result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

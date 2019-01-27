@@ -35,6 +35,7 @@ namespace LazuriteUI.Windows.Main.Switches
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<object, RoutedEventArgs> Apply;
     }
 }

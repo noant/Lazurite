@@ -48,7 +48,7 @@ namespace LazuriteUI.Windows.Controls
             }
         }
 
-        private void btSelect_Click(object sender, RoutedEventArgs e)
+        private void BtSelect_Click(object sender, RoutedEventArgs e)
         {
             DialogView dialog = null;
             var listView = new ComboBoxItemsView_List(
@@ -61,6 +61,7 @@ namespace LazuriteUI.Windows.Controls
             dialog.Show(Info.MainPanel);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event EventHandler<ComboItemsViewInfo> InfoChanged;
     }
 }

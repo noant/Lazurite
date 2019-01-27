@@ -30,7 +30,8 @@ namespace LazuriteUI.Windows.Main.Security.PermissionsViews
                 itemsView.Children.Add(itemView);
             }
         }
-        
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<IPermission> PermissionCreated;
 
         public static void Show(Action<IPermission> callback)

@@ -24,8 +24,8 @@
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5,5,5,8" VerticalAlignment="Center" HorizontalAlignment="Right"  Style="{StaticResource TextBlockCaption}">Хост</TextBlock>
             <controls:EntryView x:Name="tbHost" Grid.Column="1" Height="40"></controls:EntryView>
-            <TextBlock Grid.Row="1" Margin="5,5,5,8" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockCaption}">Имя сервиса</TextBlock>
-            <controls:EntryView Grid.Row="1" x:Name="tbServiceName" Grid.Column="1" Height="40"></controls:EntryView>
+            <!--<TextBlock Grid.Row="1" Margin="5,5,5,8" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockCaption}">Имя сервиса</TextBlock>
+            <controls:EntryView Grid.Row="1" x:Name="tbServiceName" Grid.Column="1" Height="40"></controls:EntryView>-->
             <TextBlock Grid.Row="2" Margin="5,5,5,8" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockCaption}">Порт</TextBlock>
             <controls:EntryView Grid.Row="2" x:Name="tbPort" Grid.Column="1" Height="40"></controls:EntryView>
             <TextBlock Grid.Row="3" Margin="5,5,5,8" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockCaption}">Секретный ключ сервера</TextBlock>

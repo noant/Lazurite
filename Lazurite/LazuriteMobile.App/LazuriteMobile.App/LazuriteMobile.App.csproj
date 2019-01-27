@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Konscious.Security.Cryptography.Blake2" Version="1.0.9" />
-    <PackageReference Include="protobuf-net" Version="3.0.0-alpha.3" />
+    <PackageReference Include="protobuf-net" Version="2.4.0" />
     <PackageReference Include="Plugin.Permissions" Version="3.0.0.12" />
     <PackageReference Include="Xam.Plugin.DeviceInfo" Version="4.1.1" />
     <PackageReference Include="Xam.Plugin.Geolocator" Version="4.5.0.6" />

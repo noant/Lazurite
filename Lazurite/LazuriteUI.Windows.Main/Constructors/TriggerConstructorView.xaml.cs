@@ -19,7 +19,9 @@ namespace LazuriteUI.Windows.Main.Constructors
         private Lazurite.MainDomain.TriggerBase _originalTrigger;
         private Lazurite.MainDomain.TriggerBase _clonedTrigger;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action Applied;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action Modified;
         public bool IsModified { get; private set; }
 

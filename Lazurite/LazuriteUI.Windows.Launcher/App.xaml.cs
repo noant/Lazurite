@@ -67,8 +67,8 @@ namespace LazuriteUI.Windows.Launcher
             else
             {
                 var requireAdminRightsWindow = new RequireAdminRightsWindow();
-                requireAdminRightsWindow.ApplyClick += () => RunLazurite(true);
-                requireAdminRightsWindow.CancelClick += () => Shutdown();
+                requireAdminRightsWindow.ApplyClick += (o, e) => RunLazurite(true);
+                requireAdminRightsWindow.CancelClick += (o, e) => Shutdown();
                 requireAdminRightsWindow.Show();
             }
         }

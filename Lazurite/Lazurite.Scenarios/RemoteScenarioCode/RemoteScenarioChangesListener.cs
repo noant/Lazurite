@@ -20,7 +20,8 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
             lock (_threadings)
                 if (_threadings.ContainsKey(info.Credentials))
                 {
-                    _threadings[info.Credentials].Remove(info);
+                    var threading = _threadings[info.Credentials];
+                    threading.Remove(info);
                     info.SetUnregistered();
                 }
         }

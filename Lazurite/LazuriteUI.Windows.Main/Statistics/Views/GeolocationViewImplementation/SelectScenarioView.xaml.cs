@@ -65,6 +65,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
             get => itemsList.GetSelectedItems().Select(x => (string)((ItemView)x).Tag).ToArray();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event EventsHandler<string[]> ApplyClicked;
 
         public static void Show(string[] selectedScenarios, Action<string[]> callback)

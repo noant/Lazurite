@@ -15,9 +15,10 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public ButtonView(ScenarioBase scenario): this()
         {
-            DataContext = new ScenarioModel(scenario);
-            itemView.Click += (o, e) =>
-                ((ScenarioModel)DataContext).ScenarioValue = string.Empty;
+            var model = new ScenarioModel(scenario);
+            DataContext = model;
+            Unloaded += (o, e) => model.Dispose();
+            itemView.Click += (o, e) => model.ScenarioValue = string.Empty;
         }
     }
 }

@@ -36,6 +36,7 @@ namespace LazuriteUI.Windows.Main.Security
             ApplyClicked?.Invoke();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action ApplyClicked;
 
         public static void Show(Action<UserBase[]> callback, string[] selectedUsersIds, bool hideButtons=false)

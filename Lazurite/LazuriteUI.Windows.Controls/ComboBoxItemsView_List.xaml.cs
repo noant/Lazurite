@@ -53,7 +53,7 @@ namespace LazuriteUI.Windows.Controls
             return new ComboItemsViewInfo(_info.SelectionMode, _info.Objects, _info.GetCaption, _info.GetIcon, selected, _info.Caption, _info.MainPanel);
         }
 
-        private void btApply_Click(object sender, RoutedEventArgs e)
+        private void BtApply_Click(object sender, RoutedEventArgs e)
         {
             OkClicked(GetResult());
         }

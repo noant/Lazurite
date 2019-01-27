@@ -67,7 +67,10 @@ namespace LazuriteMobile.App
                 foreach (var modelView in modelsViews)
                 {
                     if (!scenarios.Any(x => x.ScenarioId.Equals(modelView.Key.Scenario.ScenarioId)))
+                    {
                         grid.Children.Remove(modelView.Value);
+                        modelView.Key.Dispose();
+                    }
                 }
 
                 Rearrange();

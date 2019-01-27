@@ -22,6 +22,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             };
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<Type> Selected;
 
         public static void Show(Action<Type> callback)

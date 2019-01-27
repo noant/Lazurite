@@ -18,7 +18,9 @@ namespace LazuriteUI.Windows.Main.Switches
 
         public DateTimeView(ScenarioBase scenario): this()
         {
-            DataContext = new ScenarioModel(scenario);
+            var model = new ScenarioModel(scenario);
+            DataContext = model;
+            Unloaded += (o, e) => model.Dispose();
             itemView.Click += ItemView_Click;
         }
 

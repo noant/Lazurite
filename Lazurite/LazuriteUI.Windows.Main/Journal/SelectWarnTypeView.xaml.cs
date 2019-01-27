@@ -24,6 +24,7 @@ namespace LazuriteUI.Windows.Main.Journal
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<WarnType> Selected;
 
         public static void Show(Action<WarnType> callback)

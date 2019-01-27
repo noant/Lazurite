@@ -16,7 +16,7 @@ namespace LazuriteUI.Windows.Main.Server
     /// </summary>
     [DisplayName("Настройки сервера")]
     [LazuriteIcon(Icon.Server)]
-    public partial class ServerSettingsView : UserControl, IDisposable
+    public sealed partial class ServerSettingsView : UserControl, IDisposable
     {
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
         private LazuriteServer _server = Singleton.Resolve<LazuriteServer>();
@@ -27,17 +27,17 @@ namespace LazuriteUI.Windows.Main.Server
             InitializeComponent();
             _settings = (ServerSettings)Lazurite.Windows.Utils.Utils.CloneObject(_server.Settings);
             tbPort.Validation = (v) => EntryViewValidation.UShortValidation().Invoke(v);
-            tbServiceName.Validation = (v) => {
-                var value = v.InputString.Replace(" ", "");
-                if (value.Length == 0)
-                {
-                    value = "Lazurite";
-                    v.SelectAll = true;
-                }
-                v.OutputString = value;
-            };
+            //tbServiceName.Validation = (v) => {
+            //    var value = v.InputString.Replace(" ", "");
+            //    if (value.Length == 0)
+            //    {
+            //        value = "Lazurite";
+            //        v.SelectAll = true;
+            //    }
+            //    v.OutputString = value;
+            //};
             tbPort.TextChanged += (o, e) => SettingsChanged();
-            tbServiceName.TextChanged += (o, e) => SettingsChanged();
+            //tbServiceName.TextChanged += (o, e) => SettingsChanged();
             btChangeCert.Click += (o, e) => CertificateSelectView.Show(_settings, (s) => SettingsChanged());
             btChangeSecretKey.Click += (o, e) => {
                 EnterPasswordView.Show(
@@ -64,6 +64,9 @@ namespace LazuriteUI.Windows.Main.Server
                     _warningHandler.Error("Во время применения настроек сервера произошла ошибка.", exception);
                 }
             };
+
+            Unloaded += (o, e) => Dispose();
+
             Refresh();
         }
 

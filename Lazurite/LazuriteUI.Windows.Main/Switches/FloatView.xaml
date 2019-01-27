@@ -23,7 +23,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             </Viewbox>
         </Grid>
         
-        <controls:ItemView Click="itemView_Click" Background="Transparent" IsEnabled="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolInvert}}" x:Name="itemView" VerticalAlignment="Stretch"></controls:ItemView>
+        <controls:ItemView Click="ItemView_Click" Background="Transparent" IsEnabled="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolInvert}}" x:Name="itemView" VerticalAlignment="Stretch"></controls:ItemView>
         <common:CheckPanel Checked="{Binding Checked}" Visibility="{Binding EditMode, Converter={x:Static local:ConvertersStatic.BoolToVisibility}}"></common:CheckPanel>
 
         <TextBlock Margin="0,0,0,7" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{StaticResource switchTextBlockCaption}" Name="textBlockScenName" Text="{Binding ScenarioName, Converter={x:Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private"></TextBlock>

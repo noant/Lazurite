@@ -69,7 +69,6 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
             _timerCancellationToken = new CancellationTokenSource();
             TaskUtils.StartLongRunning(
                 () => {
-                    var client = ServiceClientFactory.Current.GetClient(Credentials);
                     while (!_timerCancellationToken.IsCancellationRequested && ServerScenariosInfos.Any())
                     {
                         for (var i = 0; i < ServerScenariosInfos.Count; i++)
@@ -85,18 +84,20 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
 
                             Log.Debug($"Remote scenario refresh iteration begin: [{info.Name}][{info.ScenarioId}]");
 
-                            HandleExceptions(
-                                async () => {
-                                    var newScenInfo = await client.GetScenarioInfo(info.ScenarioId);
-                                    if (!info.Unregistered)
-                                        info.ValueChangedCallback(new RemoteScenarioValueChangedArgs(info, newScenInfo));
-                                },
-                                () => {
-                                    error = true;
-                                    if (!info.Unregistered)
-                                        info.IsAvailableChangedCallback(new RemoteScenarioAvailabilityChangedArgs(info, false));
-                                },
-                                info);
+                            try
+                            {
+                                var client = ServiceClientFactory.Current.GetClient(Credentials);
+                                var newScenInfo = TaskUtils.Wait(client.GetScenarioInfo(info.ScenarioId));
+                                if (!info.Unregistered)
+                                    info.ValueChangedCallback(new RemoteScenarioValueChangedArgs(info, newScenInfo));
+                            }
+                            catch (Exception e)
+                            {
+                                Log.Info($"Ошибка во время соединения с удаленным сценарием. {e.Message} ({e.InnerException?.Message}). Сценарий: [{info.Name}]:[{info.ScenarioId}]");
+                                error = true;
+                                if (!info.Unregistered)
+                                    info.IsAvailableChangedCallback(new RemoteScenarioAvailabilityChangedArgs(info, false));
+                            }
 
                             Log.Debug($"Remote scenario refresh iteration end: [{info.Name}][{info.ScenarioId}]");
 
@@ -130,21 +131,6 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
         {
             ServiceClientFactory.Current.ConnectionStateChanged -= ClientFactory_ConnectionStateChanged;
             StopListen();
-        }
-
-        private bool HandleExceptions(Action action, Action onException, RemoteScenarioInfo info)
-        {
-            try
-            {
-                action?.Invoke();
-                return true;
-            }
-            catch (Exception e)
-            {
-                Log.Info($"Ошибка во время соединения с удаленным сценарием. {e.Message} ({e.InnerException?.Message}). Сценарий: [{info.Name}]:[{info.ScenarioId}]");
-                onException?.Invoke();
-                return false;
-            }
         }
     }
 }

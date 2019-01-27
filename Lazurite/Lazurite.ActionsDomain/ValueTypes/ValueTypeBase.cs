@@ -17,7 +17,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
     {
         protected string[] _acceptedValues;
 
-        [ProtoMember(1)]
+        [ProtoMember(9, OverwriteList = true)]
         public string[] AcceptedValues
         {
             get
@@ -56,7 +56,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
         
         public override string ToString() => HumanFriendlyName;
 
-        //интерпретирует входящее значение
+        // Интерпретирует входящее значение
         public abstract ValueTypeInterpreteResult Interprete(string param);
 
         public override int GetHashCode()

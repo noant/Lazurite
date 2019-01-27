@@ -11,15 +11,19 @@ using System;
 namespace LazuriteMobile.App.Droid
 {
     //You can specify additional application information in this attribute
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
     [Application]
     public class MainApplication : Application, Application.IActivityLifecycleCallbacks
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2141:TransparentMethodsMustNotSatisfyLinkDemandsFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
         public static void InitializeUnhandledExceptionsHandler()
         {
             AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             Log?.Fatal("Необработанная ошибка!", e.ExceptionObject as Exception);
@@ -32,6 +36,7 @@ namespace LazuriteMobile.App.Droid
         {
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         public override void OnCreate()
         {
             base.OnCreate();

@@ -2,6 +2,7 @@
 using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
+using Lazurite.Utils;
 using Lazurite.Visual;
 using SimpleRemoteMethods.Bases;
 using SimpleRemoteMethods.ServerSide;
@@ -9,7 +10,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Lazurite.Windows.Service
+namespace Lazurite.Service
 {
     public class LazuriteService : IServer
     {
@@ -249,25 +250,19 @@ namespace Lazurite.Windows.Service
             var scenario = ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == scenarioId);
             if (scenario == null)
                 return null;
-            return Wait(StatisticsManager.GetStatisticsInfoForScenario(scenario, new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue)));
+            return TaskUtils.Wait(StatisticsManager.GetStatisticsInfoForScenario(scenario, new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue)));
         }
 
         public StatisticsItem[] GetStatistics(DateTime since, DateTime to, StatisticsScenarioInfo info)
         {
             var user = GetCurrentUser();
-            return Wait(StatisticsManager.GetItems(info, since, to, new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue)));
+            return TaskUtils.Wait(StatisticsManager.GetItems(info, since, to, new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue)));
         }
 
         public ScenarioStatisticsRegistration GetStatisticsRegistration(string[] scenariosIds)
         {
             var scenarios = ScenariosRepository.Scenarios.Where(x => scenariosIds.Contains(x.Id)).ToArray();
-            return Wait(StatisticsManager.GetRegistrationInfo(scenarios));
-        }
-
-        private T Wait<T>(Task<T> task)
-        {
-            task.Wait();
-            return task.Result;
+            return TaskUtils.Wait(StatisticsManager.GetRegistrationInfo(scenarios));
         }
     }
 }

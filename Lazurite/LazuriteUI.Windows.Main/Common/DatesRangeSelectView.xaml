@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Statistics"
-             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d"
              Background="{x:Static controls:Visual.Background}"
@@ -12,13 +10,13 @@
              Height="Auto">
     <StackPanel Orientation="Vertical">
         <StackPanel Margin="3,3,3,0" Orientation="Horizontal">
-            <controls:ItemView Width="200" VerticalAlignment="Top" Icon="CalendarRange" x:Name="btRange" Click="btRange_Click">Выбрать диапазон дат</controls:ItemView>
+            <controls:ItemView Width="200" VerticalAlignment="Top" Icon="CalendarRange" x:Name="btRange" Click="BtRange_Click">Выбрать диапазон дат</controls:ItemView>
             <DatePicker BorderThickness="0" Grid.Column="1" VerticalAlignment="Center" Margin="6,3,3,3" x:Name="dt1"></DatePicker>
             <DatePicker BorderThickness="0" Grid.Column="2" VerticalAlignment="Center" Margin="3" x:Name="dt2"></DatePicker>
         </StackPanel>
-        <controls:ItemView Margin="3,3,3,0" Grid.ColumnSpan="3" VerticalAlignment="Top" Grid.Row="1" Icon="CalendarYear" x:Name="btYear" Click="btYear_Click">Последний год</controls:ItemView>
-        <controls:ItemView Margin="3,3,3,0" Grid.ColumnSpan="3" VerticalAlignment="Top" Grid.Row="2" Icon="CalendarMonth" x:Name="btMonth" Click="btMonth_Click">Последний месяц</controls:ItemView>
-        <controls:ItemView Margin="3,3,3,0" Grid.ColumnSpan="3" VerticalAlignment="Top" Grid.Row="3" Icon="CalendarWeek" x:Name="btWeek" Click="btWeek_Click">Последняя неделя</controls:ItemView>
-        <controls:ItemView Margin="3,3,3,3" Grid.ColumnSpan="3" VerticalAlignment="Top" Grid.Row="4" Icon="CalendarDay" x:Name="btDay" Click="btDay_Click">Последние сутки</controls:ItemView>
+        <controls:ItemView Margin="3,3,3,0" Grid.ColumnSpan="3" VerticalAlignment="Top" Grid.Row="1" Icon="CalendarYear" x:Name="btYear" Click="BtYear_Click">Последний год</controls:ItemView>
+        <controls:ItemView Margin="3,3,3,0" Grid.ColumnSpan="3" VerticalAlignment="Top" Grid.Row="2" Icon="CalendarMonth" x:Name="btMonth" Click="BtMonth_Click">Последний месяц</controls:ItemView>
+        <controls:ItemView Margin="3,3,3,0" Grid.ColumnSpan="3" VerticalAlignment="Top" Grid.Row="3" Icon="CalendarWeek" x:Name="btWeek" Click="BtWeek_Click">Последняя неделя</controls:ItemView>
+        <controls:ItemView Margin="3,3,3,3" Grid.ColumnSpan="3" VerticalAlignment="Top" Grid.Row="4" Icon="CalendarDay" x:Name="btDay" Click="BtDay_Click">Последние сутки</controls:ItemView>
     </StackPanel>
 </UserControl>

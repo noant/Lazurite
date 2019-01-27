@@ -9,19 +9,11 @@ namespace LazuriteUI.Windows.Controls
     /// </summary>
     public partial class CaptionView : UserControl
     {
-        public static readonly DependencyProperty IconVisibilityProperty;
         public static readonly DependencyProperty IconProperty;
         public static new readonly DependencyProperty ContentProperty;
 
         static CaptionView()
         {
-            IconVisibilityProperty = DependencyProperty.Register(nameof(IconVisibility), typeof(Visibility), typeof(CaptionView), new FrameworkPropertyMetadata()
-            {
-                PropertyChangedCallback = (o, e) =>
-                {
-                    ((CaptionView)o).iconView.Visibility = (Visibility)e.NewValue;
-                }
-            });
             IconProperty = DependencyProperty.Register(nameof(Icon), typeof(Icon), typeof(CaptionView), new FrameworkPropertyMetadata()
             {
                 PropertyChangedCallback = (o, e) =>
@@ -36,18 +28,6 @@ namespace LazuriteUI.Windows.Controls
                     ((CaptionView)o).label.Content = e.NewValue;
                 }
             });
-        }
-
-        public Visibility IconVisibility
-        {
-            get
-            {
-                return (Visibility)GetValue(IconVisibilityProperty);
-            }
-            set
-            {
-                SetValue(IconVisibilityProperty, value);
-            }
         }
 
         public Icon Icon

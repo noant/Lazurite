@@ -23,7 +23,7 @@ namespace Lazurite.MainDomain.Statistics
 
         public ScenarioStatisticsRegistration() { } //empty
 
-        [ProtoMember(1)]
+        [ProtoMember(1, OverwriteList = true)]
         public string[] RegisteredIds { get; set; }
 
         public bool IsRegistered(string scenarioId) => 

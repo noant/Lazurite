@@ -221,6 +221,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             ScenariosSelectPressed?.Invoke(this, new EventsArgs<object>(null));
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event EventsHandler<object> ScenariosSelectPressed;
     }
 }

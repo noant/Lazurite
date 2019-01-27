@@ -15,6 +15,7 @@ namespace LazuriteMobile.App.Droid
             HasCome?.Invoke(this, msg);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<object, Message> HasCome;
     }
 }

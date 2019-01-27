@@ -49,6 +49,7 @@ namespace LazuriteUI.Windows.Main.Security
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action OkClicked;
 
         public static void Show(Action callback, Action<GroupValidationArgs> validation, UserGroupBase group) {

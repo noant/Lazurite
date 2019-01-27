@@ -14,8 +14,12 @@ using LazuriteMobile.MainDomain;
 
 namespace LazuriteMobile.App.Droid
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2146:TypesMustBeAtLeastAsCriticalAsBaseTypesFxCopRule")]
     public class GeolocationViewIntentCreator : IGeolocationView
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public void View(Geolocation geolocation, string label)
         {
             var uriBase = "geo:{0},{1}?q={0},{1}({2})";

@@ -11,6 +11,7 @@ namespace LazuriteMobile.App.Droid
     [IntentFilter(new[] { "android.location.GPS_ENABLED_CHANGE" })]
     public class GpsOnReciever : BroadcastReceiver
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         public override void OnReceive(Context context, Intent intent)
         {
             if (Singleton.Any<IGeolocationListener>())

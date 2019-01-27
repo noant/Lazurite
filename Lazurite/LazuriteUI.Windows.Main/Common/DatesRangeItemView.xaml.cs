@@ -67,9 +67,10 @@ namespace LazuriteUI.Windows.Main.Common
             SelectionChanged?.Invoke(this, new EventsArgs<DateSelectionItem>(DateSelectionItem));
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event EventsHandler<DateSelectionItem> SelectionChanged;
 
-        private void btSelect_Click(object sender, RoutedEventArgs e)
+        private void BtSelect_Click(object sender, RoutedEventArgs e)
         {
             DatesRangeSelectView.Show((item) => DateSelectionItem = item, Max, Min, DateSelectionItem);
         }

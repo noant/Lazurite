@@ -100,10 +100,12 @@ namespace LazuriteUI.Windows.Main.Switches
                             scaleView.Value = _model.ScenarioValueDouble));
             };
 
+            Unloaded += (o, e) => _model.Dispose();
+
             Loaded += (o, e) => scaleView.Value = _model.ScenarioValueDouble;
         }
 
-        private void itemView_Click(object sender, RoutedEventArgs e)
+        private void ItemView_Click(object sender, RoutedEventArgs e)
         {
             var floatSwitch = new FloatViewSwitch((ScenarioModel)DataContext);
             var dialog = new DialogView(floatSwitch);

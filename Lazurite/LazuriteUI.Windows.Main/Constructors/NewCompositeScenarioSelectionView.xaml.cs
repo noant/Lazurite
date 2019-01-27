@@ -29,6 +29,7 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         public ValueTypeBase SelectedType { get; private set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<ValueTypeBase> Selected;
     }
 }

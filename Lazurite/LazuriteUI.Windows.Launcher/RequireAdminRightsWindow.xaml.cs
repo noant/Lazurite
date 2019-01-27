@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lazurite.Shared;
+using System;
 using System.Windows;
 
 namespace LazuriteUI.Windows.Launcher
@@ -15,12 +16,14 @@ namespace LazuriteUI.Windows.Launcher
             btApply.Click += (o, e) =>
             {
                 btCancel.IsEnabled = btApply.IsEnabled = false;
-                ApplyClick?.Invoke();
+                ApplyClick?.Invoke(this, new EventsArgs<object>(this));
             };
-            btCancel.Click += (o, e) => CancelClick?.Invoke();
+            btCancel.Click += (o, e) => CancelClick?.Invoke(this, new EventsArgs<object>(this));
         }
 
-        public event Action ApplyClick;
-        public event Action CancelClick;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
+        public event EventsHandler<object> ApplyClick;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
+        public event EventsHandler<object> CancelClick;
     }
 }

@@ -19,6 +19,7 @@ namespace LazuriteMobile.App.Droid
 {
     public static class SingletonPreparator
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         public static void Initialize()
         {
             if (!Singleton.Any<ILogger>())

@@ -14,7 +14,7 @@ using System;
 
 namespace Lazurite.Windows.Core
 {
-    public class LazuriteCore: IDisposable
+    public sealed class LazuriteCore: IDisposable
     {
         private static readonly string SettingsKey = "coreSettings";
 
@@ -52,6 +52,7 @@ namespace Lazurite.Windows.Core
         {
             ScenariosRepository?.Dispose();
             Server.Stop();
+            GC.SuppressFinalize(this);
         }
 
         public void InitializeAsync(Action callback)

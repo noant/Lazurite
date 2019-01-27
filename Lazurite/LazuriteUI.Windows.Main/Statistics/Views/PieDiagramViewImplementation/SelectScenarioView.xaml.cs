@@ -60,6 +60,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
             get => (string)((ItemView)itemsList.SelectedItem).Tag;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event EventsHandler<string> Selected;
 
         public static void Show(string selectedScenario, Action<string> callback)

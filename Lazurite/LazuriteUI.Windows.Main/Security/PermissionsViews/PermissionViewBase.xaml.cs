@@ -54,7 +54,9 @@ namespace LazuriteUI.Windows.Main.Security.PermissionsViews
             Modified?.Invoke(this);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<PermissionViewBase> RemoveClicked;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<PermissionViewBase> Modified;
     }
 }

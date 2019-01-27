@@ -67,6 +67,7 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
 
         public event RoutedEventHandler SelectionChanged;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event EventsHandler<StatusInitializationViewItem> RemoveClick;
     }
 }

@@ -107,6 +107,7 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         public Type SelectedType { get; private set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<SelectActionView> SelectionChanged;
     }
 }

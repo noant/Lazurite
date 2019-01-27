@@ -16,6 +16,7 @@ using LazuriteMobile.MainDomain;
 
 namespace LazuriteMobile.App.Droid
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2146:TypesMustBeAtLeastAsCriticalAsBaseTypesFxCopRule")]
     public class Notifier : INotifier
     {
         private const int MaxMessagesCnt = 20;
@@ -24,6 +25,9 @@ namespace LazuriteMobile.App.Droid
         private List<LazuriteNotification> _notificationsCache = new List<LazuriteNotification>();
         private List<LazuriteNotification> _read = new List<LazuriteNotification>();
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public LazuriteNotification[] GetNotifications()
         {
             try
@@ -51,6 +55,9 @@ namespace LazuriteMobile.App.Droid
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public void Notify(Lazurite.Shared.Message message)
         {
             var newId = GetNextNotificationId();

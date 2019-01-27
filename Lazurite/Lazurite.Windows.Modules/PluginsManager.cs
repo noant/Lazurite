@@ -18,7 +18,7 @@ using System.Reflection;
 
 namespace Lazurite.Windows.Modules
 {
-    public class PluginsManager : IDisposable, IInstanceManager
+    public class PluginsManager : IInstanceManager
     {
         public static readonly string PluginFileExtension = ".pyp";
 
@@ -239,13 +239,13 @@ namespace Lazurite.Windows.Modules
             }
             return null;
         }
-        
-        public void Dispose()
+
+        ~PluginsManager()
         {
             AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
             AppDomain.CurrentDomain.AssemblyLoad -= CurrentDomain_AssemblyLoad;
         }
-        
+
         private Dictionary<string, Assembly> _catchedAssemblies = new Dictionary<string, Assembly>();
         private readonly string _saviorKey = "modulesManager";
         private readonly string _saviorKey_removePlugins = "modulesManager_removeLibs";
@@ -253,9 +253,9 @@ namespace Lazurite.Windows.Modules
         private List<PluginTypeInfo> _allTypes = new List<PluginTypeInfo>();
         private List<PluginInfo> _plugins = new List<PluginInfo>();
         private List<PluginInfo> _pluginsToRemove = new List<PluginInfo>();
-        private List<string> _pluginsToUpdate = new List<string>();
-        private string _tmpDir;
-        private string _tmpDirCheck;
+        private readonly List<string> _pluginsToUpdate = new List<string>();
+        private readonly string _tmpDir;
+        private readonly string _tmpDirCheck;
         private ScenariosRepositoryBase _scenarioRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private UsersRepositoryBase _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private SaviorBase _savior = Singleton.Resolve<SaviorBase>();

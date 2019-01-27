@@ -194,8 +194,10 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
             ScenarioSelectClicked?.Invoke(this, new EventsArgs<object>(null));
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event EventsHandler<object> ScenarioSelectClicked;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event EventsHandler<ScenarioInfo> Navigated;
 
         public struct ScenarioInfo

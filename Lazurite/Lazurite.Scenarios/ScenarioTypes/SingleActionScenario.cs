@@ -8,6 +8,7 @@ using Lazurite.Security;
 using Lazurite.Utils;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using ExecutionContext = Lazurite.ActionsDomain.ExecutionContext;
 
 namespace Lazurite.Scenarios.ScenarioTypes
@@ -126,9 +127,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
         }
         
-        protected override bool InitializeInternal()
+        protected override async Task<bool> InitializeInternal()
         {
-            base.InitializeInternal();
+            await base.InitializeInternal();
             SetInitializationState(ScenarioInitializationValue.Initializing);
             try
             {
@@ -146,7 +147,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Во время инициализации сценария [{0}] возникла ошибка", Name);
+                Log.Error($"Во время инициализации сценария [{Name}] возникла ошибка", e);
                 SetIsAvailable(false);
                 return false;
             }
@@ -162,23 +163,11 @@ namespace Lazurite.Scenarios.ScenarioTypes
             SetIsAvailable(true);
         }
 
-        public override void InitializeAsync(Action<bool> callback)
-        {
-            InitializeInternal(); //ignore async
-            callback?.Invoke(GetIsAvailable());
-        }
-
         public override void AfterInitilize()
         {
             //do nothing
         }
         
-        public override void FullInitializeAsync(Action<bool> callback = null)
-        {
-            var result = FullInitialize(); //ignore async
-            callback?.Invoke(result);
-        }
-
         public override IAction[] GetAllActionsFlat() => new[] { ActionHolder.Action };
 
         public override SecuritySettingsBase SecuritySettings { get; set; } = new SecuritySettings();

@@ -7,6 +7,7 @@ using Lazurite.Utils;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using ExecutionContext = Lazurite.ActionsDomain.ExecutionContext;
 
 namespace Lazurite.MainDomain
@@ -239,11 +240,13 @@ namespace Lazurite.MainDomain
             SetPreviousValue(_currentValue);
             _currentValue = value;
         }
-        
+
+#pragma warning disable CS1998 // В асинхронном методе отсутствуют операторы await, будет выполнен синхронный метод
         /// <summary>
         /// Internally initialize
         /// </summary>
-        protected virtual bool InitializeInternal()
+        protected virtual async Task<bool> InitializeInternal()
+#pragma warning restore CS1998 // В асинхронном методе отсутствуют операторы await, будет выполнен синхронный метод
         {
             SetPreviousValue((ValueType ?? new ButtonValueType()).DefaultValue);
             return true;
@@ -252,13 +255,9 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Method runs after creating of all scenario parameters
         /// </summary>
-        public virtual void InitializeAsync(Action<bool> callback = null)
+        public virtual async Task<bool> Initialize()
         {
-            TaskUtils.Start(() =>
-            {
-                var result = InitializeInternal();
-                callback?.Invoke(result);
-            });
+            return await InitializeInternal();
         }
         
         /// <summary>
@@ -270,25 +269,12 @@ namespace Lazurite.MainDomain
         /// Run Initilaize and AfterInitialize method synchronously
         /// </summary>
         /// <returns></returns>
-        public virtual bool FullInitialize()
+        public virtual async Task<bool> FullInitialize()
         {
-            var result = InitializeInternal();
+            var result = await InitializeInternal();
             if (result)
                 AfterInitilize();
             return result;
-        }
-
-        /// <summary>
-        /// Run Initilaize and AfterInitialize method asynchronously
-        /// </summary>
-        /// <returns></returns>
-        public virtual void FullInitializeAsync(Action<bool> callback = null)
-        {
-            TaskUtils.Start(() =>
-            {
-                var result = FullInitialize();
-                callback?.Invoke(result);
-            });
         }
 
         /// <summary>

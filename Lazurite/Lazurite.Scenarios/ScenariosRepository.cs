@@ -6,6 +6,7 @@ using Lazurite.MainDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Lazurite.Scenarios
 {
@@ -41,11 +42,10 @@ namespace Lazurite.Scenarios
             _triggers = _triggersIds.Select(x => _savior.Get<TriggerBase>(x)).ToList();
 
             //initialize scenarios
-            foreach (var scenario in _scenarios)
-            {
-                if (scenario.GetInitializationState() == ScenarioInitializationValue.NotInitialized)
-                    scenario.FullInitializeAsync();
-            }
+            Task.WhenAll(
+                _scenarios
+                .Where(x => x.GetInitializationState() == ScenarioInitializationValue.NotInitialized)
+                .Select(x => x.FullInitialize()));
 
             //initialize triggers
             foreach (var trigger in _triggers)

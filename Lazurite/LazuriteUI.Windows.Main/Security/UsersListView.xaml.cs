@@ -156,6 +156,7 @@ namespace LazuriteUI.Windows.Main.Security
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<UsersListView> SelectionChanged;
     }
 }

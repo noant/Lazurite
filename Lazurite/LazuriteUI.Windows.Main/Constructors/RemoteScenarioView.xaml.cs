@@ -25,7 +25,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             
             tbPort.Validation = (v) => EntryViewValidation.UShortValidation().Invoke(v);
 
-            tbServiceName.TextChanged += (o, e) => ApplyCurrent();
+            //tbServiceName.TextChanged += (o, e) => ApplyCurrent();
             tbSecretCode.PasswordChanged += (o, e) => ApplyCurrent();
             tbPort.TextChanged += (o, e) => ApplyCurrent();
             tbPassword.PasswordChanged += (o, e) => ApplyCurrent();
@@ -54,29 +54,25 @@ namespace LazuriteUI.Windows.Main.Constructors
                         throw new Exception("На удаленном сервере отсутсвуют сценарии.");
                     var selectScenarioControl = new RemoteScenarioSelect(remoteScenarios, _scenario.RemoteScenarioId);
                     var dialog = new DialogView(selectScenarioControl);
-                    selectScenarioControl.ScenarioInfoSelected += (info) =>
+                    selectScenarioControl.ScenarioInfoSelected += async (info) =>
                     {
                         dialog.Close();
                         _scenario.RemoteScenarioId = info.ScenarioId;
                         _scenario.RemoteScenarioName = info.Name;
                         tbScenario.Text = _scenario.RemoteScenarioName;
                         var loadWindowCloseToken = MessageView.ShowLoad("Соединение с удаленным сервером...");
-                        _scenario.InitializeAsync((result) =>
+                        var initialized = await _scenario.Initialize();
+                        loadWindowCloseToken.Cancel();
+                        if (initialized)
                         {
-                            loadWindowCloseToken.Cancel();
-                            Dispatcher.BeginInvoke(new Action(() => {
-                                if (result)
-                                {
-                                    Modified?.Invoke();
-                                    Succeed?.Invoke();
-                                }
-                                else
-                                {
-                                    WarningHandler.Error("Невозможно получить список сценариев.");
-                                    Failed?.Invoke();
-                                }
-                            }));
-                        });
+                            Modified?.Invoke();
+                            Succeed?.Invoke();
+                        }
+                        else
+                        {
+                            WarningHandler.Error("Невозможно получить список сценариев.");
+                            Failed?.Invoke();
+                        }
                     };
                     dialog.Show();
                 }
@@ -86,21 +82,20 @@ namespace LazuriteUI.Windows.Main.Constructors
                     Failed?.Invoke();
                 }
             };
-            btTest.Click += (o, e) => {
+            btTest.Click += async (o, e) => {
                 var loadWindowCloseToken = MessageView.ShowLoad("Соединение с удаленным сервером...");
-                _scenario.InitializeAsync((result) => {
-                    loadWindowCloseToken.Cancel();
-                    if (result)
-                    {
-                        MessageView.ShowMessage("Соединение успешно!", "Тест удаленного сценария", Icons.Icon.Check);
-                        Dispatcher.BeginInvoke(new Action(() => Succeed?.Invoke()));
-                    }
-                    else
-                    {
-                        MessageView.ShowMessage("Невозможно активировать удаленный сценарий!", "Тест удаленного сценария", Icons.Icon.Cancel);
-                        Dispatcher.BeginInvoke(new Action(() => Failed?.Invoke()));
-                    }
-                });
+                var initialized = await _scenario.Initialize();
+                loadWindowCloseToken.Cancel();
+                if (initialized)
+                {
+                    MessageView.ShowMessage("Соединение успешно!", "Тест удаленного сценария", Icons.Icon.Check);
+                    Succeed?.Invoke();
+                }
+                else
+                {
+                    MessageView.ShowMessage("Невозможно активировать удаленный сценарий!", "Тест удаленного сценария", Icons.Icon.Cancel);
+                    Failed?.Invoke();
+                }
             };
         }
         

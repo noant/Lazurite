@@ -96,7 +96,9 @@ namespace LazuriteUI.Windows.Main.Constructors
         }
 
 #pragma warning disable 67
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action ApplyClicked;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action ResetClicked;
         public event Action Modified;
         public event Action Succeed;

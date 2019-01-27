@@ -46,7 +46,9 @@ namespace Lazurite.ActionsDomain
 
         public static bool IsComparableWithValueType(Type type, Type valueType)
         {
+#pragma warning disable IDE0019 // Используйте сопоставление шаблонов
             var attr = type.GetCustomAttributes(typeof(SuitableValueTypesAttribute), true).FirstOrDefault() as SuitableValueTypesAttribute;
+#pragma warning restore IDE0019 // Используйте сопоставление шаблонов
             return attr != null ? attr.All || attr.Types.Contains(valueType) : false;
         }
 

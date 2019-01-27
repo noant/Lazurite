@@ -27,14 +27,8 @@ namespace LazuriteUI.Windows.Controls
         
         public string Caption
         {
-            get
-            {
-                return tbCaption.Text;
-            }
-            set
-            {
-                tbCaption.Text = value;
-            }
+            get => tbCaption.Text;
+            set => tbCaption.Text = value;
         }
 
         private void GridBackground_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -116,7 +110,9 @@ namespace LazuriteUI.Windows.Controls
         
         public event RoutedEventHandler Closed;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public static event EventsHandler<object> DialogOpened;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public static event EventsHandler<object> DialogClosed;
     }
 }

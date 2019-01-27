@@ -15,8 +15,14 @@ namespace Lazurite.Windows.Logging
         {
             if (_maxWritingWarnType == null)
                 _maxWritingWarnType = GlobalSettings.Get(WarnType.Info, nameof(_maxWritingWarnType));
-            if (type == WarnType.Debug)
-                System.Diagnostics.Debug.WriteLine(message);
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine(message);
+            if (exception != null)
+            {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
+                System.Diagnostics.Debug.WriteLine(exception.StackTrace);
+            }
+#endif
             if (type <= _maxWritingWarnType)
                 InternalWrite(type, message, exception);
             RaiseOnWrite(type, message, exception);
@@ -87,6 +93,7 @@ namespace Lazurite.Windows.Logging
             OnWrite?.Invoke(this, new WarningEventArgs(type, message, exception));
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event EventsHandler<WarnType> OnWrite;
     }
 }

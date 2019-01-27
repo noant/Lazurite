@@ -13,7 +13,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
 
         public ToggleValueType()
         {
-            _acceptedValues = new string[] { ValueON, ValueOFF  };
+            AcceptedValues = new string[] { ValueON, ValueOFF  };
         }
 
         public override string HumanFriendlyName => "Переключатель";

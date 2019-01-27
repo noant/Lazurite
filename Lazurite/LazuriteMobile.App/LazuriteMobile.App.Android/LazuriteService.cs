@@ -61,7 +61,8 @@ namespace LazuriteMobile.App.Droid
             _wakelock = pmanager.NewWakeLock(WakeLockFlags.Partial, "servicewakelock");
             _wakelock.SetReferenceCounted(false);
         }
-        
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         [return: GeneratedEnum]
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
@@ -127,7 +128,8 @@ namespace LazuriteMobile.App.Droid
             }
             return StartCommandResult.Sticky;
         }
-        
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         private void ReInitTimer()
         {
             _timerCancellationToken?.Cancel();
@@ -159,6 +161,7 @@ namespace LazuriteMobile.App.Droid
 
         private bool IsTimerStarted => !_timerCancellationToken?.IsCancellationRequested ?? false;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         public override void OnDestroy()
         {
             AlreadyStarted = false;
@@ -167,6 +170,7 @@ namespace LazuriteMobile.App.Droid
             base.OnDestroy();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         private new void Handle(Action<Messenger> action, TimerAction timerAction = TimerAction.Nothing)
         {
             switch (timerAction)
@@ -192,8 +196,10 @@ namespace LazuriteMobile.App.Droid
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         public void RefreshIteration() => _manager.RefreshIteration();
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         private void InHandler_HasCome(object sender, Message msg)
         {
             try

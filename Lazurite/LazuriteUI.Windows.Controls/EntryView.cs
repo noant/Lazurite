@@ -10,6 +10,7 @@ namespace LazuriteUI.Windows.Controls
     {
         public Action<EntryViewValidation> Validation;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event EventsHandler<EntryView> ErrorStateChanged;
 
         public string ErrorMessage { get; private set; }

@@ -26,11 +26,16 @@ namespace LazuriteMobile.App
             _listener = Singleton.Resolve<IGeolocationListener>();
         }
 
+        ~GeolocationDataHandler()
+        {
+            Dispose();
+        }
+
         public void Dispose()
         {
             try
             {
-                _listener.Stop();
+                _listener?.Stop();
             }
             catch (Exception e)
             {

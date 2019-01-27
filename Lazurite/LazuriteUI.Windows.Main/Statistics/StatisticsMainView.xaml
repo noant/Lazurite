@@ -22,6 +22,6 @@
             <controls:ItemView x:Name="btGeolocationView" Margin="5,0,0,0" Icon="MapGps" Width="210">История перемещений</controls:ItemView>
         </controls:ListItemsView>
     </StackPanel>
-    <controls:ItemView Icon="Settings" x:Name="btSettings" Click="btSettings_Click" Width="170" Margin="5" HorizontalAlignment="Right">Параметры</controls:ItemView>
+    <controls:ItemView Icon="Settings" x:Name="btSettings" Click="BtSettings_Click" Width="170" Margin="5" HorizontalAlignment="Right">Параметры</controls:ItemView>
     <ContentPresenter Margin="5,0,5,5" Grid.Row="1" x:Name="viewHostControl"></ContentPresenter>
 </Grid>

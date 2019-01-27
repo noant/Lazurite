@@ -36,6 +36,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             };
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<ScenarioInfo> ScenarioInfoSelected;
     }
 }

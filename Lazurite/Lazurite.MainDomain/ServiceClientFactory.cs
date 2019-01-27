@@ -1,6 +1,8 @@
 ﻿using Lazurite.Shared;
+using SimpleRemoteMethods.Bases;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Lazurite.MainDomain
@@ -42,7 +44,10 @@ namespace Lazurite.MainDomain
                 TimeSpan.FromMinutes(ConnectionTimeout_Minutes));
 
             client.Client.ConnectionError += (o, e) =>
+            {
                 ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(client, false, credentials));
+                Debug.WriteLine(e);
+            };
 
             client.Client.ConnectionNormal += (o, e) =>
                 ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(client, true, credentials));

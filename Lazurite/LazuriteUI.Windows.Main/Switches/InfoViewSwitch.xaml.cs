@@ -22,6 +22,7 @@ namespace LazuriteUI.Windows.Main.Switches
             btApply.Click += (o, e) => ApplyClicked?.Invoke(this, new EventsArgs<string>(tbText.Text));
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event EventsHandler<string> ApplyClicked;
 
         public static void Show(Action<string> callbackEnter, bool numeric = false, double min = 0, double max = 100)

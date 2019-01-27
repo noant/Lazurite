@@ -22,31 +22,32 @@ namespace LazuriteUI.Windows.Main.Common
             dt2.SelectedDate = selectionItem.End;
         }
 
-        private void btRange_Click(object sender, RoutedEventArgs e)
+        private void BtRange_Click(object sender, RoutedEventArgs e)
         {
             Commited?.Invoke(this, new EventsArgs<DateSelectionItem>(new DateSelectionItem(dt1.SelectedDate ?? DateTime.Now.Date, dt2.SelectedDate ?? DateTime.Now.Date)));
         }
 
-        private void btYear_Click(object sender, RoutedEventArgs e)
+        private void BtYear_Click(object sender, RoutedEventArgs e)
         {
             Commited?.Invoke(this, new EventsArgs<DateSelectionItem>(new DateSelectionItem(DateSelection.LastYear)));
         }
 
-        private void btMonth_Click(object sender, RoutedEventArgs e)
+        private void BtMonth_Click(object sender, RoutedEventArgs e)
         {
             Commited?.Invoke(this, new EventsArgs<DateSelectionItem>(new DateSelectionItem(DateSelection.LastMonth)));
         }
 
-        private void btWeek_Click(object sender, RoutedEventArgs e)
+        private void BtWeek_Click(object sender, RoutedEventArgs e)
         {
             Commited?.Invoke(this, new EventsArgs<DateSelectionItem>(new DateSelectionItem(DateSelection.LastWeek)));
         }
 
-        private void btDay_Click(object sender, RoutedEventArgs e)
+        private void BtDay_Click(object sender, RoutedEventArgs e)
         {
             Commited?.Invoke(this, new EventsArgs<DateSelectionItem>(new DateSelectionItem(DateSelection.Last24Hours)));
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event EventsHandler<DateSelectionItem> Commited;
 
         public static void Show(Action<DateSelectionItem> selected, DateTime max, DateTime min, DateSelectionItem selectionItem)

@@ -55,8 +55,10 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
                 SetValue(AddVisibleProperty, value);
             }
         }
-        
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action RemoveClick;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action AddNewClick;
     }
 }

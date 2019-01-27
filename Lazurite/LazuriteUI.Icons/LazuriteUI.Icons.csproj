@@ -5,10 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Icons\_None.png" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <EmbeddedResource Include="Icons\_None.png" />
     <EmbeddedResource Include="Icons\Add.png" />
     <EmbeddedResource Include="Icons\AddMultiple.png" />
     <EmbeddedResource Include="Icons\AdobeAcrobat.png" />
@@ -1271,6 +1268,9 @@
     <EmbeddedResource Include="Icons\Youtube.png" />
     <EmbeddedResource Include="Icons\YoutubePlay.png" />
     <EmbeddedResource Include="Icons\Zune.png" />
+    <EmbeddedResource Include="Icons\ButtonOn.png" />
+    <EmbeddedResource Include="Icons\Acorn.png" />
+    <EmbeddedResource Include="Icons\Lazurite256_reflected.png" />
   </ItemGroup>
 
   <ItemGroup>

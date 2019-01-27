@@ -17,6 +17,7 @@ namespace LazuriteUI.Windows.Main
         private static readonly int DuplicatedProcessesListenerInterval = GlobalSettings.Get(1000);
         private static readonly int DuplicatedProcessesListenerInterval_onFound = GlobalSettings.Get(2000);
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public static event EventsHandler<Process[]> Found;
 
         public static void Start()

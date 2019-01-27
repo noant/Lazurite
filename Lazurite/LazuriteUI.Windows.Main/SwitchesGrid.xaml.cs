@@ -18,7 +18,7 @@ namespace LazuriteUI.Windows.Main
     /// </summary>
     [DisplayName("Переключатели сценариев")]
     [LazuriteIcon(Icon.CursorHand)]
-    public partial class SwitchesGrid : UserControl, IInitializable, IDisposable
+    public sealed partial class SwitchesGrid : UserControl, IInitializable, IDisposable
     {
         private static readonly int UpdateUIInterval_MS = GlobalSettings.Get(30000);
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
@@ -139,6 +139,8 @@ namespace LazuriteUI.Windows.Main
                     }));
                 },
                 () => UpdateUIInterval_MS);
+
+            Unloaded += (o, e) => _updateUICancellationToken?.Cancel();
         }
 
         private ScenarioBase[] GetScenarios()
@@ -438,9 +440,15 @@ namespace LazuriteUI.Windows.Main
 
         public void CancelDragging() => _draggableCurrent = null;
 
-        public void Dispose() => _updateUICancellationToken.Cancel();
+        public void Dispose()
+        {
+            _updateUICancellationToken?.Cancel();
+            _updateUICancellationToken?.Dispose();
+        }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<ScenarioModel> SelectedModelChanged;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<ScenarioModel, ScenarioChangingEventArgs> SelectedModelChanging;
     }
 

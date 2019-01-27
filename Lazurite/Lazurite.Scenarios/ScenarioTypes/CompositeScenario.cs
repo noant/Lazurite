@@ -7,6 +7,7 @@ using Lazurite.MainDomain;
 using Lazurite.Security;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using ExecutionContext = Lazurite.ActionsDomain.ExecutionContext;
 
 namespace Lazurite.Scenarios.ScenarioTypes
@@ -42,9 +43,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return TargetAction.GetAllActionsFlat().Select(x => x.GetType()).Distinct().ToArray();
         }
         
-        protected override bool InitializeInternal()
+        protected override async Task<bool> InitializeInternal()
         {
-            base.InitializeInternal();
+            await base.InitializeInternal();
             SetInitializationState(ScenarioInitializationValue.Initializing);
             try
             {
@@ -73,13 +74,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 SetInitializationState(ScenarioInitializationValue.Initialized);
             }
         }
-
-        public override void InitializeAsync(Action<bool> callback)
-        {
-            InitializeInternal(); //ignore async
-            callback?.Invoke(GetIsAvailable());
-        }
-
+        
         public override void AfterInitilize()
         {
             if (ValueType != null && ValueType is ButtonValueType == false) //except buttonValueType because any input value starts scenario permanent
@@ -91,12 +86,6 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return TargetAction.GetAllActionsFlat();
         }
         
-        public override void FullInitializeAsync(Action<bool> callback = null)
-        {
-            var result = FullInitialize(); //ignore async
-            callback?.Invoke(result);
-        }
-
         public string InitializeWithValue { get; set; }
 
         //crutch

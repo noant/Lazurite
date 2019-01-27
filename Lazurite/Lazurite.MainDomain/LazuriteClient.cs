@@ -1,7 +1,7 @@
 using Lazurite.MainDomain.Statistics;
 using SimpleRemoteMethods.ClientSide;
-using System;
 using System.Threading.Tasks;
+using System;
 
 namespace Lazurite.MainDomain
 {
@@ -21,7 +21,7 @@ namespace Lazurite.MainDomain
 
         public async Task<ScenarioInfo[]> GetScenariosInfo()
         {
-            return await Client.CallMethod<ScenarioInfo[]>("GetScenariosInfo");
+            return await Client.CallMethodArray<ScenarioInfo>("GetScenariosInfo");
         }
 
         public async Task<ScenarioInfo> GetScenarioInfo(String scenarioId)
@@ -56,7 +56,7 @@ namespace Lazurite.MainDomain
 
         public async Task<ScenarioInfoLW[]> GetChangedScenarios(DateTime since)
         {
-            return await Client.CallMethod<ScenarioInfoLW[]>("GetChangedScenarios", since);
+            return await Client.CallMethodArray<ScenarioInfoLW>("GetChangedScenarios", since);
         }
 
         public async Task SaveVisualSettings(UserVisualSettings visualSettings)
@@ -76,7 +76,7 @@ namespace Lazurite.MainDomain
 
         public async Task<StatisticsItem[]> GetStatistics(DateTime since, DateTime to, StatisticsScenarioInfo info)
         {
-            return await Client.CallMethod<StatisticsItem[]>("GetStatistics", since, to, info);
+            return await Client.CallMethodArray<StatisticsItem>("GetStatistics", since, to, info);
         }
 
         public async Task<ScenarioStatisticsRegistration> GetStatisticsRegistration(String[] scenariosIds)

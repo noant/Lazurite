@@ -22,7 +22,6 @@ namespace Lazurite.Windows.Statistics
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
         private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
-        private static readonly ServiceClientFactory ClientFactory = Singleton.Resolve<ServiceClientFactory>();
         private static readonly ScenarioActionSource SystemActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.System, ScenarioAction.ViewValue);
 
         private DateTime RefreshDate = DateTime.Now.AddDays(1);

@@ -12,7 +12,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
 
         public DateTimeValueType()
         {
-            _acceptedValues = new string[] { };
+            AcceptedValues = new string[] { };
         }
 
         public override string HumanFriendlyName => "Дата и время";

@@ -1,9 +1,9 @@
 ﻿using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Service;
 using Lazurite.Shared;
 using Lazurite.Windows.Logging;
-using Lazurite.Windows.Service;
 using SimpleRemoteMethods.ServerSide;
 using SimpleRemoteMethods.Utils.Windows;
 using System;
@@ -23,6 +23,7 @@ namespace Lazurite.Windows.Server
 
         public bool Started => _server?.Started ?? false;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event EventsHandler<LazuriteServer> StatusChanged;
 
         public ServerSettings Settings
@@ -47,10 +48,12 @@ namespace Lazurite.Windows.Server
             {
                 _warningHandler.Info("Service starting: " + _settings.GetAddress());
 
-                _server = new Server<IServer>(new LazuriteService(), true, _settings.Port, _settings.SecretKey);
-                _server.MaxConcurrentCalls = (ushort)MaxConcurrentCalls;
-                _server.MaxRequestLength = 300000;
-                _server.AuthenticationValidator = new LoginValidator();
+                _server = new Server<IServer>(new LazuriteService(), true, _settings.Port, _settings.SecretKey)
+                {
+                    MaxConcurrentCalls = (ushort)MaxConcurrentCalls,
+                    MaxRequestLength = 300000,
+                    AuthenticationValidator = new LoginValidator()
+                };
 
                 _server.AfterServerStopped += (o, e) => StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
             

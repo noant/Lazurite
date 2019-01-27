@@ -5,8 +5,10 @@ using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.Scenarios.RemoteScenarioCode;
 using Lazurite.Security;
+using Lazurite.Utils;
 using SimpleRemoteMethods.Bases;
 using System;
+using System.Threading.Tasks;
 using ExecutionContext = Lazurite.ActionsDomain.ExecutionContext;
 
 namespace Lazurite.Scenarios.ScenarioTypes
@@ -62,40 +64,29 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             //
         }
-
-        private bool HandleExceptions(Action action, Action onException = null)
-        {
-            try
-            {
-                action?.Invoke();
-                return true;
-            }
-            catch (RemoteException e)
-            {
-                Log.Info($"Ошибка соединения с удаленным сценарием [{Name}][{Id}][{Credentials.GetAddress()}]: {e.Message}");
-                onException?.Invoke();
-                return false;
-            }
-            catch (Exception e)
-            {
-                Log.Info($"Непредвиденная ошибка соединения с удаленным сценарием [{Name}][{Id}][{Credentials.GetAddress()}]", e);
-                onException?.Invoke();
-                return false;
-            }
-        }
-
+        
         public override void Execute(ScenarioActionSource source, string param, out string executionId, ExecutionContext parentContext)
         {
             CheckRights(source, parentContext);
             CheckValue(param, parentContext);
             executionId = PrepareExecutionId();
-            Log.Debug($"Scenario execution begin: [{Name}][{Id}]");
-            HandleExceptions(async () => 
-            {
-                await GetClient().ExecuteScenario(RemoteScenarioId, param);
-                SetCurrentValue(param, source);
+            TaskUtils.Start(() => {
+                Log.Debug($"Scenario execution begin: [{Name}][{Id}]");
+                try
+                {
+                    GetClient().ExecuteScenario(RemoteScenarioId, param).Wait();
+                    SetCurrentValue(param, source);
+                }
+                catch (RemoteException e)
+                {
+                    Log.Info($"Ошибка соединения с удаленным сценарием [{Name}][{Id}][{Credentials.GetAddress()}]: {e.Message}");
+                }
+                catch (Exception e)
+                {
+                    Log.Info($"Непредвиденная ошибка соединения с удаленным сценарием [{Name}][{Id}][{Credentials.GetAddress()}]", e);
+                }
+                Log.Debug($"Scenario execution end: [{Name}][{Id}]");
             });
-            Log.Debug($"Scenario execution end: [{Name}][{Id}]");
         }
 
         public override void ExecuteAsync(ScenarioActionSource source, string param, out string executionId, ExecutionContext parentContext)
@@ -104,12 +95,23 @@ namespace Lazurite.Scenarios.ScenarioTypes
             CheckValue(param, parentContext);
             executionId = PrepareExecutionId();
             Log.DebugFormat($"Scenario execution begin: [{Name}][{Id}]");
-            HandleExceptions(async () =>
+            TaskUtils.Start(() =>
             {
-                await GetClient().AsyncExecuteScenario(RemoteScenarioId, param);
-                SetCurrentValue(param, source);
+                try
+                {
+                    GetClient().AsyncExecuteScenario(RemoteScenarioId, param).Wait();
+                    SetCurrentValue(param, source);
+                }
+                catch (Exception e) when (e is RemoteException == false)
+                {
+                    Log.Info($"Непредвиденная ошибка соединения с удаленным сценарием [{Name}][{Id}][{Credentials.GetAddress()}]", e);
+                }
+                catch (RemoteException e)
+                {
+                    Log.Info($"Ошибка соединения с удаленным сценарием [{Name}][{Id}][{Credentials.GetAddress()}]: {e.Message}");
+                }
+                Log.DebugFormat($"Scenario execution end: [{Name}][{Id}]");
             });
-            Log.DebugFormat($"Scenario execution end: [{Name}][{Id}]");
         }
 
         public override void ExecuteAsyncParallel(ScenarioActionSource source, string param, ExecutionContext parentContext)
@@ -117,10 +119,23 @@ namespace Lazurite.Scenarios.ScenarioTypes
             CheckRights(source, parentContext);
             CheckValue(param, parentContext);
             Log.DebugFormat($"Scenario execution begin: [{Name}][{Id}]");
-            HandleExceptions(async () => {
-                await GetClient().AsyncExecuteScenarioParallel(RemoteScenarioId, param);
+
+            TaskUtils.Start(() =>
+            {
+                try
+                {
+                    GetClient().AsyncExecuteScenarioParallel(RemoteScenarioId, param).Wait();
+                }
+                catch (Exception e) when (e is RemoteException == false)
+                {
+                    Log.Info($"Непредвиденная ошибка соединения с удаленным сценарием [{Name}][{Id}][{Credentials.GetAddress()}]", e);
+                }
+                catch (RemoteException e)
+                {
+                    Log.Info($"Ошибка соединения с удаленным сценарием [{Name}][{Id}][{Credentials.GetAddress()}]: {e.Message}");
+                }
+                Log.DebugFormat($"Scenario execution end: [{Name}][{Id}]");
             });
-            Log.DebugFormat($"Scenario execution end: [{Name}][{Id}]");
         }
 
         public override void TryCancelAll()
@@ -132,31 +147,37 @@ namespace Lazurite.Scenarios.ScenarioTypes
 
         public override Type[] GetAllUsedActionTypes() => new Type[0];
         
-        protected override bool InitializeInternal()
+        protected override async Task<bool> InitializeInternal()
         {
-            base.InitializeInternal();
+            await base.InitializeInternal();
             SetInitializationState(ScenarioInitializationValue.Initializing);
             UpdateValueAsDefault();
             Log.DebugFormat($"Scenario initialize begin: [{Name}][{Id}]");
             SetIsAvailable(false);
             var remoteScenarioAvailable = false;
             var initialized = false;
-            HandleExceptions(
-                async () =>
-                {
-                    if (string.IsNullOrEmpty(Credentials.SecretKey))
-                        throw RemoteException.Get(RemoteExceptionData.UnknownData, "Необходим ввод секретного ключа");
-                    _scenarioInfo = await GetClient().GetScenarioInfo(RemoteScenarioId);
-                    remoteScenarioAvailable = _scenarioInfo.IsAvailable;
-                    _valueType = _scenarioInfo.ValueType;
-                    RemoteScenarioName = _scenarioInfo.Name;
-                    initialized = true;
-                },
-                () => {
-                    initialized = false;
-                    SetDefaultValue();
-                }
-            );
+            try
+            {
+                if (string.IsNullOrEmpty(Credentials.SecretKey))
+                    throw RemoteException.Get(RemoteExceptionData.UnknownData, "Необходим ввод секретного ключа");
+                _scenarioInfo = await GetClient().GetScenarioInfo(RemoteScenarioId);
+                remoteScenarioAvailable = _scenarioInfo.IsAvailable;
+                _valueType = _scenarioInfo.ValueType;
+                RemoteScenarioName = _scenarioInfo.Name;
+                initialized = true;
+            }
+            catch (Exception e) when (e is RemoteException == false)
+            {
+                initialized = false;
+                SetDefaultValue();
+                Log.Info($"Непредвиденная ошибка соединения с удаленным сценарием [{Name}][{Id}][{Credentials.GetAddress()}]", e);
+            }
+            catch (RemoteException e)
+            {
+                initialized = false;
+                SetDefaultValue();
+                Log.Info($"Ошибка соединения с удаленным сценарием [{Name}][{Id}][{Credentials.GetAddress()}]: {e.Message}");
+            }
             Log.Debug($"Scenario initialize end: [{Name}][{Id}]");
             SetIsAvailable(initialized && remoteScenarioAvailable);
             SetInitializationState(ScenarioInitializationValue.Initialized);
@@ -172,9 +193,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
             RemoteScenarioChangesListener.Register(_listenerInfo);
         }
 
-        public override bool FullInitialize()
+        public override async Task<bool> FullInitialize()
         {
-            var result = InitializeInternal();
+            var result = await InitializeInternal();
             AfterInitilize(); // Start anyway - it starts listen remote scenario availability
             return result;
         }
@@ -214,7 +235,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             SetCurrentValueNoEvents(ValueType.DefaultValue);
         }
 
-        public void ReInitialize() => InitializeInternal();
+        public async Task ReInitialize() => await InitializeInternal();
 
         public bool InitializedInternal { get; private set; }
 

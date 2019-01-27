@@ -5,12 +5,17 @@ using System.Threading;
 
 namespace LazuriteMobile.App.Droid
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2146:TypesMustBeAtLeastAsCriticalAsBaseTypesFxCopRule")]
     public class SystemUtils : ISystemUtils
     {
         private static readonly int SleepCancelTokenIterationInterval = GlobalSettings.Get(300);
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public byte[] CreateMD5Hash(byte[] bytes) => MD5.Create().ComputeHash(bytes);
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public void Sleep(int ms, CancellationToken cancelToken)
         {
             if (ms <= SleepCancelTokenIterationInterval || cancelToken.Equals(CancellationToken.None))
@@ -19,6 +24,8 @@ namespace LazuriteMobile.App.Droid
                 Thread.Sleep(SleepCancelTokenIterationInterval);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public CancellationTokenSource StartTimer(Action<CancellationTokenSource> tick, Func<int> needInterval, bool startImmidiate = true, bool ticksSuperposition = false)
         {
             bool canceled = false;

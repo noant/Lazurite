@@ -18,9 +18,9 @@ namespace LazuriteUI.Windows.Main.Switches
             var model = new ScenarioModel(scenario);
             DataContext = model;
 
-            itemView.Click += (o, e) => {
-                InfoViewSwitch.Show((newVal) => model.ScenarioValue = newVal);
-            };
+            Unloaded += (o, e) => model.Dispose();
+
+            itemView.Click += (o, e) => InfoViewSwitch.Show((newVal) => model.ScenarioValue = newVal);
         }
     }
 }

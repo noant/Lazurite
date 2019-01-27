@@ -6,8 +6,15 @@ namespace Lazurite.MainDomain
     [ProtoContract]
     public class AddictionalData
     {
-        [ProtoMember(1)]
+        [ProtoIgnore]
         public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
+
+        [ProtoMember(1)]
+        public DictionaryCrutch ProtobufDict
+        {
+            get => new DictionaryCrutch(Data);
+            set => Data = value?.GetNormalDictionary();
+        }
 
         public AddictionalData()
         {

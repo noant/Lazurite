@@ -16,7 +16,7 @@ namespace LazuriteMobile.App
             tbLogin.Completed += AnyTextBox_Completed;
             tbPassword.Completed += AnyTextBox_Completed;
             tbSecretCode.Completed += AnyTextBox_Completed;
-            tbService.Completed += AnyTextBox_Completed;
+            //tbService.Completed += AnyTextBox_Completed;
             numPort.Completed += AnyTextBox_Completed;
         }
 
@@ -62,7 +62,7 @@ namespace LazuriteMobile.App
             SetErrorMessage("");
         }
 
-        private void itemView_Click(object arg1, EventArgs arg2)
+        private void ItemView_Click(object arg1, EventArgs arg2)
         {
             ConnectClicked?.Invoke(this);
         }

@@ -33,6 +33,7 @@ namespace LazuriteUI.Windows.Main.Constructors.Decomposition
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<IComparisonType> Selected;
 
         public static void Show(Action<IComparisonType> callback, IComparisonType selected, bool onlyNumeric)

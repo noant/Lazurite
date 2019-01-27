@@ -11,6 +11,7 @@ namespace LazuriteMobile.App.Droid
     [IntentFilter(new[] { Intent.ActionScreenOn })]
     public class ScreenOnReciever : BroadcastReceiver
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         public override void OnReceive(Context context, Intent intent)
         {
             if (Singleton.Any<LazuriteContext>())

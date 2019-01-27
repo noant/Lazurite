@@ -53,6 +53,7 @@ namespace LazuriteUI.Windows.Main.Server
             };
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<ServerSettings> Selected;
 
         private ServerSettings _settings;

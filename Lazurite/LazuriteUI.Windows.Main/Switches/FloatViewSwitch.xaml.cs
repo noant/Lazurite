@@ -35,6 +35,8 @@ namespace LazuriteUI.Windows.Main.Switches
             }
 
             btInput.Click += BtInput_Click;
+
+            Unloaded += (o, e) => Dispose();
         }
 
         private void BtInput_Click(object sender, System.Windows.RoutedEventArgs e)

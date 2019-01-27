@@ -14,7 +14,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
     /// <summary>
     /// Логика взаимодействия для GeolocationView.xaml
     /// </summary>
-    public partial class GeolocationView : Grid, IStatisticsView, IDisposable
+    public sealed partial class GeolocationView : Grid, IStatisticsView, IDisposable
     {
         private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private static readonly IStatisticsManager StatisticsManager = Singleton.Resolve<IStatisticsManager>();
@@ -55,6 +55,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
                         ScenariosIds = _scenarioIds
                     });
             };
+
+            Unloaded += (o, e) => Dispose();
         }
         
         private void DialogView_DialogClosed(object sender, Lazurite.Shared.EventsArgs<object> args)
@@ -78,8 +80,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
                     Id = x.Target.ID,
                     Name = x.Target.Name
                 })
-            .Distinct()
-            .ToArray();
+                .Distinct()
+                .ToArray();
 
             var history = scenarios
                 .Select(x => new LocationsView.GeolocationScenarioHistoryView() {

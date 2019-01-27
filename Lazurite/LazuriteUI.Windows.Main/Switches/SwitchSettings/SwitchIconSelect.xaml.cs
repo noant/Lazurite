@@ -96,6 +96,7 @@ namespace LazuriteUI.Windows.Main.Switches.SwitchSettings
             return ((SwitchIconModel)iconView.DataContext).Icon.ToLower().Contains(str);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<object, RoutedEventArgs> OkClick;
     }
 }

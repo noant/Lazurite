@@ -108,7 +108,9 @@ namespace LazuriteUI.Windows.Main
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<Lazurite.MainDomain.TriggerBase> SelectionChanged;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<Lazurite.MainDomain.TriggerBase, TriggerChangingEventArgs> SelectionChanging;
         public Lazurite.MainDomain.TriggerBase SelectedTrigger { get; private set; }
     }

@@ -7,10 +7,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
     [ProtoContract]
     public class ImageValueType : ValueTypeBase
     {
-        public ImageValueType()
-        {
-            _acceptedValues = new string[] { };
-        }
+        public ImageValueType() => AcceptedValues = new string[] { };
 
         public override string HumanFriendlyName => "Изображение";
 

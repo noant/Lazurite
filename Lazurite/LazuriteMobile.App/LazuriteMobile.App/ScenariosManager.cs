@@ -2,6 +2,7 @@
 using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
+using Lazurite.Utils;
 using LazuriteMobile.MainDomain;
 using SimpleRemoteMethods.Bases;
 using System;
@@ -117,12 +118,12 @@ namespace LazuriteMobile.App
                 }
                 else
                 {
-                    if (Wait(SyncAddictionalData()))
+                    if (TaskUtils.Wait(SyncAddictionalData()))
                     {
                         if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || Scenarios == null)
-                            Wait(Refresh());
+                            TaskUtils.Wait(Refresh());
                         else
-                            Wait(Update());
+                            TaskUtils.Wait(Update());
                     }
                 }
                 _refreshIncrement++;
@@ -208,7 +209,6 @@ namespace LazuriteMobile.App
 #pragma warning restore CS4014 // Так как этот вызов не ожидается, выполнение существующего метода продолжается до завершения вызова
         }
 
-
         private async Task<bool> HandleExceptions<T>(Func<LazuriteClient, Task<T>> action)
         {
             var cancellationToken = _operationCancellationTokenSource.Token;
@@ -225,6 +225,14 @@ namespace LazuriteMobile.App
                     ConnectionRestored?.Invoke();
                 }
             }
+            catch (Exception e) when (!cancellationToken.IsCancellationRequested && e is RemoteException == false)
+            {
+                if (ConnectionState != ManagerConnectionState.Connected)
+                    ConnectionLost?.Invoke();
+                else
+                    ConnectionError?.Invoke();
+                success = false;
+            }
             catch (RemoteException e) when (e.Code == RemoteExceptionData.LoginOrPasswordInvalid)
             {
                 LoginOrPasswordInvalid?.Invoke();
@@ -238,14 +246,6 @@ namespace LazuriteMobile.App
             catch (RemoteException e) when (e.Code == RemoteExceptionData.BruteforceSuspicion)
             {
                 BruteforceSuspition?.Invoke();
-                success = false;
-            }
-            catch (Exception) when (!cancellationToken.IsCancellationRequested)
-            {
-                if (ConnectionState != ManagerConnectionState.Connected)
-                    ConnectionLost?.Invoke();
-                else
-                    ConnectionError?.Invoke();
                 success = false;
             }
 
@@ -274,6 +274,14 @@ namespace LazuriteMobile.App
                     ConnectionRestored?.Invoke();
                 }
             }
+            catch (Exception e) when (!cancellationToken.IsCancellationRequested && e is RemoteException == false)
+            {
+                if (ConnectionState != ManagerConnectionState.Connected)
+                    ConnectionLost?.Invoke();
+                else
+                    ConnectionError?.Invoke();
+                success = false;
+            }
             catch (RemoteException e) when (e.Code == RemoteExceptionData.LoginOrPasswordInvalid)
             {
                 LoginOrPasswordInvalid?.Invoke();
@@ -287,14 +295,6 @@ namespace LazuriteMobile.App
             catch (RemoteException e) when (e.Code == RemoteExceptionData.BruteforceSuspicion)
             {
                 BruteforceSuspition?.Invoke();
-                success = false;
-            }
-            catch (Exception) when (!cancellationToken.IsCancellationRequested)
-            {
-                if (ConnectionState != ManagerConnectionState.Connected)
-                    ConnectionLost?.Invoke();
-                else
-                    ConnectionError?.Invoke();
                 success = false;
             }
 
@@ -420,11 +420,5 @@ namespace LazuriteMobile.App
         }
 
         private bool IsMultiples(int sum, int num) => (sum >= num && sum % num == 0);
-
-        private T Wait<T>(Task<T> task)
-        {
-            task.Wait();
-            return task.Result;
-        }
     }
 }
