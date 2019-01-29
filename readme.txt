@@ -34,4 +34,4 @@ Features short list:
 - Statistics maintaining
 ------------------------------------
 Copyright (c) 2018 Novgorodcev Anton
-MIT License
+Apache 2.0 License

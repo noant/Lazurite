@@ -15,6 +15,7 @@ namespace LazuriteUI.Windows.Main
         public MainWindow()
         {
             InitializeComponent();
+
             Icon = BitmapFrame.Create(Icons.Utils.GetIconData(Icons.Icon.Lazurite64));
 
             Singleton.Clear<IHardwareVolumeChanger>();

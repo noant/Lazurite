@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="start ..\..\Libs\SimpleRemoteMethods\srmGen.exe bin\$(ConfigurationName)\netstandard2.0\Lazurite.MainDomain.dll Lazurite.MainDomain.IServer Lazurite.MainDomain LazuriteClient ..\Lazurite.MainDomain\LazuriteClient.cs d" />
+    <Exec Command="start ..\..\Libs\SimpleRemoteMethods\srmGen.exe bin\$(ConfigurationName)\netstandard2.0\Lazurite.MainDomain.dll Lazurite.MainDomain.IServer Lazurite.MainDomain LazuriteClient ..\Lazurite.MainDomain\LazuriteClient.cs" />
   </Target>
 
 </Project>

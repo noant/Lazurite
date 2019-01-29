@@ -38,8 +38,11 @@ namespace Lazurite.Windows.Server
 
         public void Stop()
         {
-            _server?.Stop();
-            StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
+            if (_server != null)
+            {
+                _server.Stop();
+                StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
+            }
         }
 
         public void StartAsync(Action<bool> callback)

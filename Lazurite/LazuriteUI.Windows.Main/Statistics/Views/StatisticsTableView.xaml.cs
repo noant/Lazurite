@@ -4,9 +4,6 @@ using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
 using LazuriteUI.Windows.Controls;
-using Syncfusion.Windows.Controls.Grid;
-using Syncfusion.Windows.Controls.Grid.Converter;
-using Syncfusion.XlsIO;
 using System;
 using System.Data;
 using System.Diagnostics;
@@ -14,6 +11,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using Xceed.Wpf.DataGrid.Export;
 
 namespace LazuriteUI.Windows.Main.Statistics.Views
 {
@@ -29,15 +27,24 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
         public StatisticsTableView()
         {
             InitializeComponent();
-            gridControl.ColumnSizer = GridControlLengthUnitType.Star;
-
+            
             Loaded += (o, e) => NeedItems?.Invoke(StatisticsFilter.Empty);
+
+            var _columnsSizeSetted = false;
+            dataGrid.ItemsSourceChangeCompleted += (o, e) => {
+                if (!_columnsSizeSetted)
+                {
+                    foreach (var column in dataGrid.VisibleColumns)
+                        column.Width = 190;
+                    _columnsSizeSetted = true;
+                }
+            };
         }
         
         public void RefreshItems(StatisticsItem[] items, DateTime since, DateTime to)
         {
             if (items != null)
-                gridControl.ItemsSource = CreateDataViews(items);
+                DataContext = new { Items = CreateDataViews(items) };
         }
 
         private StatisticItemView[] CreateDataViews(StatisticsItem[] items)
@@ -93,11 +100,12 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             {
                 try
                 {
-                    gridControl.ExportToExcel(sfd.FileName, ExcelVersion.Excel2007);
+                    var exporter = new CsvClipboardExporter();
+
                     MessageView.ShowYesNo(string.Format("Экспортировано успешно.\r\nОткрыть файл [{0}]?", sfd.FileName), "Экспорт", Icons.Icon.OfficeExcel,
                         (result) => {
                             if (result)
-                                Process.Start(sfd.FileName);                            
+                                Process.Start(sfd.FileName);
                         });
                 }
                 catch (Exception exception)
