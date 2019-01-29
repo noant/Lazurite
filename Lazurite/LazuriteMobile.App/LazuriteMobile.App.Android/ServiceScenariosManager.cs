@@ -12,7 +12,7 @@ namespace LazuriteMobile.App.Droid
     {
         private Activity _activity;
         private ManagerServiceConnection _serviceConnection;
-        private readonly Messenger _messenger;
+        private Messenger _messenger;
         private Messenger _toServiceMessenger;
         private ServiceScenarioManagerCallbacks _callbacks = new ServiceScenarioManagerCallbacks();
 
@@ -254,8 +254,10 @@ namespace LazuriteMobile.App.Droid
         public void Dispose()
         {
             Close();
-            _messenger.Dispose();
-            _serviceConnection.Dispose();
+            _messenger?.Dispose();
+            _serviceConnection?.Dispose();
+            _messenger = null;
+            _serviceConnection = null;
         }
     }
 

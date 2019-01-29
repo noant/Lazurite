@@ -14,11 +14,12 @@ namespace Lazurite.MainDomain
     public class DictionaryCrutch
     {
         [ProtoMember(1, OverwriteList = true)]
-        public KeyedPairs Data { get; set; }
+        public KeyedPair[] Data { get; set; }
 
         public Dictionary<string, object> GetNormalDictionary()
         {
-            if (Data?.Count == 0) return new Dictionary<string, object>();
+            if (Data == null || Data.Length == 0)
+                return new Dictionary<string, object>();
 
             var dict = new Dictionary<string, object>();
             foreach (var item in Data)
@@ -33,8 +34,7 @@ namespace Lazurite.MainDomain
 
         public DictionaryCrutch(Dictionary<string, object> dict)
         {
-            Data = new KeyedPairs();
-            Data.AddRange(dict.Select(x => new KeyedPair(x.Key, x.Value)));
+            Data = dict.Select(x => new KeyedPair(x.Key, x.Value)).ToArray();
         }
     }
     
@@ -49,21 +49,15 @@ namespace Lazurite.MainDomain
         public KeyedPair(string key, object value)
         {
             Key = key;
-            ValuePB = ProtobufPrimitivesCreator.CreateSurrogate(value);
+            ValuePB = DynamicSurrogate.Create(value);
         }
 
         [ProtoMember(1)]
         public string Key { get; set; }
 
         [ProtoMember(2, DynamicType = true)]
-        public object ValuePB { get; set; }
+        public DynamicSurrogate ValuePB { get; set; }
 
-        public object GetOriginalValue() => ProtobufPrimitivesCreator.ExtractFromSurrogate(ValuePB);
-    }
-
-    [ProtoContract]
-    public class KeyedPairs: List<KeyedPair>
-    {
-
+        public object GetOriginalValue() => DynamicSurrogate.Extract(ValuePB);
     }
 }

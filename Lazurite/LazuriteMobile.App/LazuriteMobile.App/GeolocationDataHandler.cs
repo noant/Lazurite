@@ -36,6 +36,7 @@ namespace LazuriteMobile.App
             try
             {
                 _listener?.Stop();
+                _listener = null;
             }
             catch (Exception e)
             {

@@ -156,5 +156,12 @@ namespace Lazurite.Scenarios
             _triggers.RemoveAll(x => x.Id.Equals(trigger.Id));
             _triggers.Insert(index, trigger);
         }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            _triggers = null;
+            _scenarios = null;
+        }
     }
 }

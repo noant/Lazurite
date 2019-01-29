@@ -88,6 +88,7 @@ namespace LazuriteMobile.App.Switches
                 _changer.VolumeUp -= _changer_VolumeChanged;
             }
             _tokenSource?.Cancel();
+            _tokenSource = null;
         }
 
         public event EventHandler ManualInputActivate;

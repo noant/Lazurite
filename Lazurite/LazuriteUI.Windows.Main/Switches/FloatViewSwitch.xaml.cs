@@ -70,6 +70,7 @@ namespace LazuriteUI.Windows.Main.Switches
                 _changer.VolumeUp -= _changer_VolumeChanged;
             }
             _tokenSource?.Cancel();
+            _tokenSource = null;
         }
 
         public FloatViewSwitch(ScenarioModel model): this()

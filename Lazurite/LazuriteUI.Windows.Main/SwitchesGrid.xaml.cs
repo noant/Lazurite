@@ -139,8 +139,6 @@ namespace LazuriteUI.Windows.Main
                     }));
                 },
                 () => UpdateUIInterval_MS);
-
-            Unloaded += (o, e) => _updateUICancellationToken?.Cancel();
         }
 
         private ScenarioBase[] GetScenarios()
@@ -442,8 +440,8 @@ namespace LazuriteUI.Windows.Main
 
         public void Dispose()
         {
-            _updateUICancellationToken?.Cancel();
             _updateUICancellationToken?.Dispose();
+            _updateUICancellationToken = null;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]

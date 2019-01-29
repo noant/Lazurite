@@ -47,12 +47,14 @@ namespace Lazurite.MainDomain
             OnScenarioRemoved?.Invoke(this, new EventsArgs<ScenarioBase>(scenario));
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
-            foreach (var trigger in Triggers)
-                trigger.Stop();
-            foreach (var scenario in Scenarios)
-                scenario.Dispose();
+            if (Triggers != null)
+                foreach (var trigger in Triggers)
+                    trigger.Stop();
+            if (Scenarios != null)
+                foreach (var scenario in Scenarios)
+                    scenario.Dispose();
         }
 
         public event EventsHandler<ScenarioBase> OnScenarioRemoved;

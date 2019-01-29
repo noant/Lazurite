@@ -301,9 +301,10 @@ namespace Lazurite.Windows.Statistics
 
                 return result;
             }
-            catch
+            catch (Exception e)
             {
                 //connection failed
+                Log.Debug($"Error while get scenario statistic registration info", e);
                 return new ScenarioStatisticsRegistration();
             }
         }
