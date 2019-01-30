@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+             xmlns:views="clr-namespace:LazuriteUI.Windows.Main.Statistics.Views"
              Background="{x:Static controls:Visual.Background}"
              mc:Ignorable="d"
              ClipToBounds="True"
@@ -14,56 +15,75 @@
         <Style TargetType="{x:Type xcdg:DataGridControl}">
             <Setter Property="Background" Value="{x:Static controls:Visual.Background}" />
             <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="AlternationCount" Value="2" /> <!-- AlternationCount = 0 or 1 not works -->
+            <Setter Property="AlternationCount" Value="0" /> <!-- AlternationCount = 0 or 1 not works -->
+        </Style>
+        <Style TargetType="{x:Type xcdg:TableflowView}">
+            <Setter Property="ShowRowSelectorPane" Value="False" />
         </Style>
         <Style TargetType="{x:Type xcdg:DataRow}">
             <Style.Triggers>
-                <Trigger Property="ItemsControl.AlternationIndex" Value="0">
-                    <Setter Property="Background" Value="Transparent"></Setter>
-                </Trigger>
-                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                    <Setter Property="Background" Value="Transparent"></Setter>
-                </Trigger>
                 <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Background" Value="{x:Static controls:Visual.Background}" />
                 </Trigger>
             </Style.Triggers>
-            <Setter Property="SelectionBackground" Value="Transparent"/>
-            <Setter Property="InactiveSelectionBackground" Value="Transparent"/>
+            <Setter Property="SelectionBackground" Value="{x:Static controls:Visual.ItemBackground}" />
+            <Setter Property="InactiveSelectionBackground" Value="{x:Static controls:Visual.Background}"/>
+            <Setter Property="Background" Value="{x:Static controls:Visual.Background}" />
             <Setter Property="SelectionForeground" Value="{x:Static controls:Visual.CaptionForeground}" />
             <Setter Property="InactiveSelectionForeground" Value="{x:Static controls:Visual.CaptionForeground}" />
         </Style>
         <Style TargetType="{x:Type xcdg:ColumnManagerCell}">
-            <Setter Property="Background" Value="{x:Static controls:Visual.ItemBackground}"/>
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Foreground" Value="{x:Static controls:Visual.Foreground}" />
-            <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="BorderBrush" Value="{x:Static controls:Visual.Background}"/>
+            <Setter Property="Background" Value="{x:Static controls:Visual.ItemBackground}"/>
+        </Style>
+        <Style TargetType="{x:Type xcdg:GroupByItem}">
+            <Setter Property="Background" Value="{x:Static controls:Visual.Background}" />
+            <Setter Property="Foreground" Value="{x:Static controls:Visual.Foreground}" />
+            <Setter Property="Padding" Value="7" />
+        </Style>
+        <Style TargetType="{x:Type xcdg:HierarchicalGroupByControl}">
+            <Setter Property="Background" Value="{x:Static controls:Visual.ItemBackground}"/>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Margin" Value="0,0,0,5"></Setter>
+            <Setter Property="NoGroupContent">
+                <Setter.Value>
+                    <TextBlock Foreground="{x:Static controls:Visual.CaptionForeground}">
+                        Для группировки переместите столбцы сюда...
+                    </TextBlock>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="{x:Static controls:Visual.CaptionForeground}"></Setter>
         </Style>
         <Style TargetType="{x:Type xcdg:ColumnManagerRow}">
             <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Background" Value="{x:Static controls:Visual.ItemBackground}"/>
+        </Style>
+        <Style TargetType="{x:Type xcdg:HierarchicalGroupByControlNode}">
+            <Setter Property="Background" Value="{x:Static controls:Visual.Background}" />
         </Style>
         <Style TargetType="{x:Type xcdg:GroupHeaderControl}">
             <Setter Property="ContentTemplate">
                 <Setter.Value>
                     <DataTemplate DataType="{x:Type xcdg:Group}">
-                        <StackPanel Orientation="Horizontal">
+                        <views:StackPanelCrutch Orientation="Horizontal">
                             <TextBlock Text="{Binding Value}" />
                             <TextBlock Opacity="0.3" Text=" / строк: " />
                             <TextBlock Opacity="0.3" Text="{Binding ItemCount}" />
-                        </StackPanel>
+                        </views:StackPanelCrutch>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Background" Value="{x:Static controls:Visual.Background}" />
             <Setter Property="Foreground" Value="{x:Static controls:Visual.Foreground}" />
         </Style>
         <Style TargetType="{x:Type xcdg:GroupLevelIndicator}">
-            <Setter Property="Background" Value="Transparent" />
-        </Style>
-        <Style TargetType="{x:Type xcdg:GroupLevelIndicatorPane}">
-            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Background" Value="{x:Static controls:Visual.Background}" />
         </Style>
         <Style TargetType="{x:Type xcdg:DataCell}">
             <Setter Property="InactiveSelectionForeground" Value="{x:Static controls:Visual.CaptionForeground}" />
@@ -72,12 +92,11 @@
             <Setter Property="Foreground" Value="{x:Static controls:Visual.CaptionForeground}" />
             <Setter Property="DockPanel.HorizontalAlignment" Value="Center" />
             <Setter Property="DockPanel.VerticalAlignment" Value="Center" />
-            <Setter Property="CurrentBackground" Value="{x:Static controls:Visual.ItemBackground}" />
+            <Setter Property="CurrentBackground" Value="{x:Static controls:Visual.BrightItemBackground}" />
         </Style>
-        <xcdg:DataGridCollectionViewSource IsLiveFilteringRequested="True" x:Key="targetData"
-            Source="{Binding Items}"
-            DistinctValuesConstraint="Filtered"
-            AutoCreateItemProperties="False">
+        <xcdg:DataGridCollectionViewSource
+            x:Key="targetData"
+            Source="{Binding Items}">
             <xcdg:DataGridCollectionViewSource.ItemProperties>
                 <xcdg:DataGridItemProperty Name="ScenarioName" Title="СЦЕНАРИЙ"/>
                 <xcdg:DataGridItemProperty Name="DateTime" Title="ВРЕМЯ"/>
@@ -87,6 +106,10 @@
             </xcdg:DataGridCollectionViewSource.ItemProperties>
         </xcdg:DataGridCollectionViewSource>
     </Grid.Resources>
-    <xcdg:DataGridControl x:Name="dataGrid" ItemsSource="{Binding Source={StaticResource targetData}}"/>
-    <controls:ItemView Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="8" Width="150" Icon="OfficeExcel" Click="ExportClick">Экспорт</controls:ItemView>
+    <xcdg:DataGridControl x:Name="dataGrid" ItemsSource="{Binding Source={StaticResource targetData}}">
+        <xcdg:DataGridControl.View>
+            <xcdg:TableflowView />
+        </xcdg:DataGridControl.View>
+    </xcdg:DataGridControl>
+    <controls:ItemView VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,14,0" Width="156" Icon="OfficeExcel" Click="ExportClick">Экспорт</controls:ItemView>
 </Grid>

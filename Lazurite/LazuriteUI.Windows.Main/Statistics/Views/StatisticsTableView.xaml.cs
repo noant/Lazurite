@@ -1,17 +1,27 @@
-﻿using Lazurite.ActionsDomain.ValueTypes;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
+using CsvHelper.Configuration.Attributes;
+using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.MainDomain.Statistics;
 using LazuriteUI.Windows.Controls;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Media;
+using Xceed.Wpf.DataGrid;
 using Xceed.Wpf.DataGrid.Export;
+using Visual = LazuriteUI.Windows.Controls.Visual;
 
 namespace LazuriteUI.Windows.Main.Statistics.Views
 {
@@ -24,12 +34,14 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
         private static readonly string FloatValueTypeName = Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(FloatValueType));
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
+        private StatisticItemView[] _items;
+
         public StatisticsTableView()
         {
             InitializeComponent();
             
             Loaded += (o, e) => NeedItems?.Invoke(StatisticsFilter.Empty);
-
+            
             var _columnsSizeSetted = false;
             dataGrid.ItemsSourceChangeCompleted += (o, e) => {
                 if (!_columnsSizeSetted)
@@ -44,7 +56,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
         public void RefreshItems(StatisticsItem[] items, DateTime since, DateTime to)
         {
             if (items != null)
-                DataContext = new { Items = CreateDataViews(items) };
+                DataContext = new { Items = _items = CreateDataViews(items) };
         }
 
         private StatisticItemView[] CreateDataViews(StatisticsItem[] items)
@@ -84,25 +96,32 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
                 }
             }
 
+            [Name("СЦЕНАРИЙ")]
             public string ScenarioName { get; }
-            public string UserName { get; }
+            [Name("ДАТА И ВРЕМЯ")]
             public DateTime DateTime { get; }
+            [Name("ЗНАЧЕНИЕ")]
             public string Value { get; }
+            [Name("ПОЛЬЗОВАТЕЛЬ")]
+            public string UserName { get; }
+            [Name("ИСТОЧНИК")]
             public string SourceType { get; }
         }
 
         private void ExportClick(object sender, RoutedEventArgs e)
         {
             var sfd = new SaveFileDialog();
-            sfd.Filter = "Таблица MS Excel (*.xlsx)|*.xlsx";
-            sfd.FileName = "smarthome_data";
+            sfd.Filter = "Файл таблицы CSV (*.csv)|*.csv";
+            sfd.FileName = "Статистика_Lazurite";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    var exporter = new CsvClipboardExporter();
+                    using (var writer = new StreamWriter(sfd.FileName, false, Encoding.UTF8))
+                    using (var csv = new CsvWriter(writer))
+                        csv.WriteRecords(_items);
 
-                    MessageView.ShowYesNo(string.Format("Экспортировано успешно.\r\nОткрыть файл [{0}]?", sfd.FileName), "Экспорт", Icons.Icon.OfficeExcel,
+                    MessageView.ShowYesNo($"Экспортировано успешно.\r\nОткрыть файл [{sfd.FileName}]?",  "Экспорт", Icons.Icon.Table,
                         (result) => {
                             if (result)
                                 Process.Start(sfd.FileName);
@@ -112,6 +131,42 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
                 {
                     Log.Error(exception.Message, exception);
                 }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Crutch for grid grouping (there is wrong background on GroupHeaderControl when grouped more than 1 columns)
+    /// </summary>
+    public class StackPanelCrutch : StackPanel
+    {
+        protected override void OnRender(DrawingContext dc)
+        {
+            base.OnRender(dc);
+
+            var parents = new List<DependencyObject>();
+            GetAllParents(this, parents);
+
+            foreach (var element in parents)
+            {
+                if (element is DataGridControl)
+                    break;
+
+                if (element is System.Windows.Controls.Panel p)
+                    p.Background = Visual.BackgroundLazurite;
+
+                if (element is Border b)
+                    b.Padding = new Thickness(0);
+            }
+        }
+
+        private void GetAllParents(DependencyObject child, List<DependencyObject> parents)
+        {
+            var parent = VisualTreeHelper.GetParent(child);
+            if (parent != null)
+            {
+                parents.Add(parent);
+                GetAllParents(parent, parents);
             }
         }
     }

@@ -290,13 +290,9 @@ namespace Lazurite.Windows.Statistics
             try
             {
                 var creds = scenarios.First().Credentials;
-
                 var remoteScenariosInfo = scenarios.ToDictionary(x => x.RemoteScenarioId);
-
                 var client = ServiceClientFactory.Current.GetClient(creds);
-
                 var remoteResult = await client.GetStatisticsRegistration(remoteScenariosInfo.Select(x => x.Value.RemoteScenarioId).ToArray());
-
                 var result = new ScenarioStatisticsRegistration(remoteResult.RegisteredIds.Select(x => remoteScenariosInfo[x].Id).ToArray());
 
                 return result;
