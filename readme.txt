@@ -13,7 +13,10 @@ Lazurite - home automation software.
 	- ZWavePlugin allows user to control ZWave devices from complex scenarios and triggers. Powered by OpenZWave;
 	- SendingMessagesPlugin - send message to user or users devices;
 	- UserGeolocationPlugin - allows to calculate distance between user and place, determine user place and view current user geolocation.
-- Libs contains external libraries;
+	- MediaHost:
+		- IP-TV player based on VLC (VLC not included in the project);
+		- Module for capturing images in real time from AverMedia SDK capture devices with minimum lag time.
+- Libs folder contains external libraries;
 - Releases
 	- Plugins folder contains compiled and zipped *.pyp plugins files;
 	- PluginsMaterial contains binaries for use in plugin projects;
