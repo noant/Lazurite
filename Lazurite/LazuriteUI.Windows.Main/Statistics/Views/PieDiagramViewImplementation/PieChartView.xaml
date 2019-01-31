@@ -4,66 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
-             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation"
-             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-             mc:Ignorable="d" 
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+      mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid.RowDefinitions>
         <RowDefinition Height="100"></RowDefinition>
         <RowDefinition Height="*"></RowDefinition>
     </Grid.RowDefinitions>
     <Label x:Name="lblCaption" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{x:Static controls:Visual.CaptionForeground}" FontSize="{x:Static controls:Visual.BigFontSize}">ПОДПИСЬ</Label>
-    <syncfusion:SfChart AreaBorderThickness="0" Grid.Row="1">
-        <syncfusion:SfChart.Legend>
-            <syncfusion:ChartLegend DockPosition="Bottom" Orientation="Vertical" LegendPosition="Inside" >
-                <syncfusion:ChartLegend.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="0,4,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Ellipse Width="14" Height="14" Fill="{Binding Interior}">
-                            </Ellipse>
-                            <TextBlock Margin="5,0,0,0"
-                                Grid.Column="1" 
-                                Foreground="{x:Static controls:Visual.CaptionForeground}" 
-                                Text="{Binding Label}">
-                            </TextBlock>
-                        </Grid>
-                    </DataTemplate>
-                </syncfusion:ChartLegend.ItemTemplate>
-            </syncfusion:ChartLegend>
-        </syncfusion:SfChart.Legend>
-        <syncfusion:DoughnutSeries 
-            Margin="0,-200,0,0"
-            syncfusion:ChartTooltip.ShowDuration="5000"
-            ShowTooltip="True"
-            XBindingPath="Category" 
-            YBindingPath="Percentage" 
-            Palette="PurpleChrome" 
-            x:Name="chart">
-            <syncfusion:DoughnutSeries.TooltipTemplate>
-                <DataTemplate >
-                    <Border BorderBrush="Black" BorderThickness="1">
-                        <Grid Background="{x:Static controls:Visual.BrightItemBackground}" Height="50">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <TextBlock Margin="5" Text="{Binding Item.Category}"
-                                       HorizontalAlignment="Left"
-                                       VerticalAlignment="Center" TextAlignment="Center" 
-                                       Foreground="{x:Static controls:Visual.CaptionForeground}" />
-                            <TextBlock Margin="5" 
-                                       Grid.Row="1" 
-                                       Text="{Binding Item.Description}" 
-                                       VerticalAlignment="Center" TextAlignment="Center" 
-                                       Foreground="{x:Static controls:Visual.Foreground}"/>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </syncfusion:DoughnutSeries.TooltipTemplate>
-        </syncfusion:DoughnutSeries>
-    </syncfusion:SfChart>
+    <lvc:PieChart TextBlock.Foreground="{x:Static controls:Visual.CaptionForeground}" SizeChanged="Chart_SizeChanged" x:Name="chart" Grid.Row="1" Margin="10" LegendLocation="Bottom" Hoverable="True" />
 </Grid>

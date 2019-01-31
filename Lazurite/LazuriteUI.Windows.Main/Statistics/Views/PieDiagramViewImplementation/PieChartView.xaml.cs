@@ -1,7 +1,11 @@
-﻿using System;
+﻿using LiveCharts;
+using LiveCharts.Defaults;
+using LiveCharts.Wpf;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
 {
@@ -27,6 +31,23 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
         public PieChartView()
         {
             InitializeComponent();
+            InitColors();
+        }
+
+        private void InitColors()
+        {
+            chart.SeriesColors = new ColorsCollection();
+
+            chart.SeriesColors.Add(Colors.Purple);
+            chart.SeriesColors.Add(Colors.MediumPurple);
+            chart.SeriesColors.Add(Colors.BlueViolet);
+            chart.SeriesColors.Add(Colors.CadetBlue);
+            chart.SeriesColors.Add(Colors.SteelBlue);
+            chart.SeriesColors.Add(Colors.SlateBlue);
+            chart.SeriesColors.Add(Colors.Orchid);
+            chart.SeriesColors.Add(Colors.MediumOrchid);
+            chart.SeriesColors.Add(Colors.DarkOrchid);
+            chart.SeriesColors.Add(Colors.DeepSkyBlue);
         }
 
         public object Content
@@ -43,8 +64,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
                     Category = x.Category,
                     Count = x.Weight,
                     Percentage = x.Weight / (double)total
-                })
-                .ToArray();
+                }).ToArray();
 
             if (items.Length > MaxCount)
             {
@@ -59,8 +79,16 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
                 first9.Add(itemLast);
                 items = first9.ToArray();
             }
-            chart.ItemsSource = null; //crutch
-            chart.ItemsSource = items;
+            
+            foreach (var category in items)
+            {
+                var series = new PieSeries();
+                series.Values = new ChartValues<ObservableValue> { new ObservableValue(category.Count) };
+                series.Title = category.Category;
+                series.ToolTip = category.Description;
+                series.StrokeThickness = 0;
+                chart.Series.Add(series);
+            }
         }
 
         private class StatisticsCategoryViewInternal
@@ -73,6 +101,12 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
             {
                 get => string.Format("{0}% ({1})", Math.Round(Percentage * 100, 2), Count);
             }
+        }
+
+        private void Chart_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (!double.IsNaN(chart.ActualHeight) && chart.ActualHeight > 0)
+                chart.InnerRadius = chart.ActualHeight * 0.3;
         }
     }
 
