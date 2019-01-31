@@ -5,11 +5,11 @@
     x:Class="LazuriteMobile.App.SwitchesGrid"
     xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
-    BackgroundColor="{Static controls:Visual.Background}">
+    BackgroundColor="{x:Static controls:Visual.BackgroundSwitchesGrid}">
     <ScrollView x:Name="scrollView">
         <common:ViewBox  HorizontalOptions="FillAndExpand" VerticalOptions="Start">
             <Grid x:Name="grid"></Grid>
         </common:ViewBox>
     </ScrollView>
-    <Label x:Name="lblEmpty" TextColor="{Static controls:Visual.CaptionForeground}" VerticalOptions="Center" HorizontalOptions="Center">Сценарии пока не созданы...</Label>
+    <Label x:Name="lblEmpty" TextColor="{x:Static controls:Visual.CaptionForeground}" VerticalOptions="Center" HorizontalOptions="Center">Сценарии пока не созданы...</Label>
 </Grid>

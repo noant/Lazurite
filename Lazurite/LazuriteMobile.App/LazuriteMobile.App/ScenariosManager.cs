@@ -6,6 +6,7 @@ using Lazurite.Utils;
 using LazuriteMobile.MainDomain;
 using SimpleRemoteMethods.Bases;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -326,8 +327,9 @@ namespace LazuriteMobile.App
                 }
                 return result.Success;
             }
-            catch
+            catch (Exception e)
             {
+                Debug.WriteLine("Error in RefreshTask: " + e.Message);
                 return false;
             }
         }
@@ -355,8 +357,9 @@ namespace LazuriteMobile.App
                 }
                 return result.Success;
             }
-            catch
+            catch (Exception e)
             {
+                Debug.WriteLine("Error in UpdateTask: " + e.Message);
                 return false;
             }
         }
@@ -371,8 +374,9 @@ namespace LazuriteMobile.App
                     Bus.Handle(result.Value, null);
                 return result.Success;
             }
-            catch
+            catch (Exception e)
             {
+                Debug.WriteLine("Error in SyncAddictionalDataTask: " + e.Message);
                 return false;
             }
         }

@@ -4,22 +4,30 @@ namespace LazuriteMobile.App.Controls
 {
     public static class Visual
     {
-        public static readonly Color ItemBackground = Color.FromRgb(37, 37, 45);
-        public static readonly Color ItemSelection = Color.SlateBlue;
-        public static readonly Color BrightItemBackground = Color.FromRgb(60, 60, 68);
-        public static readonly Color Background = Color.FromRgb(26, 26, 34);
-        public static readonly Color BackgroundLazurite = Color.FromRgb(29, 25, 39);
-        public static readonly Color CaptionForeground = Color.SteelBlue;
-        public static readonly Color Foreground = Color.LightGray;
-        public static readonly int FontSize = 14;
-        public static readonly int BigFontSize = 17;
+        public static SkinBase Current { get; set; } = new Skin_Lazurite();
 
-        public static readonly string FontFamily = "sans-serif-light";
+        public static Color ScaleColor => Current.ScaleColor;
+        public static Color SwitchBorder => Current.SwitchBorder;
+        public static Color MessageEditColor => Current.MessageEditColor;
 
-        public static readonly Color SwitchBackground = ItemBackground;
-        public static readonly Color SwitchBackgroundReadonly = Color.FromRgb(0, 49, 83);
+        public static Color ItemBackground => Current.ItemBackground;
+        public static Color ItemSelection => Current.ItemSelection;
+        public static Color BrightItemBackground => Current.BrightItemBackground;
+        public static Color Background => Current.Background;
+        public static Color BackgroundAlter => Current.BackgroundAlter;
+        public static Color BackgroundSwitchesGrid => Current.BackgroundSwitchesGrid;
+        public static Color CaptionForeground => Current.CaptionForeground;
+        public static Color CaptionForegroundAlter => Current.CaptionForegroundAlter;
+        public static Color Foreground => Current.Foreground;
+        public static int FontSize => Current.FontSize;
+        public static int BigFontSize => Current.BigFontSize;
 
-        public static readonly Color SelectedSwitchBackground = ItemSelection;
-        public static readonly Color SelectedSwitchBackgroundReadonly = Color.FromRgb(0, 80, 130);
+        public static string FontFamily => Current.FontFamily;
+
+        public static Color SwitchBackground => Current.SwitchBackground;
+        public static Color SwitchBackgroundReadonly => Current.SwitchBackgroundReadonly;
+
+        public static Color SelectedSwitchBackground => Current.SelectedSwitchBackground;
+        public static Color SelectedSwitchBackgroundReadonly => Current.SelectedSwitchBackgroundReadonly;
     }
 }

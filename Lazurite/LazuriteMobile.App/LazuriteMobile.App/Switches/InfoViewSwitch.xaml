@@ -4,7 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
-    BackgroundColor="{Static controls:Visual.Background}"
+    BackgroundColor="{x:Static controls:Visual.Background}"
     Margin="4"
     Padding="4"
     x:Class="LazuriteMobile.App.Switches.InfoViewSwitch">
@@ -18,7 +18,7 @@
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
     <controls:IconView Opacity="0.64" VerticalOptions="Center" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-    <Label VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" TextColor="{Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></Label>
-    <local:EditorExt HeightRequest="75" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" VerticalOptions="Start" BackgroundColor="#302530" TextColor="White" x:Name="tbText"></local:EditorExt>
+    <Label VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" TextColor="{x:Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></Label>
+    <local:EditorExt HeightRequest="75" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" VerticalOptions="Start" BackgroundColor="{x:Static controls:Visual.MessageEditColor}" TextColor="{x:Static controls:Visual.Foreground}" x:Name="tbText"></local:EditorExt>
     <controls:ItemView Grid.Row="1" Grid.Column="2" x:Name="itemViewApply" Icon="NavigateNext" VerticalOptions="Start" HeightRequest="45" WidthRequest="45" Text=""></controls:ItemView>
 </Grid>

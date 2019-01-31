@@ -4,13 +4,13 @@
              xmlns:app="clr-namespace:LazuriteMobile.App"
              xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
              xmlns:common="clr-namespace:LazuriteMobile.App.Common"
-             BackgroundColor="Black"
+             BackgroundColor="Transparent"
              x:Class="LazuriteMobile.App.MainPage">
     <Grid x:Name="grid" VerticalOptions="Fill" HorizontalOptions="FillAndExpand">
         <app:SwitchesGrid x:Name="swgrid"></app:SwitchesGrid>
-        <Grid BackgroundColor="{Static controls:Visual.BackgroundLazurite}" x:Name="gridCaption" Opacity="0.9">
+        <Grid BackgroundColor="{x:Static controls:Visual.BackgroundAlter}" x:Name="gridCaption" Opacity="0.9">
             <app:LazuriteAnimatedIcon x:Name="iconAnimation" VerticalOptions="Center" HeightRequest="210" WidthRequest="210" HorizontalOptions="Center"></app:LazuriteAnimatedIcon>
-            <Label HorizontalTextAlignment="Center" VerticalOptions="End" TextColor="{Static controls:Visual.Foreground}" HorizontalOptions="Center" Margin="0,0,0,100" FontSize="Medium" x:Name="lblCaption"></Label>
+            <Label HorizontalTextAlignment="Center" VerticalOptions="End" TextColor="{x:Static controls:Visual.Foreground}" HorizontalOptions="Center" Margin="0,0,0,100" FontSize="Medium" x:Name="lblCaption"></Label>
         </Grid>
         <common:SliderTabsView x:Name="tabsView"></common:SliderTabsView>
         <common:SliderMenu x:Name="connectionSettingsSlider">

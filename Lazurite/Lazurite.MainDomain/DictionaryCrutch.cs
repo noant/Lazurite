@@ -55,7 +55,7 @@ namespace Lazurite.MainDomain
         [ProtoMember(1)]
         public string Key { get; set; }
 
-        [ProtoMember(2, DynamicType = true)]
+        [ProtoMember(2)]
         public DynamicSurrogate ValuePB { get; set; }
 
         public object GetOriginalValue() => DynamicSurrogate.Extract(ValuePB);

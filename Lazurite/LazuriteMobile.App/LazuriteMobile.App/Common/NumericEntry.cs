@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using LazuriteMobile.App.Controls;
+using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Common
 {
@@ -25,6 +26,7 @@ namespace LazuriteMobile.App.Common
         public NumericEntry()
         {
             Keyboard = Keyboard.Numeric;
+            TextColor = Visual.Foreground;
             TextChanged += NumericEntry_TextChanged;
         }
 
@@ -70,8 +72,7 @@ namespace LazuriteMobile.App.Common
                 Value = Min;
             else
             {
-                double value;
-                if (!double.TryParse(e.NewTextValue, out value))
+                if (!double.TryParse(e.NewTextValue, out double value))
                 {
                     Text = e.OldTextValue;
                 }

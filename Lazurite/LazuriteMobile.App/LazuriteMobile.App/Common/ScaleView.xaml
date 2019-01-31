@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView WidthRequest="40" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="LazuriteMobile.App.Common.ScaleView">
+<ContentView WidthRequest="40"
+             xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+             xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="LazuriteMobile.App.Common.ScaleView">
     <Grid>
         <Grid BackgroundColor="Gray" VerticalOptions="FillAndExpand" HorizontalOptions="End" WidthRequest="4" Opacity="0.2"></Grid>
-        <Grid x:Name="gridValue" WidthRequest="4" VerticalOptions="End" HorizontalOptions="End" BackgroundColor="MediumOrchid"></Grid>
+        <Grid x:Name="gridValue" WidthRequest="4" VerticalOptions="End" HorizontalOptions="End" BackgroundColor="{x:Static controls:Visual.ScaleColor}"></Grid>
     </Grid>
 </ContentView>
