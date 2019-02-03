@@ -23,7 +23,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
         private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private static readonly ScenarioActionSource SystemActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.System, ScenarioAction.ViewValue);
-        private static readonly SaviorBase Savior = Singleton.Resolve<SaviorBase>();
+        private static readonly DataManagerBase DataManager = Singleton.Resolve<DataManagerBase>();
 
         public DiagramView()
         {
@@ -46,15 +46,15 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
         
         private bool LoadData()
         {
-            if (!Savior.Has(nameof(_diagramsScenariosViews)))
+            if (!DataManager.Has(nameof(_diagramsScenariosViews)))
                 return false;
-            _diagramsScenariosViews = Savior.Get<string[]>(nameof(_diagramsScenariosViews));
+            _diagramsScenariosViews = DataManager.Get<string[]>(nameof(_diagramsScenariosViews));
             return _diagramsScenariosViews.Any();
         }
 
         private void SaveData()
         {
-            Savior.Set(nameof(_diagramsScenariosViews), _diagramsScenariosViews);
+            DataManager.Set(nameof(_diagramsScenariosViews), _diagramsScenariosViews);
         }
 
         private void BeginSelectScenarios()

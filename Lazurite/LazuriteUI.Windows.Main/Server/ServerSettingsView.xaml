@@ -2,37 +2,58 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Server"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              mc:Ignorable="d"
-             d:DesignHeight="400" d:DesignWidth="500">
-    <Border BorderBrush="{x:Static controls:Visual.BorderBrush}" BorderThickness="2"  Height="Auto" VerticalAlignment="Center" Margin="10" MaxWidth="500" >
-        <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="110"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <!--<Label Style="{StaticResource LabelCaption}" HorizontalAlignment="Right" VerticalAlignment="Center">Имя сервиса:</Label>-->
-                <!--<controls:EntryView Grid.Column="1" x:Name="tbServiceName"></controls:EntryView>-->
-                <Label Style="{StaticResource LabelCaption}" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">Порт:</Label>
-                <controls:EntryView Grid.Column="1" Grid.Row="1" x:Name="tbPort"></controls:EntryView>
-                <controls:ItemView x:Name="btChangeSecretKey" Grid.Row="2" Grid.ColumnSpan="2" Margin="10" Icon="KeyOld">Изменить секретный ключ сервера</controls:ItemView>
-                <controls:ItemView x:Name="btChangeCert" Grid.Row="3" Grid.ColumnSpan="2" Margin="10,0,10,10" Icon="Paper">Изменить сертификат</controls:ItemView>
-                <Label Style="{StaticResource LabelCaption}" Opacity="0.5" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center">Текущий адрес:</Label>
-                <Label Style="{StaticResource LabelCaption}" Opacity="0.5" x:Name="lblCurrentAddress" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">...</Label>
-                <Label Style="{StaticResource LabelCaption}" Opacity="0.5" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center">Текущий статус:</Label>
-                <Label Style="{StaticResource LabelCaption}" Opacity="0.5" x:Name="lblCurrentStatus" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">...</Label>
-                <controls:ItemView x:Name="btApply" Grid.Row="6" Grid.ColumnSpan="2" Margin="10" Style="{StaticResource ApplyButton}">Применить изменения и перезапустить сервер</controls:ItemView>
-            </Grid>
-        </Border>
+             Height="500"
+             d:DesignWidth="600">
+    <Grid MaxWidth="600">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Background="#33000000">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Margin="0,0,0,3" Style="{StaticResource LabelCaption}" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">Порт сервера:</Label>
+            <controls:EntryView Grid.Column="1" Grid.Row="1" x:Name="tbPort" Margin="0,0,8,0"></controls:EntryView>
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="2" Margin="5" Background="Black" Opacity="0.3" />
+            <TextBlock TextWrapping="Wrap" Margin="10,10,10,0" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource TextBlockCaption}">
+                    <Bold>Lazurite шифрует весь трафик.</Bold> Секретный ключ сервера учавствует в шифровании данных, передаваемых по сети. Все запросы клиента и ответы сервера, такие как получение списка сценариев, запрос на выполнение сценария, передача сообщений и т.д. шифруются алгоритмом AES. Это необходимо для того, чтобы злоумышленник не имел доступа к данным и не мог выполнять сценарии от имени пользователя системы.
+            </TextBlock>
+            <controls:ItemView x:Name="btChangeSecretKey" Grid.Row="3" Grid.ColumnSpan="2" Margin="10,3,10,10" Icon="KeyOld">Изменить секретный ключ сервера</controls:ItemView>
+            <controls:ItemView x:Name="btChangeCert" Grid.Row="4" Grid.ColumnSpan="2" Margin="10,0,10,10" Icon="Paper">Изменить сертификат HTTPS сервера</controls:ItemView>
+            <Label Style="{StaticResource LabelCaption}" Opacity="0.5" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center">Текущий адрес:</Label>
+            <Label Style="{StaticResource LabelCaption}" Opacity="0.5" x:Name="lblCurrentAddress" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">...</Label>
+            <Label Style="{StaticResource LabelCaption}" Opacity="0.5" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center">Текущий статус:</Label>
+            <Label Style="{StaticResource LabelCaption}" Opacity="0.5" x:Name="lblCurrentStatus" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center">...</Label>
+            <controls:ItemView x:Name="btApply" Grid.Row="7" Grid.ColumnSpan="2" Margin="10" Style="{StaticResource ApplyButton}">Применить изменения и перезапустить сервер</controls:ItemView>
+        </Grid>
+        <Grid Grid.Row="2" Background="#33000000">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.RowSpan="2" Margin="5" Background="Black" Opacity="0.3" />
+            <TextBlock TextWrapping="Wrap" Margin="10,10,10,0" Grid.ColumnSpan="2" Style="{StaticResource TextBlockCaption}">
+                    <Bold>Lazurite шифрует некоторые файлы настроек.</Bold> Шифрование файлов необходимо для данных, сохранение которых в исходном виде может быть небезопасно. К таким данным можно отнести настройки сервера или параметры удаленных сценариев, так как они содержат пароли и секретные ключи. При переносе настроек на другой компьютер или запуске сервера под другой учетной записью эти данные будут недоступны, для восстановления данных необходимо будет задать такой же секретный ключ еще раз.
+            </TextBlock>
+            <controls:ItemView x:Name="btChangeFileSecretKey" Grid.Row="1" Grid.ColumnSpan="2" Margin="10,3,10,10" Icon="KeyOld">Изменить ключ шифрования файлов</controls:ItemView>
+        </Grid>
+    </Grid>
 </UserControl>

@@ -5,7 +5,7 @@ namespace LazuriteUI.Windows.Main
 {
     public class UISettings
     {
-        private static readonly IDataManager DataManager = Singleton.Resolve<SaviorBase>();
+        private static readonly DataManagerBase DataManager = Singleton.Resolve<DataManagerBase>();
 
         private static UISettings Settings;
         

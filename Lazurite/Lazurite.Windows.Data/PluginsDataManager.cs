@@ -8,10 +8,10 @@ namespace Lazurite.Data
 {
     public class PluginsDataManager : PluginsDataManagerBase
     {
-        private string _dir = "data";
-        private string _extension = ".xml";
-        private string _dirPrefix = "pluginData_";
-        private string _baseDir;
+        private readonly string _dir = "data";
+        private readonly string _extension = ".xml";
+        private readonly string _dirPrefix = "pluginData_";
+        private readonly string _baseDir;
 
         public PluginsDataManager()
         {
@@ -25,14 +25,14 @@ namespace Lazurite.Data
         {
             return HObject.FromFile(ResolvePath(key, Assembly.GetCallingAssembly())).Zero;
         }
-
+        
         public override void Set<T>(string key, T data)
         {
             var hobj = new HObject(ResolvePath(key, Assembly.GetCallingAssembly()));
             hobj.Zero = data;
             hobj.SaveToFile();
         }
-
+        
         public override void Clear(string key)
         {
             File.Delete(ResolvePath(key, Assembly.GetCallingAssembly()));

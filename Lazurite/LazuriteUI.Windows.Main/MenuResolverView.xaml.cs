@@ -21,8 +21,8 @@ namespace LazuriteUI.Windows.Main
                     var resolverView = o as MenuResolverView;
                     var @continue = new Action(() => {
 
-                        if (resolverView.contentControl.Content is IDisposable)
-                            ((IDisposable)resolverView.contentControl.Content).Dispose();
+                        if (resolverView.contentControl.Content is IDisposable d)
+                            d.Dispose();
 
                         var type = ((IViewTypeResolverItem)e.NewValue).Type;
                         var displayName = (DisplayNameAttribute)type.GetCustomAttributes(typeof(DisplayNameAttribute), false).FirstOrDefault();
@@ -33,12 +33,12 @@ namespace LazuriteUI.Windows.Main
                         resolverView.captionView.Icon = icon;
                         resolverView.contentControl.Content = control;
 
-                        if (control is IInitializable)
-                            ((IInitializable)control).Initialize();
+                        if (control is IInitializable c)
+                            c.Initialize();
 
                     });
-                    if (resolverView.contentControl.Content is IAllowSave)
-                        ((IAllowSave)resolverView.contentControl.Content).Save(@continue);
+                    if (resolverView.contentControl.Content is IAllowSave s)
+                        s.Save(@continue);
                     else @continue();
                 }
             });

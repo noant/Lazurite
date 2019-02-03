@@ -5,7 +5,7 @@ using System;
 namespace Lazurite.Tests
 {
     [TestClass]
-    public class FileSaviorTest
+    public class FileDataManagerTest
     {
         public class TestSave
         {
@@ -21,13 +21,13 @@ namespace Lazurite.Tests
                 A = 222,
                 B = "333"
             };
-            new FileSavior().Set("test", testObj);
+            new FileDataManager().Set("test", testObj);
         }
 
         [TestMethod]
         public void TestLoadObj()
         {
-            var testObj = new FileSavior().Get<TestSave>("test");
+            var testObj = new FileDataManager().Get<TestSave>("test");
             if (testObj.A != 222 || testObj.B != "333")
                 throw new Exception();
         }
@@ -35,7 +35,7 @@ namespace Lazurite.Tests
         [TestMethod]
         public void RemoveByKeyTest()
         {
-            new FileSavior().Clear("test");
+            new FileDataManager().Clear("test");
         }
     }
 }

@@ -67,8 +67,8 @@ namespace Lazurite.Windows.Modules
             //get all plugins
             try
             {
-                if (_savior.Has(_saviorKey))
-                    _plugins = _savior.Get<List<PluginInfo>>(_saviorKey);
+                if (_dataManager.Has(_dataManagerKey))
+                    _plugins = _dataManager.Get<List<PluginInfo>>(_dataManagerKey);
             }
             catch (Exception e)
             {
@@ -76,11 +76,11 @@ namespace Lazurite.Windows.Modules
             }
 
             //remove plugins
-            if (_savior.Has(_saviorKey_removePlugins))
+            if (_dataManager.Has(_dataManagerKey_removePlugins))
             {
                 try
                 {
-                    _pluginsToRemove = _savior.Get<List<PluginInfo>>(_saviorKey_removePlugins);
+                    _pluginsToRemove = _dataManager.Get<List<PluginInfo>>(_dataManagerKey_removePlugins);
                 }
                 catch (Exception e)
                 {
@@ -99,7 +99,7 @@ namespace Lazurite.Windows.Modules
                         _warningHandler.ErrorFormat(e, "Error while removing plugin [{0}]", plugin.Name);
                     }
                 }
-                _savior.Set(_saviorKey_removePlugins, _pluginsToRemove);
+                _dataManager.Set(_dataManagerKey_removePlugins, _pluginsToRemove);
             }
 
             //updated plugins initilized by adding in app
@@ -247,8 +247,8 @@ namespace Lazurite.Windows.Modules
         }
 
         private Dictionary<string, Assembly> _catchedAssemblies = new Dictionary<string, Assembly>();
-        private readonly string _saviorKey = "modulesManager";
-        private readonly string _saviorKey_removePlugins = "modulesManager_removeLibs";
+        private readonly string _dataManagerKey = "modulesManager";
+        private readonly string _dataManagerKey_removePlugins = "modulesManager_removeLibs";
         private string _baseDir;
         private List<PluginTypeInfo> _allTypes = new List<PluginTypeInfo>();
         private List<PluginInfo> _plugins = new List<PluginInfo>();
@@ -258,7 +258,7 @@ namespace Lazurite.Windows.Modules
         private readonly string _tmpDirCheck;
         private ScenariosRepositoryBase _scenarioRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private UsersRepositoryBase _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
-        private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
+        private DataManagerBase _dataManager = Singleton.Resolve<DataManagerBase>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
 
         public IAction CreateInstance(Type type, IAlgorithmContext algorithmContext)
@@ -366,14 +366,14 @@ namespace Lazurite.Windows.Modules
             _allTypes.RemoveAll(x => x.Plugin.Equals(plugin));
             _pluginsToRemove.Add(plugin);
             _plugins.Remove(plugin);
-            _savior.Set(_saviorKey, _plugins);
-            _savior.Set(_saviorKey_removePlugins, _pluginsToRemove);
+            _dataManager.Set(_dataManagerKey, _plugins);
+            _dataManager.Set(_dataManagerKey_removePlugins, _pluginsToRemove);
         }
 
         private void RemovePluginInternal(string pluginName)
         {
             _plugins.RemoveAll(x => x.Name.Equals(pluginName));
-            _savior.Set(_saviorKey, _plugins);
+            _dataManager.Set(_dataManagerKey, _plugins);
         }
 
         /// <summary>
@@ -416,7 +416,7 @@ namespace Lazurite.Windows.Modules
                         })
                 )
             );
-            _savior.Set(_saviorKey, _plugins);
+            _dataManager.Set(_dataManagerKey, _plugins);
         }
 
         public void HardReplacePlugin(string pluginPath)

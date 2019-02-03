@@ -1,6 +1,8 @@
-﻿namespace Lazurite.Data
+﻿using System.IO;
+
+namespace Lazurite.Data
 {
-    public abstract class PluginsDataManagerBase : IDataManager
+    public abstract class PluginsDataManagerBase
     {
         public abstract T Get<T>(string key);
         public abstract void Set<T>(string key, T data);

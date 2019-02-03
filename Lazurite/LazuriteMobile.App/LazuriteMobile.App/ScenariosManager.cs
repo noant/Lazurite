@@ -32,7 +32,7 @@ namespace LazuriteMobile.App
         private static readonly int ScenariosManagerFullRefreshInterval = 10;
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
-        private static readonly SaviorBase Savior = Singleton.Resolve<SaviorBase>();
+        private static readonly DataManagerBase DataManager = Singleton.Resolve<DataManagerBase>();
         private static readonly AddictionalDataManager Bus = Singleton.Resolve<AddictionalDataManager>();
         private static readonly INotifier Notifier = Singleton.Resolve<INotifier>();
 
@@ -383,44 +383,44 @@ namespace LazuriteMobile.App
 
         private void CacheScenarios()
         {
-            Savior.Set(_cachedScenariosKey, Scenarios);
+            DataManager.Set(_cachedScenariosKey, Scenarios);
         }
 
         private void TryLoadCachedScenarios()
         {
-            if (Savior.Has(_cachedScenariosKey))
+            if (DataManager.Has(_cachedScenariosKey))
             {
                 try
                 {
-                    Scenarios = Savior.Get<ScenarioInfo[]>(_cachedScenariosKey);
+                    Scenarios = DataManager.Get<ScenarioInfo[]>(_cachedScenariosKey);
                     NeedRefresh?.Invoke();
                 }
                 catch
                 {
-                    Savior.Clear(_cachedScenariosKey);
+                    DataManager.Clear(_cachedScenariosKey);
                 }
             }
         }
 
         private void TryLoadClientSettings()
         {
-            if (Savior.Has(_credentialsKey))
+            if (DataManager.Has(_credentialsKey))
             {
                 try
                 {
-                    _credentials = Savior.Get<ConnectionCredentials>(_credentialsKey);
+                    _credentials = DataManager.Get<ConnectionCredentials>(_credentialsKey);
                     CredentialsLoaded?.Invoke();
                 }
                 catch
                 {
-                    Savior.Clear(_credentialsKey);
+                    DataManager.Clear(_credentialsKey);
                 }
             }
         }
 
         private void SaveClientSettings()
         {
-            Savior.Set(_credentialsKey, _credentials);
+            DataManager.Set(_credentialsKey, _credentials);
         }
 
         private bool IsMultiples(int sum, int num) => (sum >= num && sum % num == 0);

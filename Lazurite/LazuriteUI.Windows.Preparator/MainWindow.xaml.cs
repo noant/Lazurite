@@ -28,7 +28,7 @@ namespace LazuriteUI.Windows.Preparator
             Icon = BitmapFrame.Create(Icons.Utils.GetIconData(Icons.Icon.Lazurite64));
 
             var log = Singleton.Resolve<WarningHandlerBase>();
-            var fileSavior = Singleton.Resolve<FileSavior>();
+            var fileDataManager = Singleton.Resolve<FileDataManager>();
             var assemblyFolder = Lazurite.Windows.Utils.Utils.GetAssemblyFolder(typeof(App).Assembly);
             captionView.StartAnimateProgress();
             var message = string.Empty;
@@ -36,12 +36,12 @@ namespace LazuriteUI.Windows.Preparator
 
             Utils.VcRedistInstallAll();
 
-            if (!fileSavior.Has(LazuriteServer.SettingsKey))
+            if (!fileDataManager.Has(LazuriteServer.SettingsKey))
             {
                 // Certificate installing
                 var settingsStub = new ServerSettings();
                 settingsStub.CertificateHash = SecurityHelper.AddCertificateInWindows(Path.Combine(assemblyFolder, CertificateFilename), "28021992");
-                fileSavior.Set(LazuriteServer.SettingsKey, settingsStub);
+                fileDataManager.Set(LazuriteServer.SettingsKey, settingsStub);
             }
             
             // Plugins installing
@@ -103,7 +103,7 @@ namespace LazuriteUI.Windows.Preparator
                 App.Current.Shutdown();
         }
 
-        private void btOk_Click(object sender, RoutedEventArgs e)
+        private void BtOk_Click(object sender, RoutedEventArgs e)
         {
             App.Current.Shutdown();
         }

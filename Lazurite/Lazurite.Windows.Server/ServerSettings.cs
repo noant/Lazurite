@@ -1,5 +1,8 @@
-﻿namespace Lazurite.Windows.Server
+﻿using Lazurite.Data;
+
+namespace Lazurite.Windows.Server
 {
+    [EncryptFile]
     public class ServerSettings
     {
         public ushort Port { get; set; } = 8080;

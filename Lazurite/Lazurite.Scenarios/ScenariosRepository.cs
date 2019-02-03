@@ -3,6 +3,7 @@ using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
+using Lazurite.Scenarios.ScenarioTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,31 +16,60 @@ namespace Lazurite.Scenarios
         private readonly string ScenariosIdsKey = "scenariosRepository";
         private readonly string TriggersIdsKey = "triggersRepository";
 
-        private SaviorBase _savior;
+        private readonly DataEncryptorBase _encryptor;
+        private readonly ILogger _log;
+        private readonly DataManagerBase _dataManager;
         private List<string> _scenariosIds;
         private List<string> _triggersIds;
         private List<ScenarioBase> _scenarios;
         private List<TriggerBase> _triggers;
-        private Logging.ILogger _log;
 
         public ScenariosRepository()
         {
-            _savior = Singleton.Resolve<SaviorBase>();
+            _encryptor = Singleton.Resolve<DataEncryptorBase>();
+            _dataManager = Singleton.Resolve<DataManagerBase>();
             _log = Singleton.Resolve<ILogger>();
+
+            _encryptor.SecretKeyChanged += ScenariosRepository_SecretKeyChanged;
+        }
+
+        private void ScenariosRepository_SecretKeyChanged(object sender, Shared.EventsArgs<DataEncryptorBase> args)
+        {
+            // When file encryption secret code changed re-save remote scenarios with new secret code.
+
+            foreach (var scenario in _scenarios)
+                if (scenario is RemoteScenario)
+                    SaveScenarioInternal(scenario);
         }
 
         public override void Initialize()
         {
-            if (_savior.Has(ScenariosIdsKey))
-                _scenariosIds = _savior.Get<List<string>>(ScenariosIdsKey);
+            if (_dataManager.Has(ScenariosIdsKey))
+                _scenariosIds = _dataManager.Get<List<string>>(ScenariosIdsKey);
             else _scenariosIds = new List<string>();
 
-            if (_savior.Has(TriggersIdsKey))
-                _triggersIds = _savior.Get<List<string>>(TriggersIdsKey);
+            if (_dataManager.Has(TriggersIdsKey))
+                _triggersIds = _dataManager.Get<List<string>>(TriggersIdsKey);
             else _triggersIds = new List<string>();
 
-            _scenarios = _scenariosIds.Select(x => _savior.Get<ScenarioBase>(x)).ToList();
-            _triggers = _triggersIds.Select(x => _savior.Get<TriggerBase>(x)).ToList();
+            _scenarios = _scenariosIds.Select(x => {
+                try
+                {
+                    return _dataManager.Get<ScenarioBase>(x);
+                }
+                catch (Exception e)
+                {
+                    _log.Error($"Невозможно загрузить сценари [{x}]. " +
+                        "Возможно это связано с тем, что ранее файл был зашифрован а сейчас ключ шифрования файлов неизвестен " +
+                        "(что может быть связано с переносом или восстановлением файлов настроек). " +
+                        "В данном случае может помоч задание старого ключа шифрования файлов в настроках сервера.", e);
+                    return null;
+                }
+            })
+            .Where(x => x != null)
+            .ToList();
+
+            _triggers = _triggersIds.Select(x => _dataManager.Get<TriggerBase>(x)).ToList();
 
             //initialize scenarios
             Task.WhenAll(
@@ -65,8 +95,8 @@ namespace Lazurite.Scenarios
                 throw new InvalidOperationException("Scenario with same id already exist");
             _scenarios.Add(scenario);
             _scenariosIds.Add(scenario.Id);
-            _savior.Set(scenario.Id, scenario);
-            _savior.Set(ScenariosIdsKey, _scenariosIds);
+            _dataManager.Set(scenario.Id, scenario);
+            _dataManager.Set(ScenariosIdsKey, _scenariosIds);
         }
 
         public override void RemoveScenario(ScenarioBase scenario)
@@ -95,13 +125,13 @@ namespace Lazurite.Scenarios
             _scenariosIds.Remove(scenario.Id);
             _scenarios.RemoveAll(x => x.Id.Equals(scenario.Id));
             RaiseOnScenarioRemoved(scenario);
-            _savior.Set(ScenariosIdsKey, _scenariosIds);
-            _savior.Clear(scenario.Id);
+            _dataManager.Set(ScenariosIdsKey, _scenariosIds);
+            _dataManager.Clear(scenario.Id);
         }
 
         public override void SaveScenario(ScenarioBase scenario)
         {
-            _savior.Set(scenario.Id, scenario);
+            SaveScenarioInternal(scenario);
             var index = _scenarios.IndexOf(_scenarios.FirstOrDefault(x => x.Id.Equals(scenario.Id)));
             var prevScenario = _scenarios.FirstOrDefault(x => x.Id.Equals(scenario.Id));
             prevScenario?.Dispose();
@@ -129,14 +159,19 @@ namespace Lazurite.Scenarios
             }
         }
 
+        private void SaveScenarioInternal(ScenarioBase scenario)
+        {
+            _dataManager.Set(scenario.Id, scenario);
+        }
+
         public override void AddTrigger(TriggerBase trigger)
         {
             if (_triggersIds.Contains(trigger.Id))
                 throw new InvalidOperationException("Trigger with same id already exist");
             _triggers.Add(trigger);
             _triggersIds.Add(trigger.Id);
-            _savior.Set(TriggersIdsKey, _triggersIds);
-            _savior.Set(trigger.Id, trigger);
+            _dataManager.Set(TriggersIdsKey, _triggersIds);
+            _dataManager.Set(trigger.Id, trigger);
         }
 
         public override void RemoveTrigger(TriggerBase trigger)
@@ -144,14 +179,14 @@ namespace Lazurite.Scenarios
             trigger.Stop();
             _triggersIds.Remove(trigger.Id);
             _triggers.RemoveAll(x => x.Id.Equals(trigger.Id));
-            _savior.Set(TriggersIdsKey, _triggersIds);
-            _savior.Clear(trigger.Id);
+            _dataManager.Set(TriggersIdsKey, _triggersIds);
+            _dataManager.Clear(trigger.Id);
         }
 
         public override void SaveTrigger(TriggerBase trigger)
         {
             var prevTrigger = _triggers.FirstOrDefault(x => x.Id.Equals(trigger.Id));
-            _savior.Set(trigger.Id, trigger);
+            _dataManager.Set(trigger.Id, trigger);
             var index = _triggers.IndexOf(_triggers.FirstOrDefault(x => x.Id.Equals(trigger.Id)));
             _triggers.RemoveAll(x => x.Id.Equals(trigger.Id));
             _triggers.Insert(index, trigger);
@@ -160,6 +195,7 @@ namespace Lazurite.Scenarios
         public override void Dispose()
         {
             base.Dispose();
+            _encryptor.SecretKeyChanged -= ScenariosRepository_SecretKeyChanged;
             _triggers = null;
             _scenarios = null;
         }

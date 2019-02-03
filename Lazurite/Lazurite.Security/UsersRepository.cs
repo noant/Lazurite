@@ -9,11 +9,11 @@ namespace Lazurite.Security
 {
     public class UsersRepository: UsersRepositoryBase
     {
-        private static SaviorBase Savior = Singleton.Resolve<SaviorBase>();
+        private static DataManagerBase DataManager = Singleton.Resolve<DataManagerBase>();
         private static AddictionalDataManager Bus = Singleton.Resolve<AddictionalDataManager>();
         private readonly string _usersKey = "users";
         private readonly string _groupsKey = "usersGroups";
-        private UserBase _systemUser = new SystemUser();
+        private readonly UserBase _systemUser = new SystemUser();
 
         public UsersRepository()
         {
@@ -24,20 +24,20 @@ namespace Lazurite.Security
         {
             Bus.Register<GeolocationDataHandler>();
             Bus.Register<MessagesDataHandler>();
-            if (Savior.Has(_usersKey))
-                _users = Savior.Get<List<UserBase>>(_usersKey);
-            if (Savior.Has(_groupsKey))
-                _groups = Savior.Get<List<UserGroupBase>>(_groupsKey);
+            if (DataManager.Has(_usersKey))
+                _users = DataManager.Get<List<UserBase>>(_usersKey);
+            if (DataManager.Has(_groupsKey))
+                _groups = DataManager.Get<List<UserGroupBase>>(_groupsKey);
         }
 
         private void SaveUsersList()
         {
-            Savior.Set(_usersKey, _users);
+            DataManager.Set(_usersKey, _users);
         }
 
         private void SaveGroupsList()
         {
-            Savior.Set(_groupsKey, _groups);
+            DataManager.Set(_groupsKey, _groups);
         }
 
         public override UserBase SystemUser => _systemUser;

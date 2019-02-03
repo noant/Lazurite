@@ -5,6 +5,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Konscious.Security.Cryptography.Blake2" Version="1.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lazurite.IOC\Lazurite.IOC.csproj" />
+    <ProjectReference Include="..\Lazurite.Logging\Lazurite.Logging.csproj" />
+    <ProjectReference Include="..\Lazurite.Shared\Lazurite.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SimpleRemoteMethods.Bases">
+      <HintPath>..\..\Libs\SimpleRemoteMethods\SimpleRemoteMethods.Bases.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\System.Security.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="CopyToReleaseDir.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

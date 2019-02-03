@@ -16,7 +16,6 @@ namespace LazuriteMobile.App
             tbLogin.Completed += AnyTextBox_Completed;
             tbPassword.Completed += AnyTextBox_Completed;
             tbSecretCode.Completed += AnyTextBox_Completed;
-            //tbService.Completed += AnyTextBox_Completed;
             numPort.Completed += AnyTextBox_Completed;
         }
 

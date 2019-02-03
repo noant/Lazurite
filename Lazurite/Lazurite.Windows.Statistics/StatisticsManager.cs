@@ -17,7 +17,7 @@ namespace Lazurite.Windows.Statistics
 {
     public class StatisticsManager : IStatisticsManager
     {
-        private static readonly SaviorBase Savior = Singleton.Resolve<SaviorBase>();
+        private static readonly DataManagerBase DataManager = Singleton.Resolve<DataManagerBase>();
         private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
@@ -52,13 +52,13 @@ namespace Lazurite.Windows.Statistics
 
         private void SaveData()
         {
-            Savior.Set(nameof(_statisticsScenariosInfos), _statisticsScenariosInfos);
+            DataManager.Set(nameof(_statisticsScenariosInfos), _statisticsScenariosInfos);
         }
 
         private void LoadData()
         {
-            if (Savior.Has(nameof(_statisticsScenariosInfos)))
-                _statisticsScenariosInfos = Savior.Get<List<StatisticsScenarioInfoInternal>>(nameof(_statisticsScenariosInfos));
+            if (DataManager.Has(nameof(_statisticsScenariosInfos)))
+                _statisticsScenariosInfos = DataManager.Get<List<StatisticsScenarioInfoInternal>>(nameof(_statisticsScenariosInfos));
             else _statisticsScenariosInfos = new List<StatisticsScenarioInfoInternal>();
         }
 

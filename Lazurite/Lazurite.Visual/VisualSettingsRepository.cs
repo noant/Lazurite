@@ -7,7 +7,7 @@ namespace Lazurite.Visual
 {
     public class VisualSettingsRepository
     {
-        private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
+        private DataManagerBase _dataManager = Singleton.Resolve<DataManagerBase>();
         private UsersRepositoryBase _usersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private ScenariosRepositoryBase _scenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private List<UserVisualSettings> _allSettings = new List<UserVisualSettings>();
@@ -15,8 +15,8 @@ namespace Lazurite.Visual
 
         public VisualSettingsRepository()
         {
-            if (_savior.Has(_key))
-                _allSettings = _savior.Get<List<UserVisualSettings>>(_key);
+            if (_dataManager.Has(_key))
+                _allSettings = _dataManager.Get<List<UserVisualSettings>>(_key);
             _usersRepository.OnUserRemoved = (user) => 
             {
                 _allSettings.RemoveAll(x => x.UserId.Equals(user.Id));
@@ -31,7 +31,7 @@ namespace Lazurite.Visual
 
         public void Save()
         {
-            _savior.Set(_key, _allSettings);
+            _dataManager.Set(_key, _allSettings);
         }
 
         public UserVisualSettings[] VisualSettings

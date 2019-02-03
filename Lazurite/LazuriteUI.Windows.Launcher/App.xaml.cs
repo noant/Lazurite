@@ -40,7 +40,7 @@ namespace LazuriteUI.Windows.Launcher
                 HandleUnhandledException(args.Exception);
             };
 
-            Singleton.Add(new FileSavior());
+            Singleton.Add(new FileDataManager());
             Singleton.Add(Log = new WarningHandler());
             Log.OnWrite += (sender, eventArgs) =>
             {

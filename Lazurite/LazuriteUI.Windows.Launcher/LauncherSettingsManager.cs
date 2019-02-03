@@ -15,18 +15,18 @@ namespace LazuriteUI.Windows.Launcher
 
         public void LoadSettings()
         {
-            var fileSavior = new FileSavior();
-            if (fileSavior.Has(LauncherSettingsKey))
+            var fileDataManager = new FileDataManager();
+            if (fileDataManager.Has(LauncherSettingsKey))
             {
-                Settings = fileSavior.Get<LauncherSettings>(LauncherSettingsKey);
+                Settings = fileDataManager.Get<LauncherSettings>(LauncherSettingsKey);
                 SaveSettings();
             }
         }
 
         public void SaveSettings()
         {
-            var fileSavior = new FileSavior();
-            fileSavior.Set(LauncherSettingsKey, Settings);
+            var fileDataManager = new FileDataManager();
+            fileDataManager.Set(LauncherSettingsKey, Settings);
         }
     }
 }

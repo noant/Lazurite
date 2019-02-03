@@ -42,10 +42,11 @@ namespace LazuriteUI.Windows.Main
             {
                 Core = new LazuriteCore();
 
-                // Crutch; after this actions first window run is faster
+                //Crutch; after this actions first window run is faster
                 JournalLightWindow.Show("Lazurite запущен...", WarnType.Info);
                 JournalLightWindow.CloseWindow();
-                Core.WarningHandler.OnWrite += (o, e) => {
+                Core.WarningHandler.OnWrite += (o, e) =>
+                {
                     var args = (WarningEventArgs)e;
                     JournalManager.Set(args.Message, args.Value, args.Exception);
                 };
@@ -59,7 +60,9 @@ namespace LazuriteUI.Windows.Main
             }
             catch (Exception e)
             {
-                Core.WarningHandler.Fatal("Во время инициализации приложения возникла ошибка", e);
+                if (Core != null)
+                    Core.WarningHandler.Fatal("Во время инициализации приложения возникла ошибка", e);
+                else throw e;
             }
 
             var ci = new CultureInfo("ru-RU");

@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.Logging;
@@ -26,8 +18,10 @@ namespace LazuriteMobile.App.Droid
                 Singleton.Add(new LogStub());
             if (!Singleton.Any<LazuriteContext>())
                 Singleton.Add(new LazuriteContext());
-            if (!Singleton.Any<SaviorBase>())
-                Singleton.Add(new JsonFileSavior());
+            if (!Singleton.Any<DataEncryptorBase>())
+                Singleton.Add(new StandardEncryptor());
+            if (!Singleton.Any<DataManagerBase>())
+                Singleton.Add(new JsonFileManager());
             if (!Singleton.Any<ISystemUtils>())
                 Singleton.Add(new SystemUtils());
             if (!Singleton.Any<AddictionalDataManager>())
@@ -36,6 +30,24 @@ namespace LazuriteMobile.App.Droid
                 Singleton.Add(new Notifier());
             if (!Singleton.Any<IGeolocationView>())
                 Singleton.Add(new GeolocationViewIntentCreator());
+
+            var dataEncryptor = Singleton.Resolve<DataEncryptorBase>();
+            if (!dataEncryptor.IsSecretKeyExist)
+            {
+                // Маловероятно, что пользователь будет переносить данные о подключении
+                // из одного телефона на другой, поэтому можно пренебречь тем
+                // что при переносе нельзя будет расшифровать сохраненные данные.
+                // Поэтому перенос данных с телефона на телефон будет невозможен.
+                // Секретный ключ для сохранения данных будет генерироваться динамически,
+                // если его не существует.
+
+                var randomizer = new Random();
+                var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                var keyBuilder = new StringBuilder();
+                for (var i = 0; i <= 16; i++)
+                    keyBuilder.Append(chars[randomizer.Next(0, chars.Length)]);
+                dataEncryptor.SecretKey = keyBuilder.ToString();
+            }
         }
     }
 }

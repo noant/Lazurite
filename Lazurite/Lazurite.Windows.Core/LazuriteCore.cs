@@ -21,7 +21,7 @@ namespace Lazurite.Windows.Core
         private CoreSettings _settings;
 
         public ISystemUtils SystemUtils { get; private set; }
-        public SaviorBase Savior { get; private set; }
+        public DataManagerBase DataManager { get; private set; }
         public WarningHandlerBase WarningHandler { get; private set; }
         public PluginsManager PluginsManager { get; private set; }
         public ScenariosRepositoryBase ScenariosRepository { get; private set; }
@@ -32,8 +32,9 @@ namespace Lazurite.Windows.Core
 
         public LazuriteCore()
         {
-            Singleton.Add(Savior = new FileSavior());
             Singleton.Add(WarningHandler = new WarningHandler());
+            Singleton.Add(new StandardEncryptor());
+            Singleton.Add(DataManager = new FileDataManager());
             Singleton.Add(SystemUtils = new SystemUtils());
             Singleton.Add(AddictionalDataManager = new AddictionalDataManager());
         }
@@ -75,8 +76,8 @@ namespace Lazurite.Windows.Core
             Singleton.Add(VisualSettingsRepository = new VisualSettingsRepository());
             Singleton.Add(new StatisticsManager());
             Singleton.Add(Server = new LazuriteServer());
-            if (Savior.Has(SettingsKey))
-                SetSettings(Savior.Get<CoreSettings>(SettingsKey));
+            if (DataManager.Has(SettingsKey))
+                SetSettings(DataManager.Get<CoreSettings>(SettingsKey));
             else SetSettings(new CoreSettings());
         }
     }

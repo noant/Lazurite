@@ -8,7 +8,7 @@ namespace LazuriteUI.Windows.Main.Journal
 {
     public static class JournalManager
     {
-        private static SaviorBase Savior = Singleton.Resolve<SaviorBase>();
+        private static DataManagerBase DataManager = Singleton.Resolve<DataManagerBase>();
 
         private static WarnType? _maxShowingWarnType = null;
         public static WarnType MaxShowingWarnType
@@ -17,8 +17,8 @@ namespace LazuriteUI.Windows.Main.Journal
             {
                 if (_maxShowingWarnType == null)
                 {
-                    if (Savior.Has(nameof(MaxShowingWarnType)))
-                        _maxShowingWarnType = Savior.Get<WarnType>(nameof(MaxShowingWarnType));
+                    if (DataManager.Has(nameof(MaxShowingWarnType)))
+                        _maxShowingWarnType = DataManager.Get<WarnType>(nameof(MaxShowingWarnType));
                     else
                         MaxShowingWarnType = WarnType.Error;
                 }
@@ -27,7 +27,7 @@ namespace LazuriteUI.Windows.Main.Journal
             set
             {
                 _maxShowingWarnType = value;
-                Savior.Set(nameof(MaxShowingWarnType), _maxShowingWarnType);
+                DataManager.Set(nameof(MaxShowingWarnType), _maxShowingWarnType);
             }
         }
         

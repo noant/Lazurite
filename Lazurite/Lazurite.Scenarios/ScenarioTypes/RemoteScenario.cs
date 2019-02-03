@@ -1,6 +1,7 @@
 ﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.Scenarios.RemoteScenarioCode;
@@ -14,6 +15,7 @@ using ExecutionContext = Lazurite.ActionsDomain.ExecutionContext;
 namespace Lazurite.Scenarios.ScenarioTypes
 {
     [HumanFriendlyName("Сценарий другой машины")]
+    [EncryptFile]
     public class RemoteScenario : ScenarioBase
     {
         private readonly static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();

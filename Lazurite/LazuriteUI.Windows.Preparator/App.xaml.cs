@@ -18,8 +18,8 @@ namespace LazuriteUI.Windows.Preparator
         {
             base.OnStartup(e);
             var log = new WarningHandler();
-            var savior = new FileSavior();
-            Singleton.Add(savior);
+            var dataManager = new FileDataManager();
+            Singleton.Add(dataManager);
             Singleton.Add(log);
             if (e.Args.Length == 1)
             {

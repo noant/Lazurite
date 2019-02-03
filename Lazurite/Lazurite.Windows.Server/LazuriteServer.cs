@@ -15,8 +15,9 @@ namespace Lazurite.Windows.Server
         private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private static readonly int MaxConcurrentCalls = GlobalSettings.Get(100);
         public static readonly string SettingsKey = "serverSettings";
-        
-        private SaviorBase _savior = Singleton.Resolve<SaviorBase>();
+
+        private readonly DataEncryptorBase _dataEncryptor = Singleton.Resolve<DataEncryptorBase>();
+        private DataManagerBase _dataManager = Singleton.Resolve<DataManagerBase>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
         private ServerSettings _settings;
         private Server<IServer> _server;
@@ -32,7 +33,7 @@ namespace Lazurite.Windows.Server
             set
             {
                 _settings = value;
-                _savior.Set(SettingsKey, value);
+                _dataManager.Set(SettingsKey, value);
             }
         }
 
@@ -94,10 +95,29 @@ namespace Lazurite.Windows.Server
 
         public LazuriteServer()
         {
-            if (_savior.Has(SettingsKey))
-                _settings = _savior.Get<ServerSettings>(SettingsKey);
-            else
+            try
+            {
+                if (_dataManager.Has(SettingsKey))
+                    _settings = _dataManager.Get<ServerSettings>(SettingsKey);
+                else
+                    _settings = new ServerSettings();
+            }
+            catch (Exception e)
+            {
+                _warningHandler.Error("Невозможно загрузить файл настроект сервера. Будут использоваться настройки поумолчанию. " +
+                    "Возможно это связано с тем, что ранее файл был зашифрован а сейчас ключ шифрования файлов неизвестен " +
+                    "(что может быть связано с переносом или восстановлением файлов настроек). " +
+                    "В данном случае может помоч задание старого ключа шифрования файлов в настроках сервера.", e);
                 _settings = new ServerSettings();
+            }
+
+            _dataEncryptor.SecretKeyChanged += DataEncryptor_SecretKeyChanged;
+        }
+
+        private void DataEncryptor_SecretKeyChanged(object sender, EventsArgs<DataEncryptorBase> args)
+        {
+            // Re-save settings with new secret key
+            _dataManager.Set(SettingsKey, Settings);
         }
     }
 }

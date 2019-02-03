@@ -15,10 +15,25 @@ namespace LazuriteUI.Windows.Main.Common
             InitializeComponent();
             Loaded += (o, e) =>  FocusManager.SetFocusedElement(this, tbPassword);
             captionView.Content = caption;
-            tbPassword.PasswordChanged += (o, e) => btApply.IsEnabled = validation?.Invoke(tbPassword.Password) ?? true;
+            tbPassword.PasswordChanged += (o, e) => btApply.IsEnabled = (validation?.Invoke(tbPassword.Password) ?? true) && LocalValidation();
+            tbPasswordRepeat.PasswordChanged += (o, e) => btApply.IsEnabled = (validation?.Invoke(tbPassword.Password) ?? true) && LocalValidation();
             btApply.Click += (o, e) => entered?.Invoke(tbPassword.Password);
             labelNotation.Content = notation;
             btApply.IsEnabled = validation?.Invoke(string.Empty) ?? true;
+        }
+
+        private bool LocalValidation()
+        {
+            if (tbPassword.Password != tbPasswordRepeat.Password)
+            {
+                labelError.Content = "Повторный ввод неверен.";
+                return false;
+            }
+            else
+            {
+                labelError.Content = string.Empty;
+                return true;
+            }
         }
 
         public static void Show(string caption, Action<string> entered, Func<string, bool> validation = null, string notation="")

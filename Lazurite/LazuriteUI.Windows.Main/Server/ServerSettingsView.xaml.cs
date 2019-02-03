@@ -1,4 +1,5 @@
-﻿using Lazurite.IOC;
+﻿using Lazurite.Data;
+using Lazurite.IOC;
 using Lazurite.Shared;
 using Lazurite.Windows.Logging;
 using Lazurite.Windows.Server;
@@ -18,27 +19,25 @@ namespace LazuriteUI.Windows.Main.Server
     [LazuriteIcon(Icon.Server)]
     public sealed partial class ServerSettingsView : UserControl, IDisposable
     {
-        private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
-        private LazuriteServer _server = Singleton.Resolve<LazuriteServer>();
+        private readonly WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
+        private readonly LazuriteServer _server = Singleton.Resolve<LazuriteServer>();
+        private readonly DataEncryptorBase _dataEncryptor = Singleton.Resolve<DataEncryptorBase>();
+        private readonly DataManagerBase _dataManager = Singleton.Resolve<DataManagerBase>();
         private ServerSettings _settings;
 
         public ServerSettingsView()
         {
             InitializeComponent();
+
+            var strOriginalBtChangeFileSecretKeyText = btChangeFileSecretKey.Content.ToString();
+            if (!_dataEncryptor.IsSecretKeyExist)
+                btChangeFileSecretKey.Content = "Задать ключ шифрования файлов";
+
             _settings = (ServerSettings)Lazurite.Windows.Utils.Utils.CloneObject(_server.Settings);
             tbPort.Validation = (v) => EntryViewValidation.UShortValidation().Invoke(v);
-            //tbServiceName.Validation = (v) => {
-            //    var value = v.InputString.Replace(" ", "");
-            //    if (value.Length == 0)
-            //    {
-            //        value = "Lazurite";
-            //        v.SelectAll = true;
-            //    }
-            //    v.OutputString = value;
-            //};
             tbPort.TextChanged += (o, e) => SettingsChanged();
-            //tbServiceName.TextChanged += (o, e) => SettingsChanged();
             btChangeCert.Click += (o, e) => CertificateSelectView.Show(_settings, (s) => SettingsChanged());
+            _server.StatusChanged += Server_StatusChanged;
             btChangeSecretKey.Click += (o, e) => {
                 EnterPasswordView.Show(
                     "Введите новый секретный ключ сервера...",
@@ -49,15 +48,24 @@ namespace LazuriteUI.Windows.Main.Server
                     (pass) => pass.Length == 16,
                     "Длина секретного ключа должна быть равна 16-и символам");
             };
-            _server.StatusChanged += _server_StatusChanged;
+            btChangeFileSecretKey.Click += (o, e) => {
+                EnterPasswordView.Show(
+                    "Введите ключ шифрования файлов...",
+                    (pass) => {
+                        _dataEncryptor.SecretKey = pass;
+                        btChangeFileSecretKey.Content = strOriginalBtChangeFileSecretKeyText;
+                    },
+                    (pass) => pass.Length == 16,
+                    "Длина секретного ключа должна быть равна 16-и символам");
+            };
 
             btApply.Click += (o, e) => {
                 try
                 {
                     _settings.Port = ushort.Parse(tbPort.Text);
                     _server.Settings = _settings;
-                    _server.Restart(null);
                     btApply.IsEnabled = false;
+                    _server.Restart(null);
                 }
                 catch (Exception exception)
                 {
@@ -70,7 +78,7 @@ namespace LazuriteUI.Windows.Main.Server
             Refresh();
         }
 
-        private void _server_StatusChanged(object sender, EventsArgs<LazuriteServer> args)
+        private void Server_StatusChanged(object sender, EventsArgs<LazuriteServer> args)
         {
             Dispatcher.BeginInvoke(new Action(() => UpdateServerInfo()));
         }
@@ -95,7 +103,7 @@ namespace LazuriteUI.Windows.Main.Server
 
         public void Dispose()
         {
-            _server.StatusChanged -= _server_StatusChanged;
+            _server.StatusChanged -= Server_StatusChanged;
         }
     }
 }

@@ -11,8 +11,8 @@ namespace Lazurite.MainDomain
     public static class GlobalSettings
     {
         private static Dictionary<string, ObjectCrutch> Data;
-        private static SaviorBase Savior = Singleton.Resolve<SaviorBase>();
-        private static object Locker = new object();
+        private static DataManagerBase DataManager = Singleton.Resolve<DataManagerBase>();
+        private static readonly object Locker = new object();
 
         public static T Get<T>(T @default = default(T), string key = "", [CallerFilePath] string sourceFilePath = "", [CallerMemberName] string memberName = "")
         {
@@ -24,15 +24,15 @@ namespace Lazurite.MainDomain
                 {
                     if (Data == null)
                     {
-                        if (Savior.Has(nameof(GlobalSettings)))
-                            Data = Savior.Get<Dictionary<string, ObjectCrutch>>(nameof(GlobalSettings));
+                        if (DataManager.Has(nameof(GlobalSettings)))
+                            Data = DataManager.Get<Dictionary<string, ObjectCrutch>>(nameof(GlobalSettings));
                         else
                             Data = new Dictionary<string, ObjectCrutch>();
                     }
                     if (!Data.ContainsKey(key))
                     {
                         Data.Add(key, ObjectCrutch.From(@default));
-                        Savior.Set(nameof(GlobalSettings), Data);
+                        DataManager.Set(nameof(GlobalSettings), Data);
                         return @default;
                     }
                     else
