@@ -15,7 +15,7 @@ Lazurite - home automation software.
 	- UserGeolocationPlugin - allows to calculate distance between user and place, determine user place and view current user geolocation.
 	- MediaHost:
 		- IP-TV player based on VLC (VLC not included in the project);
-		- Module for capturing images in real time from AverMedia SDK capture devices with minimum lag time.
+		- Module for capturing real-time image with minimum lag time from AverMedia SDK capture devices.
 - Libs folder contains external libraries;
 - Releases
 	- Plugins folder contains compiled and zipped *.pyp plugins files;
