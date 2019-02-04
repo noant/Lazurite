@@ -35,7 +35,7 @@ namespace Lazurite.Data
             return DecryptBytesInternal(encryptedData, SecretKey);
         }
         
-        // Uses only for local file decryption
+        // Use only for local file decryption
         protected virtual byte[] DecryptBytesInternal(byte[] data, string secretKey)
         {
             using (var aes = Aes.Create())
@@ -57,7 +57,7 @@ namespace Lazurite.Data
             }
         }
         
-        // Uses only for local file encryption
+        // Use only for local file encryption
         protected virtual byte[] EncryptBytesInternal(byte[] data, string secretKey)
         {
             using (var aes = Aes.Create())

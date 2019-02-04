@@ -38,13 +38,15 @@ namespace LazuriteUI.Windows.Main
             };
             
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
             try
             {
                 Core = new LazuriteCore();
 
-                //Crutch; after this actions first window run is faster
+                //Crutch: after this actions first window runs faster
                 JournalLightWindow.Show("Lazurite запущен...", WarnType.Info);
                 JournalLightWindow.CloseWindow();
+
                 Core.WarningHandler.OnWrite += (o, e) =>
                 {
                     var args = (WarningEventArgs)e;

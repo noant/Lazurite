@@ -9,9 +9,9 @@ namespace Lazurite.Data
     {
         private readonly string _dir = "data";
         private readonly string _extension = ".xml";
-        private readonly string _baseDir;
+        private string _baseDir;
 
-        public FileDataManager()
+        public override void Initialize()
         {
             var codeBase = Assembly.GetExecutingAssembly().CodeBase;
             var uri = new UriBuilder(codeBase);

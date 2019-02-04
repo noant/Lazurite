@@ -35,7 +35,7 @@ namespace Lazurite.Scenarios
 
         private void ScenariosRepository_SecretKeyChanged(object sender, Shared.EventsArgs<DataEncryptorBase> args)
         {
-            // When file encryption secret code changed re-save remote scenarios with new secret code.
+            // When file encryption secret code changed, need to resave remote scenarios with new secret code.
 
             foreach (var scenario in _scenarios)
                 if (scenario is RemoteScenario)
@@ -59,8 +59,8 @@ namespace Lazurite.Scenarios
                 }
                 catch (Exception e)
                 {
-                    _log.Error($"Невозможно загрузить сценари [{x}]. " +
-                        "Возможно это связано с тем, что ранее файл был зашифрован а сейчас ключ шифрования файлов неизвестен " +
+                    _log.Error($"Невозможно загрузить сценарий [{x}]. " +
+                        "Возможно это связано с тем, что ранее файл был зашифрован и сейчас ключ шифрования файлов неизвестен " +
                         "(что может быть связано с переносом или восстановлением файлов настроек). " +
                         "В данном случае может помоч задание старого ключа шифрования файлов в настроках сервера.", e);
                     return null;

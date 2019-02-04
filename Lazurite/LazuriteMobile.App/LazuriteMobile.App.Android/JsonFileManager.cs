@@ -35,6 +35,11 @@ namespace LazuriteMobile.App.Droid
             return result;
         }
 
+        public override void Initialize()
+        {
+            // Do nothing
+        }
+
         public override byte[] Serialize<T>(T data)
         {
             return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(data, JsonSettings));
