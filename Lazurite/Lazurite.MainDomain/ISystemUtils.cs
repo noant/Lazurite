@@ -10,5 +10,7 @@ namespace Lazurite.MainDomain
         CancellationTokenSource StartTimer(Action<CancellationTokenSource> tick, Func<int> needInterval, bool startImmidiate = true, bool ticksSuperposition = false);
 
         byte[] CreateMD5Hash(byte[] bytes);
+
+        string CurrentLazuriteVersion { get; }
     }
 }

@@ -16,7 +16,7 @@ namespace Lazurite.Windows.Server
         private static readonly int MaxConcurrentCalls = GlobalSettings.Get(100);
         public static readonly string SettingsKey = "serverSettings";
 
-        private readonly DataEncryptorBase _dataEncryptor = Singleton.Resolve<DataEncryptorBase>();
+        private readonly DataEncryptor _dataEncryptor = Singleton.Resolve<DataEncryptor>();
         private DataManagerBase _dataManager = Singleton.Resolve<DataManagerBase>();
         private WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
         private ServerSettings _settings;
@@ -114,7 +114,7 @@ namespace Lazurite.Windows.Server
             _dataEncryptor.SecretKeyChanged += DataEncryptor_SecretKeyChanged;
         }
 
-        private void DataEncryptor_SecretKeyChanged(object sender, EventsArgs<DataEncryptorBase> args)
+        private void DataEncryptor_SecretKeyChanged(object sender, EventsArgs<DataEncryptor> args)
         {
             // Re-save settings with new secret key
             _dataManager.Set(SettingsKey, Settings);

@@ -9,7 +9,7 @@ namespace Lazurite.Data
 {
     public abstract class DataManagerBase: IDataManager
     {
-        private static readonly DataEncryptorBase Encryptor = Singleton.Resolve<DataEncryptorBase>();
+        private static readonly DataEncryptor Encryptor = Singleton.Resolve<DataEncryptor>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
         private static readonly string EncryptedFilesListKey = "encryptedFilesList";
 

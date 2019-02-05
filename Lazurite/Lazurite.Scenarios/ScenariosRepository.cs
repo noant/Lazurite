@@ -16,7 +16,7 @@ namespace Lazurite.Scenarios
         private readonly string ScenariosIdsKey = "scenariosRepository";
         private readonly string TriggersIdsKey = "triggersRepository";
 
-        private readonly DataEncryptorBase _encryptor;
+        private readonly DataEncryptor _encryptor;
         private readonly ILogger _log;
         private readonly DataManagerBase _dataManager;
         private List<string> _scenariosIds;
@@ -26,14 +26,14 @@ namespace Lazurite.Scenarios
 
         public ScenariosRepository()
         {
-            _encryptor = Singleton.Resolve<DataEncryptorBase>();
+            _encryptor = Singleton.Resolve<DataEncryptor>();
             _dataManager = Singleton.Resolve<DataManagerBase>();
             _log = Singleton.Resolve<ILogger>();
 
             _encryptor.SecretKeyChanged += ScenariosRepository_SecretKeyChanged;
         }
 
-        private void ScenariosRepository_SecretKeyChanged(object sender, Shared.EventsArgs<DataEncryptorBase> args)
+        private void ScenariosRepository_SecretKeyChanged(object sender, Shared.EventsArgs<DataEncryptor> args)
         {
             // When file encryption secret code changed, need to resave remote scenarios with new secret code.
 

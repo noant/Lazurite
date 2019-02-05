@@ -1,5 +1,6 @@
 ﻿using Lazurite.MainDomain;
 using System;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading;
 
@@ -8,6 +9,8 @@ namespace Lazurite.Windows.Utils
     public class SystemUtils : ISystemUtils
     {
         private static readonly int SleepCancelTokenIterationInterval = GlobalSettings.Get(300);
+
+        public string CurrentLazuriteVersion { get; } = Assembly.GetEntryAssembly().GetName().Version.ToString();
 
         public byte[] CreateMD5Hash(byte[] bytes) => MD5.Create().ComputeHash(bytes);
         

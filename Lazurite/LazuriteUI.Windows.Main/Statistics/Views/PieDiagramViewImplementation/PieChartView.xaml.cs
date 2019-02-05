@@ -58,6 +58,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
 
         public void SetItems(StatisticsCategoryView[] views)
         {
+            chart.Series.Clear();
+
             var total = views.Sum(x => x.Weight);
             var items = views.Select(x => new StatisticsCategoryViewInternal()
                 {

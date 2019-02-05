@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AndroidSpecificDataEncryptor.cs" />
     <Compile Include="BackgroundReciever.cs" />
     <Compile Include="GeolocationViewIntentCreator.cs" />
     <Compile Include="GlobalSuppressions.cs" />

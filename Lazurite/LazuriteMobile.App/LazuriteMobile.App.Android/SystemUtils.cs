@@ -1,4 +1,5 @@
-﻿using Lazurite.MainDomain;
+﻿using Android.Content.PM;
+using Lazurite.MainDomain;
 using System;
 using System.Security.Cryptography;
 using System.Threading;
@@ -9,6 +10,10 @@ namespace LazuriteMobile.App.Droid
     public class SystemUtils : ISystemUtils
     {
         private static readonly int SleepCancelTokenIterationInterval = GlobalSettings.Get(300);
+
+        public string CurrentLazuriteVersion { get; } =
+            global::Android.App.Application.Context.PackageManager
+                .GetPackageInfo(global::Android.App.Application.Context.PackageName, 0).VersionCode.ToString();
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]

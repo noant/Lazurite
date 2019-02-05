@@ -1130,6 +1130,10 @@
       <Project>{3ACF6EAC-A7BE-4AFE-AA9C-80259157AE71}</Project>
       <Name>Lazurite.Security</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Service\Lazurite.Service.csproj">
+      <Project>{E3E5CD1C-8573-4192-A8A8-C6DCBE70619B}</Project>
+      <Name>Lazurite.Service</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Shared\Lazurite.Shared.csproj">
       <Project>{9D1FABF0-1A55-47D2-8F0F-BD0BB14F65AA}</Project>
       <Name>Lazurite.Shared</Name>

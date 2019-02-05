@@ -21,7 +21,7 @@ namespace LazuriteUI.Windows.Main.Server
     {
         private readonly WarningHandlerBase _warningHandler = Singleton.Resolve<WarningHandlerBase>();
         private readonly LazuriteServer _server = Singleton.Resolve<LazuriteServer>();
-        private readonly DataEncryptorBase _dataEncryptor = Singleton.Resolve<DataEncryptorBase>();
+        private readonly DataEncryptor _dataEncryptor = Singleton.Resolve<DataEncryptor>();
         private readonly DataManagerBase _dataManager = Singleton.Resolve<DataManagerBase>();
         private ServerSettings _settings;
 

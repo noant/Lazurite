@@ -14,6 +14,11 @@ namespace Lazurite.MainDomain
             Client = new Client(host, port, ssl, secretKey, login, password, timeout);
         }
 
+        public async Task<String> GetLazuriteVersion()
+        {
+            return await Client.CallMethod<String>("GetLazuriteVersion");
+        }
+
         public async Task<Boolean> IsScenarioValueChanged(String scenarioId, String lastKnownValue)
         {
             return await Client.CallMethod<Boolean>("IsScenarioValueChanged", new object[] {scenarioId, lastKnownValue});

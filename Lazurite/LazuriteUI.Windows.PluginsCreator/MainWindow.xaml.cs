@@ -40,7 +40,7 @@ namespace LazuriteUI.Windows.PluginsCreator
                 if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     return fbd.SelectedPath;
             }
-            return "";
+            return string.Empty;
         }
 
         private void CreatePlugin(Action callback=null)

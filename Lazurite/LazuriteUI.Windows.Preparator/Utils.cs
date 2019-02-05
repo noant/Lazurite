@@ -17,33 +17,38 @@ namespace LazuriteUI.Windows.Preparator
                 process.Kill();
         }
 
-        private static void VcRedistInstall(string filePath)
+        private static bool VcRedistInstall(string filePath)
         {
             var log = Singleton.Resolve<ILogger>();
             try
             {
                 var result = Lazurite.Windows.Utils.Utils.ExecuteProcess(filePath, "/install /quiet /norestart /log vcredist_installation_log.txt", false, true);
                 log.InfoFormat("{0} installed with result: [{1}]", filePath, result);
+                return true;
             }
             catch (Exception e)
             {
                 log.InfoFormat("{0} installation error", e);
+                return false;
             }
         }
 
-        public static void VcRedistInstallAll()
+        public static bool VcRedistInstallAll()
         {
             var log = Singleton.Resolve<ILogger>();
             try
             {
                 var basePath = Lazurite.Windows.Utils.Utils.GetAssemblyFolder(typeof(Utils).Assembly);
                 var vcRedistDir = Path.Combine(basePath, VcRedistDir);
+                var success = true;
                 foreach (var filePath in Directory.GetFiles(vcRedistDir))
-                    VcRedistInstall(filePath);
+                    success &= VcRedistInstall(filePath);
+                return success;
             }
             catch (Exception e)
             {
-                log.Info("VcRedist x64 installation error", e);
+                log.Info("VcRedist installation error", e);
+                return false;
             }
         }
     }

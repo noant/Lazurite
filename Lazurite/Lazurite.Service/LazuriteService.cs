@@ -8,7 +8,7 @@ using SimpleRemoteMethods.Bases;
 using SimpleRemoteMethods.ServerSide;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Lazurite.Service
 {
@@ -20,13 +20,15 @@ namespace Lazurite.Service
         private static readonly ILogger WarningHandler = Singleton.Resolve<ILogger>();
         private static readonly AddictionalDataManager AddictionalDataManager = Singleton.Resolve<AddictionalDataManager>();
         private static readonly IStatisticsManager StatisticsManager = Singleton.Resolve<IStatisticsManager>();
-        
+        private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
+
         private UserBase GetCurrentUser()
         {
             var login = Server<IServer>.CurrentRequestContext.UserName;
             var user = UsersRepository.Users.SingleOrDefault(x => x.Login.Equals(login));
             if (user == null)
                 ThrowUnauthorizedAccessException();
+
             return user;
         }
 
@@ -264,5 +266,7 @@ namespace Lazurite.Service
             var scenarios = ScenariosRepository.Scenarios.Where(x => scenariosIds.Contains(x.Id)).ToArray();
             return TaskUtils.Wait(StatisticsManager.GetRegistrationInfo(scenarios));
         }
+
+        public string GetLazuriteVersion() => SystemUtils.CurrentLazuriteVersion;
     }
 }

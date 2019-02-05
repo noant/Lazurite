@@ -9,7 +9,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Margin="0,50,0,0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
         <controls:ItemView Click="ItemView_Click" Icon="Link" Width="300">Открыть документацию в браузере</controls:ItemView>
+        <TextBlock HorizontalAlignment="Center" Foreground="{x:Static controls:Visual.CaptionForeground}">__________________________________</TextBlock>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" HorizontalContentAlignment="Center" Content="{Binding LazuriteVersion}"></Label>
         <Label Foreground="{x:Static controls:Visual.CaptionForeground}" HorizontalContentAlignment="Center">Anton Novgorodcev</Label>
-        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" HorizontalContentAlignment="Center">2018</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" HorizontalContentAlignment="Center">2019</Label>
     </StackPanel>
 </Grid>

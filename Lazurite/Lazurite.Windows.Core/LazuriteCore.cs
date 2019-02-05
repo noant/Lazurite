@@ -33,7 +33,7 @@ namespace Lazurite.Windows.Core
         public LazuriteCore()
         {
             Singleton.Add(WarningHandler = new WarningHandler());
-            Singleton.Add(new StandardEncryptor());
+            Singleton.Add(new DataEncryptor());
             Singleton.Add(DataManager = new FileDataManager());
             Singleton.Add(SystemUtils = new SystemUtils());
             Singleton.Add(AddictionalDataManager = new AddictionalDataManager());

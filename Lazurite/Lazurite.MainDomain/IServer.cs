@@ -7,6 +7,8 @@ namespace Lazurite.MainDomain
     public interface IServer
     {
         [Remote]
+        string GetLazuriteVersion();
+        [Remote]
         bool IsScenarioValueChanged(string scenarioId, string lastKnownValue);
         [Remote]
         ScenarioInfo[] GetScenariosInfo();
