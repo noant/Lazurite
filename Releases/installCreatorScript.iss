@@ -55,7 +55,11 @@ var
   ResultCode: Integer;
 begin
   if CurStep=ssDone
-  then
-     ExecAsOriginalUser(ExpandConstant('{app}\LazuriteUI.Windows.Preparator.exe'),'','', SW_SHOWNORMAL, ewNoWait, ResultCode)
+  then begin
+     ExecAsOriginalUser(ExpandConstant('{app}\LazuriteUI.Windows.Preparator.exe'), '', '', SW_SHOWNORMAL, ewNoWait, ResultCode)
   end;
-end.
+  if CurStep=ssInstall
+  then begin
+    Exec('cmd.exe', ExpandConstant('/c del /Q "{app}\*.*"'), '', SW_HIDE, ewWaitUntilTerminated, ResultCode)
+  end;
+end;

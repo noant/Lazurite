@@ -28,6 +28,6 @@ namespace LazuriteMobile.App.Controls
 
         public override Color MessageEditColor { get; } = Color.FromHex("302530");
 
-        public override Color BackgroundSwitchesGrid { get; } = Color.Black;
+        public override Color BackgroundSwitchesGrid { get; } = Color.FromRgb(26, 26, 34);
     }
 }

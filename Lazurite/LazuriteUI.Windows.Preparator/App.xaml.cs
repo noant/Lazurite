@@ -1,5 +1,7 @@
 ﻿using Lazurite.Data;
 using Lazurite.IOC;
+using Lazurite.Scenarios;
+using Lazurite.Security;
 using Lazurite.Windows.Logging;
 using System.Security.Principal;
 using System.Windows;
@@ -17,10 +19,13 @@ namespace LazuriteUI.Windows.Preparator
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var log = new WarningHandler();
-            var dataManager = new FileDataManager();
-            Singleton.Add(dataManager);
-            Singleton.Add(log);
+
+            Singleton.Add(new WarningHandler());
+            Singleton.Add(new DataEncryptor());
+            Singleton.Add(new FileDataManager());
+            Singleton.Add(new ScenariosRepository()); // Stub for pluginsManager
+            Singleton.Add(new UsersRepository()); // Stub for pluginsManager
+
             if (e.Args.Length == 1)
             {
                 if (e.Args[0] == KillLazuriteProcessCommand)
@@ -38,7 +43,12 @@ namespace LazuriteUI.Windows.Preparator
             }
             else
             {
-                Lazurite.Windows.Utils.Utils.ExecuteProcess(Lazurite.Windows.Utils.Utils.GetAssemblyPath(typeof(App).Assembly), WindowsIdentity.GetCurrent().Name, true, false);
+                Lazurite.Windows.Utils.Utils.ExecuteProcess(
+                    Lazurite.Windows.Utils.Utils.GetAssemblyPath(typeof(App).Assembly), 
+                    WindowsIdentity.GetCurrent().Name, 
+                    true, 
+                    false);
+
                 App.Current.Shutdown();
             }
         }

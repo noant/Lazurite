@@ -14,7 +14,8 @@ namespace LazuriteUI.Windows.Launcher
     /// </summary>
     public partial class App : Application
     {
-        private static string MainExeName = "LazuriteUI.Windows.Main.exe";
+        public static string MainExeName = "LazuriteUI.Windows.Main.exe";
+
         private static string TaskSchedulerMode = "-FromTaskScheduler";
         private static WarningHandlerBase Log;
 
@@ -40,22 +41,33 @@ namespace LazuriteUI.Windows.Launcher
                 HandleUnhandledException(args.Exception);
             };
 
-            Singleton.Add(new FileDataManager());
-            Singleton.Add(Log = new WarningHandler());
-            Log.OnWrite += (sender, eventArgs) =>
+            try
             {
-                var args = (WarningEventArgs)eventArgs;
-                if (args.Value == WarnType.Error || args.Value == WarnType.Fatal)
-                    MessageBox.Show(args.Message, args.Exception?.Message);
-            };
-            if (e.Args.Any() && e.Args[0] == TaskSchedulerMode)
-            {
-                if (new LauncherSettingsManager().Settings.RunOnUserLogon)
+                Singleton.Add(Log = new WarningHandler());
+
+                Singleton.Add(new DataEncryptor());
+                Singleton.Add(new FileDataManager());
+
+                Log.OnWrite += (sender, eventArgs) =>
+                {
+                    var args = (WarningEventArgs)eventArgs;
+                    if (args.Value == WarnType.Error || args.Value == WarnType.Fatal)
+                        MessageBox.Show(args.Message, args.Exception?.Message);
+                };
+
+                if (e.Args.Any() && e.Args[0] == TaskSchedulerMode)
+                {
+                    if (new LauncherSettingsManager().Settings.RunOnUserLogon)
+                        RunLazuriteWithAdminPrivileges();
+                    else Shutdown();
+                }
+                else
                     RunLazuriteWithAdminPrivileges();
-                else Shutdown();
             }
-            else
-                RunLazuriteWithAdminPrivileges();
+            catch (Exception exception)
+            {
+                HandleUnhandledException(exception);
+            }
         }
 
         public void RunLazuriteWithAdminPrivileges()
@@ -77,7 +89,13 @@ namespace LazuriteUI.Windows.Launcher
         {
             try
             {
-                Utils.ExecuteProcess(Path.Combine(Utils.GetAssemblyFolder(typeof(App).Assembly), MainExeName), string.Empty, useShell, false, System.Diagnostics.ProcessPriorityClass.High);
+                Utils.ExecuteProcess(
+                    Path.Combine(Utils.GetAssemblyFolder(typeof(App).Assembly), MainExeName), 
+                    string.Empty, 
+                    useShell, 
+                    false, 
+                    System.Diagnostics.ProcessPriorityClass.High);
+
                 Shutdown();
             }
             catch (Exception exception)

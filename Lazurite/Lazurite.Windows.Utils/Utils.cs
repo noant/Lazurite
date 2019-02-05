@@ -64,7 +64,7 @@ namespace Lazurite.Windows.Utils
             }
             catch (Exception e)
             {
-                outstr = string.Format("command executing error: [{0} {1}]", e, e.Message);
+                outstr = string.Format("command executing error: [{0} {1}]", e.Message, e);
             }
 
             if (!string.IsNullOrWhiteSpace(outstr))
@@ -75,8 +75,8 @@ namespace Lazurite.Windows.Utils
 
         public static bool IsAdministrator()
         {
-            WindowsIdentity identity = WindowsIdentity.GetCurrent();
-            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
         
