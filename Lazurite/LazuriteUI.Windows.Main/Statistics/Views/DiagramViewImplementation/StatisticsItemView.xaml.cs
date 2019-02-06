@@ -24,29 +24,29 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             InitializeComponent();
         }
 
-        public void Refresh(StatisticsItem item, DateTime dateTime)
+        public void Refresh(StatisticsScenarioInfo info, StatisticsItem item, DateTime dateTime)
         {
             if (item == null)
                 Visibility = Visibility.Collapsed;
             else
             {
                 Visibility = Visibility.Visible;
-                tbScenName.Text = item.Target.Name;
-                if (item.Target.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(ToggleValueType)))
+                tbScenName.Text = info.Name;
+                if (info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(ToggleValueType)))
                     tbScenVal.Text = item.Value == ToggleValueType.ValueON ? "Вкл." : "Выкл.";
                 else
                     tbScenVal.Text = item.Value;
                 var unit = string.Empty;
                 if (_scen == null && !_notExist)
                 {
-                    _scen = ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == item.Target.ID);
+                    _scen = ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == info.ID);
                     if (_scen == null)
                         _notExist = true;
                 }
                 if (_scen != null && _scen.ValueType is FloatValueType floatValueType)
                     tbScenVal.Text += floatValueType.Unit;
                 tbScenVal.Visibility = string.IsNullOrEmpty(tbScenVal.Text) ? Visibility.Collapsed : Visibility.Visible;
-                tbUser.Text = item.Source?.Name;
+                tbUser.Text = item.SourceName;
                 tbUser.Visibility = string.IsNullOrEmpty(tbUser.Text) || tbUser.Text == UsersRepository.SystemUser.Name ? Visibility.Collapsed : Visibility.Visible;
                 tbDateTimeSetted.Text = "Выставлено: " + item.DateTime.ToString();
             }

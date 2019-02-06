@@ -12,9 +12,9 @@ namespace Lazurite.MainDomain.Statistics
         [ProtoMember(1)]
         public DateTime DateTime { get; set; }
         [ProtoMember(2)]
-        public StatisticsItemSource Source { get; set; }
+        public string SourceName { get; set; }
         [ProtoMember(3)]
-        public StatisticsScenarioInfo Target { get; set; }
+        public string SourceType { get; set; }
         [ProtoMember(4)]
         public string Value { get; set; }
     }

@@ -47,6 +47,18 @@ namespace Lazurite.ActionsDomain.ValueTypes
             Longtitude = lng;
         }
 
+        public bool IsEmpty
+        {
+            get
+            {
+                return
+                double.IsNaN(Latitude) ||
+                double.IsInfinity(Latitude) ||
+                double.IsNaN(Longtitude) ||
+                double.IsInfinity(Longtitude);
+            }
+        }
+
         public override string ToString()
         {
             return string.Format("{0};{1};{2};", Latitude, Longtitude, DateTime);

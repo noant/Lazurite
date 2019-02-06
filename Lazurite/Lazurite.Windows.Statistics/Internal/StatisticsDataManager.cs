@@ -8,7 +8,7 @@ namespace Lazurite.Windows.Statistics.Internal
 {
     public class StatisticsDataManager
     {
-        private string _rootPath = "StatisticsData";
+        private readonly string _rootPath = "StatisticsData";
 
         public StatisticsDataManager()
         {

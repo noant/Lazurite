@@ -76,7 +76,6 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                 lblStart.Content = minDate.ToString();
                 lblEnd.Content = maxDate.ToString();
 
-
                 foreach (var item in _items)
                 {
                     item.MaxDate = MaxDate;
@@ -108,7 +107,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         public double Zoom { get; set; } = 1;
         public int Scroll { get; set; } = 0;
 
-        private void btMagnifyMinus_Click(object sender, RoutedEventArgs e)
+        private void BtMagnifyMinus_Click(object sender, RoutedEventArgs e)
         {
             if (_items.Any())
             {
@@ -118,7 +117,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             }
         }
 
-        private void btMagnifyAdd_Click(object sender, RoutedEventArgs e)
+        private void BtMagnifyAdd_Click(object sender, RoutedEventArgs e)
         {
             if (_items.Any() && Zoom > 1)
             {
@@ -180,7 +179,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             {
                 captionPair.Key.SelectPoint(dateTime);
                 var statisticsItem = captionPair.Key.GetItemNear(dateTime);
-                captionPair.Value.Refresh(statisticsItem, dateTime);
+                captionPair.Value.Refresh(captionPair.Key.Points.ScenarioInfo, statisticsItem, dateTime);
                 if (lineLeftMargin + captionPair.Value.ActualWidth > mainGrid.ActualWidth - Constants.DiagramsMargin.Left)
                     captionPair.Value.Margin = new Thickness(mainGrid.ActualWidth - Constants.DiagramsMargin.Left - captionPair.Value.ActualWidth, -5, 0, 0);
                 else
@@ -216,7 +215,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             }
         }
 
-        private void btViewSettings_Click(object sender, RoutedEventArgs e)
+        private void BtViewSettings_Click(object sender, RoutedEventArgs e)
         {
             ScenariosSelectPressed?.Invoke(this, new EventsArgs<object>(null));
         }

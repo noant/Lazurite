@@ -66,7 +66,7 @@
       <Name>Lazurite.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.MainDomain\Lazurite.MainDomain.csproj">
-      <Project>{DCD8E6AF-A435-4556-AD74-84444B1DD816}</Project>
+      <Project>{dcd8e6af-a435-4556-ad74-84444b1dd816}</Project>
       <Name>Lazurite.MainDomain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.Scenarios\Lazurite.Scenarios.csproj">

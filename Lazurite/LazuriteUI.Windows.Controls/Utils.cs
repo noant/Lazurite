@@ -13,9 +13,11 @@ namespace LazuriteUI.Windows.Controls
 
         public static Window GetMainWindow()
         {
-            var activatedWindow = App.Current.Windows.Cast<Window>()
+            var activatedWindow = 
+                App.Current.Windows.Cast<Window>()
                 .OrderByDescending(x => x.IsActive)
-                .OrderByDescending(x => x.Tag?.ToString() == "MainContainer").FirstOrDefault();
+                .OrderByDescending(x => x.Tag?.ToString() == "MainContainer")
+                .FirstOrDefault();
             return activatedWindow;
         }
         

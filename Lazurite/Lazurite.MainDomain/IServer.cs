@@ -33,7 +33,7 @@ namespace Lazurite.MainDomain
         [Remote]
         StatisticsScenarioInfo GetStatisticsInfoForScenario(ScenarioInfo info);
         [Remote]
-        StatisticsItem[] GetStatistics(DateTime since, DateTime to, StatisticsScenarioInfo info);
+        ScenarioStatistic GetStatistics(DateTime since, DateTime to, StatisticsScenarioInfo info);
         [Remote]
         ScenarioStatisticsRegistration GetStatisticsRegistration(string[] scenariosIds);
     }

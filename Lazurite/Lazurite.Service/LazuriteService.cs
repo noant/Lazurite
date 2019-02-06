@@ -98,7 +98,7 @@ namespace Lazurite.Service
                 .SingleOrDefault(x => x is UserVisualSettings &&
                 x.UserId.Equals(user.Id) && x.ScenarioId.Equals(scenarioId));
 
-            //if we can not found visualSettings then get visualSetting of SystemUser
+            // if we can not found visualSettings then get visualSetting of SystemUser
             if (visualSettings == null)
                 visualSettings = VisualSettings.VisualSettings
                     .SingleOrDefault(x => x is UserVisualSettings &&
@@ -255,7 +255,7 @@ namespace Lazurite.Service
             return TaskUtils.Wait(StatisticsManager.GetStatisticsInfoForScenario(scenario, new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue)));
         }
 
-        public StatisticsItem[] GetStatistics(DateTime since, DateTime to, StatisticsScenarioInfo info)
+        public ScenarioStatistic GetStatistics(DateTime since, DateTime to, StatisticsScenarioInfo info)
         {
             var user = GetCurrentUser();
             return TaskUtils.Wait(StatisticsManager.GetItems(info, since, to, new ScenarioActionSource(user, ScenarioStartupSource.Network, ScenarioAction.ViewValue)));

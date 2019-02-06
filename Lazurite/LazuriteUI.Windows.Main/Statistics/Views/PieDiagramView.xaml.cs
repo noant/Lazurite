@@ -28,6 +28,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
         }
 
         private string _scenarioId;
+        private StatisticsScenarioInfo _info;
 
         public Action<StatisticsFilter> NeedItems { get; set; }
 
@@ -53,9 +54,11 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             });
         }
 
-        public void RefreshItems(StatisticsItem[] items, DateTime since, DateTime to)
+        public void RefreshItems(ScenarioStatistic[] scenarioStatistics, DateTime since, DateTime to)
         {
-            items = items.OrderBy(x => x.DateTime).ToArray();
+            var scenarioStatistic = scenarioStatistics.FirstOrDefault();
+            _info = scenarioStatistic?.ScenarioInfo;
+            var items = scenarioStatistic?.Statistic ?? new StatisticsItem[0];
             PieItemView prev = null;
             var views = items.Select(x =>
             {
@@ -70,7 +73,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
                 return prev = new PieItemView()
                 {
                     DayOfWeek = GetDayOfWeek(x.DateTime.DayOfWeek),
-                    UserName = x.Source.Name,
+                    UserName = x.SourceName,
                     Value = GetValue(x),
                     DateTime = x.DateTime,
                     Weight = weight
@@ -100,12 +103,12 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             chartByWeek.SetItems(viewsByWeek);
 
             lblEmpty.Visibility = items.Any() ? Visibility.Collapsed : Visibility.Visible;
-            lblCaption.Content = items.FirstOrDefault()?.Target.Name;
+            lblCaption.Content = _info?.Name;
         }
 
         private string GetValue(StatisticsItem item)
         {
-            if (item.Target.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(ToggleValueType)))
+            if (_info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(ToggleValueType)))
                 return item.Value == ToggleValueType.ValueOFF ? "Выкл." : "Вкл.";
             else return item.Value;
         }

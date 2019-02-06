@@ -25,8 +25,8 @@
     </Grid>
     <Label Grid.Row="1" Visibility="Collapsed" VerticalAlignment="Top" x:Name="lblSelectedTime" Margin="200,0,0,0" Background="Orchid" HorizontalAlignment="Left" Padding="2" FontSize="11">15.06.2017</Label>
     <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right">
-        <controls:ItemViewLE Margin="4,4,2,4" Background="{x:Static controls:Visual.ItemBackground}" x:Name="btViewSettings" Width="30" Height="30" Click="btViewSettings_Click" Icon="Eye" ToolTip="Сценарии для отображения"></controls:ItemViewLE>
-        <controls:ItemViewLE Margin="2,4,2,4" Background="{x:Static controls:Visual.ItemBackground}" ToolTip="Увеличить" x:Name="btMagnifyMinus" Click="btMagnifyMinus_Click" Width="30" Height="30" Icon="MagnifyAdd"></controls:ItemViewLE>
-        <controls:ItemViewLE Margin="2,4,4,4" Background="{x:Static controls:Visual.ItemBackground}" ToolTip="Уменьшить" x:Name="btMagnifyAdd" Click="btMagnifyAdd_Click" Width="30" Height="30" Icon="MagnifyMinus"></controls:ItemViewLE>
+        <controls:ItemViewLE Margin="4,4,2,4" Background="{x:Static controls:Visual.ItemBackground}" x:Name="btViewSettings" Width="30" Height="30" Click="BtViewSettings_Click" Icon="Eye" ToolTip="Сценарии для отображения"></controls:ItemViewLE>
+        <controls:ItemViewLE Margin="2,4,2,4" Background="{x:Static controls:Visual.ItemBackground}" ToolTip="Увеличить" x:Name="btMagnifyMinus" Click="BtMagnifyMinus_Click" Width="30" Height="30" Icon="MagnifyAdd"></controls:ItemViewLE>
+        <controls:ItemViewLE Margin="2,4,4,4" Background="{x:Static controls:Visual.ItemBackground}" ToolTip="Уменьшить" x:Name="btMagnifyAdd" Click="BtMagnifyAdd_Click" Width="30" Height="30" Icon="MagnifyMinus"></controls:ItemViewLE>
     </StackPanel>
 </Grid>

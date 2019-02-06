@@ -27,5 +27,11 @@
       <HintPath>..\..\..\Libs\SimpleRemoteMethods\SimpleRemoteMethods.ClientSide.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Controls\MessageView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
   
 </Project>

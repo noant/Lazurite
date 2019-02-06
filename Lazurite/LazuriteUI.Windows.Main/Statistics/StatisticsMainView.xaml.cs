@@ -112,16 +112,10 @@ namespace LazuriteUI.Windows.Main.Statistics
                                 .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
                                 .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource)));
 
-                    var groupedItems =
+                    var items =
                         await Task.WhenAll(
                             statisticScenariosInfos
                                 .Select(x => StatisticsManager.GetItems(x, dateSince, dateTo, SystemActionSource)));
-
-                    var items =
-                        groupedItems
-                        .SelectMany(x => x)
-                        .OrderByDescending(x => x.DateTime)
-                        .ToArray();
 
                     _currentView.RefreshItems(items, dateSince, dateTo);
                 }

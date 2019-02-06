@@ -92,13 +92,16 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             });
         }
 
-        public void RefreshItems(StatisticsItem[] items, DateTime since, DateTime to)
+        public void RefreshItems(ScenarioStatistic[] scenarioStatistics, DateTime since, DateTime to)
         {
             var refresh = new Action(() => {
                 diagramsHost.MaxDate = to;
                 diagramsHost.MinDate = since;
                 var diagrams = new List<IDiagramItem>();
-                if (items.Any())
+
+                if (!scenarioStatistics.Any() || scenarioStatistics.Sum(x => x.Statistic.Length) == 0 || !diagrams.Any())
+                    lblDataEmpty.Visibility = Visibility.Visible;
+                else
                 {
                     lblDataEmpty.Visibility = Visibility.Collapsed;
                     diagramsHost.Visibility = Visibility.Visible;
@@ -119,8 +122,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
                             diagram = new ToggleDiagramItemView();
                         else
                             diagram = new InfoDiagramItemView();
-                        var curItems = items.Where(x => x.Target.ID == info.ID).ToArray();
-                        diagram.SetPoints(scenarioName, curItems);
+                        var curItems = scenarioStatistics.FirstOrDefault(x => x.ScenarioInfo.ID == info.ID).Statistic;
+                        diagram.Points = scenarioStatistics.First(x => x.ScenarioInfo.ID == info.ID);
                         diagrams.Add(diagram);
                     }
                     var ordered = diagrams
@@ -128,11 +131,10 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
                         .OrderByDescending(x => x is StatesDiagramItemView)
                         .OrderByDescending(x => x is GraphicsDiagramItemView)
                         .ToArray();
+
                     diagramsHost.SetItems(ordered);
                 }
 
-                if (!items.Any() || !diagrams.Any())
-                    lblDataEmpty.Visibility = Visibility.Visible;
             });
 
             if (IsLoaded)

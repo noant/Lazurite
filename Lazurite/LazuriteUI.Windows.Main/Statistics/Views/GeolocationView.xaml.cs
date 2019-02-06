@@ -73,21 +73,18 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
 
         public Action<StatisticsFilter> NeedItems { get; set; }
 
-        public void RefreshItems(StatisticsItem[] items, DateTime since, DateTime to)
+        public void RefreshItems(ScenarioStatistic[] scenarioStatistics, DateTime since, DateTime to)
         {
-            var scenarios = items.Select(x => 
-                new LocationsView.ScenarioInfo() {
-                    Id = x.Target.ID,
-                    Name = x.Target.Name
-                })
-                .Distinct()
-                .ToArray();
-
-            var history = scenarios
+            var history = 
+                scenarioStatistics
                 .Select(x => new LocationsView.GeolocationScenarioHistoryView() {
-                    ScenarioInfo = x,
-                    Datas = items
-                        .Where(z => z.Target.ID == x.Id)
+                    ScenarioInfo = new LocationsView.ScenarioInfo()
+                    {
+                        Id = x.ScenarioInfo.ID,
+                        Name = x.ScenarioInfo.Name
+                    },
+                    Datas = 
+                        x.Statistic
                         .Select(z => GeolocationData.FromString(z.Value))
                         .Where(z => 
                             !double.IsNaN(z.Latitude) && 

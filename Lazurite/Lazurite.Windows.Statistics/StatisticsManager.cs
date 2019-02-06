@@ -113,13 +113,7 @@ namespace Lazurite.Windows.Statistics
                         var item = new StatisticsItem();
                         item.Value = newVal;
                         item.DateTime = DateTime.Now;
-                        item.Target = new StatisticsScenarioInfo()
-                        {
-                            ID = scenario.Id,
-                            Name = scenario.Name,
-                            ValueTypeName = ActionsDomain.Utils.GetValueTypeClassName(scenario.ValueType.GetType())
-                        };
-                        AddItem(item);
+                        AddItem(item, scenario, string.Empty);
                     }
                 }
             }
@@ -132,32 +126,19 @@ namespace Lazurite.Windows.Statistics
                 RegisterInternal(scenario);
         }
 
-        private void AddItem(StatisticsItem item)
+        private void AddItem(StatisticsItem item, ScenarioBase scenario, string sourceId)
         {
             try
             {
-                var dataItem = new StatisticsDataItem(item.Source?.ID, item.Source?.Name, item.Source?.SourceType ?? "Система", item.Value, (byte)item.DateTime.Hour, (byte)item.DateTime.Minute, (byte)item.DateTime.Second);
-                _dataManager.SetItem(item.Target.ID, item.Target.ValueTypeName, dataItem);
+                var dataItem = new StatisticsDataItem(sourceId, item.SourceName, item.SourceType ?? "Система", item.Value, (byte)item.DateTime.Hour, (byte)item.DateTime.Minute, (byte)item.DateTime.Second);
+                _dataManager.SetItem(scenario.Id, ActionsDomain.Utils.GetValueTypeClassName(scenario.ValueType.GetType()), dataItem);
             }
             catch (Exception e)
             {
-                Log.Error($"Ошибка во время записи значения сценария в файлы статистики. Сценарий: [{item.Target.ID}]", e);
+                Log.Error($"Ошибка во время записи значения сценария в файлы статистики. Сценарий: [{scenario.Id}]", e);
             }
         }
-
-        private StatisticsDataItem[] GetItems(string scenarioId, string valueTypeName, DateTime since, DateTime to)
-        {
-            try
-            {
-                return _dataManager.GetDataItems(scenarioId, valueTypeName, since, to);
-            }
-            catch (Exception e)
-            {
-                Log.Error($"Ошибка во время получения статистики. Сценарий: [{scenarioId}]", e);
-                return new StatisticsDataItem[0];
-            }
-        }
-
+        
         private void RegisterInternal(ScenarioBase scenario)
         {
             scenario.SetOnStateChanged(EventTriggered);
@@ -177,30 +158,20 @@ namespace Lazurite.Windows.Statistics
 
                 var item = new StatisticsItem();
                 item.DateTime = DateTime.Now;
-
-                item.Source = new StatisticsItemSource()
-                {
-                    ID = args.Value.Source.User?.Id,
-                    Name = args.Value.Source.User?.Name,
-                    SourceType = GetStartupSourceName(args.Value.Source.Source)
-                };
-
-                item.Target = new StatisticsScenarioInfo()
-                {
-                    ID = args.Value.Scenario.Id,
-                    Name = args.Value.Scenario.Name,
-                    ValueTypeName = ActionsDomain.Utils.GetValueTypeClassName(args.Value.Scenario.ValueType.GetType())
-                };
-
+                item.SourceType = GetStartupSourceName(args.Value.Source.Source);
+                item.SourceName = args.Value.Source.User?.Name;
                 item.Value = newVal;
 
-                AddItem(item);
+                AddItem(
+                    item, 
+                    args.Value.Scenario, 
+                    args.Value.Source.User?.Id);
             }
         }
 
-        public async Task<StatisticsItem[]> GetItems(StatisticsScenarioInfo info, DateTime since, DateTime to, ScenarioActionSource source)
+        public async Task<ScenarioStatistic> GetItems(StatisticsScenarioInfo info, DateTime since, DateTime to, ScenarioActionSource source)
         {
-            var scenario = ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == info.ID && ActionsDomain.Utils.GetValueTypeClassName(x.ValueType.GetType()) == info.ValueTypeName);
+            var scenario = ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == info.ID);
             if (scenario?.SecuritySettings.IsAvailableForUser(source.User, source.Source, source.Action) ?? false)
             {
                 if (scenario is RemoteScenario remoteScenario)
@@ -209,23 +180,23 @@ namespace Lazurite.Windows.Statistics
                     {
                         if (!scenario.GetIsAvailable())
                             throw new ScenarioExecutionException(ScenarioExecutionError.NotAvailable);
+
                         var remoteScenarioInfo = new StatisticsScenarioInfo()
                         {
                             Name = remoteScenario.Name,
                             ID = remoteScenario.RemoteScenarioId,
-                            ValueTypeName = ActionsDomain.Utils.GetValueTypeClassName(remoteScenario.ValueType.GetType()),
                             Since = DateTime.Now,
                             To = DateTime.Now,
                         };
+
                         var client = ServiceClientFactory.Current.GetClient(remoteScenario.Credentials);
-                        var statistics = await client.GetStatistics(since, to, remoteScenarioInfo);
-                        foreach (var item in statistics)
-                        {
-                            //crutch
-                            item.Target.ID = remoteScenario.Id;
-                            item.Target.Name = remoteScenario.Name;
-                        }
-                        return statistics;
+                        var remoteScenarioStatistics = await client.GetStatistics(since, to, remoteScenarioInfo);
+
+                        var scenarioStatistics = new ScenarioStatistic();
+                        scenarioStatistics.ScenarioInfo = info;
+                        scenarioStatistics.Statistic = remoteScenarioStatistics.Statistic ?? new StatisticsItem[0]; // Crutch
+
+                        return scenarioStatistics;
                     }
                     catch (Exception e)
                     {
@@ -234,20 +205,27 @@ namespace Lazurite.Windows.Statistics
                 }
                 else
                 {
-                    return 
-                        _dataManager.GetDataItems(info.ID, info.ValueTypeName, since, to)
+                    var valueTypeName = ActionsDomain.Utils.GetValueTypeClassName(scenario.ValueType.GetType());
+                    var statistics = 
+                        _dataManager
+                        .GetDataItems(info.ID, valueTypeName, since, to)
                         .Select(x =>
                         {
                             var item = new StatisticsItem();
-                            item.Source = new StatisticsItemSource();
-                            item.Source.SourceType = x.SourceType;
-                            item.Source.Name = x.SourceName;
-                            item.Source.ID = x.SourceId;
+                            item.SourceType = x.SourceType;
+                            item.SourceName = x.SourceName;
                             item.DateTime = new DateTime(x.Year, x.Month, x.Day, x.Hour, x.Minute, x.Second);
                             item.Value = x.Value;
-                            item.Target = info;
                             return item;
-                        }).ToArray();
+                        })
+                        .OrderBy(x => x.DateTime)
+                        .ToArray();
+
+                    var scenarioStatistics = new ScenarioStatistic();
+                    scenarioStatistics.ScenarioInfo = info;
+                    scenarioStatistics.Statistic = statistics;
+
+                    return scenarioStatistics;
                 }
             }
             throw new ScenarioExecutionException(ScenarioExecutionError.AccessDenied);

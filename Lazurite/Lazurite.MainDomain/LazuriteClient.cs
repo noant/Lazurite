@@ -79,9 +79,9 @@ namespace Lazurite.MainDomain
             return await Client.CallMethod<StatisticsScenarioInfo>("GetStatisticsInfoForScenario", new object[] {info});
         }
 
-        public async Task<StatisticsItem[]> GetStatistics(DateTime since, DateTime to, StatisticsScenarioInfo info)
+        public async Task<ScenarioStatistic> GetStatistics(DateTime since, DateTime to, StatisticsScenarioInfo info)
         {
-            return await Client.CallMethodArray<StatisticsItem>("GetStatistics", new object[] {since, to, info});
+            return await Client.CallMethod<ScenarioStatistic>("GetStatistics", new object[] {since, to, info});
         }
 
         public async Task<ScenarioStatisticsRegistration> GetStatisticsRegistration(String[] scenariosIds)

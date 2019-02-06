@@ -26,9 +26,9 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         {
             InitializeComponent();
             SizeChanged += (o, e) => Refresh();
-            //Loaded += (o, e) => RefreshScalesLabels(); //crutch
         }
 
+        private ScenarioStatistic _statistic;
         private List<StatisticsItem> _items;
         private Dictionary<StatisticsItem, double> _values;
         private double _scaleYMin;
@@ -48,8 +48,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         public DateTime MaxDate { get; set; }
         public DateTime MinDate { get; set; }
 
-        public StatisticsItem GetItemNear(DateTime dateTime) => 
-            _items.LastOrDefault(x => x.DateTime <= dateTime);
+        public StatisticsItem GetItemNear(DateTime dateTime) => _items.LastOrDefault(x => x.DateTime <= dateTime);
         
         public void SelectPoint(DateTime dateTime)
         {
@@ -64,12 +63,18 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                 ellipseSelectior.Visibility = Visibility.Collapsed;
         }
 
-        public void SetPoints(string scenarioName, StatisticsItem[] items)
+        public ScenarioStatistic Points
         {
-            lblScenName.Content = scenarioName;
-            _items = items.OrderBy(x => x.DateTime).ToList();
+            get => _statistic;
+            set => InitPoints(_statistic = value);
+        }
+
+        private void InitPoints(ScenarioStatistic scenarioStatistic)
+        {
+            _items = _statistic.Statistic.ToList();
+            lblScenName.Content = _statistic.ScenarioInfo.Name;
             _values = new Dictionary<StatisticsItem, double>();
-            foreach (var item in _items.ToArray())
+            foreach (var item in _items)
                 if (double.TryParse(item.Value, out double val))
                     _values.Add(item, val);
                 else

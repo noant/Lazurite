@@ -2,6 +2,7 @@
 using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
+using LazuriteUI.Windows.Controls;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,21 +31,32 @@ namespace LazuriteUI.Windows.Main.Switches
 
         private void ItemView_Click(object sender, RoutedEventArgs e)
         {
-            //open through yandex maps
-            var browserUrl = @"https://yandex.ru/maps/?mode=whatshere&whatshere%5Bpoint%5D={0}%2C{1}&whatshere%5Bzoom%5D=13";
             var data = GeolocationData.FromString(((ScenarioModel)DataContext).ScenarioValue);
-            var lat = data.Latitude.ToString().Replace(",", ".");
-            var lng = data.Longtitude.ToString().Replace(",", ".");
 
-            var url = string.Format(browserUrl, lng, lat);
-
-            try
+            if (data.IsEmpty)
             {
-                Process.Start(url);
+                MessageView.ShowMessage(
+                    "Данные о геокоординатах пусты...",
+                    "Невозможно открыть геокоординаты", 
+                    Icons.Icon.MapGps);
             }
-            catch
+            else
             {
-                Process.Start("IEXPLORE.EXE", url); //crutch
+                // Open through yandex maps
+                var browserUrl = @"https://yandex.ru/maps/?mode=whatshere&whatshere%5Bpoint%5D={0}%2C{1}&whatshere%5Bzoom%5D=13";
+                var lat = data.Latitude.ToString().Replace(",", ".");
+                var lng = data.Longtitude.ToString().Replace(",", ".");
+
+                var url = string.Format(browserUrl, lng, lat);
+
+                try
+                {
+                    Process.Start(url);
+                }
+                catch
+                {
+                    Process.Start("IEXPLORE.EXE", url); //crutch
+                }
             }
         }
     }

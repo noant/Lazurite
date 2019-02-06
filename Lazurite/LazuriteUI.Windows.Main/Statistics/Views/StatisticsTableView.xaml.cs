@@ -30,9 +30,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
     /// </summary>
     public partial class StatisticsTableView : Grid, IStatisticsView
     {
-        private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
-        private static readonly string FloatValueTypeName = Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(FloatValueType));
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
+        private static readonly Dictionary<string, ScenarioBase> Scenarios = Singleton.Resolve<ScenariosRepositoryBase>().Scenarios.ToDictionary(x => x.Id);
 
         private StatisticItemView[] _items;
 
@@ -53,25 +52,18 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             };
         }
         
-        public void RefreshItems(StatisticsItem[] items, DateTime since, DateTime to)
+        public void RefreshItems(ScenarioStatistic[] items, DateTime since, DateTime to)
         {
             if (items != null)
                 DataContext = new { Items = _items = CreateDataViews(items) };
         }
 
-        private StatisticItemView[] CreateDataViews(StatisticsItem[] items)
+        private StatisticItemView[] CreateDataViews(ScenarioStatistic[] items)
         {
-            var scenariosDictionary = ScenariosRepository.Scenarios.ToDictionary(x => x.Id);
             return items
-                .Where(x => scenariosDictionary.ContainsKey(x.Target.ID))
-                .Select
-                (
-                    x => {
-                        if (x.Target.ValueTypeName == FloatValueTypeName)
-                            return new StatisticItemView(x, ((FloatValueType)scenariosDictionary[x.Target.ID].ValueType).Unit);
-                        else return new StatisticItemView(x);
-                    }
-                ).ToArray();
+                .Where(x => Scenarios.ContainsKey(x.ScenarioInfo.ID))
+                .SelectMany(x => x.Statistic.Select(z => new StatisticItemView(z, x.ScenarioInfo)))
+                .ToArray();
         }
 
         public Action<StatisticsFilter> NeedItems { get; set; }
@@ -79,21 +71,34 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
         private class StatisticItemView
         {
             private static readonly string ToggleValueTypeName = Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(ToggleValueType));
+            private static readonly string FloatValueTypeName = Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(FloatValueType));
 
-            public StatisticItemView(StatisticsItem item, string scenarioUnit = "")
+            public StatisticItemView(StatisticsItem item, StatisticsScenarioInfo info)
             {
-                ScenarioName = item.Target.Name;
-                UserName = item.Source.Name;
-                SourceType = item.Source.SourceType;
-                DateTime = item.DateTime;
-                Value = item.Value + scenarioUnit;
-                if (item.Target.ValueTypeName == ToggleValueTypeName)
+                string getUnit()
                 {
-                    if (Value == ToggleValueType.ValueON)
-                        Value = "Вкл.";
-                    else
-                        Value = "Выкл.";
+                    if (info.ValueTypeName == FloatValueTypeName)
+                        return ((FloatValueType)Scenarios[info.ID].ValueType).Unit;
+                    return string.Empty;
                 }
+
+                string getValue()
+                {
+                    if (info.ValueTypeName == ToggleValueTypeName)
+                    {
+                        if (Value == ToggleValueType.ValueON)
+                            return "Вкл.";
+                        else
+                            return "Выкл.";
+                    }
+                    return item.Value + getUnit();
+                }
+
+                ScenarioName = info.Name;
+                UserName = item.SourceName;
+                SourceType = item.SourceType;
+                DateTime = item.DateTime;
+                Value = getValue();
             }
 
             [Name("СЦЕНАРИЙ")]

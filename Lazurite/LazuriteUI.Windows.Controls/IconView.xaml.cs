@@ -23,24 +23,20 @@ namespace LazuriteUI.Windows.Controls
                     {   
                         var icon = (Icon)e.NewValue;
                         var control = (IconView)o;
-                        if (icon != Icon._None)
+                        if (Cache.ContainsKey(icon))
                         {
-                            if (Cache.ContainsKey(icon))
-                            {
-                                control.iconControl.Source = Cache[icon];
-                            }
-                            else
-                            {
-                                var image = new BitmapImage();
-                                image.BeginInit();
-                                image.StreamSource = LazuriteUI.Icons.Utils.GetIconData(icon);
-                                image.CacheOption = BitmapCacheOption.OnDemand;
-                                image.EndInit();
-                                Cache.Add(icon, image);
-                                control.iconControl.Source = image;
-                            }
+                            control.iconControl.Source = Cache[icon];
                         }
-                        else control.iconControl.Source = null;
+                        else
+                        {
+                            var image = new BitmapImage();
+                            image.BeginInit();
+                            image.StreamSource = LazuriteUI.Icons.Utils.GetIconData(icon);
+                            image.CacheOption = BitmapCacheOption.OnDemand;
+                            image.EndInit();
+                            Cache.Add(icon, image);
+                            control.iconControl.Source = image;
+                        }
                     }
                 });
         }

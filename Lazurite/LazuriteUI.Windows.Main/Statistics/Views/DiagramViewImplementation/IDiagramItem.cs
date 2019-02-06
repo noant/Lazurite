@@ -15,7 +15,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         DateTime MinDate { get; set; }
         StatisticsItem GetItemNear(DateTime dateTime);
         void SelectPoint(DateTime dateTime);
-        void SetPoints(string scenarioName, StatisticsItem[] items);
+        ScenarioStatistic Points { get; set; }
         void Refresh();
         bool RequireLarge { get; }
     }

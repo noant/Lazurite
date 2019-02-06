@@ -31,7 +31,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
         }
 
         private Dictionary<string, int> _valuesIds;
-        private StatisticsItem[] _items;
+        private ScenarioStatistic _statistic;
         private int _totalSeconds;
         private int _secondStart;
         private int _secondEnd;
@@ -50,7 +50,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
 
         public StatisticsItem GetItemNear(DateTime dateTime)
         {
-            return _items.LastOrDefault(x => x.DateTime <= dateTime);
+            return _statistic.Statistic.LastOrDefault(x => x.DateTime <= dateTime);
         }
 
         public void SelectPoint(DateTime dateTime)
@@ -66,16 +66,21 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                 ellipseSelectior.Visibility = Visibility.Collapsed;
         }
         
-        public void SetPoints(string scenarioName, StatisticsItem[] items)
+        public ScenarioStatistic Points
         {
-            var values = items.Select(x => x.Value ?? string.Empty).Distinct().OrderBy(x => x).ToList();
+            get => _statistic;
+            set => InitPoints(_statistic = value);
+        }
+
+        private void InitPoints(ScenarioStatistic scenarioStatistic)
+        {
+            var values = scenarioStatistic.Statistic.Select(x => x.Value ?? string.Empty).Distinct().OrderBy(x => x).ToList();
             _valuesIds = Enumerable.Range(0, values.Count).ToDictionary(x => values[x]);
 
-            lblScenName.Content = scenarioName;
+            lblScenName.Content = scenarioStatistic.ScenarioInfo.Name;
 
-            _items = items.OrderBy(x=>x.DateTime).ToArray();
-            MaxDateCurrent = _items.Any() ? (DateTime?)_items.Last().DateTime : null;
-            MinDateCurrent = _items.Any() ? (DateTime?)_items.First().DateTime : null;
+            MaxDateCurrent = scenarioStatistic.Statistic.Any() ? (DateTime?)scenarioStatistic.Statistic.Last().DateTime : null;
+            MinDateCurrent = scenarioStatistic.Statistic.Any() ? (DateTime?)scenarioStatistic.Statistic.First().DateTime : null;
             _scaleYMax = _valuesIds.Count + 1;
         }
 
@@ -86,17 +91,17 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             _secondStart = Scroll;
             _secondEnd = _secondStart + (int)(_totalSeconds / Zoom);
 
-            var itemsToDraw = _items.Where(x =>
+            var itemsToDraw = _statistic.Statistic.Where(x =>
             {
                 var seconds = (x.DateTime - MinDate).TotalSeconds;
                 return _secondStart <= seconds && _secondEnd >= seconds;
             }).ToList();
 
             //take one previous and one following items (to prevent diagram winking)
-            var firstItemDateTime = _items
+            var firstItemDateTime = _statistic.Statistic
                 .Where(x => (x.DateTime - MinDate).TotalSeconds < _secondStart)
                 .OrderByDescending(x => x.DateTime);
-            var lastItemDateTime = _items
+            var lastItemDateTime = _statistic.Statistic
                 .Where(x => (x.DateTime - MinDate).TotalSeconds > _secondEnd)
                 .OrderBy(x => x.DateTime);
             var item1 = firstItemDateTime.FirstOrDefault();
@@ -133,7 +138,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
                 var now = Translate(_secondEnd + 86400, 0);
                 now.Y = last.Point.Y;
 
-                brushedPoints.Add(new { Point = now, Brush = last.Brush });
+                brushedPoints.Add(new { Point = now, last.Brush });
 
                 var lines = new List<ColoredLine>();
                 

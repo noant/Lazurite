@@ -16,6 +16,7 @@
         WindowState="Maximized"
         xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
         Title="LazuriteFastSwitchWindow"
+        Tag="MainContainer"
         UIElement.MouseWheel="Window_MouseWheel" >
     <Grid>
         <Grid Background="Black" Opacity="0.1" Name="gridBack" MouseDown="gridBack_MouseDown"></Grid>
