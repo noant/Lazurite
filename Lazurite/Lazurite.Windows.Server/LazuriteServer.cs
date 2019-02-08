@@ -12,7 +12,6 @@ namespace Lazurite.Windows.Server
 {
     public class LazuriteServer
     {
-        private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
         private static readonly int MaxConcurrentCalls = GlobalSettings.Get(100);
         public static readonly string SettingsKey = "serverSettings";
 
@@ -55,11 +54,12 @@ namespace Lazurite.Windows.Server
                 _server = new Server<IServer>(new LazuriteService(), true, _settings.Port, _settings.SecretKey)
                 {
                     MaxConcurrentCalls = (ushort)MaxConcurrentCalls,
-                    MaxRequestLength = 300000,
+                    MaxRequestLength = 500000,
                     AuthenticationValidator = new LoginValidator()
                 };
 
                 _server.AfterServerStopped += (o, e) => StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
+                _server.AfterServerStarted += (o, e) => StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
             
                 _server.LogRecord += _server_LogRecord;
 
@@ -116,7 +116,7 @@ namespace Lazurite.Windows.Server
 
         private void DataEncryptor_SecretKeyChanged(object sender, EventsArgs<DataEncryptor> args)
         {
-            // Re-save settings with new secret key
+            // Resave settings with new secret key
             _dataManager.Set(SettingsKey, Settings);
         }
     }

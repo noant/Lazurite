@@ -11,9 +11,9 @@ namespace LazuriteUI.Windows.Main
 
         private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
         
-        private const UInt32 SWP_NOSIZE = 0x0001;
-        private const UInt32 SWP_NOMOVE = 0x0002;
-        private const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
+        private const uint SWP_NOSIZE = 0x0001;
+        private const uint SWP_NOMOVE = 0x0002;
+        private const uint TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass")]
         [DllImport("user32.dll")]
@@ -65,11 +65,21 @@ namespace LazuriteUI.Windows.Main
                         Hide(); // Нужно для периодического помещения окна на передний план, если его загородило новое TopMost окно
                         RefreshLocationAndSize(); // На тот случай, если пользователь поменял разрешение экрана или подключил другой монитор
                         Show();
+                        SetWindowPos(Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
                     }));
                 },
                 null,
                 1000 * 60 * 4,
                 1000 * 60 * 4); // Каждые 4 минуты
+        }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            if (Visible)
+                StartActivationTimer();
+            else
+                StopActivationTimer();
         }
 
         private void StopActivationTimer()
@@ -79,12 +89,10 @@ namespace LazuriteUI.Windows.Main
 
         public static void ShowWindow() {
             RightSideHover.Show();
-            RightSideHover.StartActivationTimer();
         }
 
         public static void HideWindow() {
             RightSideHover.Hide();
-            RightSideHover.StopActivationTimer();
         }
 
         public static void Initialize()

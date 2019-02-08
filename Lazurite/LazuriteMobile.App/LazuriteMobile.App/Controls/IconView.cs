@@ -1,15 +1,19 @@
 ﻿using LazuriteUI.Icons;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Controls
 {
-    public class IconView: Image
+    // Many thanks to https://github.com/andreinitescu
+    public class IconView: View
     {
         public static readonly BindableProperty IconProperty;
 
-        private static Dictionary<Icon, byte[]> _cache = new Dictionary<Icon, byte[]>();
+        public static readonly BindableProperty ForegroundProperty = BindableProperty.Create(nameof(Foreground), typeof(Color), typeof(IconView), Color.Transparent);
+
+        public static readonly BindableProperty SourceProperty = BindableProperty.Create(nameof(Source), typeof(Stream), typeof(IconView), null);
 
         static IconView()
         {
@@ -17,29 +21,34 @@ namespace LazuriteMobile.App.Controls
                 (sender, oldVal, newVal) => {
                     var view = sender as IconView;
                     var icon = (Icon)newVal;
-                    var prev = (Icon)oldVal;
-                    if (!_cache.ContainsKey(icon))
-                        _cache.Add(icon, LazuriteUI.Icons.Utils.GetIconDataBytes(icon));
+                    var prev = (oldVal is Icon p) ? p : Icon._None;
+                    view.Source = LazuriteUI.Icons.Utils.GetIconData(icon);
                     if (icon != prev)
                         view.OnPropertyChanged(nameof(view.Source));
                 });
         }
 
-        public IconView() : base()
+        public IconView()
         {
-            Source = ImageSource.FromStream(() => new MemoryStream(_cache[Icon]));
+            // Do nothing
         }
         
         public Icon Icon
         {
-            get
-            {
-                return (Icon)GetValue(IconProperty);
-            }
-            set
-            {
-                SetValue(IconProperty, value);
-            }
+            get => (Icon)GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
+        }
+
+        public Stream Source
+        {
+            get => (Stream)GetValue(SourceProperty);
+            set => SetValue(SourceProperty, value);
+        }
+
+        public Color Foreground
+        {
+            get => (Color)GetValue(ForegroundProperty);
+            set => SetValue(ForegroundProperty, value);
         }
     }
 }

@@ -3,7 +3,7 @@
     xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    BackgroundColor="{x:Static controls:Visual.BackgroundAlter}"
+    BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=BackgroundAlter}"
     x:Class="LazuriteMobile.App.Common.SliderMenu">
     <ContentView x:Name="contentView" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"></ContentView>
 </Grid>

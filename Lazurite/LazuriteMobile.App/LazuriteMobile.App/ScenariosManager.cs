@@ -234,17 +234,17 @@ namespace LazuriteMobile.App
                     ConnectionError?.Invoke();
                 success = false;
             }
-            catch (RemoteException e) when (e.Code == RemoteExceptionData.LoginOrPasswordInvalid)
+            catch (RemoteException e) when (e.Code == ErrorCode.LoginOrPasswordInvalid)
             {
                 LoginOrPasswordInvalid?.Invoke();
                 success = false;
             }
-            catch (RemoteException e) when (e.Code == RemoteExceptionData.UnknownData)
+            catch (RemoteException e) when (e.Code == ErrorCode.UnknownData)
             {
                 SecretCodeInvalid?.Invoke();
                 success = false;
             }
-            catch (RemoteException e) when (e.Code == RemoteExceptionData.BruteforceSuspicion)
+            catch (RemoteException e) when (e.Code == ErrorCode.BruteforceSuspicion)
             {
                 BruteforceSuspition?.Invoke();
                 success = false;
@@ -283,17 +283,17 @@ namespace LazuriteMobile.App
                     ConnectionError?.Invoke();
                 success = false;
             }
-            catch (RemoteException e) when (e.Code == RemoteExceptionData.LoginOrPasswordInvalid)
+            catch (RemoteException e) when (e.Code == ErrorCode.LoginOrPasswordInvalid)
             {
                 LoginOrPasswordInvalid?.Invoke();
                 success = false;
             }
-            catch (RemoteException e) when (e.Code == RemoteExceptionData.UnknownData)
+            catch (RemoteException e) when (e.Code == ErrorCode.UnknownData)
             {
                 SecretCodeInvalid?.Invoke();
                 success = false;
             }
-            catch (RemoteException e) when (e.Code == RemoteExceptionData.BruteforceSuspicion)
+            catch (RemoteException e) when (e.Code == ErrorCode.BruteforceSuspicion)
             {
                 BruteforceSuspition?.Invoke();
                 success = false;

@@ -4,15 +4,15 @@
              xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
              x:Class="LazuriteMobile.App.MessageView"
              Margin="2,2,2,0"
-             BackgroundColor="{x:Static controls:Visual.ItemBackground}" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Padding="4">
+             BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=ItemBackground}" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Padding="4">
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="19"></RowDefinition>
     </Grid.RowDefinitions>
-    <Label BackgroundColor="{x:Static controls:Visual.BrightItemBackground}"></Label>
-    <Label FontFamily="{x:Static controls:Visual.FontFamily}" Margin="4" VerticalOptions="Center" TextColor="{x:Static controls:Visual.CaptionForeground}" x:Name="lblTitle"></Label>
-    <Label FontFamily="{x:Static controls:Visual.FontFamily}" Margin="4" VerticalOptions="Center" Grid.Row="1" TextColor="{x:Static controls:Visual.Foreground}" x:Name="lblText"></Label>
-    <Label FontFamily="{x:Static controls:Visual.FontFamily}" Margin="4" VerticalOptions="Center" Grid.Row="2" TextColor="{x:Static controls:Visual.Foreground}" Opacity="0.5" FontSize="Micro" x:Name="lblDateTime"></Label>
-    <Label FontFamily="{x:Static controls:Visual.FontFamily}" Margin="0,0,7,0" x:Name="lblNew" Grid.Row="0" TextColor="{x:Static controls:Visual.CaptionForegroundAlter}" FontSize="Large" HorizontalOptions="End" VerticalOptions="Center">*</Label>
+    <Label BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=BrightItemBackground}"></Label>
+    <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" Margin="4" VerticalOptions="Center" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" x:Name="lblTitle"></Label>
+    <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" Margin="4" VerticalOptions="Center" Grid.Row="1" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" x:Name="lblText"></Label>
+    <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" Margin="4" VerticalOptions="Center" Grid.Row="2" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" Opacity="0.5" FontSize="Micro" x:Name="lblDateTime"></Label>
+    <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" Margin="0,0,7,0" x:Name="lblNew" Grid.Row="0" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForegroundAlter}" FontSize="Large" HorizontalOptions="End" VerticalOptions="Center">*</Label>
 </Grid>

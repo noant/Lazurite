@@ -10,9 +10,9 @@ namespace LazuriteMobile.App.Switches
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((bool)value)
-                return Visual.SwitchBackground;
+                return Visual.Current.SwitchBackground;
             else
-                return Visual.SwitchBackgroundReadonly;
+                return Visual.Current.SwitchBackgroundReadonly;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

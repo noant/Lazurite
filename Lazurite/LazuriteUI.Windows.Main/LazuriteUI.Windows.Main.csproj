@@ -322,6 +322,9 @@
     <Compile Include="IInitializable.cs" />
     <Compile Include="IViewTypeResolverItem.cs" />
     <Compile Include="Journal\JournalItemViewModel.cs" />
+    <Compile Include="Journal\JournalItemViewWindow.xaml.cs">
+      <DependentUpon>JournalItemViewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Journal\JournalLightWindow.xaml.cs">
       <DependentUpon>JournalLightWindow.xaml</DependentUpon>
     </Compile>
@@ -766,6 +769,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FastSwitchWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Journal\JournalItemViewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

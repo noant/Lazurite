@@ -8,11 +8,14 @@
         WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
+        Topmost="true"
         AllowsTransparency="True"
         Background="Transparent"
         xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls"
         mc:Ignorable="d"
-        Title="StuckUILoadingWindow" Height="150" Width="500">
+        Title="Загрузка..."
+        Height="150"
+        Width="500">
     <Grid>
         <Grid Background="#1A1A22" Opacity="0.9"></Grid>
         <local:CornerView VerticalAlignment="Top" HorizontalAlignment="Left"></local:CornerView>

@@ -161,7 +161,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             try
             {
                 if (string.IsNullOrEmpty(Credentials.SecretKey))
-                    throw RemoteException.Get(RemoteExceptionData.UnknownData, "Необходим ввод секретного ключа");
+                    throw new RemoteException(ErrorCode.UnknownData, "Необходим ввод секретного ключа");
                 _scenarioInfo = await GetClient().GetScenarioInfo(RemoteScenarioId);
                 remoteScenarioAvailable = _scenarioInfo.IsAvailable;
                 _valueType = _scenarioInfo.ValueType;

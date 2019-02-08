@@ -26,7 +26,7 @@ namespace LazuriteMobile.App.Common
         public NumericEntry()
         {
             Keyboard = Keyboard.Numeric;
-            TextColor = Visual.Foreground;
+            TextColor = Visual.Current.Foreground;
             TextChanged += NumericEntry_TextChanged;
         }
 

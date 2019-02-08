@@ -11,5 +11,12 @@ namespace LazuriteUI.Windows.Main.Journal
         {
             InitializeComponent();
         }
+
+        private void TextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var windowDescription = new JournalItemViewWindow();
+            windowDescription.DataContext = DataContext;
+            windowDescription.Show();
+        }
     }
 }

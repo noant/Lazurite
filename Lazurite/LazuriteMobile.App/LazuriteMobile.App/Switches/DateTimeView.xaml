@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="LazuriteMobile.App.Switches.DateTimeView"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
-    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
     xmlns:bases="clr-namespace:LazuriteMobile.App.Switches.Bases"
     BackgroundColor="{Binding AllowClick, Converter={Static local:ConvertersStatic.Background_BoolToColor}}"
     Opacity="{Binding IsAvailable, Converter={Static local:ConvertersStatic.BoolToDouble}}"

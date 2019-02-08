@@ -10,6 +10,7 @@ namespace LazuriteMobile.App.Controls
     {
         public static readonly BindableProperty IconVisibilityProperty;
         public static readonly BindableProperty IconProperty;
+        public static readonly BindableProperty IconForegroundProperty;
         public static readonly BindableProperty TextProperty;
         public static readonly BindableProperty SelectedProperty;
         public static readonly BindableProperty SelectableProperty;
@@ -28,6 +29,11 @@ namespace LazuriteMobile.App.Controls
                 (sender, oldVal, newVal) =>
                 {
                     ((ItemView)sender).iconView.Icon = (Icon)newVal;
+                });
+            IconForegroundProperty = BindableProperty.Create(nameof(IconForeground), typeof(Color), typeof(ItemView), Controls.Visual.Current.ItemIconColor, BindingMode.OneWay, null,
+                (sender, oldVal, newVal) =>
+                {
+                    ((ItemView)sender).iconView.Foreground = (Color)newVal;
                 });
             TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(ItemView), "itemView", BindingMode.OneWay, null,
                 (sender, oldVal, newVal) => {
@@ -121,6 +127,18 @@ namespace LazuriteMobile.App.Controls
             set
             {
                 SetValue(IconProperty, value);
+            }
+        }
+
+        public Color IconForeground
+        {
+            get
+            {
+                return (Color)GetValue(IconForegroundProperty);
+            }
+            set
+            {
+                SetValue(IconForegroundProperty, value);
             }
         }
 

@@ -5,6 +5,6 @@
              x:Class="LazuriteMobile.App.Switches.Bases.SwitchBottomBorder"
              VerticalOptions="End"
              HorizontalOptions="FillAndExpand"
-             BackgroundColor="{x:Static controls:Visual.SwitchBorder}"
+             BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=SwitchBorder}"
              HeightRequest="1">
 </Grid>

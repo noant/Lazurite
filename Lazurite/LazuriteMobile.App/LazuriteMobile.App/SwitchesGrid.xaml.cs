@@ -1,4 +1,5 @@
 ﻿using Lazurite.MainDomain;
+using LazuriteMobile.App.Controls;
 using LazuriteMobile.App.Switches;
 using System;
 using System.Linq;
@@ -14,7 +15,6 @@ namespace LazuriteMobile.App
         private static int MaxX = 3;
         private static readonly int ElementWidth = 110;
         private static readonly int ElementHeight = 85;
-        private static readonly int ElementMargin = 2;
 
         public SwitchesGrid()
         {
@@ -22,10 +22,14 @@ namespace LazuriteMobile.App
             ScenariosEmptyModeOff();
             grid.Margin = new Thickness(0, 0, ElementMargin, 40);
 
-            if (Device.Idiom != TargetIdiom.Phone)
+            if (Device.Idiom == TargetIdiom.Watch)
+                MaxX = 1;
+            else if (Device.Idiom != TargetIdiom.Phone)
                 MaxX = 5;
         }
-         
+
+        private double ElementMargin => Visual.Current.SwitchGridElementMargin;
+
         private ScenarioInfo[] GetCurrentScenarios()
         {
             return grid.Children.Select(x => ((SwitchScenarioModel)x.BindingContext).Scenario).ToArray();

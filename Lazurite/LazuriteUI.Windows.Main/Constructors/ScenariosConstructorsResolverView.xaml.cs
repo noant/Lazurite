@@ -41,9 +41,9 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             if (scenario != null)
             {
+                var loading = StuckUILoadingWindow.Loading("Компоновка окна...");
                 try
                 {
-                    var loading = StuckUILoadingWindow.Loading("Компоновка окна...");
                     _originalSenario = scenario;
                     _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
                     await _clonedScenario.Initialize();
@@ -61,13 +61,17 @@ namespace LazuriteUI.Windows.Main.Constructors
                     _constructorView.Failed += () => buttonsView.Failed();
                     _constructorView.Succeed += () => buttonsView.Success();
                     EmptyScenarioModeOff();
-                    loading.Close();
                     return true;
                 }
                 catch (Exception e)
                 {
+                    EmptyScenarioModeOn();
                     Log.ErrorFormat(e, "Ошибка инициализации сценария {0}", scenario.Name);
                     return false;
+                }
+                finally
+                {
+                    loading.Close();
                 }
             }
             else

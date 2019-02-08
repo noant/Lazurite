@@ -6,7 +6,7 @@
   <ContentView.Content>
       <StackLayout Margin="0,-25,0,0">
             <controls:IconView x:Name="iconView" WidthRequest="50" HeightRequest="50" />
-            <Label Margin="8" HorizontalTextAlignment="Center" TextColor="{x:Static controls:Visual.CaptionForeground}" x:Name="labelMessage" Text="Сообщение." />
+            <Label Margin="8" HorizontalTextAlignment="Center" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" x:Name="labelMessage" Text="Сообщение." />
       </StackLayout>
   </ContentView.Content>
 </ContentView>

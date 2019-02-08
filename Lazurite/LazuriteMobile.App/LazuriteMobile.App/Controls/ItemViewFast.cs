@@ -28,7 +28,7 @@ namespace LazuriteMobile.App.Controls
             SelectedProperty = BindableProperty.Create(nameof(SelectedProperty), typeof(bool), typeof(ItemViewFast), false, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) =>
                 {
-                    ((ItemViewFast)sender).BackgroundColor = (bool)newVal ? Controls.Visual.ItemSelection : Controls.Visual.ItemBackground;
+                    ((ItemViewFast)sender).BackgroundColor = (bool)newVal ? Controls.Visual.Current.ItemSelection : Controls.Visual.Current.ItemBackground;
                     ((ItemViewFast)sender).RaiseSelectionChanged();
                 });
             StrokeVisibleProperty = BindableProperty.Create(nameof(StrokeVisible), typeof(bool), typeof(ItemViewFast), false, BindingMode.OneWay, null,
@@ -56,14 +56,14 @@ namespace LazuriteMobile.App.Controls
 
         public ItemViewFast()
         {
-            BackgroundColor = Controls.Visual.ItemBackground;
+            BackgroundColor = Controls.Visual.Current.ItemBackground;
 
             button = new Button();
             button.BorderWidth = 0;
             button.BorderColor = Color.Transparent;
             button.BackgroundColor = Color.Transparent;
-            button.FontSize = Controls.Visual.FontSize;
-            button.TextColor = Controls.Visual.Foreground;
+            button.FontSize = Controls.Visual.Current.FontSize;
+            button.TextColor = Controls.Visual.Current.Foreground;
             button.Clicked += Button_Clicked;
 
             var round = new Label();
@@ -77,7 +77,7 @@ namespace LazuriteMobile.App.Controls
             round.Margin = new Thickness(8,-4,0,0);
 
             label = new Label();
-            label.TextColor = Color.WhiteSmoke;
+            label.TextColor = Controls.Visual.Current.Foreground;
             label.VerticalTextAlignment = TextAlignment.Center;
             label.HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, false);
             label.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);

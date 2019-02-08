@@ -20,9 +20,9 @@ namespace Lazurite.Shared
         }
 
         [ProtoMember(1)]
-        public double Latitude { get; set; }
+        public double Latitude { get; set; } = double.NaN;
         [ProtoMember(2)]
-        public double Longtitude { get; set; }
+        public double Longtitude { get; set; } = double.NaN;
         [ProtoMember(3)]
         public bool IsGPS { get; set; }
 

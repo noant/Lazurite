@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using LazuriteMobile.App.Controls;
+using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Switches.Bases
 {
@@ -11,12 +12,12 @@ namespace LazuriteMobile.App.Switches.Bases
 
         public void InitializeComponent()
         {
-            Opacity = 0.64;
             WidthRequest = 45;
             HeightRequest = 45;
             VerticalOptions = new LayoutOptions(LayoutAlignment.Center, true);
             HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, true);
             InputTransparent = true;
+            Foreground = Visual.Current.SwitchIconColor;
         }
     }
 }

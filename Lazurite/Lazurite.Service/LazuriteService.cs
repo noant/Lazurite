@@ -84,12 +84,12 @@ namespace Lazurite.Service
 
         private void ThrowUnauthorizedAccessException()
         {
-            throw RemoteException.Get(RemoteExceptionData.AccessDenied, "Object access denied");
+            throw new RemoteException(ErrorCode.AccessDenied, "Object access denied");
         }
 
         private void ThrowScenarioNotExistException(string scenarioId)
         {
-            throw RemoteException.Get(RemoteExceptionData.InternalServerError, "Scenario not exist: " + scenarioId);
+            throw new RemoteException(ErrorCode.InternalServerError, "Scenario not exist: " + scenarioId);
         }
 
         private UserVisualSettings GetVisualSettings(UserBase user, string scenarioId)

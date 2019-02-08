@@ -5,7 +5,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
-    BackgroundColor="{x:Static controls:Visual.Background}"
+    BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=Background}"
     Padding="4"
     Margin="4">
     <Grid.RowDefinitions>
@@ -19,11 +19,11 @@
     </Grid.ColumnDefinitions>
 
     <controls:IconView IsVisible="False" x:Name="iconTitle" Opacity="0.64" VerticalOptions="Center" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-    <Label IsVisible="False" VerticalTextAlignment="Center" x:Name="lblTitle" Grid.Column="1" TextColor="{x:Static controls:Visual.CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></Label>
+    <Label IsVisible="False" VerticalTextAlignment="Center" x:Name="lblTitle" Grid.Column="1" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></Label>
 
     <controls:IconView IsVisible="False" x:Name="iconSearch" Opacity="0.4" VerticalOptions="Center" Icon="Magnify"></controls:IconView>
     <controls:ItemView IsVisible="False" x:Name="btClearSearch" Icon="Close"></controls:ItemView>
-    <Entry IsVisible="False" VerticalOptions="Center" HorizontalOptions="Fill" Grid.Column="1" FontSize="Small" FontFamily="{x:Static controls:Visual.FontFamily}" Margin="0,0,0,-2" TextColor="White" x:Name="tbSearch"></Entry>
+    <Entry IsVisible="False" VerticalOptions="Center" HorizontalOptions="Fill" Grid.Column="1" FontSize="Small" FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" Margin="0,0,0,-2" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" x:Name="tbSearch"></Entry>
 
     <ListView Grid.Row="1" RowHeight="42" x:Name="listView" Grid.ColumnSpan="2"></ListView>
 </Grid>
