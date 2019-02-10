@@ -1,7 +1,5 @@
 ﻿using LazuriteUI.Icons;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Controls
@@ -11,7 +9,7 @@ namespace LazuriteMobile.App.Controls
     {
         public static readonly BindableProperty IconProperty;
 
-        public static readonly BindableProperty ForegroundProperty = BindableProperty.Create(nameof(Foreground), typeof(Color), typeof(IconView), Color.Transparent);
+        public static readonly BindableProperty ForegroundProperty = BindableProperty.Create(nameof(Foreground), typeof(Color), typeof(IconView), Visual.Current.StandardIconColor);
 
         public static readonly BindableProperty SourceProperty = BindableProperty.Create(nameof(Source), typeof(Stream), typeof(IconView), null);
 

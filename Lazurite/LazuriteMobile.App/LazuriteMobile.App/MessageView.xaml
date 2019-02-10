@@ -10,9 +10,9 @@
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="19"></RowDefinition>
     </Grid.RowDefinitions>
-    <Label BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=BrightItemBackground}"></Label>
-    <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" Margin="4" VerticalOptions="Center" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" x:Name="lblTitle"></Label>
-    <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" Margin="4" VerticalOptions="Center" Grid.Row="1" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" x:Name="lblText"></Label>
-    <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" Margin="4" VerticalOptions="Center" Grid.Row="2" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" Opacity="0.5" FontSize="Micro" x:Name="lblDateTime"></Label>
-    <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" Margin="0,0,7,0" x:Name="lblNew" Grid.Row="0" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForegroundAlter}" FontSize="Large" HorizontalOptions="End" VerticalOptions="Center">*</Label>
+    <controls:ValueView BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=BrightItemBackground}"></controls:ValueView>
+    <controls:ValueView Margin="4" VerticalOptions="Center" x:Name="lblTitle"></controls:ValueView>
+    <controls:CaptionView Margin="4" VerticalOptions="Center" Grid.Row="1" x:Name="lblText"></controls:CaptionView>
+    <controls:CaptionView Margin="4" VerticalOptions="Center" Grid.Row="2" Opacity="0.5" FontSize="Micro" x:Name="lblDateTime"></controls:CaptionView>
+    <controls:CaptionView Margin="0,0,7,0" x:Name="lblNew" Grid.Row="0" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=ValueForegroundAlter}" FontSize="Large" HorizontalOptions="End" VerticalOptions="Center">•</controls:CaptionView>
 </Grid>

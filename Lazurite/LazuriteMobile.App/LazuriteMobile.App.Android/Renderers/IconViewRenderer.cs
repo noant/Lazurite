@@ -1,12 +1,11 @@
-﻿using Xamarin.Forms.Platform.Android;
+﻿using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.Widget;
+using IconApp.Droid.Renderers;
+using LazuriteMobile.App.Controls;
 using System.ComponentModel;
 using Xamarin.Forms;
-using IconApp.Droid.Renderers;
-using Android.Graphics;
-using LazuriteMobile.App.Controls;
-using Android.Graphics.Drawables;
-using System;
+using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRendererAttribute(typeof(IconView), typeof(IconViewRenderer))]
 
@@ -61,10 +60,17 @@ namespace IconApp.Droid.Renderers
         {
             if (!_isDisposed && Element.Source != null)
             {
-                if (Element.Foreground != Xamarin.Forms.Color.Transparent)
+                if (Element.Foreground != Xamarin.Forms.Color.Transparent && 
+                    Element.Icon != LazuriteUI.Icons.Icon.Lazurite256 &&
+                    Element.Icon != LazuriteUI.Icons.Icon.Lazurite256_reflected &&
+                    Element.Icon != LazuriteUI.Icons.Icon.Lazurite128 &&
+                    Element.Icon != LazuriteUI.Icons.Icon.Lazurite64 &&
+                    Element.Icon != LazuriteUI.Icons.Icon.Lazurite32 &&
+                    Element.Icon != LazuriteUI.Icons.Icon.Lazurite16 &&
+                    Element.Icon != LazuriteUI.Icons.Icon.LazuriteBig)
                 {
                     var d = Drawable.CreateFromStream(Element.Source, "").Mutate();
-                    d.SetColorFilter(new LightingColorFilter(Element.Foreground.ToAndroid(), Element.Foreground.ToAndroid()));
+                    d.SetColorFilter(new LightingColorFilter(Android.Graphics.Color.Black, Element.Foreground.ToAndroid()));
                     d.Alpha = Element.Foreground.ToAndroid().A;
                     Control.SetImageDrawable(d);
                 }
@@ -78,4 +84,3 @@ namespace IconApp.Droid.Renderers
         }
     }
 }
-

@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Common
 {
-    public class NumericEntry: Entry
+    public class NumericEntry: EntryView
     {
         public static BindableProperty MaxProperty = BindableProperty.Create(nameof(Max), typeof(double), typeof(NumericEntry), (double)0);
         public static BindableProperty MinProperty = BindableProperty.Create(nameof(Min), typeof(double), typeof(NumericEntry), (double)100);
@@ -26,7 +26,6 @@ namespace LazuriteMobile.App.Common
         public NumericEntry()
         {
             Keyboard = Keyboard.Numeric;
-            TextColor = Visual.Current.Foreground;
             TextChanged += NumericEntry_TextChanged;
         }
 

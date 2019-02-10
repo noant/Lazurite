@@ -76,8 +76,7 @@ namespace LazuriteMobile.App.Controls
             round.InputTransparent = true;
             round.Margin = new Thickness(8,-4,0,0);
 
-            label = new Label();
-            label.TextColor = Controls.Visual.Current.Foreground;
+            label = new CaptionView();
             label.VerticalTextAlignment = TextAlignment.Center;
             label.HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, false);
             label.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, false);

@@ -29,26 +29,26 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <controls:IconView HorizontalOptions="End" VerticalOptions="Center" Grid.Column="0" Icon="Lazurite128" HeightRequest="80" WidthRequest="80"></controls:IconView>
-                <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Text="Lazurite" TextColor="SteelBlue" FontSize="Large"></Label>
+                <controls:CaptionView Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Text="Lazurite" TextColor="SteelBlue" FontSize="Large"></controls:CaptionView>
             </Grid>
-            
-            <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="End" Grid.Row="1" Grid.Column="0" Text="Хост"></Label>
-            <Entry VerticalOptions="End" FontSize="Small" FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" Grid.Row="1" Grid.Column="1" x:Name="tbHost"></Entry>
 
-            <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="End" Grid.Row="2" Grid.Column="0" Text="Порт"></Label>
-            <common:NumericEntry VerticalOptions="End" FontSize="Small" FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" Grid.Row="2" Grid.Column="1" Min="1" Max="65536" Value="8080" x:Name="numPort"></common:NumericEntry>
+            <controls:ValueView VerticalOptions="Center" HorizontalOptions="End" Grid.Row="1" Grid.Column="0" Text="Хост"></controls:ValueView>
+            <controls:EntryView VerticalOptions="End" Grid.Row="1" Grid.Column="1" x:Name="tbHost"></controls:EntryView>
 
-            <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="End" Grid.Row="3" Grid.Column="0" Text="Секретный ключ"></Label>
-            <Entry VerticalOptions="End" FontSize="Small" FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" IsPassword="True" Grid.Row="3" Grid.Column="1" x:Name="tbSecretCode"></Entry>
+            <controls:ValueView VerticalOptions="Center" HorizontalOptions="End" Grid.Row="2" Grid.Column="0" Text="Порт"></controls:ValueView>
+            <common:NumericEntry VerticalOptions="End" Grid.Row="2" Grid.Column="1" Min="1" Max="65536" Value="8080" x:Name="numPort"></common:NumericEntry>
 
-            <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" VerticalOptions="Center" HorizontalOptions="End" Grid.Row="4" Grid.Column="0" Text="Логин"></Label>
-            <Entry VerticalOptions="End" FontSize="Small" FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" Grid.Row="4" Grid.Column="1" x:Name="tbLogin"></Entry>
+            <controls:ValueView VerticalOptions="Center" HorizontalOptions="End" Grid.Row="3" Grid.Column="0" Text="Секретный ключ"></controls:ValueView>
+            <controls:EntryView VerticalOptions="End" IsPassword="True" Grid.Row="3" Grid.Column="1" x:Name="tbSecretCode"></controls:EntryView>
 
-            <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="5" Grid.Column="0" Text="Пароль"></Label>
-            <Entry VerticalOptions="End" FontSize="Small" FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" IsPassword="True" Grid.Row="5" Grid.Column="1" x:Name="tbPassword"></Entry>
+            <controls:ValueView  VerticalOptions="Center" HorizontalOptions="End" Grid.Row="4" Grid.Column="0" Text="Логин"></controls:ValueView>
+            <controls:EntryView VerticalOptions="End" Grid.Row="4" Grid.Column="1" x:Name="tbLogin"></controls:EntryView>
+
+            <controls:ValueView VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="5" Grid.Column="0" Text="Пароль"></controls:ValueView>
+            <controls:EntryView VerticalOptions="End" IsPassword="True" Grid.Row="5" Grid.Column="1" x:Name="tbPassword"></controls:EntryView>
 
             <controls:ItemView HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="250" HeightRequest="40" x:Name="itemView" Click="ItemView_Click" Grid.Row="6" Grid.ColumnSpan="2" Icon="ChevronRight" Selectable="False" Text="Подключиться"></controls:ItemView>
-            <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" HorizontalTextAlignment="Center" Grid.Row="7" Grid.ColumnSpan="2" TextColor="Olive" VerticalOptions="Center" HorizontalOptions="Center" x:Name="lblErrorMessage"></Label>
+            <controls:ValueView HorizontalTextAlignment="Center" Grid.Row="7" Grid.ColumnSpan="2" TextColor="Olive" VerticalOptions="Center" HorizontalOptions="Center" x:Name="lblErrorMessage"></controls:ValueView>
         </Grid>
   </ContentView.Content>
 </ContentView>

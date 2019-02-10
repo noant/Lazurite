@@ -11,5 +11,5 @@
             <Grid x:Name="grid"></Grid>
         </common:ViewBox>
     </ScrollView>
-    <Label x:Name="lblEmpty" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" VerticalOptions="Center" HorizontalOptions="Center">Сценарии пока не созданы...</Label>
+    <Label x:Name="lblEmpty" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=ValueForeground}" VerticalOptions="Center" HorizontalOptions="Center">Сценарии пока не созданы...</Label>
 </Grid>

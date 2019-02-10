@@ -10,5 +10,5 @@
     x:Name="grid">
     <bases:SwitchItemView InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView"></bases:SwitchItemView>
     <bases:SwitchIconView Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" x:Name="iconView" x:FieldModifier="private" Margin="0,-30,0,0"></bases:SwitchIconView>
-    <bases:LabelCaptionView Margin="0,0,0,7" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private"></bases:LabelCaptionView>
+    <bases:SwitchCaptionView Margin="0,0,0,13" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private"></bases:SwitchCaptionView>
 </bases:SwitchBase>

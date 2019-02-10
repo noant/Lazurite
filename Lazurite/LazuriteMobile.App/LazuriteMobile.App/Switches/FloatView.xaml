@@ -16,10 +16,10 @@
         </Grid.ColumnDefinitions>
         <bases:SwitchIconView HorizontalOptions="End" VerticalOptions="Center" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></bases:SwitchIconView>
         <common:ViewBox Margin="-9,0,0,0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="46" HeightRequest="40">
-            <bases:LabelValueView HorizontalOptions="Start" x:Name="textBlockScenValue" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToShortStringSmall}}" x:FieldModifier="private"></bases:LabelValueView>
+            <bases:SwitchValueView HorizontalOptions="Start" x:Name="textBlockScenValue" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToShortStringSmall}}" x:FieldModifier="private"></bases:SwitchValueView>
         </common:ViewBox>
     </Grid>
     <bases:SwitchItemView InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" x:Name="itemView" AnimateView="{Binding Source={Reference Name=grid}}"></bases:SwitchItemView>
-    <bases:LabelCaptionView Margin="0,0,0,7" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private"></bases:LabelCaptionView>
+    <bases:SwitchCaptionView Margin="0,0,0,13" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private"></bases:SwitchCaptionView>
     <common:ScaleView InputTransparent="True" Opacity="0.5" VerticalOptions="FillAndExpand" HorizontalOptions="End" Max="{Binding Max}" Min="{Binding Min}" Value="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToDouble}}"></common:ScaleView>
 </bases:SwitchBase>

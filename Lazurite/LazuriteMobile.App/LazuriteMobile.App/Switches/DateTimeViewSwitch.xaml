@@ -6,7 +6,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
-    BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=Background}"
+    BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=Background}" 
     Margin="4">
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto"></RowDefinition>
@@ -22,7 +22,7 @@
             <RowDefinition Height="35"></RowDefinition>
         </Grid.RowDefinitions>
         <controls:IconView VerticalOptions="Center" Margin="0,5,0,0" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-        <Label VerticalOptions="Center" Margin="0,5,0,0" Grid.Column="1" Grid.ColumnSpan="2" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></Label>
+        <controls:CaptionView VerticalOptions="Center" Margin="0,5,0,0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></controls:CaptionView>
     </Grid>
     <Grid Grid.Row="1">
         <Grid.RowDefinitions>
@@ -35,14 +35,18 @@
             <ColumnDefinition Width="80"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label FontSize="Small" HorizontalOptions="End" VerticalOptions="Center" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" Margin="3" Grid.Column="0">Дата:</Label>
-        <DatePicker TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" Grid.Column="1" Margin="3,3,3,0" VerticalOptions="FillAndExpand" x:Name="datePicker"></DatePicker>
-        <Label FontSize="Small" Grid.Row="1" HorizontalOptions="End" VerticalOptions="Center" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" Margin="3" Grid.Column="0">Час:</Label>
-        <common:NumericEntry FontSize="Small" Margin="3,3,3,0" Grid.Row="1" x:Name="neHour" Max="23" Min="0" Grid.Column="1"></common:NumericEntry>
-        <Label FontSize="Small" Grid.Row="2" HorizontalOptions="End" VerticalOptions="Center" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" Margin="3" Grid.Column="0">Минута:</Label>
-        <common:NumericEntry FontSize="Small" Margin="3,3,3,0" Grid.Row="2" Max="59" Min="0" x:Name="neMinute" Grid.Column="1"></common:NumericEntry>
-        <Label FontSize="Small" Grid.Row="3" HorizontalOptions="End" VerticalOptions="Center" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" Margin="3" Grid.Column="0">Секунда:</Label>
-        <common:NumericEntry FontSize="Small" Margin="3,3,3,0" Grid.Row="3" Max="59" Min="0" x:Name="neSecond" Grid.Column="1"></common:NumericEntry>
+        <controls:ValueView HorizontalOptions="End" VerticalOptions="Center" Margin="3" Grid.Column="0">Дата:</controls:ValueView>
+        <DatePicker 
+            FontSize="{Binding Source={x:Static controls:Visual.Current}, Path=FontSize}" 
+            FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" 
+            TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" 
+            Grid.Column="1" Margin="3,3,3,0" VerticalOptions="FillAndExpand" x:Name="datePicker"></DatePicker>
+        <controls:ValueView Grid.Row="1" HorizontalOptions="End" VerticalOptions="Center" Margin="3" Grid.Column="0">Час:</controls:ValueView>
+        <common:NumericEntry Margin="3,3,3,0" Grid.Row="1" x:Name="neHour" Max="23" Min="0" Grid.Column="1"></common:NumericEntry>
+        <controls:ValueView Grid.Row="2" HorizontalOptions="End" VerticalOptions="Center" Margin="3" Grid.Column="0">Минута:</controls:ValueView>
+        <common:NumericEntry Margin="3,3,3,0" Grid.Row="2" Max="59" Min="0" x:Name="neMinute" Grid.Column="1"></common:NumericEntry>
+        <controls:ValueView Grid.Row="3" HorizontalOptions="End" VerticalOptions="Center" Margin="3" Grid.Column="0">Секунда:</controls:ValueView>
+        <common:NumericEntry Margin="3,3,3,0" Grid.Row="3" Max="59" Min="0" x:Name="neSecond" Grid.Column="1"></common:NumericEntry>
     </Grid>
     <controls:ItemView Grid.Row="2" VerticalOptions="EndAndExpand" Click="itemViewApply_Click" x:Name="itemViewApply" Icon="Check" Margin="5" Text="Применить"></controls:ItemView>
 </Grid>

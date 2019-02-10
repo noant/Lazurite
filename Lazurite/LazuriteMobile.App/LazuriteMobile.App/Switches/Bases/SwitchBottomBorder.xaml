@@ -6,5 +6,5 @@
              VerticalOptions="End"
              HorizontalOptions="FillAndExpand"
              BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=SwitchBorder}"
-             HeightRequest="1">
+             HeightRequest="{Binding Source={x:Static controls:Visual.Current}, Path=SwitchBottomBorderHeight}">
 </Grid>

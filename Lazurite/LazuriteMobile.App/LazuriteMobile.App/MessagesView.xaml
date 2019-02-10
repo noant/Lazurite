@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
              x:Class="LazuriteMobile.App.MessagesView"
-             BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=Background}">
+             BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=BackgroundAlter}">
     <ScrollView x:Name="scrollView">
         <StackLayout Orientation="Vertical" x:Name="stackView" BackgroundColor="Transparent" VerticalOptions="StartAndExpand"></StackLayout>
     </ScrollView>
-    <Label FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=CurrentFontFamily}" x:Name="lblEmpty" IsVisible="False" VerticalOptions="Center" HorizontalOptions="Center" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForegroundAlter}">
+    <controls:ValueView x:Name="lblEmpty" IsVisible="False" VerticalOptions="Center" HorizontalOptions="Center" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=ValueForegroundAlter}">
         Сообщений пока нет...
-    </Label>
+    </controls:ValueView>
 </Grid>

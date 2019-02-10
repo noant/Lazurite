@@ -4,9 +4,9 @@
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
-    BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=Background}"
     Margin="4"
     Padding="4"
+    BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=Background}" 
     x:Class="LazuriteMobile.App.Switches.InfoViewSwitch">
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -18,7 +18,15 @@
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
     <controls:IconView Opacity="0.64" VerticalOptions="Center" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-    <Label VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></Label>
-    <local:EditorExt HeightRequest="75" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" VerticalOptions="Start" BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=MessageEditColor}" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" x:Name="tbText"></local:EditorExt>
+    <controls:ValueView VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></controls:ValueView>
+    <local:EditorExt 
+        VerticalOptions="Start" 
+        HeightRequest="75" 
+        Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" 
+        BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=MessageEditColor}" 
+        TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=Foreground}" 
+        FontSize="{Binding Source={x:Static controls:Visual.Current}, Path=FontSize}" 
+        FontFamily="{Binding Source={x:Static controls:Visual.Current}, Path=FontFamily}" 
+        x:Name="tbText"></local:EditorExt>
     <controls:ItemView Grid.Row="1" Grid.Column="2" x:Name="itemViewApply" Icon="NavigateNext" VerticalOptions="Start" HeightRequest="45" WidthRequest="45" Text=""></controls:ItemView>
 </Grid>

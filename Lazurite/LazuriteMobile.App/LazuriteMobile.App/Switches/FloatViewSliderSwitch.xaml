@@ -5,7 +5,6 @@
     x:Class="LazuriteMobile.App.Switches.FloatViewSliderSwitch"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
     xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
-    BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=Background}"
     VerticalOptions="FillAndExpand"
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     HorizontalOptions="FillAndExpand">
@@ -19,8 +18,8 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <controls:IconView Opacity="0.70" Margin="0,0,-5,0" Grid.RowSpan="2" InputTransparent="True" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" HeightRequest="65" WidthRequest="65"></controls:IconView>
-        <Label Grid.Column="1" InputTransparent="True" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}" FontSize="Large" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}"></Label>
-        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" InputTransparent="True" TextColor="{Binding Source={x:Static controls:Visual.Current}, Path=CaptionForeground}" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToShortStringSmall}}" FontSize="Large" x:Name="tbValue" VerticalOptions="CenterAndExpand" />
+        <controls:ValueView Grid.Column="1" InputTransparent="True" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}" FontSize="Large"></controls:ValueView>
+        <controls:ValueView Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" InputTransparent="True" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToShortStringSmall}}" FontSize="Large" x:Name="tbValue" VerticalOptions="CenterAndExpand" />
     </Grid>
     <common:SliderWrapperView x:Name="slider" x:FieldModifier="private" VerticalOptions="Fill" HorizontalOptions="Fill"></common:SliderWrapperView>
     <controls:ItemView VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand" x:Name="btInput" Icon="InputPen" HeightRequest="40" WidthRequest="250" Margin="20" Text="Ручной ввод..."></controls:ItemView>

@@ -18,6 +18,7 @@ namespace LazuriteMobile.App.Switches.Bases
             HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, true);
             InputTransparent = true;
             Foreground = Visual.Current.SwitchIconColor;
+            Opacity = Visual.Current.SwitchIconOpacity;
         }
     }
 }

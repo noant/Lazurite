@@ -142,6 +142,10 @@
       <Project>{194252d3-c234-4435-baf0-f6f7affbe299}</Project>
       <Name>LazuriteMobile.MainDomain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\LazuriteUI.Icons\LazuriteUI.Icons.csproj">
+      <Project>{C5D27A74-CB03-4830-B5E1-558AC2194D5F}</Project>
+      <Name>LazuriteUI.Icons</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LazuriteMobile.App\LazuriteMobile.App.csproj">
       <Project>{1e37c555-d641-4e16-bb55-a867a774ff85}</Project>
       <Name>LazuriteMobile.App</Name>
