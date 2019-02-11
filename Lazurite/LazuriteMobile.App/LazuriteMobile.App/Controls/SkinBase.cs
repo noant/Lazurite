@@ -9,12 +9,12 @@ namespace LazuriteMobile.App.Controls
         public abstract Color BackgroundSwitchesGrid { get; }
         public abstract Color BottomPanelColor { get; }
         public abstract Color BottomPanelIconColor { get; }
-        public abstract Color BrightItemBackground { get; }
+        public abstract Color DialogViewBackground { get; }
+        public abstract Color DialogViewCloseIconColor { get; }
         public abstract Color EntryBackground { get; }
-        public abstract Color ValueForeground { get; }
-        public abstract Color ValueForegroundAlter { get; }
         public abstract Color Foreground { get; }
         public abstract Color ItemBackground { get; }
+        public abstract Color ItemBackgroundAlter { get; }
         public abstract Color ItemIconColor { get; }
         public abstract Color ItemSelection { get; }
         public abstract Color MessageEditColor { get; }
@@ -26,11 +26,14 @@ namespace LazuriteMobile.App.Controls
         public abstract Color SwitchBackground { get; }
         public abstract Color SwitchBackgroundReadonly { get; }
         public abstract Color SwitchBorder { get; }
-        public abstract Color SwitchValueForeground { get; }
         public abstract Color SwitchForeground { get; }
         public abstract Color SwitchIconColor { get; }
+        public abstract Color SwitchValueForeground { get; }
+        public abstract Color ValueForeground { get; }
+        public abstract Color ValueForegroundAlter { get; }
         public abstract double BottomPanelIconOpacity { get; }
         public abstract double BottomPanelOpacity { get; }
+        public abstract double DialogViewBackgroundOpacity { get; }
         public abstract double SwitchBottomBorderHeight { get; }
         public abstract double SwitchGridElementMargin { get; }
         public abstract double SwitchIconOpacity { get; }

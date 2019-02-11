@@ -18,8 +18,6 @@ namespace Lazurite.Scenarios.ScenarioTypes
     [EncryptFile]
     public class RemoteScenario : ScenarioBase
     {
-        private readonly static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
-
         private ValueTypeBase _valueType;
         private ScenarioInfo _scenarioInfo;
         private RemoteScenarioInfo _listenerInfo;
@@ -183,7 +181,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             Log.Debug($"Scenario initialize end: [{Name}][{Id}]");
             SetIsAvailable(initialized && remoteScenarioAvailable);
             SetInitializationState(ScenarioInitializationValue.Initialized);
-            return InitializedInternal = initialized;
+            return initialized;
         }
         
         public override void AfterInitilize()
@@ -238,9 +236,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         }
 
         public async Task ReInitialize() => await InitializeInternal();
-
-        public bool InitializedInternal { get; private set; }
-
+        
         public override IAction[] GetAllActionsFlat() => new IAction[0];
 
         public LazuriteClient GetClient() => ServiceClientFactory.Current.GetClient(Credentials);

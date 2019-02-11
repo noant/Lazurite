@@ -1,4 +1,5 @@
 ﻿
+using LazuriteMobile.App.Controls;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Common
@@ -25,7 +26,7 @@ namespace LazuriteMobile.App.Common
             InitializeComponent();
             SizeChanged += (o, e) => RefreshScale();
         }
-                
+        
         private void RefreshScale()
         {
             var percent = (Value - Min) / (Max - Min);
@@ -34,11 +35,20 @@ namespace LazuriteMobile.App.Common
                 marginBottom = 0;
             gridValue.HeightRequest = marginBottom;
             if (percent < 0.25)
-                gridValue.BackgroundColor = Color.Gray;
+            {
+                gridValue.BackgroundColor = Visual.Current.ScaleColor;
+                gridValue.Opacity = 0.5;
+            }
             else if (percent >= 0.25 && percent < 0.9)
-                gridValue.BackgroundColor = Color.MediumOrchid;
+            {
+                gridValue.BackgroundColor = Visual.Current.ScaleColor;
+                gridValue.Opacity = 1;
+            }
             else
-                gridValue.BackgroundColor = Color.Red;
+            {
+                gridValue.BackgroundColor = Color.Crimson;
+                gridValue.Opacity = 1;
+            }
         }
 
         public double Value

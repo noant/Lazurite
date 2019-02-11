@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
              x:Class="LazuriteMobile.App.MessageView"
-             Margin="2,2,2,0"
+             Margin="4,4,4,0"
              BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=ItemBackground}" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Padding="4">
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
         <RowDefinition Height="19"></RowDefinition>
     </Grid.RowDefinitions>
-    <controls:ValueView BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=BrightItemBackground}"></controls:ValueView>
+    <controls:ValueView BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=ItemBackgroundAlter}"></controls:ValueView>
     <controls:ValueView Margin="4" VerticalOptions="Center" x:Name="lblTitle"></controls:ValueView>
     <controls:CaptionView Margin="4" VerticalOptions="Center" Grid.Row="1" x:Name="lblText"></controls:CaptionView>
     <controls:CaptionView Margin="4" VerticalOptions="Center" Grid.Row="2" Opacity="0.5" FontSize="Micro" x:Name="lblDateTime"></controls:CaptionView>

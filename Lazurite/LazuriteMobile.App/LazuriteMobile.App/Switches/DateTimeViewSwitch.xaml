@@ -15,13 +15,13 @@
     </Grid.RowDefinitions>
     <Grid Grid.Row="0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="35"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:IconView VerticalOptions="Center" Margin="0,5,0,0" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+        <controls:IconView HorizontalOptions="Center" VerticalOptions="Center" Margin="0,5,0,0" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
         <controls:CaptionView VerticalOptions="Center" Margin="0,5,0,0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></controls:CaptionView>
     </Grid>
     <Grid Grid.Row="1">

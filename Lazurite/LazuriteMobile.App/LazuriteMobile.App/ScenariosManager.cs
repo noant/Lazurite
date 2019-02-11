@@ -42,6 +42,7 @@ namespace LazuriteMobile.App
         private CancellationTokenSource _operationCancellationTokenSource;
         private ConnectionCredentials? _credentials;
         private LazuriteClient _client;
+        private DateTime _lastRefresh = DateTime.Now;
         
         public ScenarioInfo[] Scenarios { get; private set; }
         public ManagerConnectionState ConnectionState { get; private set; } = ManagerConnectionState.Disconnected;
@@ -322,6 +323,7 @@ namespace LazuriteMobile.App
                 var result = await Handle((s) => s.GetScenariosInfo());
                 if (_succeed = result.Success)
                 {
+                    _lastRefresh = _client.Client.LastCallServerTime;
                     Scenarios = result.Value.ToArray();
                     NeedRefresh?.Invoke();
                 }
@@ -338,8 +340,9 @@ namespace LazuriteMobile.App
         {
             try
             {
-                var result = await Handle((s) => s.GetChangedScenarios(_client.Client.LastCallServerTime));
-                _succeed = result.Success;
+                var result = await Handle((s) => s.GetChangedScenarios(_lastRefresh));
+                if (_succeed = result.Success)
+                    _lastRefresh = _client.Client.LastCallServerTime;
                 if (result.Success && result.Value != null && result.Value.Any())
                 {
                     var changedScenariosLW = result.Value;

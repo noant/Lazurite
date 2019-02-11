@@ -22,5 +22,5 @@
         <controls:ValueView Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" InputTransparent="True" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToShortStringSmall}}" FontSize="Large" x:Name="tbValue" VerticalOptions="CenterAndExpand" />
     </Grid>
     <common:SliderWrapperView x:Name="slider" x:FieldModifier="private" VerticalOptions="Fill" HorizontalOptions="Fill"></common:SliderWrapperView>
-    <controls:ItemView VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand" x:Name="btInput" Icon="InputPen" HeightRequest="40" WidthRequest="250" Margin="20" Text="Ручной ввод..."></controls:ItemView>
+    <controls:ItemView BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=ItemBackgroundAlter}" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand" x:Name="btInput" Icon="InputPen" HeightRequest="40" WidthRequest="250" Margin="20" Text="Ручной ввод..."></controls:ItemView>
 </Grid>

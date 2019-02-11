@@ -62,8 +62,10 @@ namespace LazuriteUI.Windows.Main
 
         private async void SwitchesGrid_SelectedModelChanged(Switches.ScenarioModel obj)
         {
+            BeginInitScenario();
             await constructorsResolver.SetScenario(switchesGrid.SelectedModel?.Scenario);
             btDeleteScenario.Visibility = switchesGrid.SelectedModel != null ? Visibility.Visible : Visibility.Collapsed;
+            EndInitScenario();
         }
 
         private void BtDeleteScenario_Click(object sender, RoutedEventArgs e)
@@ -97,16 +99,21 @@ namespace LazuriteUI.Windows.Main
                 dialogView.Show();
 
                 selectScenarioTypeControl.SingleActionScenario += async () => {
+                    BeginInitScenario();
                     dialogView.Close();
                     await NewScenario(new SingleActionScenario());
+                    EndInitScenario();
                 };
 
                 selectScenarioTypeControl.RemoteScenario += async () => {
+                    BeginInitScenario();
                     dialogView.Close();
                     await NewScenario(new RemoteScenario());
+                    EndInitScenario();
                 };
 
                 selectScenarioTypeControl.CompositeScenario += () => {
+                    BeginInitScenario();
                     dialogView.Close();
                     var selectCompositeScenarioType = new NewCompositeScenarioSelectionView();
                     var dialogViewComposite = new DialogView(selectCompositeScenarioType);
@@ -116,19 +123,26 @@ namespace LazuriteUI.Windows.Main
                         await NewScenario(scenario);
                     };
                     dialogViewComposite.Show();
+                    EndInitScenario();
                 };
             });
         }
 
         private async Task NewScenario(ScenarioBase newScenario)
         {
+            BeginInitScenario();
             if (await newScenario.Initialize())
                 newScenario.AfterInitilize();
             newScenario.Name = "Новый сценарий";
             _repository.AddScenario(newScenario);
             switchesGrid.Add(newScenario);
             await constructorsResolver.SetScenario(newScenario);
+            EndInitScenario();
         }
+
+        private void BeginInitScenario() => IsEnabled = false;
+
+        private void EndInitScenario() => IsEnabled = true;
 
         public void Save(Action callback) => ThroughScenarioSave(callback);
 

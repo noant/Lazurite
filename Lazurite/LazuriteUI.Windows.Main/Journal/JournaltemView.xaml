@@ -19,6 +19,11 @@
         </Grid.ColumnDefinitions>
         <TextBlock Margin="2" Text="{Binding Time}" Foreground="Gray"></TextBlock>
         <TextBlock Margin="2" Grid.Column="1" Text="{Binding WarnType, Converter={StaticResource warnTypeToString}}" Foreground="Gray"></TextBlock>
-        <TextBlock MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" Cursor="Hand" TextDecorations="Underline" TextTrimming="CharacterEllipsis" Margin="2" Grid.Column="2" Text="{Binding Message}" Foreground="{Binding WarnType, Converter={StaticResource warnTypeToBrush}}"></TextBlock>
+        <TextBlock 
+            MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" 
+            Cursor="Hand" TextWrapping="NoWrap" TextDecorations="Underline" 
+            TextTrimming="CharacterEllipsis" Margin="2" Grid.Column="2" 
+            Text="{Binding Message}" ToolTip="{Binding Message}"
+            Foreground="{Binding WarnType, Converter={StaticResource warnTypeToBrush}}"></TextBlock>
     </Grid>
 </UserControl>

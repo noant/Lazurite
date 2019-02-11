@@ -225,6 +225,7 @@ namespace Lazurite.MainDomain
         /// </summary>
         public virtual void SetCurrentValue(string value, ScenarioActionSource source)
         {
+            LastChange = DateTime.Now;
             SetCurrentValueNoEvents(value);
             RaiseValueChangedEvents(source, false, value, _previousValue);
         }

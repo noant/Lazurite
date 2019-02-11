@@ -3,17 +3,24 @@
     xmlns:local="clr-namespace:LazuriteMobile.App.Controls"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
     VerticalOptions="FillAndExpand"
     HorizontalOptions="FillAndExpand"
     x:Class="LazuriteMobile.App.Controls.DialogView">
     <ContentView.Content>
         <Grid>
-            <Grid BackgroundColor="Black" x:FieldModifier="private" Opacity="0.7" x:Name="gridBackground"></Grid>
+            <Grid 
+                BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=DialogViewBackground}" 
+                Opacity="{Binding Source={x:Static controls:Visual.Current}, Path=DialogViewBackgroundOpacity}"  
+                x:Name="gridBackground"></Grid>
             <Grid x:Name="mainContent">
                 <Grid x:FieldModifier="private" VerticalOptions="CenterAndExpand" MinimumHeightRequest="750" HorizontalOptions="FillAndExpand" x:Name="contentGrid"></Grid>
             </Grid>
-            <local:ItemView IconVisibility="False" VerticalOptions="Start" HorizontalOptions="End" x:Name="closeItemView" Click="CloseItemView_Click" BackgroundColor="Black" Opacity="0.5" HeightRequest="48" WidthRequest="48" Margin="2"></local:ItemView>
-            <local:IconView Opacity="0.6" InputTransparent="True" VerticalOptions="Start" HorizontalOptions="End" Icon="Close" HeightRequest="30" WidthRequest="30" Margin="10"></local:IconView>
+            <local:ItemView 
+                Icon="Close"
+                IconForeground="{Binding Source={x:Static controls:Visual.Current}, Path=DialogViewCloseIconColor}"
+                VerticalOptions="Start" HorizontalOptions="End" x:Name="closeItemView" Click="CloseItemView_Click"
+                BackgroundColor="Transparent"  HeightRequest="48" WidthRequest="48"></local:ItemView>
         </Grid>
     </ContentView.Content>
 </ContentView>
