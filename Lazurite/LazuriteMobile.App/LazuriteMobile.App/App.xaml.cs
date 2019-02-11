@@ -11,17 +11,5 @@ namespace LazuriteMobile.App
             InitializeComponent();
             MainPage = new LazuriteMobile.App.MainPage();
         }
-        
-        protected override void OnStart()
-        {
-        }
-        
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
-        }
     }
 }

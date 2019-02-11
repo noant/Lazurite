@@ -8,7 +8,7 @@ namespace LazuriteMobile.App.Switches.Bases
         public override void InitializeComponent()
         {
             base.InitializeComponent();
-            TextColor = Visual.Current.SwitchForeground;
+            TextColor = Visual.Current.SwitchValueForeground;
             VerticalOptions = new LayoutOptions(LayoutAlignment.End, true);
             HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, true);
         }

@@ -15,5 +15,6 @@
         public static readonly ValueTypeStringToDoubleRoundStr ValueTypeStringToDoubleRoundStr = new ValueTypeStringToDoubleRoundStr();
         public static readonly Selection_BoolToColor Selection_BoolToColor = new Selection_BoolToColor();
         public static readonly Background_BoolToColor Background_BoolToColor = new Background_BoolToColor();
+        public static readonly Foreground_StringToColor Foreground_StringToColor = new Foreground_StringToColor();
     }
 }

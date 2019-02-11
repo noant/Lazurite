@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+             Margin="8,0,8,8"
+             BackgroundColor="{x:Binding Background}"
+             x:Class="LazuriteMobile.App.Controls.SkinSelectItemView">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="40"></RowDefinition>
+        <RowDefinition Height="50"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+    </Grid.RowDefinitions>
+    <Grid Margin="2" BackgroundColor="{x:Binding ItemBackgroundAlter}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <controls:IconView Icon="DrawPaintbrush" Foreground="{x:Binding StandardIconColor}"></controls:IconView>
+        <controls:CaptionView
+            VerticalOptions="Center"
+            Grid.Column="1"
+            Text="{x:Binding SkinName}"
+            TextColor="{x:Binding Foreground}"
+            FontFamily="{x:Binding FontFamily}"
+            FontSize="{x:Binding FontSize}">
+        </controls:CaptionView>
+    </Grid>
+    <Grid Grid.Row="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Margin="3" BackgroundColor="{x:Binding SwitchBackground}" />
+        <Grid Margin="3" Grid.Column="1" BackgroundColor="{x:Binding SwitchBackgroundReadonly}" />
+        <Grid Margin="3" Grid.Column="2" BackgroundColor="{x:Binding SelectedSwitchBackground}" />
+        <Grid Margin="3" Grid.Column="4" BackgroundColor="{x:Binding SelectedSwitchBackgroundReadoly}" />
+        <Grid Margin="3" Grid.Column="3" BackgroundColor="{x:Binding SwitchBorder}" />
+        <Grid Margin="3" Grid.Column="5" BackgroundColor="{x:Binding DialogViewBackground}" />
+    </Grid>
+    <Grid Grid.Row="2">
+        <controls:ItemView 
+            BackgroundColor="{x:Binding ItemBackground}"
+            IconForeground="{x:Binding ItemIconColor}"
+            Icon="Check" Click="BtApply_Click"
+            AnimateView="{x:Reference lblCaption}"
+            Margin="5" x:Name="btApply" Text=""></controls:ItemView>
+        <controls:CaptionView
+            x:Name="lblCaption"
+            Text="Применить скин"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            TextColor="{x:Binding Foreground}"
+            FontFamily="{x:Binding FontFamily}"
+            FontSize="{x:Binding FontSize}">
+        </controls:CaptionView>
+    </Grid>
+</Grid>

@@ -23,5 +23,10 @@
                 <app:MessagesView x:Name="messagesView"></app:MessagesView>
             </common:SliderMenu.Content>
         </common:SliderMenu>
+        <common:SliderMenu x:Name="skinsSlider">
+            <common:SliderMenu.Content>
+                <controls:SkinSelectView x:Name="skinsView"></controls:SkinSelectView>
+            </common:SliderMenu.Content>
+        </common:SliderMenu>
     </Grid>
 </ContentPage>

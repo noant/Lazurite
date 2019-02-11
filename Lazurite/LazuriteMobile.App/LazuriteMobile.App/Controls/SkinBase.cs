@@ -4,6 +4,8 @@ namespace LazuriteMobile.App.Controls
 {
     public abstract class SkinBase
     {
+        public abstract string SkinName { get; }
+
         public abstract Color Background { get; }
         public abstract Color BackgroundAlter { get; }
         public abstract Color BackgroundSwitchesGrid { get; }
@@ -22,6 +24,8 @@ namespace LazuriteMobile.App.Controls
         public abstract Color ScaleColor { get; }
         public abstract Color SelectedSwitchBackground { get; }
         public abstract Color SelectedSwitchBackgroundReadonly { get; }
+        public abstract Color SelectedSwitchIconColor { get; }
+        public abstract Color SelectedSwitchForeground { get; }
         public abstract Color StandardIconColor { get; }
         public abstract Color SwitchBackground { get; }
         public abstract Color SwitchBackgroundReadonly { get; }

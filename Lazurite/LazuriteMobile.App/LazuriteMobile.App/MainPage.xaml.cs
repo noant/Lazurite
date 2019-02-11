@@ -26,6 +26,8 @@ namespace LazuriteMobile.App
 
             tabsView.AddTabInfo(new SliderTabsView.TabInfo(connectionSettingsSlider, LazuriteUI.Icons.Icon.Settings));
             tabsView.AddTabInfo(new SliderTabsView.TabInfo(messagesSlider, LazuriteUI.Icons.Icon.EmailMinimal));
+            tabsView.AddTabInfo(new SliderTabsView.TabInfo(skinsSlider, LazuriteUI.Icons.Icon.DrawBrush));
+
             _supportsResume.StateChanged = (sender, currentState, previousState) =>
             {
                 //do not reinit when app was "home button pressed"
@@ -49,7 +51,7 @@ namespace LazuriteMobile.App
             ShowCaption();
         }
 
-        private void InitializeManager()
+        public void InitializeManager()
         {
             _manager.Initialize((initialized) =>
             {
