@@ -1,19 +1,17 @@
-﻿using Lazurite.ActionsDomain.ValueTypes;
-using LazuriteMobile.App.Controls;
-using System;
+﻿using System;
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace LazuriteMobile.App.Switches
+namespace LazuriteMobile.App.Switches.Bases.Converters
 {
-    public class Foreground_StringToColor : IValueConverter
+    public class BoolToDouble : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value as string == ToggleValueType.ValueON)
-                return Visual.Current.SelectedSwitchForeground;
+            if ((bool)value)
+                return 1.0d;
             else
-                return Visual.Current.SwitchForeground;
+                return 0.35d;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

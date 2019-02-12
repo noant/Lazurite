@@ -17,8 +17,15 @@ namespace LazuriteMobile.App.Switches.Bases
             VerticalOptions = new LayoutOptions(LayoutAlignment.Center, true);
             HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, true);
             InputTransparent = true;
-            Foreground = Visual.Current.SwitchIconColor;
             Opacity = Visual.Current.SwitchIconOpacity;
+
+            SetBinding(ForegroundProperty,
+                new Binding(nameof(SwitchScenarioModel.State), 
+                converter: ConvertersStatic.IconColor_StateToColor));
+
+            SetBinding(IconProperty,
+                new Binding(nameof(SwitchScenarioModel.CurrentIcon), 
+                converter: ConvertersStatic.StringToIcon));
         }
     }
 }

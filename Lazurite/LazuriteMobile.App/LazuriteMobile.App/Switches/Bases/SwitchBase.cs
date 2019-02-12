@@ -17,6 +17,14 @@ namespace LazuriteMobile.App.Switches.Bases
             HorizontalOptions = new LayoutOptions(LayoutAlignment.Start, true);
 
             Children.Add(new SwitchBottomBorder());
+
+            SetBinding(BackgroundColorProperty,
+                new Binding(nameof(SwitchScenarioModel.AllowClick),
+                converter: ConvertersStatic.Background_BoolToColor));
+
+            SetBinding(OpacityProperty,
+                new Binding(nameof(SwitchScenarioModel.IsAvailable),
+                converter: ConvertersStatic.BoolToDouble));
         }
     }
 }

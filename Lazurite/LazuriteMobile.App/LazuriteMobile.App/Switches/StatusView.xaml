@@ -5,11 +5,9 @@
     x:Class="LazuriteMobile.App.Switches.StatusView"
     xmlns:bases="clr-namespace:LazuriteMobile.App.Switches.Bases"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
-    BackgroundColor="{Binding AllowClick, Converter={Static local:ConvertersStatic.Background_BoolToColor}}"
-    Opacity="{Binding IsAvailable, Converter={Static local:ConvertersStatic.BoolToDouble}}"
     x:Name="grid">
-    <bases:SwitchItemView InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" x:Name="itemView" AnimateView="{Binding Source={Reference Name=grid}}"></bases:SwitchItemView>
-    <bases:SwitchIconView HeightRequest="40" WidthRequest="40" Margin="0,-35,0,0" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></bases:SwitchIconView>
+    <bases:SwitchItemView x:Name="itemView" AnimateView="{Binding Source={Reference Name=grid}}"></bases:SwitchItemView>
+    <bases:SwitchIconView HeightRequest="40" WidthRequest="40" Margin="0,-35,0,0"></bases:SwitchIconView>
     <Grid InputTransparent="True" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand" Margin="0,0,0,7">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

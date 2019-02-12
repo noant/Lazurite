@@ -1,14 +1,18 @@
-﻿using System;
+﻿using LazuriteMobile.App.Controls;
+using System;
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace LazuriteMobile.App.Switches
+namespace LazuriteMobile.App.Switches.Bases.Converters
 {
-    public class BoolInvert : IValueConverter
+    public class Background_BoolToColor : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return !(bool)value;
+            if ((bool)value)
+                return Visual.Current.SwitchBackground;
+            else
+                return Visual.Current.SwitchBackgroundReadonly;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

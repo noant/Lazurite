@@ -5,27 +5,14 @@
     xmlns:bases="clr-namespace:LazuriteMobile.App.Switches.Bases"
     x:Class="LazuriteMobile.App.Switches.ToggleView"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
-    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
-    Opacity="{Binding IsAvailable, Converter={Static local:ConvertersStatic.BoolToDouble}}"
-    BackgroundColor="{Binding AllowClick, Converter={Static local:ConvertersStatic.Background_BoolToColor}}"
     x:Name="grid">
-    <bases:SwitchItemView Selectable="True" SelectionColor="{Binding AllowClick, Converter={Static local:ConvertersStatic.Selection_BoolToColor}}" InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" SelectionChanged="itemView_SelectionChanged"></bases:SwitchItemView>
-    <bases:SwitchIconView 
-        Foreground="{Binding Source={x:Static controls:Visual.Current}, Path=SelectedSwitchIconColor}"
-        IsVisible="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToBool}}" 
-        Icon="{Binding Icon2, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" 
-        x:Name="iconView2" x:FieldModifier="private" Margin="0,-30,0,0"></bases:SwitchIconView>
-    <bases:SwitchIconView 
-        IsVisible="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToBoolInvert}}" 
-        Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" 
-        x:Name="iconView1" x:FieldModifier="private" Margin="0,-30,0,0"></bases:SwitchIconView>
+    <bases:SwitchItemView Selectable="True" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" SelectionChanged="itemView_SelectionChanged"></bases:SwitchItemView>
+    <bases:SwitchIconView x:Name="iconView" x:FieldModifier="private" Margin="0,-30,0,0"></bases:SwitchIconView>
     <bases:SwitchCaptionView 
-        TextColor="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.Foreground_StringToColor}}"
         Margin="0,0,0,13" x:Name="lblScenName" 
         Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortString}}" 
         x:FieldModifier="private"></bases:SwitchCaptionView>
     <bases:SwitchIconView 
-        Foreground="{Binding Source={x:Static controls:Visual.Current}, Path=SelectedSwitchIconColor}"
-        Icon="Check" 
-        IsVisible="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToBool}}" VerticalOptions="StartAndExpand" HorizontalOptions="End" WidthRequest="20" HeightRequest="20" Margin="2"></bases:SwitchIconView>
+        Icon="{Binding State, Converter={Static local:ConvertersStatic.StateToToggleIcon}}"
+        VerticalOptions="StartAndExpand" HorizontalOptions="End" WidthRequest="20" HeightRequest="20" Margin="2"></bases:SwitchIconView>
 </bases:SwitchBase>

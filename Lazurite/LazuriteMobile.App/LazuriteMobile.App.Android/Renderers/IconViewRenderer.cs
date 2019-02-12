@@ -46,11 +46,8 @@ namespace IconApp.Droid.Renderers
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName == IconView.SourceProperty.PropertyName)
-            {
-                UpdateBitmap(null);
-            }
-            else if (e.PropertyName == IconView.ForegroundProperty.PropertyName)
+            if (e.PropertyName == IconView.SourceProperty.PropertyName ||
+                e.PropertyName == IconView.ForegroundProperty.PropertyName)
             {
                 UpdateBitmap(null);
             }
@@ -60,26 +57,28 @@ namespace IconApp.Droid.Renderers
         {
             if (!_isDisposed && Element.Source != null)
             {
-                if (Element.Foreground != Xamarin.Forms.Color.Transparent && 
-                    Element.Icon != LazuriteUI.Icons.Icon.Lazurite256 &&
-                    Element.Icon != LazuriteUI.Icons.Icon.Lazurite256_reflected &&
-                    Element.Icon != LazuriteUI.Icons.Icon.Lazurite128 &&
-                    Element.Icon != LazuriteUI.Icons.Icon.Lazurite64 &&
-                    Element.Icon != LazuriteUI.Icons.Icon.Lazurite32 &&
-                    Element.Icon != LazuriteUI.Icons.Icon.Lazurite16 &&
-                    Element.Icon != LazuriteUI.Icons.Icon.LazuriteBig)
+                Element.Source.Position = 0;
+                var drawable = Drawable.CreateFromStream(Element.Source, "");
+
+                if (drawable != null)
                 {
-                    var d = Drawable.CreateFromStream(Element.Source, "").Mutate();
-                    d.SetColorFilter(new LightingColorFilter(Android.Graphics.Color.Black, Element.Foreground.ToAndroid()));
-                    d.Alpha = Element.Foreground.ToAndroid().A;
-                    Control.SetImageDrawable(d);
+                    if (Element.Foreground != Xamarin.Forms.Color.Transparent &&
+                        Element.Icon != LazuriteUI.Icons.Icon.Lazurite256 &&
+                        Element.Icon != LazuriteUI.Icons.Icon.Lazurite256_reflected &&
+                        Element.Icon != LazuriteUI.Icons.Icon.Lazurite128 &&
+                        Element.Icon != LazuriteUI.Icons.Icon.Lazurite64 &&
+                        Element.Icon != LazuriteUI.Icons.Icon.Lazurite32 &&
+                        Element.Icon != LazuriteUI.Icons.Icon.Lazurite16 &&
+                        Element.Icon != LazuriteUI.Icons.Icon.LazuriteBig)
+                    {
+                        drawable.Mutate();
+                        drawable.SetColorFilter(new LightingColorFilter(Android.Graphics.Color.Black, Element.Foreground.ToAndroid()));
+                        drawable.Alpha = Element.Foreground.ToAndroid().A;
+                    }
+
+                    Control.SetImageDrawable(drawable);
+                    ((IVisualElementController)Element).NativeSizeChanged();
                 }
-                else
-                {
-                    var d = Drawable.CreateFromStream(Element.Source, "");
-                    Control.SetImageDrawable(d);
-                }
-                ((IVisualElementController)Element).NativeSizeChanged();
             }
         }
     }

@@ -3,16 +3,16 @@ using System;
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace LazuriteMobile.App.Switches
+namespace LazuriteMobile.App.Switches.Bases.Converters
 {
-    public class Background_BoolToColor : IValueConverter
+    public class Selection_BoolToColor : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((bool)value)
-                return Visual.Current.SwitchBackground;
+                return Visual.Current.SelectedSwitchBackground;
             else
-                return Visual.Current.SwitchBackgroundReadonly;
+                return Visual.Current.SelectedSwitchBackgroundReadonly;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

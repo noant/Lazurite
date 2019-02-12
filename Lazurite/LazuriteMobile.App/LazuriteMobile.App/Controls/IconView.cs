@@ -21,8 +21,7 @@ namespace LazuriteMobile.App.Controls
                     var icon = (Icon)newVal;
                     var prev = (oldVal is Icon p) ? p : Icon._None;
                     view.Source = LazuriteUI.Icons.Utils.GetIconData(icon);
-                    if (icon != prev)
-                        view.OnPropertyChanged(nameof(view.Source));
+                    view.OnPropertyChanged(nameof(view.Source));
                 });
         }
 

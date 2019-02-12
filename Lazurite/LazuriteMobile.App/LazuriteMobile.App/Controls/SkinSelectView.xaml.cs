@@ -21,8 +21,13 @@ namespace LazuriteMobile.App.Controls
                 .GetTypes()
                 .Where(x => x != skinBaseType && skinBaseType.IsAssignableFrom(x));
 
-            foreach (var type in types)
-                Children.Add(new SkinSelectItemView(Activator.CreateInstance(type) as SkinBase));
+            var skins = types
+                .Select(x => Activator.CreateInstance(x) as SkinBase)
+                .OrderBy(x => x.VisualOrder)
+                .ToArray();
+
+            foreach (var skin in skins)
+                Children.Add(new SkinSelectItemView(skin));
         }
     }
 }

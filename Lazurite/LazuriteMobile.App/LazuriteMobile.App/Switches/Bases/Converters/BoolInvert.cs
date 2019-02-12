@@ -2,16 +2,13 @@
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace LazuriteMobile.App.Switches
+namespace LazuriteMobile.App.Switches.Bases.Converters
 {
-    public class BoolToDouble : IValueConverter
+    public class BoolInvert : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((bool)value)
-                return 1.0d;
-            else
-                return 0.35d;
+            return !(bool)value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

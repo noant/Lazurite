@@ -6,6 +6,8 @@ namespace LazuriteMobile.App.Controls
     {
         public abstract string SkinName { get; }
 
+        public abstract int VisualOrder { get; }
+
         public abstract Color Background { get; }
         public abstract Color BackgroundAlter { get; }
         public abstract Color BackgroundSwitchesGrid { get; }
@@ -24,15 +26,22 @@ namespace LazuriteMobile.App.Controls
         public abstract Color ScaleColor { get; }
         public abstract Color SelectedSwitchBackground { get; }
         public abstract Color SelectedSwitchBackgroundReadonly { get; }
-        public abstract Color SelectedSwitchIconColor { get; }
         public abstract Color SelectedSwitchForeground { get; }
+        public abstract Color SelectedSwitchForegroundReadonly { get; }
+        public abstract Color SelectedSwitchIconColor { get; }
+        public abstract Color SelectedSwitchIconColorReadonly { get; }
+        public abstract Color SelectedSwitchValueForeground { get; }
+        public abstract Color SelectedSwitchValueForegroundReadonly { get; }
         public abstract Color StandardIconColor { get; }
         public abstract Color SwitchBackground { get; }
         public abstract Color SwitchBackgroundReadonly { get; }
         public abstract Color SwitchBorder { get; }
         public abstract Color SwitchForeground { get; }
+        public abstract Color SwitchForegroundReadonly { get; }
         public abstract Color SwitchIconColor { get; }
+        public abstract Color SwitchIconColorReadonly { get; }
         public abstract Color SwitchValueForeground { get; }
+        public abstract Color SwitchValueForegroundReadonly { get; }
         public abstract Color ValueForeground { get; }
         public abstract Color ValueForegroundAlter { get; }
         public abstract double BottomPanelIconOpacity { get; }

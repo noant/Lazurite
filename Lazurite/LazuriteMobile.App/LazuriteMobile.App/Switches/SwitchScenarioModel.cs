@@ -28,6 +28,31 @@ namespace LazuriteMobile.App.Switches
         
         public bool AllowClick => !Scenario.OnlyGetValue && Scenario.IsAvailable;
 
+        public ScenarioState State
+        {
+            get
+            {
+                if (Scenario.ValueType is ToggleValueType)
+                {
+                    if (AllowClick && ScenarioValue == ToggleValueType.ValueON)
+                        return ScenarioState.Selected;
+                    else if (!AllowClick && ScenarioValue == ToggleValueType.ValueON)
+                        return ScenarioState.ReadonlyAndSelected;
+                    else if (AllowClick && ScenarioValue != ToggleValueType.ValueON)
+                        return ScenarioState.NotSelected;
+                    else
+                        return ScenarioState.ReadonlyAndNotSelected;
+                }
+                else
+                {
+                    if (AllowClick)
+                        return ScenarioState.NotSelected;
+                    else
+                        return ScenarioState.ReadonlyAndNotSelected;
+                }
+            }
+        }
+
         public bool IsAvailable => Scenario.IsAvailable;
 
         public string ScenarioName => Scenario?.Name;
@@ -99,6 +124,8 @@ namespace LazuriteMobile.App.Switches
             OnPropertyChanged(nameof(AllowClick));
             OnPropertyChanged(nameof(IsAvailable));
             OnPropertyChanged(nameof(ScenarioValueWithUnit));
+            OnPropertyChanged(nameof(State));
+            OnPropertyChanged(nameof(CurrentIcon));
         }
 
         public string Icon1
@@ -113,6 +140,7 @@ namespace LazuriteMobile.App.Switches
             {
                 VisualSettings.AddictionalData[Icon1Key] = value;
                 OnPropertyChanged(nameof(Icon1));
+                OnPropertyChanged(nameof(CurrentIcon));
             }
         }
 
@@ -128,6 +156,20 @@ namespace LazuriteMobile.App.Switches
             {
                 VisualSettings.AddictionalData[Icon2Key] = value;
                 OnPropertyChanged(nameof(Icon2));
+                OnPropertyChanged(nameof(CurrentIcon));
+            }
+        }
+
+        public string CurrentIcon
+        {
+            get
+            {
+                if (Scenario.ValueType is ToggleValueType == false)
+                    return Icon1;
+
+                if (ScenarioValue == ToggleValueType.ValueON)
+                    return Icon2;
+                else return Icon1;
             }
         }
 
@@ -140,8 +182,12 @@ namespace LazuriteMobile.App.Switches
                 _manager.ExecuteScenario(new ExecuteScenarioArgs(Scenario.ScenarioId, _value));
                 OnPropertyChanged(nameof(ScenarioValue));
                 OnPropertyChanged(nameof(ScenarioValueWithUnit));
+                OnPropertyChanged(nameof(State));
+
+                if (Scenario.ValueType is ToggleValueType)
+                    OnPropertyChanged(nameof(CurrentIcon));
             }
-        }
+        } 
         
         public bool Checked
         {
@@ -165,6 +211,10 @@ namespace LazuriteMobile.App.Switches
                 _available = value;
                 OnPropertyChanged(nameof(Available));
                 OnPropertyChanged(nameof(AllowClick));
+                OnPropertyChanged(nameof(State));
+
+                if (Scenario.ValueType is ToggleValueType)
+                    OnPropertyChanged(nameof(CurrentIcon));
             }
         }
 
@@ -173,6 +223,10 @@ namespace LazuriteMobile.App.Switches
             _value = args.Value.CurrentValue;
             OnPropertyChanged(nameof(ScenarioValue));
             OnPropertyChanged(nameof(ScenarioValueWithUnit));
+            OnPropertyChanged(nameof(State));
+
+            if (Scenario.ValueType is ToggleValueType)
+                OnPropertyChanged(nameof(CurrentIcon));
         }
 
         public void Dispose()
@@ -181,5 +235,12 @@ namespace LazuriteMobile.App.Switches
             _manager.ConnectionLost -= _manager_ConnectionLost;
             _manager.ConnectionRestored -= _manager_ConnectionRestored;
         }
+    }
+
+    public enum ScenarioState {
+        ReadonlyAndNotSelected,
+        ReadonlyAndSelected,
+        Selected,
+        NotSelected
     }
 }

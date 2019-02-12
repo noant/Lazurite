@@ -1,4 +1,6 @@
-﻿namespace LazuriteMobile.App.Switches
+﻿using LazuriteMobile.App.Switches.Bases.Converters;
+
+namespace LazuriteMobile.App.Switches
 {
     public static class ConvertersStatic
     {
@@ -15,6 +17,9 @@
         public static readonly ValueTypeStringToDoubleRoundStr ValueTypeStringToDoubleRoundStr = new ValueTypeStringToDoubleRoundStr();
         public static readonly Selection_BoolToColor Selection_BoolToColor = new Selection_BoolToColor();
         public static readonly Background_BoolToColor Background_BoolToColor = new Background_BoolToColor();
-        public static readonly Foreground_StringToColor Foreground_StringToColor = new Foreground_StringToColor();
+        public static readonly Foreground_StateToColor Foreground_StateToColor = new Foreground_StateToColor();
+        public static readonly ValueForeground_StateToColor ValueForeground_StateToColor = new ValueForeground_StateToColor();
+        public static readonly IconColor_StateToColor IconColor_StateToColor = new IconColor_StateToColor();
+        public static readonly StateToToggleIcon StateToToggleIcon = new StateToToggleIcon();
     }
 }

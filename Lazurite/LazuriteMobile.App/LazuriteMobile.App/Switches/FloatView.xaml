@@ -6,20 +6,18 @@
     xmlns:bases="clr-namespace:LazuriteMobile.App.Switches.Bases"
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
-    BackgroundColor="{Binding AllowClick, Converter={Static local:ConvertersStatic.Background_BoolToColor}}"
-    Opacity="{Binding IsAvailable, Converter={Static local:ConvertersStatic.BoolToDouble}}"
     x:Name="grid">
     <Grid HorizontalOptions="CenterAndExpand" Margin="-11,0,0,24">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <bases:SwitchIconView HorizontalOptions="End" VerticalOptions="Center" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></bases:SwitchIconView>
+        <bases:SwitchIconView HorizontalOptions="End" VerticalOptions="Center"></bases:SwitchIconView>
         <common:ViewBox Margin="-9,0,0,0" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="46" HeightRequest="40">
             <bases:SwitchValueView HorizontalOptions="Start" x:Name="textBlockScenValue" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToShortStringSmall}}" x:FieldModifier="private"></bases:SwitchValueView>
         </common:ViewBox>
     </Grid>
-    <bases:SwitchItemView InputTransparent="{Binding AllowClick, Converter={Static local:ConvertersStatic.BoolInvert}}" x:Name="itemView" AnimateView="{Binding Source={Reference Name=grid}}"></bases:SwitchItemView>
+    <bases:SwitchItemView x:Name="itemView" AnimateView="{Binding Source={Reference Name=grid}}"></bases:SwitchItemView>
     <bases:SwitchCaptionView Margin="0,0,0,13" x:Name="lblScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private"></bases:SwitchCaptionView>
     <common:ScaleView InputTransparent="True" Opacity="0.5" VerticalOptions="FillAndExpand" HorizontalOptions="End" Max="{Binding Max}" Min="{Binding Min}" Value="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.ValueTypeStringToDouble}}"></common:ScaleView>
 </bases:SwitchBase>

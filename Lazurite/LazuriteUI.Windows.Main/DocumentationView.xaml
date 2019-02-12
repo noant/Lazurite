@@ -11,7 +11,7 @@
         <controls:ItemView Click="ItemView_Click" Icon="Link" Width="300">Открыть документацию в браузере</controls:ItemView>
         <TextBlock HorizontalAlignment="Center" Foreground="{x:Static controls:Visual.CaptionForeground}">__________________________________</TextBlock>
         <Label Foreground="{x:Static controls:Visual.CaptionForeground}" HorizontalContentAlignment="Center" Content="{Binding LazuriteVersion}"></Label>
-        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" HorizontalContentAlignment="Center">Anton Novgorodcev</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" HorizontalContentAlignment="Center">Антон Новгородцев</Label>
         <Label Foreground="{x:Static controls:Visual.CaptionForeground}" HorizontalContentAlignment="Center">2019</Label>
     </StackPanel>
 </Grid>

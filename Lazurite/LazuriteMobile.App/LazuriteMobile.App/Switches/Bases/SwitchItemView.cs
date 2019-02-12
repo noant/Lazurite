@@ -17,6 +17,14 @@ namespace LazuriteMobile.App.Switches.Bases
             Selectable = false;
             IconVisibility = false;
             BackgroundColor = Color.Transparent;
+
+            SetBinding(InputTransparentProperty,
+                new Binding(nameof(SwitchScenarioModel.AllowClick),
+                converter: ConvertersStatic.BoolInvert));
+
+            SetBinding(SelectionColorProperty,
+                new Binding(nameof(SwitchScenarioModel.AllowClick),
+                converter: ConvertersStatic.Selection_BoolToColor));
         }
     }
 }

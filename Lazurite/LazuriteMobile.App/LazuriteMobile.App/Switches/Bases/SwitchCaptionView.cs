@@ -11,6 +11,10 @@ namespace LazuriteMobile.App.Switches.Bases
             TextColor = Visual.Current.SwitchForeground;
             VerticalOptions = new LayoutOptions(LayoutAlignment.End, true);
             HorizontalOptions = new LayoutOptions(LayoutAlignment.Center, true);
+
+            SetBinding(TextColorProperty,
+                new Binding(nameof(SwitchScenarioModel.State), 
+                converter: ConvertersStatic.Foreground_StateToColor));
         }
     }
 }

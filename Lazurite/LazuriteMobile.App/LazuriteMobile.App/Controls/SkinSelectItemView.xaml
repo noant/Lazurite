@@ -10,7 +10,7 @@
         <RowDefinition Height="50"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
-    <Grid Margin="2" BackgroundColor="{x:Binding ItemBackgroundAlter}">
+    <Grid Margin="4" BackgroundColor="{x:Binding ItemBackgroundAlter}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
@@ -25,7 +25,7 @@
             FontSize="{x:Binding FontSize}">
         </controls:CaptionView>
     </Grid>
-    <Grid Grid.Row="1">
+    <Grid Grid.Row="1" Margin="1,0,1,4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
@@ -33,21 +33,24 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Grid Margin="3" BackgroundColor="{x:Binding SwitchBackground}" />
-        <Grid Margin="3" Grid.Column="1" BackgroundColor="{x:Binding SwitchBackgroundReadonly}" />
-        <Grid Margin="3" Grid.Column="2" BackgroundColor="{x:Binding SelectedSwitchBackground}" />
-        <Grid Margin="3" Grid.Column="4" BackgroundColor="{x:Binding SelectedSwitchBackgroundReadoly}" />
-        <Grid Margin="3" Grid.Column="3" BackgroundColor="{x:Binding SwitchBorder}" />
-        <Grid Margin="3" Grid.Column="5" BackgroundColor="{x:Binding DialogViewBackground}" />
+        <Frame CornerRadius="0" HasShadow="False" OutlineColor="DimGray" Margin="3" BackgroundColor="{x:Binding DialogViewBackground}" />
+        <Frame CornerRadius="0" HasShadow="False" OutlineColor="DimGray" Margin="3" Grid.Column="1" BackgroundColor="{x:Binding SwitchBackground}" />
+        <Frame CornerRadius="0" HasShadow="False" OutlineColor="DimGray" Margin="3" Grid.Column="2" BackgroundColor="{x:Binding SwitchBackgroundReadonly}" />
+        <Frame CornerRadius="0" HasShadow="False" OutlineColor="DimGray" Margin="3" Grid.Column="3" BackgroundColor="{x:Binding SelectedSwitchBackground}" />
+        <Frame CornerRadius="0" HasShadow="False" OutlineColor="DimGray" Margin="3" Grid.Column="4" BackgroundColor="{x:Binding SelectedSwitchBackgroundReadonly}" />
+        <Frame CornerRadius="0" HasShadow="False" OutlineColor="DimGray" Margin="3" Grid.Column="5" BackgroundColor="{x:Binding SelectedSwitchForeground}" />
+        <Frame CornerRadius="0" HasShadow="False" OutlineColor="DimGray" Margin="3" Grid.Column="6" BackgroundColor="{x:Binding SwitchBorder}" />
     </Grid>
-    <Grid Grid.Row="2">
+    <Grid Grid.Row="2" Margin="4,0,4,4">
         <controls:ItemView 
             BackgroundColor="{x:Binding ItemBackground}"
             IconForeground="{x:Binding ItemIconColor}"
             Icon="Check" Click="BtApply_Click"
             AnimateView="{x:Reference lblCaption}"
-            Margin="5" x:Name="btApply" Text=""></controls:ItemView>
+            x:Name="btApply" Text="">
+        </controls:ItemView>
         <controls:CaptionView
             x:Name="lblCaption"
             Text="Применить скин"

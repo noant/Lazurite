@@ -4,9 +4,9 @@
              x:Class="LazuriteMobile.App.Common.SliderTabsView"
              xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
              BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=BottomPanelColor}"
-             Opacity="{Binding Source={x:Static controls:Visual.Current}, Path=BottomPanelOpacity}"
              HorizontalOptions="FillAndExpand"
              VerticalOptions="End"
+             Opacity="{Binding Source={x:Static controls:Visual.Current}, Path=BottomPanelOpacity}"
              HeightRequest="45">
     <StackLayout
                  x:Name="stackPanel"

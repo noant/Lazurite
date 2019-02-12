@@ -1,5 +1,6 @@
 ﻿using Lazurite.MainDomain;
 using LazuriteMobile.App.Switches.Bases;
+using LazuriteMobile.App.Switches.Bases.Converters;
 using System;
 using System.Threading;
 
@@ -13,21 +14,23 @@ namespace LazuriteMobile.App.Switches
         }
 
         private ValueTypeStringToBool _converter = new ValueTypeStringToBool();
+        private SwitchScenarioModel _model;
 
         public ToggleView(ScenarioInfo scenario) : this()
         {
-            var model = new SwitchScenarioModel(scenario);
-            BindingContext = model;
+            BindingContext = _model = new SwitchScenarioModel(scenario);
             var context = SynchronizationContext.Current;
-            //binding works incorrectly
-            model.PropertyChanged += (o, e) =>
+            
+            // Binding works incorrectly
+            _model.PropertyChanged += (o, e) =>
             {
                 if (e.PropertyName == nameof(SwitchScenarioModel.ScenarioValue))
                     context.Post((state) =>
-                        itemView.Selected = (bool)_converter.Convert(model.ScenarioValue, null, null, null),
+                        itemView.Selected = (bool)_converter.Convert(_model.ScenarioValue, null, null, null),
                     null);
             };
-            itemView.Selected = (bool)_converter.Convert(model.ScenarioValue, null, null, null);
+
+            itemView.Selected = (bool)_converter.Convert(_model.ScenarioValue, null, null, null);
         }
 
         //binding works incorrectly

@@ -3,7 +3,7 @@ using System;
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace LazuriteMobile.App.Switches
+namespace LazuriteMobile.App.Switches.Bases.Converters
 {
     public class GeolocationDateTimeValueTypeToSplittedString : IValueConverter
     {

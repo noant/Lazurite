@@ -3,18 +3,18 @@ using System;
 using System.Globalization;
 using Xamarin.Forms;
 
-namespace LazuriteMobile.App.Switches
+namespace LazuriteMobile.App.Switches.Bases.Converters
 {
-    public class ValueTypeStringToBoolInvert : IValueConverter
+    public class ValueTypeStringToBool : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ToggleValueType.ValueOFF.Equals((string)value);
+            return ToggleValueType.ValueON.Equals((string)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((bool)value) ? ToggleValueType.ValueOFF : ToggleValueType.ValueON;
+            return ((bool)value) ? ToggleValueType.ValueON : ToggleValueType.ValueOFF;
         }
     }
 }
