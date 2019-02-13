@@ -94,12 +94,13 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
 
         public void RefreshItems(ScenarioStatistic[] scenarioStatistics, DateTime since, DateTime to)
         {
-            var refresh = new Action(() => {
+            void refresh ()
+            {
                 diagramsHost.MaxDate = to;
                 diagramsHost.MinDate = since;
                 var diagrams = new List<IDiagramItem>();
 
-                if (!scenarioStatistics.Any() || scenarioStatistics.Sum(x => x.Statistic.Length) == 0 || !diagrams.Any())
+                if (!scenarioStatistics.Any() || scenarioStatistics.Sum(x => x.Statistic.Length) == 0)
                     lblDataEmpty.Visibility = Visibility.Visible;
                 else
                 {
@@ -126,6 +127,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
                         diagram.Points = scenarioStatistics.First(x => x.ScenarioInfo.ID == info.ID);
                         diagrams.Add(diagram);
                     }
+
                     var ordered = diagrams
                         .OrderByDescending(x => x is ToggleDiagramItemView)
                         .OrderByDescending(x => x is StatesDiagramItemView)
@@ -135,7 +137,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
                     diagramsHost.SetItems(ordered);
                 }
 
-            });
+            }
 
             if (IsLoaded)
                 refresh();

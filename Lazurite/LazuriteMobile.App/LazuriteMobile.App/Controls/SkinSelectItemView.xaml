@@ -47,7 +47,7 @@
         <controls:ItemView 
             BackgroundColor="{x:Binding ItemBackground}"
             IconForeground="{x:Binding ItemIconColor}"
-            Icon="Check" Click="BtApply_Click"
+            Icon="ChevronRight" Click="BtApply_Click"
             AnimateView="{x:Reference lblCaption}"
             x:Name="btApply" Text="">
         </controls:ItemView>

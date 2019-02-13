@@ -17,10 +17,34 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <controls:IconView Opacity="0.70" Margin="0,0,-5,0" Grid.RowSpan="2" InputTransparent="True" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" HeightRequest="65" WidthRequest="65"></controls:IconView>
+        <controls:IconView Margin="0,0,-5,0" Grid.RowSpan="2" InputTransparent="True" 
+                           Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}" HeightRequest="65" WidthRequest="65"></controls:IconView>
         <controls:ValueView Grid.Column="1" InputTransparent="True" VerticalOptions="Center" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}" FontSize="Large"></controls:ValueView>
         <controls:ValueView Grid.Row="1" Grid.Column="1" HorizontalOptions="Start" InputTransparent="True" Text="{Binding ScenarioValueWithUnit, Converter={Static local:ConvertersStatic.StringToShortStringSmall}}" FontSize="Large" x:Name="tbValue" VerticalOptions="CenterAndExpand" />
     </Grid>
     <common:SliderWrapperView x:Name="slider" x:FieldModifier="private" VerticalOptions="Fill" HorizontalOptions="Fill"></common:SliderWrapperView>
-    <controls:ItemView BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=ItemBackgroundAlter}" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand" x:Name="btInput" Icon="InputPen" HeightRequest="40" WidthRequest="250" Margin="20" Text="Ручной ввод..."></controls:ItemView>
+    <Grid VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <controls:ItemView 
+            BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=DialogViewCloseIconColor}" 
+            Grid.Row="0" x:Name="btOn" Icon="Upload" HeightRequest="40" WidthRequest="40">
+        </controls:ItemView>
+        <controls:ItemView 
+            BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=ItemBackgroundAlter}" 
+            Grid.Row="1" x:Name="btMiddle" Icon="DimensionArrowLineHeightShort" HeightRequest="40" WidthRequest="40">
+        </controls:ItemView>
+        <controls:ItemView 
+            BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=ItemBackgroundAlter}" 
+            Grid.Row="2" x:Name="btOff" Icon="Download" HeightRequest="40" WidthRequest="40">
+        </controls:ItemView>
+        <controls:ItemView 
+            BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=ItemBackgroundAlter}" 
+            Grid.Row="3" x:Name="btInput" Icon="InputPen" HeightRequest="40" WidthRequest="40">
+        </controls:ItemView>
+    </Grid>
 </Grid>

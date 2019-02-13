@@ -17,7 +17,8 @@
         <RowDefinition Height="35"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
-    <controls:IconView Opacity="0.64" VerticalOptions="Center" Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
+    <controls:IconView HeightRequest="30" WidthRequest="30" Opacity="0.64" VerticalOptions="Center" 
+                       Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
     <controls:ValueView VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></controls:ValueView>
     <local:EditorExt 
         VerticalOptions="Start" 

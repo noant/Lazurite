@@ -31,7 +31,9 @@ namespace LazuriteUI.Windows.Controls
         {
             if (Info.SelectedObjects?.Length > 1)
             {
-                var strs = Info.SelectedObjects.Select(x => Info.GetCaption(x)).Aggregate((x1, x2) => x1 + ", " + x2);
+                var strs = Info.SelectedObjects
+                    .Select(x => Info.GetCaption(x))
+                    .Aggregate((x1, x2) => x1 + ", " + x2);
                 mainItem.Content = strs;
                 mainItem.Icon = Icons.Icon._None;
             }

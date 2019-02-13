@@ -27,7 +27,8 @@ namespace LazuriteMobile.App.Controls
             Closed?.Invoke(this, EventArgs.Empty);
             if (contentGrid.Children.FirstOrDefault() is IDisposable disposable)
                 disposable.Dispose();
-            ((Grid)Parent).Children.Remove(this);
+            if (Parent != null)
+                ((Grid)Parent).Children.Remove(this);
             AllOpened.Remove(this);
         }
 

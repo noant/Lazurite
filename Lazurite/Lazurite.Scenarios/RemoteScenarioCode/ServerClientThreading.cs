@@ -69,6 +69,14 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
             _timerCancellationToken = new CancellationTokenSource();
             TaskUtils.StartLongRunning(
                 () => {
+                    string GetAllInnerExceptionsFlat(Exception e)
+                    {
+                        if (e == null)
+                            return string.Empty;
+                        else
+                            return e.Message + "\r\n" + GetAllInnerExceptionsFlat(e.InnerException);
+                    }
+
                     while (!_timerCancellationToken.IsCancellationRequested && ServerScenariosInfos.Any())
                     {
                         for (var i = 0; i < ServerScenariosInfos.Count; i++)
@@ -93,7 +101,7 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
                             }
                             catch (Exception e)
                             {
-                                Log.Info($"Ошибка во время соединения с удаленным сценарием. {e.Message} ({e.InnerException?.Message}). Сценарий: [{info.Name}]:[{info.ScenarioId}]");
+                                Log.Info($"Ошибка во время соединения с удаленным сценарием. {GetAllInnerExceptionsFlat(e)}). Сценарий: [{info.Name}]:[{info.ScenarioId}]");
                                 error = true;
                                 if (!info.Unregistered)
                                     info.IsAvailableChangedCallback(new RemoteScenarioAvailabilityChangedArgs(info, false));

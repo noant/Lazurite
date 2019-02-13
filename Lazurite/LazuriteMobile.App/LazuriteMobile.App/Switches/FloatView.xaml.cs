@@ -41,6 +41,8 @@ namespace LazuriteMobile.App.Switches
                 },
                 null);
             };
+            controlSlider.NeedClose += (o1, e1) => 
+                _currentContext.Post((s) => dialogSlider.Close(), null);
             dialogSlider.Show(Helper.GetLastParent(this));
         }
     }

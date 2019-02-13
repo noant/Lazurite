@@ -74,7 +74,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.DiagramViewImplementation
             _items = _statistic.Statistic.ToList();
             lblScenName.Content = _statistic.ScenarioInfo.Name;
             _values = new Dictionary<StatisticsItem, double>();
-            foreach (var item in _items)
+            foreach (var item in _statistic.Statistic)
                 if (double.TryParse(item.Value, out double val))
                     _values.Add(item, val);
                 else

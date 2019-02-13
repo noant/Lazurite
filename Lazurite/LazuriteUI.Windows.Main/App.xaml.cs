@@ -52,6 +52,7 @@ namespace LazuriteUI.Windows.Main
                     var args = (WarningEventArgs)e;
                     JournalManager.Set(args.Message, args.Value, args.Exception);
                 };
+
                 Core.Initialize();
                 Core.Server.StartAsync(null);
                 Singleton.Add(Core);

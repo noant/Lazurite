@@ -1,6 +1,8 @@
-﻿using Lazurite.IOC;
+﻿using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.Utils;
+using LazuriteMobile.App.Controls;
 using System;
 using System.Threading;
 
@@ -32,6 +34,33 @@ namespace LazuriteMobile.App.Switches
             }
 
             btInput.Clicked += BtInput_Clicked;
+            btOn.Clicked += (o,e) => SetMax();
+            btMiddle.Clicked += (o, e) => SetMiddle();
+            btOff.Clicked += (o, e) => SetMin();
+        }
+
+        private void SetMin()
+        {
+            var valueType = _model.Scenario.ValueType as FloatValueType;
+            SetValueFromButton(valueType.Min);
+        }
+
+        private void SetMax()
+        {
+            var valueType = _model.Scenario.ValueType as FloatValueType;
+            SetValueFromButton(valueType.Max);
+        }
+
+        private void SetMiddle()
+        {
+            var valueType = _model.Scenario.ValueType as FloatValueType;
+            SetValueFromButton(valueType.Min + (valueType.Max - valueType.Min)/2);
+        }
+
+        private void SetValueFromButton(double value)
+        {
+            _model.ScenarioValue = value.ToString();
+            NeedClose?.Invoke(this, EventArgs.Empty);
         }
 
         private void BtInput_Clicked(object sender, Lazurite.Shared.EventsArgs<object> args)
@@ -92,5 +121,6 @@ namespace LazuriteMobile.App.Switches
         }
 
         public event EventHandler ManualInputActivate;
+        public event EventHandler NeedClose;
     }
 }

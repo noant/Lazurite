@@ -1,4 +1,5 @@
-﻿using Lazurite.IOC;
+﻿using Lazurite.ActionsDomain.ValueTypes;
+using Lazurite.IOC;
 using Lazurite.MainDomain;
 using Lazurite.Shared;
 using Lazurite.Utils;
@@ -12,6 +13,7 @@ namespace LazuriteMobile.App.Switches
 {
     public partial class StatusViewSwitch : Grid, IDisposable
     {
+        public static readonly int NotClosingItemsCount = 15;
         private static readonly int FloatView_ValueUpdateInterval = GlobalSettings.Get(300);
         private static ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         private static Dictionary<string, string> SearchCache = new Dictionary<string, string>();
@@ -93,7 +95,7 @@ namespace LazuriteMobile.App.Switches
 
         private bool IsNeedShowSearchButton()
         {
-            return _model.AcceptedValues.Length > 15;
+            return _model.AcceptedValues.Length > NotClosingItemsCount;
         }
 
         public StatusViewSwitch(SwitchScenarioModel scenarioModel) : this()
@@ -169,7 +171,16 @@ namespace LazuriteMobile.App.Switches
                     }
                 };
 
-                itemView.Click += (o, e) => RaiseSelect(itemView.Text, (ItemView.ClickSource)e.Value);
+                itemView.Click += (o, e) =>
+                {
+                    if (_currentVal == itemView.Text)
+                    {
+                        var valueType = _model.Scenario.ValueType as StateValueType;
+                        RaiseSelect(valueType.DefaultValue, ItemView.ClickSource.CloseAnyway);
+                    }
+                    else
+                        RaiseSelect(itemView.Text, (ItemView.ClickSource)e.Value);
+                };
 
                 var viewCell = new ViewCell();
 

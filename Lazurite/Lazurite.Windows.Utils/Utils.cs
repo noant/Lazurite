@@ -82,11 +82,13 @@ namespace Lazurite.Windows.Utils
         
         public static object CloneObject(object obj)
         {
-            var stream = new MemoryStream();
-            var hobject = new HObject(stream);
-            hobject["clone"] = obj;
-            hobject.SaveToStream();
-            return HObject.FromStream(stream)["clone"];
+            using (var stream = new MemoryStream())
+            {
+                var hobject = new HObject();
+                hobject["clone"] = obj;
+                hobject.SaveToStream(stream);
+                return HObject.FromStream(stream)["clone"];
+            }
         }
     }
 }

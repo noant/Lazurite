@@ -25,9 +25,12 @@ namespace LazuriteMobile.App.Switches
             var dialog = new DialogView(statusSwitch);
             statusSwitch.StateChanged += (o, args) =>
             {
-                if (args.Value == ItemView.ClickSource.Tap && model.AcceptedValues.Length < 14) // Если количество возможных значений меньше 14, 
-                                                                                                // то при выборе одного из значений закрываем окно.
-                    dialog.Close();                                                             // Число подобрано на основе того, сколько строчек вмещается на экран.
+                if (args.Value == ItemView.ClickSource.CloseAnyway)
+                    dialog.Close();
+                if ((args.Value == ItemView.ClickSource.Tap && model.AcceptedValues.Length <= StatusViewSwitch.NotClosingItemsCount) ||
+                    args.Value == ItemView.ClickSource.CloseAnyway)                                                                 // Если количество возможных значений меньше 14, 
+                                                                                                                                    // то при выборе одного из значений закрываем окно.
+                    dialog.Close();                                                                                                 // Число подобрано на основе того, сколько строчек вмещается на экран.
             };
             dialog.Show(Helper.GetLastParent(this));
         }

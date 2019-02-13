@@ -36,13 +36,16 @@ namespace Lazurite.Data
         
         public override byte[] Serialize<T>(T data)
         {
-            var hobj = new HObject(new MemoryStream());
-            hobj.Zero = data;
-            hobj.SaveToStream();
-            hobj.Stream.Seek(0, SeekOrigin.Begin);
-            var buff = new byte[hobj.Stream.Length];
-            hobj.Stream.Read(buff, 0, buff.Length);
-            return buff;
+            using (var ms = new MemoryStream())
+            {
+                var hobj = new HObject();
+                hobj.Zero = data;
+                hobj.SaveToStream(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                var buff = new byte[ms.Length];
+                ms.Read(buff, 0, buff.Length);
+                return buff;
+            }
         }
 
         public override void Clear(string key)

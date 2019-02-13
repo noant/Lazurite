@@ -231,7 +231,8 @@ namespace LazuriteMobile.App.Controls
         public enum ClickSource
         {
             Tap,
-            UnderscoreWaiting
+            UnderscoreWaiting,
+            CloseAnyway
         }
     }
 }

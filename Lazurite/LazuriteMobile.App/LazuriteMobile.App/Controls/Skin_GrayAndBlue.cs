@@ -50,7 +50,7 @@ namespace LazuriteMobile.App.Controls
         public override double BottomPanelOpacity { get; } = 1;
         public override double DialogViewBackgroundOpacity { get; } = 0.85;
         public override double SwitchBottomBorderHeight { get; } = 0;
-        public override double SwitchGridElementMargin { get; } = 0;
+        public override double SwitchGridElementMargin { get; } = 4;
         public override double SwitchIconOpacity { get; } = 1;
         public override int BigFontSize { get; } = 17;
         public override int FontSize { get; } = 12;

@@ -28,9 +28,10 @@ namespace Lazurite.Data
         
         public override void Set<T>(string key, T data)
         {
-            var hobj = new HObject(ResolvePath(key, Assembly.GetCallingAssembly()));
+            var filePath = ResolvePath(key, Assembly.GetCallingAssembly());
+            var hobj = new HObject();
             hobj.Zero = data;
-            hobj.SaveToFile();
+            hobj.SaveToFile(filePath);
         }
         
         public override void Clear(string key)
