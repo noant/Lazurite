@@ -147,7 +147,10 @@ namespace Lazurite.Scenarios.ScenarioTypes
             }
             catch (Exception e)
             {
-                Log.Error($"Во время инициализации сценария [{Name}] возникла ошибка", e);
+                Log.Warn(
+                    $"Сценарий [{Name}] не проинициализирован." +
+                    "Возможно, не все внутренние данные были получены сейчас и сценарий будет настроен позже." +
+                    "Подробности можно посмотреть в лог-файле.", e);
                 SetIsAvailable(false);
                 return false;
             }

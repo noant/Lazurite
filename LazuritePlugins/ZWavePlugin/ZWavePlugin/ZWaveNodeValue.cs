@@ -55,7 +55,7 @@ namespace ZWavePlugin
             var node = nodes.FirstOrDefault(x => x.Id.Equals(NodeId) && x.HomeId == HomeId);
             var nodeValue = node?.Values.FirstOrDefault(x => x.Id.Equals(ValueId));
             if (nodeValue == null)
-                throw new InvalidOperationException(string.Format("Узел не загружен или не существует. Возможно он будет загружен позднее. HomeID={0}, NodeID={1}, ValueID={2}", HomeId, NodeId, ValueId));
+                throw new InvalidOperationException($"Узел не загружен или не существует. Возможно он будет загружен позднее. HomeID={HomeId}, NodeID={NodeId}, ValueID={ValueId}");
             return nodeValue;
         }
 

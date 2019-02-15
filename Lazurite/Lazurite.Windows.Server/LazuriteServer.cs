@@ -119,5 +119,10 @@ namespace Lazurite.Windows.Server
             // Resave settings with new secret key
             _dataManager.Set(SettingsKey, Settings);
         }
+
+        public void RevokeToken(string login)
+        {
+            _server.TokenDistributor.RevokeToken(login);
+        }
     }
 }

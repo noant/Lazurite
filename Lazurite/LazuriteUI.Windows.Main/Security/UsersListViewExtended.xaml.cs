@@ -1,5 +1,6 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Windows.Server;
 using System.Linq;
 using System.Windows.Controls;
 
@@ -11,6 +12,7 @@ namespace LazuriteUI.Windows.Main.Security
     public partial class UsersListViewExtended : Grid
     {
         private UsersRepositoryBase _repository = Singleton.Resolve<UsersRepositoryBase>();
+        private LazuriteServer _server = Singleton.Resolve<LazuriteServer>();
 
         public UsersListViewExtended()
         {
@@ -23,6 +25,7 @@ namespace LazuriteUI.Windows.Main.Security
                 EditUserPasswordView.Show(() =>
                     {
                         _repository.Save(user);
+                        _server.RevokeToken(user.Login);
                     },
                     (args) =>
                     {
@@ -31,16 +34,20 @@ namespace LazuriteUI.Windows.Main.Security
                             args.Message = "Длина пароля должна быть не менее 6 символов";
                             args.Success = false;
                         }
-                        else args.Success = true;
+                        else
+                            args.Success = true;
                     },
-                user);
+                    user);
             };
             btEdit.Click += (o, e) => {
                 var userId = listView.SelectedUsersIds.First();
                 var user = _repository.Users.First(x => x.Id.Equals(userId));
+                var prevLogin = user.Login;
                 EditUserView.Show(
-                    () => {
+                    () => 
+                    {
                         _repository.Save(user);
+                        _server.RevokeToken(prevLogin);
                         listView.Refresh(user);
                     },
                     (args) =>

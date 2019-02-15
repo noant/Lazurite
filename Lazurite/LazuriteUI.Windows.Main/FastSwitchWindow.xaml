@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         ShowInTaskbar="False"
         ShowActivated="True"
+        Topmost="True"
         WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
         MinHeight="0"

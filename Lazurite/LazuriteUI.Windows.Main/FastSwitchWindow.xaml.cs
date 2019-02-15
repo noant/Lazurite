@@ -38,6 +38,13 @@ namespace LazuriteUI.Windows.Main
         public event EventsHandler<int> VolumeDown;
         public event EventsHandler<int> VolumeUp;
 
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+            if (e.Property == IsActiveProperty && !IsActive && IsVisible)
+                Close();
+        }
+
         private void gridBack_MouseDown(object sender, MouseButtonEventArgs e)
         {
             switchesGrid.Dispose();
