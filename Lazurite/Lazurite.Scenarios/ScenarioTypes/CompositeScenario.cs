@@ -50,8 +50,6 @@ namespace Lazurite.Scenarios.ScenarioTypes
             try
             {
                 var instanceManager = Singleton.Resolve<IInstanceManager>();
-                if (InitializeWithValue == null)
-                    InitializeWithValue = ValueType.DefaultValue;
                 foreach (var action in TargetAction.GetAllActionsFlat())
                 {
                     if (action != null)
@@ -77,7 +75,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         
         public override void AfterInitilize()
         {
-            if (ValueType != null && ValueType is ButtonValueType == false) //except buttonValueType because any input value starts scenario permanent
+            if (ValueType != null && ValueType is ButtonValueType == false) // Except buttonValueType because any input value starts scenario permanent
                 ExecuteAsync(SystemActionSource, InitializeWithValue, out string executionId);
         }
 
@@ -86,7 +84,11 @@ namespace Lazurite.Scenarios.ScenarioTypes
             return TargetAction.GetAllActionsFlat();
         }
         
-        public string InitializeWithValue { get; set; }
+        public string InitializeWithValue
+        {
+            get => ValueType.DefaultValue;
+            set => ValueType.DefaultValue = value;
+        }
 
         //crutch
         public string Value

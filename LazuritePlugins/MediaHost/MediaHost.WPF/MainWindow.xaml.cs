@@ -3,18 +3,10 @@ using MediaHost.Bases;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Interop;
 
 namespace MediaHost.WPF
 {
@@ -23,6 +15,12 @@ namespace MediaHost.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hwnd);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr FindWindow(string className, string windowText);
+
         public IReadOnlyCollection<MediaPanelBase> Sources
         {
             get => _sources;
@@ -71,13 +69,13 @@ namespace MediaHost.WPF
 
             if (sourceMain == null)
                 throw new ArgumentNullException();
-            
+
             if (sourceMain == sourceSecondary)
                 sourceSecondary = null;
 
             if (sourceMain == SourceMain && sourceSecondary == SourceSecondary)
                 return;
-            
+
             if (sourceMain != null && sourceSecondary != null)
                 if (!sourceMain.IsCompatibleWith(sourceSecondary))
                 {
@@ -85,12 +83,10 @@ namespace MediaHost.WPF
                     sourceSecondary = null;
                 }
 
-            Dispatcher.BeginInvoke(new Action(() => {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
                 if (Visibility != Visibility.Visible)
-                {
                     Show();
-                    Activate();
-                }
 
                 if (IsSourceActive(sourceMain))
                     sourceMain.Visibility = Visibility.Collapsed;
@@ -118,7 +114,7 @@ namespace MediaHost.WPF
                 }
                 else
                     SourceMain.Margin = new Thickness(0);
-                
+
                 if (SourceMain != null)
                     AppendSource(SourceMain);
                 if (SourceSecondary != null)
@@ -138,6 +134,47 @@ namespace MediaHost.WPF
             }));
         }
 
+        private Timer _timer;
+
+        protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+            if (e.Property == IsVisibleProperty && IsVisible)
+            {
+                var screen = WpfScreen.GetScreenFrom(this);
+                Height = screen.DeviceBounds.Height;
+                Width = screen.DeviceBounds.Width;
+
+                Activate();
+
+                // Иногда панель задач при запуске находится
+                // на переднем плане, активация окна через несколько секунд
+                // переводит окно на передний план
+                // Extra crutch
+                var counter = 0;
+                _timer = new Timer(
+                    (s) =>
+                    {
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            if (IsVisible)
+                            {
+                                // Активируем панель задач
+                                SetForegroundWindow(FindWindow("Shell_TrayWnd", ""));
+                                Thread.Sleep(100);
+                                // После небольшой паузы активируем наше окно. Зато это работает.
+                                Dispatcher.BeginInvoke(new Action(() => 
+                                    SetForegroundWindow(new WindowInteropHelper(this).Handle)));
+                            }
+                        }));
+                        counter++;
+                        if (counter == 3)
+                            _timer.Change(Timeout.Infinite, Timeout.Infinite);
+                    },
+                    null, 2000, 2000);
+            }
+        }
+
         public void ActivateSourceAsQuery(MediaPanelBase source)
         {
             if (SourceMain == null)
@@ -150,7 +187,8 @@ namespace MediaHost.WPF
 
         public new void Hide()
         {
-            Dispatcher.BeginInvoke(new Action(() => {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
                 base.Hide();
                 if (SourceMain != null)
                     CloseSourceInternal(SourceMain);

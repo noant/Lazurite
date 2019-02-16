@@ -1,4 +1,5 @@
-﻿using LazuriteUI.Windows.Controls;
+﻿using Lazurite.ActionsDomain.ValueTypes;
+using LazuriteUI.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,14 +33,14 @@ namespace LazuriteUI.Windows.Main.Switches
 #endif
 
             tbScenarioName.Text = scenarioModel.ScenarioName;
-            ItemViewFast toSelect = null;
+            ItemViewFast initialSelectedItem = null;
             foreach (var state in scenarioModel.AcceptedValues)
             {
                 var itemView = new ItemViewFast();
                 itemView.Text = state;
                 itemView.Margin = new Thickness(0, 1, 0, 1);
-                if (scenarioModel.ScenarioValue != null && scenarioModel.ScenarioValue.Equals(state))
-                    toSelect = itemView;
+                if (scenarioModel.ScenarioValue?.Equals(state) ?? false)
+                    initialSelectedItem = itemView;
                 listItemsStates.Children.Add(itemView);
             }
 
@@ -50,19 +51,27 @@ namespace LazuriteUI.Windows.Main.Switches
 
             Loaded += (o, e) =>
             {
-                if (toSelect != null)
+                if (initialSelectedItem != null)
                 {
-                    toSelect.Selected = true;
-                    toSelect.Focus();
+                    initialSelectedItem.Selected = true;
+                    initialSelectedItem.Focus();
                 }
             };
 
             listItemsStates.SelectionChanged += (o, e) =>
             {
                 var selectedItem = listItemsStates.GetSelectedItems().FirstOrDefault() as ItemViewFast;
-                if (selectedItem != null && selectedItem.Text != scenarioModel.ScenarioValue)
+                if (selectedItem != null)
                 {
-                    scenarioModel.ScenarioValue = selectedItem.Text;
+                    if (selectedItem.Text != scenarioModel.ScenarioValue)
+                    {
+                        scenarioModel.ScenarioValue = selectedItem.Text;
+                        StateChanged?.Invoke(this, new RoutedEventArgs());
+                    }
+                }
+                else
+                {
+                    scenarioModel.ScenarioValue = (scenarioModel.Scenario.ValueType as StateValueType).DefaultValue;
                     StateChanged?.Invoke(this, new RoutedEventArgs());
                 }
             };

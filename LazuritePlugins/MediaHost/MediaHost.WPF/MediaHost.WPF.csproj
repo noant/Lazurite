@@ -35,13 +35,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Lazurite.Shared">
-      <HintPath>..\..\ModernNotifyPlugin\NotificationUI\bin\Release\Lazurite.Shared.dll</HintPath>
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.Shared.dll</HintPath>
     </Reference>
     <Reference Include="LazuriteUI.Icons">
-      <HintPath>..\..\..\LazuriteProject\Lazurite\Releases\PluginsMaterial\LazuriteUI.Icons.dll</HintPath>
+      <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Icons.dll</HintPath>
     </Reference>
     <Reference Include="LazuriteUI.Windows.Controls">
-      <HintPath>..\..\..\LazuriteProject\Lazurite\Releases\PluginsMaterial\LazuriteUI.Windows.Controls.exe</HintPath>
+      <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Windows.Controls.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -67,6 +67,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="WpfScreen.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

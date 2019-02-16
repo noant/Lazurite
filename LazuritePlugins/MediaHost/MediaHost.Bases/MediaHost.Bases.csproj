@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Lazurite.Shared">
-      <HintPath>..\..\ModernNotifyPlugin\NotificationUI\bin\Release\Lazurite.Shared.dll</HintPath>
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.Shared.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />

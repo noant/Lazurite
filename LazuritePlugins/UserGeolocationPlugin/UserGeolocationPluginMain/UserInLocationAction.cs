@@ -1,15 +1,11 @@
-﻿using Geolocation;
-using Lazurite.ActionsDomain;
+﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.Shared;
 using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UserGeolocationPlugin;
 using UserGeolocationPluginUI;
 
@@ -24,7 +20,7 @@ namespace UserGeolocationPluginMain
     {
         public string Caption
         {
-            get => string.Format("Пользователь '{0}'; место '{1}'", GetUserName(), PlaceName);
+            get => $"Пользователь '{GetUserName()}'; место '{PlaceName}'";
             set { }
         }
 
@@ -37,10 +33,7 @@ namespace UserGeolocationPluginMain
         private string GetUserName()
         {
             var user = _needUsers?.Invoke().FirstOrDefault(x => x.Id.Equals(UserId));
-            if (user != null)
-                return user.Name;
-            else
-                return "[неизвестный]";
+            return user?.Name ?? "[неизвестный]";
         }
 
         public ValueTypeBase ValueType
@@ -80,14 +73,14 @@ namespace UserGeolocationPluginMain
             var window = new UserInLocationActionWindow();
             window.Users = _needUsers?.Invoke();
             window.Refresh();
-            window.SelectedUser = _needUsers?.Invoke().FirstOrDefault(x => x.Id.Equals(this.UserId));
-            window.SelectedDevice = this.DeviceId;
-            window.SelectedPlace = PlacesManager.Current.Places.FirstOrDefault(x => x.Name.Equals(this.PlaceName));
+            window.SelectedUser = _needUsers?.Invoke().FirstOrDefault(x => x.Id.Equals(UserId));
+            window.SelectedDevice = DeviceId;
+            window.SelectedPlace = PlacesManager.Current.Places.FirstOrDefault(x => x.Name.Equals(PlaceName));
             if (window.ShowDialog() ?? false)
             {
-                this.DeviceId = window.SelectedDevice;
-                this.UserId = window.SelectedUser.Id;
-                this.PlaceName = window.SelectedPlace.Name;
+                DeviceId = window.SelectedDevice;
+                UserId = window.SelectedUser.Id;
+                PlaceName = window.SelectedPlace.Name;
                 return true;
             }
             else return false;

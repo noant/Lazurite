@@ -1,9 +1,5 @@
-﻿using MediaHost.Bases;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -59,9 +55,7 @@ namespace MediaHost.Bases
             else
             {
                 using (var src = new HwndSource(new HwndSourceParameters()))
-                {
                     matrix = src.CompositionTarget.TransformToDevice;
-                }
             }
 
             return new Size(matrix.M11 * Width, matrix.M22 * Height);

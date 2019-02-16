@@ -9,11 +9,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
     public class ButtonValueType : ValueTypeBase
     {
         private static readonly ValueTypeInterpreteResult InterpreteResult = new ValueTypeInterpreteResult(true, string.Empty);
-
-        public ButtonValueType() {
-            _acceptedValues = new string[] { };
-        }
-
+        
         public override string HumanFriendlyName => "Кнопка";
 
         public override ValueTypeInterpreteResult Interprete(string param)

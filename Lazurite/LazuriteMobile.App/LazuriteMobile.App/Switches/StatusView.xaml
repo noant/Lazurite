@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <bases:SwitchValueView Margin="0,0,0,-5" x:Name="textBlockVal" Text="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private"></bases:SwitchValueView>
+        <bases:SwitchValueView Margin="0,0,0,-5" x:Name="textBlockVal" LineBreakMode="TailTruncation" Text="{Binding ScenarioValue, Converter={Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private"></bases:SwitchValueView>
         <bases:SwitchCaptionView Grid.Row="1" x:Name="textBlockScenName" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortString}}" x:FieldModifier="private"></bases:SwitchCaptionView>
     </Grid>
 </bases:SwitchBase>

@@ -1,16 +1,11 @@
-﻿using Geolocation;
-using Lazurite.ActionsDomain;
+﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.Shared;
 using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UserGeolocationPlugin;
 using UserGeolocationPluginUI;
 
 namespace UserGeolocationPluginMain
@@ -24,7 +19,7 @@ namespace UserGeolocationPluginMain
     {
         public string Caption
         {
-            get => string.Format("'{0}'", GetUserName());
+            get => $"'{GetUserName()}'";
             set { }
         }
 
@@ -35,10 +30,7 @@ namespace UserGeolocationPluginMain
         private string GetUserName()
         {
             var user = _needUsers?.Invoke().FirstOrDefault(x => x.Id.Equals(UserId));
-            if (user != null)
-                return user.Name;
-            else
-                return "[неизвестный]";
+            return user?.Name ?? "[неизвестный]";
         }
 
         public ValueTypeBase ValueType
@@ -79,12 +71,12 @@ namespace UserGeolocationPluginMain
             var users = _needUsers?.Invoke();
             window.Users = users;
             window.Refresh();
-            window.SelectedUser = users.FirstOrDefault(x => x.Id.Equals(this.UserId));
-            window.SelectedDevice = this.DeviceId;
+            window.SelectedUser = users.FirstOrDefault(x => x.Id.Equals(UserId));
+            window.SelectedDevice = DeviceId;
             if (window.ShowDialog() ?? false)
             {
-                this.DeviceId = window.SelectedDevice;
-                this.UserId = window.SelectedUser.Id;
+                DeviceId = window.SelectedDevice;
+                UserId = window.SelectedUser.Id;
                 return true;
             }
             else return false;

@@ -11,6 +11,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
         public StateValueType()
         {
             AcceptedValues = new string[] { "Статус 1", "Статус 2", "Статус 3" };
+            DefaultValueInternal = AcceptedValues[0];
         }
 
         public override bool CanBeModified => true;
@@ -19,6 +20,10 @@ namespace Lazurite.ActionsDomain.ValueTypes
 
         public override ValueTypeInterpreteResult Interprete(string param) => new ValueTypeInterpreteResult(AcceptedValues.Contains(param), param);
 
-        public override string DefaultValue => AcceptedValues.FirstOrDefault();
+        public override string DefaultValue {
+            get => string.IsNullOrEmpty(DefaultValueInternal) || !AcceptedValues.Contains(DefaultValueInternal) ? 
+                AcceptedValues.FirstOrDefault() : 
+                DefaultValueInternal;
+        }
     }
 }

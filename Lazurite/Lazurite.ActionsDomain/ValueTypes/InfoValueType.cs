@@ -7,8 +7,6 @@ namespace Lazurite.ActionsDomain.ValueTypes
     [ProtoContract]
     public class InfoValueType : ValueTypeBase
     {
-        public InfoValueType() => AcceptedValues = new string[] { };
-
         public override string HumanFriendlyName => "Информация";
 
         public override ValueTypeInterpreteResult Interprete(string param) => new ValueTypeInterpreteResult(true, param);

@@ -54,17 +54,14 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Lazurite.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ModernNotifyPlugin\NotificationUI\bin\Release\Lazurite.Shared.dll</HintPath>
+    <Reference Include="Lazurite.Shared">
+      <HintPath>..\..\..\Releases\PluginsMaterial\Lazurite.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="LazuriteUI.Icons, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ModernNotifyPlugin\NotificationUI\bin\Release\LazuriteUI.Icons.dll</HintPath>
+    <Reference Include="LazuriteUI.Icons">
+      <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Icons.dll</HintPath>
     </Reference>
-    <Reference Include="LazuriteUI.Windows.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ModernNotifyPlugin\NotificationUI\bin\Release\LazuriteUI.Windows.Controls.exe</HintPath>
+    <Reference Include="LazuriteUI.Windows.Controls">
+      <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Windows.Controls.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

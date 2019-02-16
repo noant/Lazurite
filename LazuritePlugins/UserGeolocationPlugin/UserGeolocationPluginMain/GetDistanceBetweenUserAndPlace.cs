@@ -1,15 +1,11 @@
-﻿using Geolocation;
-using Lazurite.ActionsDomain;
+﻿using Lazurite.ActionsDomain;
 using Lazurite.ActionsDomain.Attributes;
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.Shared;
 using Lazurite.Shared.ActionCategory;
 using LazuriteUI.Icons;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UserGeolocationPlugin;
 using UserGeolocationPluginUI;
 
@@ -24,7 +20,7 @@ namespace UserGeolocationPluginMain
     {
         public string Caption
         {
-            get => string.Format("Пользователь '{0}'; место '{1}'; метров", GetUserName(), PlaceName);
+            get => $"Пользователь '{GetUserName()}'; место '{PlaceName}'; метров";
             set { }
         }
 
@@ -37,10 +33,7 @@ namespace UserGeolocationPluginMain
         private string GetUserName()
         {
             var user = _needUsers?.Invoke().FirstOrDefault(x => x.Id.Equals(UserId));
-            if (user != null)
-                return user.Name;
-            else
-                return "[неизвестный]";
+            return user?.Name ?? "[неизвестный]";
         }
 
         public ValueTypeBase ValueType

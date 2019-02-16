@@ -13,13 +13,12 @@ namespace Lazurite.ActionsDomain.ValueTypes
 
         public ToggleValueType()
         {
+            DefaultValueInternal = ValueOFF;
             AcceptedValues = new string[] { ValueON, ValueOFF  };
         }
 
         public override string HumanFriendlyName => "Переключатель";
 
         public override ValueTypeInterpreteResult Interprete(string param) => new ValueTypeInterpreteResult(AcceptedValues.Contains(param), param);
-
-        public override string DefaultValue => ValueOFF;
     }
 }

@@ -69,8 +69,8 @@ namespace LazuriteUI.Windows.Main
                     }));
                 },
                 null,
-                1000 * 60 * 4,
-                1000 * 60 * 4); // Каждые 4 минуты
+                1000 * 45,
+                1000 * 45); // Каждые 45 секунд
         }
 
         protected override void OnVisibleChanged(EventArgs e)

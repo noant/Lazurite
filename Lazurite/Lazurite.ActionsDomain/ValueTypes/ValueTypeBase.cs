@@ -15,7 +15,7 @@ namespace Lazurite.ActionsDomain.ValueTypes
     [ProtoInclude(8, typeof(ToggleValueType))]
     public abstract class ValueTypeBase
     {
-        protected string[] _acceptedValues;
+        private string[] _acceptedValues;
 
         [ProtoMember(9, OverwriteList = true)]
         public string[] AcceptedValues
@@ -27,6 +27,15 @@ namespace Lazurite.ActionsDomain.ValueTypes
                 return _acceptedValues;
             }
             set => _acceptedValues = value;
+        }
+
+        protected string DefaultValueInternal { get; set; } = string.Empty;
+
+        [ProtoMember(10)]
+        public virtual string DefaultValue
+        {
+            get => DefaultValueInternal;
+            set => DefaultValueInternal = value;
         }
 
         public virtual bool CanBeModified => false;
@@ -69,7 +78,5 @@ namespace Lazurite.ActionsDomain.ValueTypes
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DefaultValue);
             return hashCode;
         }
-
-        public virtual string DefaultValue => string.Empty;
     }
 }
