@@ -43,7 +43,7 @@ namespace LazuriteMobile.App
         private ConnectionCredentials? _credentials;
         private LazuriteClient _client;
         private DateTime _lastRefresh = DateTime.Now;
-        
+
         public ScenarioInfo[] Scenarios { get; private set; }
         public ManagerConnectionState ConnectionState { get; private set; } = ManagerConnectionState.Disconnected;
         private bool _succeed = true;
@@ -51,14 +51,23 @@ namespace LazuriteMobile.App
         private bool _iterationRefreshNow;
 
         public event Action<ScenarioInfo[]> ScenariosChanged;
+
         public event Action ConnectionLost;
+
         public event Action ConnectionRestored;
+
         public event Action NeedRefresh;
+
         public event Action NeedClientSettings;
+
         public event Action LoginOrPasswordInvalid;
+
         public event Action SecretCodeInvalid;
+
         public event Action CredentialsLoaded;
+
         public event Action ConnectionError;
+
         public event Action BruteforceSuspition;
 
         public ScenariosManager()
@@ -71,19 +80,29 @@ namespace LazuriteMobile.App
             }
 
             if (!Bus.Any<GeolocationDataHandler>())
+            {
                 Bus.Register<GeolocationDataHandler>();
+            }
+
             if (!Bus.Any<DeviceDataHandler>())
+            {
                 Bus.Register<DeviceDataHandler>();
+            }
+
             if (!Bus.Any<MessagesDataHandler>())
+            {
                 Bus.Register<MessagesDataHandler>();
+            }
         }
 
         public void Initialize(Action<bool> callback)
         {
             TryLoadClientSettings();
             if (_credentials != null)
+            {
                 InitializeInternal(callback);
-            else 
+            }
+            else
             {
                 callback?.Invoke(false);
                 NeedClientSettings?.Invoke();
@@ -109,7 +128,10 @@ namespace LazuriteMobile.App
         public void RefreshIteration()
         {
             if (_iterationRefreshNow)
+            {
                 return;
+            }
+
             _iterationRefreshNow = true;
             try
             {
@@ -123,9 +145,13 @@ namespace LazuriteMobile.App
                     if (TaskUtils.Wait(SyncAddictionalData()))
                     {
                         if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || Scenarios == null)
+                        {
                             TaskUtils.Wait(Refresh());
+                        }
                         else
+                        {
                             TaskUtils.Wait(Update());
+                        }
                     }
                 }
                 _refreshIncrement++;
@@ -163,6 +189,7 @@ namespace LazuriteMobile.App
         }
 
         private Action<ConnectionCredentials> _getClientSettingsCallbackCrutch;
+
         public void GetClientSettings(Action<ConnectionCredentials> callback)
         {
             if (_credentials == null)
@@ -171,7 +198,9 @@ namespace LazuriteMobile.App
                 _getClientSettingsCallbackCrutch = callback;
             }
             else
+            {
                 callback(_credentials.Value);
+            }
         }
 
         public void IsConnected(Action<ManagerConnectionState> callback)
@@ -218,7 +247,10 @@ namespace LazuriteMobile.App
             try
             {
                 if (ConnectionState == ManagerConnectionState.Disconnected)
+                {
                     ConnectionState = ManagerConnectionState.Connecting;
+                }
+
                 await action(_client);
                 success = true;
                 if (ConnectionState != ManagerConnectionState.Connected)
@@ -227,35 +259,49 @@ namespace LazuriteMobile.App
                     ConnectionRestored?.Invoke();
                 }
             }
-            catch (Exception e) when (!cancellationToken.IsCancellationRequested && e is RemoteException == false)
-            {
-                if (ConnectionState != ManagerConnectionState.Connected)
-                    ConnectionLost?.Invoke();
-                else
-                    ConnectionError?.Invoke();
-                success = false;
-            }
-            catch (RemoteException e) when (e.Code == ErrorCode.LoginOrPasswordInvalid)
+            catch (RemoteException e) when (!cancellationToken.IsCancellationRequested && e.Code == ErrorCode.LoginOrPasswordInvalid)
             {
                 LoginOrPasswordInvalid?.Invoke();
                 success = false;
             }
-            catch (RemoteException e) when (e.Code == ErrorCode.UnknownData)
+            catch (RemoteException e) when (!cancellationToken.IsCancellationRequested && e.Code == ErrorCode.UnknownData)
             {
                 SecretCodeInvalid?.Invoke();
                 success = false;
             }
-            catch (RemoteException e) when (e.Code == ErrorCode.BruteforceSuspicion)
+            catch (RemoteException e) when (!cancellationToken.IsCancellationRequested && e.Code == ErrorCode.BruteforceSuspicion)
             {
                 BruteforceSuspition?.Invoke();
                 success = false;
             }
+            catch (RemoteException) when (!cancellationToken.IsCancellationRequested)
+            {
+                if (ConnectionState != ManagerConnectionState.Connected)
+                {
+                    ConnectionLost?.Invoke();
+                }
+                else
+                {
+                    ConnectionError?.Invoke();
+                }
+
+                success = false;
+            }
+            catch (Exception)
+            {
+                // Do nothing
+                success = false;
+            }
 
             if (!success)
+            {
                 ConnectionState = ManagerConnectionState.Disconnected;
+            }
 
             if (cancellationToken.IsCancellationRequested)
+            {
                 return false;
+            }
 
             return success;
         }
@@ -267,7 +313,10 @@ namespace LazuriteMobile.App
             try
             {
                 if (ConnectionState == ManagerConnectionState.Disconnected)
+                {
                     ConnectionState = ManagerConnectionState.Connecting;
+                }
+
                 await action(_client);
                 success = true;
                 if (ConnectionState != ManagerConnectionState.Connected)
@@ -276,35 +325,49 @@ namespace LazuriteMobile.App
                     ConnectionRestored?.Invoke();
                 }
             }
-            catch (Exception e) when (!cancellationToken.IsCancellationRequested && e is RemoteException == false)
-            {
-                if (ConnectionState != ManagerConnectionState.Connected)
-                    ConnectionLost?.Invoke();
-                else
-                    ConnectionError?.Invoke();
-                success = false;
-            }
-            catch (RemoteException e) when (e.Code == ErrorCode.LoginOrPasswordInvalid)
+            catch (RemoteException e) when (!cancellationToken.IsCancellationRequested && e.Code == ErrorCode.LoginOrPasswordInvalid)
             {
                 LoginOrPasswordInvalid?.Invoke();
                 success = false;
             }
-            catch (RemoteException e) when (e.Code == ErrorCode.UnknownData)
+            catch (RemoteException e) when (!cancellationToken.IsCancellationRequested && e.Code == ErrorCode.UnknownData)
             {
                 SecretCodeInvalid?.Invoke();
                 success = false;
             }
-            catch (RemoteException e) when (e.Code == ErrorCode.BruteforceSuspicion)
+            catch (RemoteException e) when (!cancellationToken.IsCancellationRequested && e.Code == ErrorCode.BruteforceSuspicion)
             {
                 BruteforceSuspition?.Invoke();
                 success = false;
             }
+            catch (RemoteException) when (!cancellationToken.IsCancellationRequested)
+            {
+                if (ConnectionState != ManagerConnectionState.Connected)
+                {
+                    ConnectionLost?.Invoke();
+                }
+                else
+                {
+                    ConnectionError?.Invoke();
+                }
+
+                success = false;
+            }
+            catch (Exception)
+            {
+                // Do nothing
+                success = false;
+            }
 
             if (!success)
+            {
                 ConnectionState = ManagerConnectionState.Disconnected;
+            }
 
             if (cancellationToken.IsCancellationRequested)
+            {
                 return false;
+            }
 
             return success;
         }
@@ -342,7 +405,10 @@ namespace LazuriteMobile.App
             {
                 var result = await Handle((s) => s.GetChangedScenarios(_lastRefresh));
                 if (_succeed = result.Success)
+                {
                     _lastRefresh = _client.Client.LastCallServerTime;
+                }
+
                 if (result.Success && result.Value != null && result.Value.Any())
                 {
                     var changedScenariosLW = result.Value;
@@ -374,7 +440,10 @@ namespace LazuriteMobile.App
                 var result = await Handle((s) => s.SyncAddictionalData(Bus.Prepare(null)));
                 _succeed = result.Success;
                 if (result.Success && (result.Value?.Data.Any() ?? false))
+                {
                     Bus.Handle(result.Value, null);
+                }
+
                 return result.Success;
             }
             catch (Exception e)

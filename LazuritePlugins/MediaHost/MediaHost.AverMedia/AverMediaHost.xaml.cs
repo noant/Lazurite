@@ -71,7 +71,9 @@ namespace MediaHost.AverMedia
             {
                 _deviceIndex = deviceIndex;
                 if (ElementInitialized)
+                {
                     InitStreaming();
+                }
             }
         }
 
@@ -79,21 +81,27 @@ namespace MediaHost.AverMedia
         {
             _source.SelectedValue = source;
             if (ElementInitialized)
+            {
                 InitStreaming();
+            }
         }
 
         private void ChangeFormat(string format)
         {
             _format.SelectedValue = format;
             if (ElementInitialized)
+            {
                 InitStreaming();
+            }
         }
 
         private void ChangeResolution(string resolution)
         {
             _resolution.SelectedValue = resolution;
             if (ElementInitialized)
+            {
                 InitStreaming();
+            }
         }
 
         protected override bool InitializeInternal()
@@ -105,12 +113,13 @@ namespace MediaHost.AverMedia
         private void InitStreaming()
         {
             lock (_locker)
+            {
                 try
                 {
                     _streamer?.StopStreaming();
                     wfControl.BeginInvoke(new Action(() =>
                     {
-                        var size = TransformToPixels();
+                        var size = Utils.TransformToPixels(this, new System.Windows.Size(Width, Height));
                         _streamer = new LocalStreamer(_deviceIndex, wfControl.Handle, _source.SelectedEnum, CAPTURETYPE.CAPTURETYPE_ALL, (uint)size.Width, (uint)size.Height, _resolution.SelectedEnum, _format.SelectedEnum);
                         _streamer.StartStreaming();
                     }));
@@ -119,12 +128,16 @@ namespace MediaHost.AverMedia
                 {
                     throw;
                 }
+            }
         }
 
         public override bool IsCompatibleWith(MediaPanelBase panel)
         {
             if (panel is AverMediaHost p)
+            {
                 return p._deviceIndex != _deviceIndex;
+            }
+
             return true;
         }
 

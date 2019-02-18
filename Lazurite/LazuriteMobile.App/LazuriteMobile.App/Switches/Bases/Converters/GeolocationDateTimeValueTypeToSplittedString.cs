@@ -14,7 +14,7 @@ namespace LazuriteMobile.App.Switches.Bases.Converters
                 if (value != null)
                 {
                     var dateTime = GeolocationData.FromString(value.ToString()).DateTime;
-                    return dateTime.ToShortDateString() + " " + dateTime.ToString("hh:mm");
+                    return dateTime.ToShortDateString() + " " + dateTime.ToString("HH:mm");
                 }
                 return string.Empty;
             }

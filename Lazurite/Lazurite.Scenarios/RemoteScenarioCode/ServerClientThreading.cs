@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace Lazurite.Scenarios.RemoteScenarioCode
 {
-    internal class ServerClientThreading: IDisposable
+    internal class ServerClientThreading : IDisposable
     {
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
@@ -34,17 +34,26 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
             if (args2.Credentials.Equals(Credentials))
             {
                 foreach (var info in ServerScenariosInfos.ToArray())
+                {
                     info.IsAvailableChangedCallback(new RemoteScenarioAvailabilityChangedArgs(info, args2.Value));
+                }
             }
         }
 
         public void Append(RemoteScenarioInfo info)
         {
             lock (ServerScenariosInfos)
+            {
                 if (!ServerScenariosInfos.Any(x => x.Equals(info)))
+                {
                     ServerScenariosInfos.Add(info);
+                }
+            }
+
             if (!_isListening)
+            {
                 StartListen();
+            }
         }
 
         public void Remove(RemoteScenarioInfo info)
@@ -53,7 +62,9 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
             {
                 ServerScenariosInfos.Remove(info);
                 if (!ServerScenariosInfos.Any())
+                {
                     StopListen();
+                }
             }
         }
 
@@ -63,29 +74,27 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
             _isListening = false;
         }
 
-        private void StartListen() {
+        private void StartListen()
+        {
             StopListen();
             _isListening = true;
             _timerCancellationToken = new CancellationTokenSource();
             TaskUtils.StartLongRunning(
-                () => {
-                    string GetAllInnerExceptionsFlat(Exception e)
-                    {
-                        if (e == null)
-                            return string.Empty;
-                        else
-                            return e.Message + "\r\n" + GetAllInnerExceptionsFlat(e.InnerException);
-                    }
-
+                () =>
+                {
                     while (!_timerCancellationToken.IsCancellationRequested && ServerScenariosInfos.Any())
                     {
                         for (var i = 0; i < ServerScenariosInfos.Count; i++)
                         {
                             if (i >= ServerScenariosInfos.Count)
+                            {
                                 i = 0;
+                            }
 
                             if (!ServerScenariosInfos.Any() || _timerCancellationToken.IsCancellationRequested)
+                            {
                                 break;
+                            }
 
                             var info = ServerScenariosInfos[i];
                             var error = false;
@@ -97,20 +106,26 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
                                 var client = ServiceClientFactory.Current.GetClient(Credentials);
                                 var newScenInfo = TaskUtils.Wait(client.GetScenarioInfo(info.ScenarioId));
                                 if (!info.Unregistered)
+                                {
                                     info.ValueChangedCallback(new RemoteScenarioValueChangedArgs(info, newScenInfo));
+                                }
                             }
                             catch (Exception e)
                             {
-                                Log.Info($"Ошибка во время соединения с удаленным сценарием. {GetAllInnerExceptionsFlat(e)}). Сценарий: [{info.Name}]:[{info.ScenarioId}]");
+                                Log.Info($"Ошибка во время соединения с удаленным сценарием. {e.Message}). Сценарий: [{info.Name}]:[{info.ScenarioId}]");
                                 error = true;
                                 if (!info.Unregistered)
+                                {
                                     info.IsAvailableChangedCallback(new RemoteScenarioAvailabilityChangedArgs(info, false));
+                                }
                             }
 
                             Log.Debug($"Remote scenario refresh iteration end: [{info.Name}][{info.ScenarioId}]");
 
                             if (!ServerScenariosInfos.Any() || _timerCancellationToken.IsCancellationRequested)
+                            {
                                 break;
+                            }
 
                             var timeout = error ? CalculateTimeoutOnError() : CalculateTimeout();
                             SystemUtils.Sleep(timeout, _timerCancellationToken.Token);

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:laz="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
         WindowStyle="None"
         WindowState="Normal"
@@ -10,11 +11,30 @@
         Left="0"
         ResizeMode="NoResize"
         Topmost="True"
-        ShowInTaskbar="false"
+        ShowInTaskbar="True"
         mc:Ignorable="d"
         Background="#1D1927"
         Title="Lazurite Мультимедиа">
-    <Grid x:Name="grid">
-        <laz:IconView Icon="Lazurite128" Height="128"></laz:IconView>
+    <Grid>
+        <Grid x:Name="grid">
+            <laz:IconView Icon="Lazurite128" Height="128"></laz:IconView>
+        </Grid>
+        <WindowsFormsHost
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Background="Black"
+            x:Name="btWfMinimize"
+            Height="1"
+            Width="1">
+            <wf:Label
+                x:Name="lblMinimize"
+                MouseEnter="LblMinimize_MouseEnter"
+                MouseLeave="LblMinimize_MouseLeave"
+                MouseClick="LblMinimize_MouseClick"
+                Cursor="Hand"
+                Dock="Fill"
+                TextAlign="MiddleCenter"
+                Text="Свернуть"></wf:Label>
+        </WindowsFormsHost>
     </Grid>
 </Window>

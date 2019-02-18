@@ -30,7 +30,8 @@ namespace LazuriteMobile.App.Switches
 
             // Extra f****** crutch, list view calculates wrong height
             bool crutch = true;
-            listView.SizeChanged += (o, e) => {
+            listView.SizeChanged += (o, e) =>
+            {
                 if (crutch)
                 {
                     crutch = false;
@@ -49,17 +50,25 @@ namespace LazuriteMobile.App.Switches
         private static string GetSearchCache(string scenarioId)
         {
             if (SearchCache.ContainsKey(scenarioId))
+            {
                 return SearchCache[scenarioId] ?? string.Empty;
+            }
             else
+            {
                 return string.Empty;
+            }
         }
 
         private static void SetSearchCache(string scenarioId, string searchString)
         {
             if (SearchCache.ContainsKey(scenarioId))
+            {
                 SearchCache[scenarioId] = searchString;
+            }
             else
+            {
                 SearchCache.Add(scenarioId, searchString);
+            }
         }
 
         private void _changer_VolumeChanged(object sender, EventsArgs<int> args)
@@ -74,14 +83,20 @@ namespace LazuriteMobile.App.Switches
                 var currentIndex = currentValues.ToList().IndexOf(_currentVal);
                 var nextIndex = currentIndex + direction;
                 if (nextIndex >= currentValues.Length)
+                {
                     nextIndex = 0;
+                }
                 else if (nextIndex < 0)
+                {
                     nextIndex = currentValues.Length - 1;
+                }
 
                 _currentVal = currentValues[nextIndex];
 
                 if (_prevItem != null)
+                {
                     _prevItem.StrokeVisible = false;
+                }
 
                 ScrollTo(_currentVal);
                 if (_visibleItems.ContainsKey(_currentVal))
@@ -118,12 +133,15 @@ namespace LazuriteMobile.App.Switches
 
                 // HELL
                 bool initiateSearchHandled = false;
-                listView.SizeChanged += (o, e) => {
+                listView.SizeChanged += (o, e) =>
+                {
                     if (!initiateSearchHandled)
                     {
                         initiateSearchHandled = true;
                         if (!string.IsNullOrEmpty(tbSearch.Text))
+                        {
                             HandleSearch();
+                        }
                     }
                 };
 
@@ -145,41 +163,54 @@ namespace LazuriteMobile.App.Switches
             // Невозможно замапить объекты, так как, почему-то, сбивается размер всего контрола.
             // Если мапить строки, то размер нормальный.
 
-            listView.ItemTemplate = new DataTemplate(() => {
+            listView.ItemTemplate = new DataTemplate(() =>
+            {
                 var itemView = new ItemViewFast();
                 itemView.SetBinding(ItemViewFast.TextProperty, ".");
                 itemView.Selectable = true;
                 itemView.StrokeVisibilityClick = true;
                 itemView.HeightRequest = 42;
 
-                itemView.SelectionChanged += (o, e) => {
+                itemView.SelectionChanged += (o, e) =>
+                {
                     if (itemView.Selected)
                     {
                         foreach (var item in _visibleItems.Values)
+                        {
                             if (item != itemView && item.Selected)
+                            {
                                 item.Selected = false;
+                            }
+                        }
                     }
                 };
 
-                itemView.PropertyChanged += (o, e) => {
+                itemView.PropertyChanged += (o, e) =>
+                {
                     if (e.PropertyName == nameof(itemView.Text))
                     {
                         if (itemView.Text == _model.ScenarioValue)
+                        {
                             itemView.Selected = true;
+                        }
                         else if (itemView.Selected)
+                        {
                             itemView.Selected = false;
+                        }
                     }
                 };
 
                 itemView.Click += (o, e) =>
                 {
-                    if (_currentVal == itemView.Text)
+                    if (_model.ScenarioValue == itemView.Text)
                     {
                         var valueType = _model.Scenario.ValueType as StateValueType;
                         RaiseSelect(valueType.DefaultValue, ItemView.ClickSource.CloseAnyway);
                     }
                     else
+                    {
                         RaiseSelect(itemView.Text, (ItemView.ClickSource)e.Value);
+                    }
                 };
 
                 var viewCell = new ViewCell();
@@ -189,7 +220,10 @@ namespace LazuriteMobile.App.Switches
                     if (itemView.Text != null)
                     {
                         if (_visibleItems.ContainsKey(itemView.Text))
+                        {
                             _visibleItems.Remove(itemView.Text);
+                        }
+
                         _visibleItems.Add(itemView.Text, itemView);
 
                         itemView.Selected = itemView.Text == _model.ScenarioValue;
@@ -198,7 +232,9 @@ namespace LazuriteMobile.App.Switches
                 viewCell.Disappearing += (o, e) =>
                 {
                     if (itemView.Text != null && _visibleItems.ContainsKey(itemView.Text))
+                    {
                         _visibleItems.Remove(itemView.Text);
+                    }
 
                     itemView.Selected = false;
                 };
@@ -214,7 +250,9 @@ namespace LazuriteMobile.App.Switches
                 _currentVal = _model.ScenarioValue;
                 ScrollTo(_currentVal);
                 if (_visibleItems.ContainsKey(_currentVal))
+                {
                     _visibleItems[_currentVal].Selected = true;
+                }
             }
         }
 
@@ -236,7 +274,9 @@ namespace LazuriteMobile.App.Switches
             var searchText = GetSearchCache(_model.Scenario.ScenarioId).Trim().ToLowerInvariant();
 
             if (string.IsNullOrEmpty(searchText))
+            {
                 return _model.AcceptedValues;
+            }
 
             return _model
                 .AcceptedValues
@@ -247,13 +287,16 @@ namespace LazuriteMobile.App.Switches
         protected override void OnSizeAllocated(double width, double height)
         {
             if (_model != null)
+            {
                 ScrollTo(_model.ScenarioValue);
+            }
+
             base.OnSizeAllocated(width, height);
         }
 
         private void RaiseSelect(string value, ItemView.ClickSource source)
         {
-            _model.ScenarioValue  = _currentVal = value;
+            _model.ScenarioValue = _currentVal = value;
             StateChanged?.Invoke(this, new EventsArgs<ItemView.ClickSource>(source));
         }
 
@@ -269,5 +312,4 @@ namespace LazuriteMobile.App.Switches
 
         public event EventsHandler<ItemView.ClickSource> StateChanged;
     }
-
 }

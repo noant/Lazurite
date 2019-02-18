@@ -33,7 +33,8 @@ namespace LazuriteUI.Windows.Main
 
             var listenInterval = DuplicatedProcessesListenerInterval;
 
-            var action = (Action)(() => {
+            var action = (Action)(() =>
+            {
                 try
                 {
                     var processes =
@@ -50,19 +51,26 @@ namespace LazuriteUI.Windows.Main
                     if (targetProcesses.Any())
                     {
                         foreach (var process in targetProcesses)
+                        {
                             process.Kill();
+                        }
+
                         Found?.Invoke(App.Current, new EventsArgs<Process[]>(targetProcesses));
                         listenInterval = DuplicatedProcessesListenerInterval_onFound;
                     }
                     else
+                    {
                         listenInterval = DuplicatedProcessesListenerInterval;
+                    }
                     //crutch
                     foreach (var process in processes)
+                    {
                         process.Dispose();
+                    }
                 }
                 catch (Exception e)
                 {
-                    Log.Error("Ошибка во время получения процессов в DuplicatedProcessesListener. Возможной причиной может являться антивирус или отсутвие доступа.", e);
+                    Log.Warn("Ошибка во время получения процессов в DuplicatedProcessesListener. Возможной причиной может являться антивирус или отсутвие доступа.", e);
                 }
             });
 
@@ -72,9 +80,13 @@ namespace LazuriteUI.Windows.Main
         private static string GetProcessFilePath(Process process)
         {
             if (string.IsNullOrEmpty(process.MainModule.FileName))
+            {
                 return string.Empty;
+            }
             else
+            {
                 return Path.GetFullPath(process.MainModule.FileName);
+            }
         }
     }
 }

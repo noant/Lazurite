@@ -53,12 +53,12 @@ namespace MediaHost.WPF
 
         public Rect DeviceBounds
         {
-            get { return this.GetRect(screen.Bounds); }
+            get { return GetRect(screen.Bounds); }
         }
 
         public Rect WorkingArea
         {
-            get { return this.GetRect(this.screen.WorkingArea); }
+            get { return GetRect(screen.WorkingArea); }
         }
 
         private Rect GetRect(Rectangle value)
@@ -75,12 +75,12 @@ namespace MediaHost.WPF
 
         public bool IsPrimary
         {
-            get { return this.screen.Primary; }
+            get { return screen.Primary; }
         }
 
         public string DeviceName
         {
-            get { return this.screen.DeviceName; }
+            get { return screen.DeviceName; }
         }
     }
 }
