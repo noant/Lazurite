@@ -1,20 +1,45 @@
-﻿using Lazurite.Logging;
-using Lazurite.MainDomain;
+﻿using Lazurite.Data;
+using Lazurite.IOC;
+using Lazurite.Logging;
 using Lazurite.Shared;
 using System;
 
 namespace Lazurite.Windows.Logging
 {
-    public abstract class WarningHandlerBase: ILogger
+    public abstract class WarningHandlerBase : ILogger
     {
-        private WarnType? _maxWritingWarnType;
-        
+        private WarnType? _maxWritingWarnType = null;
+
+        public WarnType MaxWritingWarnType
+        {
+            get
+            {
+                if (_maxWritingWarnType == null)
+                {
+                    var dataManager = Singleton.Resolve<DataManagerBase>();
+                    if (dataManager.Has(nameof(_maxWritingWarnType)))
+                    {
+                        _maxWritingWarnType = dataManager.Get<WarnType>(nameof(_maxWritingWarnType));
+                    }
+                    else
+                    {
+                        _maxWritingWarnType = WarnType.Info;
+                    }
+                }
+                return _maxWritingWarnType.Value;
+            }
+            set
+            {
+                _maxWritingWarnType = value;
+                var dataManager = Singleton.Resolve<DataManagerBase>();
+                dataManager.Set(nameof(_maxWritingWarnType), value);
+            }
+        }
+
         public abstract void InternalWrite(WarnType type, string message = null, Exception exception = null);
 
         public void Write(WarnType type, string message = null, Exception exception = null)
         {
-            if (_maxWritingWarnType == null)
-                _maxWritingWarnType = GlobalSettings.Get(WarnType.Info, nameof(_maxWritingWarnType));
 #if DEBUG
             System.Diagnostics.Debug.WriteLine(message);
             if (exception != null)
@@ -23,8 +48,11 @@ namespace Lazurite.Windows.Logging
                 System.Diagnostics.Debug.WriteLine(exception.StackTrace);
             }
 #endif
-            if (type <= _maxWritingWarnType)
+            if (type <= MaxWritingWarnType)
+            {
                 InternalWrite(type, message, exception);
+            }
+
             RaiseOnWrite(type, message, exception);
         }
 

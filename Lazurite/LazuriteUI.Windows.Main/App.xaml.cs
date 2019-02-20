@@ -16,27 +16,28 @@ namespace LazuriteUI.Windows.Main
     public partial class App : System.Windows.Application
     {
         public LazuriteCore Core { get; private set; }
-        
+
         public App()
         {
-            AppDomain.CurrentDomain.ProcessExit += (o, e) => {
-                Core.WarningHandler.Info("Lazurite отключен");
-            };
+            Exit += (o, e) => Core?.Dispose();
 
             System.Windows.Forms.Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
-            System.Windows.Forms.Application.ThreadException += (o, e) => {
+            System.Windows.Forms.Application.ThreadException += (o, e) =>
+            {
                 HandleUnhandledException(e.Exception);
             };
-            
-            AppDomain.CurrentDomain.UnhandledException += (o, e) => {
+
+            AppDomain.CurrentDomain.UnhandledException += (o, e) =>
+            {
                 HandleUnhandledException(e.ExceptionObject as Exception);
             };
 
-            DispatcherUnhandledException += (o, e) => {
+            DispatcherUnhandledException += (o, e) =>
+            {
                 HandleUnhandledException(e.Exception);
             };
-            
+
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
             try
@@ -64,8 +65,13 @@ namespace LazuriteUI.Windows.Main
             catch (Exception e)
             {
                 if (Core != null)
+                {
                     Core.WarningHandler.Fatal("Во время инициализации приложения возникла ошибка", e);
-                else throw e;
+                }
+                else
+                {
+                    throw e;
+                }
             }
 
             var ci = new CultureInfo("ru-RU");
@@ -78,11 +84,15 @@ namespace LazuriteUI.Windows.Main
             WarningHandler.ExtremeLog("Unhandled exception!", exception);
 
             if (exception != null)
+            {
                 Core.WarningHandler.FatalFormat(exception, "Необработанная ошибка");
+            }
             else
+            {
                 Core.WarningHandler.FatalFormat(new Exception("unknown exception"), "Необработанная неизвестная ошибка");
+            }
 
-            System.Windows.Application.Current.Shutdown(1);
+            Shutdown(1);
         }
     }
 }

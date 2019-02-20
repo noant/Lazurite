@@ -24,15 +24,17 @@ namespace LazuriteUI.Windows.Main.Server
             _settings = settings;
             Refresh();
 
-            btInstallNewCert.Click += (o, e) => {
+            btInstallNewCert.Click += (o, e) =>
+            {
                 var openFileDialog = new OpenFileDialog();
                 openFileDialog.Filter = "Файл сертификата (*.pfx,*.cer,*.p7b)|*.pfx;*.cer;*.p7b";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    EnterPasswordView.Show("Введите пароль сертификата...", (pass) => {
+                    EnterPasswordView.Show("Введите пароль сертификата...", (pass) =>
+                    {
                         try
                         {
-                            var certHash = SecurityHelper.AddCertificateInWindows(openFileDialog.FileName, pass);
+                            var certHash = SecurityHelper.AddCertificateInWindows(openFileDialog.FileName, pass, (msg) => _warningHandler.Info(msg));
                             Refresh();
                             certListView.GetItems().Where(x => ((ServerHelper.CertificateInfo)((ItemView)x).Tag).Hash.Equals(certHash)).All(x => x.Selected = true);
                         }
@@ -70,7 +72,9 @@ namespace LazuriteUI.Windows.Main.Server
                 itemView.Margin = new Thickness(2);
                 certListView.Children.Add(itemView);
                 if (cert.Hash.Equals(_settings.CertificateHash))
+                {
                     itemView.Selected = true;
+                }
             }
         }
 
@@ -78,7 +82,8 @@ namespace LazuriteUI.Windows.Main.Server
         {
             var selectView = new CertificateSelectView(settings);
             var dialogView = new DialogView(selectView);
-            selectView.Selected += new Action<ServerSettings>((s) => {
+            selectView.Selected += new Action<ServerSettings>((s) =>
+            {
                 selected?.Invoke(s);
                 dialogView.Close();
             });

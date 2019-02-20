@@ -1,14 +1,11 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 using Lazurite.Data;
 using Lazurite.IOC;
-using Lazurite.Scenarios;
-using Lazurite.Security;
 using Lazurite.Windows.Logging;
 using Lazurite.Windows.Modules;
 using Lazurite.Windows.Server;
 using SimpleRemoteMethods.Utils.Windows;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -42,7 +39,8 @@ namespace LazuriteUI.Windows.Preparator
 
             void appendTb(string text)
             {
-                Dispatcher.BeginInvoke(new Action(() => {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
                     tbInfo.Text += "\r\n" + text;
                 }));
             }
@@ -87,11 +85,15 @@ namespace LazuriteUI.Windows.Preparator
                                 .Take(files.Length - 6);
 
                             foreach (var oldFile in oldFiles)
+                            {
                                 File.Delete(oldFile.FullName);
+                            }
                         }
                     }
                     else
+                    {
                         Directory.CreateDirectory(backupFolder);
+                    }
 
                     var dateTimeNowSafeString = DateTime.Now.ToString("dd.MM.yyyy_hh.mm.ss");
                     var zip = new FastZip();
@@ -104,9 +106,13 @@ namespace LazuriteUI.Windows.Preparator
                 }
 
                 if (!Utils.VcRedistInstallAll())
+                {
                     appendError("!Ошибка установки пакетов VcRedist.");
+                }
                 else
+                {
                     appendInfo("Пакеты VcRedist установлены.");
+                }
 
                 try
                 {
@@ -114,7 +120,7 @@ namespace LazuriteUI.Windows.Preparator
                     {
                         // Certificate installing
                         var settingsStub = new ServerSettings();
-                        settingsStub.CertificateHash = SecurityHelper.AddCertificateInWindows(Path.Combine(assemblyFolder, CertificateFilename), "28021992");
+                        settingsStub.CertificateHash = SecurityHelper.AddCertificateInWindows(Path.Combine(assemblyFolder, CertificateFilename), "28021992", (msg) => log.Info(msg));
                         fileDataManager.Set(LazuriteServer.SettingsKey, settingsStub);
                         appendInfo("Настройки сервера созданы.");
                     }
@@ -168,7 +174,9 @@ namespace LazuriteUI.Windows.Preparator
                 Dispatcher.BeginInvoke(new Action(() => captionView.StopAnimateProgress()));
 
                 if (!error)
+                {
                     Dispatcher.BeginInvoke(new Action(() => App.Current.Shutdown()));
+                }
             }
             catch (Exception e)
             {

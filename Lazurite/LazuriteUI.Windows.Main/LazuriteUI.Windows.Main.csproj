@@ -1130,7 +1130,7 @@
       <Name>Lazurite.MainDomain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.Scenarios\Lazurite.Scenarios.csproj">
-      <Project>{EE271212-1572-4525-BC27-B2F283238740}</Project>
+      <Project>{ee271212-1572-4525-bc27-b2f283238740}</Project>
       <Name>Lazurite.Scenarios</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lazurite.Security\Lazurite.Security.csproj">

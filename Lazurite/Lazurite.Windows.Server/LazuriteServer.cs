@@ -60,10 +60,9 @@ namespace Lazurite.Windows.Server
 
                 _server.AfterServerStopped += (o, e) => StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
                 _server.AfterServerStarted += (o, e) => StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
-            
                 _server.LogRecord += _server_LogRecord;
-
-                ServerHelper.PrepareHttpsServer(_server, _settings.CertificateHash);
+                ServerHelper.LogRecord = _server_LogRecord;
+                ServerHelper.PrepareHttpsServer(_server, _settings.CertificateHash, Identity.UniqueId);
 
                 _server.StartAsync();
 
@@ -98,9 +97,13 @@ namespace Lazurite.Windows.Server
             try
             {
                 if (_dataManager.Has(SettingsKey))
+                {
                     _settings = _dataManager.Get<ServerSettings>(SettingsKey);
+                }
                 else
+                {
                     _settings = new ServerSettings();
+                }
             }
             catch (Exception e)
             {

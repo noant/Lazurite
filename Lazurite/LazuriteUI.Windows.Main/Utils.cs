@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Windows;
 
 namespace LazuriteUI.Windows.Main
 {
@@ -7,7 +8,7 @@ namespace LazuriteUI.Windows.Main
         public static void RestartApp()
         {
             Process.Start(Lazurite.Windows.Utils.Utils.GetAssemblyPath(typeof(App).Assembly));
-            Process.GetCurrentProcess().Kill();
+            Application.Current.Shutdown();
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="LazuriteUI.Windows.Main.Constructors.RemoteScenarioView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:LazuriteUI.Windows.Main.Constructors"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              MinWidth="500">
@@ -37,8 +37,8 @@
             <TextBlock Grid.Row="6" Margin="5,5,5,8" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource TextBlockCaption}">Удаленный сценарий</TextBlock>
             <controls:EntryView IsReadOnly="True" Grid.Row="6" x:Name="tbScenario" Grid.Column="1" Height="40"></controls:EntryView>
             <controls:ItemView x:Name="btScenariosList" ToolTip="Выбрать сценарий" Grid.Row="6" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,3" Icon="List"></controls:ItemView>
-            <controls:ItemView x:Name="btExitingCredentials" ToolTip="Выбрать существующее подключение" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,3" Icon="List"></controls:ItemView>
-            <controls:ItemView Margin="4,4,0,4" HorizontalAlignment="Right" Width="100" Height="25" x:Name="btTest" Grid.Row="7" Grid.Column="1" Icon="Check">Тест</controls:ItemView>
+            <controls:ItemView x:Name="btExistingCredentials" ToolTip="Выбрать существующее подключение" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,3" Icon="List"></controls:ItemView>
+            <controls:ItemView Margin="0,4,0,4" HorizontalAlignment="Right" Width="180" Height="30" x:Name="btTest" Grid.Row="7" Grid.Column="1" Icon="Check">Тест подключения</controls:ItemView>
         </Grid>
     </Grid>
 </UserControl>

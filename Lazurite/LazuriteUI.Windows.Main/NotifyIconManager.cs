@@ -4,11 +4,14 @@ namespace LazuriteUI.Windows.Main
 {
     public static class NotifyIconManager
     {
-        static System.Windows.Forms.NotifyIcon _notifyIcon;
-        static MainWindow _mainWindow;
-        static FastSwitchWindow _fastWindow;
+        private static System.Windows.Forms.NotifyIcon _notifyIcon;
+        private static MainWindow _mainWindow;
+        private static FastSwitchWindow _fastWindow;
 
-        public static void Initialize() {
+        public static bool IsFastSwitchWindowActive => _fastWindow != null;
+
+        public static void Initialize()
+        {
             _notifyIcon = new System.Windows.Forms.NotifyIcon();
             var iconStream = typeof(Utils)
                     .Assembly
@@ -16,11 +19,16 @@ namespace LazuriteUI.Windows.Main
             _notifyIcon.Icon = new System.Drawing.Icon(iconStream);
             _notifyIcon.Visible = true;
             _notifyIcon.Text = "Lazurite";
-            _notifyIcon.MouseClick += (o, e) => {
+            _notifyIcon.MouseClick += (o, e) =>
+            {
                 if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                {
                     ShowMainWindow();
+                }
                 else if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                {
                     ShowFastSwitchWindow();
+                }
             };
         }
 
@@ -47,7 +55,7 @@ namespace LazuriteUI.Windows.Main
             App.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 if (_fastWindow == null)
-                { 
+                {
                     _fastWindow = new FastSwitchWindow();
                     _fastWindow.Closing += (o1, e1) => _fastWindow = null;
                     _fastWindow.Show();

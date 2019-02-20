@@ -10,10 +10,18 @@ namespace LazuriteUI.Windows.Main
         private static RightSideHoverForm RightSideHover = new RightSideHoverForm();
 
         private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
-        
+
         private const uint SWP_NOSIZE = 0x0001;
         private const uint SWP_NOMOVE = 0x0002;
         private const uint TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass")]
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr GetForegroundWindow();
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass")]
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass")]
         [DllImport("user32.dll")]
@@ -21,7 +29,7 @@ namespace LazuriteUI.Windows.Main
         private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
         private System.Threading.Timer _activateTimer;
-        
+
         public RightSideHoverForm()
         {
             InitializeComponent();
@@ -29,7 +37,7 @@ namespace LazuriteUI.Windows.Main
             StartPosition = FormStartPosition.Manual;
             RefreshLocationAndSize();
             MouseEnter += RightSideHoverForm_MouseEnter;
-            HandleCreated += (o,e) => SetWindowPos(Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
+            HandleCreated += (o, e) => SetWindowPos(Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
         }
 
         private void RefreshLocationAndSize()
@@ -41,7 +49,7 @@ namespace LazuriteUI.Windows.Main
             Height = (int)(Screen.PrimaryScreen.Bounds.Height * 0.2) - 20;
         }
 
-        private void RightSideHoverForm_MouseEnter(object sender, EventArgs e) => 
+        private void RightSideHoverForm_MouseEnter(object sender, EventArgs e) =>
             NotifyIconManager.ShowFastSwitchWindow();
 
         protected override bool ShowWithoutActivation => true;
@@ -58,28 +66,45 @@ namespace LazuriteUI.Windows.Main
 
         private void StartActivationTimer()
         {
+#if !DEBUG
+            const int interval = 30000;
+#endif
+#if DEBUG
+            const int interval = 2000;
+#endif
             _activateTimer = new System.Threading.Timer(
                 (s) =>
                 {
-                    BeginInvoke(new Action(() => {
-                        Hide(); // Нужно для периодического помещения окна на передний план, если его загородило новое TopMost окно
-                        RefreshLocationAndSize(); // На тот случай, если пользователь поменял разрешение экрана или подключил другой монитор
-                        Show();
-                        SetWindowPos(Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
-                    }));
+                    if (!NotifyIconManager.IsFastSwitchWindowActive)
+                    {
+                        var lastForegroundWindow = GetForegroundWindow();
+                        BeginInvoke(new Action(() =>
+                        {
+                            Hide(); // Нужно для периодического помещения окна на передний план, если его загородило новое TopMost окно
+                            RefreshLocationAndSize(); // На тот случай, если пользователь поменял разрешение экрана или подключил другой монитор
+                            Show();
+                            SetWindowPos(Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
+                        }));
+                        Thread.Sleep(70);
+                        SetForegroundWindow(lastForegroundWindow);
+                    }
                 },
                 null,
-                1000 * 45,
-                1000 * 45); // Каждые 45 секунд
+                interval,
+                interval);
         }
 
         protected override void OnVisibleChanged(EventArgs e)
         {
             base.OnVisibleChanged(e);
             if (Visible)
+            {
                 StartActivationTimer();
+            }
             else
+            {
                 StopActivationTimer();
+            }
         }
 
         private void StopActivationTimer()
@@ -87,19 +112,26 @@ namespace LazuriteUI.Windows.Main
             _activateTimer?.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
-        public static void ShowWindow() {
+        public static void ShowWindow()
+        {
             RightSideHover.Show();
         }
 
-        public static void HideWindow() {
+        public static void HideWindow()
+        {
             RightSideHover.Hide();
         }
 
         public static void Initialize()
         {
             if (UISettings.Current.MouseRightSideHoverEvent)
+            {
                 ShowWindow();
-            else HideWindow();
+            }
+            else
+            {
+                HideWindow();
+            }
         }
     }
 }

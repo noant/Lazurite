@@ -16,16 +16,14 @@ namespace Lazurite.Windows.Utils
 
         public static string GetAssemblyPath(Assembly assembly)
         {
-            string codeBase = assembly.CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
+            var codeBase = assembly.CodeBase;
+            var uri = new UriBuilder(codeBase);
             return Path.GetFullPath(Uri.UnescapeDataString(uri.Path));
         }
 
         public static string GetAssemblyFolder(Assembly assembly) => Path.GetDirectoryName(GetAssemblyPath(assembly));
 
-        public static string GetCurrentLazuriteUniqueHash() => CryptoUtils.CreatePasswordHash(GetAssemblyFolder(Assembly.GetExecutingAssembly()));
-
-        public static string ExecuteProcess(string filePath, string arguments, bool asAdmin=false, bool waitForExit=true, ProcessPriorityClass priority = ProcessPriorityClass.Normal)
+        public static string ExecuteProcess(string filePath, string arguments, bool asAdmin = false, bool waitForExit = true, ProcessPriorityClass priority = ProcessPriorityClass.Normal)
         {
             var process = new Process();
             process.StartInfo.CreateNoWindow = true;
@@ -58,8 +56,13 @@ namespace Lazurite.Windows.Utils
                 {
                     process.WaitForExit();
                     if (!asAdmin)
+                    {
                         outstr = process.StandardOutput.ReadToEnd() + "\r\n" + process.StandardError.ReadToEnd();
-                    else outstr = "command was executed as 'UseShellExecute'";
+                    }
+                    else
+                    {
+                        outstr = "command was executed as 'UseShellExecute'";
+                    }
                 }
             }
             catch (Exception e)
@@ -68,7 +71,9 @@ namespace Lazurite.Windows.Utils
             }
 
             if (!string.IsNullOrWhiteSpace(outstr))
+            {
                 Log.InfoFormat("command [{0} {1}] execution result:\r\n{2}", filePath, arguments, outstr);
+            }
 
             return outstr;
         }
@@ -79,7 +84,7 @@ namespace Lazurite.Windows.Utils
             var principal = new WindowsPrincipal(identity);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
-        
+
         public static object CloneObject(object obj)
         {
             using (var stream = new MemoryStream())

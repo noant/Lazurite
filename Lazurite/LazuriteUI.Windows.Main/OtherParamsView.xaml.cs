@@ -1,6 +1,6 @@
 ﻿using LazuriteUI.Windows.Controls;
 using LazuriteUI.Windows.Launcher;
-using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace LazuriteUI.Windows.Main
@@ -22,14 +22,15 @@ namespace LazuriteUI.Windows.Main
                 _manager.SaveSettings();
             };
 
-            cbRightSideHover.SelectionChanged += (o, e) => {
+            cbRightSideHover.SelectionChanged += (o, e) =>
+            {
                 UISettings.Current.MouseRightSideHoverEvent = cbRightSideHover.Selected;
                 UISettings.Save();
                 RightSideHoverForm.Initialize();
             };
 
             btRestart.Click += (o, e) => Utils.RestartApp();
-            btShutdown.Click += (o, e) => Process.GetCurrentProcess().Kill();
+            btShutdown.Click += (o, e) => Application.Current.Shutdown();
         }
 
         public void Refresh()

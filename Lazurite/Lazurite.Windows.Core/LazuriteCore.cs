@@ -14,7 +14,7 @@ using System;
 
 namespace Lazurite.Windows.Core
 {
-    public sealed class LazuriteCore: IDisposable
+    public sealed class LazuriteCore : IDisposable
     {
         private static readonly string SettingsKey = "coreSettings";
 
@@ -77,8 +77,13 @@ namespace Lazurite.Windows.Core
             Singleton.Add(new StatisticsManager());
             Singleton.Add(Server = new LazuriteServer());
             if (DataManager.Has(SettingsKey))
+            {
                 SetSettings(DataManager.Get<CoreSettings>(SettingsKey));
-            else SetSettings(new CoreSettings());
+            }
+            else
+            {
+                SetSettings(new CoreSettings());
+            }
         }
     }
 }

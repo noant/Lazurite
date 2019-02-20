@@ -5,6 +5,7 @@ using Lazurite.MainDomain.Statistics;
 using Lazurite.Scenarios.ScenarioTypes;
 using LazuriteUI.Windows.Controls;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,9 +26,12 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action Applied;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action Modified;
+
         public bool IsModified { get; private set; }
+        public bool IsFailed { get; private set; }
 
         public ScenariosConstructorsResolverView()
         {
@@ -41,37 +45,54 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             if (scenario != null)
             {
-                var loading = StuckUILoadingWindow.Loading("Компоновка окна...");
-                try
+                using (StuckUILoadingWindow.Loading("Компоновка окна..."))
                 {
-                    _originalSenario = scenario;
-                    _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
-                    await _clonedScenario.Initialize();
-                    if (scenario is SingleActionScenario)
-                        contentPresenter.Content = _constructorView = new SingleActionScenarioView((SingleActionScenario)_clonedScenario);
-                    else if (scenario is RemoteScenario)
-                        contentPresenter.Content = _constructorView = new RemoteScenarioView((RemoteScenario)_clonedScenario);
-                    else if (scenario is CompositeScenario)
-                        contentPresenter.Content = _constructorView = new CompositeScenarioView((CompositeScenario)_clonedScenario);
-                    buttonsView.SetScenario(_clonedScenario);
-                    IsModified = false;
-                    _constructorView.Modified += () => Modified?.Invoke();
-                    _constructorView.Modified += () => buttonsView.ScenarioModified();
-                    _constructorView.Modified += () => IsModified = true;
-                    _constructorView.Failed += () => buttonsView.Failed();
-                    _constructorView.Succeed += () => buttonsView.Success();
-                    EmptyScenarioModeOff();
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    EmptyScenarioModeOn();
-                    Log.ErrorFormat(e, "Ошибка инициализации сценария {0}", scenario.Name);
-                    return false;
-                }
-                finally
-                {
-                    loading.Close();
+                    try
+                    {
+                        _originalSenario = scenario;
+                        _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
+                        if (_clonedScenario is SingleActionScenario s)
+                        {
+                            await _clonedScenario.Initialize();
+                            contentPresenter.Content = _constructorView = new SingleActionScenarioView(s);
+                        }
+                        else if (_clonedScenario is CompositeScenario c)
+                        {
+                            await _clonedScenario.Initialize();
+                            contentPresenter.Content = _constructorView = new CompositeScenarioView(c);
+                        }
+                        else if (_clonedScenario is RemoteScenario r)
+                        {
+                            contentPresenter.Content = _constructorView = new RemoteScenarioView(r);
+                        }
+
+                        buttonsView.SetScenario(_clonedScenario);
+                        IsModified = false;
+                        _constructorView.Modified += () =>
+                        {
+                            Modified?.Invoke();
+                            buttonsView.ScenarioModified();
+                            IsModified = true;
+                        };
+                        _constructorView.Failed += () =>
+                        {
+                            buttonsView.Failed();
+                            IsFailed = true;
+                        };
+                        _constructorView.Succeed += () =>
+                        {
+                            buttonsView.Success();
+                            IsFailed = false;
+                        };
+                        EmptyScenarioModeOff();
+                        return true;
+                    }
+                    catch (Exception e)
+                    {
+                        EmptyScenarioModeOn();
+                        Log.Error($"Ошибка инициализации сценария [{scenario.Name}]", e);
+                        return false;
+                    }
                 }
             }
             else
@@ -101,7 +122,9 @@ namespace LazuriteUI.Windows.Main.Constructors
 
         public async void Apply(Action callback = null, bool reset = true)
         {
-            if (_originalSenario.ValueType != null && !_originalSenario.ValueType.IsCompatibleWith(_clonedScenario.ValueType))
+            if (Repository.Scenarios.Any(x => x.Id == _originalSenario.Id) &&
+                _originalSenario.ValueType != null &&
+                !_originalSenario.ValueType.IsCompatibleWith(_clonedScenario.ValueType))
             {
                 MessageView.ShowYesNo(
                     "Сценарий был изменен так, что тип изначального сценария не совместим с типом текущего сценария.\r\n" +
@@ -112,7 +135,10 @@ namespace LazuriteUI.Windows.Main.Constructors
                     async (result) =>
                     {
                         if (result)
+                        {
                             await ApplyInternal(reset);
+                        }
+
                         callback?.Invoke();
                     });
             }
@@ -127,15 +153,22 @@ namespace LazuriteUI.Windows.Main.Constructors
         {
             try
             {
-                Repository.SaveScenario(_clonedScenario);
-                StatisticsManager.ReRegister(_clonedScenario);
-                await _clonedScenario.Initialize();
-                _clonedScenario.AfterInitilize();
+                using (MessageView.ShowLoad("Применение изменений..."))
+                {
+                    Repository.SaveScenario(_clonedScenario);
+                    StatisticsManager.ReRegister(_clonedScenario);
+                    await _clonedScenario.Initialize();
+                    _clonedScenario.AfterInitilize();
+                }
+
                 IsModified = false;
+
                 if (reset)
                 {
                     if (await SetScenario(_clonedScenario))
+                    {
                         Applied?.Invoke();
+                    }
                 }
                 else
                 {
@@ -145,7 +178,7 @@ namespace LazuriteUI.Windows.Main.Constructors
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Ошибка инициализации сценария {0}", _clonedScenario.Name);
+                Log.Error($"Ошибка инициализации сценария [{_clonedScenario.Name}]", e);
             }
         }
 
@@ -154,7 +187,12 @@ namespace LazuriteUI.Windows.Main.Constructors
             try
             {
                 _clonedScenario = (ScenarioBase)Lazurite.Windows.Utils.Utils.CloneObject(_originalSenario);
-                await _clonedScenario.Initialize();
+
+                if (_clonedScenario is RemoteScenario == false)
+                {
+                    await _clonedScenario.Initialize();
+                }
+
                 buttonsView.Revert(_clonedScenario);
                 _constructorView.Revert(_clonedScenario);
                 IsModified = false;

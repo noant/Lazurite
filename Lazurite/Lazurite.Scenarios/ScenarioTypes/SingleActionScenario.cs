@@ -24,9 +24,12 @@ namespace Lazurite.Scenarios.ScenarioTypes
             {
                 if (ActionHolder != null &&
                     ActionHolder.Action != null &&
-                    !ActionHolder.Action.IsSupportsEvent && 
+                    !ActionHolder.Action.IsSupportsEvent &&
                     ActionsDomain.Utils.IsOnlyGetValue(ActionHolder.Action.GetType())) //determine when action needs recalculate every time
+                {
                     return DateTime.Now;
+                }
+
                 return base.LastChange;
             }
             protected set => base.LastChange = value;
@@ -50,9 +53,14 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 HandleExecution(() =>
                 {
                     if (!ActionHolder.Action.IsSupportsEvent)
+                    {
                         SetCurrentValue(param, source);
+                    }
                     else
+                    {
                         NotifyOnlyIntent(source, param, GetPreviousValue());
+                    }
+
                     ExecuteInternal(context);
                 });
             }
@@ -61,7 +69,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 HandleSet(e);
             }
         }
-        
+
         public override void ExecuteAsync(ScenarioActionSource source, string param, out string executionId, ExecutionContext parentContext = null)
         {
             executionId = PrepareExecutionId();
@@ -73,10 +81,15 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 var context = PrepareExecutionContext(param, parentContext);
                 HandleExecution(() =>
                 {
-                    if (!ActionHolder.Action.IsSupportsEvent) 
+                    if (!ActionHolder.Action.IsSupportsEvent)
+                    {
                         SetCurrentValue(param, source);
+                    }
                     else
+                    {
                         NotifyOnlyIntent(source, param, GetPreviousValue());
+                    }
+
                     ExecuteInternal(context);
                 });
             },
@@ -96,7 +109,9 @@ namespace Lazurite.Scenarios.ScenarioTypes
         public override void CalculateCurrentValueAsync(ScenarioActionSource source, Action<string> callback, ExecutionContext parentContext)
         {
             if (!ActionHolder.Action.IsSupportsEvent)
+            {
                 base.CalculateCurrentValueAsync(source, callback, parentContext);
+            }
             //return cached value, callback in not necessary
             else
             {
@@ -114,7 +129,10 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 {
                     var value = ActionHolder.Action.GetValue(new ExecutionContext(this, string.Empty, string.Empty, new OutputChangedDelegates(), new CancellationTokenSource()));
                     if (GetCurrentValue() != value)
+                    {
                         SetCurrentValueNoEvents(value);
+                    }
+
                     return value;
                 }
                 //else - cached value is fresh
@@ -126,7 +144,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 throw e;
             }
         }
-        
+
         protected override async Task<bool> InitializeInternal()
         {
             await base.InitializeInternal();
@@ -148,7 +166,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
             catch (Exception e)
             {
                 Log.Warn(
-                    $"Сценарий [{Name}] не проинициализирован." +
+                    $"Сценарий [{Name}] не проинициализирован. " +
                     "Возможно, не все внутренние данные были получены сейчас и сценарий будет настроен позже." +
                     "Подробности можно посмотреть в лог-файле.", e);
                 SetIsAvailable(false);
@@ -170,7 +188,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
         {
             //do nothing
         }
-        
+
         public override IAction[] GetAllActionsFlat() => new[] { ActionHolder.Action };
 
         public override SecuritySettingsBase SecuritySettings { get; set; } = new SecuritySettings();

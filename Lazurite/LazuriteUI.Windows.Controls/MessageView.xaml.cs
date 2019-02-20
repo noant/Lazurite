@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -29,8 +28,13 @@ namespace LazuriteUI.Windows.Controls
             foreach (FrameworkElement element in parentElement.Children)
             {
                 if (!element.IsEnabled)
+                {
                     _tempDisabledElements.Add(element);
-                else element.IsEnabled = false;
+                }
+                else
+                {
+                    element.IsEnabled = false;
+                }
             }
             parentElement.Children.Add(this);
             Panel.SetZIndex(this, 999);
@@ -42,7 +46,7 @@ namespace LazuriteUI.Windows.Controls
             Show(parent);
         }
 
-        public void ShowInNewWindow(Action shownCallback = null, int width = 500, bool showDialog=false)
+        public void ShowInNewWindow(Action shownCallback = null, int width = 500, bool showDialog = false)
         {
             var window = new Window();
             window.Name = "messageView";
@@ -57,14 +61,18 @@ namespace LazuriteUI.Windows.Controls
             window.Topmost = true;
             window.ShowActivated = false;
             window.ShowInTaskbar = false;
-            window.ContentRendered += (o,e) => shownCallback?.Invoke();
+            window.ContentRendered += (o, e) => shownCallback?.Invoke();
             window.Content = new Grid();
             _window = window;
             Show(window.Content as Grid);
             if (showDialog)
+            {
                 window.ShowDialog();
+            }
             else
+            {
                 window.Show();
+            }
         }
 
         public void Close()
@@ -76,11 +84,14 @@ namespace LazuriteUI.Windows.Controls
             }
             else
             {
-                Parent?.Dispatcher.BeginInvoke(new Action(() => {
+                Parent?.Dispatcher.BeginInvoke(new Action(() =>
+                {
                     foreach (FrameworkElement element in ((Panel)Parent).Children)
                     {
                         if (!_tempDisabledElements.Contains(element))
+                        {
                             element.IsEnabled = true;
+                        }
                     }
                     ((Panel)Parent).Children.Remove(this);
                 }));
@@ -92,17 +103,20 @@ namespace LazuriteUI.Windows.Controls
             itemsView.Children.Clear();
             foreach (var item in itemsInfos)
             {
-                var itemView = new ItemView() {
+                var itemView = new ItemView()
+                {
                     Content = item.Text,
                     Icon = item.Icon ?? Icon.Add,
                     IconVisibility = item.Icon != null ? Visibility.Visible : Visibility.Collapsed
                 };
                 itemView.MinWidth = 140;
-                itemView.Margin = new Thickness(2,0,0,0);
+                itemView.Margin = new Thickness(2, 0, 0, 0);
                 itemView.Click += (o, e) => item.Click?.Invoke(this);
                 itemsView.Children.Add(itemView);
                 if (item.Focused || (itemsInfos.All(x => !x.Focused) && itemsInfos.Last() == item))
-                    itemView.Loaded += (o,e) => FocusManager.SetFocusedElement(this, itemView);
+                {
+                    itemView.Loaded += (o, e) => FocusManager.SetFocusedElement(this, itemView);
+                }
             }
         }
 
@@ -178,9 +192,13 @@ namespace LazuriteUI.Windows.Controls
 
         public static void ShowMessage(string message, string header, Icon icon, Panel parent = null, Action okCallback = null)
         {
-            App.Current.Dispatcher.BeginInvoke(new Action(() => {
+            App.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
                 if (parent == null)
+                {
                     parent = Utils.GetMainWindowPanel();
+                }
+
                 var messageView = new MessageView();
                 messageView.ContentText = message;
                 messageView.HeaderText = header;
@@ -196,59 +214,87 @@ namespace LazuriteUI.Windows.Controls
             }));
         }
 
-        public static CancellationTokenSource ShowLoad(string message, Panel parent = null)
+        public static LoadingViewCancellation ShowLoad(string message, Panel parent = null)
         {
-            var tokenSource = new CancellationTokenSource();
-
             if (parent == null)
+            {
                 parent = Utils.GetMainWindowPanel();
+            }
 
-            parent.Dispatcher.BeginInvoke((Action)(() =>
+            var loadingCancellation = new LoadingViewCancellation();
+
+            parent.Dispatcher.BeginInvoke(new Action(() =>
             {
                 var messageView = new MessageView();
                 messageView.ContentText = message;
                 messageView.HeaderText = "Пожалуйста, подождите...";
-                messageView.Icon = Icons.Icon.MoonSleep;
+                messageView.Icon = Icon.MoonSleep;
                 messageView.StartAnimateProgress();
                 messageView.Show(parent);
-
-                tokenSource.Token.Register(() => messageView.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    messageView.Close();
-                })));
+                loadingCancellation.Register(() => messageView.Dispatcher.BeginInvoke((Action)messageView.Close));
             }));
 
-            return tokenSource;
+            return loadingCancellation;
         }
 
         public static void ShowYesNo(string message, string header, Icon icon, Action<bool> callback = null, Panel parent = null)
         {
             if (parent == null)
+            {
                 parent = Utils.GetMainWindowPanel();
+            }
+
             var messageView = new MessageView();
             messageView.ContentText = message;
             messageView.HeaderText = header;
             messageView.Icon = icon;
             messageView.SetItems(new MessageItemInfo[] {
                 new MessageItemInfo(
-                "Да", 
+                "Да",
                 (v) =>
                 {
                     v.Close();
                     callback?.Invoke(true);
-                }, 
+                },
                 Icon.Check),
                 new MessageItemInfo(
-                "Нет", 
+                "Нет",
                 (v) =>
                 {
                     v.Close();
                     callback?.Invoke(false);
-                }, 
-                Icon.Cancel, 
+                },
+                Icon.Cancel,
                 true)
             });
             messageView.Show(parent);
+        }
+
+        public class LoadingViewCancellation : IDisposable
+        {
+            private Action _action;
+
+            private bool _cancelled = false;
+
+            public void Register(Action action)
+            {
+                if (_cancelled)
+                {
+                    action();
+                }
+                else
+                {
+                    _action = action;
+                }
+            }
+
+            public void Dispose()
+            {
+                _cancelled = true;
+                _action?.Invoke();
+            }
+
+            public void Cancel() => Dispose();
         }
     }
 }

@@ -7,23 +7,25 @@ namespace LazuriteUI.Windows.Controls
     /// <summary>
     /// Логика взаимодействия для StuckUILoadingWindow.xaml
     /// </summary>
-    public partial class StuckUILoadingWindow : Window
+    public partial class StuckUILoadingWindow : Window, IDisposable
     {
         public StuckUILoadingWindow()
         {
             InitializeComponent();
         }
-        
+
         public static void Show(string message, Action target)
         {
             var dispatcher = System.Windows.Threading.Dispatcher.CurrentDispatcher;
-            var newUiThread = new Thread(() => {
+            var newUiThread = new Thread(() =>
+            {
                 var view = new StuckUILoadingWindow();
                 view.tbCaption.Text = message;
                 view.progressView.StartProgress();
                 view.ContentRendered += (o, e) =>
                 {
-                    dispatcher.BeginInvoke(new Action(() => {
+                    dispatcher.BeginInvoke(new Action(() =>
+                    {
                         target?.Invoke();
                         view.Dispatcher.BeginInvoke(new Action(view.Close));
                     }));
@@ -43,6 +45,11 @@ namespace LazuriteUI.Windows.Controls
             view.tbCaption.Text = message;
             view.progressView.StartProgress();
             return view;
+        }
+
+        public void Dispose()
+        {
+            Close();
         }
     }
 }
