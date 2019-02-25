@@ -3,42 +3,25 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
-using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
-using LazuriteMobile.MainDomain;
+using Lazurite.Utils;
 using System;
-using System.Threading;
 
 namespace LazuriteMobile.App.Droid
 {
     [Service(Exported = false, Enabled = true)]
     public class LazuriteService : Service
     {
-        private static readonly int SleepInterval_Normal = 16000;
-        private static readonly int SleepInterval_ScreenOff = 60000;
-        private static readonly int SleepInterval_PowerSaving = 180000;
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
-
         private static bool AlreadyStarted = false;
 
-        private bool IsPhoneSleeping
-        {
-            get
-            {
-                var service = ((PowerManager)GetSystemService(PowerService));
-                return !service.IsInteractive || service.IsDeviceIdleMode;
-            }
-        }
-        private bool IsPhoneInPowerSave
-        {
-            get
-            {
-                var service = ((PowerManager)GetSystemService(PowerService));
-                return service.IsPowerSaveMode && !service.IsIgnoringBatteryOptimizations(PackageName);
-            }
-        }
+        private PowerManager PowerManager => GetSystemService(PowerService) as PowerManager;
+
+        private bool IsPhoneSleeping => !PowerManager.IsInteractive || PowerManager.IsDeviceIdleMode;
+
+        private bool IsPhoneInPowerSave => PowerManager.IsPowerSaveMode && !PowerManager.IsIgnoringBatteryOptimizations(PackageName);
 
         private static ILogger Log;
         private ScenariosManager _manager;
@@ -46,7 +29,7 @@ namespace LazuriteMobile.App.Droid
         private IncomingHandler _inHandler = new IncomingHandler();
         private Messenger _toActivityMessenger;
         private Notification _currentNotification;
-        private CancellationTokenSource _timerCancellationToken;
+        private SafeCancellationToken _timerCancellationToken;
         private PowerManager.WakeLock _wakelock;
 
         public override IBinder OnBind(Intent intent)
@@ -76,7 +59,7 @@ namespace LazuriteMobile.App.Droid
                 _manager = new ScenariosManager();
                 _messenger = new Messenger(_inHandler);
                 _inHandler.HasCome += InHandler_HasCome;
-                
+
                 _manager.ConnectionLost += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionLost));
                 _manager.ConnectionRestored += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionRestored), TimerAction.Start);
                 _manager.LoginOrPasswordInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.CredentialsInvalid), TimerAction.Stop);
@@ -91,7 +74,7 @@ namespace LazuriteMobile.App.Droid
                 RegisterReceiver(new ScreenOnReciever(), new IntentFilter(Intent.ActionScreenOn));
 
                 var manager = (AlarmManager)GetSystemService(AlarmService);
-                var triggerAtTime = SystemClock.ElapsedRealtime() + (10 * 60 * 1000);
+                var triggerAtTime = SystemClock.ElapsedRealtime() + (5 * 60 * 1000);
                 var onAndroidAvailable = new Intent(this, typeof(BackgroundReceiver));
                 var startServiceIntent = PendingIntent.GetBroadcast(this, 0, onAndroidAvailable, 0);
                 if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
@@ -136,14 +119,23 @@ namespace LazuriteMobile.App.Droid
 
             _timerCancellationToken = SystemUtils.StartTimer(
                 (token) => _manager.RefreshIteration(),
-                () => {
-                    var interval = SleepInterval_Normal;
+                () =>
+                {
+                    var interval = _manager.ListenerSettings.ScreenOnInterval;
                     try
                     {
                         if (IsPhoneSleeping)
-                            interval = SleepInterval_ScreenOff;
+                        {
+                            interval = _manager.ListenerSettings.ScreenOffInterval;
+                        }
                         else if (IsPhoneInPowerSave)
-                            interval = SleepInterval_PowerSaving;
+                        {
+                            interval = _manager.ListenerSettings.PowerSavingModeInterval;
+                        }
+                        else if (_manager.ConnectionState != MainDomain.ManagerConnectionState.Connected)
+                        {
+                            interval = _manager.ListenerSettings.OnErrorInterval;
+                        }
                     }
                     catch
                     {
@@ -156,7 +148,10 @@ namespace LazuriteMobile.App.Droid
 
         private void StopTimer()
         {
-            _timerCancellationToken?.Cancel();
+            if (!_timerCancellationToken?.IsCancellationRequested ?? false)
+            {
+                _timerCancellationToken?.Cancel();
+            }
         }
 
         private bool IsTimerStarted => !_timerCancellationToken?.IsCancellationRequested ?? false;
@@ -177,18 +172,25 @@ namespace LazuriteMobile.App.Droid
             {
                 case TimerAction.Start:
                     if (!IsTimerStarted)
+                    {
                         ReInitTimer();
+                    }
+
                     break;
+
                 case TimerAction.Stop:
                     StopTimer();
                     break;
+
                 case TimerAction.Nothing:
                     break;
             }
             try
             {
-                if (_toActivityMessenger != null) 
+                if (_toActivityMessenger != null)
+                {
                     action?.Invoke(_toActivityMessenger);
+                }
             }
             catch (System.Exception e)
             {
@@ -209,7 +211,7 @@ namespace LazuriteMobile.App.Droid
                 {
                     case ServiceOperation.ExecuteScenario:
                         {
-                            _manager.ExecuteScenario(Utils.GetData<ExecuteScenarioArgs>(msg));
+                            _manager.ExecuteScenario(Utils.GetData<MainDomain.ExecuteScenarioArgs>(msg));
                             break;
                         }
                     case ServiceOperation.GetClientSettings:

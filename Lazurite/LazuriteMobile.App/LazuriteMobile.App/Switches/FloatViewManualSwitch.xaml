@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Grid 
+<Grid
     xmlns:common="clr-namespace:LazuriteMobile.App.Common"
     xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
-    xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
     BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=Background}"
     Margin="4"
@@ -18,15 +18,15 @@
         <RowDefinition Height="35"></RowDefinition>
         <RowDefinition Height="Auto"></RowDefinition>
     </Grid.RowDefinitions>
-    <controls:IconView  
-        HeightRequest="30" WidthRequest="30" 
+    <controls:IconView
+        HeightRequest="30" WidthRequest="30"
         Foreground="{Binding Source={x:Static controls:Visual.Current}, Path=SwitchIconColor}"
-        Opacity="0.64" VerticalOptions="Center" 
+        VerticalOptions="Center"
         Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
     <controls:ValueView VerticalOptions="Center" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></controls:ValueView>
-    <common:NumericEntry 
-        BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=MessageEditColor}" 
-        x:Name="numericEntry" Grid.Row="1" HeightRequest="75" Grid.ColumnSpan="2" Grid.Column="0" 
+    <common:NumericEntry
+        BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=MessageEditColor}"
+        x:Name="numericEntry" Grid.Row="1" HeightRequest="75" Grid.ColumnSpan="2" Grid.Column="0"
         VerticalOptions="Start"></common:NumericEntry>
     <controls:ItemView Grid.Row="1" Grid.Column="2" x:Name="itemViewApply" Icon="NavigateNext" VerticalOptions="Start" HeightRequest="45" WidthRequest="45" Text=""></controls:ItemView>
 </Grid>

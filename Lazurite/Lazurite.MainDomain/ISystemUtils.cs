@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading;
+﻿using Lazurite.Utils;
+using System;
 
 namespace Lazurite.MainDomain
 {
     public interface ISystemUtils
     {
-        void Sleep(int ms, CancellationToken cancelToken);
+        void Sleep(int ms, SafeCancellationToken cancelToken);
 
-        CancellationTokenSource StartTimer(Action<CancellationTokenSource> tick, Func<int> needInterval, bool startImmidiate = true, bool ticksSuperposition = false);
+        SafeCancellationToken StartTimer(Action<SafeCancellationToken> tick, Func<int> needInterval, bool startImmidiate = true, bool ticksSuperposition = false);
 
         byte[] CreateMD5Hash(byte[] bytes);
 

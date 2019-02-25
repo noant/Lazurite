@@ -1,8 +1,8 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Shared;
 using Lazurite.Utils;
 using System;
-using System.Threading;
 using System.Windows.Controls;
 
 namespace LazuriteUI.Windows.Main.Switches
@@ -18,7 +18,7 @@ namespace LazuriteUI.Windows.Main.Switches
         private IHardwareVolumeChanger _changer;
         private volatile string _tempValueToInstall;
         private volatile string _tempValueToUpdate;
-        private CancellationTokenSource _tokenSource;
+        private SafeCancellationToken _tokenSource;
         private double _iteration;
         private int _round = 1;
         private ScenarioModel _model;
@@ -42,12 +42,15 @@ namespace LazuriteUI.Windows.Main.Switches
         private void BtInput_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             InfoViewSwitch.Show(
-                (val) => {
+                (val) =>
+                {
                     if (double.TryParse(val, out double value))
+                    {
                         slider.Value = value;
+                    }
                 },
-                true, 
-                _model.Min, 
+                true,
+                _model.Min,
                 _model.Max);
         }
 
@@ -55,11 +58,17 @@ namespace LazuriteUI.Windows.Main.Switches
         {
             var iteration = _iteration * args.Value;
             if (slider.Value + iteration > slider.Maximum)
+            {
                 slider.Value = slider.Maximum;
+            }
             else if (slider.Value + iteration < slider.Minimum)
+            {
                 slider.Value = slider.Minimum;
+            }
             else
+            {
                 slider.Value += iteration;
+            }
         }
 
         public void Dispose()
@@ -73,7 +82,7 @@ namespace LazuriteUI.Windows.Main.Switches
             _tokenSource = null;
         }
 
-        public FloatViewSwitch(ScenarioModel model): this()
+        public FloatViewSwitch(ScenarioModel model) : this()
         {
             DataContext = _model = model;
 
@@ -113,13 +122,20 @@ namespace LazuriteUI.Windows.Main.Switches
 
             //crutch #4
             _tokenSource = SystemUtils.StartTimer(
-                (token) => {
+                (token) =>
+                {
                     if (_tempValueToUpdate != _tempValueToInstall && !_scenarioValueChanged)
+                    {
                         model.ScenarioValue = _tempValueToInstall = _tempValueToUpdate;
+                    }
+
                     if (_tempValueToInstall != _tempValueToUpdate && _scenarioValueChanged)
-                        Dispatcher.BeginInvoke(new Action(() => {
+                    {
+                        Dispatcher.BeginInvoke(new Action(() =>
+                        {
                             slider.Value = double.Parse(_tempValueToUpdate = _tempValueToInstall);
                         }));
+                    }
                 },
                 () => FloatView_ValueUpdateInterval);
         }

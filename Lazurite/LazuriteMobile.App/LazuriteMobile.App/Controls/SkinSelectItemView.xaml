@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Grid xmlns="http://xamarin.com/schemas/2014/forms" 
+<Grid xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
              Margin="8,0,8,8"
@@ -44,21 +44,14 @@
         <Frame CornerRadius="0" HasShadow="False" OutlineColor="DimGray" Margin="3" Grid.Column="6" BackgroundColor="{x:Binding SwitchBorder}" />
     </Grid>
     <Grid Grid.Row="2" Margin="4,0,4,4">
-        <controls:ItemView 
+        <controls:ItemView
             BackgroundColor="{x:Binding ItemBackground}"
             IconForeground="{x:Binding ItemIconColor}"
+            Selectable="true"
             Icon="ChevronRight" Click="BtApply_Click"
-            AnimateView="{x:Reference lblCaption}"
-            x:Name="btApply" Text="">
-        </controls:ItemView>
-        <controls:CaptionView
-            x:Name="lblCaption"
             Text="Применить скин"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            TextColor="{x:Binding Foreground}"
-            FontFamily="{x:Binding FontFamily}"
-            FontSize="{x:Binding FontSize}">
-        </controls:CaptionView>
+            TextForeground="{x:Binding Foreground}"
+            x:Name="btApply">
+        </controls:ItemView>
     </Grid>
 </Grid>

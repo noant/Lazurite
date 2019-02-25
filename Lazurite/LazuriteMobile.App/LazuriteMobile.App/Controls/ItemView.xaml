@@ -2,19 +2,19 @@
 <Grid
     HeightRequest="35"
     xmlns:local="clr-namespace:LazuriteMobile.App.Controls"
-    xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     HorizontalOptions="FillAndExpand"
     BackgroundColor="{Binding Source={x:Static local:Visual.Current}, Path=ItemBackground}"
     x:Class="LazuriteMobile.App.Controls.ItemView">
     <Grid x:Name="backGrid" InputTransparent="True" VerticalOptions="Fill" HorizontalOptions="Fill" BackgroundColor="{Binding Source={Static local:Visual.Current}, Path=ItemSelection}" Opacity="0"></Grid>
     <Button Opacity="0" Margin="0" BorderColor="Transparent" BorderRadius="0" BorderWidth="0" x:Name="button" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" Clicked="Button_Clicked"></Button>
-    <local:IconView Foreground="{Binding Source={x:Static local:Visual.Current}, Path=ItemIconColor}" Opacity="0.64" HeightRequest="35" WidthRequest="35" HorizontalOptions="Start" InputTransparent="True" VerticalOptions="Center" x:Name="iconView" x:FieldModifier="private" Icon="AdobeAcrobat" IsVisible="{Binding IconVisibility}" Margin="4"></local:IconView>
-    <Label 
-        FontSize="{Binding Source={x:Static local:Visual.Current}, Path=FontSize}" 
-        FontFamily="{Binding Source={x:Static local:Visual.Current}, Path=FontFamily}" 
-        x:Name="label" InputTransparent="True" 
-        TextColor="{Binding Source={Static local:Visual.Current}, Path=Foreground}" 
+    <local:IconView Foreground="{Binding Source={x:Static local:Visual.Current}, Path=ItemIconColor}" HeightRequest="35" WidthRequest="35" HorizontalOptions="Start" InputTransparent="True" VerticalOptions="Center" x:Name="iconView" x:FieldModifier="private" Icon="AdobeAcrobat" IsVisible="{Binding IconVisibility}" Margin="4"></local:IconView>
+    <Label
+        FontSize="{Binding Source={x:Static local:Visual.Current}, Path=FontSize}"
+        FontFamily="{Binding Source={x:Static local:Visual.Current}, Path=FontFamily}"
+        x:Name="label" InputTransparent="True"
+        TextColor="{Binding Source={Static local:Visual.Current}, Path=ItemForeground}"
         VerticalTextAlignment="Center" HorizontalTextAlignment="Center" BackgroundColor="Transparent"></Label>
     <Grid HeightRequest="3" Opacity="0" VerticalOptions="End" HorizontalOptions="FillAndExpand" BackgroundColor="DarkOrchid" x:Name="strokeGrid"></Grid>
 </Grid>

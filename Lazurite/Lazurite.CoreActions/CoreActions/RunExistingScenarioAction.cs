@@ -26,6 +26,7 @@ namespace Lazurite.CoreActions.CoreActions
         }
 
         private ScenarioBase _scenario;
+
         public void SetTargetScenario(ScenarioBase scenario)
         {
             _scenario = scenario;
@@ -91,22 +92,37 @@ namespace Lazurite.CoreActions.CoreActions
             if (_scenario != null)
             {
                 if (_scenario.GetInitializationState() == ScenarioInitializationValue.NotInitialized)
-                    _scenario.FullInitialize();
-                else while (_scenario.GetInitializationState() == ScenarioInitializationValue.Initializing)
-                        SystemUtils.Sleep(100, context.CancellationTokenSource.Token);
+                {
+                    _scenario.FullInitialize().Wait();
+                }
+                else
+                {
+                    while (_scenario.GetInitializationState() == ScenarioInitializationValue.Initializing)
+                    {
+                        SystemUtils.Sleep(100, context.CancellationTokenSource);
+                    }
+                }
 
                 var executionId = string.Empty;
                 if (Mode == RunExistingScenarioMode.Asynchronously)
+                {
                     _scenario?.ExecuteAsyncParallel(ScenarioActionSource, value, context);
+                }
                 else if (Mode == RunExistingScenarioMode.Synchronously)
+                {
                     _scenario?.Execute(ScenarioActionSource, value, out executionId, context);
+                }
                 else if (Mode == RunExistingScenarioMode.MainExecutionContext)
+                {
                     _scenario?.ExecuteAsync(ScenarioActionSource, value, out executionId, context);
+                }
             }
         }
 
 #pragma warning disable 67
+
         public event ValueChangedEventHandler ValueChanged;
+
 #pragma warning restore 67
     }
 }

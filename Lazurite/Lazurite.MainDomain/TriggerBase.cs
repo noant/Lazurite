@@ -2,21 +2,18 @@
 using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
 using Lazurite.Logging;
+using Lazurite.Utils;
 using System;
-using System.Threading;
 
 namespace Lazurite.MainDomain
 {
-    public abstract class TriggerBase: IAlgorithmContext
+    public abstract class TriggerBase : IAlgorithmContext
     {
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
 
-        private CancellationTokenSource _tokenSource;
-        private string _id = Guid.NewGuid().ToString();
-        
         public ValueTypeBase ValueType => _scenario?.ValueType ?? new ButtonValueType();
 
-        protected CancellationToken? CancellationToken => _tokenSource?.Token;
+        protected SafeCancellationToken CancellationToken { get; set; }
 
         /// <summary>
         /// Trigger category
@@ -26,10 +23,7 @@ namespace Lazurite.MainDomain
         /// <summary>
         /// Trigger id
         /// </summary>
-        public string Id {
-            get => _id;
-            set => _id = value;
-        }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Trigger name
@@ -45,13 +39,17 @@ namespace Lazurite.MainDomain
         /// Trigger body
         /// </summary>
         public virtual IAction TargetAction { get; set; }
-        
+
         /// <summary>
         /// Disable trigger executing
         /// </summary>
         public virtual void Stop()
         {
-            _tokenSource?.Cancel();
+            if (!CancellationToken?.IsCancellationRequested ?? false)
+            {
+                CancellationToken?.Cancel();
+            }
+
             Enabled = false;
         }
 
@@ -74,7 +72,7 @@ namespace Lazurite.MainDomain
         /// </summary>
         /// <returns></returns>
         public abstract IAction[] GetAllActionsFlat();
-        
+
         public abstract void Initialize();
 
         public abstract void AfterInitialize();
@@ -86,15 +84,18 @@ namespace Lazurite.MainDomain
         {
             try
             {
-                if (!_tokenSource?.IsCancellationRequested ?? false)
+                if (!CancellationToken?.IsCancellationRequested ?? false)
+                {
                     throw new InvalidOperationException("Невозможно запустить триггер, так как предыдущее выполнение не остановлено!");
+                }
+
                 Enabled = true;
-                _tokenSource = new CancellationTokenSource();
+                CancellationToken = new SafeCancellationToken();
                 RunInternal();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Log.ErrorFormat(e, "Ошибка во время выполнения триггера [{0}][{1}]", Name, Id);
+                Log.Error($"Ошибка во время выполнения триггера [{Name}][{Id}]");
             }
         }
 

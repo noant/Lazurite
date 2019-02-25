@@ -10,7 +10,7 @@ namespace LazuriteMobile.App.Switches
         public static readonly StringToIcon StringToIcon = new StringToIcon();
         public static readonly StringToShortString StringToShortString = new StringToShortString(17);
         public static readonly StringToShortString StringToShortStringBig = new StringToShortString(40);
-        public static readonly StringToShortString StringToShortStringSmall = new StringToShortString(7);
+        public static readonly StringToShortString StringToShortStringSmall = new StringToShortString(8);
         public static readonly ValueTypeStringToBool ValueTypeStringToBool = new ValueTypeStringToBool();
         public static readonly ValueTypeStringToBoolInvert ValueTypeStringToBoolInvert = new ValueTypeStringToBoolInvert();
         public static readonly ValueTypeStringToDouble ValueTypeStringToDouble = new ValueTypeStringToDouble();

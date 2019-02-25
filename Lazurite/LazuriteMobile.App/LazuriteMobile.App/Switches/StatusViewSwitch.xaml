@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Grid 
+<Grid
     x:Class="LazuriteMobile.App.Switches.StatusViewSwitch"
     xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
-    xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:LazuriteMobile.App.Switches"
     BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=Background}"
     Padding="4"
@@ -19,9 +19,9 @@
     </Grid.ColumnDefinitions>
 
     <controls:IconView Foreground="{Binding Source={x:Static controls:Visual.Current}, Path=SwitchIconColor}"
-                       HeightRequest="30" WidthRequest="30" IsVisible="False" x:Name="iconTitle" Opacity="0.64" VerticalOptions="Center" 
+                       HeightRequest="30" WidthRequest="30" IsVisible="False" x:Name="iconTitle" VerticalOptions="Center"
                        Icon="{Binding Icon1, Converter={Static local:ConvertersStatic.StringToIcon}, Mode=TwoWay}"></controls:IconView>
-    <controls:ValueView IsVisible="False" VerticalTextAlignment="Center" x:Name="lblTitle" Grid.Column="1" 
+    <controls:ValueView IsVisible="False" VerticalTextAlignment="Center" x:Name="lblTitle" Grid.Column="1"
                         Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortStringBig}}"></controls:ValueView>
 
     <controls:IconView Foreground="{Binding Source={x:Static controls:Visual.Current}, Path=SwitchIconColor}"

@@ -1,12 +1,12 @@
 ﻿using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Utils;
 using Lazurite.Visual;
 using LazuriteUI.Icons;
 using LazuriteUI.Windows.Main.Switches;
 using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -38,9 +38,11 @@ namespace LazuriteUI.Windows.Main
 
         static SwitchesGrid()
         {
-            EditModeProperty = DependencyProperty.Register(nameof(EditMode), typeof(bool), typeof(SwitchesGrid), new FrameworkPropertyMetadata() {
+            EditModeProperty = DependencyProperty.Register(nameof(EditMode), typeof(bool), typeof(SwitchesGrid), new FrameworkPropertyMetadata()
+            {
                 DefaultValue = false,
-                PropertyChangedCallback = (o, e) => {
+                PropertyChangedCallback = (o, e) =>
+                {
                     ((SwitchesGrid)o).SetEditMode((bool)e.NewValue);
                 }
             });
@@ -50,7 +52,7 @@ namespace LazuriteUI.Windows.Main
         }
 
         private UserControl _draggableCurrent;
-        private CancellationTokenSource _updateUICancellationToken = new CancellationTokenSource();
+        private SafeCancellationToken _updateUICancellationToken = new SafeCancellationToken();
 
         public SwitchesGrid()
         {
@@ -60,7 +62,7 @@ namespace LazuriteUI.Windows.Main
             grid.Margin = new Thickness(0, 0, ElementMargin, ElementMargin);
             Loaded += (o, e) => SetEditMode(EditMode); //crutch
         }
-        
+
         public bool IsConstructorMode
         {
             get
@@ -127,15 +129,18 @@ namespace LazuriteUI.Windows.Main
         }
 
         public void Initialize()
-        {            
+        {
             Initialize(GetScenarios());
 
             _updateUICancellationToken = SystemUtils.StartTimer(
-                (token) => {
+                (token) =>
+                {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
                         foreach (var scenario in GetScenarios())
+                        {
                             RefreshAndReCalculateItem(scenario);
+                        }
                     }));
                 },
                 () => UpdateUIInterval_MS);
@@ -143,7 +148,6 @@ namespace LazuriteUI.Windows.Main
 
         private ScenarioBase[] GetScenarios()
         {
-
             var scenarios = ScenariosRepository.Scenarios;
             if (!IsConstructorMode)
             {
@@ -165,10 +169,13 @@ namespace LazuriteUI.Windows.Main
                 ScenariosEmptyModeOff();
             }
             else
+            {
                 ScenariosEmptyModeOn();
+            }
+
             SelectFirst();
         }
-        
+
         private FrameworkElement CreateControl(ScenarioBase scenario)
         {
             var control = SwitchesCreator.CreateScenarioControl(scenario);
@@ -181,7 +188,7 @@ namespace LazuriteUI.Windows.Main
             control.Margin = CreateControlMargin(GetVisualSettings(control));
             return control;
         }
-        
+
         private UserVisualSettings GetVisualSettings(FrameworkElement control)
         {
             var model = control.DataContext as ScenarioModel;
@@ -197,7 +204,9 @@ namespace LazuriteUI.Windows.Main
             Select(scenario);
 
             if (grid.Children.Count > 0)
+            {
                 ScenariosEmptyModeOff();
+            }
         }
 
         public void Remove(ScenarioBase scenario)
@@ -209,7 +218,9 @@ namespace LazuriteUI.Windows.Main
             SelectFirst();
 
             if (grid.Children.Count == 0)
+            {
                 ScenariosEmptyModeOn();
+            }
         }
 
         public void RefreshItem(ScenarioBase scenario)
@@ -247,7 +258,9 @@ namespace LazuriteUI.Windows.Main
                 grid.Children.Add(control);
                 Rearrange();
                 if (SelectedModel?.Scenario.Id == model.Scenario.Id)
+                {
                     SelectInternal(model);
+                }
             }
         }
 
@@ -262,7 +275,9 @@ namespace LazuriteUI.Windows.Main
             {
                 var model = ((ScenarioModel)@switch.DataContext);
                 if (model?.Scenario.Id != SelectedModel?.Scenario.Id || SelectedModel == null)
+                {
                     SelectInternal(model);
+                }
             }
         }
 
@@ -277,7 +292,10 @@ namespace LazuriteUI.Windows.Main
                         Apply = () =>
                         {
                             if (model != null)
+                            {
                                 model.Checked = true;
+                            }
+
                             BindSwitchSettings(model);
                             SelectedModel = model;
                             SelectedModelChanged?.Invoke(model);
@@ -287,7 +305,10 @@ namespace LazuriteUI.Windows.Main
             else
             {
                 if (model != null)
+                {
                     model.Checked = true;
+                }
+
                 BindSwitchSettings(model);
                 SelectedModel = model;
                 SelectedModelChanged?.Invoke(model);
@@ -297,7 +318,9 @@ namespace LazuriteUI.Windows.Main
         private void SelectFirst()
         {
             if (grid.Children.Count == 0)
+            {
                 SelectInternal(null);
+            }
             else
             {
                 var minIndex = grid.Children.Cast<UserControl>().Min(x => ((ScenarioModel)x.DataContext).VisualIndex);
@@ -328,7 +351,9 @@ namespace LazuriteUI.Windows.Main
                     _draggableCurrent = (UserControl)sender;
                     var model = (ScenarioModel)_draggableCurrent.DataContext;
                     if (model?.Scenario.Id != SelectedModel?.Scenario.Id || SelectedModel == null)
+                    {
                         SelectInternal(model);
+                    }
                 }
             }
         }
@@ -338,7 +363,9 @@ namespace LazuriteUI.Windows.Main
             foreach (UserControl userControl in grid.Children)
             {
                 if (userControl.DataContext != model)
+                {
                     ((ScenarioModel)userControl.DataContext).Checked = false;
+                }
             }
             switchSetting.DataContext = model;
         }
@@ -379,7 +406,9 @@ namespace LazuriteUI.Windows.Main
                 ordered.Insert(index, model);
                 int newIndex = 0;
                 foreach (var orderedModel in ordered)
+                {
                     orderedModel.VisualIndex = newIndex++;
+                }
 
                 VisualSettingsRepository.Save();
             }
@@ -402,7 +431,7 @@ namespace LazuriteUI.Windows.Main
             switchSettingsHolder.Visibility = Visibility.Visible;
         }
 
-        private Tuple<int,int> CreatePositionByIndex(int visualIndex)
+        private Tuple<int, int> CreatePositionByIndex(int visualIndex)
         {
             return new Tuple<int, int>(visualIndex % MaxX, visualIndex / MaxX);
         }
@@ -416,10 +445,10 @@ namespace LazuriteUI.Windows.Main
                 scenarios = scenarios.Where(x => x.IsAccessAvailable(scenarioActionSource)).ToArray();
             }
 
-            var allVisualSettings = 
+            var allVisualSettings =
                 VisualSettingsRepository
                 .VisualSettings
-                .Where(x => x.UserId.Equals(UsersRepository.SystemUser.Id) && scenarios.Any(z=>z.Id.Equals(x.ScenarioId)))
+                .Where(x => x.UserId.Equals(UsersRepository.SystemUser.Id) && scenarios.Any(z => z.Id.Equals(x.ScenarioId)))
                 .OrderBy(z => z.VisualIndex)
                 .ToList();
 
@@ -428,9 +457,9 @@ namespace LazuriteUI.Windows.Main
         }
 
         private Thickness CreateControlMargin(UserVisualSettings visualSettings)
-        {            
+        {
             var position = CreatePositionByIndex(CreateRealVisualIndex(visualSettings));
-            
+
             return new Thickness(
                 ElementMargin * (1 + position.Item1) + ElementWidth * position.Item1,
                 ElementMargin * (1 + position.Item2) + ElementHeight * position.Item2, 0, 0);
@@ -440,12 +469,13 @@ namespace LazuriteUI.Windows.Main
 
         public void Dispose()
         {
-            _updateUICancellationToken?.Dispose();
+            _updateUICancellationToken?.Cancel();
             _updateUICancellationToken = null;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<ScenarioModel> SelectedModelChanged;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<ScenarioModel, ScenarioChangingEventArgs> SelectedModelChanging;
     }

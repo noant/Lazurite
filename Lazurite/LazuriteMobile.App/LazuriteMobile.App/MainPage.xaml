@@ -15,7 +15,7 @@
         <common:SliderTabsView x:Name="tabsView"></common:SliderTabsView>
         <common:SliderMenu x:Name="connectionSettingsSlider">
             <common:SliderMenu.Content>
-                <app:SettingsView x:Name="settingsView"></app:SettingsView>
+                <app:ConnectionView x:Name="connectionView"></app:ConnectionView>
             </common:SliderMenu.Content>
         </common:SliderMenu>
         <common:SliderMenu x:Name="messagesSlider">
@@ -23,9 +23,9 @@
                 <app:MessagesView x:Name="messagesView"></app:MessagesView>
             </common:SliderMenu.Content>
         </common:SliderMenu>
-        <common:SliderMenu x:Name="skinsSlider">
+        <common:SliderMenu x:Name="settingsSlider">
             <common:SliderMenu.Content>
-                <controls:SkinSelectView x:Name="skinsView"></controls:SkinSelectView>
+                <app:SettingsView x:Name="settingsView"></app:SettingsView>
             </common:SliderMenu.Content>
         </common:SliderMenu>
     </Grid>

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading;
+﻿using Lazurite.Utils;
+using System;
 
 namespace Lazurite.ActionsDomain
 {
     public class ExecutionContext
     {
-        public ExecutionContext(IAlgorithmContext algorithmContext, string input, string previousValue, OutputChangedDelegates output, CancellationTokenSource cancellationTokenSource)
+        public ExecutionContext(IAlgorithmContext algorithmContext, string input, string previousValue, OutputChangedDelegates output, SafeCancellationToken cancellationTokenSource)
         {
             OutputChanged = output;
             CancellationTokenSource = cancellationTokenSource;
@@ -14,7 +14,7 @@ namespace Lazurite.ActionsDomain
             PreviousValue = previousValue;
         }
 
-        public ExecutionContext(IAlgorithmContext algorithmContext, string input, string previousValue, OutputChangedDelegates output, ExecutionContext parentContext, CancellationTokenSource cancellationTokenSource)
+        public ExecutionContext(IAlgorithmContext algorithmContext, string input, string previousValue, OutputChangedDelegates output, ExecutionContext parentContext, SafeCancellationToken cancellationTokenSource)
         {
             OutputChanged = output;
             AlgorithmContext = algorithmContext;
@@ -29,7 +29,7 @@ namespace Lazurite.ActionsDomain
         public string Input { get; set; }
         public string PreviousValue { get; set; }
         public OutputChangedDelegates OutputChanged { get; private set; }
-        public CancellationTokenSource CancellationTokenSource { get; private set; }
+        public SafeCancellationToken CancellationTokenSource { get; private set; }
 
         public int ExecutionNesting { get; private set; } = 0;
         public ExecutionContext ParentContext { get; private set; }
@@ -41,10 +41,16 @@ namespace Lazurite.ActionsDomain
             while (true)
             {
                 if (context == null)
+                {
                     return null;
+                }
+
                 success = predicate(context);
                 if (success)
+                {
                     return context;
+                }
+
                 context = context.ParentContext;
             }
         }

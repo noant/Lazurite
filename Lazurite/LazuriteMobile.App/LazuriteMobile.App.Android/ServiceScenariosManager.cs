@@ -33,42 +33,55 @@ namespace LazuriteMobile.App.Droid
                 case ServiceOperation.GetClientSettings:
                     _callbacks.Dequeue(ServiceOperation.GetClientSettings, Utils.GetData<ConnectionCredentials>(msg));
                     break;
+
                 case ServiceOperation.GetIsConnected:
                     _callbacks.Dequeue(ServiceOperation.GetIsConnected, Utils.GetData<ManagerConnectionState>(msg));
                     break;
+
                 case ServiceOperation.GetScenarios:
                     _callbacks.Dequeue(ServiceOperation.GetScenarios, Utils.GetData<ScenarioInfo[]>(msg));
                     break;
+
                 case ServiceOperation.GetNotifications:
                     _callbacks.Dequeue(ServiceOperation.GetNotifications, Utils.GetData<LazuriteNotification[]>(msg));
                     break;
+
                 case ServiceOperation.ConnectionLost:
                     ConnectionLost?.Invoke();
                     break;
+
                 case ServiceOperation.ConnectionRestored:
                     ConnectionRestored?.Invoke();
                     break;
+
                 case ServiceOperation.CredentialsInvalid:
                     LoginOrPasswordInvalid?.Invoke();
                     break;
+
                 case ServiceOperation.BruteforceSuspition:
                     BruteforceSuspition?.Invoke();
                     break;
+
                 case ServiceOperation.CredentialsLoaded:
                     CredentialsLoaded?.Invoke();
                     break;
+
                 case ServiceOperation.NeedClientSettings:
                     NeedClientSettings?.Invoke();
                     break;
+
                 case ServiceOperation.NeedRefresh:
                     NeedRefresh?.Invoke();
                     break;
+
                 case ServiceOperation.ScenariosChanged:
                     ScenariosChanged?.Invoke(Utils.GetData<ScenarioInfo[]>(msg));
                     break;
+
                 case ServiceOperation.SecretCodeInvalid:
                     SecretCodeInvalid?.Invoke();
                     break;
+
                 case ServiceOperation.ConnectionError:
                     ConnectionError?.Invoke();
                     break;
@@ -80,31 +93,37 @@ namespace LazuriteMobile.App.Droid
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public event Action ConnectionLost;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public event Action ConnectionRestored;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public event Action CredentialsLoaded;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public event Action LoginOrPasswordInvalid;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public event Action NeedClientSettings;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public event Action NeedRefresh;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
@@ -112,16 +131,19 @@ namespace LazuriteMobile.App.Droid
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public event Action<ScenarioInfo[]> ScenariosChanged;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public event Action SecretCodeInvalid;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public event Action ConnectionError;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
@@ -138,8 +160,13 @@ namespace LazuriteMobile.App.Droid
             _serviceConnection.Disconnected += ServiceConnection_Disconnected;
             var result = _activity.BindService(new Intent(Application.Context, typeof(LazuriteService)), _serviceConnection, Bind.AutoCreate);
             if (result && callback != null)
+            {
                 _callbacks.Add(ServiceOperation.Initialize, (obj) => callback(true));
-            else callback?.Invoke(false);
+            }
+            else
+            {
+                callback?.Invoke(false);
+            }
         }
 
         private void ServiceConnection_Disconnected(ManagerServiceConnection obj)
@@ -165,17 +192,10 @@ namespace LazuriteMobile.App.Droid
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
-        public void SetClientSettings(ConnectionCredentials creds)
-        {
-            Utils.SendData(creds, _toServiceMessenger, _messenger, ServiceOperation.SetClientSettings);
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public void GetClientSettings(Action<ConnectionCredentials> callback)
         {
-            _callbacks.Add(ServiceOperation.GetClientSettings, (obj) => {
+            _callbacks.Add(ServiceOperation.GetClientSettings, (obj) =>
+            {
                 callback((ConnectionCredentials)obj);
             });
             Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetClientSettings);
@@ -184,9 +204,38 @@ namespace LazuriteMobile.App.Droid
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
+        public void SetClientSettings(ConnectionCredentials creds)
+        {
+            Utils.SendData(creds, _toServiceMessenger, _messenger, ServiceOperation.SetClientSettings);
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
+        public void GetListenerSettings(Action<ListenerSettings> callback)
+        {
+            _callbacks.Add(ServiceOperation.GetListenerSettings, (obj) =>
+            {
+                callback((ListenerSettings)obj);
+            });
+            Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetListenerSettings);
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
+        public void SetListenerSettings(ListenerSettings settings)
+        {
+            Utils.SendData(settings, _toServiceMessenger, _messenger, ServiceOperation.SetListenerSettings);
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public void IsConnected(Action<ManagerConnectionState> callback)
         {
-            _callbacks.Add(ServiceOperation.GetIsConnected, (obj) => {
+            _callbacks.Add(ServiceOperation.GetIsConnected, (obj) =>
+            {
                 callback((ManagerConnectionState)obj);
             });
             Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetIsConnected);
@@ -197,7 +246,8 @@ namespace LazuriteMobile.App.Droid
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public void GetScenarios(Action<ScenarioInfo[]> callback)
         {
-            _callbacks.Add(ServiceOperation.GetScenarios, (obj) => {
+            _callbacks.Add(ServiceOperation.GetScenarios, (obj) =>
+            {
                 callback((ScenarioInfo[])obj);
             });
             Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetScenarios);
@@ -208,7 +258,8 @@ namespace LazuriteMobile.App.Droid
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public void GetNotifications(Action<LazuriteNotification[]> callback)
         {
-            _callbacks.Add(ServiceOperation.GetNotifications, (obj) => {
+            _callbacks.Add(ServiceOperation.GetNotifications, (obj) =>
+            {
                 callback((LazuriteNotification[])obj);
             });
             Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.GetNotifications);
@@ -276,6 +327,7 @@ namespace LazuriteMobile.App.Droid
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<ManagerServiceConnection, Messenger> Connected;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly")]
         public event Action<ManagerServiceConnection> Disconnected;
     }

@@ -5,7 +5,6 @@ using Lazurite.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace Lazurite.Scenarios.RemoteScenarioCode
 {
@@ -20,7 +19,7 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
 
         private bool _isListening = false;
 
-        private CancellationTokenSource _timerCancellationToken;
+        private SafeCancellationToken _timerCancellationToken;
 
         public ServerClientThreading(ConnectionCredentials credentials)
         {
@@ -30,7 +29,7 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
 
         private void ClientFactory_ConnectionStateChanged(object sender, Shared.EventsArgs<bool> args)
         {
-            var args2 = ((ServiceClientFactory.ConnectionStateChangedEventArgs)args);
+            var args2 = (ServiceClientFactory.ConnectionStateChangedEventArgs)args;
             if (args2.Credentials.Equals(Credentials))
             {
                 foreach (var info in ServerScenariosInfos.ToArray())
@@ -70,7 +69,11 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
 
         private void StopListen()
         {
-            _timerCancellationToken?.Cancel();
+            if (!_timerCancellationToken?.IsCancellationRequested ?? false)
+            {
+                _timerCancellationToken?.Cancel();
+            }
+
             _isListening = false;
         }
 
@@ -78,7 +81,7 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
         {
             StopListen();
             _isListening = true;
-            _timerCancellationToken = new CancellationTokenSource();
+            _timerCancellationToken = new SafeCancellationToken();
             TaskUtils.StartLongRunning(
                 () =>
                 {
@@ -112,7 +115,7 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
                             }
                             catch (Exception e)
                             {
-                                Log.Info($"Ошибка во время соединения с удаленным сценарием. {e.Message}). Сценарий: [{info.Name}]:[{info.ScenarioId}]");
+                                Log.Info($"Ошибка во время соединения с удаленным сценарием. {e.Message}. Сценарий: [{info.Name}]:[{info.ScenarioId}]");
                                 error = true;
                                 if (!info.Unregistered)
                                 {
@@ -128,7 +131,7 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
                             }
 
                             var timeout = error ? CalculateTimeoutOnError() : CalculateTimeout();
-                            SystemUtils.Sleep(timeout, _timerCancellationToken.Token);
+                            SystemUtils.Sleep(timeout, _timerCancellationToken);
                         }
                     }
                     StopListen();

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
 using Xamarin.Forms;
@@ -8,11 +7,11 @@ using Xamarin.Forms.Xaml;
 namespace LazuriteMobile.App.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SkinSelectView : StackLayout
+    public partial class SkinSelectView : ScrollView
     {
-        public SkinSelectView ()
+        public SkinSelectView()
         {
-            InitializeComponent ();
+            InitializeComponent();
 
             var skinBaseType = typeof(SkinBase);
 
@@ -27,7 +26,14 @@ namespace LazuriteMobile.App.Controls
                 .ToArray();
 
             foreach (var skin in skins)
-                Children.Add(new SkinSelectItemView(skin));
+            {
+                stackLayout.Children.Add(new SkinSelectItemView(skin));
+            }
+        }
+
+        public static void Show(Grid parent)
+        {
+            new DialogView(new SkinSelectView()).Show(parent);
         }
     }
 }

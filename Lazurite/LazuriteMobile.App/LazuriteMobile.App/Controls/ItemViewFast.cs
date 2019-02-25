@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Controls
 {
-    public class ItemViewFast: Grid, ISelectable
+    public class ItemViewFast : Grid, ISelectable
     {
         public const int CharWidth = 9;
 
@@ -15,6 +15,7 @@ namespace LazuriteMobile.App.Controls
         public static readonly BindableProperty TextProperty;
 
         public event EventsHandler<object> SelectionChanged;
+
         public event EventsHandler<object> Click;
 
         static ItemViewFast()
@@ -23,7 +24,9 @@ namespace LazuriteMobile.App.Controls
                 (sender, oldVal, newVal) =>
                 {
                     if (!(bool)newVal)
+                    {
                         ((ItemViewFast)sender).Selected = false;
+                    }
                 });
             SelectedProperty = BindableProperty.Create(nameof(SelectedProperty), typeof(bool), typeof(ItemViewFast), false, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) =>
@@ -41,10 +44,13 @@ namespace LazuriteMobile.App.Controls
                         itemView.StartWaitingAndStrokeActions();
                     }
                     else
+                    {
                         itemView.HideStroke();
+                    }
                 });
             TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(ItemViewFast), "itemView", BindingMode.OneWay, null,
-                 (sender, oldVal, newVal) => {
+                 (sender, oldVal, newVal) =>
+                 {
                      (sender as ItemViewFast).ApplyText();
                  });
         }
@@ -63,7 +69,7 @@ namespace LazuriteMobile.App.Controls
             button.BorderColor = Color.Transparent;
             button.BackgroundColor = Color.Transparent;
             button.FontSize = Controls.Visual.Current.FontSize;
-            button.TextColor = Controls.Visual.Current.Foreground;
+            button.TextColor = Controls.Visual.Current.ItemForeground;
             button.Clicked += Button_Clicked;
 
             var round = new Label();
@@ -74,7 +80,7 @@ namespace LazuriteMobile.App.Controls
             round.HorizontalOptions = new LayoutOptions(LayoutAlignment.Start, false);
             round.VerticalOptions = new LayoutOptions(LayoutAlignment.Center, true);
             round.InputTransparent = true;
-            round.Margin = new Thickness(8,-3,0,0);
+            round.Margin = new Thickness(8, -3, 0, 0);
 
             label = new CaptionView();
             label.VerticalTextAlignment = TextAlignment.Center;
@@ -88,7 +94,7 @@ namespace LazuriteMobile.App.Controls
 
             SizeChanged += (o, e) => ApplyText();
         }
-        
+
         private void ApplyText()
         {
             if (Text != null && Text.Length != 0 && Width > 0 && Height > 0)
@@ -96,15 +102,22 @@ namespace LazuriteMobile.App.Controls
                 var textWidth = Text.Length * CharWidth;
                 var txt = Text.Replace("\r", string.Empty).Replace("\n", string.Empty);
                 if (textWidth > Width)
+                {
                     label.Text = Text.Substring(0, (int)(Width / CharWidth) - 2) + "...";
-                else label.Text = Text;
+                }
+                else
+                {
+                    label.Text = Text;
+                }
             }
         }
-        
+
         private void ShowStroke()
         {
             if (line != null)
+            {
                 line.IsVisible = true;
+            }
             else
             {
                 line = new Grid();
@@ -120,7 +133,9 @@ namespace LazuriteMobile.App.Controls
         private void HideStroke()
         {
             if (line != null)
+            {
                 line.IsVisible = false;
+            }
         }
 
         async private void StartWaitingAndStrokeActions()
@@ -131,7 +146,9 @@ namespace LazuriteMobile.App.Controls
                 Selected = true;
                 StrokeVisible = false;
                 if (StrokeVisibilityClick)
+                {
                     Click?.Invoke(this, new EventsArgs<object>(ItemView.ClickSource.UnderscoreWaiting));
+                }
             }
         }
 
@@ -145,7 +162,10 @@ namespace LazuriteMobile.App.Controls
                     .ContinueWith((o) => view.ScaleTo(1, 50, Easing.CubicOut));
                 _lockClick = false;
                 if (Selectable)
+                {
                     Selected = !Selected;
+                }
+
                 Click?.Invoke(this, new EventsArgs<object>(ItemView.ClickSource.Tap));
             }
         }
@@ -190,7 +210,7 @@ namespace LazuriteMobile.App.Controls
                 SetValue(SelectedProperty, value);
             }
         }
-        
+
         public string Text
         {
             get

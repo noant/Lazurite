@@ -6,7 +6,6 @@ using Lazurite.Shared;
 using Lazurite.Utils;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using ExecutionContext = Lazurite.ActionsDomain.ExecutionContext;
 
@@ -23,7 +22,7 @@ namespace Lazurite.MainDomain
 
         private List<EventsHandler<ScenarioValueChangedEventArgs>> _valueChangedEvents = new List<EventsHandler<ScenarioValueChangedEventArgs>>();
         private List<EventsHandler<ScenarioBase>> _availabilityChangedEvents = new List<EventsHandler<ScenarioBase>>();
-        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private SafeCancellationToken _cancellationToken = new SafeCancellationToken();
         private bool _isAvailable = false;
         private string _previousValue;
         private string _currentValue;
@@ -38,7 +37,9 @@ namespace Lazurite.MainDomain
             try
             {
                 if (!ValueType.Interprete(param).Success)
+                {
                     throw new ScenarioExecutionException(ScenarioExecutionError.InvalidValue, param);
+                }
             }
             catch (Exception e)
             {
@@ -52,10 +53,14 @@ namespace Lazurite.MainDomain
             try
             {
                 if (context.Find((x) => x.AlgorithmContext is ScenarioBase scenarioBase && scenarioBase.Id == Id) != null) //if true - then it is circular reference
+                {
                     throw new ScenarioExecutionException(ScenarioExecutionError.CircularReference);
+                }
 
                 if (context.ExecutionNesting >= MaxStackValue)
+                {
                     throw new ScenarioExecutionException(ScenarioExecutionError.StackOverflow);
+                }
             }
             catch (Exception e)
             {
@@ -69,7 +74,9 @@ namespace Lazurite.MainDomain
             try
             {
                 if (!IsAccessAvailable(source))
+                {
                     throw new ScenarioExecutionException(ScenarioExecutionError.AccessDenied);
+                }
             }
             catch (Exception e)
             {
@@ -86,11 +93,13 @@ namespace Lazurite.MainDomain
             ExecutionContext context;
             var prevValue = GetCurrentValue();
             if (parentContext == null)
+            {
                 context = new ExecutionContext(this, param, prevValue, output, tokenSource);
+            }
             else
             {
                 context = new ExecutionContext(this, param, prevValue, output, parentContext, tokenSource);
-                parentContext.CancellationTokenSource.Token.Register(tokenSource.Cancel);
+                parentContext.CancellationTokenSource.RegisterCallback(tokenSource.Cancel);
                 CheckContext(context);
             }
             return context;
@@ -206,7 +215,8 @@ namespace Lazurite.MainDomain
         {
             CheckRights(source, parentContext);
             TaskUtils.Start(
-            () => {
+            () =>
+            {
                 var result = CalculateCurrentValue(source, parentContext);
                 callback(result);
             },
@@ -243,6 +253,7 @@ namespace Lazurite.MainDomain
         }
 
 #pragma warning disable CS1998 // В асинхронном методе отсутствуют операторы await, будет выполнен синхронный метод
+
         /// <summary>
         /// Internally initialize
         /// </summary>
@@ -260,12 +271,12 @@ namespace Lazurite.MainDomain
         {
             return await InitializeInternal();
         }
-        
+
         /// <summary>
         /// Method runs after initializing
         /// </summary>
         public abstract void AfterInitilize();
-        
+
         /// <summary>
         /// Run Initilaize and AfterInitialize method synchronously
         /// </summary>
@@ -274,7 +285,10 @@ namespace Lazurite.MainDomain
         {
             var result = await InitializeInternal();
             if (result)
+            {
                 AfterInitilize();
+            }
+
             return result;
         }
 
@@ -295,13 +309,13 @@ namespace Lazurite.MainDomain
                 var oldVal = GetPreviousValue();
                 if (parentContext != null)
                 {
-                    var cancellationTokenSource = new CancellationTokenSource();
-                    parentContext.CancellationTokenSource.Token.Register(cancellationTokenSource.Cancel);
+                    var cancellationTokenSource = new SafeCancellationToken();
+                    parentContext.CancellationTokenSource.RegisterCallback(cancellationTokenSource.Cancel);
                     context = new ExecutionContext(this, param, oldVal, output, parentContext, cancellationTokenSource);
                 }
                 else
                 {
-                    context = new ExecutionContext(this, param, oldVal, output, new CancellationTokenSource());
+                    context = new ExecutionContext(this, param, oldVal, output, new SafeCancellationToken());
                 }
                 CheckContext(context);
                 HandleExecution(() => ExecuteInternal(context));
@@ -364,10 +378,13 @@ namespace Lazurite.MainDomain
         /// </summary>
         public virtual void TryCancelAll()
         {
-            _tokenSource?.Cancel();
+            if (!_cancellationToken?.IsCancellationRequested ?? false)
+            {
+                _cancellationToken?.Cancel();
+            }
         }
 
-        protected CancellationTokenSource PrepareCancellationTokenSource() => _tokenSource = new CancellationTokenSource();
+        protected SafeCancellationToken PrepareCancellationTokenSource() => _cancellationToken = new SafeCancellationToken();
 
         protected string PrepareExecutionId() => LastExecutionId = Guid.NewGuid().ToString();
 
@@ -377,16 +394,16 @@ namespace Lazurite.MainDomain
         /// <param name="action"></param>
         protected void HandleExecution(Action action)
         {
-            Log.DebugFormat("Scenario execution begin: [{0}][{1}]", Name, Id);
+            Log.Debug($"Scenario execution begin: [{Name}][{Id}]");
             try
             {
                 action?.Invoke();
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Ошибка выполнения сценария [{0}][{1}]", Name, Id);
+                Log.Error($"Ошибка выполнения сценария [{Name}][{Id}]", e);
             }
-            Log.DebugFormat("Scenario execution end: [{0}][{1}]", Name, Id);
+            Log.Debug($"Scenario execution end: [{Name}][{Id}]");
         }
 
         /// <summary>
@@ -398,9 +415,14 @@ namespace Lazurite.MainDomain
         public bool IsAccessAvailable(ScenarioActionSource source)
         {
             if (source.Action == ScenarioAction.ViewValue)
+            {
                 return CanViewValue(source);
+            }
             else if (source.Action == ScenarioAction.Execute)
+            {
                 return CanExecute(source);
+            }
+
             throw new NotImplementedException("Invalid action source");
         }
 
@@ -415,17 +437,20 @@ namespace Lazurite.MainDomain
             try
             {
                 if (SecuritySettings == null)
+                {
                     throw new NullReferenceException("Security settings is null");
+                }
+
                 var writeAvailableForThisSource = !OnlyGetValue || source.Source == ScenarioStartupSource.System; //crutch, scenario can be executed by itself or system
                 return writeAvailableForThisSource && SecuritySettings.IsAvailableForUser(source.User, source.Source, ScenarioAction.Execute);
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Ошибка во время вычисления прав для выполнения сценария [{0}][{1}]", Name, Id);
+                Log.Error($"Ошибка во время вычисления прав для выполнения сценария [{Name}][{Id}]", e);
                 return false;
             }
         }
-        
+
         /// <summary>
         /// Determine that user can view scenario value
         /// </summary>
@@ -437,12 +462,15 @@ namespace Lazurite.MainDomain
             try
             {
                 if (SecuritySettings == null)
+                {
                     throw new NullReferenceException("Security settings is null");
+                }
+
                 return SecuritySettings.IsAvailableForUser(source.User, source.Source, ScenarioAction.ViewValue);
             }
             catch (Exception e)
             {
-                Log.ErrorFormat(e, "Ошибка во время вычисления прав для просмотра значения сценария [{0}][{1}]", Name, Id);
+                Log.Error($"Ошибка во время вычисления прав для просмотра значения сценария [{Name}][{Id}]", e);
                 return false;
             }
         }
@@ -500,12 +528,12 @@ namespace Lazurite.MainDomain
             {
                 try
                 {
-                    _valueChangedEvents[i](this, 
+                    _valueChangedEvents[i](this,
                         new EventsArgs<ScenarioValueChangedEventArgs>(new ScenarioValueChangedEventArgs(this, onlyIntent, source, value, prevValue)));
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    Log.InfoFormat(e, "Ошибка во время выполнения событий сценария [{1}][{0}]", Name, Id);
+                    Log.Info($"Ошибка во время выполнения событий сценария [{Name}][{Id}]", e);
                 }
             }
         }
@@ -523,14 +551,14 @@ namespace Lazurite.MainDomain
                 }
                 catch (Exception e)
                 {
-                    Log.InfoFormat(e, "Ошибка во время выполнения событий сценария [{1}][{0}]", Name, Id);
+                    Log.Info($"Ошибка во время выполнения событий сценария [{Name}][{Id}]", e);
                 }
             }
         }
 
         public virtual void Dispose()
         {
-            Log.DebugFormat("Disposing scenario [{0}][{1}]", Name, Id);
+            Log.Debug($"Disposing scenario [{Name}][{Id}]");
             SetInitializationState(ScenarioInitializationValue.NotInitialized);
             _valueChangedEvents.Clear();
             _availabilityChangedEvents.Clear();

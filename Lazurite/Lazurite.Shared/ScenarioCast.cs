@@ -8,9 +8,9 @@ namespace Lazurite.Shared
     /// </summary>
     public class ScenarioCast
     {
-        private Action<string> _set;
-        private Func<string> _get;
-        
+        private readonly Action<string> _set;
+        private readonly Func<string> _get;
+
         public ScenarioCast(Action<string> set, Func<string> get, ValueTypeBase valueType, string name, string id, bool enabled, bool canSet, bool canView)
         {
             _set = set;
@@ -21,7 +21,6 @@ namespace Lazurite.Shared
             Enabled = enabled;
             CanView = canView;
             CanSet = canSet;
-
         }
 
         public string Value

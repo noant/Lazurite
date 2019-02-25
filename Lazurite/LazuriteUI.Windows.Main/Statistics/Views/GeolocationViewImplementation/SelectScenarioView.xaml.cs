@@ -19,11 +19,11 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
     {
         private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private static readonly IStatisticsManager StatisticsManager = Singleton.Resolve<IStatisticsManager>();
-        
+
         public SelectScenarioView(string[] selectedScenarios)
         {
             InitializeComponent();
-            
+
             btApply.Click += (o, e) => ApplyClicked?.Invoke(this, new EventsArgs<string[]>(SelectedIds));
 
             Loaded += async (o, e) =>
@@ -38,7 +38,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
                 var registrationInfo = await StatisticsManager.GetRegistrationInfo(targetScenarios);
 
                 targetScenarios = targetScenarios
-                    .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
+                    .Where(x => (x.GetIsAvailable() || !(x is RemoteScenario)) && registrationInfo.IsRegistered(x.Id))
                     .ToArray();
 
                 foreach (var scenario in targetScenarios)
@@ -54,9 +54,13 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
                 }
 
                 if (targetScenarios.Any())
+                {
                     lblInfo.Visibility = Visibility.Collapsed;
+                }
                 else
+                {
                     lblInfo.Content = "Сценарии отсутствуют...";
+                }
             };
         }
 
@@ -72,7 +76,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
         {
             var control = new SelectScenarioView(selectedScenarios);
             var dialog = new DialogView(control);
-            control.ApplyClicked += (o, e) => {
+            control.ApplyClicked += (o, e) =>
+            {
                 callback?.Invoke(e.Value);
                 dialog.Close();
             };

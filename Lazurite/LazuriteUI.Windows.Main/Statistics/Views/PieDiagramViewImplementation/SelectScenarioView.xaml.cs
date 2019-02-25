@@ -18,18 +18,19 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
     {
         private static readonly ScenariosRepositoryBase ScenariosRepository = Singleton.Resolve<ScenariosRepositoryBase>();
         private static readonly IStatisticsManager StatisticsManager = Singleton.Resolve<IStatisticsManager>();
-        
+
         public SelectScenarioView(string selectedScenarios)
         {
             InitializeComponent();
 
             StuckUILoadingWindow.Show("Загрузка данных...",
-                async () => {
+                async () =>
+                {
                     var registrationInfo = await StatisticsManager.GetRegistrationInfo(ScenariosRepository.Scenarios);
 
                     var registeredScenarios = ScenariosRepository
                         .Scenarios
-                        .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
+                        .Where(x => (x.GetIsAvailable() || !(x is RemoteScenario)) && registrationInfo.IsRegistered(x.Id))
                         .ToArray();
 
                     foreach (var scenario in registeredScenarios)
@@ -45,13 +46,17 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
                     }
 
                     if (registeredScenarios.Any())
+                    {
                         lblEmpty.Visibility = Visibility.Collapsed;
+                    }
                 });
 
             itemsList.SelectionChanged += (o, e) =>
             {
                 if (itemsList.SelectedItem != null)
+                {
                     Selected?.Invoke(this, new EventsArgs<string>(SelectedId));
+                }
             };
         }
 
@@ -67,7 +72,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.PieDiagramViewImplementation
         {
             var control = new SelectScenarioView(selectedScenario);
             var dialog = new DialogView(control);
-            control.Selected += (o, e) => {
+            control.Selected += (o, e) =>
+            {
                 callback?.Invoke(e.Value);
                 dialog.Close();
             };

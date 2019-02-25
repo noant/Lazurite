@@ -1,5 +1,4 @@
-﻿using LazuriteUI.Icons;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
@@ -9,6 +8,7 @@ namespace LazuriteMobile.App.Controls
     public partial class DialogView : ContentView
     {
         private View _child;
+
         public DialogView(View child)
         {
             InitializeComponent();
@@ -18,7 +18,10 @@ namespace LazuriteMobile.App.Controls
 
         public void Show(Grid parentElement)
         {
-            parentElement.Children.Add(this);
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                parentElement.Children.Add(this);
+            });
             AllOpened.Add(this);
         }
 
@@ -26,9 +29,18 @@ namespace LazuriteMobile.App.Controls
         {
             Closed?.Invoke(this, EventArgs.Empty);
             if (contentGrid.Children.FirstOrDefault() is IDisposable disposable)
+            {
                 disposable.Dispose();
+            }
+
             if (Parent != null)
-                ((Grid)Parent).Children.Remove(this);
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    ((Grid)Parent).Children.Remove(this);
+                });
+            }
+
             AllOpened.Remove(this);
         }
 
@@ -40,16 +52,19 @@ namespace LazuriteMobile.App.Controls
         public event Action<object, EventArgs> Closed;
 
         ///static members
-        
+
         private static List<DialogView> AllOpened = new List<DialogView>();
 
         public static bool AnyOpened => AllOpened.Any();
 
         public static void CloseLast() => AllOpened.LastOrDefault()?.Close();
 
-        public static void CloseAllDialogs() {
+        public static void CloseAllDialogs()
+        {
             foreach (var dialog in AllOpened.ToArray())
+            {
                 dialog.Close();
+            }
         }
     }
 }

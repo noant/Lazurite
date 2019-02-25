@@ -1,10 +1,9 @@
 ﻿using Lazurite.ActionsDomain.ValueTypes;
 using Lazurite.IOC;
 using Lazurite.MainDomain;
+using Lazurite.Shared;
 using Lazurite.Utils;
-using LazuriteMobile.App.Controls;
 using System;
-using System.Threading;
 
 using Xamarin.Forms;
 
@@ -18,7 +17,7 @@ namespace LazuriteMobile.App.Switches
         private string _tempValue; //crutch#1
         private string _tempValue_current; //crutch#2
         private double _iteration;
-        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private SafeCancellationToken _tokenSource = new SafeCancellationToken();
         private IHardwareVolumeChanger _changer;
         private int _round;
         private SwitchScenarioModel _model;
@@ -34,7 +33,7 @@ namespace LazuriteMobile.App.Switches
             }
 
             btInput.Clicked += BtInput_Clicked;
-            btOn.Clicked += (o,e) => SetMax();
+            btOn.Clicked += (o, e) => SetMax();
             btMiddle.Clicked += (o, e) => SetMiddle();
             btOff.Clicked += (o, e) => SetMin();
         }
@@ -54,7 +53,7 @@ namespace LazuriteMobile.App.Switches
         private void SetMiddle()
         {
             var valueType = _model.Scenario.ValueType as FloatValueType;
-            SetValueFromButton(valueType.Min + (valueType.Max - valueType.Min)/2);
+            SetValueFromButton(valueType.Min + (valueType.Max - valueType.Min) / 2);
         }
 
         private void SetValueFromButton(double value)
@@ -72,11 +71,17 @@ namespace LazuriteMobile.App.Switches
         {
             var iteration = _iteration * args.Value;
             if (slider.Value + iteration > slider.Maximum)
+            {
                 slider.Value = slider.Maximum;
+            }
             else if (slider.Value + iteration < slider.Minimum)
+            {
                 slider.Value = slider.Minimum;
+            }
             else
+            {
                 slider.Value += iteration;
+            }
         }
 
         public FloatViewSliderSwitch(SwitchScenarioModel model) : this()
@@ -93,18 +98,23 @@ namespace LazuriteMobile.App.Switches
             slider.Value = double.Parse(model.ScenarioValue);
             _tempValue = _tempValue_current = model.ScenarioValue;
             _iteration = (model.Max - model.Min) / 20;
-            slider.ValueChanged += (o, e) => {
+            slider.ValueChanged += (o, e) =>
+            {
                 var value = slider.Value;
                 value = Math.Round(value, _round);
                 _tempValue = value.ToString();
             };
             _tokenSource = SystemUtils.StartTimer(
-                (token) => {
+                (token) =>
+                {
                     if (_tempValue != _tempValue_current)
+                    {
                         model.ScenarioValue = _tempValue_current = _tempValue;
+                    }
                 },
                 () => FloatView_ValueUpdateInterval);
-            SizeChanged += (o, e) => {
+            SizeChanged += (o, e) =>
+            {
                 HeightRequest = Width * 2;
             };
         }
@@ -121,6 +131,7 @@ namespace LazuriteMobile.App.Switches
         }
 
         public event EventHandler ManualInputActivate;
+
         public event EventHandler NeedClose;
     }
 }

@@ -11,6 +11,7 @@ namespace LazuriteMobile.App.Controls
         public static readonly BindableProperty IconVisibilityProperty;
         public static readonly BindableProperty IconProperty;
         public static readonly BindableProperty IconForegroundProperty;
+        public static readonly BindableProperty TextForegroundProperty;
         public static readonly BindableProperty TextProperty;
         public static readonly BindableProperty SelectedProperty;
         public static readonly BindableProperty SelectableProperty;
@@ -35,15 +36,23 @@ namespace LazuriteMobile.App.Controls
                 {
                     ((ItemView)sender).iconView.Foreground = (Color)newVal;
                 });
+            TextForegroundProperty = BindableProperty.Create(nameof(TextForeground), typeof(Color), typeof(ItemView), Controls.Visual.Current.ItemForeground, BindingMode.OneWay, null,
+                (sender, oldVal, newVal) =>
+                {
+                    ((ItemView)sender).label.TextColor = (Color)newVal;
+                });
             TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(ItemView), "itemView", BindingMode.OneWay, null,
-                (sender, oldVal, newVal) => {
+                (sender, oldVal, newVal) =>
+                {
                     ((ItemView)sender).label.Text = (string)newVal;
                 });
             SelectableProperty = BindableProperty.Create(nameof(SelectableProperty), typeof(bool), typeof(ItemView), false, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) =>
                 {
                     if (!(bool)newVal)
+                    {
                         ((ItemView)sender).Selected = false;
+                    }
                 });
             SelectedProperty = BindableProperty.Create(nameof(SelectedProperty), typeof(bool), typeof(ItemView), false, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) =>
@@ -56,7 +65,9 @@ namespace LazuriteMobile.App.Controls
                 {
                     ((ItemView)sender).strokeGrid.Opacity = (bool)newVal ? 1 : 0; //crutch; IsVisibile not works (sic!)
                     if ((bool)newVal)
+                    {
                         ((ItemView)sender).StartWaitingAndStrokeActions();
+                    }
                 });
             SelectionColorProperty = BindableProperty.Create(nameof(SelectionColor), typeof(Color), typeof(ItemView), Color.SteelBlue, BindingMode.OneWay, null,
                 (sender, oldVal, newVal) =>
@@ -71,7 +82,8 @@ namespace LazuriteMobile.App.Controls
         public ItemView()
         {
             InitializeComponent();
-            PropertyChanged += (o, e) => {
+            PropertyChanged += (o, e) =>
+            {
                 if (e.PropertyName == nameof(IsEnabled))
                 {
                     button.IsVisible = IsEnabled;
@@ -142,6 +154,18 @@ namespace LazuriteMobile.App.Controls
             }
         }
 
+        public Color TextForeground
+        {
+            get
+            {
+                return (Color)GetValue(TextForegroundProperty);
+            }
+            set
+            {
+                SetValue(TextForegroundProperty, value);
+            }
+        }
+
         public string Text
         {
             get
@@ -202,7 +226,10 @@ namespace LazuriteMobile.App.Controls
                 );
                 _lockClick = false;
                 if (Selectable)
+                {
                     Selected = !Selected;
+                }
+
                 Click?.Invoke(this, new EventsArgs<object>(ClickSource.Tap));
             }
         }
@@ -215,7 +242,9 @@ namespace LazuriteMobile.App.Controls
                 Selected = true;
                 StrokeVisible = false;
                 if (StrokeVisibilityClick)
+                {
                     Click?.Invoke(this, new EventsArgs<object>(ClickSource.UnderscoreWaiting));
+                }
             }
         }
 
@@ -225,7 +254,9 @@ namespace LazuriteMobile.App.Controls
         }
 
         public event EventsHandler<object> Click;
+
         public event EventsHandler<object> Clicked;
+
         public event EventsHandler<object> SelectionChanged;
 
         public enum ClickSource

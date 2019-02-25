@@ -21,6 +21,7 @@ namespace LazuriteMobile.App.Controls
         public override Color Foreground { get; } = ForeColor;
         public override Color ItemBackground { get; } = Color.DarkGray;
         public override Color ItemBackgroundAlter { get; } = Color.FromHex("BEBEBE");
+        public override Color ItemForeground { get; } = ForeColor;
         public override Color ItemIconColor { get; } = Color.LightGray;
         public override Color ItemSelection { get; } = Color.FromHex("AB1874CD");
         public override Color MessageEditColor { get; } = Bg;

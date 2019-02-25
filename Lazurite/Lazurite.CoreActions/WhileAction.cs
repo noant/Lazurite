@@ -18,7 +18,7 @@ namespace Lazurite.CoreActions
 
         public ComplexAction Action { get; set; } = new ComplexAction();
         public ComplexCheckerAction Checker { get; set; } = new ComplexCheckerAction();
-        
+
         public string Caption
         {
             get
@@ -30,7 +30,7 @@ namespace Lazurite.CoreActions
                 //
             }
         }
-        
+
         public ValueTypeBase ValueType
         {
             get;
@@ -81,14 +81,19 @@ namespace Lazurite.CoreActions
             while (Checker.Evaluate(context))
             {
                 if (context.CancellationTokenSource.IsCancellationRequested)
+                {
                     break;
+                }
+
                 Action.SetValue(context, string.Empty);
-                SystemUtils.Sleep(WhileIterationsInterval, context.CancellationTokenSource.Token);
+                SystemUtils.Sleep(WhileIterationsInterval, context.CancellationTokenSource);
             }
         }
 
 #pragma warning disable 67
+
         public event ValueChangedEventHandler ValueChanged;
+
 #pragma warning restore 67
     }
 }

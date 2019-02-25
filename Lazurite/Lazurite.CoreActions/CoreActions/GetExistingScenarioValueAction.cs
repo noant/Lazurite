@@ -18,7 +18,7 @@ namespace Lazurite.CoreActions.CoreActions
 
         private static readonly UsersRepositoryBase UsersRepository = Singleton.Resolve<UsersRepositoryBase>();
 
-        private static readonly ScenarioActionSource ScenarioActionSource  = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.OtherScenario, ScenarioAction.ViewValue);
+        private static readonly ScenarioActionSource ScenarioActionSource = new ScenarioActionSource(UsersRepository.SystemUser, ScenarioStartupSource.OtherScenario, ScenarioAction.ViewValue);
 
         public string TargetScenarioId
         {
@@ -44,7 +44,9 @@ namespace Lazurite.CoreActions.CoreActions
         private ScenarioBase _scenario;
 
 #pragma warning disable 67
+
         public event ValueChangedEventHandler ValueChanged;
+
 #pragma warning restore 67
 
         public void SetTargetScenario(ScenarioBase scenario)
@@ -56,7 +58,7 @@ namespace Lazurite.CoreActions.CoreActions
         {
             return _scenario;
         }
-        
+
         public string Caption
         {
             get
@@ -80,7 +82,7 @@ namespace Lazurite.CoreActions.CoreActions
                 //
             }
         }
-        
+
         public void Initialize()
         {
             //do nothing
@@ -96,10 +98,17 @@ namespace Lazurite.CoreActions.CoreActions
             if (_scenario != null)
             {
                 if (_scenario.GetInitializationState() == ScenarioInitializationValue.NotInitialized)
-                    _scenario.FullInitialize();
-                else while (_scenario.GetInitializationState() == ScenarioInitializationValue.Initializing)
-                    SystemUtils.Sleep(100, context.CancellationTokenSource.Token);
-                
+                {
+                    _scenario.FullInitialize().Wait();
+                }
+                else
+                {
+                    while (_scenario.GetInitializationState() == ScenarioInitializationValue.Initializing)
+                    {
+                        SystemUtils.Sleep(100, context.CancellationTokenSource);
+                    }
+                }
+
                 return _scenario.CalculateCurrentValue(ScenarioActionSource, context);
             }
             return string.Empty;

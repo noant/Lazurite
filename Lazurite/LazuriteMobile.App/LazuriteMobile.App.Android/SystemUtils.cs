@@ -1,5 +1,5 @@
-﻿using Android.Content.PM;
-using Lazurite.MainDomain;
+﻿using Lazurite.MainDomain;
+using Lazurite.Utils;
 using System;
 using System.Security.Cryptography;
 using System.Threading;
@@ -21,24 +21,32 @@ namespace LazuriteMobile.App.Droid
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
-        public void Sleep(int ms, CancellationToken cancelToken)
+        public void Sleep(int ms, SafeCancellationToken cancelToken)
         {
-            if (ms <= SleepCancelTokenIterationInterval || cancelToken.Equals(CancellationToken.None))
+            if (ms <= SleepCancelTokenIterationInterval || cancelToken.Equals(SafeCancellationToken.None))
+            {
                 Thread.Sleep(ms);
-            else for (int i = 0; i <= ms && !cancelToken.IsCancellationRequested; i += SleepCancelTokenIterationInterval)
-                Thread.Sleep(SleepCancelTokenIterationInterval);
+            }
+            else
+            {
+                for (int i = 0; i <= ms && !cancelToken.IsCancellationRequested; i += SleepCancelTokenIterationInterval)
+                {
+                    Thread.Sleep(SleepCancelTokenIterationInterval);
+                }
+            }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
-        public CancellationTokenSource StartTimer(Action<CancellationTokenSource> tick, Func<int> needInterval, bool startImmidiate = true, bool ticksSuperposition = false)
+        public SafeCancellationToken StartTimer(Action<SafeCancellationToken> tick, Func<int> needInterval, bool startImmidiate = true, bool ticksSuperposition = false)
         {
             bool canceled = false;
             bool executionNow = false;
             Timer timer = null;
 
-            var cancellationToken = new CancellationTokenSource();
-            cancellationToken.Token.Register(() => {
+            var cancellationToken = new SafeCancellationToken();
+            cancellationToken.RegisterCallback(() =>
+            {
                 if (!canceled)
                 {
                     timer.Change(Timeout.Infinite, Timeout.Infinite);
@@ -50,7 +58,8 @@ namespace LazuriteMobile.App.Droid
             var interval = needInterval?.Invoke() ?? 1000;
 
             timer = new Timer(
-                (t) => {
+                (t) =>
+                {
                     if ((!executionNow || ticksSuperposition) && !cancellationToken.IsCancellationRequested)
                     {
                         executionNow = true;

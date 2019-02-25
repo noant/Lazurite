@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+    BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=BackgroundAlter}"
+    xmlns:common="clr-namespace:LazuriteMobile.App.Common"
+    x:Class="LazuriteMobile.App.ConnectionView">
+    <ContentView.Content>
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" x:Name="gridMain">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="70"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.ColumnSpan="2" HorizontalOptions="Center" Margin="-40,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <controls:IconView HorizontalOptions="End" VerticalOptions="Center" Grid.Column="0" Icon="Lazurite128" HeightRequest="80" WidthRequest="80"></controls:IconView>
+                <controls:CaptionView Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Text="Lazurite" TextColor="SteelBlue" FontSize="Large"></controls:CaptionView>
+            </Grid>
+
+            <controls:ValueView VerticalOptions="Center" HorizontalOptions="End" Grid.Row="1" Grid.Column="0" Text="Хост"></controls:ValueView>
+            <controls:EntryView VerticalOptions="End" Grid.Row="1" Grid.Column="1" x:Name="tbHost"></controls:EntryView>
+
+            <controls:ValueView VerticalOptions="Center" HorizontalOptions="End" Grid.Row="2" Grid.Column="0" Text="Порт"></controls:ValueView>
+            <common:NumericEntry VerticalOptions="End" Grid.Row="2" Grid.Column="1" Min="1" Max="65536" Value="8080" x:Name="numPort"></common:NumericEntry>
+
+            <controls:ValueView VerticalOptions="Center" HorizontalOptions="End" Grid.Row="3" Grid.Column="0" Text="Секретный ключ"></controls:ValueView>
+            <controls:EntryView VerticalOptions="End" IsPassword="True" Grid.Row="3" Grid.Column="1" x:Name="tbSecretCode"></controls:EntryView>
+
+            <controls:ValueView  VerticalOptions="Center" HorizontalOptions="End" Grid.Row="4" Grid.Column="0" Text="Логин"></controls:ValueView>
+            <controls:EntryView VerticalOptions="End" Grid.Row="4" Grid.Column="1" x:Name="tbLogin"></controls:EntryView>
+
+            <controls:ValueView VerticalOptions="Center"  HorizontalOptions="End" Grid.Row="5" Grid.Column="0" Text="Пароль"></controls:ValueView>
+            <controls:EntryView VerticalOptions="End" IsPassword="True" Grid.Row="5" Grid.Column="1" x:Name="tbPassword"></controls:EntryView>
+
+            <controls:ItemView HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="250" HeightRequest="40" x:Name="itemView" Click="ItemView_Click" Grid.Row="6" Grid.ColumnSpan="2" Icon="ChevronRight" Selectable="False" Text="Подключиться"></controls:ItemView>
+            <controls:ValueView HorizontalTextAlignment="Center" Grid.Row="7" Grid.ColumnSpan="2" TextColor="Olive" VerticalOptions="Center" HorizontalOptions="Center" x:Name="lblErrorMessage"></controls:ValueView>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

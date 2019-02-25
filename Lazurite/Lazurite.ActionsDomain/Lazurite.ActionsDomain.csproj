@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lazurite.Utils\Lazurite.Utils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="CopyToReleaseDir.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

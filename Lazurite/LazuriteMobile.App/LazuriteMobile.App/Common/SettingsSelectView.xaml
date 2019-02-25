@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+             Padding="5"
+             Margin="2"
+             VerticalOptions="Center"
+             BackgroundColor="{Binding Source={x:Static controls:Visual.Current}, Path=Background}"
+             x:Class="LazuriteMobile.App.Common.SettingsSelectView">
+    <ContentView.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <controls:CaptionView x:Name="captionView" Margin="0,0,0,5" />
+            <ScrollView Grid.Row="1">
+                <StackLayout x:Name="stackView" />
+            </ScrollView>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

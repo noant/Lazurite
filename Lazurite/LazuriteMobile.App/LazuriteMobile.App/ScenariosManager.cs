@@ -8,7 +8,6 @@ using SimpleRemoteMethods.Bases;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace LazuriteMobile.App
@@ -27,28 +26,33 @@ namespace LazuriteMobile.App
             }
         }
 
-        private static readonly int ScenariosManagerListenInterval = 16000;
-        private static readonly int ScenariosManagerListenInterval_onError = 45000;
-        private static readonly int ScenariosManagerFullRefreshInterval = 10;
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
         private static readonly ILogger Log = Singleton.Resolve<ILogger>();
         private static readonly DataManagerBase DataManager = Singleton.Resolve<DataManagerBase>();
         private static readonly AddictionalDataManager Bus = Singleton.Resolve<AddictionalDataManager>();
         private static readonly INotifier Notifier = Singleton.Resolve<INotifier>();
+        private static readonly StoredPropertiesManager PropertiesManager = Singleton.Resolve<StoredPropertiesManager>();
 
-        private readonly string _cachedScenariosKey = "scensCache";
-        private readonly string _credentialsKey = "credentials";
-        private CancellationTokenSource _listenersCancellationTokenSource;
-        private CancellationTokenSource _operationCancellationTokenSource;
+        private static readonly string CachedScenariosKey = "scensCache";
+        private static readonly string CredentialsKey = "credentials";
+
+        private SafeCancellationToken _listenersCancellationTokenSource;
+        private SafeCancellationToken _operationCancellationTokenSource;
         private ConnectionCredentials? _credentials;
         private LazuriteClient _client;
         private DateTime _lastRefresh = DateTime.Now;
-
-        public ScenarioInfo[] Scenarios { get; private set; }
-        public ManagerConnectionState ConnectionState { get; private set; } = ManagerConnectionState.Disconnected;
         private bool _succeed = true;
         private int _refreshIncrement = 0;
         private bool _iterationRefreshNow;
+
+        public ScenarioInfo[] Scenarios { get; private set; }
+        public ManagerConnectionState ConnectionState { get; private set; } = ManagerConnectionState.Disconnected;
+
+        public ListenerSettings ListenerSettings
+        {
+            get => PropertiesManager.Get(nameof(ListenerSettings), ListenerSettings.Normal);
+            set => PropertiesManager.Set(nameof(ListenerSettings), value);
+        }
 
         public event Action<ScenarioInfo[]> ScenariosChanged;
 
@@ -122,7 +126,7 @@ namespace LazuriteMobile.App
             _listenersCancellationTokenSource =
                 SystemUtils.StartTimer(
                     (token) => RefreshIteration(),
-                    () => _succeed ? ScenariosManagerListenInterval : ScenariosManagerListenInterval_onError);
+                    () => _succeed ? ListenerSettings.ScreenOnInterval : ListenerSettings.OnErrorInterval);
         }
 
         public void RefreshIteration()
@@ -144,7 +148,9 @@ namespace LazuriteMobile.App
                 {
                     if (TaskUtils.Wait(SyncAddictionalData()))
                     {
-                        if (IsMultiples(_refreshIncrement, ScenariosManagerFullRefreshInterval) || Scenarios == null)
+                        bool isMultiples(int sum, int num) => (sum >= num && sum % num == 0);
+
+                        if (isMultiples(_refreshIncrement, 10) || Scenarios == null)
                         {
                             TaskUtils.Wait(Refresh());
                         }
@@ -166,6 +172,7 @@ namespace LazuriteMobile.App
         public void StopListenChanges()
         {
             _listenersCancellationTokenSource?.Cancel();
+            _listenersCancellationTokenSource = null;
             ConnectionState = ManagerConnectionState.Disconnected;
         }
 
@@ -231,9 +238,8 @@ namespace LazuriteMobile.App
         private void InitializeInternal(Action<bool> callback)
         {
             //cancel all operations
-            _operationCancellationTokenSource?.Cancel();
-            _operationCancellationTokenSource = new CancellationTokenSource();
             StopListenChanges();
+            _operationCancellationTokenSource = new SafeCancellationToken();
             _client = ServiceClientFactory.Current.GetClient(_credentials.Value);
 #pragma warning disable CS4014 // Так как этот вызов не ожидается, выполнение существующего метода продолжается до завершения вызова
             Refresh().ContinueWith(t => callback?.Invoke(t.Result));
@@ -242,7 +248,7 @@ namespace LazuriteMobile.App
 
         private async Task<bool> HandleExceptions<T>(Func<LazuriteClient, Task<T>> action)
         {
-            var cancellationToken = _operationCancellationTokenSource.Token;
+            var cancellationToken = _operationCancellationTokenSource;
             bool success = false;
             try
             {
@@ -308,7 +314,7 @@ namespace LazuriteMobile.App
 
         private async Task<bool> Handle(Func<LazuriteClient, Task> action)
         {
-            var cancellationToken = _operationCancellationTokenSource.Token;
+            var cancellationToken = _operationCancellationTokenSource;
             bool success = false;
             try
             {
@@ -455,46 +461,54 @@ namespace LazuriteMobile.App
 
         private void CacheScenarios()
         {
-            DataManager.Set(_cachedScenariosKey, Scenarios);
+            DataManager.Set(CachedScenariosKey, Scenarios);
         }
 
         private void TryLoadCachedScenarios()
         {
-            if (DataManager.Has(_cachedScenariosKey))
+            if (DataManager.Has(CachedScenariosKey))
             {
                 try
                 {
-                    Scenarios = DataManager.Get<ScenarioInfo[]>(_cachedScenariosKey);
+                    Scenarios = DataManager.Get<ScenarioInfo[]>(CachedScenariosKey);
                     NeedRefresh?.Invoke();
                 }
                 catch
                 {
-                    DataManager.Clear(_cachedScenariosKey);
+                    DataManager.Clear(CachedScenariosKey);
                 }
             }
         }
 
         private void TryLoadClientSettings()
         {
-            if (DataManager.Has(_credentialsKey))
+            if (DataManager.Has(CredentialsKey))
             {
                 try
                 {
-                    _credentials = DataManager.Get<ConnectionCredentials>(_credentialsKey);
+                    _credentials = DataManager.Get<ConnectionCredentials>(CredentialsKey);
                     CredentialsLoaded?.Invoke();
                 }
                 catch
                 {
-                    DataManager.Clear(_credentialsKey);
+                    DataManager.Clear(CredentialsKey);
                 }
             }
         }
 
         private void SaveClientSettings()
         {
-            DataManager.Set(_credentialsKey, _credentials);
+            DataManager.Set(CredentialsKey, _credentials);
         }
 
-        private bool IsMultiples(int sum, int num) => (sum >= num && sum % num == 0);
+        public void GetListenerSettings(Action<ListenerSettings> callback)
+        {
+            callback?.Invoke(ListenerSettings);
+        }
+
+        public void SetListenerSettings(ListenerSettings settings)
+        {
+            ListenerSettings = settings;
+        }
     }
 }

@@ -1,71 +1,27 @@
-﻿using Lazurite.MainDomain;
+﻿using Lazurite.Shared;
+using LazuriteMobile.App.Common;
 using LazuriteMobile.App.Controls;
-using System;
-
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace LazuriteMobile.App
 {
-    public partial class SettingsView : ContentView
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class SettingsView : Grid
     {
         public SettingsView()
         {
-        	InitializeComponent();
-
-            tbHost.Completed += AnyTextBox_Completed;
-            tbLogin.Completed += AnyTextBox_Completed;
-            tbPassword.Completed += AnyTextBox_Completed;
-            tbSecretCode.Completed += AnyTextBox_Completed;
-            numPort.Completed += AnyTextBox_Completed;
+            InitializeComponent();
+            BindingContext = this;
         }
 
-        // Navigate next control on OK pressed
-        private void AnyTextBox_Completed(object sender, EventArgs e)
+        public void SelectSkin(object sender, EventsArgs<SettingsView> sv)
         {
-            var sourceTb = sender as Entry;
-            var index = gridMain.Children.IndexOf(sourceTb) + 1;
-            View nextControl = null;
-            while (!(nextControl is Entry || nextControl is ItemView) && index < gridMain.Children.Count)
-                nextControl = gridMain.Children[index++];
-            if (nextControl != null)
-                nextControl.Focus();
+            SkinSelectView.Show(Helper.GetLastParent(this));
         }
 
-        public void SetCredentials(ConnectionCredentials credentials)
+        public void SelectSetting(SettingsItem settingItem)
         {
-            tbHost.Text = credentials.Host;
-            tbLogin.Text = credentials.Login;
-            tbPassword.Text = credentials.Password;
-            tbSecretCode.Text = credentials.SecretKey;
-            numPort.Value = credentials.Port;
         }
-
-        public ConnectionCredentials GetCredentials()
-        {
-            return new ConnectionCredentials() {
-                Host = tbHost.Text,
-                Login = tbLogin.Text,
-                Password = tbPassword.Text,
-                SecretKey = tbSecretCode.Text,
-                Port = (ushort)numPort.Value
-            };
-        }
-
-        public void SetErrorMessage(string str)
-        {
-            lblErrorMessage.Text = str;
-        }
-
-        public void ClearErrorMessage()
-        {
-            SetErrorMessage("");
-        }
-
-        private void ItemView_Click(object arg1, EventArgs arg2)
-        {
-            ConnectClicked?.Invoke(this);
-        }
-
-        public event Action<SettingsView> ConnectClicked;
     }
 }

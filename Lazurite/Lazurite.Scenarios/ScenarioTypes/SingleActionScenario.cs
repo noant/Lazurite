@@ -7,7 +7,6 @@ using Lazurite.MainDomain;
 using Lazurite.Security;
 using Lazurite.Utils;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using ExecutionContext = Lazurite.ActionsDomain.ExecutionContext;
 
@@ -127,7 +126,7 @@ namespace Lazurite.Scenarios.ScenarioTypes
                 //if action not send some info when value changed then calculate value
                 if (!ActionHolder.Action.IsSupportsEvent)
                 {
-                    var value = ActionHolder.Action.GetValue(new ExecutionContext(this, string.Empty, string.Empty, new OutputChangedDelegates(), new CancellationTokenSource()));
+                    var value = ActionHolder.Action.GetValue(new ExecutionContext(this, string.Empty, string.Empty, new OutputChangedDelegates(), new SafeCancellationToken()));
                     if (GetCurrentValue() != value)
                     {
                         SetCurrentValueNoEvents(value);

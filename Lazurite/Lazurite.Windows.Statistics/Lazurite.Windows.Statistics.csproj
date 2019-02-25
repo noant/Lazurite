@@ -77,6 +77,10 @@
       <Project>{9D1FABF0-1A55-47D2-8F0F-BD0BB14F65AA}</Project>
       <Name>Lazurite.Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lazurite.Utils\Lazurite.Utils.csproj">
+      <Project>{d4fdb9f4-f897-4f15-85fc-26e8d933af6d}</Project>
+      <Name>Lazurite.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lazurite.Windows.Utils\Lazurite.Windows.Utils.csproj">
       <Project>{09BE5F23-3903-4547-9D56-12CAE326C5CC}</Project>
       <Name>Lazurite.Windows.Utils</Name>

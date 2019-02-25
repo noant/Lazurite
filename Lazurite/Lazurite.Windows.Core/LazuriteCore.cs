@@ -35,6 +35,7 @@ namespace Lazurite.Windows.Core
             Singleton.Add(WarningHandler = new WarningHandler());
             Singleton.Add(new DataEncryptor());
             Singleton.Add(DataManager = new FileDataManager());
+            Singleton.Add(new StoredPropertiesManager());
             Singleton.Add(SystemUtils = new SystemUtils());
             Singleton.Add(AddictionalDataManager = new AddictionalDataManager());
         }

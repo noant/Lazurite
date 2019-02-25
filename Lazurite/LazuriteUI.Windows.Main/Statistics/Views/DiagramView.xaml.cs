@@ -34,20 +34,27 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
             Loaded += (o, e) =>
             {
                 if (LoadData())
+                {
                     InitiateReload();
+                }
                 else
+                {
                     BeginSelectScenarios();
+                }
             };
         }
 
         private string[] _diagramsScenariosViews;
         private StatisticsScenarioInfo[] _infos;
         public Action<StatisticsFilter> NeedItems { get; set; }
-        
+
         private bool LoadData()
         {
             if (!DataManager.Has(nameof(_diagramsScenariosViews)))
+            {
                 return false;
+            }
+
             _diagramsScenariosViews = DataManager.Get<string[]>(nameof(_diagramsScenariosViews));
             return _diagramsScenariosViews.Any();
         }
@@ -59,7 +66,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
 
         private void BeginSelectScenarios()
         {
-            SelectScenarioView.Show(_diagramsScenariosViews, (newScenarios) => {
+            SelectScenarioView.Show(_diagramsScenariosViews, (newScenarios) =>
+            {
                 _diagramsScenariosViews = newScenarios;
                 SaveData();
                 InitiateReload();
@@ -68,7 +76,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
 
         private async void InitiateReload()
         {
-            var selectedScenarios = 
+            var selectedScenarios =
                 ScenariosRepository
                 .Scenarios
                 .Where(x => _diagramsScenariosViews.Contains(x.Id))
@@ -76,12 +84,12 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
 
             var registrationInfo = await StatisticsManager.GetRegistrationInfo(selectedScenarios);
 
-            var scenarios = 
+            var scenarios =
                 selectedScenarios
-                .Where(x => registrationInfo.IsRegistered(x.Id) && (x.GetIsAvailable() || !(x is RemoteScenario)))
+                .Where(x => (x.GetIsAvailable() || !(x is RemoteScenario) && registrationInfo.IsRegistered(x.Id)))
                 .ToArray();
 
-            _infos = 
+            _infos =
                 await Task.WhenAll(
                     scenarios
                     .Select(x => StatisticsManager.GetStatisticsInfoForScenario(x, SystemActionSource)));
@@ -94,14 +102,16 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
 
         public void RefreshItems(ScenarioStatistic[] scenarioStatistics, DateTime since, DateTime to)
         {
-            void refresh ()
+            void refresh()
             {
                 diagramsHost.MaxDate = to;
                 diagramsHost.MinDate = since;
                 var diagrams = new List<IDiagramItem>();
 
                 if (!scenarioStatistics.Any() || scenarioStatistics.Sum(x => x.Statistic.Length) == 0)
+                {
                     lblDataEmpty.Visibility = Visibility.Visible;
+                }
                 else
                 {
                     lblDataEmpty.Visibility = Visibility.Collapsed;
@@ -114,15 +124,25 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
                         {
                             var unit = (ScenariosRepository.Scenarios.FirstOrDefault(x => x.Id == info.ID)?.ValueType as FloatValueType).Unit?.Trim();
                             if (!string.IsNullOrEmpty(unit))
+                            {
                                 scenarioName += ", " + unit;
+                            }
+
                             diagram = new GraphicsDiagramItemView();
                         }
                         else if (info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(StateValueType)))
+                        {
                             diagram = new StatesDiagramItemView();
+                        }
                         else if (info.ValueTypeName == Lazurite.ActionsDomain.Utils.GetValueTypeClassName(typeof(ToggleValueType)))
+                        {
                             diagram = new ToggleDiagramItemView();
+                        }
                         else
+                        {
                             diagram = new InfoDiagramItemView();
+                        }
+
                         var curItems = scenarioStatistics.FirstOrDefault(x => x.ScenarioInfo.ID == info.ID).Statistic;
                         diagram.Points = scenarioStatistics.First(x => x.ScenarioInfo.ID == info.ID);
                         diagrams.Add(diagram);
@@ -136,12 +156,16 @@ namespace LazuriteUI.Windows.Main.Statistics.Views
 
                     diagramsHost.SetItems(ordered);
                 }
-
             }
 
             if (IsLoaded)
+            {
                 refresh();
-            else Loaded += (o, e) => refresh();
+            }
+            else
+            {
+                Loaded += (o, e) => refresh();
+            }
         }
     }
 }

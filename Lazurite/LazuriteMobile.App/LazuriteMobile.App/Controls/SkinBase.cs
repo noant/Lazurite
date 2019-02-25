@@ -19,6 +19,7 @@ namespace LazuriteMobile.App.Controls
         public abstract Color Foreground { get; }
         public abstract Color ItemBackground { get; }
         public abstract Color ItemBackgroundAlter { get; }
+        public abstract Color ItemForeground { get; }
         public abstract Color ItemIconColor { get; }
         public abstract Color ItemSelection { get; }
         public abstract Color MessageEditColor { get; }

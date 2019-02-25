@@ -1,4 +1,5 @@
 ﻿using Lazurite.MainDomain;
+using Lazurite.Utils;
 using System;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -13,23 +14,31 @@ namespace Lazurite.Windows.Utils
         public string CurrentLazuriteVersion { get; } = Assembly.GetEntryAssembly().GetName().Version.ToString();
 
         public byte[] CreateMD5Hash(byte[] bytes) => MD5.Create().ComputeHash(bytes);
-        
-        public void Sleep(int ms, CancellationToken cancelToken)
+
+        public void Sleep(int ms, SafeCancellationToken cancelToken)
         {
-            if (ms <= SleepCancelTokenIterationInterval || cancelToken.Equals(CancellationToken.None))
+            if (ms <= SleepCancelTokenIterationInterval || cancelToken.Equals(SafeCancellationToken.None))
+            {
                 Thread.Sleep(ms);
-            else for (int i = 0; i <= ms && !cancelToken.IsCancellationRequested; i += SleepCancelTokenIterationInterval)
-                Thread.Sleep(SleepCancelTokenIterationInterval);
+            }
+            else
+            {
+                for (int i = 0; i <= ms && !cancelToken.IsCancellationRequested; i += SleepCancelTokenIterationInterval)
+                {
+                    Thread.Sleep(SleepCancelTokenIterationInterval);
+                }
+            }
         }
 
-        public CancellationTokenSource StartTimer(Action<CancellationTokenSource> tick, Func<int> needInterval, bool startImmidiate = true, bool ticksSuperposition = false)
+        public SafeCancellationToken StartTimer(Action<SafeCancellationToken> tick, Func<int> needInterval, bool startImmidiate = true, bool ticksSuperposition = false)
         {
             bool canceled = false;
             bool executionNow = false;
             Timer timer = null;
 
-            var cancellationToken = new CancellationTokenSource();
-            cancellationToken.Token.Register(() => {
+            var cancellationToken = new SafeCancellationToken();
+            cancellationToken.RegisterCallback(() =>
+            {
                 if (!canceled)
                 {
                     timer.Change(Timeout.Infinite, Timeout.Infinite);
@@ -41,7 +50,8 @@ namespace Lazurite.Windows.Utils
             var interval = needInterval?.Invoke() ?? 1000;
 
             timer = new Timer(
-                (t) => {
+                (t) =>
+                {
                     if ((!executionNow || ticksSuperposition) && !cancellationToken.IsCancellationRequested)
                     {
                         executionNow = true;

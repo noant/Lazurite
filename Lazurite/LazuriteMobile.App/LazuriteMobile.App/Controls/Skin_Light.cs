@@ -22,6 +22,7 @@ namespace LazuriteMobile.App.Controls
         public override Color Foreground { get; } = ForeColor;
         public override Color ItemBackground { get; } = PanelColor;
         public override Color ItemBackgroundAlter { get; } = Bg;
+        public override Color ItemForeground { get; } = ForeColor;
         public override Color ItemIconColor { get; } = ForeColor;
         public override Color ItemSelection { get; } = Color.SkyBlue;
         public override Color MessageEditColor { get; } = PanelColor;

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+        x:Class="LazuriteMobile.App.Common.SettingsItemView"
+        Margin="0,5,0,0"
+        Padding="5,5,5,5">
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+    </Grid.RowDefinitions>
+    <controls:ValueView FontAttributes="Italic" x:Name="captionView" />
+    <controls:CaptionView Grid.Row="1" x:Name="descriptionView" />
+    <controls:ItemView Grid.Row="2" Selectable="True" x:Name="btApply" Icon="ChevronRight" Text="Выбрать"></controls:ItemView>
+</Grid>

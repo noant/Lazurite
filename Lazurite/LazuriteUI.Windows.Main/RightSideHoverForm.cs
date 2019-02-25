@@ -70,7 +70,7 @@ namespace LazuriteUI.Windows.Main
             const int interval = 30000;
 #endif
 #if DEBUG
-            const int interval = 2000;
+            const int interval = 10000;
 #endif
             _activateTimer = new System.Threading.Timer(
                 (s) =>

@@ -1,5 +1,4 @@
 ﻿using Lazurite.Utils;
-using System.Threading;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -9,7 +8,7 @@ namespace LazuriteMobile.App
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LazuriteAnimatedIcon : Grid
     {
-        private CancellationTokenSource _stopAnimate = new CancellationTokenSource();
+        private SafeCancellationToken _stopAnimate = new SafeCancellationToken();
 
         public LazuriteAnimatedIcon()
         {
@@ -17,12 +16,12 @@ namespace LazuriteMobile.App
 
             InitializeComponent();
         }
-        
+
         public async void StartAnimate()
         {
             if (_stopAnimate.IsCancellationRequested)
             {
-                _stopAnimate = new CancellationTokenSource();
+                _stopAnimate = new SafeCancellationToken();
 
                 //while (!_stopAnimate.IsCancellationRequested)
                 //{
@@ -43,11 +42,13 @@ namespace LazuriteMobile.App
                 });
             }
         }
-        
+
         public void StopAnimate()
         {
             if (!_stopAnimate.IsCancellationRequested)
+            {
                 _stopAnimate.Cancel();
+            }
         }
     }
 }
