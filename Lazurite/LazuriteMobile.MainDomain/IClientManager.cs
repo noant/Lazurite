@@ -37,6 +37,8 @@ namespace LazuriteMobile.MainDomain
 
         void Close();
 
+        void Unbind();
+
         void RefreshIteration();
 
         void ScreenOnActions();

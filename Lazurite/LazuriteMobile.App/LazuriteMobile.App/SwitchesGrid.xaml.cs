@@ -96,14 +96,18 @@ namespace LazuriteMobile.App
                     control.Margin = CreateControlMargin(model.VisualSettings);
                 }
 
-                if (showMessageIfEmpty)
-                {
-                    ScenariosEmptyModeOff();
-                }
+                ScenariosEmptyModeOff();
             }
             else
             {
-                ScenariosEmptyModeOn();
+                if (showMessageIfEmpty)
+                {
+                    ScenariosEmptyModeOn();
+                }
+                else
+                {
+                    ScenariosEmptyModeOff();
+                }
             }
         }
 

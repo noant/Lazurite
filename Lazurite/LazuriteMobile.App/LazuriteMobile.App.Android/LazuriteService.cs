@@ -64,6 +64,12 @@ namespace LazuriteMobile.App.Droid
             Log = Singleton.Resolve<ILogger>();
 
             _manager = new ClientManager();
+
+            if (_manager.ListenerSettings.UseCPUInBackground)
+            {
+                InitWakeLock();
+            }
+
             _messenger = new Messenger(_inHandler);
             _inHandler.HasCome += InHandler_HasCome;
 
@@ -77,11 +83,6 @@ namespace LazuriteMobile.App.Droid
             _manager.SecretCodeInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.SecretCodeInvalid));
             _manager.ConnectionError += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionError));
             _manager.Initialize(null);
-
-            if (_manager.ListenerSettings.UseCPUInBackground)
-            {
-                InitWakeLock();
-            }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
@@ -328,7 +329,7 @@ namespace LazuriteMobile.App.Droid
         private void InitWakeLock()
         {
             _wakelock = PowerManager.NewWakeLock(WakeLockFlags.Partial, "lazurite::servicewakelock");
-            _wakelock.Acquire();
+            _wakelock.SetReferenceCounted(false);
         }
 
         private void ReleaseWakeLock()

@@ -32,13 +32,13 @@ namespace LazuriteMobile.App
         private static readonly AddictionalDataManager Bus = Singleton.Resolve<AddictionalDataManager>();
         private static readonly INotifier Notifier = Singleton.Resolve<INotifier>();
         private static readonly StoredPropertiesManager PropertiesManager = Singleton.Resolve<StoredPropertiesManager>();
+        private static readonly IGeolocationListener GeolocationListener = Singleton.Resolve<IGeolocationListener>();
 
         private static readonly string CachedScenariosKey = "scensCache";
         private static readonly string CredentialsKey = "credentials";
 
         private SafeCancellationToken _listenersCancellationTokenSource;
         private SafeCancellationToken _operationCancellationTokenSource;
-        private GeolocationListener _geolocationListener;
         private ConnectionCredentials? _credentials;
         private LazuriteClient _client;
         private DateTime _lastRefresh = DateTime.Now;
@@ -77,12 +77,6 @@ namespace LazuriteMobile.App
 
         public ClientManager()
         {
-            if (!Singleton.Any<IGeolocationListener>())
-            {
-                Singleton.Add(_geolocationListener = new GeolocationListener());
-                _geolocationListener.StartListenChanges();
-            }
-
             if (!Bus.Any<GeolocationDataHandler>())
             {
                 Bus.Register<GeolocationDataHandler>();
@@ -147,6 +141,7 @@ namespace LazuriteMobile.App
                 }
                 else
                 {
+                    GeolocationListener.TryStartListenChanges();
                     if (TaskUtils.Wait(SyncAddictionalData()))
                     {
                         bool isMultiples(int sum, int num) => (sum >= num && sum % num == 0);
@@ -229,17 +224,28 @@ namespace LazuriteMobile.App
         public void Close()
         {
             StopListenChanges();
+            GeolocationListener.Stop();
+        }
+
+        public void Unbind()
+        {
+            // Do nothing
         }
 
         public void ScreenOnActions()
         {
-            //do nothing there
+            // Do nothing
         }
 
         private void InitializeInternal(Action<bool> callback)
         {
-            //cancel all operations
-            StopListenChanges();
+            Close();
+
+            if (!GeolocationListener.Started)
+            {
+                GeolocationListener.StartListenChanges();
+            }
+
             _operationCancellationTokenSource = new SafeCancellationToken();
             _client = ServiceClientFactory.Current.GetClient(_credentials.Value);
 #pragma warning disable CS4014 // Так как этот вызов не ожидается, выполнение существующего метода продолжается до завершения вызова
@@ -515,22 +521,22 @@ namespace LazuriteMobile.App
 
         public void GetGeolocationListenerSettings(Action<GeolocationListenerSettings> callback)
         {
-            callback?.Invoke(_geolocationListener.ListenerSettings);
+            callback?.Invoke(GeolocationListener.ListenerSettings);
         }
 
         public void SetGeolocationListenerSettings(GeolocationListenerSettings settings)
         {
-            _geolocationListener.ListenerSettings = settings;
+            GeolocationListener.ListenerSettings = settings;
         }
 
         public void GetGeolocationAccuracy(Action<int> callback)
         {
-            callback?.Invoke(_geolocationListener.AccuracyMeters);
+            callback?.Invoke(GeolocationListener.AccuracyMeters);
         }
 
         public void SetGeolocationAccuracy(int accuracyMeters)
         {
-            _geolocationListener.AccuracyMeters = accuracyMeters;
+            GeolocationListener.AccuracyMeters = accuracyMeters;
         }
 
         public void ReInitialize()

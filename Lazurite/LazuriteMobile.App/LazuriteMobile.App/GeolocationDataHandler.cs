@@ -1,47 +1,26 @@
 ﻿using Lazurite.IOC;
-using Lazurite.Logging;
 using Lazurite.MainDomain;
 using LazuriteMobile.MainDomain;
-using System;
 
 namespace LazuriteMobile.App
 {
-    public class GeolocationDataHandler : IAddictionalDataHandler, IDisposable
+    public class GeolocationDataHandler : IAddictionalDataHandler
     {
-        private IGeolocationListener _listener = Singleton.Resolve<IGeolocationListener>();
-        private static readonly ILogger Log = Singleton.Resolve<ILogger>();
+        private static readonly IGeolocationListener Listener = Singleton.Resolve<IGeolocationListener>();
 
         public void Handle(AddictionalData data, object tag)
         {
-            //do nothing
+            // Do nothing
         }
 
         public void Prepare(AddictionalData data, object tag)
         {
-            data.Set(_listener.LastGeolocation);
+            data.Set(Listener.LastGeolocation);
         }
 
         public void Initialize()
         {
-            _listener = Singleton.Resolve<IGeolocationListener>();
-        }
-
-        ~GeolocationDataHandler()
-        {
-            Dispose();
-        }
-
-        public void Dispose()
-        {
-            try
-            {
-                _listener?.Stop();
-                _listener = null;
-            }
-            catch (Exception e)
-            {
-                Log.Error("Error on dispose GeolocationDataHandler", e);
-            }
+            // Do nothing
         }
     }
 }

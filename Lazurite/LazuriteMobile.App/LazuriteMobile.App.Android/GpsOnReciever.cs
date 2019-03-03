@@ -1,9 +1,7 @@
-﻿
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Lazurite.IOC;
 using LazuriteMobile.MainDomain;
-using System;
 
 namespace LazuriteMobile.App.Droid
 {
@@ -16,11 +14,10 @@ namespace LazuriteMobile.App.Droid
         {
             if (Singleton.Any<IGeolocationListener>())
             {
-                var listener = Singleton.Resolve<IGeolocationListener>();
-                if (intent.GetBooleanExtra("enabled", false))
-                    listener.StartListenChanges();
-                else
-                    listener.Stop();
+                // Try to start listener
+                Singleton
+                    .Resolve<IGeolocationListener>()
+                    .StartListenChanges();
             }
         }
     }

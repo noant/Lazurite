@@ -17,10 +17,11 @@ namespace LazuriteMobile.App
         private static readonly StoredPropertiesManager PropertiesManager = Singleton.Resolve<StoredPropertiesManager>();
         private static readonly string MinimumAccuracyKey = "GeolocationMinimumAccuracy";
 
-        private bool _started = false;
         private readonly object _locker = new object();
 
         private bool IsLocationAvailable() => CrossGeolocator.Current.IsGeolocationAvailable && CrossGeolocator.Current.IsGeolocationEnabled;
+
+        public bool Started { get; private set; } = false;
 
         public Geolocation LastGeolocation { get; private set; } = Geolocation.Empty;
 
@@ -47,7 +48,7 @@ namespace LazuriteMobile.App
         public async void StartListenChanges()
         {
             if (!CrossGeolocator.Current.IsListening &&
-                !_started &&
+                !Started &&
                 IsLocationAvailable() &&
                 ListenerSettings.MillisecondsInterval > 0)
             {
@@ -57,7 +58,7 @@ namespace LazuriteMobile.App
 
         private async Task StartInternal()
         {
-            _started = true;
+            Started = true;
             try
             {
                 CrossGeolocator.Current.PositionChanged -= Current_PositionChanged;
@@ -65,9 +66,7 @@ namespace LazuriteMobile.App
                 CrossGeolocator.Current.PositionError -= Current_PositionError;
                 CrossGeolocator.Current.PositionError += Current_PositionError;
 
-                var lastLocation =
-                    await CrossGeolocator.Current.GetLastKnownLocationAsync() ??
-                    await CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromMinutes(10));
+                var lastLocation = await CrossGeolocator.Current.GetLastKnownLocationAsync();
 
                 if (lastLocation != null && lastLocation.Accuracy <= AccuracyMeters)
                 {
@@ -91,7 +90,7 @@ namespace LazuriteMobile.App
             }
             catch (Exception e)
             {
-                _started = false;
+                Started = false;
                 Log.Error("Error while initializing GeolocationDataHandler", e);
             }
         }
@@ -100,7 +99,7 @@ namespace LazuriteMobile.App
 
         private async Task StopInternal()
         {
-            _started = false;
+            Started = false;
             CrossGeolocator.Current.PositionChanged -= Current_PositionChanged;
             CrossGeolocator.Current.PositionError -= Current_PositionError;
             await CrossGeolocator.Current.StopListeningAsync();
@@ -118,6 +117,16 @@ namespace LazuriteMobile.App
         {
             await StopInternal();
             await StartInternal();
+        }
+
+        public void TryStartListenChanges()
+        {
+            if (Started && (!CrossGeolocator.Current.IsListening || !IsLocationAvailable()))
+            {
+                StopInternal().Wait();
+            }
+
+            StartListenChanges();
         }
     }
 }

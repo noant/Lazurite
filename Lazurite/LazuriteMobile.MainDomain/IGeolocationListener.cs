@@ -8,7 +8,11 @@ namespace LazuriteMobile.MainDomain
 
         int AccuracyMeters { get; set; }
 
+        bool Started { get; }
+
         void StartListenChanges();
+
+        void TryStartListenChanges();
 
         void Stop();
 

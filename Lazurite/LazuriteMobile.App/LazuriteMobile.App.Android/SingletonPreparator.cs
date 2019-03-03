@@ -60,6 +60,11 @@ namespace LazuriteMobile.App.Droid
             {
                 Singleton.Add(new RuntimePermissionsHandler());
             }
+
+            if (!Singleton.Any<IGeolocationListener>())
+            {
+                Singleton.Add(new GeolocationListener());
+            }
         }
     }
 }

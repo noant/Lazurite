@@ -373,12 +373,7 @@ namespace LazuriteMobile.App.Droid
             {
                 Utils.SendData(_toServiceMessenger, _messenger, ServiceOperation.Close);
                 _activity.UnbindService(_serviceConnection);
-                _serviceConnection.Connected -= ServiceConnection_Connected;
-                _serviceConnection.Disconnected -= ServiceConnection_Disconnected;
-                _messenger?.Dispose();
-                _messenger = null;
-                _serviceConnection?.Dispose();
-                _serviceConnection = null;
+                Unbind();
             }
             catch
             {
@@ -386,9 +381,19 @@ namespace LazuriteMobile.App.Droid
             }
         }
 
+        public void Unbind()
+        {
+            _serviceConnection.Connected -= ServiceConnection_Connected;
+            _serviceConnection.Disconnected -= ServiceConnection_Disconnected;
+            _messenger?.Dispose();
+            _messenger = null;
+            _serviceConnection?.Dispose();
+            _serviceConnection = null;
+        }
+
         public void Dispose()
         {
-            Close();
+            Unbind();
         }
     }
 

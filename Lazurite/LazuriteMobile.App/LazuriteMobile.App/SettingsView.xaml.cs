@@ -85,36 +85,20 @@ namespace LazuriteMobile.App
             {
                 if (Singleton.Any<LazuriteContext>())
                 {
-                    var i = 0;
-                    var locker = new object();
-                    void raiseCallBackIfAllComplete() // Crutch
-                    {
-                        lock (locker)
-                        {
-                            i++;
-                            if (i == 3)
-                            {
-                                callback?.Invoke();
-                            }
-                        }
-                    }
-
                     warnMessageView.IsVisible = false;
                     var scenariosManager = Singleton.Resolve<LazuriteContext>().Manager;
                     scenariosManager.GetListenerSettings((settings) =>
                     {
                         _currentListenerSettings = settings;
-                        raiseCallBackIfAllComplete();
-                    });
-                    scenariosManager.GetGeolocationListenerSettings((gpsSettings) =>
-                    {
-                        _currentGeolocationSettings = gpsSettings;
-                        raiseCallBackIfAllComplete();
-                    });
-                    scenariosManager.GetGeolocationAccuracy((gpsAccuracy) =>
-                    {
-                        _currentGelocationAccuracy = gpsAccuracy;
-                        raiseCallBackIfAllComplete();
+                        scenariosManager.GetGeolocationListenerSettings((gpsSettings) =>
+                        {
+                            _currentGeolocationSettings = gpsSettings;
+                            scenariosManager.GetGeolocationAccuracy((gpsAccuracy) =>
+                            {
+                                _currentGelocationAccuracy = gpsAccuracy;
+                                callback?.Invoke();
+                            });
+                        });
                     });
                 }
                 else

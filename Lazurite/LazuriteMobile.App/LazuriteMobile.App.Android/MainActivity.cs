@@ -66,7 +66,7 @@ namespace LazuriteMobile.App.Droid
         {
             Singleton.Clear<IHardwareVolumeChanger>();
             Singleton.Clear<ISupportsResume>();
-            Singleton.Resolve<LazuriteContext>().Manager.Close();
+            Singleton.Resolve<LazuriteContext>().Manager.Unbind();
             base.OnDestroy();
         }
 
