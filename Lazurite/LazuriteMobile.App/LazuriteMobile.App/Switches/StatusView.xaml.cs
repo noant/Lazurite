@@ -26,13 +26,18 @@ namespace LazuriteMobile.App.Switches
             statusSwitch.StateChanged += (o, args) =>
             {
                 if (args.Value == ItemView.ClickSource.CloseAnyway)
+                {
                     dialog.Close();
+                }
+
                 if ((args.Value == ItemView.ClickSource.Tap && model.AcceptedValues.Length <= StatusViewSwitch.NotClosingItemsCount) ||
-                    args.Value == ItemView.ClickSource.CloseAnyway)                                                                 // Если количество возможных значений меньше 14, 
-                                                                                                                                    // то при выборе одного из значений закрываем окно.
+                    args.Value == ItemView.ClickSource.CloseAnyway)                                                                 // Если количество возможных значений меньше 14,
+                {
+                    // то при выборе одного из значений закрываем окно.
                     dialog.Close();                                                                                                 // Число подобрано на основе того, сколько строчек вмещается на экран.
+                }
             };
-            dialog.Show(Helper.GetLastParent(this));
+            dialog.Show(DialogView.GetDialogHost(this));
         }
     }
 }

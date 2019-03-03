@@ -55,6 +55,11 @@ namespace LazuriteMobile.App.Droid
             {
                 Singleton.Add(new StoredPropertiesManager());
             }
+
+            if (!Singleton.Any<IRuntimePermissionsHandler>())
+            {
+                Singleton.Add(new RuntimePermissionsHandler());
+            }
         }
     }
 }

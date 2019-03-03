@@ -47,7 +47,6 @@ namespace Lazurite.CoreActions
             }
             set
             {
-                
             }
         }
 
@@ -68,7 +67,7 @@ namespace Lazurite.CoreActions
         public IAction[] GetAllActionsFlat()
         {
             var result = ActionHolders
-                .Select(x=>x.Action)
+                .Select(x => x.Action)
                 .Union(
                 ActionHolders
                 .Where(x => x.Action is IMultipleAction multipleAction)
@@ -96,13 +95,18 @@ namespace Lazurite.CoreActions
             foreach (var holder in ActionHolders)
             {
                 if (context.CancellationTokenSource.IsCancellationRequested)
+                {
                     break;
+                }
+
                 holder.Action.SetValue(context, string.Empty);
             }
         }
 
 #pragma warning disable 67
+
         public event ValueChangedEventHandler ValueChanged;
+
 #pragma warning restore 67
     }
 }

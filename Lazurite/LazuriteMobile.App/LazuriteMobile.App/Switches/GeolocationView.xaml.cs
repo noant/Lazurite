@@ -28,7 +28,7 @@ namespace LazuriteMobile.App.Switches
 
             if (data.IsEmpty)
             {
-                Controls.MessageView.Show("Данные о геокоординатах пусты...", LazuriteUI.Icons.Icon.MapGps, Helper.GetLastParent(this));
+                Controls.MessageView.Show("Данные о геокоординатах пусты...", LazuriteUI.Icons.Icon.MapGps, DialogView.GetDialogHost(this));
             }
             else
             {

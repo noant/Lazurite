@@ -5,6 +5,6 @@
              BackgroundColor="{x:Binding Source={x:Static controls:Visual.Current}, Path=BackgroundAlter}"
              x:Class="LazuriteMobile.App.Controls.SkinSelectView">
     <StackLayout x:Name="stackLayout">
-        <controls:CaptionView Margin="0,8,0,0" HorizontalOptions="Center">Выбор скина</controls:CaptionView>
+        <controls:CaptionView Margin="0,15,0,10" HorizontalOptions="Center">Выбор скина</controls:CaptionView>
     </StackLayout>
 </ScrollView>

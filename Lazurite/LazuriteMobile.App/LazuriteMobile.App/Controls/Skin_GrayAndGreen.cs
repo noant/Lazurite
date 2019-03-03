@@ -23,7 +23,7 @@ namespace LazuriteMobile.App.Controls
         public override Color EntryBackground { get; } = Color.Transparent;
         public override Color Foreground { get; } = ForeColor;
         public override Color ItemBackground { get; } = Color.FromHex("353945");
-        public override Color ItemBackgroundAlter { get; } = Color.FromHex("151925");
+        public override Color ItemBackgroundAlter { get; } = Color.FromHex("283238");
         public override Color ItemForeground { get; } = ForeColor;
         public override Color ItemIconColor { get; } = SelectedSwitchForeColor;
         public override Color ItemSelection { get; } = Color.FromHex("005599");
@@ -46,7 +46,7 @@ namespace LazuriteMobile.App.Controls
         public override Color SwitchForegroundReadonly { get; } = SwitchForeColorReadonly;
         public override Color SwitchIconColor { get; } = SwitchForeColor;
         public override Color SwitchIconColorReadonly { get; } = SwitchForeColorReadonly;
-        public override Color SwitchValueForeground { get; } = ForeColor;
+        public override Color SwitchValueForeground { get; } = SwitchForeColor;
         public override Color SwitchValueForegroundReadonly { get; } = SwitchForeColorReadonly;
         public override Color ValueForeground { get; } = ForeColor;
         public override Color ValueForegroundAlter { get; } = ForeColor;
@@ -60,6 +60,6 @@ namespace LazuriteMobile.App.Controls
         public override int FontSize { get; } = 12;
         public override string FontFamily { get; } = "sans-serif-light";
 
-        public override int VisualOrder { get; } = 5;
+        public override int VisualOrder { get; } = 1;
     }
 }

@@ -1,10 +1,15 @@
 ﻿using Android.OS;
+using Lazurite.IOC;
+using Lazurite.MainDomain;
 using Newtonsoft.Json;
+using System;
 
 namespace LazuriteMobile.App.Droid
 {
     public static class Utils
     {
+        private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
+
         public static string Serialize<T>(T obj)
         {
             return JsonConvert.SerializeObject(obj, new JsonSerializerSettings
@@ -24,7 +29,10 @@ namespace LazuriteMobile.App.Droid
         public static void SetData<T>(T data, Message message, Messenger answerMessenger, ServiceOperation operation)
         {
             if (data != null)
+            {
                 message.Data.PutString("json", Serialize(data));
+            }
+
             message.Obj = answerMessenger;
             message.What = (int)operation;
         }
@@ -32,8 +40,13 @@ namespace LazuriteMobile.App.Droid
         public static T GetData<T>(Message message)
         {
             if (message.Data.ContainsKey("json"))
+            {
                 return Deserialize<T>(message.Data.GetString("json"));
-            else return default(T);
+            }
+            else
+            {
+                return default(T);
+            }
         }
 
         public static Messenger GetAnswerMessenger(Message msg)
@@ -44,7 +57,10 @@ namespace LazuriteMobile.App.Droid
         public static void SendData<T>(T data, Messenger msgr, Messenger answerMessenger, ServiceOperation operation)
         {
             if (msgr == null)
+            {
                 return;
+            }
+
             var message = Message.Obtain();
             SetData(data, message, answerMessenger, operation);
             msgr.Send(message);
@@ -53,7 +69,10 @@ namespace LazuriteMobile.App.Droid
         public static void SendData(Messenger msgr, Messenger answerMessenger, ServiceOperation operation)
         {
             if (msgr == null)
+            {
                 return;
+            }
+
             var message = Message.Obtain();
             message.What = (int)operation;
             message.Obj = answerMessenger;
@@ -63,7 +82,10 @@ namespace LazuriteMobile.App.Droid
         public static void RaiseEvent<T>(T data, Messenger msgr, Messenger answerMessenger, ServiceOperation operation)
         {
             if (msgr == null)
+            {
                 return;
+            }
+
             var message = Message.Obtain();
             SetData(data, message, answerMessenger, operation);
             msgr.Send(message);
@@ -72,6 +94,22 @@ namespace LazuriteMobile.App.Droid
         public static void RaiseEvent(Messenger msgr, Messenger answerMessenger, ServiceOperation operation)
         {
             RaiseEvent<object>(null, msgr, answerMessenger, operation);
+        }
+
+        public static void DoAfter(Action action, int timeoutMs)
+        {
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            SystemUtils.StartTimer((t) =>
+            {
+                action();
+                t.Cancel();
+            },
+            () => timeoutMs,
+            false);
         }
     }
 }

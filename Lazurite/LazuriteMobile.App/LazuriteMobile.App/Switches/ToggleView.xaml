@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<bases:SwitchBase 
-    xmlns="http://xamarin.com/schemas/2014/forms" 
+<bases:SwitchBase
+    xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:bases="clr-namespace:LazuriteMobile.App.Switches.Bases"
     x:Class="LazuriteMobile.App.Switches.ToggleView"
@@ -8,11 +8,12 @@
     x:Name="grid">
     <bases:SwitchItemView Selectable="True" AnimateView="{Binding Source={Reference Name=grid}}" x:Name="itemView" SelectionChanged="itemView_SelectionChanged"></bases:SwitchItemView>
     <bases:SwitchIconView x:Name="iconView" x:FieldModifier="private" Margin="0,-30,0,0"></bases:SwitchIconView>
-    <bases:SwitchCaptionView 
-        Margin="0,0,0,13" x:Name="lblScenName" 
-        Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortString}}" 
+    <bases:SwitchCaptionView
+        Margin="0,0,0,13" x:Name="lblScenName"
+        Text="{Binding ScenarioName, Converter={Static local:ConvertersStatic.StringToShortString}}"
         x:FieldModifier="private"></bases:SwitchCaptionView>
-    <bases:SwitchIconView 
+    <bases:SwitchIconView
         Icon="{Binding State, Converter={Static local:ConvertersStatic.StateToToggleIcon}}"
         VerticalOptions="StartAndExpand" HorizontalOptions="End" WidthRequest="20" HeightRequest="20" Margin="2"></bases:SwitchIconView>
+    <bases:SwitchBottomBorder />
 </bases:SwitchBase>

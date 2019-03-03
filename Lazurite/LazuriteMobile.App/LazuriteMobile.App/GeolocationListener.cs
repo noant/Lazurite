@@ -18,8 +18,9 @@ namespace LazuriteMobile.App
         private static readonly string MinimumAccuracyKey = "GeolocationMinimumAccuracy";
 
         private bool _started = false;
-
         private readonly object _locker = new object();
+
+        private bool IsLocationAvailable() => CrossGeolocator.Current.IsGeolocationAvailable && CrossGeolocator.Current.IsGeolocationEnabled;
 
         public Geolocation LastGeolocation { get; private set; } = Geolocation.Empty;
 
@@ -42,8 +43,6 @@ namespace LazuriteMobile.App
             get => PropertiesManager.Get(MinimumAccuracyKey, 100);
             set => PropertiesManager.Set(MinimumAccuracyKey, value);
         }
-
-        private bool IsLocationAvailable() => CrossGeolocator.Current.IsGeolocationAvailable && CrossGeolocator.Current.IsGeolocationEnabled;
 
         public async void StartListenChanges()
         {
@@ -97,10 +96,7 @@ namespace LazuriteMobile.App
             }
         }
 
-        public void Stop()
-        {
-            StopInternal().Wait();
-        }
+        public void Stop() => StopInternal().Wait();
 
         private async Task StopInternal()
         {

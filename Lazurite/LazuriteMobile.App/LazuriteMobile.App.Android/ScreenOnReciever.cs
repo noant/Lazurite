@@ -1,9 +1,7 @@
-﻿
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Lazurite.IOC;
 using LazuriteMobile.MainDomain;
-using System;
 
 namespace LazuriteMobile.App.Droid
 {

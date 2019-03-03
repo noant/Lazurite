@@ -24,5 +24,10 @@
         BruteforceSuspition = 20,
         GetListenerSettings = 21,
         SetListenerSettings = 22,
+        GetGeolocationListenerSettings = 23,
+        SetGeolocationListenerSettings = 24,
+        GetGeolocationAccuracy = 25,
+        SetGeolocationAccuracy = 26,
+        Close = 27,
     }
 }

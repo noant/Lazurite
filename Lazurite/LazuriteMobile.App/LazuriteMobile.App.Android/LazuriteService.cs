@@ -7,7 +7,9 @@ using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
 using Lazurite.Utils;
+using LazuriteMobile.MainDomain;
 using System;
+using System.Threading;
 
 namespace LazuriteMobile.App.Droid
 {
@@ -15,7 +17,13 @@ namespace LazuriteMobile.App.Droid
     public class LazuriteService : Service
     {
         private static readonly ISystemUtils SystemUtils = Singleton.Resolve<ISystemUtils>();
+        private static LazuriteService Current;
         private static bool AlreadyStarted = false;
+        private static readonly DateTime LastTimerTickTime = DateTime.Now;
+        private static ScreenOnReciever ScreenOnReciever;
+        private static StartLazuriteServiceReceiver StartLazuriteServiceReceiver;
+        private static GpsOnReciever GpsOnReciever;
+        private static ILogger Log;
 
         private PowerManager PowerManager => GetSystemService(PowerService) as PowerManager;
 
@@ -23,8 +31,7 @@ namespace LazuriteMobile.App.Droid
 
         private bool IsPhoneInPowerSave => PowerManager.IsPowerSaveMode && !PowerManager.IsIgnoringBatteryOptimizations(PackageName);
 
-        private static ILogger Log;
-        private ScenariosManager _manager;
+        private ClientManager _manager;
         private Messenger _messenger;
         private IncomingHandler _inHandler = new IncomingHandler();
         private Messenger _toActivityMessenger;
@@ -40,9 +47,41 @@ namespace LazuriteMobile.App.Droid
         public override void OnCreate()
         {
             base.OnCreate();
-            var pmanager = (PowerManager)GetSystemService(PowerService);
-            _wakelock = pmanager.NewWakeLock(WakeLockFlags.Partial, "servicewakelock");
-            _wakelock.SetReferenceCounted(false);
+
+            AlreadyStarted = false;
+
+            Current = this;
+
+            SafeUnregisterReceiver(ScreenOnReciever);
+            SafeUnregisterReceiver(StartLazuriteServiceReceiver);
+            SafeUnregisterReceiver(GpsOnReciever);
+            RegisterReceiver(ScreenOnReciever = new ScreenOnReciever(), new IntentFilter(Intent.ActionScreenOn));
+            RegisterReceiver(StartLazuriteServiceReceiver = new StartLazuriteServiceReceiver(), new IntentFilter(Intent.ActionBootCompleted));
+            RegisterReceiver(GpsOnReciever = new GpsOnReciever(), new IntentFilter("android.location.GPS_ENABLED_CHANGE"));
+
+            SingletonPreparator.Initialize();
+            MainApplication.InitializeUnhandledExceptionsHandler();
+            Log = Singleton.Resolve<ILogger>();
+
+            _manager = new ClientManager();
+            _messenger = new Messenger(_inHandler);
+            _inHandler.HasCome += InHandler_HasCome;
+
+            _manager.ConnectionLost += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionLost));
+            _manager.ConnectionRestored += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionRestored), TimerAction.Start);
+            _manager.LoginOrPasswordInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.CredentialsInvalid), TimerAction.Stop);
+            _manager.BruteforceSuspition += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.BruteforceSuspition), TimerAction.Stop);
+            _manager.NeedClientSettings += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedClientSettings));
+            _manager.NeedRefresh += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedRefresh));
+            _manager.ScenariosChanged += (scenarios) => Handle((messenger) => Utils.RaiseEvent(scenarios, messenger, _messenger, ServiceOperation.ScenariosChanged));
+            _manager.SecretCodeInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.SecretCodeInvalid));
+            _manager.ConnectionError += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionError));
+            _manager.Initialize(null);
+
+            if (_manager.ListenerSettings.UseCPUInBackground)
+            {
+                InitWakeLock();
+            }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
@@ -52,49 +91,11 @@ namespace LazuriteMobile.App.Droid
             if (!AlreadyStarted)
             {
                 AlreadyStarted = true;
-                SingletonPreparator.Initialize();
-                MainApplication.InitializeUnhandledExceptionsHandler();
-                Log = Singleton.Resolve<ILogger>();
-
-                _manager = new ScenariosManager();
-                _messenger = new Messenger(_inHandler);
-                _inHandler.HasCome += InHandler_HasCome;
-
-                _manager.ConnectionLost += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionLost));
-                _manager.ConnectionRestored += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionRestored), TimerAction.Start);
-                _manager.LoginOrPasswordInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.CredentialsInvalid), TimerAction.Stop);
-                _manager.BruteforceSuspition += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.BruteforceSuspition), TimerAction.Stop);
-                _manager.NeedClientSettings += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedClientSettings));
-                _manager.NeedRefresh += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.NeedRefresh));
-                _manager.ScenariosChanged += (scenarios) => Handle((messenger) => Utils.RaiseEvent(scenarios, messenger, _messenger, ServiceOperation.ScenariosChanged));
-                _manager.SecretCodeInvalid += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.SecretCodeInvalid));
-                _manager.ConnectionError += () => Handle((messenger) => Utils.RaiseEvent(messenger, _messenger, ServiceOperation.ConnectionError));
-                _manager.Initialize(null);
-
-                RegisterReceiver(new ScreenOnReciever(), new IntentFilter(Intent.ActionScreenOn));
-
-                var manager = (AlarmManager)GetSystemService(AlarmService);
-                var triggerAtTime = SystemClock.ElapsedRealtime() + (5 * 60 * 1000);
-                var onAndroidAvailable = new Intent(this, typeof(BackgroundReceiver));
-                var startServiceIntent = PendingIntent.GetBroadcast(this, 0, onAndroidAvailable, 0);
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
-                {
-                    manager.Cancel(startServiceIntent);
-                    manager.SetAndAllowWhileIdle(AlarmType.ElapsedRealtimeWakeup, triggerAtTime, startServiceIntent);
-                }
-                else if (Build.VERSION.SdkInt == BuildVersionCodes.Kitkat || Build.VERSION.SdkInt == BuildVersionCodes.Lollipop)
-                {
-                    manager.Cancel(startServiceIntent);
-                    manager.SetExact(AlarmType.ElapsedRealtimeWakeup, triggerAtTime, startServiceIntent);
-                }
 
                 ReInitTimer();
 
                 var activityIntent = new Intent(this, typeof(MainActivity));
-
-                var showActivityIntent = PendingIntent.GetActivity(Application.Context, 0,
-                    activityIntent, PendingIntentFlags.UpdateCurrent);
-
+                var showActivityIntent = PendingIntent.GetActivity(Application.Context, 0, activityIntent, PendingIntentFlags.UpdateCurrent);
                 _currentNotification =
 #pragma warning disable CS0618 // Тип или член устарел
                     new Notification.Builder(this).
@@ -121,6 +122,11 @@ namespace LazuriteMobile.App.Droid
                 (token) => _manager.RefreshIteration(),
                 () =>
                 {
+                    if (_manager == null)
+                    {
+                        return Timeout.Infinite;
+                    }
+
                     var interval = _manager.ListenerSettings.ScreenOnInterval;
                     try
                     {
@@ -148,21 +154,26 @@ namespace LazuriteMobile.App.Droid
 
         private void StopTimer()
         {
-            if (!_timerCancellationToken?.IsCancellationRequested ?? false)
-            {
-                _timerCancellationToken?.Cancel();
-            }
+            _timerCancellationToken?.Cancel();
         }
 
         private bool IsTimerStarted => !_timerCancellationToken?.IsCancellationRequested ?? false;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
-        public override void OnDestroy()
+        private void SafeUnregisterReceiver(BroadcastReceiver receiver)
         {
-            AlreadyStarted = false;
-            _currentNotification.Dispose();
-            _manager.Close();
-            base.OnDestroy();
+            if (receiver == null)
+            {
+                return;
+            }
+
+            try
+            {
+                UnregisterReceiver(receiver);
+            }
+            catch
+            {
+                // Ignore, receiver already unregistered
+            }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
@@ -211,7 +222,7 @@ namespace LazuriteMobile.App.Droid
                 {
                     case ServiceOperation.ExecuteScenario:
                         {
-                            _manager.ExecuteScenario(Utils.GetData<MainDomain.ExecuteScenarioArgs>(msg));
+                            _manager.ExecuteScenario(Utils.GetData<ExecuteScenarioArgs>(msg));
                             break;
                         }
                     case ServiceOperation.GetClientSettings:
@@ -234,14 +245,14 @@ namespace LazuriteMobile.App.Droid
                         {
                             _manager.GetScenarios((scenarios) =>
                             {
-                                Handle((messenger) => Utils.SendData(scenarios, _toActivityMessenger, _messenger, ServiceOperation.GetScenarios));
+                                Handle((messenger) => Utils.SendData(scenarios, messenger, _messenger, ServiceOperation.GetScenarios));
                             });
                             break;
                         }
                     case ServiceOperation.GetNotifications:
                         {
                             _manager.GetNotifications((notifications) =>
-                                Handle((messenger) => Utils.SendData(notifications, _toActivityMessenger, _messenger, ServiceOperation.GetNotifications)));
+                                Handle((messenger) => Utils.SendData(notifications, messenger, _messenger, ServiceOperation.GetNotifications)));
                             break;
                         }
                     case ServiceOperation.SetClientSettings:
@@ -265,12 +276,94 @@ namespace LazuriteMobile.App.Droid
                             ReInitTimer();
                             break;
                         }
+                    case ServiceOperation.GetListenerSettings:
+                        {
+                            _manager.GetListenerSettings((settings) =>
+                            {
+                                Handle((messenger) => Utils.SendData(settings, messenger, _messenger, ServiceOperation.GetListenerSettings));
+                            });
+                            break;
+                        }
+                    case ServiceOperation.SetListenerSettings:
+                        {
+                            var settings = Utils.GetData<ListenerSettings>(msg);
+                            _manager.SetListenerSettings(settings);
+                            break;
+                        }
+                    case ServiceOperation.GetGeolocationAccuracy:
+                        {
+                            _manager.GetGeolocationAccuracy((acc) =>
+                                Handle((messenger) => Utils.SendData(acc, messenger, _messenger, ServiceOperation.GetGeolocationAccuracy)));
+                            break;
+                        }
+                    case ServiceOperation.SetGeolocationAccuracy:
+                        {
+                            _manager.SetGeolocationAccuracy(Utils.GetData<int>(msg));
+                            break;
+                        }
+                    case ServiceOperation.GetGeolocationListenerSettings:
+                        {
+                            _manager.GetGeolocationListenerSettings((listenerSettings) =>
+                                Handle((messenger) => Utils.SendData(listenerSettings, messenger, _messenger, ServiceOperation.GetGeolocationListenerSettings)));
+                            break;
+                        }
+                    case ServiceOperation.SetGeolocationListenerSettings:
+                        {
+                            _manager.SetGeolocationListenerSettings(Utils.GetData<GeolocationListenerSettings>(msg));
+                            break;
+                        }
+                    case ServiceOperation.Close:
+                        {
+                            Stop();
+                            break;
+                        }
                 }
             }
             catch (System.Exception e)
             {
-                Log.Warn("Error on Handler_HasCome", e);
+                Log.Warn("Error in Handler_HasCome", e);
             }
+        }
+
+        private void InitWakeLock()
+        {
+            _wakelock = PowerManager.NewWakeLock(WakeLockFlags.Partial, "lazurite::servicewakelock");
+            _wakelock.Acquire();
+        }
+
+        private void ReleaseWakeLock()
+        {
+            _wakelock?.Release();
+            _wakelock = null;
+        }
+
+        private void Stop()
+        {
+            OnDestroyInternal();
+            StopTimer();
+            StopForeground(true);
+            StopSelf();
+        }
+
+        private void OnDestroyInternal()
+        {
+            SafeUnregisterReceiver(ScreenOnReciever);
+            SafeUnregisterReceiver(StartLazuriteServiceReceiver);
+            SafeUnregisterReceiver(GpsOnReciever);
+            ReleaseWakeLock();
+            _currentNotification?.Dispose();
+            _currentNotification = null;
+            _manager?.Close();
+            _manager = null;
+
+            AlreadyStarted = false;
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
+        public override void OnDestroy()
+        {
+            OnDestroyInternal();
+            base.OnDestroy();
         }
 
         private enum TimerAction

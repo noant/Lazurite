@@ -1,17 +1,14 @@
-﻿
-using Android.App;
+﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using Lazurite.IOC;
 using Lazurite.Shared;
-using Lazurite.Utils;
 using LazuriteMobile.MainDomain;
-using System;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
-using Android.Content;
 using Plugin.CurrentActivity;
+using Plugin.Permissions;
+using System.Linq;
 
 namespace LazuriteMobile.App.Droid
 {
@@ -35,13 +32,13 @@ namespace LazuriteMobile.App.Droid
             CrossCurrentActivity.Current.Activity = this;
 
             Singleton.Clear<IHardwareVolumeChanger>();
-            Singleton.Add((IHardwareVolumeChanger)this);
+            Singleton.Add(this);
 
             Singleton.Clear<ISupportsResume>();
-            Singleton.Add((ISupportsResume)this);
+            Singleton.Add(this);
 
             var context = Singleton.Resolve<LazuriteContext>();
-            context.Manager = new ServiceScenariosManager(this);
+            context.Manager = new ServiceConnectionManager(this);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             base.OnCreate(bundle);
@@ -57,6 +54,11 @@ namespace LazuriteMobile.App.Droid
         {
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            if (Singleton.Any<IRuntimePermissionsHandler>() && grantResults?.Length > 0)
+            {
+                var permissionsHandler = Singleton.Resolve<IRuntimePermissionsHandler>();
+                permissionsHandler.ResolvePermissionCallback(requestCode, Enumerable.Range(0, permissions.Length).ToDictionary(x => permissions[x], x => grantResults[x] == Permission.Granted));
+            }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
@@ -101,22 +103,21 @@ namespace LazuriteMobile.App.Droid
             RaiseStateChanged(newState, _currentState);
             _currentState = newState;
         }
-                
+
         protected override void OnNewIntent(Intent intent)
         {
             base.OnNewIntent(intent);
             Intent = intent;
             HandleIntent(intent);
         }
-        
-        private Intent _handledIntent;
 
+        private Intent _handledIntent;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         private void HandleIntent(Intent intent)
         {
-            if (intent != _handledIntent && 
-                intent.Extras != null && 
+            if (intent != _handledIntent &&
+                intent.Extras != null &&
                 intent.Extras.ContainsKey(Keys.NeedOpenNotifications))
             {
                 _handledIntent = intent;
@@ -126,19 +127,13 @@ namespace LazuriteMobile.App.Droid
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public event EventsHandler<int> VolumeUp;
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public event EventsHandler<int> VolumeDown;
     }
 }
-

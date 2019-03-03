@@ -2,6 +2,6 @@
 {
     public class LazuriteContext
     {
-        public IScenariosManager Manager { get; set; }
+        public IClientManager Manager { get; set; }
     }
 }

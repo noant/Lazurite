@@ -32,7 +32,7 @@ namespace LazuriteMobile.App.Switches
                 dialog.Close();
                 ((SwitchScenarioModel)BindingContext).ScenarioValue = dateTimeSwitch.DateTime.ToString();
             };
-            dialog.Show(Helper.GetLastParent(this));
+            dialog.Show(DialogView.GetDialogHost(this));
         }
     }
 }

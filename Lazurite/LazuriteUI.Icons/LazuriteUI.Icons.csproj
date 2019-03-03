@@ -1275,7 +1275,7 @@
 
   <ItemGroup>
     <None Update="CopyToReleaseDir.bat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

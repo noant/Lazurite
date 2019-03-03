@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+<Grid xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
              x:Class="LazuriteMobile.App.Controls.MessageView">
-  <ContentView.Content>
-      <StackLayout Margin="0,-25,0,0">
-            <controls:IconView x:Name="iconView" WidthRequest="50" HeightRequest="50" />
-            <controls:ValueView Margin="8" HorizontalTextAlignment="Center" x:Name="labelMessage" Text="Сообщение." />
-      </StackLayout>
-  </ContentView.Content>
-</ContentView>
+    <Grid x:Name="bgGrid"
+          Opacity="{x:Binding Source={x:Static controls:Visual.Current}, Path=DialogViewBackgroundOpacity}"
+          BackgroundColor="{x:Binding Source={x:Static controls:Visual.Current}, Path=DialogViewBackground}" />
+    <StackLayout Margin="0,-25,0,0" HorizontalOptions="Center" VerticalOptions="Center">
+        <controls:IconView x:Name="iconView" WidthRequest="50" HeightRequest="50" />
+        <controls:ValueView Margin="8" HorizontalTextAlignment="Center" x:Name="labelMessage" Text="Сообщение." />
+    </StackLayout>
+</Grid>

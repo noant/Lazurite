@@ -2,6 +2,7 @@
 <Grid xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:LazuriteMobile.App.Controls"
+             xmlns:mainDomain="clr-namespace:LazuriteMobile.MainDomain;assembly=LazuriteMobile.MainDomain"
              xmlns:common="clr-namespace:LazuriteMobile.App.Common"
              BackgroundColor="{x:Binding Source={x:Static controls:Visual.Current}, Path=Background}"
              x:Class="LazuriteMobile.App.SettingsView">
@@ -11,22 +12,160 @@
                 Description="Выбор стиля оформления Lazurite."
                 Caption="Выбрать скин"
                 CustomAction="SelectSkin"
-                Icon="DrawPaintbrush"></common:SettingsView>
+                Icon="DrawBrush"></common:SettingsView>
         <common:SettingsView
-                Description="Изменение интервала времени приема и отправки данных на домашний сервер. Позволяет настроить энергопотребление и подобрать оптимальный вариант работы с интернет-трафиком."
-                Caption="Настройка трафика"
-                Icon="Network">
+                Description="Изменение интервала времени приема и отправки данных на домашний сервер. Позволяет настроить энергопотребление и подобрать оптимальный вариант работы с интернет-трафиком в обычном и фоновом режиме."
+                Caption="Трафик и энергосбережение"
+                Icon="Battery3">
             <common:SettingsView.Settings>
                 <common:SettingsItem
-                    Caption="Режим без энергосбережения."
-                    Description="Частое обновление данных. Сообщения, обновления сценариев и передача геопозиции на домашний сервер происходят каждые 15 секунд при разблокированном телефоне, каждую минуту при заблокированном экране, каждые 3 минуты при режиме энергосбережения."
-                    Action="SelectSetting">
+                    Tag="{x:Static mainDomain:ListenerSettings.WithoutEnergySave}"
+                    IsSelectedFunc="IsSelected_Listener"
+                    Caption="Режим без энергосбережения (с поддержанием приоритета в фоновом режиме)"
+                    Description="Синхронизация данных происходит каждые 10 секунд при разблокированном телефоне, каждые 45 секунд при заблокированном экране, каждые 3 минуты в режиме энергосбережения. Поддержание приоритета работы в фоновом режиме не позволяет операционной системе отключать синхронизацию данных при заблокированном телефоне."
+                    Action="SelectSetting_Listener">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="{x:Static mainDomain:ListenerSettings.Normal1}"
+                    IsSelectedFunc="IsSelected_Listener"
+                    Caption="Нормальный режим (с поддержанием приоритета в фоновом режиме)"
+                    Description="Синхронизация данных происходят каждые 17 секунд при разблокированном телефоне, каждую минуту при заблокированном экране, каждые 3 минуты в режиме энергосбережения. Поддержание приоритета работы в фоновом режиме не позволяет операционной системе отключать синхронизацию данных при заблокированном телефоне."
+                    Action="SelectSetting_Listener">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="{x:Static mainDomain:ListenerSettings.Normal2}"
+                    IsSelectedFunc="IsSelected_Listener"
+                    Caption="Нормальный режим"
+                    Description="Синхронизация данных происходит каждые 17 секунд при разблокированном телефоне, каждую минуту при заблокированном экране, каждые 3 минуты в режиме энергосбережения."
+                    Action="SelectSetting_Listener">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="{x:Static mainDomain:ListenerSettings.EnergySave1}"
+                    IsSelectedFunc="IsSelected_Listener"
+                    Caption="Режим энергосбережения 1"
+                    Description="Начальный уровень энергосбережения. Синхронизация происходит каждые 25 секунд при разблокированном телефоне, каждые 1.5 минуты при заблокированном экране, каждые 6 минут в режиме энергосбережения."
+                    Action="SelectSetting_Listener">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="{x:Static mainDomain:ListenerSettings.EnergySave2}"
+                    IsSelectedFunc="IsSelected_Listener"
+                    Caption="Режим энергосбережения 2"
+                    Description="Средний уровень энергосбережения. Синхронизация происходит каждые 35 секунд при разблокированном телефоне, каждые 2 минуты при заблокированном экране, каждые 6 минут в режиме энергосбережения."
+                    Action="SelectSetting_Listener">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="{x:Static mainDomain:ListenerSettings.EnergySave2}"
+                    IsSelectedFunc="IsSelected_Listener"
+                    Caption="Режим энергосбережения 2"
+                    Description="Средний уровень энергосбережения. Синхронизация происходит каждые 35 секунд при разблокированном телефоне, каждые 2 минуты при заблокированном экране, каждые 6 минут в режиме энергосбережения."
+                    Action="SelectSetting_Listener">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="{x:Static mainDomain:ListenerSettings.Ultra}"
+                    IsSelectedFunc="IsSelected_Listener"
+                    Caption="Ультра энергосбережение"
+                    Description="Максимальный уровень энергосбережения. Синхронизация происходит каждую минуту при разблокированном телефоне, каждые 10 минут при заблокированном экране, каждый час в режиме энергосбережения."
+                    Action="SelectSetting_Listener">
                 </common:SettingsItem>
             </common:SettingsView.Settings>
         </common:SettingsView>
         <common:SettingsView
                 Description="Изменение интервала проверки геолокации. Позволяет оптимизировать работу GPS-трекера под нужды пользователя."
                 Caption="Настройка GPS"
-                Icon="MapLocation"></common:SettingsView>
+                Icon="LocationCheckin">
+            <common:SettingsView.Settings>
+                <common:SettingsItem
+                    Tag="{x:Static mainDomain:GeolocationListenerSettings.WithoutEnergySave}"
+                    IsSelectedFunc="IsSelected_GeolocationListener"
+                    Caption="Без энергосбережения"
+                    Description="Проверка местоположения осуществляется каждую минуту. Если в настройках трафика и энергосбережения не выбран режим с приоритетом работы в фоновом режиме, то быстрое обновление данных о геолокации не гарантируется, так как в фоновом режиме операционная система может отключать GPS."
+                    Action="SelectSetting_GeolocationListener">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="{x:Static mainDomain:GeolocationListenerSettings.Normal}"
+                    IsSelectedFunc="IsSelected_GeolocationListener"
+                    Caption="Нормальный режим"
+                    Description="Проверка местоположения осуществляется каждые 3 минуты."
+                    Action="SelectSetting_GeolocationListener">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="{x:Static mainDomain:GeolocationListenerSettings.EnergySave1}"
+                    IsSelectedFunc="IsSelected_GeolocationListener"
+                    Caption="Режим энергосбережения 1"
+                    Description="Проверка местоположения осуществляется каждые 5 минут."
+                    Action="SelectSetting_GeolocationListener">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="{x:Static mainDomain:GeolocationListenerSettings.EnergySave2}"
+                    IsSelectedFunc="IsSelected_GeolocationListener"
+                    Caption="Режим энергосбережения 2"
+                    Description="Проверка местоположения осуществляется каждые 10 минут."
+                    Action="SelectSetting_GeolocationListener">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="{x:Static mainDomain:GeolocationListenerSettings.Ultra}"
+                    IsSelectedFunc="IsSelected_GeolocationListener"
+                    Caption="Ультра энергосбережение"
+                    Description="Проверка местоположения осуществляется каждые 40 минут (при минимальном расстоянии от предыдущего места геолокации в 1 км)."
+                    Action="SelectSetting_GeolocationListener">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="{x:Static mainDomain:GeolocationListenerSettings.Off}"
+                    IsSelectedFunc="IsSelected_GeolocationListener"
+                    Caption="Отключить GPS-трекинг"
+                    Description="Проверка местоположения не будет осуществляться."
+                    Action="SelectSetting_GeolocationListener">
+                </common:SettingsItem>
+            </common:SettingsView.Settings>
+        </common:SettingsView>
+        <common:SettingsView
+                Description="Изменение точности проверки местоположения."
+                Caption="Настройка точности GPS"
+                Icon="LocationCheckin">
+            <common:SettingsView.Settings>
+                <common:SettingsItem
+                    Tag="10"
+                    IsSelectedFunc="IsSelected_GeolocationAccuracy"
+                    Caption="10 метров"
+                    Description="Геолокация не учитывается, если точность определения координат меньше 10 метров."
+                    Action="SelectSetting_GeolocationAccuracy">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="50"
+                    IsSelectedFunc="IsSelected_GeolocationAccuracy"
+                    Caption="50 метров"
+                    Description="Геолокация не учитывается, если точность определения координат меньше 50 метров."
+                    Action="SelectSetting_GeolocationAccuracy">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="100"
+                    IsSelectedFunc="IsSelected_GeolocationAccuracy"
+                    Caption="100 метров"
+                    Description="Геолокация не учитывается, если точность определения координат меньше 100 метров."
+                    Action="SelectSetting_GeolocationAccuracy">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="200"
+                    IsSelectedFunc="IsSelected_GeolocationAccuracy"
+                    Caption="200 метров"
+                    Description="Геолокация не учитывается, если точность определения координат меньше 200 метров."
+                    Action="SelectSetting_GeolocationAccuracy">
+                </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="500"
+                    IsSelectedFunc="IsSelected_GeolocationAccuracy"
+                    Caption="500 метров"
+                    Description="Геолокация не учитывается, если точность определения координат меньше 500 метров."
+                    Action="SelectSetting_GeolocationAccuracy">
+                </common:SettingsItem>
+            </common:SettingsView.Settings>
+        </common:SettingsView>
+        <controls:ItemView
+            BackgroundColor="Transparent"
+            HorizontalOptions="Center" VerticalOptions="Center"
+            Margin="10,50,10,10" Icon="InformationCircle"
+            Text="Дополнительная информация" WidthRequest="250"
+            Click="HelpItemView_Click"></controls:ItemView>
     </StackLayout>
+    <controls:MessageView x:Name="warnMessageView" Icon="Warning" Text="Необходимо подключиться к серверу Lazurite..."></controls:MessageView>
 </Grid>

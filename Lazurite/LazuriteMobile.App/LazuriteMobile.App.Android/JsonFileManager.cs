@@ -12,6 +12,7 @@ namespace LazuriteMobile.App.Droid
     {
         private readonly string _baseDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
         private readonly string _ext = ".json";
+
         private readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto
@@ -23,7 +24,9 @@ namespace LazuriteMobile.App.Droid
         {
             var path = ResolvePath(key);
             if (File.Exists(path))
+            {
                 File.Delete(path);
+            }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2134:MethodsMustOverrideWithConsistentTransparencyFxCopRule")]
@@ -47,7 +50,7 @@ namespace LazuriteMobile.App.Droid
 
         public override T Deserialize<T>(byte[] data)
         {
-            return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(data));
+            return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(data), JsonSettings);
         }
 
         private string ResolvePath(string itemName)

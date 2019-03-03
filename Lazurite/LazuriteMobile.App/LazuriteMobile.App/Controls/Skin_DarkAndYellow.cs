@@ -61,6 +61,6 @@ namespace LazuriteMobile.App.Controls
         public override int FontSize { get; } = 12;
         public override string FontFamily { get; } = "sans-serif-light";
 
-        public override int VisualOrder { get; } = 4;
+        public override int VisualOrder { get; } = 5;
     }
 }

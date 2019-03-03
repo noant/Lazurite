@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionName="First" package="lazurite.lazurite" android:versionCode="292">
-	<uses-sdk android:minSdkVersion="18" android:targetSdkVersion="28" />
-	<application android:label="Lazurite" android:icon="@drawable/splashscreen"></application>
-	<receiver android:name=".StartLazuriteServiceReceiver" android:enabled="true" android:exported="true">
-		<intent-filter>
-			<action android:name="android.intent.action.BOOT_COMPLETED" />
-		</intent-filter>
-	</receiver>
-	<receiver android:name=".ScreenOnReciever" android:enabled="true" android:exported="true">
-		<intent-filter>
-			<action android:name="android.intent.action.SCREEN_ON" />
-		</intent-filter>
-	</receiver>
-	<receiver android:name=".GpsOnReciever" android:enabled="true" android:exported="true">
-		<intent-filter>
-			<action android:name="android.location.GPS_ENABLED_CHANGE" />
-		</intent-filter>
-	</receiver>
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" android:installLocation="auto" android:versionName="First" package="lazurite.lazurite" android:versionCode="333">
+  <uses-sdk android:minSdkVersion="18" android:targetSdkVersion="28" />
+  <application android:label="Lazurite" android:icon="@drawable/splashscreen"></application>
+  <receiver android:name=".StartLazuriteServiceReceiver" android:enabled="true" android:exported="true">
+    <intent-filter>
+      <action android:name="android.intent.action.BOOT_COMPLETED" />
+    </intent-filter>
+  </receiver>
+  <receiver android:name=".ScreenOnReciever" android:enabled="true" android:exported="true">
+    <intent-filter>
+      <action android:name="android.intent.action.SCREEN_ON" />
+    </intent-filter>
+  </receiver>
+  <receiver android:name=".GpsOnReciever" android:enabled="true" android:exported="true">
+    <intent-filter>
+      <action android:name="android.location.GPS_ENABLED_CHANGE" />
+    </intent-filter>
+  </receiver>
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 </manifest>

@@ -13,7 +13,7 @@ namespace LazuriteMobile.App.Common
             InitializeComponent();
             captionView.Text = item.Caption;
             descriptionView.Text = item.Description;
-            if (item.IsSelected(item))
+            if (item.IsSelected())
             {
                 btApply.Text = "Применено";
                 btApply.Icon = Icon.Check;
@@ -25,7 +25,7 @@ namespace LazuriteMobile.App.Common
                 btApply.Click += (o, e) =>
                 {
                     Clicked?.Invoke(this, new EventsArgs<SettingsItem>(item));
-                    item.Action?.Invoke(item);
+                    item.RaiseAction();
                 };
             }
         }

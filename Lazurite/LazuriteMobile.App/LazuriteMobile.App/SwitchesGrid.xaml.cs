@@ -23,9 +23,13 @@ namespace LazuriteMobile.App
             grid.Margin = new Thickness(0, 0, ElementMargin, 40);
 
             if (Device.Idiom == TargetIdiom.Watch)
+            {
                 MaxX = 1;
+            }
             else if (Device.Idiom != TargetIdiom.Phone)
+            {
                 MaxX = 5;
+            }
         }
 
         private double ElementMargin => Visual.Current.SwitchGridElementMargin;
@@ -35,7 +39,7 @@ namespace LazuriteMobile.App
             return grid.Children.Select(x => ((SwitchScenarioModel)x.BindingContext).Scenario).ToArray();
         }
 
-        public void Refresh(ScenarioInfo[] scenarios)
+        public void Refresh(ScenarioInfo[] scenarios, bool showMessageIfEmpty = true)
         {
             lock (Locker)
             {
@@ -43,12 +47,12 @@ namespace LazuriteMobile.App
 
                 var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext);
                 var models = modelsViews.Select(x => x.Key).ToArray();
-                
+
                 // Add new scenarios and refresh existing
                 foreach (var scenario in scenarios)
                 {
                     var scenarioModel = models.FirstOrDefault(x => x.Scenario.ScenarioId.Equals(scenario.ScenarioId));
-                    if (scenarioModel != null && 
+                    if (scenarioModel != null &&
                         !scenarioModel.Scenario.ValueType.Equals(scenario.ValueType))
                     {
                         var control = modelsViews[scenarioModel];
@@ -77,21 +81,25 @@ namespace LazuriteMobile.App
                     }
                 }
 
-                Rearrange();
+                Rearrange(showMessageIfEmpty);
                 BatchCommit();
             }
         }
 
-        public void Rearrange()
+        public void Rearrange(bool showMessageIfEmpty = true)
         {
             if (grid.Children.Count > 0)
             {
                 foreach (View control in grid.Children)
                 {
-                    var model = ((SwitchScenarioModel)control.BindingContext);
+                    var model = (SwitchScenarioModel)control.BindingContext;
                     control.Margin = CreateControlMargin(model.VisualSettings);
                 }
-                ScenariosEmptyModeOff();
+
+                if (showMessageIfEmpty)
+                {
+                    ScenariosEmptyModeOff();
+                }
             }
             else
             {
@@ -117,7 +125,7 @@ namespace LazuriteMobile.App
                 BatchBegin();
                 var modelsViews = grid.Children.ToDictionary(x => (SwitchScenarioModel)x.BindingContext).ToList();
                 var models = modelsViews.Select(x => x.Key).ToArray();
-                
+
                 // Add new scenarios and refresh existing
                 foreach (var scenario in scenarios)
                 {

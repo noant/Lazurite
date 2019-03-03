@@ -1,10 +1,8 @@
 using Android.App;
 using Android.OS;
 using Android.Runtime;
-using Lazurite.Data;
 using Lazurite.IOC;
 using Lazurite.Logging;
-using Lazurite.MainDomain;
 using Plugin.CurrentActivity;
 using System;
 
@@ -32,8 +30,9 @@ namespace LazuriteMobile.App.Droid
         public static ILogger Log;
 
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
-          :base(handle, transer)
+          : base(handle, transer)
         {
+            // Do nothing
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
@@ -58,21 +57,9 @@ namespace LazuriteMobile.App.Droid
             CrossCurrentActivity.Current.Activity = activity;
         }
 
-        public void OnActivityDestroyed(Activity activity)
-        {
-        }
-
-        public void OnActivityPaused(Activity activity)
-        {
-        }
-
         public void OnActivityResumed(Activity activity)
         {
             CrossCurrentActivity.Current.Activity = activity;
-        }
-
-        public void OnActivitySaveInstanceState(Activity activity, Bundle outState)
-        {
         }
 
         public void OnActivityStarted(Activity activity)
@@ -80,8 +67,24 @@ namespace LazuriteMobile.App.Droid
             CrossCurrentActivity.Current.Activity = activity;
         }
 
+        public void OnActivityDestroyed(Activity activity)
+        {
+            // Do nothing
+        }
+
+        public void OnActivityPaused(Activity activity)
+        {
+            // Do nothing
+        }
+
+        public void OnActivitySaveInstanceState(Activity activity, Bundle outState)
+        {
+            // Do nothing
+        }
+
         public void OnActivityStopped(Activity activity)
         {
+            // Do nothing
         }
     }
 }

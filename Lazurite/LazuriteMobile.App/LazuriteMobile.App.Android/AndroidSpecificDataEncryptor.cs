@@ -1,5 +1,4 @@
-﻿using System;
-using Android.OS;
+﻿using Android.OS;
 using Android.Security;
 using Android.Security.Keystore;
 using Java.Math;
@@ -8,10 +7,11 @@ using Java.Util;
 using Javax.Crypto;
 using Javax.Security.Auth.X500;
 using Lazurite.Data;
+using System;
 
 namespace LazuriteMobile.App.Droid
 {
-    public class AndroidSpecificDataEncryptor: DataEncryptor
+    public class AndroidSpecificDataEncryptor : DataEncryptor
     {
         private static readonly string ProtectedDataKey = "LazuriteProtectedData";
         private static readonly string AndroidKeyStoreKey = "AndroidKeyStore";
@@ -26,7 +26,9 @@ namespace LazuriteMobile.App.Droid
             _keyStore.Load(null);
 
             if (_keyStore.ContainsAlias(ProtectedDataKey))
+            {
                 _keyStore.GetKey(ProtectedDataKey, null);
+            }
             else
             {
                 var context = global::Android.App.Application.Context;
@@ -73,7 +75,10 @@ namespace LazuriteMobile.App.Droid
             get
             {
                 if (_keyStore == null)
+                {
                     PrepareKeyStore();
+                }
+
                 return _keyStore.GetCertificate(ProtectedDataKey)?.PublicKey;
             }
         }
@@ -83,7 +88,10 @@ namespace LazuriteMobile.App.Droid
             get
             {
                 if (_keyStore == null)
+                {
                     PrepareKeyStore();
+                }
+
                 return _keyStore.GetKey(ProtectedDataKey, null);
             }
         }
@@ -93,7 +101,10 @@ namespace LazuriteMobile.App.Droid
             get
             {
                 if (!base.IsSecretKeyExist)
+                {
                     GenerateRandomSecretKey();
+                }
+
                 return true;
             }
         }
@@ -111,7 +122,10 @@ namespace LazuriteMobile.App.Droid
             var alphabetChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             var chars = new char[16];
             for (var i = 0; i < 16; i++)
+            {
                 chars[i] = alphabetChars[randomizer.Next(0, alphabetChars.Length - 1)];
+            }
+
             SecretKey = new string(chars);
         }
 

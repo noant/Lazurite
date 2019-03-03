@@ -378,10 +378,7 @@ namespace Lazurite.MainDomain
         /// </summary>
         public virtual void TryCancelAll()
         {
-            if (!_cancellationToken?.IsCancellationRequested ?? false)
-            {
-                _cancellationToken?.Cancel();
-            }
+            _cancellationToken?.Cancel();
         }
 
         protected SafeCancellationToken PrepareCancellationTokenSource() => _cancellationToken = new SafeCancellationToken();

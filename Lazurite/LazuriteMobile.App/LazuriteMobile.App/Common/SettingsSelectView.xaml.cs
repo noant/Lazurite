@@ -33,16 +33,38 @@ namespace LazuriteMobile.App.Common
             var selectView = new SettingsSelectView(items, caption);
             var dialogView = new DialogView(selectView);
             selectView.ItemClicked += (o, e) => dialogView.Close();
-            dialogView.Show(parent);
+            dialogView.Show(parent, nameof(SettingsSelectView));
         }
     }
 
     public class SettingsItem
     {
-        public Action<SettingsItem> Action { get; set; }
+        public void RaiseAction() => Action?.Invoke(this);
+
+        public bool IsSelected()
+        {
+            var result = new IsSelectedResult(this);
+            IsSelectedFunc?.Invoke(result);
+            return result.IsSelected;
+        }
+
+        public event Action<SettingsItem> Action;
+
+        public event Action<IsSelectedResult> IsSelectedFunc;
+
         public object Tag { get; set; }
-        public Func<SettingsItem, bool> IsSelected { get; set; }
         public string Caption { get; set; }
         public string Description { get; set; }
+
+        public class IsSelectedResult
+        {
+            public IsSelectedResult(SettingsItem item)
+            {
+                SettingsItem = item;
+            }
+
+            public bool IsSelected { get; set; }
+            public SettingsItem SettingsItem { get; }
+        }
     }
 }

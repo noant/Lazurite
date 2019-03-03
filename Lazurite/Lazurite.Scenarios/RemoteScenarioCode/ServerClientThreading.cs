@@ -69,11 +69,7 @@ namespace Lazurite.Scenarios.RemoteScenarioCode
 
         private void StopListen()
         {
-            if (!_timerCancellationToken?.IsCancellationRequested ?? false)
-            {
-                _timerCancellationToken?.Cancel();
-            }
-
+            _timerCancellationToken?.Cancel();
             _isListening = false;
         }
 

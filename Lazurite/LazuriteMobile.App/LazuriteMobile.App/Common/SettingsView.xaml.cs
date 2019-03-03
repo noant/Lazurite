@@ -1,5 +1,7 @@
 ﻿using Lazurite.Shared;
+using LazuriteMobile.App.Controls;
 using LazuriteUI.Icons;
+using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -30,7 +32,7 @@ namespace LazuriteMobile.App.Common
                 {
                     ((SettingsView)sender).itemView.Icon = (Icon)newVal;
                 });
-            SettingsProperty = BindableProperty.Create(nameof(Settings), typeof(SettingsItem[]), typeof(SettingsView));
+            SettingsProperty = BindableProperty.Create(nameof(Settings), typeof(List<SettingsItem>), typeof(SettingsView), defaultValueCreator: (s) => new List<SettingsItem>());
         }
 
         public SettingsView()
@@ -57,9 +59,9 @@ namespace LazuriteMobile.App.Common
             set => SetValue(IconProperty, value);
         }
 
-        public SettingsItem[] Settings
+        public List<SettingsItem> Settings
         {
-            get => (SettingsItem[])GetValue(SettingsProperty);
+            get => (List<SettingsItem>)GetValue(SettingsProperty);
             set => SetValue(SettingsProperty, value);
         }
 
@@ -73,7 +75,7 @@ namespace LazuriteMobile.App.Common
             }
             else
             {
-                SettingsSelectView.Show(Settings, Caption, Helper.GetLastParent(this));
+                SettingsSelectView.Show(Settings.ToArray(), Caption, DialogView.GetDialogHost(this));
             }
         }
     }

@@ -1,19 +1,46 @@
-﻿using Xamarin.Forms;
+﻿using Lazurite.IOC;
+using LazuriteMobile.MainDomain;
+using System.Threading.Tasks;
 
 namespace LazuriteMobile.App
 {
     public static class Helper
     {
-        public static Grid GetLastParent(Element view)
+        public static async Task TryGrantRequiredPermissions()
         {
-            Grid grid = null;
-            while (view != null)
+            try
             {
-                view = view.Parent;
-                if (view is Grid)
-                    grid = (Grid)view;
+                var permissionsHandler = Singleton.Resolve<IRuntimePermissionsHandler>();
+
+                if (!permissionsHandler.IsPermissionGranted(permissionsHandler.GpsPermissionsIds))
+                {
+                    await permissionsHandler.TryGrantPermissions(permissionsHandler.GpsPermissionsIds);
+                }
+
+                if (!permissionsHandler.IsPermissionGranted(permissionsHandler.AutoStartPermissionsIds))
+                {
+                    await permissionsHandler.TryGrantPermissions(permissionsHandler.AutoStartPermissionsIds);
+                }
+
+                if (!permissionsHandler.IsPermissionGranted(permissionsHandler.PhoneStatePermissionsIds))
+                {
+                    await permissionsHandler.TryGrantPermissions(permissionsHandler.PhoneStatePermissionsIds);
+                }
+
+                if (!permissionsHandler.IsPermissionGranted(permissionsHandler.ReadWriteExternalStoragePermissionsIds))
+                {
+                    await permissionsHandler.TryGrantPermissions(permissionsHandler.ReadWriteExternalStoragePermissionsIds);
+                }
+
+                if (!permissionsHandler.IsPermissionGranted(permissionsHandler.WakeLockPermissionsIds))
+                {
+                    await permissionsHandler.TryGrantPermissions(permissionsHandler.WakeLockPermissionsIds);
+                }
             }
-            return grid;
+            catch
+            {
+                // Do nothing
+            }
         }
     }
 }

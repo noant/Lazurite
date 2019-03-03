@@ -22,5 +22,20 @@
 
         public int MillisecondsInterval { get; set; }
         public int MetersInterval { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is GeolocationListenerSettings settings &&
+                   MillisecondsInterval == settings.MillisecondsInterval &&
+                   MetersInterval == settings.MetersInterval;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1152037332;
+            hashCode = hashCode * -1521134295 + MillisecondsInterval.GetHashCode();
+            hashCode = hashCode * -1521134295 + MetersInterval.GetHashCode();
+            return hashCode;
+        }
     }
 }

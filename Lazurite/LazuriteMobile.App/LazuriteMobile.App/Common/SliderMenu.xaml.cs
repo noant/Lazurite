@@ -1,20 +1,22 @@
 ﻿using Lazurite.Shared;
+using LazuriteMobile.App.Controls;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LazuriteMobile.App.Common
 {
-    public partial class SliderMenu : Grid
+    public partial class SliderMenu : Grid, IDialogViewHost
     {
         public static BindableProperty ContentProperty;
 
         static SliderMenu()
         {
             ContentProperty = BindableProperty.Create(nameof(Content), typeof(View), typeof(SliderMenu), null, BindingMode.Default, null,
-                (o, oldVal, newVal) => {
+                (o, oldVal, newVal) =>
+                {
                     var view = (View)newVal;
-                    var sender = ((SliderMenu)o);
+                    var sender = (SliderMenu)o;
                     sender.contentView.Content = view;
                 });
         }
@@ -25,8 +27,15 @@ namespace LazuriteMobile.App.Common
         public SliderMenu()
         {
             InitializeComponent();
-            BackgroundColor = Color.Black;
             TranslationY = Height;
+
+            if (Device.Idiom == TargetIdiom.Tablet ||
+                Device.Idiom == TargetIdiom.TV)
+            {
+                backGrid.IsVisible = true;
+                SetColumn(contentView, 1);
+                SetColumnSpan(contentView, 1);
+            }
 
             SizeChanged += async (o, e) =>
             {
@@ -51,11 +60,15 @@ namespace LazuriteMobile.App.Common
         public void Show()
         {
             if (BeforeMenuShown != null)
+            {
                 BeforeMenuShown(
-                    this, 
+                    this,
                     new EventsArgs<ShowMenuContinuation>(new ShowMenuContinuation(ShowInternal)));
+            }
             else
+            {
                 ShowInternal();
+            }
         }
 
         private void ShowInternal()
@@ -63,17 +76,23 @@ namespace LazuriteMobile.App.Common
             if (_initialized)
             {
                 if (contentView.Content is IUpdatable)
-                    ((IUpdatable)contentView.Content).UpdateView(()=> {
-                        this.TranslateTo(0, 0, 100, Easing.Linear);
+                {
+                    ((IUpdatable)contentView.Content).UpdateView(() =>
+                    {
+                        this.TranslateTo(0, 0, 100, Easing.CubicIn);
                         MenuVisible = true;
                     });
+                }
                 else
                 {
-                    this.TranslateTo(0, 0, 100, Easing.Linear);
+                    this.TranslateTo(0, 0, 100, Easing.CubicIn);
                     MenuVisible = true;
                 }
             }
-            else _needShow = true;
+            else
+            {
+                _needShow = true;
+            }
         }
 
         public event EventsHandler<ShowMenuContinuation> BeforeMenuShown;
@@ -83,6 +102,36 @@ namespace LazuriteMobile.App.Common
             get => (View)GetValue(ContentProperty);
             set => SetValue(ContentProperty, value);
         }
+
+        public int Column
+        {
+            get
+            {
+                if (Device.Idiom == TargetIdiom.Tablet ||
+                    Device.Idiom == TargetIdiom.TV)
+                {
+                    return 1;
+                }
+                return 0;
+            }
+        }
+
+        public int Row => 0;
+
+        public int ColumnSpan
+        {
+            get
+            {
+                if (Device.Idiom == TargetIdiom.Tablet ||
+                    Device.Idiom == TargetIdiom.TV)
+                {
+                    return 1;
+                }
+                return 3;
+            }
+        }
+
+        public int RowSpan => 1;
     }
 
     public class ShowMenuContinuation
@@ -92,7 +141,7 @@ namespace LazuriteMobile.App.Common
             _continue = @continue;
         }
 
-        private Action _continue;
+        private readonly Action _continue;
 
         public void ContinueShow() => _continue?.Invoke();
     }

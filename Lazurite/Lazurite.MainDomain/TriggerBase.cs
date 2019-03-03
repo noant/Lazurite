@@ -45,10 +45,7 @@ namespace Lazurite.MainDomain
         /// </summary>
         public virtual void Stop()
         {
-            if (!CancellationToken?.IsCancellationRequested ?? false)
-            {
-                CancellationToken?.Cancel();
-            }
+            CancellationToken?.Cancel();
 
             Enabled = false;
         }

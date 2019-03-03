@@ -1,4 +1,6 @@
 ﻿using Lazurite.IOC;
+using Lazurite.Logging;
+using Lazurite.MainDomain;
 using Lazurite.Shared;
 using LazuriteMobile.App.Common;
 using LazuriteMobile.App.Controls;
@@ -11,7 +13,8 @@ namespace LazuriteMobile.App
 {
     public partial class MainPage : ContentPage, INotificationsHandler
     {
-        private IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
+        private ILogger _log = Singleton.Resolve<ILogger>();
+        private IClientManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
         private ISupportsResume _supportsResume = Singleton.Resolve<ISupportsResume>();
         private SynchronizationContext _currentContext = SynchronizationContext.Current;
         private bool _initialized;
@@ -25,13 +28,13 @@ namespace LazuriteMobile.App
             Singleton.Clear<INotificationsHandler>();
             Singleton.Add(this);
 
-            tabsView.AddTabInfo(new SliderTabsView.TabInfo(connectionSettingsSlider, LazuriteUI.Icons.Icon.Server));
+            tabsView.AddTabInfo(new SliderTabsView.TabInfo(connectionSettingsSlider, LazuriteUI.Icons.Icon.KeyOld));
             tabsView.AddTabInfo(new SliderTabsView.TabInfo(settingsSlider, LazuriteUI.Icons.Icon.Settings));
             tabsView.AddTabInfo(new SliderTabsView.TabInfo(messagesSlider, LazuriteUI.Icons.Icon.EmailMinimal));
 
             _supportsResume.StateChanged = (sender, currentState, previousState) =>
             {
-                //do not reinit when app was "home button pressed"
+                // Do not reinit when app was "home button pressed"
                 if (currentState == SupportsResumeState.Paused)
                 {
                     DialogView.CloseAllDialogs();
@@ -42,6 +45,7 @@ namespace LazuriteMobile.App
                     InitializeManager();
                 }
             };
+
             connectionView.ConnectClicked += ConnectionView_ConnectClicked;
             _manager.ConnectionError += _manager_ConnectionError;
             _manager.NeedRefresh += _manager_NeedRefresh;
@@ -57,35 +61,39 @@ namespace LazuriteMobile.App
             ShowCaption();
         }
 
-        public void InitializeManager()
+        public async void InitializeManager()
         {
+            await Helper.TryGrantRequiredPermissions();
             _manager.Initialize((initialized) =>
             {
                 if (initialized)
                 {
                     _manager.IsConnected((state) =>
                     {
-                        if (state == ManagerConnectionState.Connected)
+                        try
                         {
-                            Refresh();
-                            Invoke(() => HideCaption());
-                        }
-                        else if (state == ManagerConnectionState.Disconnected)
-                        {
-                            ReConnectAndRefresh();
-                        }
-                        else
-                        {
-                            RefreshCredentials();
-                        }
+                            Refresh(false);
+                            if (state == ManagerConnectionState.Connected)
+                            {
+                                Invoke(() => HideCaption());
+                            }
+                            else if (state == ManagerConnectionState.Disconnected)
+                            {
+                                ReConnectAndRefresh();
+                            }
 
-                        _initialized = true;
-                        ConnectionToServiceInitialized?.Invoke(this, new EventsArgs<bool>(_initialized));
+                            _initialized = true;
+                            ConnectionToServiceInitialized?.Invoke(this, new EventsArgs<bool>(_initialized));
+                        }
+                        catch (Exception e)
+                        {
+                            _log.Error(exception: e);
+                        }
                     });
                 }
                 else
                 {
-                    Invoke(() => ShowCaption("Ошибка сервиса...", true, true));
+                    Invoke(() => ShowCaption("Ошибка сервиса...", true, true, true));
                     _initialized = false;
                     ConnectionToServiceInitialized?.Invoke(this, new EventsArgs<bool>(_initialized));
                 }
@@ -96,7 +104,7 @@ namespace LazuriteMobile.App
         {
             Invoke(() =>
             {
-                ShowCaption("Восстановление соединения...");
+                ShowCaption("Восстановление соединения...", true, false, true);
                 swgrid.IsEnabled = false;
             });
         }
@@ -105,7 +113,7 @@ namespace LazuriteMobile.App
         {
             Invoke(() =>
             {
-                ShowCaption("Восстановление соединения...");
+                ShowCaption("Восстановление соединения...", true, false, true);
                 swgrid.IsEnabled = false;
             });
         }
@@ -117,14 +125,14 @@ namespace LazuriteMobile.App
 
         protected override bool OnBackButtonPressed()
         {
-            if (tabsView.AnyOpened())
-            {
-                tabsView.HideAll();
-                return true;
-            }
-            else if (DialogView.AnyOpened)
+            if (DialogView.AnyOpened)
             {
                 DialogView.CloseLast();
+                return true;
+            }
+            else if (tabsView.AnyOpened())
+            {
+                tabsView.HideAll();
                 return true;
             }
             else
@@ -139,7 +147,7 @@ namespace LazuriteMobile.App
             {
                 connectionSettingsSlider.Show();
                 swgrid.IsEnabled = false;
-                ShowCaption("Ошибка при расшифровке данных...\r\nВозможно, секретный ключ сервера введен неверно", true, true);
+                ShowCaption("Ошибка при расшифровке данных...\r\nВозможно, секретный ключ сервера введен неверно", true, true, false);
             });
         }
 
@@ -149,7 +157,7 @@ namespace LazuriteMobile.App
             {
                 connectionSettingsSlider.Show();
                 swgrid.IsEnabled = false;
-                ShowCaption("Логин или пароль введен неверно", true, true);
+                ShowCaption("Логин или пароль введен неверно", true, true, false);
             });
         }
 
@@ -159,7 +167,7 @@ namespace LazuriteMobile.App
             {
                 connectionSettingsSlider.Show();
                 swgrid.IsEnabled = false;
-                ShowCaption("Логин или пароль введен неверно. Сервер заблокировал доступ на 2 часа.", true, true);
+                ShowCaption("Логин или пароль введен неверно. Сервер заблокировал доступ на 2 часа.", true, true, false);
             });
         }
 
@@ -179,12 +187,12 @@ namespace LazuriteMobile.App
                 || string.IsNullOrEmpty(credentials.Password) || string.IsNullOrEmpty(credentials.SecretKey)
                 || credentials.Port < 1)
             {
-                ShowCaption("Не все поля введены", true, false);
+                ShowCaption("Не все поля введены", true, true, false);
                 connectionSettingsSlider.Show();
             }
             else
             {
-                ShowCaption($"Соединение с\r\n[{credentials.GetAddress()}]");
+                ShowCaption($"Соединение с\r\n[{credentials.GetAddress()}]", true, false, true);
                 _manager.SetClientSettings(credentials);
             }
         }
@@ -194,7 +202,7 @@ namespace LazuriteMobile.App
             Invoke(() =>
             {
                 connectionSettingsSlider.Show();
-                ShowCaption("Необходим ввод логина/пароля", true, false);
+                ShowCaption("Необходим ввод параметров подключения", true, true, false);
             });
         }
 
@@ -212,23 +220,28 @@ namespace LazuriteMobile.App
 
         private void _manager_NeedRefresh()
         {
-            Invoke(Refresh);
+            Invoke(() => Refresh());
         }
 
-        private void Refresh(Action callback)
+        private void Refresh(Action callback, bool showMessageIfScenariosEmpty = true)
         {
             RefreshCredentials();
             _manager.GetScenarios((scenarios) =>
             {
                 Invoke(() =>
                 {
-                    swgrid.Refresh(scenarios);
+                    if (scenarios == null)
+                    {
+                        scenarios = new ScenarioInfo[0];
+                    }
+
+                    swgrid.Refresh(scenarios, showMessageIfScenariosEmpty);
                     callback?.Invoke();
                 });
             });
         }
 
-        public void Refresh() => Refresh(null);
+        public void Refresh(bool showMessageIfScenariosEmpty = true) => Refresh(null, showMessageIfScenariosEmpty);
 
         private void ReConnectAndRefresh()
         {
@@ -252,15 +265,15 @@ namespace LazuriteMobile.App
             connectionView.SetErrorMessage(string.Empty);
         }
 
-        public void ShowCaption(string text = "", bool error = false, bool showLoadingGrid = true)
+        public void ShowCaption(string text = "", bool showLoadingGrid = true, bool showTextOnLoadingGrid = true, bool showLoadingAnimation = true)
         {
-            //close dialogviews
-            DialogView.CloseLast();
+            // Close dialogviews
+            DialogView.CloseAllDialogs(all: false);
 
             if (showLoadingGrid)
             {
                 gridCaption.IsVisible = true;
-                if (!error)
+                if (showLoadingAnimation)
                 {
                     iconAnimation.StartAnimate();
                 }
@@ -270,7 +283,7 @@ namespace LazuriteMobile.App
                 }
             }
 
-            lblCaption.Text = error ? text : string.Empty;
+            lblCaption.Text = showTextOnLoadingGrid ? text : string.Empty;
 
             connectionView.SetErrorMessage(text);
         }

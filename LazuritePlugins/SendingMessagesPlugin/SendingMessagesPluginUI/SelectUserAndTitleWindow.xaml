@@ -7,7 +7,7 @@
         xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="SingleBorderWindow"        
+        WindowStyle="SingleBorderWindow"
         Title="Выбор пользователя и заголовка сообщения" Height="600" Width="500">
     <Grid>
         <Grid.RowDefinitions>
@@ -23,7 +23,7 @@
             <TextBlock Margin="10" TextWrapping="Wrap" Foreground="{x:Static controls:Visual.CaptionForeground}">
                 Для продолжения необходимо ввести заголовок передаваемого сообщения и выбрать пользователя - получателя. Текст сообщения можно будет задать непосредственно в алгоритме, с правой стороны выражения.
             </TextBlock>
-            <controls:ItemView x:Name="btApply" IsEnabled="False" Grid.Column="1" Margin="0,0,10,0" Icon="ChevronRight" IconHorizontalAligment="Right">Продолжить</controls:ItemView>
+            <controls:ItemView x:Name="btApply" IsEnabled="False" Grid.Column="1" Margin="0,10,10,0" Icon="ChevronRight" IconHorizontalAligment="Right">Продолжить</controls:ItemView>
         </Grid>
         <Border BorderBrush="{x:Static controls:Visual.CaptionForeground}" BorderThickness="0,3,0,0" Grid.Row="1"></Border>
     </Grid>

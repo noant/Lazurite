@@ -82,13 +82,14 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Notifier.cs" />
+    <Compile Include="RuntimePermissionsHandler.cs" />
     <Compile Include="Renderers\IconViewRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GpsOnReciever.cs" />
     <Compile Include="ServiceOperation.cs" />
-    <Compile Include="ServiceScenarioManagerCallbacks.cs" />
-    <Compile Include="ServiceScenariosManager.cs" />
+    <Compile Include="ServiceConnectionManagerCallbacks.cs" />
+    <Compile Include="ServiceConnectionManager.cs" />
     <Compile Include="SingletonPreparator.cs" />
     <Compile Include="SplashActivity.cs" />
     <Compile Include="JsonFileManager.cs" />

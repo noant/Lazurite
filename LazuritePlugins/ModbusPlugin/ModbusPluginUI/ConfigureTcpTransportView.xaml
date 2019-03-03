@@ -1,11 +1,11 @@
 ﻿<UserControl x:Class="ModbusPluginUI.ConfigureTcpTransportView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:LazuriteUI.Windows.Controls;assembly=LazuriteUI.Windows.Controls"
              xmlns:local="clr-namespace:ModbusPluginUI"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              Background="{x:Static controls:Visual.Background}"
              MinWidth="500"
              Height="150">
@@ -21,17 +21,17 @@
             <ColumnDefinition Width="120"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" VerticalAlignment="Center" HorizontalAlignment="Right">Хост</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" VerticalAlignment="Center" HorizontalAlignment="Right">Хост:</Label>
         <controls:EntryView x:Name="tbHost" Grid.Column="1"></controls:EntryView>
-        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">Порт</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">Порт:</Label>
         <controls:EntryView Grid.Row="1" x:Name="tbPort" Grid.Column="1"></controls:EntryView>
-        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right">Таймаут чтения</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right">Таймаут чтения:</Label>
         <controls:EntryView Grid.Row="2" x:Name="tbReadTimeout" Grid.Column="1"></controls:EntryView>
-        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right">Таймаут записи</Label>
+        <Label Foreground="{x:Static controls:Visual.CaptionForeground}" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right">Таймаут записи:</Label>
         <controls:EntryView Grid.Row="3" x:Name="tbWriteTimeout" Grid.Column="1"></controls:EntryView>
         <controls:ListItemsView SelectionMode="Single" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" Orientation="Horizontal">
-            <controls:ItemView Width="70" Selected="True" Margin="3">TCP</controls:ItemView>
-            <controls:ItemView x:Name="btUdp" Width="70" Margin="3">UDP</controls:ItemView>
+            <controls:ItemView Width="70" Selected="True" Margin="5">TCP</controls:ItemView>
+            <controls:ItemView x:Name="btUdp" Width="70" Margin="5">UDP</controls:ItemView>
         </controls:ListItemsView>
     </Grid>
 </UserControl>

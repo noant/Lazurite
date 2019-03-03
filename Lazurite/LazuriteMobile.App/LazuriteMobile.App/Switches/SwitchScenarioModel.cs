@@ -16,7 +16,7 @@ namespace LazuriteMobile.App.Switches
         private bool _available;
         private bool _checked;
 
-        private IScenariosManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
+        private IClientManager _manager = Singleton.Resolve<LazuriteContext>().Manager;
 
         public UserVisualSettings VisualSettings => Scenario?.VisualSettings;
 
