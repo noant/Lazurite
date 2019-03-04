@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lazurite.IOC;
+using Lazurite.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
@@ -7,6 +9,8 @@ namespace LazuriteMobile.App.Controls
 {
     public partial class DialogView : ContentView
     {
+        private static readonly ILogger Log = Singleton.Resolve<ILogger>();
+
         public static Grid GetDialogHost(Element view)
         {
             Grid grid = null;
@@ -54,21 +58,28 @@ namespace LazuriteMobile.App.Controls
 
         public void Close()
         {
-            Closed?.Invoke(this, EventArgs.Empty);
-            if (contentGrid.Children.FirstOrDefault() is IDisposable disposable)
+            try
             {
-                disposable.Dispose();
-            }
+                Closed?.Invoke(this, EventArgs.Empty);
+                if (contentGrid.Children.FirstOrDefault() is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
 
-            if (Parent != null)
-            {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    ((Grid)Parent).Children.Remove(this);
+                    if (Parent is Grid grid && grid.Children != null)
+                    {
+                        grid.Children.Remove(this);
+                    }
                 });
-            }
 
-            AllOpened.Remove(this);
+                AllOpened.Remove(this);
+            }
+            catch (Exception e)
+            {
+                Log.Error(exception: e);
+            }
         }
 
         private void CloseItemView_Click(object sender, EventArgs e)
