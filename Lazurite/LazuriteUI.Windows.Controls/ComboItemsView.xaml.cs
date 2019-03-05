@@ -17,7 +17,8 @@ namespace LazuriteUI.Windows.Controls
 
         private ComboItemsViewInfo _info;
 
-        public ComboItemsViewInfo Info {
+        public ComboItemsViewInfo Info
+        {
             get => _info;
             set
             {
@@ -26,13 +27,13 @@ namespace LazuriteUI.Windows.Controls
                 InfoChanged?.Invoke(this, Info);
             }
         }
-        
+
         private void Refresh()
         {
             if (Info.SelectedObjects?.Length > 1)
             {
                 var strs = Info.SelectedObjects
-                    .Select(x => Info.GetCaption(x))
+                    .Select(x => x != null ? Info.GetCaption(x) : "[пусто]")
                     .Aggregate((x1, x2) => x1 + ", " + x2);
                 mainItem.Content = strs;
                 mainItem.Icon = Icons.Icon._None;
@@ -40,7 +41,7 @@ namespace LazuriteUI.Windows.Controls
             else if (Info.SelectedObjects?.Length == 1)
             {
                 var item = Info.SelectedObjects.FirstOrDefault();
-                mainItem.Content = Info.GetCaption(item);
+                mainItem.Content = item != null ? Info.GetCaption(item) : "[пусто]";
                 mainItem.Icon = Info.GetIcon != null ? Info.GetIcon(item) : Icons.Icon._None;
             }
             else
@@ -54,8 +55,9 @@ namespace LazuriteUI.Windows.Controls
         {
             DialogView dialog = null;
             var listView = new ComboBoxItemsView_List(
-                Info, 
-                (info) => {
+                Info,
+                (info) =>
+                {
                     dialog.Close();
                     Info = info;
                 });

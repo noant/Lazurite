@@ -14,39 +14,49 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
     {
         private IStandardValueAction _action;
         private IAction _masterAction;
-        private StateValueType _valueType;
+        private ValueTypeBase _valueType;
         private string _oldVal;
+
         public StatusInitializationView(IStandardValueAction action, IAction masterAction = null)
         {
             InitializeComponent();
             _masterAction = masterAction;
             _action = action;
             _oldVal = _action.Value;
-            _valueType = (StateValueType)action.ValueType;
-            
+            _valueType = action.ValueType;
+
             if (masterAction != null)
             {
                 gridAdd.Visibility = Visibility.Collapsed;
-                _valueType = (StateValueType)masterAction.ValueType;
+                _valueType = masterAction.ValueType;
             }
             else
             {
                 btAddNew.Click += (o, e) => CreateNewStateFromTextBox();
-                tbNewStatus.KeyDown += (o, e) => {
+                tbNewStatus.KeyDown += (o, e) =>
+                {
                     if (e.Key == System.Windows.Input.Key.Enter)
+                    {
                         CreateNewStateFromTextBox();
+                    }
                 };
             }
 
             foreach (var state in _valueType.AcceptedValues)
+            {
                 Add(state);
+            }
 
             UpdateSearchControls();
 
-            btApply.Click += (o, e) => {
+            btApply.Click += (o, e) =>
+            {
                 var selectedState = (listItemsStatus.SelectedItem as StatusInitializationViewItem)?.Text;
                 if (string.IsNullOrEmpty(selectedState))
+                {
                     selectedState = _oldVal;
+                }
+
                 var states = listItemsStatus.GetItems().Select(x => ((StatusInitializationViewItem)x).Text);
                 _valueType.AcceptedValues = states.ToArray();
                 _action.ValueType = _valueType;
@@ -69,8 +79,13 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
         private void UpdateSearchControls()
         {
             if (listItemsStatus.Children.Count < 7)
+            {
                 gridSearchControls.Visibility = Visibility.Collapsed;
-            else gridSearchControls.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                gridSearchControls.Visibility = Visibility.Visible;
+            }
         }
 
         private void Add(string state)
@@ -80,8 +95,12 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
             itemView.Text = state;
             itemView.IsRemoveButtonVisible = _masterAction == null;
             if (_action.Value == state)
+            {
                 Loaded += (o, e) => itemView.Selected = true;
-            itemView.RemoveClick += (o, args) => {
+            }
+
+            itemView.RemoveClick += (o, args) =>
+            {
                 listItemsStatus.Children.Remove(itemView);
                 UpdateSearchControls();
             };
@@ -97,8 +116,13 @@ namespace LazuriteUI.Windows.Main.Constructors.StandardActionsInitialization
             foreach (StatusInitializationViewItem item in listItemsStatus.Children)
             {
                 if (empty || item.Text.ToLower().Contains(textToSearch))
+                {
                     item.Visibility = Visibility.Visible;
-                else item.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    item.Visibility = Visibility.Collapsed;
+                }
             }
         }
     }
