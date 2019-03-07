@@ -20,18 +20,18 @@
         <laz:CaptionView Icon="TvNews">Выбор объекта для управления мультимедиа</laz:CaptionView>
         <TextBlock Grid.Row="1" Margin="60,10,60,10" TextWrapping="Wrap" Foreground="{x:Static laz:Visual.CaptionForeground}" HorizontalAlignment="Center">
             <system:String xml:space="preserve">       Выберите объект для управления мультимедиа и один из его управляемых параметров, например "Переключить канал" или "Загрузить плейлист".</system:String>
-            <LineBreak/>
-            <LineBreak/>
-            <system:String xml:space="preserve">       Данный плагин позволяет выводить изображение с карт захвата AverMedia</system:String> (SDK Edition, 
+            <LineBreak />
+            <LineBreak />
+            <system:String xml:space="preserve">       Данный плагин позволяет выводить изображение с карт захвата AverMedia</system:String> (SDK Edition,
             <Hyperlink NavigateUri="https://www.avermedia.com/professional#">
                 https://www.avermedia.com/professional#
-            </Hyperlink>), поэтому для работы требуется установка драйверов карты захвата. 
-            Скачать их можно на сайте 
+            </Hyperlink>), поэтому для работы требуется установка драйверов карты захвата.
+            Скачать их можно на сайте
             <Hyperlink NavigateUri="https://www.avermedia.com/professional#">AverMedia</Hyperlink>, выбрав свою модель карты.
-            <LineBreak/>
-            <LineBreak/>
-            <system:String xml:space="preserve">       Для вывода IPTV потоков необходимо загрузить плейлист (находится в одном из действий, которые можно выбрать ниже). Так как вопроизведение видеопотока IPTV построено на базе VLC, то для работы плагина требуется установленная версия x86 VLC плеера. Скачать можно здесь: </system:String> 
-            <Hyperlink NavigateUri="https://www.avermedia.com/professional#">
+            <LineBreak />
+            <LineBreak />
+            <system:String xml:space="preserve">       Для вывода IPTV потоков необходимо загрузить плейлист (находится в одном из действий, которые можно выбрать ниже). Так как воспроизведение видеопотока IP-TV построено на базе VLC, то для работы плагина требуется установленная версия x86 VLC плеера. Скачать можно здесь: </system:String>
+            <Hyperlink NavigateUri="https://www.videolan.org/vlc">
                 https://www.videolan.org/vlc
             </Hyperlink>. Плагин работает только с 32-битной версией.
         </TextBlock>
