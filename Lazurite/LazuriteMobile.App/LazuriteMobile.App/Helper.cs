@@ -1,5 +1,7 @@
 ﻿using Lazurite.IOC;
+using Lazurite.Logging;
 using LazuriteMobile.MainDomain;
+using System;
 using System.Threading.Tasks;
 
 namespace LazuriteMobile.App
@@ -8,6 +10,8 @@ namespace LazuriteMobile.App
     {
         public static async Task TryGrantRequiredPermissions()
         {
+            var log = Singleton.Resolve<ILogger>();
+
             try
             {
                 var permissionsHandler = Singleton.Resolve<IRuntimePermissionsHandler>();
@@ -36,10 +40,15 @@ namespace LazuriteMobile.App
                 {
                     await permissionsHandler.TryGrantPermissions(permissionsHandler.WakeLockPermissionsIds);
                 }
+
+                if (!permissionsHandler.IsPermissionGranted(permissionsHandler.StartForegroundServicePermissionsIds))
+                {
+                    await permissionsHandler.TryGrantPermissions(permissionsHandler.StartForegroundServicePermissionsIds);
+                }
             }
-            catch
+            catch (Exception e)
             {
-                // Do nothing
+                log.Error("Error while permisions request", e);
             }
         }
     }

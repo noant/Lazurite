@@ -4,10 +4,12 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using Lazurite.IOC;
+using Lazurite.Logging;
 using Lazurite.Shared;
 using LazuriteMobile.MainDomain;
 using Plugin.CurrentActivity;
 using Plugin.Permissions;
+using System;
 using System.Linq;
 
 namespace LazuriteMobile.App.Droid
@@ -92,7 +94,7 @@ namespace LazuriteMobile.App.Droid
             base.OnResume();
             RaiseStateChanged(SupportsResumeState.Active, _currentState);
             _currentState = SupportsResumeState.Active;
-            HandleIntent(Intent);
+            HandleIntent();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
@@ -108,21 +110,27 @@ namespace LazuriteMobile.App.Droid
         {
             base.OnNewIntent(intent);
             Intent = intent;
-            HandleIntent(intent);
+            HandleIntent();
         }
 
-        private Intent _handledIntent;
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
-        private void HandleIntent(Intent intent)
+        private void HandleIntent()
         {
-            if (intent != _handledIntent &&
-                intent.Extras != null &&
-                intent.Extras.ContainsKey(Keys.NeedOpenNotifications))
+            try
             {
-                _handledIntent = intent;
-                var handler = Singleton.Resolve<INotificationsHandler>();
-                handler.UpdateNotificationsInfo();
+                if (Intent != null &&
+                    Intent.Extras != null &&
+                    Intent.Extras.ContainsKey(Keys.NeedOpenNotifications) &&
+                    Intent.Extras.GetInt(Keys.NeedOpenNotifications) != -1)
+                {
+                    var handler = Singleton.Resolve<INotificationsHandler>();
+                    handler.UpdateNotificationsInfo();
+                    Intent = null;
+                }
+            }
+            catch (Exception e)
+            {
+                Singleton.Resolve<ILogger>().Error(exception: e);
             }
         }
 

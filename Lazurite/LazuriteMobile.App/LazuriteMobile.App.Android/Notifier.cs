@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+using Android.Support.V4.App;
 using Lazurite.IOC;
-using Lazurite.Shared;
 using LazuriteMobile.MainDomain;
+using System.Collections.Generic;
 
 namespace LazuriteMobile.App.Droid
 {
@@ -21,7 +14,9 @@ namespace LazuriteMobile.App.Droid
     {
         private const int MaxMessagesCnt = 20;
         private static int _lastId = 1;
+
         private static int GetNextNotificationId() => ++_lastId;
+
         private List<LazuriteNotification> _notificationsCache = new List<LazuriteNotification>();
         private List<LazuriteNotification> _read = new List<LazuriteNotification>();
 
@@ -33,8 +28,13 @@ namespace LazuriteMobile.App.Droid
             try
             {
                 foreach (var notification in _notificationsCache)
+                {
                     if (!notification.IsRead)
+                    {
                         notification.IsRead = _read.Contains(notification);
+                    }
+                }
+
                 return _notificationsCache.ToArray();
             }
             finally
@@ -48,10 +48,14 @@ namespace LazuriteMobile.App.Droid
                     context.GetSystemService(Context.NotificationService) as NotificationManager;
 
                 foreach (var notification in _notificationsCache)
+                {
                     notificationManager.Cancel(notification.Id);
+                }
 
                 if (_notificationsCache.Count > MaxMessagesCnt)
+                {
                     _notificationsCache = _notificationsCache.GetRange(0, MaxMessagesCnt);
+                }
             }
         }
 
@@ -69,58 +73,48 @@ namespace LazuriteMobile.App.Droid
 
             var context = global::Android.App.Application.Context;
 
-            var notificationManager =
-                context.GetSystemService(Context.NotificationService) as NotificationManager;
-
-            Notification.Builder builder;
-
-            if (Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.O)
-            {
-                var channelId = "channel1";
-                NotificationChannel mChannel;
-
-                mChannel = new NotificationChannel(channelId, "laz", NotificationImportance.High);
-                mChannel.EnableLights(true);
-                mChannel.LightColor = Color.White;
-                mChannel.SetShowBadge(true);
-                mChannel.LockscreenVisibility = NotificationVisibility.Private;
-                notificationManager.CreateNotificationChannel(mChannel);
-                builder = new Notification.Builder(context, channelId);
-            }
-            else
-#pragma warning disable CS0618 // Тип или член устарел
-                builder = new Notification.Builder(context);
-#pragma warning restore CS0618 // Тип или член устарел
-
-            builder.SetContentTitle(message.Header);
-            builder.SetContentText(message.Text);
-            builder.SetSmallIcon(Resource.Drawable.icon);
-            builder.SetVisibility(NotificationVisibility.Private);
-            builder.SetOnlyAlertOnce(true);
-#pragma warning disable CS0618 // Тип или член устарел
-            builder.SetDefaults(NotificationDefaults.All);
-#pragma warning restore CS0618 // Тип или член устарел
-            builder.SetAutoCancel(true);
-            builder.SetColor(Color.Argb(0, 255, 255, 255).ToArgb());
-
             var activityIntent = new Intent(context, typeof(MainActivity));
             activityIntent.PutExtra(Keys.NeedOpenNotifications, newId);
 
-            var showActivityIntent = PendingIntent.GetActivity(Application.Context, 0,
-                activityIntent, PendingIntentFlags.UpdateCurrent);
+            var showActivityIntent = PendingIntent.GetActivity(Application.Context, 0, activityIntent, PendingIntentFlags.UpdateCurrent);
 
-            builder.SetContentIntent(showActivityIntent);
+            var notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
+            var channelId = Build.VERSION.SdkInt >= BuildVersionCodes.O ? CreateNotificationChannel(notificationManager) : string.Empty;
 
-            var notification = builder.Build();
+            var notificationBuilder = new NotificationCompat.Builder(context, channelId);
+            notificationBuilder.SetContentTitle(message.Header);
+            notificationBuilder.SetContentText(message.Text);
+            notificationBuilder.SetContentIntent(showActivityIntent);
+            notificationBuilder.SetSmallIcon(Resource.Drawable.message);
+            notificationBuilder.SetLargeIcon(BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.icon));
+            notificationBuilder.SetPriority((int)NotificationPriority.Max);
+            notificationBuilder.SetDefaults((int)NotificationDefaults.All);
+            notificationBuilder.SetColor(Color.Purple);
+            notificationBuilder.SetOnlyAlertOnce(true);
+            notificationBuilder.SetAutoCancel(true);
+            notificationBuilder.SetCategory(Notification.CategoryMessage);
+            notificationBuilder.SetVisibility((int)NotificationVisibility.Private);
 
-            notificationManager.Notify(newId, notification);
+            notificationManager.Notify(newId, notificationBuilder.Build());
 
             if (Singleton.Any<INotificationsHandler>())
             {
                 var notificationHandler = Singleton.Resolve<INotificationsHandler>();
                 if (notificationHandler.NeedViewPermanently)
+                {
                     notificationHandler.UpdateNotificationsInfo();
+                }
             }
+        }
+
+        private string CreateNotificationChannel(NotificationManager manager)
+        {
+            var channel = new NotificationChannel("lazurite_message_notification", "lazurite_message_notification", NotificationImportance.High);
+            channel.LightColor = Color.Blue;
+            channel.LockscreenVisibility = NotificationVisibility.Private;
+            channel.Description = "Lazurite messages notifications";
+            manager.CreateNotificationChannel(channel);
+            return channel.Id;
         }
     }
 }

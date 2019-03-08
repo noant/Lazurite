@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.App;
 using Lazurite.IOC;
 using Lazurite.Logging;
 using Lazurite.MainDomain;
@@ -91,27 +92,60 @@ namespace LazuriteMobile.App.Droid
         {
             if (!AlreadyStarted)
             {
-                AlreadyStarted = true;
+                try
+                {
+                    AlreadyStarted = true;
 
-                ReInitTimer();
+                    ReInitTimer();
 
-                var activityIntent = new Intent(this, typeof(MainActivity));
-                var showActivityIntent = PendingIntent.GetActivity(Application.Context, 0, activityIntent, PendingIntentFlags.UpdateCurrent);
-                _currentNotification =
-#pragma warning disable CS0618 // Тип или член устарел
-                    new Notification.Builder(this).
-#pragma warning restore CS0618 // Тип или член устарел
-                        SetContentTitle("Lazurite работает...").
-                        SetSmallIcon(Resource.Drawable.icon).
-                        SetContentIntent(showActivityIntent).
-                        SetVisibility(NotificationVisibility.Private).
-                        SetColor(Color.Argb(0, 255, 255, 255).ToArgb()).
-                        SetOnlyAlertOnce(true).
-                        Build();
+                    var activityIntent = new Intent(this, typeof(MainActivity));
+                    activityIntent.PutExtra(Keys.NeedOpenNotifications, -1);
 
-                StartForeground(1, _currentNotification);
+                    var showActivityIntent = PendingIntent.GetActivity(Application.Context, 0, activityIntent, PendingIntentFlags.UpdateCurrent);
+
+                    var channelId = Build.VERSION.SdkInt >= BuildVersionCodes.O ? CreateNotificationChannel() : string.Empty;
+
+                    var notificationBuilder = new NotificationCompat.Builder(this, channelId);
+                    notificationBuilder.SetOngoing(true);
+                    notificationBuilder.SetContentTitle("Lazurite запущен...");
+                    notificationBuilder.SetContentText("Нажмите, чтобы открыть список уведомлений");
+                    notificationBuilder.SetContentIntent(showActivityIntent);
+                    notificationBuilder.SetSmallIcon(Resource.Drawable.home);
+                    notificationBuilder.SetLargeIcon(BitmapFactory.DecodeResource(Resources, Resource.Drawable.icon));
+                    notificationBuilder.SetVisibility((int)NotificationVisibility.Secret);
+                    notificationBuilder.SetPriority((int)NotificationPriority.Min);
+                    notificationBuilder.SetColor(Color.SteelBlue);
+                    notificationBuilder.SetOnlyAlertOnce(true);
+                    notificationBuilder.SetSound(null);
+                    notificationBuilder.SetGroupAlertBehavior((int)NotificationGroupAlertBehavior.Summary);
+                    notificationBuilder.SetGroup("laz_serv_group");
+                    notificationBuilder.SetGroupSummary(false);
+                    notificationBuilder.SetCategory(Notification.CategoryService);
+
+                    _currentNotification = notificationBuilder.Build();
+
+                    StartForeground(1, _currentNotification);
+                }
+                catch (Exception e)
+                {
+                    Log.Error("Error while starting Lazurite service...", e);
+                }
             }
             return StartCommandResult.Sticky;
+        }
+
+        private string CreateNotificationChannel()
+        {
+            var channel = new NotificationChannel("lazurite_service_notification", "lazurite_service_notification", NotificationImportance.None);
+            channel.LockscreenVisibility = NotificationVisibility.Secret;
+            channel.EnableVibration(false);
+            channel.EnableLights(false);
+            channel.SetSound(null, null);
+            channel.SetShowBadge(false);
+            channel.Description = "Always visible Lazurite notification";
+            var service = GetSystemService(NotificationService) as NotificationManager;
+            service.CreateNotificationChannel(channel);
+            return channel.Id;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]

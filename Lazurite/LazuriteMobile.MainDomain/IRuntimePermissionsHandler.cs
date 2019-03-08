@@ -20,5 +20,7 @@ namespace LazuriteMobile.MainDomain
         string[] ReadWriteExternalStoragePermissionsIds { get; }
 
         string[] PhoneStatePermissionsIds { get; }
+
+        string[] StartForegroundServicePermissionsIds { get; }
     }
 }
