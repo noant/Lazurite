@@ -54,13 +54,6 @@
                     Action="SelectSetting_Listener">
                 </common:SettingsItem>
                 <common:SettingsItem
-                    Tag="{x:Static mainDomain:ListenerSettings.EnergySave2}"
-                    IsSelectedFunc="IsSelected_Listener"
-                    Caption="Режим энергосбережения 2"
-                    Description="Средний уровень энергосбережения. Синхронизация происходит каждые 35 секунд при разблокированном телефоне, каждые 2 минуты при заблокированном экране, каждые 6 минут в режиме энергосбережения."
-                    Action="SelectSetting_Listener">
-                </common:SettingsItem>
-                <common:SettingsItem
                     Tag="{x:Static mainDomain:ListenerSettings.Ultra}"
                     IsSelectedFunc="IsSelected_Listener"
                     Caption="Ультра энергосбережение"
