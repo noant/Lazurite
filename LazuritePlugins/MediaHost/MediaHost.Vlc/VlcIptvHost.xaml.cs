@@ -1,20 +1,10 @@
 ﻿using MediaHost.Bases;
+using MediaHost.VlcWrapper.Playlists;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MediaHost.VlcWrapper.Playlists;
 
 namespace MediaHost.Vlc
 {
@@ -44,7 +34,8 @@ namespace MediaHost.Vlc
             NotificationUtils.Initialize();
             InitializeComponent();
 
-            vlcIptvControl.ChannelChanged += (o, e) => {
+            vlcIptvControl.ChannelChanged += (o, e) =>
+            {
                 TvChannels?.RaiseValueChanged(e.Value?.Title ?? TvOffCommandTitle);
             };
         }
@@ -65,7 +56,8 @@ namespace MediaHost.Vlc
 
             NotificationUtils.ShowNotification("Загрузка нового плейлиста...", NotificationUtils.InfoType.VlcLoading);
 
-            Task.Factory.StartNew(() => {
+            Task.Factory.StartNew(() =>
+            {
                 MediaPath[] newPlaylist = null;
                 var data = PlaylistsHelper.FromPath(
                     path,

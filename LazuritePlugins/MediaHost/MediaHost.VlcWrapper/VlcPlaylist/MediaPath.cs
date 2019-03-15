@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace MediaHost.VlcWrapper.Playlists
 {
@@ -10,6 +7,7 @@ namespace MediaHost.VlcWrapper.Playlists
     {
         public MediaPath()
         {
+            // Do nothing
         }
 
         public MediaPath(string name, Uri path, MediaPath parent)
@@ -17,6 +15,10 @@ namespace MediaHost.VlcWrapper.Playlists
             RealName = name;
             _path = path;
             Parent = parent;
+
+#if DEBUG
+            Debug.WriteLine($"MediaPath created: {Title} ({Path})");
+#endif
         }
 
         public string RealName { get; set; }
@@ -26,10 +28,16 @@ namespace MediaHost.VlcWrapper.Playlists
             get
             {
                 if (!string.IsNullOrEmpty(RealName))
+                {
                     return RealName;
+                }
+
                 var parentName = Parent?.Title;
                 if (!string.IsNullOrEmpty(parentName))
+                {
                     return parentName;
+                }
+
                 return "Без имени";
             }
         }
