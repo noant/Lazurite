@@ -73,7 +73,7 @@ namespace MediaHost.VlcWrapper.VlcPlaylist
                 .Replace("\n\n", "\n");
 
             var lines = sb.ToString().Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-            return lines.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+            return lines.Where(x => !string.IsNullOrWhiteSpace(x) && x[0] != 65279 /* Except UTF-8 BOM */).ToArray();
         }
     }
 }

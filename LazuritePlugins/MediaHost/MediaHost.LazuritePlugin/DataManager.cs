@@ -41,8 +41,16 @@ namespace MediaHost.LazuritePlugin
 
         public bool TryLoad<T>(string name, out T val)
         {
-            val = (T)_temp[name];
-            return false;
+            if (_temp.ContainsKey(name))
+            {
+                val = (T)_temp[name];
+                return true;
+            }
+            else
+            {
+                val = default(T);
+                return false;
+            }
         }
 
         public bool Save<T>(string name, T data)

@@ -16,7 +16,7 @@ namespace MediaHost.VlcWrapper
 
             NotificationUtils.Initialize();
 
-            var pl = PlaylistsHelper.FromPath(@"D:\Other\IpTvPlaylist\1.m3u8", (p) => NotificationUtils.ShowNotification(p, NotificationUtils.InfoType.Loading), CancellationToken.None);
+            var pl = PlaylistsHelper.FromPath(@"https://smarttvnews.ru/apps/iptvchannels.m3u", (p) => NotificationUtils.ShowNotification(p, NotificationUtils.InfoType.Loading), CancellationToken.None);
             var channels = (pl as Playlist).Expand();
             vlc.Initialize(channels);
             vlc.Start();
@@ -33,10 +33,12 @@ namespace MediaHost.VlcWrapper
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            //
         }
     }
 }
