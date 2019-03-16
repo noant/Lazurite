@@ -173,7 +173,11 @@ namespace LazuriteMobile.App.Droid
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase")]
         public void Initialize(Action<bool> callback)
         {
-            Application.Context.StartService(new Intent(Application.Context, typeof(LazuriteService)));
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+                Application.Context.StartForegroundService(new Intent(Application.Context, typeof(LazuriteService)));
+            else
+                Application.Context.StartService(new Intent(Application.Context, typeof(LazuriteService)));
+
             _serviceConnection = new ManagerServiceConnection();
             _serviceConnection.Connected += ServiceConnection_Connected;
             _serviceConnection.Disconnected += ServiceConnection_Disconnected;
@@ -181,13 +185,9 @@ namespace LazuriteMobile.App.Droid
             if (callback != null)
             {
                 if (result)
-                {
                     _callbacks.Add(ServiceOperation.Initialize, (obj) => callback(true));
-                }
                 else
-                {
                     callback(false);
-                }
             }
         }
 
