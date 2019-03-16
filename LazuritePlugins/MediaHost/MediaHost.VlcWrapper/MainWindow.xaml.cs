@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MediaHost.VlcWrapper.Playlists;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MediaHost.VlcWrapper.Playlists;
 
 namespace MediaHost.VlcWrapper
 {
@@ -29,7 +17,7 @@ namespace MediaHost.VlcWrapper
             NotificationUtils.Initialize();
 
             var pl = PlaylistsHelper.FromPath(@"D:\Other\IpTvPlaylist\1.m3u8", (p) => NotificationUtils.ShowNotification(p, NotificationUtils.InfoType.Loading), CancellationToken.None);
-            var channels = (pl as Playlist).GetLowNesting();
+            var channels = (pl as Playlist).Expand();
             vlc.Initialize(channels);
             vlc.Start();
             KeyDown += MainWindow_KeyDown;
@@ -45,12 +33,10 @@ namespace MediaHost.VlcWrapper
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-
         }
     }
 }

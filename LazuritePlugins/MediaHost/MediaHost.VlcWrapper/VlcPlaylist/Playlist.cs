@@ -17,11 +17,15 @@ namespace MediaHost.VlcWrapper.Playlists
 
         public MediaPath[] Children { get; set; }
 
-        public MediaPath[] GetLowNesting()
+        public MediaPath[] Expand()
         {
             MediaPath[] result = null;
-            if (Children.All(x => !(x is Playlist) &&
-                (x.RealName == RealName || string.IsNullOrEmpty(x.RealName) || x.RealName.StartsWith("#EXTINF"))))
+
+            if (!Children.Any())
+            {
+                result = new MediaPath[0];
+            }
+            else if (Children.All(x => !(x is Playlist) && (x.RealName == RealName || string.IsNullOrEmpty(x.RealName) || x.RealName.StartsWith("#EXTINF"))))
             {
                 result = new[] { this };
             }
@@ -34,7 +38,7 @@ namespace MediaHost.VlcWrapper.Playlists
                 result =
                     Children
                     .Where(x => x is Playlist)
-                    .SelectMany(x => (x as Playlist).GetLowNesting())
+                    .SelectMany(x => (x as Playlist).Expand())
                     .Union(Children.Where(x => !(x is Playlist)))
                     .ToArray();
             }

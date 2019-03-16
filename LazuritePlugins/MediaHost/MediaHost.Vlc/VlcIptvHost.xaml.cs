@@ -42,8 +42,8 @@ namespace MediaHost.Vlc
 
         private string GetDefaultChannel()
         {
-            if (DataManager.Exists(DefaultChannelPath))
-                return DataManager.Load<string>(DefaultChannelPath);
+            if (DataManager.TryLoad(DefaultChannelPath, out string defChannel))
+                return defChannel;
             return null;
         }
 
@@ -65,7 +65,7 @@ namespace MediaHost.Vlc
                     _cancellationTS_LoadPlaylist.Token,
                     isPlaylist: true);
                 if (data is Playlist pl)
-                    newPlaylist = pl.GetLowNesting();
+                    newPlaylist = pl.Expand();
                 else if (data != null)
                     newPlaylist = new[] { data };
                 if (newPlaylist != null && !_cancellationTS_LoadPlaylist.IsCancellationRequested)
@@ -100,16 +100,12 @@ namespace MediaHost.Vlc
 
         private void LoadFromDataManager()
         {
-            if (DataManager.Exists(PlaylistPath))
-            {
-                var playlist = DataManager.Load<MediaPath[]>(PlaylistPath);
+            if (DataManager.TryLoad(PlaylistPath, out MediaPath[] playlist))
                 LoadPlaylist(playlist);
-            }
             else
                 NotificationUtils.ShowNotification("Список каналов отсутсвует", NotificationUtils.InfoType.Error);
 
-            if (DataManager.Exists(PlaylistUriPath))
-                _currentPlaylist = DataManager.Load<string>(PlaylistUriPath);
+            DataManager.TryLoad(PlaylistUriPath, out _currentPlaylist);
 
             InitCommands();
         }
@@ -142,6 +138,14 @@ namespace MediaHost.Vlc
                     (param) => param != TvOffCommandTitle
                 ));
             }
+
+            foreach (var oldCommand in Commands)
+            {
+                var newCommand = commands.FirstOrDefault(x => x.Name == oldCommand.Name);
+                oldCommand.TransferEvents(newCommand);
+                newCommand.RaiseEvents(); // Lazurite scenario can be reinitialized by call this method
+            }
+
             Commands = commands.ToArray();
         }
 

@@ -1,28 +1,13 @@
-﻿using Lazurite.Shared;
-using LazuriteUI.Icons;
-using Microsoft.Win32;
-using NotificationUITV;
+﻿using global::Vlc.DotNet.Core;
+using global::Vlc.DotNet.Core.Interops.Signatures;
+using Lazurite.Shared;
+using MediaHost.VlcWrapper.Playlists;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using global::Vlc.DotNet.Core;
-using global::Vlc.DotNet.Core.Interops.Signatures;
-using MediaHost.VlcWrapper.Playlists;
 using static MediaHost.VlcWrapper.Playlists.NotificationUtils;
 
 namespace MediaHost.VlcWrapper
@@ -46,16 +31,15 @@ namespace MediaHost.VlcWrapper
         private bool _nextVector = true;
 
         private string _currentPath;
-        
+
         public VlcIptvControl()
         {
             InitializeComponent();
 
             vlc.Child.MouseEnter += Child_MouseEnter;
             vlc.Child.MouseLeave += Child_MouseLeave;
-            
-            Loaded += (o, e) =>
-                ShowNotification("Загрузка...", InfoType.VlcLoading);
+
+            Loaded += (o, e) => ShowNotification("Загрузка...", InfoType.VlcLoading);
         }
 
         public string AspectRatio
@@ -68,7 +52,7 @@ namespace MediaHost.VlcWrapper
         {
             get; private set;
         }
-        
+
         public void SetNextChannel()
         {
             _nextVector = true;
@@ -104,7 +88,7 @@ namespace MediaHost.VlcWrapper
                 }
             }
         }
-        
+
         private void SetChannelInternal(MediaPath channel)
         {
             CurrentChannel = channel;
@@ -112,7 +96,9 @@ namespace MediaHost.VlcWrapper
             if (CurrentChannel is Playlist pl)
             {
                 if (pl.Children.Any())
+                {
                     SetPlaylistVariant(0);
+                }
                 else
                 {
                     ShowNotification(string.Format("Невозможно получить данные о {0}", CurrentChannel.Title), InfoType.Error);
@@ -143,7 +129,8 @@ namespace MediaHost.VlcWrapper
         private void PlayInternal(string path)
         {
             _currentPath = path;
-            StartWithDelay(() => {
+            StartWithDelay(() =>
+            {
                 lock (_startStopLocker)
                 {
                     if (vlc.MediaPlayer.IsPlaying)
@@ -194,7 +181,7 @@ namespace MediaHost.VlcWrapper
         {
             System.Windows.Forms.Cursor.Hide();
         }
-        
+
         public void Initialize(MediaPath[] channels, MediaPath defaultChannel = null)
         {
             if (Environment.Is64BitProcess)
@@ -220,7 +207,7 @@ namespace MediaHost.VlcWrapper
         {
             LoadFailed();
         }
-        
+
         private void MediaPlayer_Playing(object sender, VlcMediaPlayerPlayingEventArgs e)
         {
             if (CurrentChannel != null)
@@ -238,12 +225,13 @@ namespace MediaHost.VlcWrapper
             DelayTimer?.Dispose();
 
             DelayTimer = new Timer(
-                (s) => {
+                (s) =>
+                {
                     action();
                     DelayTimer?.Change(Timeout.Infinite, Timeout.Infinite);
                     DelayTimer?.Dispose();
                     DelayTimer = null;
-                }, 
+                },
                 null, 1000, Timeout.Infinite);
         }
 

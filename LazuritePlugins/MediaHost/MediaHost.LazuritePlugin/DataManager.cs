@@ -1,10 +1,5 @@
 ﻿using Lazurite.Data;
 using Lazurite.IOC;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MediaHost.LazuritePlugin
 {
@@ -13,25 +8,52 @@ namespace MediaHost.LazuritePlugin
 #if !DEBUG
         private static readonly PluginsDataManagerBase InternalData = Singleton.Resolve<PluginsDataManagerBase>();
 
-        public bool Exists(string name) => InternalData.Has(name);
+        public bool TryLoad<T>(string name, out T val)
+        {
+            try
+            {
+                val = InternalData.Get<T>(name);
+                return true;
+            }
+            catch
+            {
+                val = default(T);
+                return false;
+            }
+        }
 
-        public T Load<T>(string name) => InternalData.Get<T>(name);
+        public bool Save<T>(string name, T data)
+        {
+            try
+            {
+                InternalData.Set<T>(name, data);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
-        public void Save<T>(string name, T data) => InternalData.Set<T>(name, data);
 #endif
 #if DEBUG
         private Dictionary<string, object> _temp = new Dictionary<string, object>();
 
-        public bool Exists(string name) => _temp.ContainsKey(name);
+        public bool TryLoad<T>(string name, out T val)
+        {
+            val = (T)_temp[name];
+            return false;
+        }
 
-        public T Load<T>(string name) => (T)_temp[name];
-
-        public void Save<T>(string name, T data) {
-            if (!Exists(name))
+        public bool Save<T>(string name, T data)
+        {
+            if (!_temp.ContainsKey(name))
                 _temp.Add(name, data);
             else
                 _temp[name] = data;
+            return true;
         }
+
 #endif
     }
 }
