@@ -1,6 +1,5 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.OS;
 
 namespace LazuriteMobile.App.Droid
 {
@@ -10,10 +9,14 @@ namespace LazuriteMobile.App.Droid
     {
         public override void OnReceive(Context context, Intent intent)
         {
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-                Application.Context.StartForegroundService(new Intent(context, typeof(LazuriteService)));
-            else
+            try
+            {
                 Application.Context.StartService(new Intent(context, typeof(LazuriteService)));
+            }
+            catch
+            {
+                // Do nothing, just try to start service on boot completed
+            }
         }
     }
 }
