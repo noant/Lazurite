@@ -9,14 +9,19 @@ namespace Lazurite.Data
     {
         private readonly string _dir = "data";
         private readonly string _extension = ".xml";
-        private string _baseDir;
+        private string _targetFolder;
 
         public override void Initialize()
         {
             var codeBase = Assembly.GetExecutingAssembly().CodeBase;
             var uri = new UriBuilder(codeBase);
             var path = Path.GetFullPath(Uri.UnescapeDataString(uri.Path));
-            _baseDir = Path.GetDirectoryName(path);
+            var baseDir = Path.GetDirectoryName(path);
+
+            _targetFolder = Path.Combine(baseDir, _dir);
+
+            if (!Directory.Exists(_targetFolder))
+                Directory.CreateDirectory(_targetFolder);
         }
 
         public override byte[] Read(string key)
@@ -33,7 +38,7 @@ namespace Lazurite.Data
         {
             return HObject.FromStream(new MemoryStream(data)).Zero;
         }
-        
+
         public override byte[] Serialize<T>(T data)
         {
             using (var ms = new MemoryStream())
@@ -60,7 +65,7 @@ namespace Lazurite.Data
 
         private string ResolvePath(string key)
         {
-            return Path.Combine(_baseDir,_dir, key + _extension);
+            return Path.Combine(_targetFolder, key + _extension);
         }
     }
 }
