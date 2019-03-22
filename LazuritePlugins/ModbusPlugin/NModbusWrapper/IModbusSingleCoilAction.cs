@@ -6,6 +6,6 @@
 
         byte SlaveAddress { get; set; }
 
-        byte CoilAddress { get; set; }
+        ushort CoilAddress { get; set; }
     }
 }

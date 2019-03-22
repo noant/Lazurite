@@ -18,7 +18,7 @@ namespace ModbusPlugin
 
         public byte SlaveAddress { get; set; } = 1;
 
-        public byte CoilAddress { get; set; } = 0;
+        public ushort CoilAddress { get; set; } = 0;
 
         public string Caption
         {

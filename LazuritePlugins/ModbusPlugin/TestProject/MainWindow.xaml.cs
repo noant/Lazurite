@@ -17,16 +17,8 @@ namespace TestProject
 
         public void Test()
         {
-            //ModbusPluginUI.ConfigureTransportView.Show((t) => {
-            //    var transport = t;
-            //    t = null;
-            //    Test();
-            //});
-
-            var action = new ModbusRegistersAction();
+            var action = new ModbusSingleCoilAction();
             var result = action.UserInitializeWith(null, false);
-
-            var a = 0;
         }
     }
 }

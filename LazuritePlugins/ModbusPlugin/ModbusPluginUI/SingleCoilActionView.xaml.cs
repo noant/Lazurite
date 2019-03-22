@@ -18,7 +18,7 @@ namespace ModbusPluginUI
             
             btOk.Click += (o, e) => {
                 _action.Manager.Transport = transportView.Transport;
-                _action.CoilAddress = byte.Parse(tbCoil.Text);
+                _action.CoilAddress = ushort.Parse(tbCoil.Text);
                 _action.SlaveAddress = byte.Parse(tbAddress.Text);
                 OkPressed?.Invoke(_action);
             };

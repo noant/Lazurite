@@ -6,7 +6,7 @@
 
         byte SlaveAddress { get; set; }
 
-        byte RegisterAddress { get; set; }
+        ushort RegisterAddress { get; set; }
 
         ushort WriteReadLength { get; set; }
 

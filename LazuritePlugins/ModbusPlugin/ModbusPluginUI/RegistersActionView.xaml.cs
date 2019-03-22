@@ -15,12 +15,13 @@ namespace ModbusPluginUI
         public RegistersActionView()
         {
             InitializeComponent();
+
             tbAddress.Validation = EntryViewValidation.UShortValidation(max: 247);
             tbCoil.Validation = EntryViewValidation.UShortValidation();
             
             btOk.Click += (o, e) => {
                 _action.Manager.Transport = transportView.Transport;
-                _action.RegisterAddress = byte.Parse(tbCoil.Text);
+                _action.RegisterAddress = ushort.Parse(tbCoil.Text);
                 _action.SlaveAddress = byte.Parse(tbAddress.Text);
                 _action.ModbusValueType = valueTypeView.ValueType;
                 _action.WriteReadLength = valueTypeView.Length;

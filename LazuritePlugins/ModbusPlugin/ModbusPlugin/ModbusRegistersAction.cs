@@ -19,7 +19,7 @@ namespace ModbusPlugin
 
         public byte SlaveAddress { get; set; } = 1;
 
-        public byte RegisterAddress { get; set; } = 0;
+        public ushort RegisterAddress { get; set; } = 0;
 
         public ushort WriteReadLength { get; set; } = 1;
 
