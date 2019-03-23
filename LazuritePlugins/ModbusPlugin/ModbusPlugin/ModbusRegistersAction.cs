@@ -59,7 +59,7 @@ namespace ModbusPlugin
         {
             get;
             set;
-        } = new FloatValueType() { AcceptedValues = new[] { double.MinValue.ToString(), double.MaxValue.ToString() } };
+        } = new FloatValueType() { AcceptedValues = new[] { double.MinValue.ToString("R"), double.MaxValue.ToString("R") } };
 
         public event ValueChangedEventHandler ValueChanged;
 

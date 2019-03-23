@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace LazuriteUI.Windows.Controls
 {
-    public class EntryView: TextBox
+    public class EntryView : TextBox
     {
         public Action<EntryViewValidation> Validation;
 
@@ -29,7 +29,8 @@ namespace LazuriteUI.Windows.Controls
             BorderBrush = new SolidColorBrush(Colors.SteelBlue);
             CaretBrush = new SolidColorBrush(Colors.SteelBlue);
             var ignoreTextChangedFlag = false;
-            base.TextChanged += (o, e) => {
+            base.TextChanged += (o, e) =>
+            {
                 if (ignoreTextChangedFlag)
                     return;
                 int caretIndex = CaretIndex;
@@ -96,7 +97,8 @@ namespace LazuriteUI.Windows.Controls
 
         public static Action<EntryViewValidation> IntValidation(string fieldDescription = "", int min = int.MinValue, int max = int.MaxValue, bool roundToMargin = true)
         {
-            return (v) => {
+            return (v) =>
+            {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
@@ -118,9 +120,9 @@ namespace LazuriteUI.Windows.Controls
                 else
                 {
                     if (value > max)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть меньше " + max;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть меньше {max}";
                     else if (value < min)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть больше " + min;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть больше {min}";
                 }
                 v.OutputString = value.ToString();
             };
@@ -128,16 +130,12 @@ namespace LazuriteUI.Windows.Controls
 
         public static Action<EntryViewValidation> UIntValidation(string fieldDescription = "", uint min = uint.MinValue, uint max = uint.MaxValue, bool roundToMargin = true)
         {
-            return (v) => {
+            return (v) =>
+            {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
                     v.SelectAll = true;
-                }
-                if (v.InputString == "-")
-                {
-                    v.InputString = "-1";
-                    v.AfterValidation = (s) => v.EntryView.Select(1, 1);
                 }
                 var value = uint.Parse(v.InputString);
                 if (roundToMargin)
@@ -150,9 +148,9 @@ namespace LazuriteUI.Windows.Controls
                 else
                 {
                     if (value > max)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть меньше " + max;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть меньше {max}";
                     else if (value < min)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть больше " + min;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть больше {min}";
                 }
                 v.OutputString = value.ToString();
             };
@@ -160,16 +158,12 @@ namespace LazuriteUI.Windows.Controls
 
         public static Action<EntryViewValidation> UShortValidation(string fieldDescription = "", ushort min = ushort.MinValue, ushort max = ushort.MaxValue, bool roundToMargin = true)
         {
-            return (v) => {
+            return (v) =>
+            {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
                     v.SelectAll = true;
-                }
-                if (v.InputString == "-")
-                {
-                    v.InputString = "-1";
-                    v.AfterValidation = (s) => v.EntryView.Select(1, 1);
                 }
                 var value = ushort.Parse(v.InputString);
                 if (roundToMargin)
@@ -182,9 +176,9 @@ namespace LazuriteUI.Windows.Controls
                 else
                 {
                     if (value > max)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть меньше " + max;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть меньше {max}";
                     else if (value < min)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть больше " + min;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть больше {min}";
                 }
                 v.OutputString = value.ToString();
             };
@@ -192,7 +186,8 @@ namespace LazuriteUI.Windows.Controls
 
         public static Action<EntryViewValidation> ShortValidation(string fieldDescription = "", short min = short.MinValue, short max = short.MaxValue, bool roundToMargin = true)
         {
-            return (v) => {
+            return (v) =>
+            {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
@@ -214,9 +209,9 @@ namespace LazuriteUI.Windows.Controls
                 else
                 {
                     if (value > max)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть меньше " + max;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть меньше {max}";
                     else if (value < min)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть больше " + min;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть больше {min}";
                 }
                 v.OutputString = value.ToString();
             };
@@ -224,10 +219,11 @@ namespace LazuriteUI.Windows.Controls
 
         public static Action<EntryViewValidation> DoubleValidation(string fieldDescription = "", double min = double.MinValue, double max = double.MaxValue, bool roundToMargin = true)
         {
-            return (v) => {
+            return (v) =>
+            {
                 if (v.InputString == string.Empty)
                 {
-                    v.OutputString = min.ToString();
+                    v.OutputString = min.ToString("R");
                     v.SelectAll = true;
                 }
                 if (v.InputString == "-")
@@ -246,20 +242,21 @@ namespace LazuriteUI.Windows.Controls
                 else
                 {
                     if (value > max)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть меньше " + max;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть меньше {max}";
                     else if (value < min)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть больше " + min;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть больше {min}";
                 }
-                v.OutputString = value.ToString();
+                v.OutputString = value.ToString("R");
             };
         }
 
         public static Action<EntryViewValidation> FloatValidation(string fieldDescription = "", float min = float.MinValue, float max = float.MaxValue, bool roundToMargin = true)
         {
-            return (v) => {
+            return (v) =>
+            {
                 if (v.InputString == string.Empty)
                 {
-                    v.OutputString = min.ToString();
+                    v.OutputString = min.ToString("R");
                     v.SelectAll = true;
                 }
                 if (v.InputString == "-")
@@ -278,17 +275,18 @@ namespace LazuriteUI.Windows.Controls
                 else
                 {
                     if (value > max)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть меньше " + max;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть меньше {max}";
                     else if (value < min)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть больше " + min;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть больше {min}";
                 }
-                v.OutputString = value.ToString();
+                v.OutputString = value.ToString("R");
             };
         }
 
         public static Action<EntryViewValidation> LongValidation(string fieldDescription = "", long min = long.MinValue, long max = long.MaxValue, bool roundToMargin = true)
         {
-            return (v) => {
+            return (v) =>
+            {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
@@ -310,9 +308,9 @@ namespace LazuriteUI.Windows.Controls
                 else
                 {
                     if (value > max)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть меньше " + max;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть меньше {max}";
                     else if (value < min)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть больше " + min;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть больше {min}";
                 }
                 v.OutputString = value.ToString();
             };
@@ -320,16 +318,12 @@ namespace LazuriteUI.Windows.Controls
 
         public static Action<EntryViewValidation> ULongValidation(string fieldDescription = "", ulong min = ulong.MinValue, ulong max = ulong.MaxValue, bool roundToMargin = true)
         {
-            return (v) => {
+            return (v) =>
+            {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
                     v.SelectAll = true;
-                }
-                if (v.InputString == "-")
-                {
-                    v.InputString = "-1";
-                    v.AfterValidation = (s) => v.EntryView.Select(1, 1);
                 }
                 var value = ulong.Parse(v.InputString);
                 if (roundToMargin)
@@ -342,9 +336,9 @@ namespace LazuriteUI.Windows.Controls
                 else
                 {
                     if (value > max)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть меньше " + max;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть меньше {max}";
                     else if (value < min)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть больше " + min;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть больше {min}";
                 }
                 v.OutputString = value.ToString();
             };
@@ -352,7 +346,8 @@ namespace LazuriteUI.Windows.Controls
 
         public static Action<EntryViewValidation> DecimalValidation(string fieldDescription = "", decimal min = decimal.MinValue, decimal max = decimal.MaxValue, bool roundToMargin = true)
         {
-            return (v) => {
+            return (v) =>
+            {
                 if (v.InputString == string.Empty)
                 {
                     v.OutputString = min.ToString();
@@ -374,9 +369,9 @@ namespace LazuriteUI.Windows.Controls
                 else
                 {
                     if (value > max)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть меньше " + max;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть меньше {max}";
                     else if (value < min)
-                        v.ErrorMessage = "Значение поля [" + fieldDescription + "] должно быть больше " + min;
+                        v.ErrorMessage = $"Значение поля [{fieldDescription}] должно быть больше {min}";
                 }
                 v.OutputString = value.ToString();
             };

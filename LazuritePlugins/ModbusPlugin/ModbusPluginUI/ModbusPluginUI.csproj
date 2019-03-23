@@ -43,7 +43,7 @@
     <Reference Include="LazuriteUI.Icons">
       <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Icons.dll</HintPath>
     </Reference>
-    <Reference Include="LazuriteUI.Windows.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="LazuriteUI.Windows.Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Releases\PluginsMaterial\LazuriteUI.Windows.Controls.exe</HintPath>
     </Reference>

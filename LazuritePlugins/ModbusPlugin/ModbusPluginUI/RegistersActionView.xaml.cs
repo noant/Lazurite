@@ -80,6 +80,14 @@ namespace ModbusPluginUI
             else btRegistersModeInput.Selected = true;
 
             ReInitializeMaxAndMin();
+
+            if (valueTypeView.ValueType != NModbusWrapper.ValueType.String && 
+                _mode != ValueTypeMode.String &&
+                action.ValueType is FloatValueType floatValueType)
+            {
+                tbMax.Text = floatValueType.Max.ToString();
+                tbMin.Text = floatValueType.Min.ToString();
+            }
         }
 
         private void ReInitializeMaxAndMin()
@@ -99,22 +107,21 @@ namespace ModbusPluginUI
             tbMax.EndChange();
             tbMin.EndChange();
             tbMin.Validation = tbMax.Validation = null;
-
-
+            
             switch (valueTypeView.ValueType)
             {
                 case NModbusWrapper.ValueType.Double:
                     {
-                        tbMin.Text = double.MinValue.ToString();
-                        tbMax.Text = double.MaxValue.ToString();
+                        tbMin.Text = double.MinValue.ToString("R");
+                        tbMax.Text = double.MaxValue.ToString("R");
                         tbMin.Validation = (e) => EntryViewValidation.DoubleValidation(max: double.Parse(tbMax.Text)).Invoke(e);
                         tbMax.Validation = (e) => EntryViewValidation.DoubleValidation(min: double.Parse(tbMin.Text)).Invoke(e);
                         break;
                     }
                 case NModbusWrapper.ValueType.Float:
                     {
-                        tbMin.Text = float.MinValue.ToString();
-                        tbMax.Text = float.MaxValue.ToString();
+                        tbMin.Text = float.MinValue.ToString("R");
+                        tbMax.Text = float.MaxValue.ToString("R");
                         tbMin.Validation = (e) => EntryViewValidation.FloatValidation(max: float.Parse(tbMax.Text)).Invoke(e);
                         tbMax.Validation = (e) => EntryViewValidation.FloatValidation(min: float.Parse(tbMin.Text)).Invoke(e);
                         break;

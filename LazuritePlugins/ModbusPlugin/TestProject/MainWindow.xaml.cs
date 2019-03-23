@@ -17,7 +17,7 @@ namespace TestProject
 
         public void Test()
         {
-            var action = new ModbusSingleCoilAction();
+            var action = new ModbusRegistersAction();
             var result = action.UserInitializeWith(null, false);
         }
     }

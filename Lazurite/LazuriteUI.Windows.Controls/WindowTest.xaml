@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LazuriteUI.Windows.Controls"
         mc:Ignorable="d"
+        Background="Black"
         Title="WindowTest" Height="450" Width="800">
     <Grid>
-        <local:ComboItemsView x:Name="combo" Width="500"></local:ComboItemsView>
-        <Grid x:Name="grid"></Grid>
+        <local:EntryView x:Name="entryView" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center"></local:EntryView>
     </Grid>
 </Window>
