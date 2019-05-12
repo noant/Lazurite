@@ -380,12 +380,15 @@ namespace LazuriteMobile.App.Droid
 
         public void Unbind()
         {
-            _serviceConnection.Connected -= ServiceConnection_Connected;
-            _serviceConnection.Disconnected -= ServiceConnection_Disconnected;
+            if (_serviceConnection != null)
+            {
+                _serviceConnection.Connected -= ServiceConnection_Connected;
+                _serviceConnection.Disconnected -= ServiceConnection_Disconnected;
+                _serviceConnection.Dispose();
+                _serviceConnection = null;
+            }
             _messenger?.Dispose();
             _messenger = null;
-            _serviceConnection?.Dispose();
-            _serviceConnection = null;
         }
 
         public void Dispose()

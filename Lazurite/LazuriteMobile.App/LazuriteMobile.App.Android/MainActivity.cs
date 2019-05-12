@@ -66,10 +66,22 @@ namespace LazuriteMobile.App.Droid
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]
         protected override void OnDestroy()
         {
+            OnCloseActions();
+            base.OnDestroy();
+        }
+
+        private void OnCloseActions()
+        {
             Singleton.Clear<IHardwareVolumeChanger>();
             Singleton.Clear<ISupportsResume>();
-            Singleton.Resolve<LazuriteContext>().Manager.Unbind();
-            base.OnDestroy();
+            var manager = Singleton.Resolve<LazuriteContext>().Manager;
+            manager.GetListenerSettings(s =>
+            {
+                if (s.TurnOffBackgroundWork)
+                    manager.Close();
+                else
+                    manager.Unbind();
+            });
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2140:TransparentMethodsMustNotReferenceCriticalCodeFxCopRule")]

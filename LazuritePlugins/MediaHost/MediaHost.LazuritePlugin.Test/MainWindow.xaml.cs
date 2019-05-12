@@ -15,7 +15,7 @@ namespace MediaHost.LazuritePlugin.Test
 
             plugin.UserInitializeWith(null, false);
 
-            plugin.SetValue(null, @"https://smarttvnews.ru/apps/iptvchannels.m3u");
+            plugin.SetValue(null, @"http://spacetv.in/playlist/D47RSEQWWRI/siptv");
 
             //var plugin1 = new MediaHostPlugin();
 

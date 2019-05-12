@@ -19,5 +19,10 @@ namespace Lazurite.Utils
                 return str.Substring(0, maxLen - splitCount) + "...";
             }
         }
+
+        public static string ClearBom(string str)
+        {
+            return str.Trim(new char[] { '\uFEFF', '\u200B' });
+        }
     }
 }

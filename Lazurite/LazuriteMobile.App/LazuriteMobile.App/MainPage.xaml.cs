@@ -75,7 +75,7 @@ namespace LazuriteMobile.App
                             Refresh(false);
                             if (state == ManagerConnectionState.Connected)
                             {
-                                Invoke(() => HideCaption());
+                                Invoke(HideCaption);
                             }
                             else if (state == ManagerConnectionState.Disconnected)
                             {
@@ -231,9 +231,7 @@ namespace LazuriteMobile.App
                 Invoke(() =>
                 {
                     if (scenarios == null)
-                    {
                         scenarios = new ScenarioInfo[0];
-                    }
 
                     swgrid.Refresh(scenarios, showMessageIfScenariosEmpty);
                     callback?.Invoke();

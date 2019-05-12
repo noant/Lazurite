@@ -1,4 +1,5 @@
 ﻿using Lazurite.MainDomain;
+using Lazurite.Utils;
 using LazuriteMobile.App.Controls;
 using System;
 
@@ -31,9 +32,7 @@ namespace LazuriteMobile.App
             }
 
             if (nextControl != null)
-            {
                 nextControl.Focus();
-            }
         }
 
         public void SetCredentials(ConnectionCredentials credentials)
@@ -49,10 +48,10 @@ namespace LazuriteMobile.App
         {
             return new ConnectionCredentials()
             {
-                Host = tbHost.Text,
-                Login = tbLogin.Text,
-                Password = tbPassword.Text,
-                SecretKey = tbSecretCode.Text,
+                Host = StringUtils.ClearBom(tbHost.Text),
+                Login = StringUtils.ClearBom(tbLogin.Text),
+                Password = StringUtils.ClearBom(tbPassword.Text),
+                SecretKey = StringUtils.ClearBom(tbSecretCode.Text),
                 Port = (ushort)numPort.Value
             };
         }

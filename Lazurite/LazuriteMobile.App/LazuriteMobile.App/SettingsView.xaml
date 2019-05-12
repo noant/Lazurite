@@ -60,6 +60,13 @@
                     Description="Максимальный уровень энергосбережения. Синхронизация происходит каждую минуту при разблокированном телефоне, каждые 10 минут при заблокированном экране, каждый час в режиме энергосбережения."
                     Action="SelectSetting_Listener">
                 </common:SettingsItem>
+                <common:SettingsItem
+                    Tag="{x:Static mainDomain:ListenerSettings.WithoutBackgroundWork}"
+                    IsSelectedFunc="IsSelected_Listener"
+                    Caption="Без фоновой активности"
+                    Description="Синхронизация происходит только при активном окне Lazurite."
+                    Action="SelectSetting_Listener">
+                </common:SettingsItem>
             </common:SettingsView.Settings>
         </common:SettingsView>
         <common:SettingsView

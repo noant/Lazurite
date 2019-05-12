@@ -152,7 +152,6 @@ namespace LazuriteMobile.App.Droid
         private void ReInitTimer()
         {
             _timerCancellationToken?.Cancel();
-
             _timerCancellationToken = SystemUtils.StartTimer(
                 (token) => _manager.RefreshIteration(),
                 () =>
@@ -180,7 +179,7 @@ namespace LazuriteMobile.App.Droid
                     }
                     catch
                     {
-                        //do nothing
+                        // Do nothing
                     }
                     return interval;
                 },
@@ -218,9 +217,7 @@ namespace LazuriteMobile.App.Droid
             {
                 case TimerAction.Start:
                     if (!IsTimerStarted)
-                    {
                         ReInitTimer();
-                    }
 
                     break;
 

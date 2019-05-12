@@ -242,9 +242,7 @@ namespace LazuriteMobile.App
             Close();
 
             if (!GeolocationListener.Started)
-            {
                 GeolocationListener.StartListenChanges();
-            }
 
             _operationCancellationTokenSource = new SafeCancellationToken();
             _client = ServiceClientFactory.Current.GetClient(_credentials.Value);
