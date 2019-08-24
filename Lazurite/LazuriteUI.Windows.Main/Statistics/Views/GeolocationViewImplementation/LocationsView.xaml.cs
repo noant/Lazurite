@@ -27,20 +27,22 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
         public LocationsView()
         {
             InitializeComponent();
-                        
-            btSearch.Click += (o, e) => {
+
+            btSearch.Click += (o, e) =>
+            {
                 if (!string.IsNullOrEmpty(tbSearch.Text))
                     _gmapControl.SetPositionByKeywords(tbSearch.Text);
             };
 
-            tbSearch.KeyDown += (o, e) => {
+            tbSearch.KeyDown += (o, e) =>
+            {
                 if (e.Key == Key.Enter && !string.IsNullOrEmpty(tbSearch.Text))
                 {
                     _gmapControl.SetPositionByKeywords(tbSearch.Text);
                     UpdateCurrentCoords();
                 }
             };
-            
+
             wfHost.Child = _gmapControl = new GMapControl();
             _gmapControl.Bearing = 0;
             _gmapControl.MaxZoom = 18;
@@ -55,7 +57,8 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
             _gmapControl.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
             _gmapControl.ShowTileGridLines = false;
 
-            _gmapControl.OnMarkerClick += (o, e) => {
+            _gmapControl.OnMarkerClick += (o, e) =>
+            {
                 if (o.Tag is ScenarioInfo)
                     Navigated?.Invoke(this, new EventsArgs<ScenarioInfo>((ScenarioInfo)o.Tag));
             };
@@ -63,7 +66,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
             _gmapControl.OnMapDrag += UpdateCurrentCoords;
             _gmapControl.OnMapZoomChanged += UpdateCurrentCoords;
         }
-        
+
         private void UpdateCurrentCoords()
         {
             tbCurrentLocation.Text = CurrentLocation.ToString();
@@ -94,7 +97,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
                 }
             }
         }
-        
+
         private MapRoute[] GetAllRoutes()
         {
             return _gmapControl.Overlays.SelectMany(x => x.Routes).ToArray();
@@ -114,7 +117,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
             _viewTargets = views;
             Refresh();
         }
-        
+
         public void Refresh()
         {
             _markersEnumerator = new MarkersEnumerator();
@@ -125,32 +128,36 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
             if (_viewTargets != null)
                 foreach (var target in _viewTargets)
                 {
-                    var points = target.Datas.Select(x => new PointDate() {
+                    var points = target.Datas.Select(x => new PointDate()
+                    {
                         DateTime = x.DateTime,
                         Point = new PointLatLng(x.Latitude, x.Longtitude)
                     }).ToArray();
                     CreateRoute(points, target.ScenarioInfo.Id, target.ScenarioInfo.Name);
                 }
 
-            wfHost.Visibility = 
-                _viewTargets == null || !_viewTargets.Any() ? 
+            wfHost.Visibility =
+                _viewTargets == null || !_viewTargets.Any() ?
                 Visibility.Collapsed : Visibility.Visible;
 
             _gmapControl.ResumeLayout();
             UpdateCurrentCoords();
             FitToMarkers();
         }
-                
+
         private void CreateRoute(PointDate[] points, string scenarioId, string scenarioName)
         {
             const int maxMarkersPerRoute = 100;
 
             var style = _markersEnumerator.Next;
 
+            points = points.OrderBy(x => x.DateTime).ToArray();
+
             var overlay = new GMapOverlay("overlay");
             _gmapControl.Overlays.Add(overlay);
             overlay.Routes.Add(
-                new GMapRoute(points.Select(x => x.Point).ToList(), scenarioId) {
+                new GMapRoute(points.Select(x => x.Point).ToList(), scenarioId)
+                {
                     Stroke = style.Stroke
                 }
             );
@@ -162,10 +169,7 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
                 var pointDate = points[i];
 
                 var marker = new GMarkerGoogle(pointDate.Point, style.SmallMarker);
-                marker.ToolTipText = marker.ToolTipText = string.Format(
-                    "{0}\r\nДата: {1}",
-                    scenarioName,
-                    pointDate.DateTime.ToShortDateString() + " " + pointDate.DateTime.ToShortTimeString());
+                marker.ToolTipText = $"{scenarioName}\r\nДата: {pointDate.DateTime:dd.MM.yyyy HH.mm.ss}";
                 marker.ToolTip.Font = new Font("Calibri", 9);
                 marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                 overlay.Markers.Add(marker);
@@ -173,14 +177,12 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
 
             if (points.Any())
             {
-                var firstPointDate = points.First();
-                var markerEnd = new GMarkerGoogle(firstPointDate.Point, style.BigMarker);
-                markerEnd.ToolTipText = string.Format(
-                    "{0}\r\nДата: {1}",
-                    scenarioName, 
-                    firstPointDate.DateTime.ToShortDateString() + " " + firstPointDate.DateTime.ToShortTimeString());
+                var lastPoint = points.LastOrDefault();
+                var markerEnd = new GMarkerGoogle(lastPoint.Point, style.BigMarker);
+                markerEnd.ToolTipText = $"{scenarioName}\r\nДата: {lastPoint.DateTime:dd.MM.yyyy HH.mm.ss}";
                 markerEnd.ToolTip.Font = new Font("Calibri", 9);
-                markerEnd.Tag = new ScenarioInfo() {
+                markerEnd.Tag = new ScenarioInfo()
+                {
                     Id = scenarioId,
                     Name = scenarioName
                 };
@@ -205,15 +207,9 @@ namespace LazuriteUI.Windows.Main.Statistics.Views.GeolocationViewImplementation
             public string Id { get; set; }
             public string Name { get; set; }
 
-            public override int GetHashCode()
-            {
-                return Id.GetHashCode() ^ Name.GetHashCode();
-            }
+            public override int GetHashCode() => Id.GetHashCode() ^ Name.GetHashCode();
 
-            public override bool Equals(object obj)
-            {
-                return obj is ScenarioInfo && obj.GetHashCode() == GetHashCode();
-            }
+            public override bool Equals(object obj) => obj is ScenarioInfo && obj.GetHashCode() == GetHashCode();
         }
 
         public struct PointDate
