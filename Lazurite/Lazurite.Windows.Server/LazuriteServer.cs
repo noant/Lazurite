@@ -60,8 +60,8 @@ namespace Lazurite.Windows.Server
 
                 _server.AfterServerStopped += (o, e) => StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
                 _server.AfterServerStarted += (o, e) => StatusChanged?.Invoke(this, new EventsArgs<LazuriteServer>(this));
-                _server.LogRecord += _server_LogRecord;
-                ServerHelper.LogRecord = _server_LogRecord;
+                _server.LogRecord += Server_LogRecord;
+                ServerHelper.LogRecord = Server_LogRecord;
                 ServerHelper.PrepareHttpsServer(_server, _settings.CertificateHash, Identity.UniqueId);
 
                 _server.StartAsync();
@@ -76,7 +76,7 @@ namespace Lazurite.Windows.Server
             }
         }
 
-        private void _server_LogRecord(object sender, LogRecordEventArgs e)
+        private void Server_LogRecord(object sender, LogRecordEventArgs e)
         {
             switch (e.Type)
             {

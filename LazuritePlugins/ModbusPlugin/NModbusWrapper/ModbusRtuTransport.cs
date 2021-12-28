@@ -7,33 +7,33 @@ namespace NModbusWrapper
 {
     public class ModbusRtuTransport : IModbusTransport
     {
-        private static Dictionary<string, object> _portLockers = new Dictionary<string, object>();
+        private static readonly Dictionary<string, object> PortLockers = new Dictionary<string, object>();
         private static object GetPortLocker(string port)
         {
             port = port.ToUpper();
-            lock (_portLockers)
+            lock (PortLockers)
             {
-                if (!_portLockers.ContainsKey(port))
-                    _portLockers.Add(port, new object());
-                return _portLockers[port];
+                if (!PortLockers.ContainsKey(port))
+                    PortLockers.Add(port, new object());
+                return PortLockers[port];
             }
         }
 
         protected SerialPort ConfigurePort()
         {
-            SerialPort port = new SerialPort(ComPort);
+            var port = new SerialPort(ComPort);
             port.BaudRate = PortBaudRate;
             port.DataBits = PortDataBits;
             port.Parity = PortParity;
             port.StopBits = PortStopBits;
+            port.ReadTimeout = 5000;
             port.Open();
             return port;
         }
 
         protected IModbusSerialMaster ConfigureMaster(SerialPort port)
         {
-            IModbusSerialMaster master = null;
-            master = ModbusSerialMaster.CreateRtu(port);
+            var master = ModbusSerialMaster.CreateRtu(port);
             master.Transport.ReadTimeout = ModbusReadTimeout;
             master.Transport.WriteTimeout = ModbusWriteTimeout;
             return master;
